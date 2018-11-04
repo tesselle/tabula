@@ -1,0 +1,146 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-"
+)
+library(tabula)
+```
+
+# tabula <img src="man/figures/logo.png" align="right" />
+
+[![Build Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+
+## Overview
+
+`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity, e.g. richness, rarefaction, diversity, evenness, turnover and similarity. It also provides some matrix seriation methods for chronological modeling. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford and Bertin diagrams, etc.
+
+## Installation
+
+Install the released version of `tabula` from CRAN:
+
+```{r cran-installation, eval = FALSE}
+install.packages("tabula")
+```
+
+Or install the development version from GitHub with:
+
+```{r gh-installation, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("nfrerebeau/tabula")
+```
+
+## Usage
+
+`tabula` provides a set of S4 classes that extend the `matrix` data type from R `base`. These new classes represent different special types of matrix:
+
+* Numeric matrix:
+    * `CountMatrix` represents count data,
+    * `FrequencyMatrix` represents frequency data,
+* Logical matrix:
+    * `IncidenceMatrix` represents presence/absence data,
+    * `StratigraphicMatrix` represents a stratigraphic sequence.
+
+It assumes that you keep your data tidy: each variable (taxa) must be saved in its own column and each observation (case) must be saved in its own row.
+
+These new classes are of simple use, on the same way as the base `matrix`:
+
+```{r create, eval=FALSE}
+# Define a count data matrix
+quanti <- CountMatrix(data = 1:100, nrow = 10, ncol = 10, byrow = TRUE)
+
+# Define à logical matrix
+# Data will be coerced with as.logical()
+quali <- IncidenceMatrix(data = sample(0:1, 100, TRUE), nrow = 10, ncol = 10)
+```
+
+`tabula` uses coercing mechanisms (with validation methods) for data type conversions:
+
+```{r coerce}
+data("compiegne") # A dataset of ceramic counts
+
+# Define as a count matrix
+count <- as(compiegne, "CountMatrix")
+
+# Transform counts to frequencies
+freq <- as(compiegne, "FrequencyMatrix")
+
+# Row sums is internally stored before coercion to a frequency matrix
+# This allows to restore the source data
+count <- as(freq, "CountMatrix")
+```
+
+### Analysis
+
+#### Sample richness
+
+```{r richness}
+richness(count, method = c("margalef", "menhinick", "berger"), simplify = TRUE)
+```
+
+#### Heterogeneity and evenness measures
+
+*Diversity* can be measured according to several indices (sometimes refered to as indices of *heterogeneity*):
+
+```{r diversity}
+diversity(count, method = c("shannon", "brillouin", "simpson", "mcintosh", "berger"), simplify = TRUE)
+```
+
+Note that `berger`, `mcintosh` and `simpson` methods return a *dominance* index, not the reciprocal form usually adopted, so that an increase in the value of the index accompanies a decrease in diversity.
+
+*Evenness* is a measure of how evenly individuals are distributed across the sample:
+```{r evenness}
+evenness(count, method = c("shannon", "brillouin", "simpson", "mcintosh"), simplify = TRUE)
+```
+
+#### Turnover
+
+The following method can be used to acertain the degree of *turnover* in taxa composition along a gradient ($\beta$-diversity) on qualitative (presence/absence) data.
+
+It assumes that the order of the matrix rows (from $1$ to $n$) follows the progression along the gradient/transect.
+
+```{r turnover}
+turnover(count, method = c("whittaker", "cody", "routledge1",
+                           "routledge2", "routledge3", "wilson"),
+         simplify = TRUE)
+```
+
+#### Similarity coefficients
+
+$\beta$-diversity can also be measured by addressing *similarity* between pairs of sites:
+
+```{r similarity}
+similarity(count, method = "morisita")
+```
+
+### Visualization
+
+Ranks *vs* abundance plot can be used for abundance models (model fitting will be implemented in a futur release):
+```{r rank, fig.width=7}
+plotRank(count, log = "xy")
+```
+
+Spot matrix (no doubt easier to read than a heatmap) allows direct examination of data (above/below some threshold):
+```{r spot, fig.width=7}
+plotSpot(count, threshold = "mean")
+```
+
+Bertin of Ford diagramms can be plotted, with statistic threshold (B. Desachy's seriograph):
+```{r seriograph, fig.width=7}
+plotBar(count, EPPM = TRUE)
+```
+
+Matrix plot can produces a visual $\chi^2$ (B. Desachy's matrigraph):
+```{r matrigraph, fig.width=7}
+plotMatrix(count, PVI = TRUE)
+```
+
+
