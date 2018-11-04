@@ -1,0 +1,44 @@
+Package: tabula
+Title: Analysis, Seriation and Visualization of Archaeological Count Data
+Version: 0.0.0.9000
+Authors@R: c(person("Nicolas", "Frerebeau",
+                    email = "nicolas.frerebeau@cea.fr", role = c("aut", "cre"),
+                    comment = c(ORCID = "https://orcid.org/0000-0001-5759-4944")),
+             person("Brice", "Lebrun",
+                    email = "brice.lebrun@u-bordeaux-montaigne.fr", role = c("ctb"),
+                    comment = c(ORCID = "https://orcid.org/0000-0001-7503-8685"))
+            )
+Description: An easy way to examine archaeological count data (artifacts, faunal 
+    remains, etc.). This package includes several measures of diversity, e.g. 
+    richness, rarefaction, diversity, evenness, turnover and similarity. It also 
+    provides some matrix seriation methods for chronological modeling. The 
+    package make it easy to visualize count data and statistical thresholds: 
+    rank/abundance plots, Ford and Bertin diagrams, etc.
+URL: http://github.com/nfrerebeau/tabula
+BugReports: http://github.com/nfrerebeau/tabula/issues
+Depends: R (>= 3.4)
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Collate:
+    'utilities.R'
+    'AllClasses.R'
+    'AllGenerics.R'
+    'LogicalMatrix.R'
+    'NumericMatrix.R'
+    'index-diversity.R'
+    'alpha-diversity.R'
+    'index-turnover.R'
+    'index-similarity.R'
+    'beta-diversity.R'
+    'data.R'
+    'index-richness.R'
+    'statistics.R'
+    'plot.R'
+    'richness.R'
+RoxygenNote: 6.1.0
+Suggests: testthat,
+    knitr,
+    rmarkdown
+Import: dplyr (>= 0.7), ggplot2 (>= 3.0.0), magrittr, tidyr, stats, utils
+VignetteBuilder: knitr
