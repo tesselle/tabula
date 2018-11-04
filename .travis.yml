@@ -1,0 +1,15 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+language: r
+r:
+  - oldrel
+  - release
+  - devel
+cache: packages
+sudo: false
+dist: trusty
+
+warnings_are_errors: true
+
+# work around temporary travis + R 3.5 bug
+r_packages: devtools
