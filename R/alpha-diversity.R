@@ -44,7 +44,7 @@ setMethod(
     E <- sapply(X = method, FUN = function(x, data) {
       index <- switch (
         x,
-        berger = bergerEvenness,
+        # berger = bergerEvenness,
         brillouin = brillouinEvenness,
         # chao = chaoEvenness,
         mcintosh = mcintoshEvenness,
