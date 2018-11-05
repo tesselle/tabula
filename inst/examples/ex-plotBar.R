@@ -14,7 +14,7 @@ plotBar(freq, EPPM = TRUE)
 # Plot Bertin diagram...
 ## ...without threshold
 plotBar(count, center = FALSE, horizontal = TRUE)
-plotBar(freq, center = FALSE)
+plotBar(freq, center = FALSE, horizontal = FALSE)
 
 ## ...with EPPM as threshold (i.e. Bruno Desachy's sériographe)
 plotBar(count, EPPM = TRUE, center = FALSE, horizontal = TRUE)

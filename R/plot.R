@@ -5,62 +5,62 @@ NULL
 barPlot <- function(object, EPPM = FALSE, center = TRUE, horizontal = FALSE) {
   # Prepare data ---------------------------------------------------------------
   # Get row names and coerce to factor (preserve original ordering)
-  row_names <- rownames(object) %>% factor(levels = unique(.))
-
-  # Build long table from data
-  if (EPPM) {
-    object <- methods::as(object, "FrequencyMatrix")
-    threshold <- threshold(object, method = "EPPM")
-  } else {
-    threshold <- matrix(data = 0, ncol = ncol(object), nrow = nrow(object),
-                        dimnames = dimnames(object))
-  }
-
-  scale <- ifelse(methods::is(object, "CountMatrix"), "count", "frequency")
-  if (center) {
-    object %<>% { rbind(., -.) / 2 }
-    threshold %<>% { rbind(., -.) / 2 }
-  }
-
-  # Build long table from threshold
-  threshold %<>% as.data.frame() %>%
-    dplyr::mutate(id = rownames(.), case = rep(row_names, 1 + center)) %>%
-    tidyr::gather(key = "type", value = "EPPM", -.data$id, -.data$case, factor_key = TRUE)
+  row_names <- rownames(object) %>% factor(levels = rev(unique(.)))
 
   # Build long table from data and join with threshold
-  # 'id' is only used for joining then removed
+  # 'id' is only used for joining
   data <- object %>%
-    as.data.frame() %>%
+    { if (EPPM) { . / rowSums(.) } else . } %>%
+    { if (center) rbind.data.frame(., -.) / 2 else as.data.frame(.) } %>%
     dplyr::mutate(id = rownames(.), case = rep(row_names, 1 + center)) %>%
-    tidyr::gather(key = "type", value = "data", -.data$id, -.data$case,
-                  factor_key = TRUE) %>%
-    dplyr::inner_join(threshold, by = c("id", "case", "type")) %>%
-    dplyr::select(-.data$id) %>%
-    dplyr::mutate(data = .data$data - .data$EPPM) %>%
-    tidyr::gather(key = "threshold", value = !!scale, -.data$case, -.data$type,
-                  factor_key = TRUE)
+    tidyr::gather(key = "type", value = "data",
+                  -.data$id, -.data$case, factor_key = TRUE)
+
+  if (EPPM) {
+    # Build long table from threshold
+    # 'id' is only used for joining
+    threshold <- threshold(object, method = "EPPM") %>%
+      { . / rowSums(object) } %>%
+      { if (center) rbind.data.frame(., -.) / 2 else as.data.frame(.) } %>%
+      dplyr::mutate(id = rownames(.), case = rep(row_names, 1 + center)) %>%
+      tidyr::gather(key = "type", value = "EPPM",
+                    -.data$id, -.data$case, factor_key = TRUE)
+
+    # Join data and with threshold
+    data %<>% dplyr::inner_join(threshold, by = c("id", "case", "type")) %>%
+      dplyr::mutate(data = .data$data - .data$EPPM) %>%
+      tidyr::gather(key = "threshold", value = "data",
+                    -.data$id, -.data$case, -.data$type, factor_key = TRUE)
+  }
+
+  # Rename axis with data units
+  scale <- ifelse(methods::is(object, "CountMatrix") & !EPPM, "count", "frequency")
+  data %<>% dplyr::rename(!!scale := "data")
 
   # ggplot -------------------------------------------------------------------
   fill <- if (EPPM) "threshold" else NULL
   bertin <- center | horizontal
-  rows <- ifelse(bertin, "case", "type")
-  cols <- ifelse(bertin, "type", "case")
+  rows <- if (bertin) NULL else vars(type)
+  cols <- if (bertin) vars(type) else NULL
   coord <- if (bertin) coord_flip() else NULL
   axis <- if (bertin) {
-    theme(axis.title.y = element_blank(),
-          axis.text.y = element_blank(),
-          axis.ticks.y = element_blank())
+    list(
+      theme(axis.title.y = element_blank(),
+            axis.ticks.y = element_blank())
+    )
   } else {
-    theme(axis.title.x = element_blank(),
-          axis.text.x = element_blank(),
-          axis.ticks.x = element_blank())
+    list(
+      theme(axis.title.x = element_blank(),
+            axis.ticks.x = element_blank()),
+      scale_x_discrete(expand = c(0, 0), position = "top")
+    )
   }
+
   ggplot(data = data) +
-    facet_grid(stats::reformulate(cols, rows), scales = "free", space = "free_x") +
+    facet_grid(rows = rows, cols = cols, scales = "free", space = "free_x") +
     geom_col(aes_string(x = "case", y = scale, fill = fill), width = 1,
              position = position_stack(reverse = !center)) +
     coord + axis +
-    scale_x_discrete(expand = c(0, 0)) +
     theme(legend.position = "bottom",
           panel.spacing = unit(0, "lines"))
 }
@@ -89,58 +89,61 @@ matrixPlot <- function(object, PVI = FALSE, center = FALSE) {
   # Get row names and coerce to factor (preserve original ordering)
   row_names <- rownames(object) %>% factor(levels = unique(.))
 
-  # Build long table from data
-  if (PVI) {
-    object <- methods::as(object, "CountMatrix")
-    threshold <- threshold(object, method = "PVI")
-  } else {
-    threshold <- matrix(data = 0, ncol = ncol(object), nrow = nrow(object),
-                        dimnames = dimnames(object))
-  }
-
+  # Data units
   scale <- ifelse(methods::is(object, "CountMatrix"), "count", "frequency")
 
-  # Build long table from threshold
-  threshold %<>% as.data.frame() %>%
-    dplyr::mutate(id = row_names, case = row_names) %>%
-    tidyr::gather(key = "type", value = "PVI",
-                  -.data$id, -.data$case, factor_key = TRUE)
-
   # Build long table from data and join with threshold
-  # 'id' is only used for joining then removed
+  # 'id' is only used for joining
   data <- object %>%
     as.data.frame() %>%
-    dplyr::mutate(id = row_names, case = row_names) %>%
+    dplyr::mutate(id = rownames(.), case = row_names) %>%
     tidyr::gather(key = "type", value = !!scale,
-                  -.data$id, -.data$case, factor_key = TRUE) %>%
-    dplyr::inner_join(threshold, by = c("id", "case", "type")) %>%
-    dplyr::select(-.data$id) %>%
-    dplyr::mutate(
-      case_num = as.numeric(.data$case),
-      type_num = as.numeric(.data$type),
-      threshold = factor(dplyr::if_else(PVI > 1, "above", "below")),
-      tile1_size = dplyr::case_when(
-        PVI > 2 ~ 1,
-        PVI > 1 ~ PVI - 1,
-        TRUE ~ {if (center) 1 - PVI else PVI }) / 2) %>%
-    dplyr::mutate(
-      threshold2 = dplyr::case_when(
-        threshold == "above" ~ "below",
-        threshold == "below" ~ "above"),
-      tile2_size = dplyr::case_when(
-        threshold == "above" ~ 0.5,
-        threshold == "below" ~ 0))
+                  -.data$id, -.data$case, factor_key = TRUE)
+
+  if (PVI) {
+    # Build long table from threshold
+    # 'id' is only used for joining
+    threshold <- threshold(object, method = "PVI") %>%
+      as.data.frame() %>%
+      dplyr::mutate(id = rownames(.), case = row_names) %>%
+      tidyr::gather(key = "type", value = "PVI",
+                    -.data$id, -.data$case, factor_key = TRUE)
+
+    # Join data and with threshold
+    data %<>% dplyr::inner_join(threshold, by = c("id", "case", "type")) %>%
+      dplyr::mutate(
+        case_num = as.numeric(.data$case),
+        type_num = as.numeric(.data$type),
+        threshold = factor(dplyr::if_else(PVI > 1, "above", "below")),
+        tile1_size = dplyr::case_when(
+          PVI > 2 ~ 1,
+          PVI > 1 ~ PVI - 1,
+          TRUE ~ {if (center) 1 - PVI else PVI }) / 2) %>%
+      dplyr::mutate(
+        threshold2 = dplyr::case_when(
+          threshold == "above" ~ "below",
+          threshold == "below" ~ "above"),
+        tile2_size = dplyr::case_when(
+          threshold == "above" ~ 0.5,
+          threshold == "below" ~ 0))
+  }
+
+  # Tile centers
+  data %<>% dplyr::mutate(
+    x = as.numeric(.data$type),
+    y = as.numeric(.data$case)
+  )
 
   # ggplot ---------------------------------------------------------------------
   ggplot_geom <- if (PVI) {
     background <- if (center) {
-      list(geom_tile(aes_string(x = "type_num", y = "case_num"), fill = "grey50"))
+      list(geom_tile(aes_string(x = "x", y = "y"), fill = "grey50"))
     } else {
-      list(geom_tile(aes_string(x = "type_num", y = "case_num"), fill = "white"),
+      list(geom_tile(aes_string(x = "x", y = "y"), fill = "white"),
            geom_rect(
              aes_string(
-               xmin = "type_num - tile2_size", xmax = "type_num + tile2_size",
-               ymin = "case_num - tile2_size", ymax = "case_num + tile2_size",
+               xmin = "x - tile2_size", xmax = "x + tile2_size",
+               ymin = "y - tile2_size", ymax = "y + tile2_size",
                fill = "threshold2"),
              show.legend = FALSE
            )
@@ -149,24 +152,24 @@ matrixPlot <- function(object, PVI = FALSE, center = FALSE) {
     c(background,
       geom_rect(
         aes_string(
-          xmin = "type_num - tile1_size", xmax = "type_num + tile1_size",
-          ymin = "case_num - tile1_size", ymax = "case_num + tile1_size",
+          xmin = "x - tile1_size", xmax = "x + tile1_size",
+          ymin = "y - tile1_size", ymax = "y + tile1_size",
           fill = "threshold"),
         show.legend = TRUE
       )
     )
   } else {
-    list(geom_tile(aes_string(x = "type_num", y = "case_num", fill = scale)))
+    list(geom_tile(aes_string(x = "x", y = "y", fill = scale)))
   }
 
   ggplot(data = data) +
     ggplot_geom +
     scale_x_continuous(position = "top", expand = c(0, 0),
-                       limits = range(data$type_num) + c(-0.5, 0.5),
-                       breaks = unique(data$type_num),
+                       limits = range(data$x) + c(-0.5, 0.5),
+                       breaks = unique(data$x),
                        labels = unique(data$type)) +
     scale_y_continuous(expand = c(0, 0), trans = "reverse",
-                       breaks = unique(data$case_num),
+                       breaks = unique(data$y),
                        labels = unique(data$case)) +
     theme(axis.ticks = element_blank(),
           axis.title = element_blank(),
