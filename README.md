@@ -147,7 +147,7 @@ plotRank(count, log = "xy")
 
 ![](man/figures/README-rank-1.png)
 
-Spot matrix (no doubt easier to read than a heatmap) allows direct examination of data (above/below some threshold):
+Spot matrix (no doubt easier to read than a heatmap [1]) allows direct examination of data (above/below some threshold):
 
 ``` r
 plotSpot(count, threshold = "mean")
@@ -155,7 +155,7 @@ plotSpot(count, threshold = "mean")
 
 ![](man/figures/README-spot-1.png)
 
-Bertin of Ford diagramms can be plotted, with statistic threshold (B. Desachy's seriograph):
+Bertin of Ford diagramms can be plotted, with statistic threshold (B. Desachy's seriograph EPPM):
 
 ``` r
 plotBar(count, EPPM = TRUE)
@@ -163,10 +163,12 @@ plotBar(count, EPPM = TRUE)
 
 ![](man/figures/README-seriograph-1.png)
 
-Matrix plot can produces a visual *χ*<sup>2</sup> (B. Desachy's matrigraph):
+Matrix plot can produce a visual *χ*<sup>2</sup> (B. Desachy's matrigraph PVI):
 
 ``` r
 plotMatrix(count, PVI = TRUE)
 ```
 
 ![](man/figures/README-matrigraph-1.png)
+
+[1] Adapted from Dan Gopstein's original [spot matrix](https://dgopstein.github.io/articles/spot-matrix/).

@@ -124,23 +124,23 @@ similarity(count, method = "morisita")
 ### Visualization
 
 Ranks *vs* abundance plot can be used for abundance models (model fitting will be implemented in a futur release):
-```{r rank, fig.width=7}
+```{r rank}
 plotRank(count, log = "xy")
 ```
 
-Spot matrix (no doubt easier to read than a heatmap) allows direct examination of data (above/below some threshold):
-```{r spot, fig.width=7}
+Spot matrix (no doubt easier to read than a heatmap [^1]) allows direct examination of data (above/below some threshold):
+```{r spot, fig.height=3}
 plotSpot(count, threshold = "mean")
 ```
 
-Bertin of Ford diagramms can be plotted, with statistic threshold (B. Desachy's seriograph):
-```{r seriograph, fig.width=7}
+Bertin of Ford diagramms can be plotted, with statistic threshold (B. Desachy's seriograph EPPM):
+```{r seriograph}
 plotBar(count, EPPM = TRUE)
 ```
 
-Matrix plot can produces a visual $\chi^2$ (B. Desachy's matrigraph):
-```{r matrigraph, fig.width=7}
+Matrix plot can produce a visual $\chi^2$ (B. Desachy's matrigraph PVI):
+```{r matrigraph, fig.height=3}
 plotMatrix(count, PVI = TRUE)
 ```
 
-
+[^1]: Adapted from Dan Gopstein's original [spot matrix](https://dgopstein.github.io/articles/spot-matrix/).
