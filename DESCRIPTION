@@ -40,5 +40,5 @@ RoxygenNote: 6.1.0
 Suggests: testthat,
     knitr,
     rmarkdown
-Import: dplyr (>= 0.7), ggplot2 (>= 3.0.0), magrittr, tidyr, stats, utils
+Imports: dplyr (>= 0.7), ggplot2 (>= 3.0.0), magrittr, methods, tidyr, stats, utils
 VignetteBuilder: knitr
