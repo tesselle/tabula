@@ -40,8 +40,7 @@ barPlot <- function(object, EPPM = FALSE, center = TRUE, horizontal = FALSE) {
   # ggplot -------------------------------------------------------------------
   fill <- if (EPPM) "threshold" else NULL
   bertin <- center | horizontal
-  rows <- if (bertin) NULL else vars(type)
-  cols <- if (bertin) vars(type) else NULL
+  facets <- if (bertin) ".~type" else "type~."
   coord <- if (bertin) coord_flip() else NULL
   axis <- if (bertin) {
     list(
@@ -57,7 +56,7 @@ barPlot <- function(object, EPPM = FALSE, center = TRUE, horizontal = FALSE) {
   }
 
   ggplot(data = data) +
-    facet_grid(rows = rows, cols = cols, scales = "free", space = "free_x") +
+    facet_grid(stats::as.formula(facets), scales = "free", space = "free_x") +
     geom_col(aes_string(x = "case", y = scale, fill = fill), width = 1,
              position = position_stack(reverse = !center)) +
     coord + axis +
