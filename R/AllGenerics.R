@@ -1,6 +1,3 @@
-#' @importFrom magrittr %<>%
-#' @importFrom magrittr %>%
-#' @import ggplot2
 #' @include AllClasses.R
 NULL
 

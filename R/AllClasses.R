@@ -1,4 +1,4 @@
-#' @include utilities.R
+#' @include tabula.R utilities.R
 NULL
 
 # Classes definition ===========================================================
