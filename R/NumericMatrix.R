@@ -11,7 +11,7 @@ CountMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
                         dimnames = NULL) {
   M <- buildMatrix(data, nrow, ncol, byrow, dimnames,
                    missing(nrow), missing(ncol))
-  new("CountMatrix", M)
+  methods::new("CountMatrix", M)
 }
 #' @export
 #' @rdname NumericMatrix
