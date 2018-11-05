@@ -9,14 +9,14 @@ barPlot <- function(object, EPPM = FALSE, center = TRUE, horizontal = FALSE) {
 
   # Build long table from data
   if (EPPM) {
-    object <- as(object, "FrequencyMatrix")
+    object <- methods::as(object, "FrequencyMatrix")
     threshold <- threshold(object, method = "EPPM")
   } else {
     threshold <- matrix(data = 0, ncol = ncol(object), nrow = nrow(object),
                         dimnames = dimnames(object))
   }
 
-  scale <- ifelse(is(object, "CountMatrix"), "count", "frequency")
+  scale <- ifelse(methods::is(object, "CountMatrix"), "count", "frequency")
   if (center) {
     object %<>% { rbind(., -.) / 2 }
     threshold %<>% { rbind(., -.) / 2 }
@@ -56,7 +56,7 @@ barPlot <- function(object, EPPM = FALSE, center = TRUE, horizontal = FALSE) {
           axis.ticks.x = element_blank())
   }
   ggplot(data = data) +
-    facet_grid(reformulate(cols, rows), scales = "free", space = "free_x") +
+    facet_grid(stats::reformulate(cols, rows), scales = "free", space = "free_x") +
     geom_col(aes_string(x = "case", y = scale, fill = fill), width = 1,
              position = position_stack(reverse = !center)) +
     coord + axis +
@@ -91,14 +91,14 @@ matrixPlot <- function(object, PVI = FALSE, center = FALSE) {
 
   # Build long table from data
   if (PVI) {
-    object <- as(object, "CountMatrix")
+    object <- methods::as(object, "CountMatrix")
     threshold <- threshold(object, method = "PVI")
   } else {
     threshold <- matrix(data = 0, ncol = ncol(object), nrow = nrow(object),
                         dimnames = dimnames(object))
   }
 
-  scale <- ifelse(is(object, "CountMatrix"), "count", "frequency")
+  scale <- ifelse(methods::is(object, "CountMatrix"), "count", "frequency")
 
   # Build long table from threshold
   threshold %<>% as.data.frame() %>%
@@ -290,8 +290,8 @@ spotPlot <- function(object, threshold = NULL) {
     threshold <- match.arg(threshold, c("mean", "median"), several.ok = FALSE)
     fun <- switch (
       threshold,
-      mean = mean,
-      median = median
+      mean = base::mean,
+      median = stats::median
     )
 
     data %<>% dplyr::group_by(type) %>%

@@ -77,7 +77,7 @@ similarityIndex <- function(object, method, ...) {
   )
   # Pairwise comparison
   m <- nrow(object)
-  beta <- apply(X = combn(1:m, 2), MARGIN = 2, FUN = function(x) {
+  beta <- apply(X = utils::combn(1:m, 2), MARGIN = 2, FUN = function(x) {
     index(object[x[1], ], object[x[2], ])
   })
   # Matrix of results
@@ -112,7 +112,7 @@ setMethod(
   signature = signature(object = "FrequencyMatrix"),
   definition = function(object, method = c("bray", "jaccard", "morisita",
                                            "sorenson"), ...) {
-    object <- as(object, "CountMatrix")
+    object <- methods::as(object, "CountMatrix")
     C <- similarity(object, method)
     return(C)
   }

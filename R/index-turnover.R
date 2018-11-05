@@ -55,7 +55,7 @@ routledge1Beta <- function(x) {
   # Total number of taxa recorded in the system
   S <- sum(colSums(x) > 0)
   # Works out which pairs of taxa occurs together in at least one quadra
-  combine <- apply(X = combn(1:p, 2), MARGIN = 2, FUN = function(x, object) {
+  combine <- apply(X = utils::combn(1:p, 2), MARGIN = 2, FUN = function(x, object) {
     any(object[, x[1]] + object[, x[2]] == 2)
   }, object = x)
   r <- sum(combine)

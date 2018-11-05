@@ -25,30 +25,30 @@ FrequencyMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
   M <- matrix(data, nrow, ncol, byrow, dimnames)
   totals <- rowSums(M)
   M <- M / totals
-  new("FrequencyMatrix", M, totals = totals)
+  methods::new("FrequencyMatrix", M, totals = totals)
 }
 
 ## Coercions ===================================================================
 setAs(from = "NumericMatrix", to = "vector",
-      def = function(from) as.vector(as(from, "matrix")))
+      def = function(from) as.vector(methods::as(from, "matrix")))
 setAs(from = "NumericMatrix", to = "numeric",
-      def = function(from) as.numeric(as(from, "matrix")))
+      def = function(from) as.numeric(methods::as(from, "matrix")))
 setAs(from = "NumericMatrix", to = "logical",
-      def = function(from) as.logical(as(from, "matrix")))
+      def = function(from) as.logical(methods::as(from, "matrix")))
 setAs(from = "NumericMatrix", to = "integer",
-      def = function(from) as.integer(as(from, "matrix")))
+      def = function(from) as.integer(methods::as(from, "matrix")))
 setAs(from = "NumericMatrix", to = "complex",
-      def = function(from) as.complex(as(from, "matrix")))
+      def = function(from) as.complex(methods::as(from, "matrix")))
 setAs(from = "NumericMatrix", to = "data.frame",
-      def = function(from) as.data.frame(as(from, "matrix")))
+      def = function(from) as.data.frame(methods::as(from, "matrix")))
 
 matrix2count <- function(from) {
   data <- data.matrix(from)
   # Work around to ensure that identical() returns TRUE (see below)
   double <- data * 1
   dimnames(double) <- dimnames(data)
-  object <- new("CountMatrix", double)
-  validObject(object)
+  object <- methods::new("CountMatrix", double)
+  methods::validObject(object)
   return(object)
 }
 setAs(from = "matrix", to = "CountMatrix", def = matrix2count)
@@ -59,8 +59,8 @@ matrix2frequency <- function(from) {
   totals <- rowSums(data)
   freq <- data / totals
   dimnames(freq) <- dimnames(data)
-  object <- new("FrequencyMatrix", freq, totals = totals)
-  validObject(object)
+  object <- methods::new("FrequencyMatrix", freq, totals = totals)
+  methods::validObject(object)
   return(object)
 }
 setAs(from = "matrix", to = "FrequencyMatrix", def = matrix2frequency)
@@ -74,11 +74,11 @@ setAs(
   from = "CountMatrix",
   to = "FrequencyMatrix",
   def = function(from) {
-    counts <- S3Part(from, strictS3 = TRUE, "matrix")
+    counts <- methods::S3Part(from, strictS3 = TRUE, "matrix")
     totals <- rowSums(counts)
     freq <- counts / totals
-    object <- new("FrequencyMatrix", freq, totals = totals)
-    validObject(object)
+    object <- methods::new("FrequencyMatrix", freq, totals = totals)
+    methods::validObject(object)
     return(object)
   }
 )
@@ -86,11 +86,11 @@ setAs(
   from = "FrequencyMatrix",
   to = "CountMatrix",
   def = function(from) {
-    freq <- S3Part(from, strictS3 = TRUE, "matrix")
+    freq <- methods::S3Part(from, strictS3 = TRUE, "matrix")
     totals <- from@totals
     count <- freq * totals
-    object <- new("CountMatrix", count)
-    validObject(object)
+    object <- methods::new("CountMatrix", count)
+    methods::validObject(object)
     return(object)
   }
 )

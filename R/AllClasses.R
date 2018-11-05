@@ -12,17 +12,17 @@ NULL
 #' @rdname NumericMatrix
 NULL
 
-.NumericMatrix <- setClass(
+setClass(
   Class = "NumericMatrix",
   contains = c("matrix")
 )
 # Count matrix
-.CountMatrix <- setClass(
+setClass(
   Class = "CountMatrix",
   contains = "NumericMatrix"
 )
 # Frequency matrix
-.FrequencyMatrix <- setClass(
+setClass(
   Class = "FrequencyMatrix",
   slots = c(totals = "numeric"),
   contains = "NumericMatrix"
@@ -38,17 +38,17 @@ NULL
 #' @rdname LogicalMatrix
 NULL
 
-.LogicalMatrix <- setClass(
+setClass(
   Class = "LogicalMatrix",
   contains = c("matrix")
 )
 # Incidence matrix (presence/absence data)
-.IncidenceMatrix <- setClass(
+setClass(
   Class = "IncidenceMatrix",
   contains = "LogicalMatrix"
 )
 # Stratigraphic matrix
-.StratigraphicMatrix <- setClass(
+setClass(
   Class = "StratigraphicMatrix",
   contains = "LogicalMatrix"
 )
@@ -89,7 +89,7 @@ setValidity(
   method = function(object) {
     errors <- c()
     # Get data
-    data <- S3Part(object, strictS3 = TRUE, "matrix")
+    data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     if (length(data) != 0) {
       # if (sum(!isWholeNumber(data)) != 0)
       #   errors <- c(errors, "whole numbers are expected")
@@ -111,7 +111,7 @@ setValidity(
   method = function(object) {
     errors <- c()
     # Get data
-    data <- S3Part(object, strictS3 = TRUE, "matrix")
+    data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     totals <- object@totals
     if (length(data) != 0) {
       if (!isEqual(rowSums(data, na.rm = TRUE)))
@@ -136,7 +136,7 @@ setValidity(
   method = function(object) {
     errors <- c()
     # Get data
-    data <- S3Part(object, strictS3 = TRUE, "matrix")
+    data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     if (length(data) != 0) {
       if (!is.logical(data))
         errors <- c("logical values are expected")
@@ -156,7 +156,7 @@ setValidity(
   method = function(object) {
     errors <- c()
     # Get data
-    data <- S3Part(object, strictS3 = TRUE, "matrix")
+    data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     if (length(data) != 0) {
       if (nrow(data) != ncol(data))
         errors <- c(errors, "a symetric matrix is expected")
@@ -174,8 +174,8 @@ setValidity(
 
 # Classes constructor ==========================================================
 initialize_matrix <- function(.Object, ...) {
-  .Object <- callNextMethod(.Object, ...)
-  validObject(.Object)
+  .Object <- methods::callNextMethod(.Object, ...)
+  methods::validObject(.Object)
   if (getOption("verbose")) {
     message(paste(class(.Object), "instance initialized.", sep = " "))
   }
