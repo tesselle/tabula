@@ -3,12 +3,13 @@
 #' Analysis, Seriation and Visualization of Archaeological Count Data
 #'
 #' See the README on
-#' \href{https://github.com/jennybc/googlesheets#readme}{GitHub}
+#' \href{https://github.com/nfrerebeau/tabula#readme}{GitHub}
 #'
 #' @docType package
 #' @name tabula
 #' @importFrom magrittr %<>%
 #' @importFrom magrittr %>%
+#' @importFrom rlang :=
 #' @import ggplot2
 NULL
 

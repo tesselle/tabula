@@ -38,8 +38,17 @@ Collate:
     'plot.R'
     'richness.R'
 RoxygenNote: 6.1.0
-Suggests: testthat,
+Suggests:
+    testthat,
     knitr,
     rmarkdown
-Imports: dplyr (>= 0.7), ggplot2 (>= 3.0.0), magrittr, methods, tidyr, stats, utils
+Imports:
+    dplyr (>= 0.7),
+    ggplot2 (>= 3.0.0),
+    magrittr,
+    methods,
+    rlang,
+    stats,
+    tidyr,
+    utils
 VignetteBuilder: knitr
