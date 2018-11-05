@@ -229,29 +229,29 @@ simpsonEvenness <- function(n, ...) {
 # @return A length-one \code{\link{numeric}} vector.
 # @family diversity index
 # @author N. Frerebeau
-chaoIndex <- function(n, method = c("MLEU", "CHAO"), k = 10, base = exp(1)) {
-  method <- match.arg(method, several.ok = FALSE)
-
-  f <- function(i, n) { sum(n == i) }
-  N <- sum(n)
-  # p estimation
-  p <- n / N
-  C_e <- 1 - (f(1, n) / N)
-  p_e <- p * C_e
-  # s estimation
-  S.abun <- sum(sapply(X = (k + 1):N, FUN = f, n))
-  S.rare <- sum(sapply(X = 1:k, FUN = f, n))
-  C.rare <- 1 - sum(c(1:k) * sapply(X = 1:k, FUN = f, n))
-  a <- sum(1:k * c(1:k - 1) * sapply(X = 1:k, FUN = f, n))
-  b <- sum(1:k * sapply(X = 1:k, FUN = f, n)) *
-    sum(1:k * sapply(X = 1:k, FUN = f, n) - 1)
-  gamma <- max((S.rare / C.estimate) * (a / b) - 1, 0)
-  S.estimate <- S.abun + (S.rare / C.rare) + (f(1, n) / C.rare) * gamma^2
-
-  H <- switch (
-    methode,
-    MLEU = shannon.index(n, base) + (S.estimate - 1) / (2 * N),
-    CHAO = -sum((p_e * log(p_e, base)) / (1 - (1 - p_e)^N))
-  )
-  return(H)
-}
+# chaoIndex <- function(n, method = c("MLEU", "CHAO"), k = 10, base = exp(1)) {
+#   method <- match.arg(method, several.ok = FALSE)
+#
+#   f <- function(i, n) { sum(n == i) }
+#   N <- sum(n)
+#   # p estimation
+#   p <- n / N
+#   C_e <- 1 - (f(1, n) / N)
+#   p_e <- p * C_e
+#   # s estimation
+#   S.abun <- sum(sapply(X = (k + 1):N, FUN = f, n))
+#   S.rare <- sum(sapply(X = 1:k, FUN = f, n))
+#   C.rare <- 1 - sum(c(1:k) * sapply(X = 1:k, FUN = f, n))
+#   a <- sum(1:k * c(1:k - 1) * sapply(X = 1:k, FUN = f, n))
+#   b <- sum(1:k * sapply(X = 1:k, FUN = f, n)) *
+#     sum(1:k * sapply(X = 1:k, FUN = f, n) - 1)
+#   gamma <- max((S.rare / C.estimate) * (a / b) - 1, 0)
+#   S.estimate <- S.abun + (S.rare / C.rare) + (f(1, n) / C.rare) * gamma^2
+#
+#   H <- switch (
+#     methode,
+#     MLEU = shannon.index(n, base) + (S.estimate - 1) / (2 * N),
+#     CHAO = -sum((p_e * log(p_e, base)) / (1 - (1 - p_e)^N))
+#   )
+#   return(H)
+# }
