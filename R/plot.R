@@ -195,7 +195,7 @@ setMethod(
 setMethod(
   f = "plotMatrix",
   signature = signature(object = "IncidenceMatrix"),
-  definition = function(object, z = NULL) {
+  definition = function(object) {
     # Prepare data -------------------------------------------------------------
     # Get row names and coerce to factor (preserve original ordering)
     row_names <- rownames(object) %>% factor(levels = unique(.))

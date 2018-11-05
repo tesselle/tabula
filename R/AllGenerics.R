@@ -105,10 +105,15 @@ NULL
 #' @rdname alpha-diversity
 NULL
 
+#' @rdname alpha-diversity
+#' @aliases diversity-method
 setGeneric(
   name = "diversity",
   def = function(object, ...) standardGeneric("diversity")
 )
+
+#' @rdname alpha-diversity
+#' @aliases evenness-method
 setGeneric(
   name = "evenness",
   def = function(object, ...) standardGeneric("evenness")
@@ -126,6 +131,8 @@ setGeneric(
 #'  used. This must be one of "\code{jaccard}", "\code{sorenson}",
 #'  "\code{bray}" or "\code{morisita}" (see details).
 #'  Any unambiguous substring can be given.
+#' @param simplify A \code{\link{logical}} scalar: should the result be
+#'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
 #' @param ... Further arguments passed to other methods.
 #' @details
 #'  similarity Entre 0 et 1.
@@ -153,10 +160,15 @@ setGeneric(
 #' @rdname beta-diversity
 NULL
 
+#' @rdname beta-diversity
+#' @aliases turnover-method
 setGeneric(
   name = "turnover",
   def = function(object, ...) standardGeneric("turnover")
 )
+
+#' @rdname beta-diversity
+#' @aliases similarity-method
 setGeneric(
   name = "similarity",
   def = function(object, ...) standardGeneric("similarity")
@@ -165,6 +177,8 @@ setGeneric(
 # ==============================================================================
 #' Permute rows or columns
 #'
+#' @param object An object.
+#' @param ... Further arguments passed to other methods.
 #' @author N. Frerebeau
 #' @seealso \code{\link{seriate}}
 #' @export
@@ -187,6 +201,7 @@ setGeneric(
 #'  be horizontal? The default value, \code{FALSE}, means variables in rows and
 #'  cases in columns (i.e. Bertin diagram). Only used if \code{center} is
 #'  \code{FALSE}.
+#' @param ... Further arguments passed to other methods.
 #' @details
 #'  TODO
 #'  coerce to frequency matrix first
@@ -199,10 +214,8 @@ setGeneric(
 #' @author N. Frerebeau
 #' @family plot
 #' @docType methods
-#' @name plotBar-method
 #' @rdname plotBar-method
-NULL
-
+#' @aliases plotBar-method
 setGeneric(
   name = "plotBar",
   def = function(object, ...) standardGeneric("plotBar")
@@ -214,6 +227,7 @@ setGeneric(
 #' @param object An object to be plotted.
 #' @param PVI A \code{\link{logical}} scalar: should TODO?
 #' @param center A \code{\link{logical}} scalar: should TODO?
+#' @param ... Further arguments passed to other methods.
 #' @details
 #'  TODO
 #'  coerce to count matrix first
@@ -226,10 +240,8 @@ setGeneric(
 #' @author N. Frerebeau
 #' @family plot
 #' @docType methods
-#' @name plotMatrix-method
 #' @rdname plotMatrix-method
-NULL
-
+#' @aliases plotMatrix-method
 setGeneric(
   name = "plotMatrix",
   def = function(object, ...) standardGeneric("plotMatrix")
@@ -242,15 +254,15 @@ setGeneric(
 #' x axis is to be logarithmic, "\code{y}" if the y axis is to be logarithmic
 #' and "\code{xy}" or "\code{yx}" if both axes are to be logarithmic.
 #' @param facet A \code{\link{logical}} scalar: should TODO?
+#' @param ... Further arguments passed to other methods.
 #' @details
 #' variables scaled to 0-1 (frequency)
 #' @example inst/examples/ex-plotRank.R
 #' @author N. Frerebeau
 #' @family plot
 #' @docType methods
-#' @name plotRank-method
 #' @rdname plotRank-method
-
+#' @aliases plotRank-method
 setGeneric(
   name = "plotRank",
   def = function(object, ...) standardGeneric("plotRank")
@@ -263,6 +275,7 @@ setGeneric(
 #' @param threshold A \code{\link{character}} string specifiying the threshold
 #'  to be plotted. This must be one or more of "\code{mean}" or "\code{median}".
 #'  Any unambiguous substring can be given.
+#' @param ... Further arguments passed to other methods.
 #' @details
 #'  TODO
 #' variables scaled to 0-1 (frequency)
@@ -273,10 +286,8 @@ setGeneric(
 #' @author N. Frerebeau
 #' @family plot
 #' @docType methods
-#' @name plotSpot-method
 #' @rdname plotSpot-method
-NULL
-
+#' @aliases plotSpot-method
 setGeneric(
   name = "plotSpot",
   def = function(object, ...) standardGeneric("plotSpot")
@@ -296,6 +307,7 @@ setGeneric(
 #'  "\code{menhinick}" (see details). Any unambiguous substring can be given.
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
+#' @param ... Further arguments passed to other methods.
 #' @details
 #'  The number of different taxa, provides an instantly comprehensible
 #'  expression of diversity. While the number of taxa within a sample
@@ -354,32 +366,18 @@ setGeneric(
 #' @rdname richness-method
 NULL
 
+#' @rdname richness-method
+#' @aliases rarefaction-method
 setGeneric(
   name = "rarefaction",
   def = function(object, ...) standardGeneric("rarefaction")
 )
+
+#' @rdname richness-method
+#' @aliases richness-method
 setGeneric(
   name = "richness",
   def = function(object, ...) standardGeneric("richness")
-)
-
-# ==============================================================================
-#' Data import
-#'
-#' Reads a file in table format and creates a matrix from it, with cases
-#' corresponding to lines and variables to fields in the file.
-#' @details
-#'  TODO
-#' @return
-#'  A matrix containing a representation of the data in the file.
-#' @author N. Frerebeau
-#' @seealso \code{\link[utils]{read.table}}
-#' @export
-#' @docType methods
-#' @rdname readTable-method
-setGeneric(
-  name = "readTable",
-  def = function(object, ...) standardGeneric("readTable")
 )
 
 # ==============================================================================
@@ -394,12 +392,14 @@ if (!isGeneric("rescale")) {
 # ==============================================================================
 #' Seriate
 #'
+#' @param object An object.
+#' @param ... Further arguments passed to other methods.
 #' @author N. Frerebeau
 #' @seealso \code{\link{permute}}
 #' @export
 #' @docType methods
 #' @rdname seriate-method
-# Seriation
+#' @aliases seriate-method
 setGeneric(
   name = "seriate",
   def = function(object, ...) standardGeneric("seriate")

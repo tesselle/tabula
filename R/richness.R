@@ -9,7 +9,7 @@ setMethod(
   f = "richness",
   signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("margalef", "menhinick"),
-                        simplify = FALSE, ...) {
+                        simplify = FALSE) {
     # Validation
     method <- match.arg(method, several.ok = TRUE)
     E <- sapply(X = method, FUN = function(x, object) {
