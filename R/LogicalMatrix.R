@@ -5,7 +5,9 @@ NULL
 ## Initilize ===================================================================
 # LogicalMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
 #                           dimnames = NULL) {
-#   M <- as.logical(matrix(data, nrow, ncol, byrow, dimnames))
+#   data <- as.logical(data)
+#   M <- buildMatrix(data, nrow, ncol, byrow, dimnames,
+#                  missing(nrow), missing(ncol))
 #   methods::new("LogicalMatrix", M)
 # }
 
@@ -13,20 +15,18 @@ NULL
 #' @rdname LogicalMatrix
 IncidenceMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
                             dimnames = NULL) {
-  if (is.null(dimnames)) {
-    dimnames <- list(1:nrow, paste("V", 1:ncol, sep = ""))
-  }
-  M <- matrix(as.logical(data), nrow, ncol, byrow, dimnames)
+  data <- as.logical(data)
+  M <- buildMatrix(data, nrow, ncol, byrow, dimnames,
+                   missing(nrow), missing(ncol))
   methods::new("IncidenceMatrix", M)
 }
 #' @export
 #' @rdname LogicalMatrix
 StratigraphyMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
                             dimnames = NULL) {
-  if (is.null(dimnames)) {
-    dimnames <- list(1:nrow, paste("V", 1:ncol, sep = ""))
-  }
-  M <- matrix(as.logical(data), nrow, ncol, byrow, dimnames)
+  data <- as.logical(data)
+  M <- buildMatrix(data, nrow, ncol, byrow, dimnames,
+                   missing(nrow), missing(ncol))
   methods::new("StratigraphyMatrix", M)
 }
 

@@ -9,20 +9,16 @@ NULL
 #' @rdname NumericMatrix
 CountMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
                         dimnames = NULL) {
-  if (is.null(dimnames)) {
-    dimnames <- list(1:nrow, paste("V", 1:ncol, sep = ""))
-  }
-  M <- matrix(data, nrow, ncol, byrow, dimnames)
+  M <- buildMatrix(data, nrow, ncol, byrow, dimnames,
+                   missing(nrow), missing(ncol))
   new("CountMatrix", M)
 }
 #' @export
 #' @rdname NumericMatrix
 FrequencyMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
                             dimnames = NULL) {
-  if (is.null(dimnames)) {
-    dimnames <- list(1:nrow, paste("V", 1:ncol, sep = ""))
-  }
-  M <- matrix(data, nrow, ncol, byrow, dimnames)
+  M <- buildMatrix(data, nrow, ncol, byrow, dimnames,
+                   missing(nrow), missing(ncol))
   totals <- rowSums(M)
   M <- M / totals
   methods::new("FrequencyMatrix", M, totals = totals)

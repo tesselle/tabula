@@ -32,3 +32,23 @@ isBinary <- function(x) {
 isEqual <- function(x, tol = .Machine$double.eps^0.5, na.rm = TRUE) {
   abs(max(x, na.rm = na.rm) - min(x, na.rm = na.rm)) < tol
 }
+
+# Matrix constructor
+#
+# @inheritParams base::matrix
+# @param rows A \code{link{logical}} scalar indicating if the number of rows is
+#  unspecified.
+# @param cols A \code{link{logical}} scalar indicating if the number of columns
+#  is unspecified.
+# @return A \link{\code{matrix}}.
+buildMatrix <- function(data, nrow, ncol, byrow, dimnames,
+                        rows = FALSE, cols = FALSE) {
+  k <- length(data)
+  if (rows) nrow <- k / ncol
+  if (cols) ncol <- k / nrow
+  if (is.null(dimnames)) {
+    dimnames <- list(1:nrow, paste("V", 1:ncol, sep = ""))
+  }
+  M <- matrix(data, nrow, ncol, byrow, dimnames)
+  return(M)
+}
