@@ -14,7 +14,7 @@ NULL
 
 setClass(
   Class = "NumericMatrix",
-  contains = c("matrix")
+  contains = "matrix"
 )
 # Count matrix
 setClass(
@@ -40,7 +40,7 @@ NULL
 
 setClass(
   Class = "LogicalMatrix",
-  contains = c("matrix")
+  contains = "matrix"
 )
 # Incidence matrix (presence/absence data)
 setClass(
@@ -52,9 +52,6 @@ setClass(
   Class = "StratigraphicMatrix",
   contains = "LogicalMatrix"
 )
-
-# Classes union ================================================================
-setClassUnion(name = "MatrixOrDataFrame", members = c("matrix", "data.frame"))
 
 # Classes validation ===========================================================
 # NumericMatrix class ----------------------------------------------------------
