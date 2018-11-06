@@ -27,17 +27,16 @@ Collate:
     'AllGenerics.R'
     'LogicalMatrix.R'
     'NumericMatrix.R'
+    'index-richness.R'
     'index-diversity.R'
     'alpha-diversity.R'
     'index-turnover.R'
     'index-similarity.R'
     'beta-diversity.R'
     'data.R'
-    'index-richness.R'
     'method-seriation.R'
     'statistics.R'
     'plot.R'
-    'richness.R'
     'seriation.R'
 RoxygenNote: 6.1.0
 Suggests:
