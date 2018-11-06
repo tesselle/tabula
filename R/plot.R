@@ -10,7 +10,7 @@ barPlot <- function(object, EPPM = FALSE, center = TRUE, horizontal = FALSE) {
   # Build long table from data and join with threshold
   # 'id' is only used for joining
   data <- object %>%
-    { if (EPPM) { . / rowSums(.) } else . } %>%
+    { . / rowSums(.) } %>% # Plot frequency
     { if (center) rbind.data.frame(., -.) / 2 else as.data.frame(.) } %>%
     dplyr::mutate(id = rownames(.), case = rep(row_names, 1 + center)) %>%
     tidyr::gather(key = "type", value = "data",
@@ -33,9 +33,8 @@ barPlot <- function(object, EPPM = FALSE, center = TRUE, horizontal = FALSE) {
                     -.data$id, -.data$case, -.data$type, factor_key = TRUE)
   }
 
-  # Rename axis with data units
-  scale <- ifelse(methods::is(object, "CountMatrix") & !EPPM, "count", "frequency")
-  data %<>% dplyr::rename(!!scale := "data")
+  # Rename axis
+  data %<>% dplyr::rename(frequency = "data")
 
   # ggplot -------------------------------------------------------------------
   fill <- if (EPPM) "threshold" else NULL
@@ -57,7 +56,7 @@ barPlot <- function(object, EPPM = FALSE, center = TRUE, horizontal = FALSE) {
 
   ggplot(data = data) +
     facet_grid(stats::as.formula(facets), scales = "free", space = "free_x") +
-    geom_col(aes_string(x = "case", y = scale, fill = fill), width = 1,
+    geom_col(aes_string(x = "case", y = "frequency", fill = fill), width = 1,
              position = position_stack(reverse = !center)) +
     coord + axis +
     theme(legend.position = "bottom",
@@ -88,18 +87,19 @@ matrixPlot <- function(object, PVI = FALSE, center = FALSE) {
   # Get row names and coerce to factor (preserve original ordering)
   row_names <- rownames(object) %>% factor(levels = unique(.))
 
-  # Data units
-  scale <- ifelse(methods::is(object, "CountMatrix"), "count", "frequency")
-
   # Build long table from data and join with threshold
   # 'id' is only used for joining
   data <- object %>%
+    { . / rowSums(.) } %>%
     as.data.frame() %>%
     dplyr::mutate(id = rownames(.), case = row_names) %>%
-    tidyr::gather(key = "type", value = !!scale,
+    tidyr::gather(key = "type", value = "frequency",
                   -.data$id, -.data$case, factor_key = TRUE)
 
   if (PVI) {
+    # Coerce to count data for PVI computation
+    object <- methods::as(object, "CountMatrix")
+
     # Build long table from threshold
     # 'id' is only used for joining
     threshold <- threshold(object, method = "PVI") %>%
@@ -158,7 +158,7 @@ matrixPlot <- function(object, PVI = FALSE, center = FALSE) {
       )
     )
   } else {
-    list(geom_tile(aes_string(x = "x", y = "y", fill = scale)))
+    list(geom_tile(aes_string(x = "x", y = "y", fill = "frequency")))
   }
 
   ggplot(data = data) +
@@ -288,7 +288,8 @@ spotPlot <- function(object, threshold = NULL) {
   row_names <- rownames(object) %>% factor(levels = unique(.))
 
   # Build long table from data
-  data <- { 0.8 * object / rowSums(object) } %>%
+  data <- object %>%
+    { 0.8 * . / rowSums(.) } %>%
     as.data.frame() %>%
     dplyr::mutate(case = row_names) %>%
     tidyr::gather(key = "type", value = "frequency",
