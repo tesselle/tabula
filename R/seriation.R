@@ -24,7 +24,7 @@ setMethod(
     index <- lapply(X = index, FUN = as.integer)
     # New PermutationOrder object
     methods::new("PermutationOrder",
-                 rows = index[[1]], columns = index[[2]], seriation = method)
+                 rows = index[[1]], columns = index[[2]], method = method)
   }
 )
 
