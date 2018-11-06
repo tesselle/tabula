@@ -34,9 +34,11 @@ Collate:
     'beta-diversity.R'
     'data.R'
     'index-richness.R'
+    'method-seriation.R'
     'statistics.R'
     'plot.R'
     'richness.R'
+    'seriation.R'
 RoxygenNote: 6.1.0
 Suggests:
     testthat,
