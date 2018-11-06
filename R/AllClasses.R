@@ -257,6 +257,19 @@ setValidity(
 )
 
 # Classes constructor ==========================================================
+setMethod(
+  f = "initialize",
+  signature = "PermutationOrder",
+  definition = function(.Object, ...) {
+    .Object <- methods::callNextMethod(.Object, ...)
+    methods::validObject(.Object)
+    if (getOption("verbose")) {
+      message(paste(class(.Object), "instance initialized.", sep = " "))
+    }
+    return(.Object)
+  }
+)
+
 initialize_matrix <- function(.Object, ...) {
   .Object <- methods::callNextMethod(.Object, ...)
   methods::validObject(.Object)
