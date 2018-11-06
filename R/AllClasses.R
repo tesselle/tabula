@@ -298,3 +298,19 @@ setMethod(
   signature = "StratigraphicMatrix",
   definition = initialize_matrix
 )
+
+# Show methods =================================================================
+setMethod(
+  f = "show",
+  signature = "PermutationOrder",
+  definition = function(object) {
+    cat("Permutation order for matrix seriation:", "\n",
+        "  Row order:", object@rows, "\n",
+        "  Column order:", object@columns, "\n",
+        "  Seriation method:", object@seriation, "\n",
+        "  Agreement coefficient:", object@agreement_coefficient, "\n",
+        "  Agreement method:", object@agreement_method, "\n",
+        sep = " "
+    )
+  }
+)
