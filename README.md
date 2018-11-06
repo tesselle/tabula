@@ -1,14 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-tabula <img src="man/figures/logo.png" align="right" />
-=======================================================
+tabula <img width=120px src="man/figures/logo.svg" align="right" />
+===================================================================
 
 [![Build Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula) [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
 Overview
 --------
 
-`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity, e.g. richness, rarefaction, diversity, similarity, etc. It also provides some matrix seriation methods for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford and Bertin diagrams, etc.
+`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity, e.g. richness, rarefaction, diversity, turnover, similarity, etc. It also provides matrix seriation methods for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford and Bertin diagrams, etc.
 
 Installation
 ------------
@@ -140,15 +140,13 @@ similarity(count, method = "morisita")
 ### Seriation
 
 ``` r
-indices <- seriate(count, method = "rankin", margin = 2)
+indices <- seriate(count, method = "ranking", margin = 2)
 
 indices
 #> Permutation order for matrix seriation: 
 #>    Row order: 1 2 3 4 5 
 #>    Column order: 14 1 11 3 16 12 5 2 15 13 4 7 6 9 10 8 
-#>    Seriation method: ranking 
-#>    Agreement coefficient:  
-#>    Agreement method:
+#>    Method: ranking
 ```
 
 ``` r
