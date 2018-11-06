@@ -39,7 +39,7 @@ reciprocalRanking <- function(x, margin = 1, stop = 100) {
     convergence <- identical(index, old_index)
     start <- start + 1
     if (start >= stop) {
-      message("convergence not reached (possible infinite cycle)")
+      warning("convergence not reached (possible infinite cycle)")
       break
     }
   }
@@ -47,3 +47,19 @@ reciprocalRanking <- function(x, margin = 1, stop = 100) {
   return(index)
 }
 
+# Reciprocal averaging
+#
+# @param x A \code{\link{numeric}} matrix.
+# @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
+# @return A list of two \code{\link{numeric}} vectors.
+# @author N. Frerebeau
+reciprocalAveraging <- function(x, ...) {
+
+  # Correspondance analysis
+  corresp <- FactoMineR::CA(x, ..., graph = FALSE)
+  # Sequence of the first axis as best seriation order
+  row_coords <- order(corresp$row$coord[, 1])
+  col_coords <- order(corresp$col$coord[, 1])
+
+  return(list(rows = row_coords, columns = col_coords))
+}
