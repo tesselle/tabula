@@ -23,8 +23,8 @@ setMethod(
     # Coerce indices to integer
     index <- lapply(X = index, FUN = as.integer)
     # New PermutationOrder object
-    new("PermutationOrder", rows = index[[1]], columns = index[[2]],
-        seriation = method)
+    methods::new("PermutationOrder", rows = index[[1]], columns = index[[2]],
+                 seriation = method)
   }
 )
 
@@ -39,6 +39,6 @@ setMethod(
     # Rearrange matrix
     new_matrix <- object[order@rows, order@columns]
     # New CountMatrix object
-    new("CountMatrix", new_matrix)
+    methods::new("CountMatrix", new_matrix)
   }
 )
