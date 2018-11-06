@@ -1,4 +1,5 @@
-# Coerce dataset to count matrix
+# Coerce dataset to abundance matrix
+# Data from Desachy 2004
 count <- as(compiegne, "CountMatrix")
 freq <- as(boves, "FrequencyMatrix")
 
