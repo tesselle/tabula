@@ -49,8 +49,12 @@ NULL
 #'    this point from the origin.}
 #'   \item{shannon}{Shannon-Wiener diversity index. The Shannon index assumes
 #'    that individuals are randomly sampled from an infinite population and that
-#'    all types are represented in the sample. This index does not reflect the
-#'    sample size.}
+#'    all taxa are represented in the sample (it does not reflect the
+#'    sample size). The main source of error arises from the failure to include
+#'    all taxa in the sample: this error increases as the proportion of species
+#'    discovered in the sample declines (Peet 1974, Magurran 1988). The
+#'    maximum likelihood estimator (MLE) is used for the relative abundance,
+#'    this is known to be negatively biased.}
 #'   \item{simpson}{Simpson dominance index. The Simpson index expresses the
 #'    probability that two individuals randomly picked from a finite sample
 #'    belong to two different types. It can be interpreted as the weighted mean
@@ -59,8 +63,9 @@ NULL
 #'  }
 #'
 #'  The \code{berger}, \code{mcintosh} and \code{simpson} methods return a
-#'  \emph{dominance} index, not the reciprocal form usually adopted, so that an
-#'  increase in the value of the index accompanies a decrease in diversity.
+#'  \emph{dominance} index, not the reciprocal or inverse form usually adopted,
+#'  so that an increase in the value of the index accompanies a decrease in
+#'  diversity.
 #' @return
 #'  If \code{simplify} is \code{FALSE} returns a list (default), else
 #'  returns a matrix.
@@ -171,21 +176,6 @@ setGeneric(
   def = function(object, ...) standardGeneric("similarity")
 )
 
-# ==============================================================================
-#' Permute rows or columns
-#'
-#' @param object An object.
-#' @param ... Further arguments passed to other methods.
-#' @author N. Frerebeau
-#' @seealso \code{\link{seriate}}
-#' @export
-#' @docType methods
-#' @rdname permute-method
-setGeneric(
-  name = "permute",
-  def = function(object, ...) standardGeneric("permute")
-)
-
 # Plot =========================================================================
 #' Bar plot
 #'
@@ -276,9 +266,9 @@ setGeneric(
 #' @details
 #'  TODO
 #' variables scaled to 0-1 (frequency)
-#' @note The spot plot is inspired from Dan Gopstein's
-#'  \href{https://dgopstein.github.io/articles/spot-matrix/}{spot matrix},
-#'  so credit should be given to him.
+#' @note Adapted from Dan Gopstein's original
+#'  \href{https://dgopstein.github.io/articles/spot-matrix/}{spot matrix}.
+#'  Credit should be given to him.
 #' @example inst/examples/ex-plotSpot.R
 #' @author N. Frerebeau
 #' @family plot
@@ -390,14 +380,36 @@ if (!isGeneric("rescale")) {
 #' Seriate
 #'
 #' @param object An object.
+#' @param method A \code{\link{character}} string specifiying the method to be
+#'  used. This must be one of "\code{ranking}", "\code{correspondance}"
+#'  (see details).
+#'  Any unambiguous substring can be given.
+#' @param EPPM A \code{\link{logical}} scalar: should TODO?.
+#' @param stop A length-one \code{\link{numeric}} vector giving the stopping rule
+#'  (i.e. maximum number of iterations) to avoid infinite loop.
+#' @param margin A \code{\link{numeric}} vector giving the subscripts which the
+#'  rearrangement will be applied over. E.g., for a matrix \code{1} indicates
+#'  rows, \code{2} indicates columns, \code{c(1, 2)} indicates rows then columns,
+#'  \code{c(2, 1)} indicates columns then rows.
 #' @param ... Further arguments passed to other methods.
+#' @return TODO
+#' @seealso \link[FactoMineR]{CA}
 #' @author N. Frerebeau
-#' @seealso \code{\link{permute}}
-#' @export
 #' @docType methods
-#' @rdname seriate-method
+#' @name seriation
+#' @rdname seriation
+NULL
+
+#' @rdname seriation
 #' @aliases seriate-method
 setGeneric(
   name = "seriate",
   def = function(object, ...) standardGeneric("seriate")
+)
+
+#' @rdname seriation
+#' @aliases permute-method
+setGeneric(
+  name = "permute",
+  def = function(object, ...) standardGeneric("permute")
 )
