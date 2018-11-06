@@ -5,9 +5,9 @@ NULL
 # Permutation order ------------------------------------------------------------
 #' An S4 class to represent a permutation order
 #'
-#' @slot rows A \code{\link{numeric}} vector.
-#' @slot columns A \code{\link{numeric}} vector.
-#' @slot seriation_method A \code{\link{character}} vector.
+#' @slot rows A \code{\link{integer}} vector.
+#' @slot columns A \code{\link{integer}} vector.
+#' @slot seriation A \code{\link{character}} vector.
 #' @slot agreement A length-one \code{\link{numeric}} vector.
 #' @slot agreement_method A \code{\link{character}} vector.
 #' @author N. Frerebeau
@@ -15,10 +15,10 @@ NULL
 #' @aliases PermutationOrder-class
 setClass(
   Class = "PermutationOrder",
-  slots = c(rows = "numeric",
-            columns = "numeric",
-            seriation_method = "character",
-            agreement = "numeric",
+  slots = c(rows = "integer",
+            columns = "integer",
+            seriation = "character",
+            agreement_coefficient = "numeric",
             agreement_method = "character")
 )
 
