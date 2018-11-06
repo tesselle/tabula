@@ -385,6 +385,7 @@ if (!isGeneric("rescale")) {
 #'  \code{permute} returns a rearranged matrix of the same class as
 #'  \code{object}.
 #' @param object An object.
+#' @param order TODO.
 #' @param method A \code{\link{character}} string specifiying the method to be
 #'  used. This must be one of "\code{ranking}", "\code{correspondance}"
 #'  (see details).

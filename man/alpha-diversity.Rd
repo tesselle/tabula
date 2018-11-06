@@ -76,8 +76,12 @@ dominance index. \code{evenness} returns an evenness measure.
    this point from the origin.}
   \item{shannon}{Shannon-Wiener diversity index. The Shannon index assumes
    that individuals are randomly sampled from an infinite population and that
-   all types are represented in the sample. This index does not reflect the
-   sample size.}
+   all taxa are represented in the sample (it does not reflect the
+   sample size). The main source of error arises from the failure to include
+   all taxa in the sample: this error increases as the proportion of species
+   discovered in the sample declines (Peet 1974, Magurran 1988). The
+   maximum likelihood estimator (MLE) is used for the relative abundance,
+   this is known to be negatively biased.}
   \item{simpson}{Simpson dominance index. The Simpson index expresses the
    probability that two individuals randomly picked from a finite sample
    belong to two different types. It can be interpreted as the weighted mean
