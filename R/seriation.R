@@ -20,9 +20,11 @@ setMethod(
       ranking = reciprocalRanking(data, margin, stop),
       correspondance = reciprocalAveraging(data, ...)
     )
+    # Coerce indices to integer
+    index <- lapply(X = index, FUN = as.integer)
     # New PermutationOrder object
     new("PermutationOrder", rows = index[[1]], columns = index[[2]],
-        seriation_method = method)
+        seriation = method)
   }
 )
 
