@@ -8,8 +8,6 @@ NULL
 #' @slot rows A \code{\link{integer}} vector.
 #' @slot columns A \code{\link{integer}} vector.
 #' @slot seriation A \code{\link{character}} vector.
-#' @slot agreement A length-one \code{\link{numeric}} vector.
-#' @slot agreement_method A \code{\link{character}} vector.
 #' @author N. Frerebeau
 #' @docType class
 #' @aliases PermutationOrder-class
@@ -17,9 +15,7 @@ setClass(
   Class = "PermutationOrder",
   slots = c(rows = "integer",
             columns = "integer",
-            seriation = "character",
-            agreement_coefficient = "numeric",
-            agreement_method = "character")
+            method = "character")
 )
 
 # Numeric matrix ---------------------------------------------------------------
@@ -82,9 +78,7 @@ setValidity(
     # Get data
     rows <- object@rows
     columns <- object@columns
-    seriation <- object@seriation
-    agreement_coefficient <- object@agreement_coefficient
-    agreement_method <- object@agreement_method
+    method <- object@method
 
     if (length(rows) != 0) {
       if (!is.integer(rows))
@@ -105,27 +99,8 @@ setValidity(
           errors <- c(errors, "strictly positive values are expected")
     }
     if (length(rows) != 0 | length(columns) != 0) {
-      if (length(seriation) == 1) {
-        if (!is.character(seriation))
-          errors <- c(errors, "a character string is expected")
-      } else {
-        errors <- c(errors, "should be of length 1")
-      }
-    }
-    if (length(agreement_coefficient) != 0) {
-      if (length(agreement_coefficient) != 1)
-        errors <- c(errors, "should be of length 1")
-      if (!is.numeric(agreement_coefficient))
-        errors <- c(errors, "numeric values are expected")
-      if (any(is.na(agreement_coefficient)))
-        errors <- c(errors, "NA values were detected")
-      if (any(is.infinite(agreement_coefficient)))
-        errors <- c(errors, "infinite numbers were detected")
-      if (!any(is.nan(agreement_coefficient)))
-        if (any(agreement_coefficient < 0))
-          errors <- c(errors, "positive values are expected")
-      if (length(agreement_method) == 1) {
-        if (!is.character(agreement_method))
+      if (length(method) == 1) {
+        if (!is.character(method))
           errors <- c(errors, "a character string is expected")
       } else {
         errors <- c(errors, "should be of length 1")
@@ -307,9 +282,7 @@ setMethod(
     cat("Permutation order for matrix seriation:", "\n",
         "  Row order:", object@rows, "\n",
         "  Column order:", object@columns, "\n",
-        "  Seriation method:", object@seriation, "\n",
-        "  Agreement coefficient:", object@agreement_coefficient, "\n",
-        "  Agreement method:", object@agreement_method, "\n",
+        "  Method:", object@method,
         sep = " "
     )
   }
