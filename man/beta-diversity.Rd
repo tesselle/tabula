@@ -34,8 +34,8 @@ similarity(object, ...)
 \S4method{similarity}{CountMatrix}(object, method = c("bray", "jaccard",
   "morisita", "sorenson"), ...)
 
-\S4method{similarity}{FrequencyMatrix}(object, method = c("bray",
-  "jaccard", "morisita", "sorenson"), ...)
+\S4method{similarity}{FrequencyMatrix}(object, method = c("jaccard",
+  "sorenson"), ...)
 
 \S4method{similarity}{IncidenceMatrix}(object, method = c("jaccard",
   "sorenson"), ...)
@@ -46,9 +46,7 @@ similarity(object, ...)
 \item{...}{Further arguments passed to other methods.}
 
 \item{method}{A \code{\link{character}} string specifiying the method to be
-used. This must be one of "\code{jaccard}", "\code{sorenson}",
-"\code{bray}" or "\code{morisita}" (see details).
-Any unambiguous substring can be given.}
+used (see details). Any unambiguous substring can be given.}
 
 \item{simplify}{A \code{\link{logical}} scalar: should the result be
 simplified to a matrix? The default value, \code{FALSE}, returns a list.}
@@ -64,8 +62,23 @@ Measures between samples diversity. \code{similarity} returns a similarity
  along a grandient or transect.
 }
 \details{
-similarity Entre 0 et 1.
- turnover Begining of the transect in the first row
+The following methods can be used to acertain the degree of \emph{turnover}
+ in taxa composition along a gradient (\eqn{\beta}-diversity) on qualitative
+ (presence/absence) data. This assumes that the order of the matrix rows
+ (from 1 to \eqn{n}) follows the progression along the gradient/transect.
+
+ \describe{
+  \item{whittaker}{}
+  \item{cody}{}
+  \item{routledge1}{}
+  \item{routledge2}{}
+  \item{routledge3}{}
+  \item{wilson}{}
+ }
+
+ \eqn{\beta}-diversity can also be measured by addressing \emph{similarity}
+ between pairs of sites. The following methods return a value between 0
+ (no similarity) and 1 (identity):
  \describe{
   \item{bray}{Sorenson quantitative index (Bray and Curtis modified version
   of the Sorenson index). }

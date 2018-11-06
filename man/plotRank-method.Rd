@@ -32,7 +32,8 @@ Rank vs abundance plot
 variables scaled to 0-1 (frequency)
 }
 \examples{
-# Coerce dataset to count matrix
+# Coerce dataset to abundance matrix
+# Data from Desachy 2004
 count <- as(compiegne, "CountMatrix")
 
 # Plot rank diagram

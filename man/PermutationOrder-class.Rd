@@ -15,10 +15,6 @@ An S4 class to represent a permutation order
 \item{\code{columns}}{A \code{\link{integer}} vector.}
 
 \item{\code{seriation}}{A \code{\link{character}} vector.}
-
-\item{\code{agreement}}{A length-one \code{\link{numeric}} vector.}
-
-\item{\code{agreement_method}}{A \code{\link{character}} vector.}
 }}
 
 \author{
