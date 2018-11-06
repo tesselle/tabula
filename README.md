@@ -8,7 +8,7 @@ tabula <img src="man/figures/logo.png" align="right" />
 Overview
 --------
 
-`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity, e.g. richness, rarefaction, diversity, evenness, turnover and similarity. It also provides some matrix seriation methods for chronological modeling. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford and Bertin diagrams, etc.
+`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity, e.g. richness, rarefaction, diversity, similarity, etc. It also provides some matrix seriation methods for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford and Bertin diagrams, etc.
 
 Installation
 ------------
@@ -31,7 +31,7 @@ Usage
 
 `tabula` provides a set of S4 classes that extend the `matrix` data type from R `base`. These new classes represent different special types of matrix:
 
--   Numeric matrix:
+-   Abundance matrix:
     -   `CountMatrix` represents count data,
     -   `FrequencyMatrix` represents frequency data,
 -   Logical matrix:
@@ -136,6 +136,30 @@ similarity(count, method = "morisita")
 #> 2 0.6670201 0.7964064 0.8251501 1.0000000 0.9224228
 #> 1 0.6286479 0.7106784 0.6637747 0.9224228 1.0000000
 ```
+
+### Seriation
+
+``` r
+indices <- seriate(count, method = "rankin", margin = 2)
+
+indices
+#> Permutation order for matrix seriation: 
+#>    Row order: 1 2 3 4 5 
+#>    Column order: 14 1 11 3 16 12 5 2 15 13 4 7 6 9 10 8 
+#>    Seriation method: ranking 
+#>    Agreement coefficient:  
+#>    Agreement method:
+```
+
+``` r
+# Permute matrix columns
+new_count <- permute(count, indices)
+
+# Plot Ford diagram of the rearranged matrix
+plotBar(new_count)
+```
+
+![](man/figures/README-permute-1.png)
 
 ### Visualization
 

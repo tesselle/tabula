@@ -21,7 +21,7 @@ library(tabula)
 
 ## Overview
 
-`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity, e.g. richness, rarefaction, diversity, evenness, turnover and similarity. It also provides some matrix seriation methods for chronological modeling. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford and Bertin diagrams, etc.
+`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity, e.g. richness, rarefaction, diversity, similarity, etc. It also provides some matrix seriation methods for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford and Bertin diagrams, etc.
 
 ## Installation
 
@@ -42,7 +42,7 @@ devtools::install_github("nfrerebeau/tabula")
 
 `tabula` provides a set of S4 classes that extend the `matrix` data type from R `base`. These new classes represent different special types of matrix:
 
-* Numeric matrix:
+* Abundance matrix:
     * `CountMatrix` represents count data,
     * `FrequencyMatrix` represents frequency data,
 * Logical matrix:
@@ -119,6 +119,23 @@ $\beta$-diversity can also be measured by addressing *similarity* between pairs 
 
 ```{r similarity}
 similarity(count, method = "morisita")
+```
+
+
+### Seriation
+
+```{r seriate}
+indices <- seriate(count, method = "rankin", margin = 2)
+
+indices
+```
+
+```{r permute}
+# Permute matrix columns
+new_count <- permute(count, indices)
+
+# Plot Ford diagram of the rearranged matrix
+plotBar(new_count)
 ```
 
 ### Visualization
