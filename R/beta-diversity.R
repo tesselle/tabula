@@ -110,8 +110,7 @@ setMethod(
 setMethod(
   f = "similarity",
   signature = signature(object = "FrequencyMatrix"),
-  definition = function(object, method = c("bray", "jaccard", "morisita",
-                                           "sorenson"), ...) {
+  definition = function(object, method = c("jaccard", "sorenson"), ...) {
     object <- methods::as(object, "CountMatrix")
     C <- similarity(object, method)
     return(C)
