@@ -20,24 +20,22 @@ setMethod(
       ranking = reciprocalRanking(data, margin, stop),
       correspondance = reciprocalAveraging(data, ...)
     )
-
-    return(index)
+    # New PermutationOrder object
+    new("PermutationOrder", rows = index[[1]], columns = index[[2]],
+        seriation_method = method)
   }
 )
 
 # Permute matrix ===============================================================
 #' @export
 #' @rdname seriation
-#' @aliases permute,CountMatrix-method
+#' @aliases permute,CountMatrix,PermutationOrder-method
 setMethod(
   f = "permute",
-  signature = signature(object = "CountMatrix"),
+  signature = signature(object = "CountMatrix", order = "PermutationOrder"),
   definition = function(object, order) {
-    # Permutation order
-    row_order <- order[[1]]
-    col_order <- order[[2]]
     # Rearrange matrix
-    new_matrix <- object[row_order, col_order]
+    new_matrix <- object[order@rows, order@columns]
     # New CountMatrix object
     new("CountMatrix", new_matrix)
   }

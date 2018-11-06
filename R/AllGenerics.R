@@ -377,8 +377,13 @@ if (!isGeneric("rescale")) {
 }
 
 # ==============================================================================
-#' Seriate
+#' Matrix seriation
 #'
+#' @description
+#'  \code{seriate} returns permutation order for rows and/or columns.
+#'
+#'  \code{permute} returns a rearranged matrix of the same class as
+#'  \code{object}.
 #' @param object An object.
 #' @param method A \code{\link{character}} string specifiying the method to be
 #'  used. This must be one of "\code{ranking}", "\code{correspondance}"
@@ -393,6 +398,16 @@ if (!isGeneric("rescale")) {
 #'  \code{c(2, 1)} indicates columns then rows.
 #' @param ... Further arguments passed to other methods.
 #' @return TODO
+#' @references
+#'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
+#'  graphique pour tableaux de comptages. \emph{Revue archéologique de
+#'  Picardie}, 3(1), 39-56.
+#'  DOI: \href{https://doi.org/10.3406/pica.2004.2396}{10.3406/pica.2004.2396}.
+#'
+#'  Ihm, P. (2005). A Contribution to the History of Seriation in Archaeology.
+#'  In C. Weihs & W. Gaul (Eds.), \emph{Classification: The Ubiquitous Challenge}
+#'  (p. 307-316). Berlin Heidelberg: Springer.
+#'  DOI: \href{https://doi.org/10.1007/3-540-28084-7_34}{10.1007/3-540-28084-7_34}.
 #' @seealso \link[FactoMineR]{CA}
 #' @author N. Frerebeau
 #' @docType methods
@@ -411,5 +426,5 @@ setGeneric(
 #' @aliases permute-method
 setGeneric(
   name = "permute",
-  def = function(object, ...) standardGeneric("permute")
+  def = function(object, order, ...) standardGeneric("permute")
 )
