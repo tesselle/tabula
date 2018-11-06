@@ -74,6 +74,72 @@ setClass(
 )
 
 # Classes validation ===========================================================
+# PermutationOrder class -------------------------------------------------------
+setValidity(
+  Class = "PermutationOrder",
+  method = function(object) {
+    errors <- c()
+    # Get data
+    rows <- object@rows
+    columns <- object@columns
+    seriation <- object@seriation
+    agreement_coefficient <- object@agreement_coefficient
+    agreement_method <- object@agreement_method
+
+    if (length(rows) != 0) {
+      if (!is.integer(rows))
+        errors <- c(errors, "whole numbers are expected")
+      if (any(is.na(rows)))
+        errors <- c(errors, "NA values were detected")
+      if (!any(is.nan(rows)))
+        if (any(rows <= 0))
+          errors <- c(errors, "strictly positive values are expected")
+    }
+    if (length(columns) != 0) {
+      if (!is.integer(columns))
+        errors <- c(errors, "whole numbers are expected")
+      if (any(is.na(columns)))
+        errors <- c(errors, "NA values were detected")
+      if (!any(is.nan(columns)))
+        if (any(columns <= 0))
+          errors <- c(errors, "strictly positive values are expected")
+    }
+    if (length(rows) != 0 | length(columns) != 0) {
+      if (length(seriation) == 1) {
+        if (!is.character(seriation))
+          errors <- c(errors, "a character string is expected")
+      } else {
+        errors <- c(errors, "should be of length 1")
+      }
+    }
+    if (length(agreement_coefficient) != 0) {
+      if (length(agreement_coefficient) != 1)
+        errors <- c(errors, "should be of length 1")
+      if (!is.numeric(agreement_coefficient))
+        errors <- c(errors, "numeric values are expected")
+      if (any(is.na(agreement_coefficient)))
+        errors <- c(errors, "NA values were detected")
+      if (any(is.infinite(agreement_coefficient)))
+        errors <- c(errors, "infinite numbers were detected")
+      if (!any(is.nan(agreement_coefficient)))
+        if (any(agreement_coefficient < 0))
+          errors <- c(errors, "positive values are expected")
+      if (length(agreement_method) == 1) {
+        if (!is.character(agreement_method))
+          errors <- c(errors, "a character string is expected")
+      } else {
+        errors <- c(errors, "should be of length 1")
+      }
+    }
+    # Return errors if any
+    if (length(errors) != 0) {
+      stop(paste(errors, collapse = "\n"))
+    } else {
+      return(TRUE)
+    }
+  }
+)
+
 # NumericMatrix class ----------------------------------------------------------
 setValidity(
   Class = "NumericMatrix",
@@ -88,8 +154,9 @@ setValidity(
         errors <- c(errors, "NA values were detected")
       if (any(is.infinite(data)))
         errors <- c(errors, "infinite numbers were detected")
-      if (!any(is.nan(data))) if (any(data < 0))
-        errors <- c(errors, "positive values are expected")
+      if (!any(is.nan(data)))
+        if (any(data < 0))
+          errors <- c(errors, "positive values are expected")
     }
     # Return errors if any
     if (length(errors) != 0) {
