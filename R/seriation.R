@@ -9,7 +9,7 @@ seriation <- function(object, method = c("ranking", "correspondance"),
   index <- switch (
     method,
     ranking = reciprocalRanking(data, margin, stop),
-    correspondance = reciprocalAveraging(data, ...)
+    correspondance = reciprocalAveraging(data, margin, ...)
   )
   # Coerce indices to integer
   index <- lapply(X = index, FUN = as.integer)
@@ -35,7 +35,7 @@ setMethod(
 
 #' @export
 #' @rdname seriation
-#' @aliases seriate,CountMatrix-method
+#' @aliases seriate,FrequencyMatrix-method
 setMethod(
   f = "seriate",
   signature = signature(object = "FrequencyMatrix"),

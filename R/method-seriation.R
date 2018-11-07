@@ -1,3 +1,4 @@
+# Seriation methods ============================================================
 # Reciprocal ranking
 #
 # @param x A \code{\link{numeric}} matrix.
@@ -54,12 +55,14 @@ reciprocalRanking <- function(x, margin = 1, stop = 100) {
 # @return A list of two \code{\link{numeric}} vectors.
 # @author N. Frerebeau
 reciprocalAveraging <- function(x, ...) {
-
+  # Original sequences
+  i <- 1:nrow(x)
+  j <- 1:ncol(x)
   # Correspondance analysis
-  corresp <- FactoMineR::CA(x, ..., graph = FALSE)
+  corresp <- FactoMineR::CA(x, margin = 1, ..., graph = FALSE)
   # Sequence of the first axis as best seriation order
-  row_coords <- order(corresp$row$coord[, 1])
-  col_coords <- order(corresp$col$coord[, 1])
+  row_coords <- if (1 %in% margin) order(corresp$row$coord[, 1]) else i
+  col_coords <- if (1 %in% margin) order(corresp$col$coord[, 1]) else j
 
   return(list(rows = row_coords, columns = col_coords))
 }
