@@ -125,17 +125,27 @@ similarity(count, method = "morisita")
 ### Seriation
 
 ```{r seriate}
-indices <- seriate(count, method = "ranking", margin = 2)
+# Build an incidence matrix with random data
+incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
+                             nrow = 20)
 
-indices
+# Get seriation order on rows and columns
+# reciprocal ranking method
+(indices <- seriate(incidence, method = "ranking", margin = c(1, 2)))
 ```
 
-```{r permute}
+```{r permute, fig.show='hold', warning=FALSE}
 # Permute matrix columns
-new_count <- permute(count, indices)
+incidence2 <- permute(incidence, indices)
 
 # Plot Ford diagram of the rearranged matrix
-plotBar(new_count)
+library(ggplot2)
+plotMatrix(incidence) + 
+  labs(title = "Original matrix") +
+  scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
+plotMatrix(incidence2) + 
+  labs(title = "Rearranged matrix") +
+  scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
 ```
 
 ### Visualization
