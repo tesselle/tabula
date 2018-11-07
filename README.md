@@ -145,19 +145,19 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
                              nrow = 20)
 
 # Get seriation order on rows and columns
-# reciprocal ranking method
+# Reciprocal ranking method
 (indices <- seriate(incidence, method = "ranking", margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Row order: 12 17 20 18 11 9 5 6 1 19 4 13 15 16 8 3 2 10 7 14 
-#>    Column order: 1 4 15 2 6 8 14 17 20 19 3 10 18 11 7 12 13 16 9 5 
+#>    Row order: 5 10 12 9 15 17 18 14 11 2 20 4 6 7 3 16 19 1 13 8 
+#>    Column order: 1 2 16 11 8 12 17 6 7 19 14 9 13 5 10 3 4 18 20 15 
 #>    Method: ranking
 ```
 
 ``` r
-# Permute matrix columns
+# Permute matrix rows and columns
 incidence2 <- permute(incidence, indices)
 
-# Plot Ford diagram of the rearranged matrix
+# Plot matrix
 library(ggplot2)
 plotMatrix(incidence) + 
   labs(title = "Original matrix") +
