@@ -1,4 +1,5 @@
 # Seriation methods ============================================================
+# Probabilistic methods --------------------------------------------------------
 # Reciprocal ranking
 #
 # @param x A \code{\link{numeric}} matrix.
@@ -12,8 +13,11 @@
 # @author N. Frerebeau
 reciprocalRanking <- function(x, margin = 1, stop = 100) {
   # Validation
+  if (!is.matrix(x) | !is.numeric(x))
+    stop("a numeric matrix is expected")
   if (length(margin) > 2)
     stop("`margin` should be one of `1`, `2`, `c(1, 2)` or `c(2, 1)`")
+
   # Compute ranks
   # margin = 1 : on rows
   # margin = 2 : on columns
@@ -55,6 +59,10 @@ reciprocalRanking <- function(x, margin = 1, stop = 100) {
 # @return A list of two \code{\link{numeric}} vectors.
 # @author N. Frerebeau
 reciprocalAveraging <- function(x, ...) {
+  # Validation
+  if (!is.matrix(x) | !is.numeric(x))
+    stop("a numeric matrix is expected")
+
   # Original sequences
   i <- 1:nrow(x)
   j <- 1:ncol(x)
