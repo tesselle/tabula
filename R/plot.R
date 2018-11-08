@@ -331,7 +331,10 @@ setMethod(
                     -.data$case, factor_key = TRUE)
 
     if (is.function(threshold)) {
-      function_name <- deparse(substitute(threshold))
+      function_name <- as.character(substitute(threshold))
+      function_name <- ifelse(length(function_name) > 1,
+                              function_name[[3]], function_name)
+
       data %<>% dplyr::group_by(.data$type) %>%
         dplyr::mutate(thresh = threshold(.data$frequency)) %>%
         dplyr::ungroup() %>%
