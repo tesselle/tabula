@@ -2,7 +2,8 @@
 NULL
 
 # Bar plot =====================================================================
-barPlot <- function(object, EPPM = FALSE, center = TRUE, horizontal = FALSE) {
+barPlot <- function(object, level = 0.05, EPPM = FALSE,
+                    center = TRUE, horizontal = FALSE) {
   # Prepare data ---------------------------------------------------------------
   # Get row names and coerce to factor (preserve original ordering)
   row_names <- rownames(object) %>% factor(levels = rev(unique(.)))
@@ -10,17 +11,21 @@ barPlot <- function(object, EPPM = FALSE, center = TRUE, horizontal = FALSE) {
   # Build long table from data and join with threshold
   # 'id' is only used for joining
   data <- object %>%
-    { . / rowSums(.) } %>% # Plot frequency
     { if (center) rbind.data.frame(., -.) / 2 else as.data.frame(.) } %>%
     dplyr::mutate(id = rownames(.), case = rep(row_names, 1 + center)) %>%
     tidyr::gather(key = "type", value = "data",
-                  -.data$id, -.data$case, factor_key = TRUE)
+                  -.data$id, -.data$case, factor_key = TRUE) %>%
+    dplyr::group_by(.data$case) %>%
+    dplyr::mutate(
+      ci = { if (level) confidence(abs(.data$data), level = level) else 0 },
+      data = .data$data / sum(abs(.data$data))
+    ) %>%
+    dplyr::ungroup()
 
   if (EPPM) {
     # Build long table from threshold
     # 'id' is only used for joining
     threshold <- threshold(object, method = "EPPM") %>%
-      { . / rowSums(object) } %>%
       { if (center) rbind.data.frame(., -.) / 2 else as.data.frame(.) } %>%
       dplyr::mutate(id = rownames(.), case = rep(row_names, 1 + center)) %>%
       tidyr::gather(key = "type", value = "EPPM",
@@ -30,7 +35,11 @@ barPlot <- function(object, EPPM = FALSE, center = TRUE, horizontal = FALSE) {
     data %<>% dplyr::inner_join(threshold, by = c("id", "case", "type")) %>%
       dplyr::mutate(data = .data$data - .data$EPPM) %>%
       tidyr::gather(key = "threshold", value = "data",
-                    -.data$id, -.data$case, -.data$type, factor_key = TRUE)
+                    -.data$id, -.data$case, -.data$type, -.data$ci,
+                    factor_key = TRUE) %>%
+      dplyr::mutate( # Remove CI on EPPM values
+        ci = dplyr::case_when(.data$threshold == "EPPM" ~ 0, TRUE ~ .data$ci)
+      )
   }
 
   # Rename axis
@@ -58,6 +67,9 @@ barPlot <- function(object, EPPM = FALSE, center = TRUE, horizontal = FALSE) {
     facet_grid(stats::as.formula(facets), scales = "free", space = "free_x") +
     geom_col(aes_string(x = "case", y = "frequency", fill = fill), width = 1,
              position = position_stack(reverse = !center)) +
+    geom_errorbar(aes_string(x = "case", ymin = "frequency-ci",
+                             ymax = "frequency+ci"),
+                  width = 0, size = 3) +
     coord + axis +
     theme(legend.position = "bottom",
           panel.spacing = unit(0, "lines"))
@@ -78,7 +90,12 @@ setMethod(
 setMethod(
   f = "plotBar",
   signature = signature(object = "FrequencyMatrix"),
-  definition = barPlot
+  definition = function(object, level = 0.05, EPPM = FALSE,
+                        center = TRUE, horizontal = FALSE) {
+    count <- as(object, "CountMatrix")
+    barPlot(count, level = level, EPPM = EPPM,
+            center = center, horizontal = horizontal)
+  }
 )
 
 # Matrix plot ==================================================================
@@ -191,7 +208,10 @@ setMethod(
 setMethod(
   f = "plotMatrix",
   signature = signature(object = "FrequencyMatrix"),
-  definition = matrixPlot
+  definition = function(object, PVI = FALSE, center = FALSE) {
+    count <- as(object, "CountMatrix")
+    matrixPlot(count, PVI = PVI, center = center)
+  }
 )
 
 #' @export
@@ -218,6 +238,7 @@ setMethod(
       scale_x_discrete(position = "top") +
       scale_y_discrete(limits = rev(levels(data$case))) +
       theme(axis.ticks = element_blank(),
+            axis.text.x = element_text(angle = 90, hjust = 0),
             panel.background = element_rect(fill = "white"),
             panel.grid = element_blank()) +
       coord_fixed()
