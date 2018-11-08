@@ -88,7 +88,7 @@ confidence <- function(x, level = 0.05) {
   # Validation
   if (!is.vector(x) | !is.numeric(x))
     stop("a numeric vector is expected")
-  z <- qnorm(1 - level / 2)
+  z <- stats::qnorm(1 - level / 2)
   n <- sum(x)
   p <- x / n
   stardard_error <- sqrt(p * (1 - p) / n)
