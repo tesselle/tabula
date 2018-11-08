@@ -71,3 +71,21 @@ combination <- function(n, k) {
   }
   return(c)
 }
+
+# Confidence interval for a proportion
+#
+# Computes a confidence interval for a porportion at a desired level of
+#  significance.
+# @param x A \code{\link{numeric}} vector.
+# @param level A length-one \code{\link{numeric}} vector giving the significance
+#  level to be used.
+# @return A \code{\link{numeric}} vector.
+# @author N. Frerebeau
+confidence <- function(x, level = 0.05) {
+  z <- qnorm(1 - level / 2)
+  n <- sum(x)
+  p <- x / n
+  stardard_error <- sqrt(p * (1 - p) / n)
+  return(z * stardard_error)
+}
+
