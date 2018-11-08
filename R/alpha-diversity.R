@@ -24,18 +24,6 @@ setMethod(
   }
 )
 
-#' @export
-#' @rdname richness-method
-#' @aliases richness,IncidenceMatrix-method
-setMethod(
-  f = "richness",
-  signature = signature(object = "IncidenceMatrix"),
-  definition = function(object) {
-    E <- apply(X = object, MARGIN = 1, FUN = function(x) sum(x > 0))
-    return(E)
-  }
-)
-
 # Rarefaction ==================================================================
 #' @export
 #' @rdname richness-method
@@ -66,7 +54,6 @@ setMethod(
         x,
         berger = bergerDominance,
         brillouin = brillouinDiversity,
-        # chao = chaoIndex,
         mcintosh = mcintoshDominance,
         shannon = shannonDiversity,
         simpson = simpsonDominance

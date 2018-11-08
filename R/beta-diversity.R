@@ -37,21 +37,6 @@ setMethod(
 
 #' @export
 #' @rdname beta-diversity
-#' @aliases turnover,FrequencyMatrix-method
-setMethod(
-  f = "turnover",
-  signature = signature(object = "FrequencyMatrix"),
-  definition = function(object, method = c("whittaker", "cody", "routledge1",
-                                           "routledge2", "routledge3",
-                                           "wilson"), simplify = FALSE, ...) {
-    method <- match.arg(method, several.ok = TRUE)
-    B <- turnoverIndex(object, method)
-    return(B)
-  }
-)
-
-#' @export
-#' @rdname beta-diversity
 #' @aliases turnover,IncidenceMatrix-method
 setMethod(
   f = "turnover",
@@ -106,20 +91,7 @@ setMethod(
 
 #' @export
 #' @rdname beta-diversity
-#' @aliases similarity,FrequencyMatrix-method
-setMethod(
-  f = "similarity",
-  signature = signature(object = "FrequencyMatrix"),
-  definition = function(object, method = c("jaccard", "sorenson"), ...) {
-    object <- methods::as(object, "CountMatrix")
-    C <- similarity(object, method)
-    return(C)
-  }
-)
-
-#' @export
-#' @rdname beta-diversity
-#' @aliases similarity,CountMatrix-method
+#' @aliases similarity,IncidenceMatrix-method
 setMethod(
   f = "similarity",
   signature = signature(object = "IncidenceMatrix"),

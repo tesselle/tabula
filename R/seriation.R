@@ -35,21 +35,6 @@ setMethod(
 
 #' @export
 #' @rdname seriation
-#' @aliases seriate,FrequencyMatrix-method
-setMethod(
-  f = "seriate",
-  signature = signature(object = "FrequencyMatrix"),
-  definition = function(object, method = c("ranking", "correspondance"),
-                        EPPM = FALSE, margin = c(1, 2), stop = 100, ...) {
-    # Validation
-    method <- match.arg(method, several.ok = FALSE)
-    # Seriation
-    seriation(object, method, EPPM, margin, stop, ...)
-  }
-)
-
-#' @export
-#' @rdname seriation
 #' @aliases seriate,IncidenceMatrix-method
 setMethod(
   f = "seriate",
@@ -75,20 +60,6 @@ setMethod(
     new_matrix <- object[order@rows, order@columns]
     # New CountMatrix object
     methods::new("CountMatrix", new_matrix)
-  }
-)
-
-#' @export
-#' @rdname seriation
-#' @aliases permute,FrequencyMatrix,PermutationOrder-method
-setMethod(
-  f = "permute",
-  signature = signature(object = "FrequencyMatrix", order = "PermutationOrder"),
-  definition = function(object, order) {
-    # Rearrange matrix
-    new_matrix <- object[order@rows, order@columns]
-    # New CountMatrix object
-    methods::new("FrequencyMatrix", new_matrix)
   }
 )
 
