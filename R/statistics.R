@@ -3,12 +3,12 @@ NULL
 
 # Threshold
 #
-# @param object A \eqn{m \times p}{m x p} \link{\code{numeric}} matrix.
+# @param x A \eqn{m \times p}{m x p} \link{\code{numeric}} matrix.
 # @param method A \link{\code{character}} string giving the method to be used.
 #  This must be one of "\code{EPPM}" or "\code{PVI}" (see details). Any
 #  unambiguous substring can be given.
 # @details
-#  Computes for each cell of a numeric matrix one of the following thresholds :
+#  Computes for each cell of a numeric matrix one of the following thresholds:
 #  \describe{
 #   \item{EPPM}{The positive deviation from the column mean percentage (in
 #    french "écart positif au pourcentage moyen", EPPM)}
@@ -17,28 +17,30 @@ NULL
 #  }
 # @return A \eqn{m \times p}{m x p} \link{\code{numeric}} matrix.
 # @author N. Frerebeau
-threshold <- function(object, method = c("EPPM", "PVI")) {
-  # Validation -----------------------------------------------------------------
+independance <- function(x, method = c("EPPM", "PVI")) {
+  # Validation
   method <- match.arg(method, several.ok = FALSE)
+  if (!is.matrix(x) | !is.numeric(x))
+    stop("a numeric matrix is expected")
 
-  # Independance ---------------------------------------------------------------
-  indep <- apply(
-    X = object, MARGIN = 1, FUN = function(object, column_total, grand_total) {
-      sum(object) * column_total / grand_total
+  # Independance
+  values <- apply(
+    X = x, MARGIN = 1, FUN = function(x, column_total, grand_total) {
+      sum(x) * column_total / grand_total
     },
-    column_total = colSums(object),
-    grand_total = sum(object)
+    column_total = colSums(x),
+    grand_total = sum(x)
   )
   # Threshold ------------------------------------------------------------------
   if (method == "EPPM") {
-    threshold <- object - t(indep)
+    threshold <- (x - t(values)) / rowSums(x)
     threshold[threshold < 0] <- 0
   }
   if (method == "PVI") {
-    threshold <- object / t(indep)
+    threshold <- x / t(values)
   }
 
-  dimnames(threshold) <- dimnames(object)
+  dimnames(threshold) <- dimnames(x)
   return(threshold)
 }
 
@@ -56,9 +58,10 @@ threshold <- function(object, method = c("EPPM", "PVI")) {
 #  papers}. Berlin: Springer-Verlag.
 # @author N. Frerebeau
 combination <- function(n, k) {
-  # Validation -----------------------------------------------------------------
+  # Validation
   if (k > n) { stop("k cannot be larger than n") }
-  # Ramanujan factorial approximation ------------------------------------------
+
+  # Ramanujan factorial approximation
   ramanujan <- function(x){
     x * log(x) - x + log(x * (1 + 4 * x * (1 + 2 * x))) / 6 + log(pi) / 2
   }
@@ -82,6 +85,9 @@ combination <- function(n, k) {
 # @return A \code{\link{numeric}} vector.
 # @author N. Frerebeau
 confidence <- function(x, level = 0.05) {
+  # Validation
+  if (!is.vector(x) | !is.numeric(x))
+    stop("a numeric vector is expected")
   z <- qnorm(1 - level / 2)
   n <- sum(x)
   p <- x / n
