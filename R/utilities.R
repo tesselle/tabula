@@ -1,20 +1,20 @@
 # Integer numbers
 #
-# Tests if an object only contains integer numbers.
-# @param x A \code{\link{numeric}} object to be tested.
-# @param tol A length-one \link{\code{numeric}} vector giving the tolerance to
-#  check within.
+# Checks if an object only contains integer numbers.
+# @param x A \code{\link{numeric}} object to be checked.
+# @param tolerance A length-one \link{\code{numeric}} vector giving the
+#  tolerance to check within.
 # @return A \link{\code{logical}} depending on whether \code{x} contains integer
 #  numbers.
 # @seealso \link{\code[base]{is.integer}}
-isWholeNumber <- function(x, tol = .Machine$double.eps^0.5) {
-  abs(x - round(x)) < tol
+isWholeNumber <- function(x, tolerance = .Machine$double.eps^0.5) {
+  abs(x - round(x)) < tolerance
 }
 
 # Binary numbers
 #
-# Tests if an object only contains 0s and 1s.
-# @param x A \code{\link{numeric}} object to be tested.
+# Checks if an object only contains 0s and 1s.
+# @param x A \code{\link{numeric}} object to be checked.
 # @return A \link{\code{logical}}.
 isBinary <- function(x) {
   sum(x == 1 | x == 0) == length(x)
@@ -22,15 +22,34 @@ isBinary <- function(x) {
 
 # Equality within a vector
 #
-# Tests for equality among all elements of a vector.
-# @param x A \code{\link{numeric}} object to be tested.
-# @param tol A length-one \link{\code{numeric}} vector giving the tolerance to
-#  check within.
+# Checks for equality among all elements of a vector.
+# @param x A \code{\link{numeric}} vector to be checked.
+# @param tolerance A length-one \link{\code{numeric}} vector giving the
+#  tolerance to check within.
 # @param na.rm A \code{\link{logical}} scalar specifying if missing values
 #  (including NaN) should be omitted.
 # @return A \link{\code{logical}}.
-isEqual <- function(x, tol = .Machine$double.eps^0.5, na.rm = TRUE) {
-  abs(max(x, na.rm = na.rm) - min(x, na.rm = na.rm)) < tol
+isEqual <- function(x, tolerance = .Machine$double.eps^0.5, na.rm = TRUE) {
+  abs(max(x, na.rm = na.rm) - min(x, na.rm = na.rm)) < tolerance
+}
+
+# Trends
+#
+# Checks if a sequence of numbers is monotonically increasing or decreasing.
+# @param x A \code{\link{numeric}} vector to be checked.
+# @return A \link{\code{logical}}.
+# @rdname trends
+isIncreasing <- function(x, na.rm = TRUE) {
+  all(x == cummax(x), na.rm = na.rm)
+}
+isDecreasing <- function(x, na.rm = TRUE) {
+  all(x == cummin(x), na.rm = na.rm)
+}
+isPeak <- function(x, na.rm = TRUE) {
+  n <- length(x)
+  i <- which.max(x)
+  isIncreasing(x[1:i], na.rm = na.rm) &
+    isDecreasing(x[i:n], na.rm = na.rm)
 }
 
 # Matrix constructor
