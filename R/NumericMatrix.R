@@ -13,16 +13,16 @@ CountMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
                    missing(nrow), missing(ncol))
   methods::new("CountMatrix", M)
 }
-#' @export
-#' @rdname NumericMatrix
-FrequencyMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
-                            dimnames = NULL) {
-  M <- buildMatrix(data, nrow, ncol, byrow, dimnames,
-                   missing(nrow), missing(ncol))
-  totals <- rowSums(M)
-  M <- M / totals
-  methods::new("FrequencyMatrix", M, totals = totals)
-}
+# @export
+# @rdname NumericMatrix
+# FrequencyMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
+#                             dimnames = NULL) {
+#   M <- buildMatrix(data, nrow, ncol, byrow, dimnames,
+#                    missing(nrow), missing(ncol))
+#   totals <- rowSums(M)
+#   M <- M / totals
+#   methods::new("FrequencyMatrix", M, totals = totals)
+# }
 
 ## Coercions ===================================================================
 setAs(from = "NumericMatrix", to = "vector",
