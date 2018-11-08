@@ -8,14 +8,15 @@ freq <- as(boves, "FrequencyMatrix")
 plotBar(count)
 plotBar(freq)
 
-## ...with EPPM as threshold (i.e. Bruno Desachy's sériographe)
+## ...with EPPM (i.e. Bruno Desachy's sériographe)
 plotBar(count, EPPM = TRUE)
 plotBar(freq, EPPM = TRUE)
 
 # Plot Bertin diagram...
-## ...without threshold
+## ...without EPPM...
 plotBar(count, center = FALSE, horizontal = TRUE)
-plotBar(freq, center = FALSE, horizontal = FALSE)
+## ...and confidence intervals
+plotBar(freq, level = FALSE, center = FALSE, horizontal = FALSE)
 
-## ...with EPPM as threshold (i.e. Bruno Desachy's sériographe)
+## ...with EPPM (i.e. Bruno Desachy's sériographe)
 plotBar(count, EPPM = TRUE, center = FALSE, horizontal = TRUE)

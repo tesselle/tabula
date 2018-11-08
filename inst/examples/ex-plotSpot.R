@@ -8,7 +8,7 @@ freq <- as(boves, "FrequencyMatrix")
 plotSpot(count)
 
 ## ...with column means as threshold
-plotSpot(count, threshold = "mean")
+plotSpot(count, threshold = mean)
 
 # Plot spot diagram with column medians as threshold
-plotSpot(freq, threshold = "median")
+plotSpot(freq, threshold = median)
