@@ -1,10 +1,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^README\.Rmd$
+^\.travis\.yml$
 ^\man\figures\README-.*\.png$
+^data-raw$
+^ideas$
+^cran-comments\.md$
+^README\.Rmd$
 ^NEWS\.md$
 ^LICENSE$
-^\.travis\.yml$
-^cran-comments\.md$
-^data-raw$
-^README-.*\.png$
