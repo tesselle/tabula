@@ -3,13 +3,7 @@
 NULL
 
 ## Initilize ===================================================================
-# LogicalMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
-#                           dimnames = NULL) {
-#   data <- as.logical(data)
-#   M <- buildMatrix(data, nrow, ncol, byrow, dimnames,
-#                  missing(nrow), missing(ncol))
-#   methods::new("LogicalMatrix", M)
-# }
+# LogicalMatrix <- function() {}
 
 #' @export
 #' @rdname LogicalMatrix
@@ -20,15 +14,15 @@ IncidenceMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
                    missing(nrow), missing(ncol))
   methods::new("IncidenceMatrix", M)
 }
-#' @export
-#' @rdname LogicalMatrix
-StratigraphyMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
-                            dimnames = NULL) {
-  data <- as.logical(data)
-  M <- buildMatrix(data, nrow, ncol, byrow, dimnames,
-                   missing(nrow), missing(ncol))
-  methods::new("StratigraphyMatrix", M)
-}
+# @export
+# @rdname LogicalMatrix
+# StratigraphicMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
+#                                 dimnames = NULL) {
+#   data <- as.logical(data)
+#   M <- buildMatrix(data, nrow, ncol, byrow, dimnames,
+#                    missing(nrow), missing(ncol))
+#   methods::new("StratigraphicMatrix", M)
+# }
 
 ## Coercions ===================================================================
 setAs(from = "LogicalMatrix", to = "vector",
@@ -82,7 +76,7 @@ setAs(
     freq <- methods::S3Part(from, strictS3 = TRUE, "matrix")
     binary <- freq > 0
     object <- methods::new("IncidenceMatrix", binary)
-    # methods::validObject(object)
+    methods::validObject(object)
     return(object)
   }
 )
