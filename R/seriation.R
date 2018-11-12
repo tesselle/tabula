@@ -46,7 +46,7 @@ setMethod(
     # Validation
     method <- match.arg(method, several.ok = FALSE)
     # Seriation
-    seriation(object, method = method, EPPM = FALSE, margin = margin,
+    seriation(object * 1, method = method, EPPM = FALSE, margin = margin,
               stop = stop, ...)
   }
 )
