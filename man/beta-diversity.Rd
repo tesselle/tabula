@@ -8,10 +8,8 @@
 \alias{similarity}
 \alias{similarity-method}
 \alias{turnover,CountMatrix-method}
-\alias{turnover,FrequencyMatrix-method}
 \alias{turnover,IncidenceMatrix-method}
 \alias{similarity,CountMatrix-method}
-\alias{similarity,FrequencyMatrix-method}
 \alias{similarity,IncidenceMatrix-method}
 \title{\eqn{\beta}{\beta}-diversity}
 \usage{
@@ -23,19 +21,12 @@ similarity(object, ...)
   "routledge1", "routledge2", "routledge3", "wilson"), simplify = FALSE,
   ...)
 
-\S4method{turnover}{FrequencyMatrix}(object, method = c("whittaker",
-  "cody", "routledge1", "routledge2", "routledge3", "wilson"),
-  simplify = FALSE, ...)
-
 \S4method{turnover}{IncidenceMatrix}(object, method = c("whittaker",
   "cody", "routledge1", "routledge2", "routledge3", "wilson"),
   simplify = FALSE, ...)
 
 \S4method{similarity}{CountMatrix}(object, method = c("bray", "jaccard",
   "morisita", "sorenson"), ...)
-
-\S4method{similarity}{FrequencyMatrix}(object, method = c("jaccard",
-  "sorenson"), ...)
 
 \S4method{similarity}{IncidenceMatrix}(object, method = c("jaccard",
   "sorenson"), ...)
@@ -52,7 +43,8 @@ used (see details). Any unambiguous substring can be given.}
 simplified to a matrix? The default value, \code{FALSE}, returns a list.}
 }
 \value{
-\code{similarity} returns a \eqn{m \times \m}{m x m} symetric matrix.
+\code{similarity} returns a \eqn{m \times m}{m x m} symetric matrix.
+
  If \code{simplify} is \code{FALSE}, \code{turnover} returns a list
  (default), else returns a matrix.
 }
@@ -61,8 +53,9 @@ Measures between samples diversity. \code{similarity} returns a similarity
  matrix. \code{turnover} returns the degree of turnover in taxa composition
  along a grandient or transect.
 }
-\details{
-The following methods can be used to acertain the degree of \emph{turnover}
+\section{Turnover}{
+
+ The following methods can be used to acertain the degree of \emph{turnover}
  in taxa composition along a gradient (\eqn{\beta}-diversity) on qualitative
  (presence/absence) data. This assumes that the order of the matrix rows
  (from 1 to \eqn{n}) follows the progression along the gradient/transect.
@@ -75,6 +68,9 @@ The following methods can be used to acertain the degree of \emph{turnover}
   \item{routledge3}{}
   \item{wilson}{}
  }
+}
+
+\section{Similarity}{
 
  \eqn{\beta}-diversity can also be measured by addressing \emph{similarity}
  between pairs of sites. The following methods return a value between 0
@@ -87,6 +83,7 @@ The following methods can be used to acertain the degree of \emph{turnover}
   \item{sorenson}{Sorenson qualitative index.}
  }
 }
+
 \examples{
 # Degree of turnover
 # Data from Magurran 1988, p. 162
@@ -122,7 +119,7 @@ birds <- CountMatrix(
   data = c(1.4, 4.3, 2.9, 8.6, 4.2, 15.7, 2.0, 50, 1, 11.4, 11.4, 4.3, 13.0,
            14.3, 8.6, 7.1, 10.0, 1.4, 2.9, 5.7, 1.4, 11.4, 2.9, 4.3, 1.4, 2.9,
            0, 0, 0, 2.9, 0, 0, 0, 10, 0, 0, 5.7, 2.5, 5.7, 8.6, 5.7, 2.9, 0, 0,
-           2.9, 0, 0, 5.7, 0, 2.9, 0, 2.9),
+           2.9, 0, 0, 5.7, 0, 2.9, 0, 2.9) * 10,
   nrow = 2, byrow = TRUE, dimnames = list(c("unmanaged", "managed"), NULL)
 )
 
@@ -143,8 +140,8 @@ similarity(birds, "bray") # 0.44
 similarity(birds, "morisita") # 0.81
 }
 \seealso{
-\code{\link[=richness-method]{richness}}
- \code{\link[=richness-method]{rarefaction}}
+\code{\link[=alpha-diversity]{richness}}
+ \code{\link[=alpha-diversity]{rarefaction}}
  \code{\link[=alpha-diversity]{diversity}}
  \code{\link[=alpha-diversity]{evenness}}
 }

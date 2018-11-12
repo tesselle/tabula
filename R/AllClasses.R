@@ -19,25 +19,35 @@ setClass(
 )
 
 # Numeric matrix ---------------------------------------------------------------
+setClass(
+  Class = "NumericMatrix",
+  contains = "matrix"
+)
+
 #' S4 classes to represent numeric matrix
 #'
 #' @inheritParams base::matrix
+#' @seealso \link[base]{matrix}
 #' @author N. Frerebeau
 #' @docType class
 #' @name NumericMatrix
 #' @rdname NumericMatrix
 NULL
 
-setClass(
-  Class = "NumericMatrix",
-  contains = "matrix"
-)
-# Count matrix
+#' @description
+#'  \code{CountMatrix} represents a count matrix.
+#' @rdname NumericMatrix
+#' @aliases CountMatrix-class
 setClass(
   Class = "CountMatrix",
   contains = "NumericMatrix"
 )
-# Frequency matrix
+
+#' @description
+#'  \code{FrequencyMatrix} represents a frequency matrix.
+#' @slot total A \code{\link{numeric}} vector.
+#' @rdname NumericMatrix
+#' @aliases FrequencyMatrix-class
 setClass(
   Class = "FrequencyMatrix",
   slots = c(totals = "numeric"),
@@ -45,25 +55,34 @@ setClass(
 )
 
 # Logical matrix ---------------------------------------------------------------
+setClass(
+  Class = "LogicalMatrix",
+  contains = "matrix"
+)
+
 #' S4 classes to represent logical matrix
 #'
 #' @inheritParams base::matrix
+#' @seealso \link[base]{matrix}
 #' @author N. Frerebeau
 #' @docType class
 #' @name LogicalMatrix
 #' @rdname LogicalMatrix
 NULL
 
-setClass(
-  Class = "LogicalMatrix",
-  contains = "matrix"
-)
-# Incidence matrix (presence/absence data)
+#' @description
+#'  \code{IncidenceMatrix} represents an incidence (presence/absence) matrix.
+#' @rdname LogicalMatrix
+#' @aliases IncidenceMatrix-class
 setClass(
   Class = "IncidenceMatrix",
   contains = "LogicalMatrix"
 )
-# Stratigraphic matrix
+
+#' @description
+#'  \code{StratigraphicMatrix} represents a stratigraphic matrix.
+#' @rdname LogicalMatrix
+#' @aliases StratigraphicMatrix-class
 setClass(
   Class = "StratigraphicMatrix",
   contains = "LogicalMatrix"

@@ -19,9 +19,8 @@ plotSpot(object, ...)
 
 \item{...}{Further arguments passed to other methods.}
 
-\item{threshold}{A \code{\link{character}} string specifiying the threshold
-to be plotted. This must be one or more of "\code{mean}" or "\code{median}".
-Any unambiguous substring can be given.}
+\item{threshold}{A \code{\link{function}}.
+If \code{NULL}, no threshold is computed.}
 }
 \description{
 XXX
@@ -46,10 +45,10 @@ freq <- as(boves, "FrequencyMatrix")
 plotSpot(count)
 
 ## ...with column means as threshold
-plotSpot(count, threshold = "mean")
+plotSpot(count, threshold = mean)
 
 # Plot spot diagram with column medians as threshold
-plotSpot(freq, threshold = "median")
+plotSpot(freq, threshold = median)
 }
 \seealso{
 Other plot: \code{\link{plotBar}},

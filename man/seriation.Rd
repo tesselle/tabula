@@ -8,7 +8,9 @@
 \alias{permute}
 \alias{permute-method}
 \alias{seriate,CountMatrix-method}
+\alias{seriate,IncidenceMatrix-method}
 \alias{permute,CountMatrix,PermutationOrder-method}
+\alias{permute,IncidenceMatrix,PermutationOrder-method}
 \title{Matrix seriation}
 \usage{
 seriate(object, ...)
@@ -18,7 +20,12 @@ permute(object, order, ...)
 \S4method{seriate}{CountMatrix}(object, method = c("ranking",
   "correspondance"), EPPM = FALSE, margin = c(1, 2), stop = 100, ...)
 
+\S4method{seriate}{IncidenceMatrix}(object, method = c("ranking"),
+  margin = c(1, 2), stop = 100, ...)
+
 \S4method{permute}{CountMatrix,PermutationOrder}(object, order)
+
+\S4method{permute}{IncidenceMatrix,PermutationOrder}(object, order)
 }
 \arguments{
 \item{object}{An object.}
@@ -43,7 +50,7 @@ rows, \code{2} indicates columns, \code{c(1, 2)} indicates rows then columns,
 (i.e. maximum number of iterations) to avoid infinite loop.}
 }
 \value{
-TODO
+A \linkS4class{PermutationOrder} object.
 }
 \description{
 \code{seriate} returns permutation order for rows and/or columns.

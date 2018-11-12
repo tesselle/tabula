@@ -10,16 +10,19 @@
 \usage{
 plotBar(object, ...)
 
-\S4method{plotBar}{CountMatrix}(object, EPPM = FALSE, center = TRUE,
-  horizontal = FALSE)
+\S4method{plotBar}{CountMatrix}(object, level = 0.05, EPPM = FALSE,
+  center = TRUE, horizontal = FALSE)
 
-\S4method{plotBar}{FrequencyMatrix}(object, EPPM = FALSE,
+\S4method{plotBar}{FrequencyMatrix}(object, level = 0.05, EPPM = FALSE,
   center = TRUE, horizontal = FALSE)
 }
 \arguments{
 \item{object}{An object to be plotted.}
 
 \item{...}{Further arguments passed to other methods.}
+
+\item{level}{A length-one \code{\link{numeric}} vector giving the
+confidence level to be drawn.}
 
 \item{EPPM}{A \code{\link{logical}} scalar: should TODO?.}
 
@@ -36,7 +39,6 @@ XXX
 }
 \details{
 TODO
- coerce to frequency matrix first
 }
 \examples{
 # Coerce dataset to abundance matrix
@@ -49,16 +51,17 @@ freq <- as(boves, "FrequencyMatrix")
 plotBar(count)
 plotBar(freq)
 
-## ...with EPPM as threshold (i.e. Bruno Desachy's sériographe)
+## ...with EPPM (i.e. Bruno Desachy's sériographe)
 plotBar(count, EPPM = TRUE)
 plotBar(freq, EPPM = TRUE)
 
 # Plot Bertin diagram...
-## ...without threshold
+## ...without EPPM...
 plotBar(count, center = FALSE, horizontal = TRUE)
-plotBar(freq, center = FALSE, horizontal = FALSE)
+## ...and confidence intervals
+plotBar(freq, level = FALSE, center = FALSE, horizontal = FALSE)
 
-## ...with EPPM as threshold (i.e. Bruno Desachy's sériographe)
+## ...with EPPM (i.e. Bruno Desachy's sériographe)
 plotBar(count, EPPM = TRUE, center = FALSE, horizontal = TRUE)
 }
 \references{

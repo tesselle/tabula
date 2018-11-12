@@ -3,7 +3,7 @@ NULL
 
 # Richness =====================================================================
 #' @export
-#' @rdname richness-method
+#' @rdname alpha-diversity
 #' @aliases richness,CountMatrix-method
 setMethod(
   f = "richness",
@@ -26,7 +26,7 @@ setMethod(
 
 # Rarefaction ==================================================================
 #' @export
-#' @rdname richness-method
+#' @rdname alpha-diversity
 #' @aliases rarefaction,CountMatrix-method
 setMethod(
   f = "rarefaction",
@@ -71,7 +71,7 @@ setMethod(
 setMethod(
   f = "evenness",
   signature = signature(object = "CountMatrix"),
-  definition = function(object, method = c("berger", "brillouin", "mcintosh",
+  definition = function(object, method = c("brillouin", "mcintosh",
                                            "shannon", "simpson"),
                         simplify = FALSE, ...) {
     # Validation
@@ -79,9 +79,7 @@ setMethod(
     E <- sapply(X = method, FUN = function(x, data) {
       index <- switch (
         x,
-        # berger = bergerEvenness,
         brillouin = brillouinEvenness,
-        # chao = chaoEvenness,
         mcintosh = mcintoshEvenness,
         shannon = shannonEvenness,
         simpson = simpsonEvenness

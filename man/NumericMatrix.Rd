@@ -3,14 +3,12 @@
 \docType{class}
 \name{NumericMatrix}
 \alias{NumericMatrix}
+\alias{CountMatrix-class}
+\alias{FrequencyMatrix-class}
 \alias{CountMatrix}
-\alias{FrequencyMatrix}
 \title{S4 classes to represent numeric matrix}
 \usage{
 CountMatrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
-  dimnames = NULL)
-
-FrequencyMatrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
   dimnames = NULL)
 }
 \arguments{
@@ -32,7 +30,18 @@ FrequencyMatrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
     list names will be used as names for the dimensions.}
 }
 \description{
-S4 classes to represent numeric matrix
+\code{CountMatrix} represents a count matrix.
+
+\code{FrequencyMatrix} represents a frequency matrix.
+}
+\section{Slots}{
+
+\describe{
+\item{\code{total}}{A \code{\link{numeric}} vector.}
+}}
+
+\seealso{
+\link[base]{matrix}
 }
 \author{
 N. Frerebeau

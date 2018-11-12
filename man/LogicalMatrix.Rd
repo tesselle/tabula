@@ -3,14 +3,12 @@
 \docType{class}
 \name{LogicalMatrix}
 \alias{LogicalMatrix}
+\alias{IncidenceMatrix-class}
+\alias{StratigraphicMatrix-class}
 \alias{IncidenceMatrix}
-\alias{StratigraphyMatrix}
 \title{S4 classes to represent logical matrix}
 \usage{
 IncidenceMatrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
-  dimnames = NULL)
-
-StratigraphyMatrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
   dimnames = NULL)
 }
 \arguments{
@@ -32,7 +30,12 @@ StratigraphyMatrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
     list names will be used as names for the dimensions.}
 }
 \description{
-S4 classes to represent logical matrix
+\code{IncidenceMatrix} represents an incidence (presence/absence) matrix.
+
+\code{StratigraphicMatrix} represents a stratigraphic matrix.
+}
+\seealso{
+\link[base]{matrix}
 }
 \author{
 N. Frerebeau

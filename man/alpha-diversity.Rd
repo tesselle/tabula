@@ -7,6 +7,12 @@
 \alias{diversity-method}
 \alias{evenness}
 \alias{evenness-method}
+\alias{rarefaction}
+\alias{rarefaction-method}
+\alias{richness}
+\alias{richness-method}
+\alias{richness,CountMatrix-method}
+\alias{rarefaction,CountMatrix-method}
 \alias{diversity,CountMatrix-method}
 \alias{evenness,CountMatrix-method}
 \title{\eqn{\alpha}{\alpha}-diversity}
@@ -15,11 +21,20 @@ diversity(object, ...)
 
 evenness(object, ...)
 
+rarefaction(object, ...)
+
+richness(object, ...)
+
+\S4method{richness}{CountMatrix}(object, method = c("margalef",
+  "menhinick"), simplify = FALSE)
+
+\S4method{rarefaction}{CountMatrix}(object, sample)
+
 \S4method{diversity}{CountMatrix}(object, method = c("berger",
   "brillouin", "mcintosh", "shannon", "simpson"), simplify = FALSE, ...)
 
-\S4method{evenness}{CountMatrix}(object, method = c("berger",
-  "brillouin", "mcintosh", "shannon", "simpson"), simplify = FALSE, ...)
+\S4method{evenness}{CountMatrix}(object, method = c("brillouin",
+  "mcintosh", "shannon", "simpson"), simplify = FALSE, ...)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix.}
@@ -34,27 +49,63 @@ Any unambiguous substring can be given.}
 
 \item{simplify}{A \code{\link{logical}} scalar: should the result be
 simplified to a matrix? The default value, \code{FALSE}, returns a list.}
+
+\item{sample}{A length-one \code{\link{numeric}} vector giving the sub-sample
+size.}
 }
 \value{
-If \code{simplify} is \code{FALSE} returns a list (default), else
- returns a matrix.
+\code{rarefaction} returns a numeric vector.
+
+ If \code{simplify} is \code{FALSE}, then \code{diversity}, \code{evenness}
+ and \code{richness} return a list (default), else return a matrix.
 }
 \description{
-Measures within sample diversity. \code{diversity} returns a diversity or
-dominance index. \code{evenness} returns an evenness measure.
+Measures within-sample diversity. \code{diversity} returns a diversity or
+dominance index. \code{evenness} returns an evenness measure. \code{richness}
+returns sample richness. \code{rarefaction} returns Hurlbert's unbiaised
+estimate of Sander's rarefaction.
 }
-\details{
-\emph{Diversity} measurement assumes that all individuals in a specific
+\note{
+Ramanujan approximation is used for \eqn{x!} computation if \eqn{x > 170}.
+}
+\section{Richness and Rarefaction}{
+
+ The number of different taxa, provides an instantly comprehensible
+ expression of diversity. While the number of taxa within a sample
+ is easy to ascertain, as a term, it makes little sense: some taxa
+ may not have been seen, or there may not be a fixed number of taxa
+ (e.g. in an open system; Peet 1974). As an alternative, \emph{richness}
+ (\eqn{S}) can be used for the concept of taxa number (McIntosh 1967).
+
+ It is not always possible to ensure that all sample sizes are equal
+ and the number of different taxa increases with sample size and
+ sampling effort. Then, \emph{rarefaction} (\eqn{E(S)}) is the number of
+ taxa expected if all samples were of a standard size (i.e. taxa per fixed
+ number of individuals). Rarefaction assumes that imbalances between taxa
+ are due to sampling and not to differences in actual abundances.
+
+ The following richness measures are available:
+ \describe{
+  \item{margalef}{Margalef richness index:
+   \eqn{D_{Mg} = \frac{S - 1}{\ln N}}{D = (S - 1) / ln N}}
+  \item{menhinick}{Menhinick richness index:
+   \eqn{D_{Mn} = \frac{S}{\sqrt{N}}}{D = S / \sqrt N}}
+ }
+}
+
+\section{Diversity and Evenness}{
+
+ \emph{Diversity} measurement assumes that all individuals in a specific
  taxon are equivalent and that all types are equally different from each
  other (Peet 1974). A measure of diversity can be achieved by using indices
  built on the relative abundance of taxa. These indices (sometimes referred
  to as non-parametric indices) benefit from not making assumptions about the
  underlying distribution of taxa abundance: they only take evenness and
- \link[=richness-method]{richness} into account. Peet (1974) refers to them
- as indices of \emph{heterogeneity}.
+ \emph{richness} into account. Peet (1974) refers to them as indices of
+ \emph{heterogeneity}.
 
  Diversity index focus on one aspect of the taxa abundance and emphasize
- either \link[=richness-method]{richness} (weighting towards uncommon taxe)
+ either \emph{richness} (weighting towards uncommon taxe)
  or dominance (weighting towards abundant taxa; Magurran 1988).
 
  \emph{Evenness} is a measure of how evenly individuals are distributed
@@ -82,11 +133,10 @@ dominance index. \code{evenness} returns an evenness measure.
    discovered in the sample declines (Peet 1974, Magurran 1988). The
    maximum likelihood estimator (MLE) is used for the relative abundance,
    this is known to be negatively biased.}
-  \item{simpson}{Simpson dominance index. The Simpson index expresses the
-   probability that two individuals randomly picked from a finite sample
-   belong to two different types. It can be interpreted as the weighted mean
-   of the proportional abundances. The form for a finite sample is used
-   here.}
+  \item{simpson}{Simpson dominance index for finite sample. The Simpson index
+   expresses the probability that two individuals randomly picked from a
+   finite sample belong to two different types. It can be interpreted as the
+   weighted mean of the proportional abundances.}
  }
 
  The \code{berger}, \code{mcintosh} and \code{simpson} methods return a
@@ -94,6 +144,7 @@ dominance index. \code{evenness} returns an evenness measure.
  so that an increase in the value of the index accompanies a decrease in
  diversity.
 }
+
 \examples{
 # Shannon diversity index
 # Data from Magurran 1988, p. 145-149
@@ -158,13 +209,24 @@ Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
  in Deep-Sea Sediments. \emph{Science}, 168(3937), 1345-1347.
  DOI: \href{https://doi.org/10.1126/science.168.3937.1345}{10.1126/science.168.3937.1345}.
 
+ Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
+ Alternative Parameters. \emph{Ecology}, 52(4), 577-586.
+ DOI: \href{https://doi.org/10.2307/1934145}{10.2307/1934145}.
+
  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
  Princeton, NJ: Princeton University Press.
  DOI:\href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
 
+ Margalef, R. (1958). Information Theory in Ecology. \emph{General Systems},
+ 3, 36-71.
+
  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
  Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
  DOI: \href{https://doi.org/10.2307/1932674}{10.2307/1932674}.
+
+ Menhinick, E. F. (1964). A Comparison of Some Species-Individuals Diversity
+ Indices Applied to Samples of Field Insects. \emph{Ecology}, 45(4), 859-861.
+ DOI: \href{https://doi.org/10.2307/1934933}{10.2307/1934933}.
 
  Peet, R. K. (1974). The Measurement of Species Diversity. \emph{Annual
  Review of Ecology and Systematics}, 5(1), 285-307.
@@ -172,6 +234,9 @@ Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
 
  Pielou, E. C. (1975). \emph{Ecological Diversity}. New York: Wiley.
  DOI: \href{https://doi.org/10.4319/lo.1977.22.1.0174b}{10.4319/lo.1977.22.1.0174b}
+
+ Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
+ \emph{The American Naturalist}, 102(925), 243-282.
 
  Shannon, C. E. (1948). A Mathematical Theory of Communication. \emph{The
  Bell System Technical Journal}, 27, 379-423.
@@ -181,9 +246,7 @@ Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
  688-688. DOI: \href{https://doi.org/10.1038/163688a0}{10.1038/163688a0}.
 }
 \seealso{
-\code{\link[=richness-method]{richness}}
- \code{\link[=richness-method]{rarefaction}}
- \code{\link[=beta-diversity]{turnover}}
+\code{\link[=beta-diversity]{turnover}}
  \code{\link[=beta-diversity]{similarity}}
 }
 \author{
