@@ -9,8 +9,8 @@ test_incid <- matrix(sample(0:1, 50, TRUE), ncol = 10)
 
 test_that("Coerce from matrix to CountMatrix", {
   expect_s4_class(as(test_count, "CountMatrix"), "CountMatrix")
-  expect_s4_class(as(test_freq, "CountMatrix"), "CountMatrix")
-  # expect_error(as(test_freq, "CountMatrix"))
+  # expect_s4_class(as(test_freq, "CountMatrix"), "CountMatrix")
+  expect_error(as(test_freq, "CountMatrix"))
   expect_error(as(test_incid, "CountMatrix"))
 })
 test_that("Coerce from matrix to FrequencyMatrix", {
@@ -30,8 +30,8 @@ test_incid <- as.data.frame(matrix(sample(0:1, 50, TRUE), ncol = 10))
 
 test_that("Coerce from data.frame to CountMatrix", {
   expect_s4_class(as(test_count, "CountMatrix"), "CountMatrix")
-  expect_s4_class(as(test_freq, "CountMatrix"), "CountMatrix")
-  # expect_error(as(test_freq, "CountMatrix"))
+  # expect_s4_class(as(test_freq, "CountMatrix"), "CountMatrix")
+  expect_error(as(test_freq, "CountMatrix"))
   expect_error(as(test_incid, "CountMatrix"))
 })
 test_that("Coerce from data.frame to FrequencyMatrix", {
@@ -56,7 +56,7 @@ test_that("Coerce from *Matrix to data.frame", {
 })
 test_that("Coerce from *Matrix to CountMatrix", {
   expect_s4_class(as(test_count, "CountMatrix"), "CountMatrix")
-  expect_s4_class(as(test_freq, "CountMatrix"), "CountMatrix")
+  expect_error(as(test_freq, "CountMatrix"))
   expect_error(as(test_incid, "CountMatrix"))
 })
 test_that("Coerce from *Matrix to CountMatrix", {

@@ -150,8 +150,8 @@ setValidity(
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     if (length(data) != 0) {
-      # if (sum(!isWholeNumber(data)) != 0)
-      #   errors <- c(errors, "whole numbers are expected")
+      if (sum(!isWholeNumber(data)) != 0)
+        errors <- c(errors, "whole numbers are expected")
       if (isBinary(data))
         errors <- c(errors, "you should consider using an incidence matrix")
     }

@@ -13,6 +13,7 @@ CountMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
                    missing(nrow), missing(ncol))
   methods::new("CountMatrix", M)
 }
+
 # @export
 # @rdname NumericMatrix
 # FrequencyMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
@@ -84,7 +85,8 @@ setAs(
   def = function(from) {
     freq <- methods::S3Part(from, strictS3 = TRUE, "matrix")
     totals <- from@totals
-    count <- freq * totals
+    # Work around to ensure that identical() returns TRUE (see below)
+    count <- round(freq * totals, digits = 0)
     object <- methods::new("CountMatrix", count)
     methods::validObject(object)
     return(object)
