@@ -44,17 +44,27 @@ test_that("Richness - Count data", {
   expect_is(index, "matrix")
   expect_identical(dim(index), c(nrow(count), length(method)))
 })
+test_that("Richness - Frequency data", {
+  freq <- as(compiegne, "FrequencyMatrix")
+  expect_error(richness(freq))
+})
 test_that("Richness - Incidence data", {
   bin <- as(compiegne, "IncidenceMatrix")
-  index <- richness(bin)
-  expect_is(index, "integer")
-  expect_identical(length(index), nrow(bin))
+  expect_error(richness(bin))
 })
 
 # Rarefaction ==================================================================
-test_that("Rarefaction", {
+test_that("Rarefaction - Count data", {
   count <- as(compiegne, "CountMatrix")
   index <- rarefaction(count, 10)
   expect_is(index, "numeric")
   expect_identical(length(index), nrow(count))
+})
+test_that("Rarefaction - Frequency data", {
+  freq <- as(compiegne, "FrequencyMatrix")
+  expect_error(rarefaction(freq, 10))
+})
+test_that("Rarefaction - Incidence data", {
+  bin <- as(compiegne, "IncidenceMatrix")
+  expect_error(rarefaction(bin, 10))
 })

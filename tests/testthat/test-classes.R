@@ -47,7 +47,6 @@ test_that("Initialize a CountMatrix instance", {
 })
 test_that("Initialize a FrequencyMatrix instance", {
   expect_s4_class(new("FrequencyMatrix", test_freq, totals = rowSums(test_freq)), "FrequencyMatrix")
-  expect_s4_class(FrequencyMatrix(sample(1:100, 100, TRUE), ncol = 10), "FrequencyMatrix")
 
   expect_error(new("FrequencyMatrix", test_freq, total = 1)) # Wrong total
   expect_error(new("FrequencyMatrix", test_freq)) # Missing total
@@ -76,4 +75,7 @@ test_that("Initialize a IncidenceMatrix instance", {
   expect_error(new("IncidenceMatrix", test_count))
   expect_error(new("IncidenceMatrix", test_freq))
 })
-
+# Seriation ====================================================================
+test_that("Initialize an empty PermutationOrder object", {
+  expect_s4_class(new("PermutationOrder"), "PermutationOrder")
+})

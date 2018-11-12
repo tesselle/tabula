@@ -38,7 +38,7 @@ test_that("Rank plot", {
   }
 })
 test_that("Spot plot", {
-  for (i in c("mean", "median")) {
+  for (i in c(mean, median)) {
     gg_count <- plotSpot(test_compiegne, threshold = i)
     expect_is(gg_count, "ggplot")
     gg_freq <- plotSpot(test_boves, threshold = i)
