@@ -17,14 +17,15 @@ setMethod(
     # Build long table from data and join with threshold
     # 'id' is only used for joining
     data <- object %>%
-    { if (center) rbind.data.frame(., -.) / 2 else as.data.frame(.) } %>%
-      dplyr::mutate(id = rownames(.), case = rep(row_names, 1 + center)) %>%
+      as.data.frame() %>%
+      dplyr::mutate(case = row_names) %>%
       tidyr::gather(key = "type", value = "data",
-                    -.data$id, -.data$case, factor_key = TRUE) %>%
+                    -.data$case, factor_key = TRUE) %>%
       dplyr::group_by(.data$case) %>%
       dplyr::mutate(
-        ci = { if (level) confidence(abs(.data$data), level = level) else 0 },
-        data = .data$data / sum(abs(.data$data))
+        ci = { if (level) confidence(.data$data, level = level) else 0 },
+        data = .data$data / sum(abs(.data$data)), # Computes frequencies
+        conf_center = .data$data # Center of confidence intervals
       ) %>%
       dplyr::ungroup()
 
@@ -32,20 +33,28 @@ setMethod(
       # Build long table from threshold
       # 'id' is only used for joining
       threshold <- independance(object, method = "EPPM") %>%
-      { if (center) rbind.data.frame(., -.) / 2 else as.data.frame(.) } %>%
-        dplyr::mutate(id = rownames(.), case = rep(row_names, 1 + center)) %>%
+        as.data.frame() %>%
+        dplyr::mutate(case = row_names) %>%
         tidyr::gather(key = "type", value = "EPPM",
-                      -.data$id, -.data$case, factor_key = TRUE)
+                      -.data$case, factor_key = TRUE)
 
       # Join data and with threshold
-      data %<>% dplyr::inner_join(threshold, by = c("id", "case", "type")) %>%
+      data %<>% dplyr::inner_join(threshold, by = c("case", "type")) %>%
         dplyr::mutate(data = .data$data - .data$EPPM) %>%
-        tidyr::gather(key = "threshold", value = "data",
-                      -.data$id, -.data$case, -.data$type, -.data$ci,
+        tidyr::gather(key = "threshold", value = "data", -.data$conf_center,
+                      -.data$case, -.data$type, -.data$ci,
                       factor_key = TRUE) %>%
         dplyr::mutate( # Remove CI on EPPM values
           ci = dplyr::case_when(.data$threshold == "EPPM" ~ 0, TRUE ~ .data$ci)
         )
+    }
+    if (center) {
+      k <- nrow(data)
+      z <- c(rep(1, k), rep(-1, k)) / 2
+      data %<>% rbind.data.frame(., .) %>%
+        dplyr::mutate(data = .data$data * z,
+                      ci = .data$ci * z,
+                      conf_center = .data$conf_center * z)
     }
 
     # Rename axis
@@ -73,8 +82,8 @@ setMethod(
       facet_grid(stats::as.formula(facets), scales = "free", space = "free_x") +
       geom_col(aes_string(x = "case", y = "frequency", fill = fill), width = 1,
                position = position_stack(reverse = !center)) +
-      geom_errorbar(aes_string(x = "case", ymin = "frequency-ci",
-                               ymax = "frequency+ci"),
+      geom_errorbar(aes_string(x = "case", ymin = "conf_center-ci",
+                               ymax = "conf_center+ci"),
                     width = 0, size = 3) +
       coord + axis +
       theme(legend.position = "bottom",
