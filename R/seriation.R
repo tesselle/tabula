@@ -4,7 +4,8 @@ NULL
 # Matrix seriation order =======================================================
 seriation <- function(object, method = c("ranking", "correspondance"),
                       EPPM = FALSE, margin = c(1, 2), stop = 100, ...) {
-  data <- if (EPPM) threshold(object, method = "EPPM") else object
+
+  data <- if (EPPM) independance(object, method = "EPPM") else object
 
   index <- switch (
     method,
@@ -29,7 +30,8 @@ setMethod(
     # Validation
     method <- match.arg(method, several.ok = FALSE)
     # Seriation
-    seriation(object, method, EPPM, margin, stop, ...)
+    seriation(object, method = method, EPPM = EPPM, margin = margin,
+              stop = stop, ...)
   }
 )
 
@@ -39,12 +41,13 @@ setMethod(
 setMethod(
   f = "seriate",
   signature = signature(object = "IncidenceMatrix"),
-  definition = function(object, method = c("ranking"),
-                        EPPM = FALSE, margin = c(1, 2), stop = 100, ...) {
+  definition = function(object, method = c("ranking"), margin = c(1, 2),
+                        stop = 100, ...) {
     # Validation
     method <- match.arg(method, several.ok = FALSE)
     # Seriation
-    seriation(object, method, EPPM, margin, stop, ...)
+    seriation(object, method = method, EPPM = FALSE, margin = margin,
+              stop = stop, ...)
   }
 )
 
