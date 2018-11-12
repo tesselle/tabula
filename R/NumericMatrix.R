@@ -52,7 +52,7 @@ setAs(from = "matrix", to = "CountMatrix", def = matrix2count)
 setAs(from = "data.frame", to = "CountMatrix", def = matrix2count)
 
 matrix2frequency <- function(from) {
-  data <- data.matrix(from)
+  data <- data.matrix(from) * 1
   totals <- rowSums(data)
   freq <- data / totals
   dimnames(freq) <- dimnames(data)
