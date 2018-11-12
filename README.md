@@ -1,4 +1,8 @@
 
+
+
+
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 tabula <img width=120px src="man/figures/logo.svg" align="right" />
 ===================================================================
@@ -29,14 +33,13 @@ devtools::install_github("nfrerebeau/tabula")
 Usage
 -----
 
-`tabula` provides a set of S4 classes that extend the `matrix` data type from R `base`. These new classes represent different special types of matrix:
+`tabula` provides a set of S4 classes that extend the `matrix` data type from R `base`. These new classes represent different special types of matrix. We denote the *m* × *p* matrix by *X* = \[*x*<sub>*i*, *j*</sub>\] ∀*i* ∈ \[1, *m*\], *j* ∈ \[1, *p*\].
 
 -   Abundance matrix:
-    -   `CountMatrix` represents count data,
-    -   `FrequencyMatrix` represents frequency data,
+    -   `CountMatrix` represents count data, *x*<sub>*i*, *j*</sub> ∈ ℕ,
+    -   `FrequencyMatrix` represents frequency data, *x*<sub>*i*, *j*</sub> ∈ \[0,1\] and ∑<sub>*j*</sub><sup>*p*</sup>*x*<sub>*i*, *j*</sub> = 1.
 -   Logical matrix:
-    -   `IncidenceMatrix` represents presence/absence data,
-    -   `StratigraphicMatrix` represents a stratigraphic sequence.
+    -   `IncidenceMatrix` represents presence/absence data, *x*<sub>*i*, *j*</sub> ∈ {0, 1}.
 
 It assumes that you keep your data tidy: each variable (taxa) must be saved in its own column and each observation (case) must be saved in its own row.
 
@@ -60,7 +63,7 @@ data("compiegne") # A dataset of ceramic counts
 count <- as(compiegne, "CountMatrix")
 
 # Transform counts to frequencies
-freq <- as(compiegne, "FrequencyMatrix")
+freq <- as(count, "FrequencyMatrix")
 
 # Row sums is internally stored before coercion to a frequency matrix
 # This allows to restore the source data
@@ -148,8 +151,8 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Reciprocal ranking method
 (indices <- seriate(incidence, method = "ranking", margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Row order: 5 10 12 9 15 17 18 14 11 2 20 4 6 7 3 16 19 1 13 8 
-#>    Column order: 1 2 16 11 8 12 17 6 7 19 14 9 13 5 10 3 4 18 20 15 
+#>    Row order: 2 3 1 8 20 16 13 4 18 7 9 17 5 6 12 11 10 15 19 14 
+#>    Column order: 2 7 5 11 19 17 4 16 6 10 8 9 3 20 12 14 13 1 18 15 
 #>    Method: ranking
 ```
 
@@ -167,7 +170,7 @@ plotMatrix(incidence2) +
   scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
 ```
 
-![](man/figures/README-permute-1.png)![](man/figures/README-permute-2.png)
+![](man/figures/README-permute-incidence-plots-1.png)
 
 ### Visualization
 
@@ -182,7 +185,7 @@ plotRank(count, log = "xy")
 Spot matrix (no doubt easier to read than a heatmap [1]) allows direct examination of data (above/below some threshold):
 
 ``` r
-plotSpot(count, threshold = "mean")
+plotSpot(count, threshold = mean)
 ```
 
 ![](man/figures/README-spot-1.png)
