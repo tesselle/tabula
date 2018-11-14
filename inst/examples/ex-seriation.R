@@ -1,11 +1,32 @@
-# Coerce dataset to abundance matrix
-# Data from Desachy 2004
+\dontrun{
+
+# Refine matrix seriation (this is a long running example)
+# Reproduces Peeples and Schachner 2012 results
 count <- as(compiegne, "CountMatrix")
 
-# Get seriation order for columns on EPPM using the reciprocal ranking method
-indices <- seriate(count, method = "ranking", EPPM = TRUE, margin = 2)
-# Permute columns
-new_order <- permute(count, indices)
+## Samples with convex hull maximum dimension length greater than the cutoff
+## value will be marked for removal.
+## Define cutoff as one standard deviation above the mean
+fun <- function(x) { mean(x) + sd(x) }
 
-# Plot new matrix
-plotBar(new_order, EPPM = TRUE)
+## Get indices of samples to be kept
+## Warning: this may take a few seconds
+keep <- refine(count, cutoff = fun)
+}
+
+# Matrix seriation
+# Reproduces Desachy 2004 results
+## Coerce dataset to abundance matrix
+count <- as(compiegne, "CountMatrix")
+
+## Plot new matrix
+plotBar(count, EPPM = TRUE)
+
+## Get seriation order for columns on EPPM using the reciprocal ranking method
+indices <- seriate(count, method = "ranking", EPPM = TRUE, margin = 2)
+
+## Permute columns
+new <- permute(count, indices)
+
+## Plot new matrix
+plotBar(new, EPPM = TRUE)

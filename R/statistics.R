@@ -1,7 +1,7 @@
 #' @include AllGenerics.R
 NULL
 
-# Threshold
+# Independance
 #
 # @param x A \eqn{m \times p}{m x p} \link{\code{numeric}} matrix.
 # @param method A \link{\code{character}} string giving the method to be used.
@@ -95,3 +95,30 @@ confidence <- function(x, level = 0.05) {
   return(z * stardard_error)
 }
 
+# Sample replication
+#
+# Creates random replicates of an observed sample by resampling with
+# replacement.
+# @param x A \code{\link{numeric vector}}.
+# @param n A non-negative \code{\link{integer}} giving the number of partial
+#  bootstrap replications.
+# @param simplify A \code{\link{logical}} scalar: should the result be
+#  simplified to a matrix? The default value, \code{FALSE}, returns a list.
+# @return
+#  If \code{simplify} is \code{FALSE}, returns a list (default), else returns
+#  a matrix.
+# @author N. Frerebeau
+replicateSample <- function(x, n = 1000, simplify = FALSE) {
+  resample <- function(x) {
+    k <- length(x)
+
+    spl <- base::sample(k, size = sum(x), replace = TRUE, prob = x / sum(x))
+    tbl <- table(spl)
+    vec <- vector(mode = "numeric", length = k)
+    vec[as.numeric(names(tbl))] <- tbl
+    return(vec)
+  }
+
+  replicated <- replicate(n, resample(x), simplify = simplify)
+  return(replicated)
+}

@@ -1,16 +1,37 @@
-#' @include AllGenerics.R AllClasses.R method-seriation.R
+#' @include AllGenerics.R AllClasses.R method-seriation.R statistics.R utilities.R
 NULL
 
+# Refine matrix seriation ======================================================
+#' @export
+#' @rdname seriation
+#' @aliases refine,CountMatrix-method
+setMethod(
+  f = "refine",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, cutoff, n = 1000, margin = 1,
+                        axes = c(1, 2), ...) {
+    # Partial bootstrap CA
+    hull_area <- bootCA(object, n = n, margin = margin, axes = axes, ...)
+    # Sample selection
+    limit <- cutoff(hull_area)
+    keep <- which(hull_area < limit)
+    return(keep)
+  }
+)
+
 # Matrix seriation order =======================================================
-seriation <- function(object, method = c("ranking", "correspondance"),
-                      EPPM = FALSE, margin = c(1, 2), stop = 100, ...) {
+seriation <- function(object, method = c("correspondance", "reciprocal"),
+                      EPPM = FALSE, axes = 1, margin = c(1, 2), stop = 100,
+                      ...) {
 
   data <- if (EPPM) independance(object, method = "EPPM") else object
 
   index <- switch (
     method,
-    ranking = reciprocalRanking(data, margin, stop),
-    correspondance = reciprocalAveraging(data, margin, ...)
+    reciprocal = reciprocalSeriation(data, margin = margin, stop = stop),
+    correspondance = correspondanceSeriation(data, margin = margin,
+                                         axes = axes, ...),
+    stop(paste("there is no such method:", method, sep = " "))
   )
   # Coerce indices to integer
   index <- lapply(X = index, FUN = as.integer)
@@ -25,7 +46,7 @@ seriation <- function(object, method = c("ranking", "correspondance"),
 setMethod(
   f = "seriate",
   signature = signature(object = "CountMatrix"),
-  definition = function(object, method = c("ranking", "correspondance"),
+  definition = function(object, method = c("correspondance", "reciprocal"),
                         EPPM = FALSE, margin = c(1, 2), stop = 100, ...) {
     # Validation
     method <- match.arg(method, several.ok = FALSE)
@@ -41,8 +62,8 @@ setMethod(
 setMethod(
   f = "seriate",
   signature = signature(object = "IncidenceMatrix"),
-  definition = function(object, method = c("ranking"), margin = c(1, 2),
-                        stop = 100, ...) {
+  definition = function(object, method = c("correspondance", "reciprocal"),
+                        margin = c(1, 2), stop = 100, ...) {
     # Validation
     method <- match.arg(method, several.ok = FALSE)
     # Seriation

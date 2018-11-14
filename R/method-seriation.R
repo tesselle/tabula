@@ -1,6 +1,49 @@
+# Refine seriation =============================================================
+# @param x An \eqn{m \times p}{m x p} data matrix.
+# @param cutoff A function that takes a numeric vector as argument and returns
+#  a single numeric value.
+# @param margin A non-negative \code{\link{integer}} giving the subscripts
+#  which the rearrangement will be applied over. E.g., for a matrix \code{1}
+#  indicates rows, \code{2} indicates columns.
+# @param n A non-negative \code{\link{integer}} giving the number of partial
+#  bootstrap replications.
+# @param axes A \code{\link{numeric}} vector giving the subscripts of the CA
+#  components to use.
+bootCA <- function(x, margin = 1, n = 1000, axes = c(1, 2), ...) {
+  # Validation
+  margin <- as.integer(margin)
+  n <- as.integer(n)
+  axes <- as.integer(axes)
+
+  # CA on the whole dataset
+  results_CA <- FactoMineR::CA(x, ..., graph = FALSE)
+  svd <- if (margin == 1) results_CA$svd$V else results_CA$svd$U
+
+  # Compute convex hull area for each replicated sample
+  hull <- apply(
+    X = x, MARGIN = margin,
+    FUN = function(x, n, svd, axes) {
+      # n random replicates
+      replicated <- do.call("rbind", replicateSample(x, n = n, simplify = FALSE))
+      # Compute new CA coordinates
+      coords <- crossprod(t(replicated / rowSums(replicated)), svd)
+      colnames(coords) <- paste("CA", 1:ncol(coords), sep = "")
+      # Get convex hull coordinates
+      points <- grDevices::chull(coords[, axes])
+      # Repeat first point for area calculation
+      hull <- coords[c(points, points[1]), axes]
+      # Convex hull maximum dimension lengths
+      area <- max(stats::dist(hull, method = "euclidean"))
+      return(area)
+      # return(list(vertices = hull, area = area))
+    }, n = n, svd = svd, axes = axes)
+
+  return(hull)
+}
+
 # Seriation methods ============================================================
 # Probabilistic methods --------------------------------------------------------
-# Reciprocal ranking
+# Reciprocal ranking/averaging
 #
 # @param x A \code{\link{numeric}} matrix.
 # @param stop A length-one \code{\link{numeric}} vector giving the stopping rule
@@ -11,12 +54,10 @@
 #  \code{c(2, 1)} indicates columns then rows.
 # @return A list of two \code{\link{numeric}} vectors.
 # @author N. Frerebeau
-reciprocalRanking <- function(x, margin = 1, stop = 100) {
+reciprocalSeriation <- function(x, margin = 1, stop = 100) {
   # Validation
-  if (!is.matrix(x) | !is.numeric(x))
-    stop("a numeric matrix is expected")
-  if (length(margin) > 2)
-    stop("`margin` should be one of `1`, `2`, `c(1, 2)` or `c(2, 1)`")
+  margin <- as.integer(margin)
+  stop <- as.integer(stop)
 
   # Compute ranks
   # margin = 1 : on rows
@@ -26,7 +67,8 @@ reciprocalRanking <- function(x, margin = 1, stop = 100) {
     j <- 1:ncol(x)
     k <- switch (margin,
       `1` = colSums(t(x) * j) / rowSums(x),
-      `2` = colSums(x * i) / colSums(x)
+      `2` = colSums(x * i) / colSums(x),
+      stop("'margin' subscript out of bounds")
     )
     order(k)
   }
@@ -52,16 +94,16 @@ reciprocalRanking <- function(x, margin = 1, stop = 100) {
   return(index)
 }
 
-# Reciprocal averaging
+# CA-based seriation
 #
 # @param x A \code{\link{numeric}} matrix.
 # @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
 # @return A list of two \code{\link{numeric}} vectors.
 # @author N. Frerebeau
-reciprocalAveraging <- function(x, ...) {
+correspondanceSeriation <- function(x, margin, axes, ...) {
   # Validation
-  if (!is.matrix(x) | !is.numeric(x))
-    stop("a numeric matrix is expected")
+  margin <- as.integer(margin)
+  axes <- as.integer(axes)
 
   # Original sequences
   i <- 1:nrow(x)
@@ -69,8 +111,8 @@ reciprocalAveraging <- function(x, ...) {
   # Correspondance analysis
   corresp <- FactoMineR::CA(x, margin = 1, ..., graph = FALSE)
   # Sequence of the first axis as best seriation order
-  row_coords <- if (1 %in% margin) order(corresp$row$coord[, 1]) else i
-  col_coords <- if (1 %in% margin) order(corresp$col$coord[, 1]) else j
+  row_coords <- if (1 %in% margin) order(corresp$row$coord[, axes]) else i
+  col_coords <- if (1 %in% margin) order(corresp$col$coord[, axes]) else j
 
   return(list(rows = row_coords, columns = col_coords))
 }
