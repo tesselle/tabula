@@ -109,7 +109,7 @@ correspondanceSeriation <- function(x, margin, axes, ...) {
   i <- 1:nrow(x)
   j <- 1:ncol(x)
   # Correspondance analysis
-  corresp <- FactoMineR::CA(x, margin = 1, ..., graph = FALSE)
+  corresp <- FactoMineR::CA(x, ..., graph = FALSE)
   # Sequence of the first axis as best seriation order
   row_coords <- if (1 %in% margin) order(corresp$row$coord[, axes]) else i
   col_coords <- if (1 %in% margin) order(corresp$col$coord[, axes]) else j
