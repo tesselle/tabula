@@ -132,8 +132,8 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
                              nrow = 20)
 
 # Get seriation order on rows and columns
-# Reciprocal ranking method
-(indices <- seriate(incidence, method = "ranking", margin = c(1, 2)))
+# Correspondance analysis-based seriation
+(indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
 ```
 
 ```{r permute-incidence, eval=FALSE, warning=FALSE}
@@ -178,14 +178,15 @@ Spot matrix (no doubt easier to read than a heatmap [^1]) allows direct examinat
 plotSpot(count, threshold = mean)
 ```
 
-Bertin of Ford diagramms can be plotted, with statistic threshold (B. Desachy's seriograph EPPM):
+Bertin of Ford (battleship curve) diagramms can be plotted, with statistic threshold (B. Desachy's seriograph EPPM). The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence. EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
 ```{r seriograph, fig.height=3.5}
 plotBar(count, EPPM = TRUE)
 ```
 
-Matrix plot can produce a visual $\chi^2$ (B. Desachy's matrigraph PVI):
+Matrix plot is displayed as a heatmap. The PVI matrix (i.e. B. Desachy's matrigraph PVI) allows to explore deviations from independence (an intuitive graphical approach to $\chi^2$),
 ```{r matrigraph, fig.height=3.5}
-plotMatrix(count, PVI = TRUE)
+plotMatrix(count, PVI = TRUE) +
+  ggplot2::scale_fill_gradient2(midpoint = 1)
 ```
 
 [^1]: Adapted from Dan Gopstein's original [spot matrix](https://dgopstein.github.io/articles/spot-matrix/).

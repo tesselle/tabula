@@ -148,12 +148,12 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
                              nrow = 20)
 
 # Get seriation order on rows and columns
-# Reciprocal ranking method
-(indices <- seriate(incidence, method = "ranking", margin = c(1, 2)))
+# Correspondance analysis-based seriation
+(indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Row order: 2 3 1 8 20 16 13 4 18 7 9 17 5 6 12 11 10 15 19 14 
-#>    Column order: 2 7 5 11 19 17 4 16 6 10 8 9 3 20 12 14 13 1 18 15 
-#>    Method: ranking
+#>    Row order: 8 16 14 6 19 7 5 2 11 1 15 3 18 13 20 17 12 10 4 9 
+#>    Column order: 15 16 14 6 8 7 17 9 10 4 1 2 13 19 18 5 12 3 20 11 
+#>    Method: correspondance
 ```
 
 ``` r
@@ -190,7 +190,7 @@ plotSpot(count, threshold = mean)
 
 ![](man/figures/README-spot-1.png)
 
-Bertin of Ford diagramms can be plotted, with statistic threshold (B. Desachy's seriograph EPPM):
+Bertin of Ford (battleship curve) diagramms can be plotted, with statistic threshold (B. Desachy's seriograph EPPM). The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence. EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
 
 ``` r
 plotBar(count, EPPM = TRUE)
@@ -198,10 +198,11 @@ plotBar(count, EPPM = TRUE)
 
 ![](man/figures/README-seriograph-1.png)
 
-Matrix plot can produce a visual *χ*<sup>2</sup> (B. Desachy's matrigraph PVI):
+Matrix plot is displayed as a heatmap. The PVI matrix (i.e. B. Desachy's matrigraph PVI) allows to explore deviations from independence (an intuitive graphical approach to *χ*<sup>2</sup>),
 
 ``` r
-plotMatrix(count, PVI = TRUE)
+plotMatrix(count, PVI = TRUE) +
+  ggplot2::scale_fill_gradient2(midpoint = 1)
 ```
 
 ![](man/figures/README-matrigraph-1.png)
