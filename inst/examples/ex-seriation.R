@@ -23,7 +23,7 @@ count <- as(compiegne, "CountMatrix")
 plotBar(count, EPPM = TRUE)
 
 ## Get seriation order for columns on EPPM using the reciprocal ranking method
-indices <- seriate(count, method = "ranking", EPPM = TRUE, margin = 2)
+indices <- seriate(count, method = "reciprocal", EPPM = TRUE, margin = 2)
 
 ## Permute columns
 new <- permute(count, indices)

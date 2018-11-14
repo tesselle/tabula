@@ -26,10 +26,10 @@ permute(object, order, ...)
   axes = c(1, 2), ...)
 
 \S4method{seriate}{CountMatrix}(object, method = c("correspondance",
-  "ranking"), EPPM = FALSE, margin = c(1, 2), stop = 100, ...)
+  "reciprocal"), EPPM = FALSE, margin = c(1, 2), stop = 100, ...)
 
 \S4method{seriate}{IncidenceMatrix}(object, method = c("correspondance",
-  "ranking"), margin = c(1, 2), stop = 100, ...)
+  "reciprocal"), margin = c(1, 2), stop = 100, ...)
 
 \S4method{permute}{CountMatrix,PermutationOrder}(object, order)
 
@@ -165,7 +165,7 @@ count <- as(compiegne, "CountMatrix")
 plotBar(count, EPPM = TRUE)
 
 ## Get seriation order for columns on EPPM using the reciprocal ranking method
-indices <- seriate(count, method = "ranking", EPPM = TRUE, margin = 2)
+indices <- seriate(count, method = "reciprocal", EPPM = TRUE, margin = 2)
 
 ## Permute columns
 new <- permute(count, indices)
