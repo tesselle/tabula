@@ -21,12 +21,10 @@ test_that("Bar plot", {
 })
 test_that("Matrix plot", {
   for (i in TRUE:FALSE) {
-    for (j in TRUE:FALSE) {
-      gg_count <- plotMatrix(test_compiegne, PVI = i, center = j)
-      expect_is(gg_count, "ggplot")
-      gg_freq <- plotMatrix(test_boves, PVI = i, center = j)
-      expect_is(gg_freq, "ggplot")
-    }
+    gg_count <- plotMatrix(test_compiegne, PVI = i)
+    expect_is(gg_count, "ggplot")
+    gg_freq <- plotMatrix(test_boves, PVI = i)
+    expect_is(gg_freq, "ggplot")
   }
 })
 test_that("Rank plot", {

@@ -112,49 +112,29 @@ setMethod(
 setMethod(
   f = "plotMatrix",
   signature = signature(object = "CountMatrix"),
-  definition = function(object, PVI = FALSE, center = FALSE) {
+  definition = function(object, PVI = FALSE) {
     # Prepare data -------------------------------------------------------------
     # Get row names and coerce to factor (preserve original ordering)
     row_names <- rownames(object) %>% factor(levels = unique(.))
-
-    # Build long table from data and join with threshold
-    # 'id' is only used for joining
-    data <- object %>%
-    { . / rowSums(.) } %>%
-      as.data.frame() %>%
-      dplyr::mutate(id = rownames(.), case = row_names) %>%
-      tidyr::gather(key = "type", value = "frequency",
-                    -.data$id, -.data$case, factor_key = TRUE)
 
     if (PVI) {
       # Coerce to count data for PVI computation
       object <- methods::as(object, "CountMatrix")
 
       # Build long table from threshold
-      # 'id' is only used for joining
-      threshold <- independance(object, method = "PVI") %>%
+      data <- independance(object, method = "PVI") %>%
         as.data.frame() %>%
-        dplyr::mutate(id = rownames(.), case = row_names) %>%
+        dplyr::mutate(case = row_names) %>%
         tidyr::gather(key = "type", value = "PVI",
-                      -.data$id, -.data$case, factor_key = TRUE)
-
-      # Join data and with threshold
-      data %<>% dplyr::inner_join(threshold, by = c("id", "case", "type")) %>%
-        dplyr::mutate(
-          case_num = as.numeric(.data$case),
-          type_num = as.numeric(.data$type),
-          threshold = factor(dplyr::if_else(PVI > 1, "above", "below")),
-          tile1_size = dplyr::case_when(
-            PVI > 2 ~ 1,
-            PVI > 1 ~ PVI - 1,
-            TRUE ~ {if (center) 1 - PVI else PVI }) / 2) %>%
-        dplyr::mutate(
-          threshold2 = dplyr::case_when(
-            threshold == "above" ~ "below",
-            threshold == "below" ~ "above"),
-          tile2_size = dplyr::case_when(
-            threshold == "above" ~ 0.5,
-            threshold == "below" ~ 0))
+                      -.data$case, factor_key = TRUE)
+    } else {
+      # Build long table from data
+      data <- object %>%
+        { . / rowSums(.) } %>%
+        as.data.frame() %>%
+        dplyr::mutate(case = row_names) %>%
+        tidyr::gather(key = "type", value = "frequency",
+                      -.data$case, factor_key = TRUE)
     }
 
     # Tile centers
@@ -164,35 +144,9 @@ setMethod(
     )
 
     # ggplot -------------------------------------------------------------------
-    ggplot_geom <- if (PVI) {
-      background <- if (center) {
-        list(geom_tile(aes_string(x = "x", y = "y"), fill = "grey50"))
-      } else {
-        list(geom_tile(aes_string(x = "x", y = "y"), fill = "white"),
-             geom_rect(
-               aes_string(
-                 xmin = "x - tile2_size", xmax = "x + tile2_size",
-                 ymin = "y - tile2_size", ymax = "y + tile2_size",
-                 fill = "threshold2"),
-               show.legend = FALSE
-             )
-        )
-      }
-      c(background,
-        geom_rect(
-          aes_string(
-            xmin = "x - tile1_size", xmax = "x + tile1_size",
-            ymin = "y - tile1_size", ymax = "y + tile1_size",
-            fill = "threshold"),
-          show.legend = TRUE
-        )
-      )
-    } else {
-      list(geom_tile(aes_string(x = "x", y = "y", fill = "frequency")))
-    }
-
+    fill <- ifelse(PVI, "PVI", "frequency")
     ggplot(data = data) +
-      ggplot_geom +
+      geom_tile(aes_string(x = "x", y = "y", fill = fill)) +
       scale_x_continuous(position = "top", expand = c(0, 0),
                          limits = range(data$x) + c(-0.5, 0.5),
                          breaks = unique(data$x),
@@ -213,9 +167,9 @@ setMethod(
 setMethod(
   f = "plotMatrix",
   signature = signature(object = "FrequencyMatrix"),
-  definition = function(object, PVI = FALSE, center = FALSE) {
+  definition = function(object, PVI = FALSE) {
     count <- methods::as(object, "CountMatrix")
-    plotMatrix(count, PVI = PVI, center = center)
+    plotMatrix(count, PVI = PVI)
   }
 )
 
