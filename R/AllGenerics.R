@@ -9,14 +9,14 @@ NULL
 #' dominance index. \code{evenness} returns an evenness measure. \code{richness}
 #' returns sample richness. \code{rarefaction} returns Hurlbert's unbiaised
 #' estimate of Sander's rarefaction.
-#' @param object A \eqn{m \times p}{m x p} matrix.
-#' @param sample A length-one \code{\link{numeric}} vector giving the sub-sample
-#'  size.
+#' @param object A \eqn{m \times p}{m x p} matrix of count data.
 #' @param method A \code{\link{character}} string specifiying the index to be
 #'  computed. This must be one or more of "\code{berger}",
 #'  "\code{brillouin}", "\code{margalef}", "\code{mcintosh}",
 #'  "\code{menhinick}", "\code{shannon}", "\code{simpson}" (see details).
 #'  Any unambiguous substring can be given.
+#' @param sample A length-one \code{\link{numeric}} vector giving the sub-sample
+#'  size.
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
 #' @param ... Further arguments passed to other methods.
@@ -30,10 +30,11 @@ NULL
 #'
 #'  It is not always possible to ensure that all sample sizes are equal
 #'  and the number of different taxa increases with sample size and
-#'  sampling effort. Then, \emph{rarefaction} (\eqn{E(S)}) is the number of
-#'  taxa expected if all samples were of a standard size (i.e. taxa per fixed
-#'  number of individuals). Rarefaction assumes that imbalances between taxa
-#'  are due to sampling and not to differences in actual abundances.
+#'  sampling effort (Magurran 1988). Then, \emph{rarefaction} (\eqn{E(S)}) is
+#'  the number of taxa expected if all samples were of a standard size (i.e.
+#'  taxa per fixed number of individuals). Rarefaction assumes that imbalances
+#'  between taxa are due to sampling and not to differences in actual
+#'  abundances.
 #'
 #'  The following richness measures are available:
 #'  \describe{
@@ -44,7 +45,7 @@ NULL
 #'  }
 #' @section Diversity and Evenness:
 #'  \emph{Diversity} measurement assumes that all individuals in a specific
-#'  taxon are equivalent and that all types are equally different from each
+#'  taxa are equivalent and that all types are equally different from each
 #'  other (Peet 1974). A measure of diversity can be achieved by using indices
 #'  built on the relative abundance of taxa. These indices (sometimes referred
 #'  to as non-parametric indices) benefit from not making assumptions about the
@@ -52,8 +53,8 @@ NULL
 #'  \emph{richness} into account. Peet (1974) refers to them as indices of
 #'  \emph{heterogeneity}.
 #'
-#'  Diversity index focus on one aspect of the taxa abundance and emphasize
-#'  either \emph{richness} (weighting towards uncommon taxe)
+#'  Diversity indices focus on one aspect of the taxa abundance and emphasize
+#'  either \emph{richness} (weighting towards uncommon taxa)
 #'  or dominance (weighting towards abundant taxa; Magurran 1988).
 #'
 #'  \emph{Evenness} is a measure of how evenly individuals are distributed
@@ -103,9 +104,16 @@ NULL
 #'  in Deep-Sea Sediments. \emph{Science}, 168(3937), 1345-1347.
 #'  DOI: \href{https://doi.org/10.1126/science.168.3937.1345}{10.1126/science.168.3937.1345}.
 #'
+#'  Brillouin, L. (1956). \emph{Science and information theory}. New York:
+#'  Academic Press.
+#'
 #'  Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
 #'  Alternative Parameters. \emph{Ecology}, 52(4), 577-586.
 #'  DOI: \href{https://doi.org/10.2307/1934145}{10.2307/1934145}.
+#'
+#'  Laxton, R. R. (1978). The measure of diversity. \emph{Journal of Theoretical
+#'  Biology}, 70(1), 51-67.
+#'  DOI: \href{https://doi.org/10.1016/0022-5193(78)90302-8}{10.1016/0022-5193(78)90302-8}.
 #'
 #'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
 #'  Princeton, NJ: Princeton University Press.
@@ -180,10 +188,10 @@ setGeneric(
 #' \eqn{\beta}{\beta}-diversity
 #'
 #' @description
-#'  Measures between samples diversity. \code{similarity} returns a similarity
+#'  Measures differenciation diversity. \code{similarity} returns a similarity
 #'  matrix. \code{turnover} returns the degree of turnover in taxa composition
 #'  along a grandient or transect.
-#' @param object A \eqn{m \times p}{m x p} matrix.
+#' @param object A \eqn{m \times p}{m x p} matrix of count data.
 #' @param method A \code{\link{character}} string specifiying the method to be
 #'  used (see details). Any unambiguous substring can be given.
 #' @param simplify A \code{\link{logical}} scalar: should the result be
@@ -196,21 +204,22 @@ setGeneric(
 #'  (from 1 to \eqn{n}) follows the progression along the gradient/transect.
 #'
 #'  \describe{
-#'   \item{whittaker}{}
-#'   \item{cody}{}
-#'   \item{routledge1}{}
-#'   \item{routledge2}{}
-#'   \item{routledge3}{}
-#'   \item{wilson}{}
+#'   \item{whittaker}{Whittaker measure.}
+#'   \item{cody}{Cody measure.}
+#'   \item{routledge1}{Routledge first measure.}
+#'   \item{routledge2}{Routledge second measure.}
+#'   \item{routledge3}{Routledge third measure. This is the exponential form of
+#'   the second measure.}
+#'   \item{wilson}{Wilson measure.}
 #'  }
 #'
 #' @section Similarity:
 #'  \eqn{\beta}-diversity can also be measured by addressing \emph{similarity}
-#'  between pairs of sites. The following methods return a value between 0
-#'  (no similarity) and 1 (identity):
+#'  between pairs of sites. The following methods return a value between \eqn{0}
+#'  (no similarity) and \eqn{1} (identity):
 #'  \describe{
 #'   \item{bray}{Sorenson quantitative index (Bray and Curtis modified version
-#'   of the Sorenson index). }
+#'   of the Sorenson index).}
 #'   \item{jaccard}{Jaccard qualitative index.}
 #'   \item{morisita}{Morisita-Horn quantitative index.}
 #'   \item{sorenson}{Sorenson qualitative index.}
@@ -220,6 +229,31 @@ setGeneric(
 #'
 #'  If \code{simplify} is \code{FALSE}, \code{turnover} returns a list
 #'  (default), else returns a matrix.
+#' @references
+#'  Bray, J. R. & Curtis, J. T. (1957). An Ordination of the Upland Forest
+#'  Communities of Southern Wisconsin. \emph{Ecological Monographs}, 27(4),
+#'  325-349. DOI: \href{https://doi.org/10.2307/1942268}{10.2307/1942268}.
+#'
+#'  Cody, M. L. (1975). Towards a theory of continental species diversity: Bird
+#'  distributions over Mediterranean habitat gradients. \emph{In} M. L. Cody &
+#'  J. M. Diamond (Eds.), \emph{Ecology and Evolution of Communities}.
+#'  Cambridge, MA: Harvard University Press, p. 214–257.
+#'
+#'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
+#'  Princeton, NJ: Princeton University Press.
+#'  DOI:\href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+#'
+#'  Routledge, R. D. (1977). On Whittaker’s Components of Diversity.
+#'  \emph{Ecology}, 58(5), 1120-1127.
+#'  DOI: \href{https://doi.org/10.2307/1936932}{10.2307/1936932}.
+#'
+#'  Whittaker, R. H. (1960). Vegetation of the Siskiyou Mountains, Oregon and
+#'  California. \emph{Ecological Monographs}, 30(3), 279-338.
+#'  DOI: \href{https://doi.org/10.2307/1943563}{10.2307/1943563}.
+#'
+#'  Wilson, M. V., & Shmida, A. (1984). Measuring Beta Diversity with
+#'  Presence-Absence Data. \emph{The Journal of Ecology}, 72(3), 1055-1064.
+#'  DOI: \href{https://doi.org/10.2307/2259551}{10.2307/2259551}.
 #' @example inst/examples/ex-beta.R
 #' @author N. Frerebeau
 #' @seealso
@@ -249,25 +283,41 @@ setGeneric(
 # Plot =========================================================================
 #' Bar plot
 #'
-#' XXX
+#' Plots a Bertin or a Ford (battleship curve) diagram.
 #' @param object An object to be plotted.
 #' @param level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level to be drawn.
-#' @param EPPM A \code{\link{logical}} scalar: should TODO?.
+#' @param EPPM A \code{\link{logical}} scalar: should the EPPM be drawn (see
+#'  details)?
 #' @param center A \code{\link{logical}} scalar: should the bar plot
-#'  be centered? The default value, \code{TRUE}, produces a Ford diagram.
+#'  be centered? The default, \code{TRUE}, produces a Ford diagram, otherwise it
+#'  produces a Bertin diagram.
 #' @param horizontal A \code{\link{logical}} scalar: should the bar plot
-#'  be horizontal? The default value, \code{FALSE}, means variables in rows and
+#'  be horizontal? The default, \code{FALSE}, means variables in rows and
 #'  cases in columns (i.e. Bertin diagram). Only used if \code{center} is
 #'  \code{FALSE}.
 #' @param ... Further arguments passed to other methods.
 #' @details
-#'  TODO
+#'  If \code{EPPM} is \code{TRUE} and if a relative abundance is greater than
+#'  the mean percentage of the type, the exceeding part is highlighted.
+#'  This positive difference from the column mean percentage (in french "écart
+#'  positif au pourcentage moyen", EPPM) represents a deviation from the
+#'  situation of statistical independence. As independence can be interpreted as
+#'  the absence of relationships between types and the chronological order of
+#'  the assemblages, \code{EPPM} is a usefull graphical tool to explore
+#'  significance of relationship between rows and columns related to
+#'  \code{\link[=seriate]{seriation}}.
 #' @references
+#'  Bertin, J. (1977). \emph{La graphique et le traitement graphique de
+#'  l'information}. Paris: Flammarion. Nouvelle Bibliothèque Scientifique.
+#'
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
 #'  graphique pour tableaux de comptages. \emph{Revue archéologique de
 #'  Picardie}, 3(1), 39-56.
 #'  DOI: \href{https://doi.org/10.3406/pica.2004.2396}{10.3406/pica.2004.2396}.
+#'
+#'  Ford, J. A. (1962). \emph{A quantitative method for deriving cultural
+#'  chronology}. Washington, DC: Pan American Union. Technical manual 1.
 #' @example inst/examples/ex-plotBar.R
 #' @author N. Frerebeau
 #' @family plot
@@ -281,14 +331,25 @@ setGeneric(
 # ------------------------------------------------------------------------------
 #' Matrix plot
 #'
-#' XXX
+#' Plots a heatmap.
 #' @param object An object to be plotted.
-#' @param PVI A \code{\link{logical}} scalar: should TODO?
-#' @param center A \code{\link{logical}} scalar: should TODO?
+#' @param PVI A \code{\link{logical}} scalar: should the PVI be drawn instead of
+#'  frequencies (see details)?
 #' @param ... Further arguments passed to other methods.
 #' @details
-#'  TODO
-#'  coerce to count matrix first
+#'  If \code{PVI} is \code{FALSE}, it plots a heatmap of relative abundances
+#'  (frequency), otherwise percentages of the independence value are drawn (in
+#'  french, "pourcentages de valeur d'indépendance", PVI).
+#'
+#'  \code{PVI} is calculated for Each cell as the percentage to the column
+#'  theoretical independence value: \code{PVI} greater than \eqn{1} represent
+#'  positive deviations from the independance, whereas \code{PVI} smaller than
+#'  \eqn{1} represent negative deviations (Desachy 2004).
+#'
+#'  The \code{PVI} matrix allows to explore deviations from independence
+#'  (an intuitive graphical approach to \eqn{\chi^2}{Chi-squared}),
+#'  in such a way that a high-contrast matrix has quite significant deviations,
+#'  with a low risk of being due to randomness (Desachy 2004).
 #' @references
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
 #'  graphique pour tableaux de comptages. \emph{Revue archéologique de
@@ -307,14 +368,16 @@ setGeneric(
 # ------------------------------------------------------------------------------
 #' Rank vs abundance plot
 #'
+#' Plots a rank \emph{vs} relative abundance diagram.
 #' @param object An object to be plotted.
+#' @param facet A \code{\link{logical}} scalar: should a matrix of panels
+#'  defined by case/sample be drawn?
 #' @param log A \code{\link{character}} string which contains "\code{x}" if the
 #' x axis is to be logarithmic, "\code{y}" if the y axis is to be logarithmic
-#' and "\code{xy}" or "\code{yx}" if both axes are to be logarithmic.
-#' @param facet A \code{\link{logical}} scalar: should TODO?
+#' and "\code{xy}" or "\code{yx}" if both axes are to be logarithmic (base 10).
 #' @param ... Further arguments passed to other methods.
 #' @details
-#' variables scaled to 0-1 (frequency)
+#'  Note that rows are scaled to 0-1 (frequencies).
 #' @example inst/examples/ex-plotRank.R
 #' @author N. Frerebeau
 #' @family plot
@@ -328,14 +391,14 @@ setGeneric(
 # ------------------------------------------------------------------------------
 #' Spot plot
 #'
-#' XXX
+#' Plots a spot matrix.
 #' @param object An object to be plotted.
-#' @param threshold A \code{\link{function}}.
+#' @param threshold A \code{\link{function}} that takes a numeric vector as
+#'  argument and returns a single numeric value (see details).
 #'  If \code{NULL}, no threshold is computed.
 #' @param ... Further arguments passed to other methods.
 #' @details
-#'  TODO
-#' variables scaled to 0-1 (frequency)
+#'  Note that rows are scaled to 0-1 (frequencies).
 #' @note Adapted from Dan Gopstein's original
 #'  \href{https://dgopstein.github.io/articles/spot-matrix/}{spot matrix}.
 #'  Credit should be given to him.
@@ -354,41 +417,128 @@ setGeneric(
 #' Matrix seriation
 #'
 #' @description
-#'  \code{seriate} returns permutation order for rows and/or columns.
+#'  \code{refine} performs a partial bootstrap correspondance analysis seriation
+#'  refinement.
 #'
-#'  \code{permute} returns a rearranged matrix of the same class as
-#'  \code{object}.
-#' @param object An object.
-#' @param order TODO.
-#' @param method A \code{\link{character}} string specifiying the method to be
-#'  used. This must be one of "\code{ranking}", "\code{correspondance}"
-#'  (see details).
-#'  Any unambiguous substring can be given.
-#' @param EPPM A \code{\link{logical}} scalar: should TODO?.
-#' @param stop A length-one \code{\link{numeric}} vector giving the stopping rule
-#'  (i.e. maximum number of iterations) to avoid infinite loop.
+#'  \code{seriate} computes a permutation order for rows and/or columns.
+#'
+#'  \code{permute} rearranges a data matrix according to a permutation order.
+#' @param object An \eqn{m \times p}{m x p} data matrix.
+#' @param order An object giving the permutation order for rows and columns.
+#' @param axes A \code{\link{numeric}} vector giving the subscripts of the CA
+#'  axes to use (see details).
+#' @param cutoff A function that takes a numeric vector as argument and returns
+#'  a single numeric value (see details).
+#' @param EPPM A \code{\link{logical}} scalar: should the seriation be computed
+#'  on EPPM instead of raw data?
 #' @param margin A \code{\link{numeric}} vector giving the subscripts which the
 #'  rearrangement will be applied over. E.g., for a matrix \code{1} indicates
 #'  rows, \code{2} indicates columns, \code{c(1, 2)} indicates rows then columns,
 #'  \code{c(2, 1)} indicates columns then rows.
+#' @param method A \code{\link{character}} string specifiying the method to be
+#'  used. This must be one of "\code{reciprocal}", "\code{correspondance}"
+#'  (see details). Any unambiguous substring can be given.
+#' @param n A non-negative \code{\link{integer}} giving the number of partial
+#'  bootstrap replications (see details).
+#' @param stop A length-one \code{\link{numeric}} vector giving the stopping rule
+#'  (i.e. maximum number of iterations) to avoid infinite loop.
 #' @param ... Further arguments passed to other methods.
-#' @return A \linkS4class{PermutationOrder} object.
+#' @details
+#'  The matrix seriation problem in archaeology is based on three conditions
+#'  and two assumptions, which Dunell (1970) summarizes as follows.
+#'
+#'  The homogeneity conditions state that all the groups included in a
+#'  seriation must:
+#'  \enumerate{
+#'   \item{Be of comparable duration.}
+#'   \item{Belong to the same cultural tradition.}
+#'   \item{Come from the same local area.}
+#'  }
+#'
+#'  The mathematical assumptions state that the distribution of any historical
+#'  or temporal class:
+#'  \enumerate{
+#'   \item{Is continuous through time.}
+#'   \item{Exhibits the form of a unimodal curve.}
+#'  }
+#'  Theses assumptions create a distributional model and ordering is
+#'  accomplished by arranging the matrix so that the class distributions
+#'  approximate the required pattern. The resulting order is infered
+#'  to be chronological.
+#'
+#'  The following seriation methods are available:
+#'  \describe{
+#'   \item{correspondance}{Correspondance analysis-based seriation.
+#'   Correspondance analysis (CA) is an effective method for the seriation of
+#'   archaeological assemblages. The order of the rows and columns is given by
+#'   the coordinates along one dimension of the CA space, assumed to account
+#'   for temporal variation. The direction of temporal change within the
+#'   correspondance analysis space is arbitrary: additional information is
+#'   needed to determine the actual order in time.}
+#'   \item{reciprocal}{Reciprocal ranking (incidence data) or averaging
+#'   (frequency data) seriation. These procedures iteratively rearrange rows
+#'   and/or columns according to their weighted rank in the data matrix until
+#'   convergence. Note that this procedure could enter into an infinite loop.
+#'   If no convergence is reached before the maximum number of iterations, it
+#'   stops with a warning.}
+#'  }
+#'
+#'  \code{refine} allows to identify samples that are subject to sampling error
+#'  or samples that have underlying structural relationships and might be
+#'  influencing the ordering along the CA space.
+#'  This relies on a partial bootstrap approach to CA-based seriation where each
+#'  sample is replicated \code{n} times. The maximum dimension length of
+#'  the convex hull around the sample point cloud allows to remove samples for
+#'  a given \code{cutoff} value.
+#'
+#'  According to Peebles and Schachner (2012), "[this] point removal procedure
+#'  [results in] a reduced dataset where the position of individuals within the
+#'  CA are highly stable and which produceds an ordering consistend with the
+#'  assumptions of frequency seriation."
+#'
+#'  \code{refine} returns the subscript of samples to be kept (i.e. samples with
+#'  maximum dimension length of the convex hull smaller than the cutoff value).
+#' @return
+#'  \code{refine} returns a numeric vector.
+#'
+#'  \code{seriate} returns a \linkS4class{PermutationOrder} object.
+#'
+#'  Depending on the class of \code{object}, \code{permute} returns either a
+#'  \linkS4class{CountMatrix}, a \linkS4class{FrequencyMatrix} or an
+#'  \linkS4class{IncidenceMatrix}.
 #' @references
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
 #'  graphique pour tableaux de comptages. \emph{Revue archéologique de
 #'  Picardie}, 3(1), 39-56.
 #'  DOI: \href{https://doi.org/10.3406/pica.2004.2396}{10.3406/pica.2004.2396}.
 #'
+#'  Dunnell, R. C. (1970). Seriation Method and Its Evaluation. \emph{American
+#'  Antiquity}, 35(03), 305-319.
+#'  DOI: \href{https://doi.org/10.2307/278341}{10.2307/278341}.
+#'
 #'  Ihm, P. (2005). A Contribution to the History of Seriation in Archaeology.
 #'  In C. Weihs & W. Gaul (Eds.), \emph{Classification: The Ubiquitous Challenge}
 #'  (p. 307-316). Berlin Heidelberg: Springer.
 #'  DOI: \href{https://doi.org/10.1007/3-540-28084-7_34}{10.1007/3-540-28084-7_34}.
+#'
+#'  Peeples, M. A., & Schachner, G. (2012). Refining correspondence
+#'  analysis-based ceramic seriation of regional data sets. \emph{Journal of
+#'  Archaeological Science}, 39(8), 2818-2827.
+#'  DOI: \href{https://doi.org/10.1016/j.jas.2012.04.040}{10.1016/j.jas.2012.04.040}.
 #' @seealso \link[FactoMineR]{CA}
+#' @example inst/examples/ex-seriation.R
 #' @author N. Frerebeau
 #' @docType methods
 #' @name seriation
 #' @rdname seriation
 NULL
+
+#' @rdname seriation
+#' @aliases refine-method
+setGeneric(
+  name = "refine",
+  def = function(object, ...) standardGeneric("refine")
+)
 
 #' @rdname seriation
 #' @aliases seriate-method

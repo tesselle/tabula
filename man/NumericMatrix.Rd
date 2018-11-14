@@ -34,6 +34,9 @@ CountMatrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
 
 \code{FrequencyMatrix} represents a frequency matrix.
 }
+\details{
+Theses classes extend the \code{base} \link[base]{matrix}.
+}
 \section{Slots}{
 
 \describe{

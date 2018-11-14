@@ -21,15 +21,16 @@ plotRank(object, ...)
 
 \item{log}{A \code{\link{character}} string which contains "\code{x}" if the
 x axis is to be logarithmic, "\code{y}" if the y axis is to be logarithmic
-and "\code{xy}" or "\code{yx}" if both axes are to be logarithmic.}
+and "\code{xy}" or "\code{yx}" if both axes are to be logarithmic (base 10).}
 
-\item{facet}{A \code{\link{logical}} scalar: should TODO?}
+\item{facet}{A \code{\link{logical}} scalar: should a matrix of panels
+defined by case/sample be drawn?}
 }
 \description{
-Rank vs abundance plot
+Plots a rank \emph{vs} relative abundance diagram.
 }
 \details{
-variables scaled to 0-1 (frequency)
+Note that rows are scaled to 0-1 (frequencies).
 }
 \examples{
 # Coerce dataset to abundance matrix

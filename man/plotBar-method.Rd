@@ -24,21 +24,31 @@ plotBar(object, ...)
 \item{level}{A length-one \code{\link{numeric}} vector giving the
 confidence level to be drawn.}
 
-\item{EPPM}{A \code{\link{logical}} scalar: should TODO?.}
+\item{EPPM}{A \code{\link{logical}} scalar: should the EPPM be drawn (see
+details)?}
 
 \item{center}{A \code{\link{logical}} scalar: should the bar plot
-be centered? The default value, \code{TRUE}, produces a Ford diagram.}
+be centered? The default, \code{TRUE}, produces a Ford diagram, otherwise it
+produces a Bertin diagram.}
 
 \item{horizontal}{A \code{\link{logical}} scalar: should the bar plot
-be horizontal? The default value, \code{FALSE}, means variables in rows and
+be horizontal? The default, \code{FALSE}, means variables in rows and
 cases in columns (i.e. Bertin diagram). Only used if \code{center} is
 \code{FALSE}.}
 }
 \description{
-XXX
+Plots a Bertin or a Ford (battleship curve) diagram.
 }
 \details{
-TODO
+If \code{EPPM} is \code{TRUE} and if a relative abundance is greater than
+ the mean percentage of the type, the exceeding part is highlighted.
+ This positive difference from the column mean percentage (in french "écart
+ positif au pourcentage moyen", EPPM) represents a deviation from the
+ situation of statistical independence. As independence can be interpreted as
+ the absence of relationships between types and the chronological order of
+ the assemblages, \code{EPPM} is a usefull graphical tool to explore
+ significance of relationship between rows and columns related to
+ \code{\link[=seriate]{seriation}}.
 }
 \examples{
 # Coerce dataset to abundance matrix
@@ -65,10 +75,16 @@ plotBar(freq, level = FALSE, center = FALSE, horizontal = FALSE)
 plotBar(count, EPPM = TRUE, center = FALSE, horizontal = TRUE)
 }
 \references{
-Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
+Bertin, J. (1977). \emph{La graphique et le traitement graphique de
+ l'information}. Paris: Flammarion. Nouvelle Bibliothèque Scientifique.
+
+ Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
  graphique pour tableaux de comptages. \emph{Revue archéologique de
  Picardie}, 3(1), 39-56.
  DOI: \href{https://doi.org/10.3406/pica.2004.2396}{10.3406/pica.2004.2396}.
+
+ Ford, J. A. (1962). \emph{A quantitative method for deriving cultural
+ chronology}. Washington, DC: Pan American Union. Technical manual 1.
 }
 \seealso{
 Other plot: \code{\link{plotMatrix}},

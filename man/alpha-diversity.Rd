@@ -37,7 +37,7 @@ richness(object, ...)
   "mcintosh", "shannon", "simpson"), simplify = FALSE, ...)
 }
 \arguments{
-\item{object}{A \eqn{m \times p}{m x p} matrix.}
+\item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
 
 \item{...}{Further arguments passed to other methods.}
 
@@ -79,10 +79,11 @@ Ramanujan approximation is used for \eqn{x!} computation if \eqn{x > 170}.
 
  It is not always possible to ensure that all sample sizes are equal
  and the number of different taxa increases with sample size and
- sampling effort. Then, \emph{rarefaction} (\eqn{E(S)}) is the number of
- taxa expected if all samples were of a standard size (i.e. taxa per fixed
- number of individuals). Rarefaction assumes that imbalances between taxa
- are due to sampling and not to differences in actual abundances.
+ sampling effort (Magurran 1988). Then, \emph{rarefaction} (\eqn{E(S)}) is
+ the number of taxa expected if all samples were of a standard size (i.e.
+ taxa per fixed number of individuals). Rarefaction assumes that imbalances
+ between taxa are due to sampling and not to differences in actual
+ abundances.
 
  The following richness measures are available:
  \describe{
@@ -96,7 +97,7 @@ Ramanujan approximation is used for \eqn{x!} computation if \eqn{x > 170}.
 \section{Diversity and Evenness}{
 
  \emph{Diversity} measurement assumes that all individuals in a specific
- taxon are equivalent and that all types are equally different from each
+ taxa are equivalent and that all types are equally different from each
  other (Peet 1974). A measure of diversity can be achieved by using indices
  built on the relative abundance of taxa. These indices (sometimes referred
  to as non-parametric indices) benefit from not making assumptions about the
@@ -104,8 +105,8 @@ Ramanujan approximation is used for \eqn{x!} computation if \eqn{x > 170}.
  \emph{richness} into account. Peet (1974) refers to them as indices of
  \emph{heterogeneity}.
 
- Diversity index focus on one aspect of the taxa abundance and emphasize
- either \emph{richness} (weighting towards uncommon taxe)
+ Diversity indices focus on one aspect of the taxa abundance and emphasize
+ either \emph{richness} (weighting towards uncommon taxa)
  or dominance (weighting towards abundant taxa; Magurran 1988).
 
  \emph{Evenness} is a measure of how evenly individuals are distributed
@@ -209,9 +210,16 @@ Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
  in Deep-Sea Sediments. \emph{Science}, 168(3937), 1345-1347.
  DOI: \href{https://doi.org/10.1126/science.168.3937.1345}{10.1126/science.168.3937.1345}.
 
+ Brillouin, L. (1956). \emph{Science and information theory}. New York:
+ Academic Press.
+
  Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
  Alternative Parameters. \emph{Ecology}, 52(4), 577-586.
  DOI: \href{https://doi.org/10.2307/1934145}{10.2307/1934145}.
+
+ Laxton, R. R. (1978). The measure of diversity. \emph{Journal of Theoretical
+ Biology}, 70(1), 51-67.
+ DOI: \href{https://doi.org/10.1016/0022-5193(78)90302-8}{10.1016/0022-5193(78)90302-8}.
 
  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
  Princeton, NJ: Princeton University Press.

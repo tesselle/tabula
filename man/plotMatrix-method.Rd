@@ -11,10 +11,9 @@
 \usage{
 plotMatrix(object, ...)
 
-\S4method{plotMatrix}{CountMatrix}(object, PVI = FALSE, center = FALSE)
+\S4method{plotMatrix}{CountMatrix}(object, PVI = FALSE)
 
-\S4method{plotMatrix}{FrequencyMatrix}(object, PVI = FALSE,
-  center = FALSE)
+\S4method{plotMatrix}{FrequencyMatrix}(object, PVI = FALSE)
 
 \S4method{plotMatrix}{IncidenceMatrix}(object)
 }
@@ -23,31 +22,40 @@ plotMatrix(object, ...)
 
 \item{...}{Further arguments passed to other methods.}
 
-\item{PVI}{A \code{\link{logical}} scalar: should TODO?}
-
-\item{center}{A \code{\link{logical}} scalar: should TODO?}
+\item{PVI}{A \code{\link{logical}} scalar: should the PVI be drawn instead of
+frequencies (see details)?}
 }
 \description{
-XXX
+Plots a heatmap.
 }
 \details{
-TODO
- coerce to count matrix first
+If \code{PVI} is \code{FALSE}, it plots a heatmap of relative abundances
+ (frequency), otherwise percentages of the independence value are drawn (in
+ french, "pourcentages de valeur d'indépendance", PVI).
+
+ \code{PVI} is calculated for Each cell as the percentage to the column
+ theoretical independence value: \code{PVI} greater than \eqn{1} represent
+ positive deviations from the independance, whereas \code{PVI} smaller than
+ \eqn{1} represent negative deviations (Desachy 2004).
+
+ The \code{PVI} matrix allows to explore deviations from independence
+ (an intuitive graphical approach to \eqn{\chi^2}{Chi-squared}),
+ in such a way that a high-contrast matrix has quite significant deviations,
+ with a low risk of being due to randomness (Desachy 2004).
 }
 \examples{
-# Coerce dataset to abundance matrix
-# Data from Desachy 2004
+# Abundance data
+## Coerce dataset to abundance matrix
+## Data from Desachy 2004
 count <- as(compiegne, "CountMatrix")
-freq <- as(boves, "FrequencyMatrix")
 
 # Plot matrix diagram...
 ## ...without threshod (i.e. heatmap)
 plotMatrix(count)
-plotMatrix(freq)
 
 ## ...with PVI as threshold (i.e. Bruno Desachy's matrigraphe)
-plotMatrix(count, PVI = TRUE)
-plotMatrix(count, PVI = TRUE, center = TRUE)
+plotMatrix(count, PVI = TRUE) +
+  ggplot2::scale_fill_gradient2(midpoint = 1)
 
 # Presence/absence data
 bin <- IncidenceMatrix(data = sample(0:1, size = 100, replace = TRUE),

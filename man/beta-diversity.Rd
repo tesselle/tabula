@@ -32,7 +32,7 @@ similarity(object, ...)
   "sorenson"), ...)
 }
 \arguments{
-\item{object}{A \eqn{m \times p}{m x p} matrix.}
+\item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
 
 \item{...}{Further arguments passed to other methods.}
 
@@ -49,7 +49,7 @@ simplified to a matrix? The default value, \code{FALSE}, returns a list.}
  (default), else returns a matrix.
 }
 \description{
-Measures between samples diversity. \code{similarity} returns a similarity
+Measures differenciation diversity. \code{similarity} returns a similarity
  matrix. \code{turnover} returns the degree of turnover in taxa composition
  along a grandient or transect.
 }
@@ -61,23 +61,24 @@ Measures between samples diversity. \code{similarity} returns a similarity
  (from 1 to \eqn{n}) follows the progression along the gradient/transect.
 
  \describe{
-  \item{whittaker}{}
-  \item{cody}{}
-  \item{routledge1}{}
-  \item{routledge2}{}
-  \item{routledge3}{}
-  \item{wilson}{}
+  \item{whittaker}{Whittaker measure.}
+  \item{cody}{Cody measure.}
+  \item{routledge1}{Routledge first measure.}
+  \item{routledge2}{Routledge second measure.}
+  \item{routledge3}{Routledge third measure. This is the exponential form of
+  the second measure.}
+  \item{wilson}{Wilson measure.}
  }
 }
 
 \section{Similarity}{
 
  \eqn{\beta}-diversity can also be measured by addressing \emph{similarity}
- between pairs of sites. The following methods return a value between 0
- (no similarity) and 1 (identity):
+ between pairs of sites. The following methods return a value between \eqn{0}
+ (no similarity) and \eqn{1} (identity):
  \describe{
   \item{bray}{Sorenson quantitative index (Bray and Curtis modified version
-  of the Sorenson index). }
+  of the Sorenson index).}
   \item{jaccard}{Jaccard qualitative index.}
   \item{morisita}{Morisita-Horn quantitative index.}
   \item{sorenson}{Sorenson qualitative index.}
@@ -138,6 +139,32 @@ similarity(birds, "bray") # 0.44
 ## Morisita-Horn measure
 ## (count data)
 similarity(birds, "morisita") # 0.81
+}
+\references{
+Bray, J. R. & Curtis, J. T. (1957). An Ordination of the Upland Forest
+ Communities of Southern Wisconsin. \emph{Ecological Monographs}, 27(4),
+ 325-349. DOI: \href{https://doi.org/10.2307/1942268}{10.2307/1942268}.
+
+ Cody, M. L. (1975). Towards a theory of continental species diversity: Bird
+ distributions over Mediterranean habitat gradients. \emph{In} M. L. Cody &
+ J. M. Diamond (Eds.), \emph{Ecology and Evolution of Communities}.
+ Cambridge, MA: Harvard University Press, p. 214–257.
+
+ Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
+ Princeton, NJ: Princeton University Press.
+ DOI:\href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+
+ Routledge, R. D. (1977). On Whittaker’s Components of Diversity.
+ \emph{Ecology}, 58(5), 1120-1127.
+ DOI: \href{https://doi.org/10.2307/1936932}{10.2307/1936932}.
+
+ Whittaker, R. H. (1960). Vegetation of the Siskiyou Mountains, Oregon and
+ California. \emph{Ecological Monographs}, 30(3), 279-338.
+ DOI: \href{https://doi.org/10.2307/1943563}{10.2307/1943563}.
+
+ Wilson, M. V., & Shmida, A. (1984). Measuring Beta Diversity with
+ Presence-Absence Data. \emph{The Journal of Ecology}, 72(3), 1055-1064.
+ DOI: \href{https://doi.org/10.2307/2259551}{10.2307/2259551}.
 }
 \seealso{
 \code{\link[=alpha-diversity]{richness}}

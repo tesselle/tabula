@@ -10,11 +10,12 @@ An S4 class to represent a permutation order
 \section{Slots}{
 
 \describe{
-\item{\code{rows}}{A \code{\link{integer}} vector.}
+\item{\code{rows}}{A \code{\link{integer}} vector giving the rows order.}
 
-\item{\code{columns}}{A \code{\link{integer}} vector.}
+\item{\code{columns}}{A \code{\link{integer}} vector giving the columns order.}
 
-\item{\code{seriation}}{A \code{\link{character}} vector.}
+\item{\code{seriation}}{A \code{\link{character}} vector indicating the seriation
+method used.}
 }}
 
 \author{

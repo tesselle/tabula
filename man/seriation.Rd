@@ -3,60 +3,175 @@
 \docType{methods}
 \name{seriation}
 \alias{seriation}
+\alias{refine}
+\alias{refine-method}
 \alias{seriate}
 \alias{seriate-method}
 \alias{permute}
 \alias{permute-method}
+\alias{refine,CountMatrix-method}
 \alias{seriate,CountMatrix-method}
 \alias{seriate,IncidenceMatrix-method}
 \alias{permute,CountMatrix,PermutationOrder-method}
 \alias{permute,IncidenceMatrix,PermutationOrder-method}
 \title{Matrix seriation}
 \usage{
+refine(object, ...)
+
 seriate(object, ...)
 
 permute(object, order, ...)
 
-\S4method{seriate}{CountMatrix}(object, method = c("ranking",
-  "correspondance"), EPPM = FALSE, margin = c(1, 2), stop = 100, ...)
+\S4method{refine}{CountMatrix}(object, cutoff, n = 1000, margin = 1,
+  axes = c(1, 2), ...)
 
-\S4method{seriate}{IncidenceMatrix}(object, method = c("ranking"),
-  margin = c(1, 2), stop = 100, ...)
+\S4method{seriate}{CountMatrix}(object, method = c("correspondance",
+  "ranking"), EPPM = FALSE, margin = c(1, 2), stop = 100, ...)
+
+\S4method{seriate}{IncidenceMatrix}(object, method = c("correspondance",
+  "ranking"), margin = c(1, 2), stop = 100, ...)
 
 \S4method{permute}{CountMatrix,PermutationOrder}(object, order)
 
 \S4method{permute}{IncidenceMatrix,PermutationOrder}(object, order)
 }
 \arguments{
-\item{object}{An object.}
+\item{object}{An \eqn{m \times p}{m x p} data matrix.}
 
 \item{...}{Further arguments passed to other methods.}
 
-\item{order}{TODO.}
+\item{order}{An object giving the permutation order for rows and columns.}
 
-\item{method}{A \code{\link{character}} string specifiying the method to be
-used. This must be one of "\code{ranking}", "\code{correspondance}"
-(see details).
-Any unambiguous substring can be given.}
+\item{cutoff}{A function that takes a numeric vector as argument and returns
+a single numeric value (see details).}
 
-\item{EPPM}{A \code{\link{logical}} scalar: should TODO?.}
+\item{n}{A non-negative \code{\link{integer}} giving the number of partial
+bootstrap replications (see details).}
 
 \item{margin}{A \code{\link{numeric}} vector giving the subscripts which the
 rearrangement will be applied over. E.g., for a matrix \code{1} indicates
 rows, \code{2} indicates columns, \code{c(1, 2)} indicates rows then columns,
 \code{c(2, 1)} indicates columns then rows.}
 
+\item{axes}{A \code{\link{numeric}} vector giving the subscripts of the CA
+axes to use (see details).}
+
+\item{method}{A \code{\link{character}} string specifiying the method to be
+used. This must be one of "\code{reciprocal}", "\code{correspondance}"
+(see details). Any unambiguous substring can be given.}
+
+\item{EPPM}{A \code{\link{logical}} scalar: should the seriation be computed
+on EPPM instead of raw data?}
+
 \item{stop}{A length-one \code{\link{numeric}} vector giving the stopping rule
 (i.e. maximum number of iterations) to avoid infinite loop.}
 }
 \value{
-A \linkS4class{PermutationOrder} object.
+\code{refine} returns a numeric vector.
+
+ \code{seriate} returns a \linkS4class{PermutationOrder} object.
+
+ Depending on the class of \code{object}, \code{permute} returns either a
+ \linkS4class{CountMatrix}, a \linkS4class{FrequencyMatrix} or an
+ \linkS4class{IncidenceMatrix}.
 }
 \description{
-\code{seriate} returns permutation order for rows and/or columns.
+\code{refine} performs a partial bootstrap correspondance analysis seriation
+ refinement.
 
- \code{permute} returns a rearranged matrix of the same class as
- \code{object}.
+ \code{seriate} computes a permutation order for rows and/or columns.
+
+ \code{permute} rearranges a data matrix according to a permutation order.
+}
+\details{
+The matrix seriation problem in archaeology is based on three conditions
+ and two assumptions, which Dunell (1970) summarizes as follows.
+
+ The homogeneity conditions state that all the groups included in a
+ seriation must:
+ \enumerate{
+  \item{Be of comparable duration.}
+  \item{Belong to the same cultural tradition.}
+  \item{Come from the same local area.}
+ }
+
+ The mathematical assumptions state that the distribution of any historical
+ or temporal class:
+ \enumerate{
+  \item{Is continuous through time.}
+  \item{Exhibits the form of a unimodal curve.}
+ }
+ Theses assumptions create a distributional model and ordering is
+ accomplished by arranging the matrix so that the class distributions
+ approximate the required pattern. The resulting order is infered
+ to be chronological.
+
+ The following seriation methods are available:
+ \describe{
+  \item{correspondance}{Correspondance analysis-based seriation.
+  Correspondance analysis (CA) is an effective method for the seriation of
+  archaeological assemblages. The order of the rows and columns is given by
+  the coordinates along one dimension of the CA space, assumed to account
+  for temporal variation. The direction of temporal change within the
+  correspondance analysis space is arbitrary: additional information is
+  needed to determine the actual order in time.}
+  \item{reciprocal}{Reciprocal ranking (incidence data) or averaging
+  (frequency data) seriation. These procedures iteratively rearrange rows
+  and/or columns according to their weighted rank in the data matrix until
+  convergence. Note that this procedure could enter into an infinite loop.
+  If no convergence is reached before the maximum number of iterations, it
+  stops with a warning.}
+ }
+
+ \code{refine} allows to identify samples that are subject to sampling error
+ or samples that have underlying structural relationships and might be
+ influencing the ordering along the CA space.
+ This relies on a partial bootstrap approach to CA-based seriation where each
+ sample is replicated \code{n} times. The maximum dimension length of
+ the convex hull around the sample point cloud allows to remove samples for
+ a given \code{cutoff} value.
+
+ According to Peebles and Schachner (2012), "[this] point removal procedure
+ [results in] a reduced dataset where the position of individuals within the
+ CA are highly stable and which produceds an ordering consistend with the
+ assumptions of frequency seriation."
+
+ \code{refine} returns the subscript of samples to be kept (i.e. samples with
+ maximum dimension length of the convex hull smaller than the cutoff value).
+}
+\examples{
+\dontrun{
+
+# Refine matrix seriation (this is a long running example)
+# Reproduces Peeples and Schachner 2012 results
+count <- as(compiegne, "CountMatrix")
+
+## Samples with convex hull maximum dimension length greater than the cutoff
+## value will be marked for removal.
+## Define cutoff as one standard deviation above the mean
+fun <- function(x) { mean(x) + sd(x) }
+
+## Get indices of samples to be kept
+## Warning: this may take a few seconds
+keep <- refine(count, cutoff = fun)
+}
+
+# Matrix seriation
+# Reproduces Desachy 2004 results
+## Coerce dataset to abundance matrix
+count <- as(compiegne, "CountMatrix")
+
+## Plot new matrix
+plotBar(count, EPPM = TRUE)
+
+## Get seriation order for columns on EPPM using the reciprocal ranking method
+indices <- seriate(count, method = "ranking", EPPM = TRUE, margin = 2)
+
+## Permute columns
+new <- permute(count, indices)
+
+## Plot new matrix
+plotBar(new, EPPM = TRUE)
 }
 \references{
 Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
@@ -64,10 +179,19 @@ Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
  Picardie}, 3(1), 39-56.
  DOI: \href{https://doi.org/10.3406/pica.2004.2396}{10.3406/pica.2004.2396}.
 
+ Dunnell, R. C. (1970). Seriation Method and Its Evaluation. \emph{American
+ Antiquity}, 35(03), 305-319.
+ DOI: \href{https://doi.org/10.2307/278341}{10.2307/278341}.
+
  Ihm, P. (2005). A Contribution to the History of Seriation in Archaeology.
  In C. Weihs & W. Gaul (Eds.), \emph{Classification: The Ubiquitous Challenge}
  (p. 307-316). Berlin Heidelberg: Springer.
  DOI: \href{https://doi.org/10.1007/3-540-28084-7_34}{10.1007/3-540-28084-7_34}.
+
+ Peeples, M. A., & Schachner, G. (2012). Refining correspondence
+ analysis-based ceramic seriation of regional data sets. \emph{Journal of
+ Archaeological Science}, 39(8), 2818-2827.
+ DOI: \href{https://doi.org/10.1016/j.jas.2012.04.040}{10.1016/j.jas.2012.04.040}.
 }
 \seealso{
 \link[FactoMineR]{CA}
