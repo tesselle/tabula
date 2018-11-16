@@ -1,0 +1,185 @@
+---
+title: "Diversity measures calculation"
+author: "N. Frerebeau"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
+    toc: true
+bibliography: bibliography.bib
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Thereafter, we denote by:
+
+* $S$ the total number of taxa recorded,
+* $N$ the total number of individuals,
+* $n_i$ the number of individuals in the $i$-th taxon,
+* $p_i$ the relative proportion of the $i$-th taxon in the population.
+
+## $\alpha$-diversity
+
+### Richness and rarefaction
+
+#### Margalef index [@margalef1958]
+
+$$ D_{Mg} = \frac{S - 1}{\ln N} $$
+
+#### Menhinick index [@menhinick1964]
+
+$$ D_{Mn} = \frac{S}{\sqrt{N}} $$
+
+#### Rarefaction
+
+@hurlbert1971 unbiaised estimate of @sander1968 rarefaction:
+
+$$ E(S) = \sum_{i = 1}^{S} 1 - \frac{{N - N_i} \choose n}{N \choose n} $$
+
+### Diversity and evenness
+
+#### Information theory index
+
+##### Shannon-Wiener diversity index [@shannon1948]
+
+Diversity:
+
+$$ H' = - \sum_{i = 1}^{S} p_i \ln p_i $$
+
+Evenness:
+
+$$ E = \frac{H'}{H'_{max}} = \frac{H'}{\ln S} = - \sum_{i = 1}^{S} p_i \log_S p_i $$
+
+When $p_i$ is unknown in the population, an estimate is given by $\hat{p}_i =\frac{n_i}{N}$ (maximum likelihood estimator - MLE). As the use of $\hat{p}_i$ results in a biased estimate, @hutcheson1970 and @bowman1971 suggest the use of:
+
+$$ \hat{H}' = - \sum_{i = 1}^{S} \hat{p}_i \ln \hat{p}_i - \frac{S - 1}{N} + \frac{1 - \sum_{i = 1}^{S} \hat{p}_i^{-1}}{12N^2} + \frac{\sum_{i = 1}^{S} (\hat{p}_i^{-1} - \hat{p}_i^{-2})}{12N^3} + \cdots $$
+
+This error is rarely significant [@peet1974], so the unbiaised form is not implemented here (for now).
+
+##### Brillouin diversity index [@brillouin1956]
+
+Diversity:
+
+$$ HB = \frac{\ln (N!) - \sum_{i = 1}^{S} \ln (n_i!)}{N} $$
+
+Evenness:
+
+$$ E = \frac{HB}{HB_{max}} $$
+
+with:
+
+$$ HB_{max} = \frac{1}{N} \ln \frac{N!}{\left( \lfloor \frac{N}{S} \rfloor! \right)^{S - r} \left[ \left( \lfloor \frac{N}{S} \rfloor + 1 \right)! \right]^{r}} $$
+
+where: $r = N - S \lfloor \frac{N}{S} \rfloor$.
+
+#### Dominance index
+The following methods return a *dominance* index, not the reciprocal or inverse form usually adopted, so that an increase in the value of the index accompanies a decrease in diversity.
+
+##### Simpson index [@simpson1949]
+
+Dominance for an infinite sample:
+
+$$ D = \sum_{i = 1}^{S} p_i^2 $$
+
+Dominance for a finite sample:
+
+$$ \lambda = \sum_{i = 1}^{S} \frac{n_i \left( n_i - 1 \right)}{N \left( N - 1 \right)} $$
+
+##### McIntosh index [@mcintosh1967]
+
+Dominance:
+
+$$ D = \frac{N - U}{N - \sqrt{N}} $$
+
+Evenness:
+
+$$ E = \frac{N - U}{N - \frac{N}{\sqrt{S}}} $$
+
+where $U$ is the distance of the sample from the origin in an $S$ dimensional hypervolume:
+
+$$U = \sqrt{\sum_{i = 1}^{S} n_i^2}$$
+
+##### Berger-Parker index [@berger1970]
+
+Dominance:
+
+$$ d = \frac{n_{max}}{N} $$
+
+## $\beta$-diversity
+
+### Turnover
+
+The following methods can be used to acertain the degree of turnover in taxa composition along a gradient on qualitative (presence/absence) data. This assumes that the order of the matrix rows (from 1 to $m$) follows the progression along the gradient/transect.
+
+We denote the $m \times p$ incidence matrix by $X = \left[ x_{ij} \right] ~\forall i \in \left[ 1,m \right], j \in \left[ 1,p \right]$ and the $p \times p$ corresponding co-occurrence matrix by $Y = \left[ y_{ij} \right] ~\forall i,j \in \left[ 1,p \right]$, with row and column sums:
+
+\begin{align}
+ x_{i \cdot} = \sum_{j = 1}^{p} x_{ij} &&
+ x_{\cdot j} = \sum_{i = 1}^{m} x_{ij} &&
+ x_{\cdot \cdot} = \sum_{j = 1}^{p} \sum_{i = 1}^{m} x_{ij} &&
+ \forall x_{ij} \in \lbrace 0,1 \rbrace \\
+
+ y_{i \cdot} = \sum_{j \geqslant i}^{p} y_{ij} &&
+ y_{\cdot j} = \sum_{i \leqslant j}^{p} y_{ij} &&
+ y_{\cdot \cdot} = \sum_{i = 1}^{p} \sum_{j \geqslant i}^{p} y_{ij} &&
+ \forall y_{ij} \in \lbrace 0,1 \rbrace
+\end{align}
+
+#### Whittaker measure [@whittaker1960]
+
+$$ \beta_W = \frac{S}{\alpha} - 1 $$
+
+where $\alpha$ is the mean sample diversity: $\alpha = \frac{x_{\cdot \cdot}}{m}$.
+
+#### Cody measure [@cody1975]
+
+$$ \beta_C = \frac{g(H) + l(H)}{2} - 1 $$
+
+where $g(H)$ is the number of taxa gained along the transect and $l(H)$ the number of taxa lost.
+
+#### Routledge measures [@routledge1977]
+
+\begin{align}
+ \beta_R &= \frac{S^2}{2 y_{\cdot \cdot} + S} - 1 \\
+ \beta_I &= \log x_{\cdot \cdot} - \frac{\sum_{j = 1}^{p} x_{\cdot j} \log x_{\cdot j}}{x_{\cdot \cdot}} - \frac{\sum_{i = 1}^{m} x_{i \cdot} \log x_{i \cdot}}{x_{\cdot \cdot}} \\
+ \beta_E &= \exp(\beta_I) - 1
+\end{align}
+
+#### Wilson and Shmida measure [@wilson1984]
+
+$$ \beta_T = \frac{g(H) + l(H)}{2\alpha} $$
+
+where $g(H)$ is the number of taxa gained along the transect, $l(H)$ the number of taxa lost and $\alpha$ the mean sample diversity, $\alpha = \frac{x_{\cdot \cdot}}{m}$.
+
+### Similarity
+
+Similarity between two samples $a$ and $b$ can be measured as follow. $a_i$ and $b_i$ denote the number of individuals in the $i$-th taxon, $i \in \left[ 1,n \right]$. $j$ denotes the number of taxa common to both samples: $j = \sum_{k = 1}^{n} a_k \cap b_k$.
+
+#### Jaccard qualitative index
+
+$$ C_J = \frac{j}{S_a + S_b - j} $$
+
+#### Sorenson qualitative index
+
+$$ C_S = \frac{2j}{S_a + S_b} $$
+
+#### Sorenson quantitative index
+
+@bray1957 modified version of Sorenson's index:
+
+$$ C_N = \frac{2 \sum_{i = 1}^{S} \min(a_i, b_i)}{N_a + N_b} $$
+
+#### Morisita-Horn quantitative index
+
+$$ C_{MH} = \frac{2 \sum_{i = 1}^{S} a_i \times b_i}{(\frac{\sum_{i = 1}^{S} a_i^2}{N_a^2} + \frac{\sum_{i = 1}^{S} b_i^2}{N_b^2}) \times N_a \times N_b} $$
+
+## References
