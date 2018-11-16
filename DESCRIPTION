@@ -1,18 +1,21 @@
 Package: tabula
 Title: Analysis, Seriation and Visualization of Archaeological Count Data
-Version: 0.0.0.9000
+Version: 0.9.0
+Date: 2018-11-16
 Authors@R: c(person("Nicolas", "Frerebeau",
-                    email = "nicolas.frerebeau@cea.fr", role = c("aut", "cre"),
+                    email = "nicolas.frerebeau@u-bordeaux-montaigne.fr",
+                    role = c("aut", "cre"),
                     comment = c(ORCID = "https://orcid.org/0000-0001-5759-4944")),
              person("Brice", "Lebrun",
-                    email = "brice.lebrun@u-bordeaux-montaigne.fr", role = c("ctb"),
+                    email = "brice.lebrun@u-bordeaux-montaigne.fr",
+                    role = c("ctb"),
                     comment = c(ORCID = "https://orcid.org/0000-0001-7503-8685"))
             )
 Description: An easy way to examine archaeological count data (artifacts, faunal 
     remains, etc.). This package includes several measures of diversity, e.g. 
-    richness, rarefaction, diversity, evenness, turnover and similarity. It also 
-    provides some matrix seriation methods for chronological modeling. The 
-    package make it easy to visualize count data and statistical thresholds: 
+    richness, rarefaction, diversity, turnover, similarity, etc. It also 
+    provides matrix seriation methods for chronological modeling and dating. 
+    The package make it easy to visualize count data and statistical thresholds: 
     rank/abundance plots, Ford and Bertin diagrams, etc.
 URL: http://github.com/nfrerebeau/tabula
 BugReports: http://github.com/nfrerebeau/tabula/issues

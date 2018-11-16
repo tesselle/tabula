@@ -1,0 +1,2 @@
+citHeader("To cite tabula in publications please use:")
+citation(auto = meta)
