@@ -1,13 +1,16 @@
 #' @include tabula.R utilities.R
 NULL
 
-# Classes definition ===========================================================
-# Permutation order ------------------------------------------------------------
-#' An S4 class to represent a permutation order
+# Class definitions ============================================================
+## Permutation order -----------------------------------------------------------
+#' Permutation order
 #'
-#' @slot rows A \code{\link{integer}} vector.
-#' @slot columns A \code{\link{integer}} vector.
-#' @slot seriation A \code{\link{character}} vector.
+#' An S4 class to represent a permutation order.
+#' @param object A \code{PermutationOrder} object.
+#' @slot rows A \code{\link{integer}} vector giving the rows permutation.
+#' @slot columns A \code{\link{integer}} vector giving the columns permutation.
+#' @slot seriation A \code{\link{character}} vector indicating the seriation
+#'  method used.
 #' @author N. Frerebeau
 #' @docType class
 #' @aliases PermutationOrder-class
@@ -18,35 +21,43 @@ setClass(
             method = "character")
 )
 
-# Numeric matrix ---------------------------------------------------------------
+## Numeric matrix --------------------------------------------------------------
 setClass(
   Class = "NumericMatrix",
   contains = "matrix"
 )
 
-#' S4 classes to represent numeric matrix
+#' Count matrix
 #'
+#' An S4 class to represent a count matrix.
 #' @inheritParams base::matrix
+#' @note
+#'  This class extends the \code{base} \link[base]{matrix}.
 #' @seealso \link[base]{matrix}
+#' @family abundance matrix
+#' @example inst/examples/ex-abundance-class.R
 #' @author N. Frerebeau
 #' @docType class
-#' @name NumericMatrix
-#' @rdname NumericMatrix
-NULL
-
-#' @description
-#'  \code{CountMatrix} represents a count matrix.
-#' @rdname NumericMatrix
 #' @aliases CountMatrix-class
 setClass(
   Class = "CountMatrix",
   contains = "NumericMatrix"
 )
 
-#' @description
-#'  \code{FrequencyMatrix} represents a frequency matrix.
+#' Frequency matrix
+#'
+#' An S4 class to represent a frequency matrix.
+#' @param object A \code{FrequencyMatrix} object.
 #' @slot total A \code{\link{numeric}} vector.
-#' @rdname NumericMatrix
+#' @details
+#'  To ensure data integrity, a \code{FrequencyMatrix} can only be created by
+#'  coercion from a \linkS4class{CountMatrix} (see examples).
+#' @note This class extends the \code{base} \link[base]{matrix}.
+#' @seealso \link[base]{matrix}
+#' @family abundance matrix
+#' @example inst/examples/ex-abundance-class.R
+#' @author N. Frerebeau
+#' @docType class
 #' @aliases FrequencyMatrix-class
 setClass(
   Class = "FrequencyMatrix",
@@ -54,42 +65,48 @@ setClass(
   contains = "NumericMatrix"
 )
 
-# Logical matrix ---------------------------------------------------------------
+## Logical matrix --------------------------------------------------------------
 setClass(
   Class = "LogicalMatrix",
   contains = "matrix"
 )
 
-#' S4 classes to represent logical matrix
+#' Incidence matrix
 #'
+#' An S4 class to represent an incidence (presence/absence) matrix.
 #' @inheritParams base::matrix
+#' @note This class extends the \code{base} \link[base]{matrix}.
 #' @seealso \link[base]{matrix}
+#' @family logical matrix
+#' @example inst/examples/ex-logical-class.R
 #' @author N. Frerebeau
 #' @docType class
-#' @name LogicalMatrix
-#' @rdname LogicalMatrix
-NULL
-
-#' @description
-#'  \code{IncidenceMatrix} represents an incidence (presence/absence) matrix.
-#' @rdname LogicalMatrix
 #' @aliases IncidenceMatrix-class
 setClass(
   Class = "IncidenceMatrix",
   contains = "LogicalMatrix"
 )
 
-#' @description
-#'  \code{StratigraphicMatrix} represents a stratigraphic matrix.
-#' @rdname LogicalMatrix
-#' @aliases StratigraphicMatrix-class
+#' Co-occurrence matrix
+#'
+#' An S4 class to represent a co-occurrence matrix.
+#' @details
+#'  A co-occurrence matrix is a symetric matrix with zeros on its main diagonal,
+#'  which works out which pairs of taxa occur together in at least one sample
+#' @note This class extends the \code{base} \link[base]{matrix}.
+#' @seealso \link[base]{matrix}
+#' @family logical matrix
+#' @example inst/examples/ex-logical-class.R
+#' @author N. Frerebeau
+#' @docType class
+#' @aliases OccurrenceMatrix-class
 setClass(
-  Class = "StratigraphicMatrix",
+  Class = "OccurrenceMatrix",
   contains = "LogicalMatrix"
 )
 
-# Classes validation ===========================================================
-# PermutationOrder class -------------------------------------------------------
+# Class validation =============================================================
+## PermutationOrder ------------------------------------------------------------
 setValidity(
   Class = "PermutationOrder",
   method = function(object) {
@@ -134,7 +151,7 @@ setValidity(
   }
 )
 
-# NumericMatrix class ----------------------------------------------------------
+## NumericMatrix ---------------------------------------------------------------
 setValidity(
   Class = "NumericMatrix",
   method = function(object) {
@@ -161,7 +178,7 @@ setValidity(
   }
 )
 
-# CountMatrix class ---------------------------------------------------------
+## CountMatrix -----------------------------------------------------------------
 setValidity(
   Class = "CountMatrix",
   method = function(object) {
@@ -183,7 +200,7 @@ setValidity(
   }
 )
 
-# FrequencyMatrix class --------------------------------------------------------
+## FrequencyMatrix -------------------------------------------------------------
 setValidity(
   Class = "FrequencyMatrix",
   method = function(object) {
@@ -208,7 +225,7 @@ setValidity(
   }
 )
 
-# LogicalMatrix class ----------------------------------------------------------
+## LogicalMatrix ---------------------------------------------------------------
 setValidity(
   Class = "LogicalMatrix",
   method = function(object) {
@@ -229,17 +246,20 @@ setValidity(
     }
   }
 )
+
+## OccurrenceMatrix ------------------------------------------------------------
 setValidity(
-  Class = "StratigraphicMatrix",
+  Class = "OccurrenceMatrix",
   method = function(object) {
     errors <- c()
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
+
     if (length(data) != 0) {
       if (nrow(data) != ncol(data))
-        errors <- c(errors, "a symetric matrix is expected")
-      if (rownames(data) != colnames(data))
-        errors <- c(errors, "rows and cols should have the same names")
+        errors <- c(errors, "a square matrix is expected")
+      if (!identical(rownames(data), colnames(data)))
+        errors <- c(errors, "rows and columns should have the same names")
     }
     # Return errors, if any
     if (length(errors) != 0) {
@@ -250,12 +270,15 @@ setValidity(
   }
 )
 
-# Classes constructor ==========================================================
+# Class constructors ===========================================================
+## PermutationOrder ------------------------------------------------------------
 setMethod(
   f = "initialize",
   signature = "PermutationOrder",
-  definition = function(.Object, ...) {
-    .Object <- methods::callNextMethod(.Object, ...)
+  definition = function(.Object, rows, columns, method) {
+    if (!missing(rows)) .Object@rows <- rows
+    if (!missing(columns)) .Object@columns <- columns
+    if (!missing(method)) .Object@method <- method
     methods::validObject(.Object)
     if (getOption("verbose")) {
       message(paste(class(.Object), "instance initialized.", sep = " "))
@@ -264,6 +287,7 @@ setMethod(
   }
 )
 
+## *Matrix ---------------------------------------------------------------------
 initialize_matrix <- function(.Object, ...) {
   .Object <- methods::callNextMethod(.Object, ...)
   methods::validObject(.Object)
@@ -272,28 +296,13 @@ initialize_matrix <- function(.Object, ...) {
   }
   return(.Object)
 }
-setMethod(
-  f = "initialize",
-  signature = "CountMatrix",
-  definition = initialize_matrix
-)
-setMethod(
-  f = "initialize",
-  signature = "FrequencyMatrix",
-  definition = initialize_matrix
-)
-setMethod(
-  f = "initialize",
-  signature = "IncidenceMatrix",
-  definition = initialize_matrix
-)
-setMethod(
-  f = "initialize",
-  signature = "StratigraphicMatrix",
-  definition = initialize_matrix
-)
+setMethod("initialize", "CountMatrix", initialize_matrix)
+setMethod("initialize", "FrequencyMatrix", initialize_matrix)
+setMethod("initialize", "IncidenceMatrix", initialize_matrix)
+setMethod("initialize", "OccurrenceMatrix", initialize_matrix)
 
-# Show methods =================================================================
+# Show =========================================================================
+## PermutationOrder ------------------------------------------------------------
 setMethod(
   f = "show",
   signature = "PermutationOrder",
@@ -306,3 +315,93 @@ setMethod(
     )
   }
 )
+## Numeric matrix --------------------------------------------------------------
+setMethod(
+  f = "show",
+  signature = "CountMatrix",
+  definition = function(object) {
+    data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
+    m <- nrow(data)
+    p <- ncol(data)
+    cat(paste(m, "x", p, "count data matrix:", sep = " "), "\n", sep = " ")
+    print(data)
+  }
+)
+setMethod(
+  f = "show",
+  signature = "FrequencyMatrix",
+  definition = function(object) {
+    data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
+    m <- nrow(data)
+    p <- ncol(data)
+    cat(paste(m, "x", p, "frequency data matrix:", sep = " "), "\n", sep = " ")
+    print(data)
+  }
+)
+## Logical matrix --------------------------------------------------------------
+setMethod(
+  f = "show",
+  signature = "IncidenceMatrix",
+  definition = function(object) {
+    data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
+    m <- nrow(data)
+    p <- ncol(data)
+    cat(paste(m, "x", p, "presence/absence data matrix:", sep = " "), "\n",
+        sep = " ")
+    print(data)
+  }
+)
+setMethod(
+  f = "show",
+  signature = "OccurrenceMatrix",
+  definition = function(object) {
+    data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
+    m <- nrow(data)
+    p <- ncol(data)
+    cat(paste(m, "x", p, "co-occurrence matrix:", sep = " "), "\n",
+        sep = " ")
+    print(data)
+  }
+)
+
+# Accessors ====================================================================
+#' Accessors
+#'
+#' @param object An object.
+#' @author N. Frerebeau
+#' @docType methods
+#' @name accessors
+#' @rdname accessors
+NULL
+
+#' @rdname accessors
+setGeneric("columns", function(object) standardGeneric("columns"))
+
+#' @rdname accessors
+setGeneric("method", function(object) standardGeneric("method"))
+
+#' @rdname accessors
+setGeneric("rows", function(object) standardGeneric("rows"))
+
+#' @rdname accessors
+setGeneric("totals", function(object) standardGeneric("totals"))
+
+#' @export
+#' @describeIn PermutationOrder Returns the rows permutation.
+#' @aliases rows,PermutationOrder-method
+setMethod("rows", "PermutationOrder", function(object) object@rows)
+
+#' @export
+#' @describeIn PermutationOrder Returns the columns permutation.
+#' @aliases columns,PermutationOrder-method
+setMethod("columns", "PermutationOrder", function(object) object@columns)
+
+#' @export
+#' @describeIn PermutationOrder Returns the method used for seriation.
+#' @aliases method,PermutationOrder-method
+setMethod("method", "PermutationOrder", function(object) object@method)
+
+#' @export
+#' @describeIn FrequencyMatrix Returns the row sums (counts).
+#' @aliases totals,FrequencyMatrix-method
+setMethod("totals", "FrequencyMatrix", function(object) object@totals)
