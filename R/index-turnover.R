@@ -54,11 +54,9 @@ routledge1Beta <- function(x) {
 
   # Total number of taxa recorded in the system
   S <- sum(colSums(x) > 0)
-  # Works out which pairs of taxa occurs together in at least one quadra
-  combine <- apply(X = utils::combn(1:p, 2), MARGIN = 2, FUN = function(x, object) {
-    any(object[, x[1]] + object[, x[2]] == 2)
-  }, object = x)
-  r <- sum(combine)
+  # Works out which pairs of taxa occurs together in at least one sample
+  combine <- methods::as(x, "OccurrenceMatrix")
+  r <- sum(combine) / 2
 
   beta <- S^2 / (2 * r + S) - 1
   return(beta)
