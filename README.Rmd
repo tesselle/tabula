@@ -43,13 +43,14 @@ devtools::install_github("nfrerebeau/tabula")
 
 ## Usage
 
-`tabula` provides a set of S4 classes that extend the `matrix` data type from R `base`. These new classes represent different special types of matrix. We denote the $m \times p$ matrix by $X = \left[ x_{i,j} \right] ~\forall i \in [1,m], ~j \in [1,p]$.
+`tabula` provides a set of S4 classes that extend the `matrix` data type from R `base`. These new classes represent different special types of matrix.
 
 * Abundance matrix:
-    * `CountMatrix` represents count data, $x_{i,j} \in \mathbb{N}$,
-    * `FrequencyMatrix` represents frequency data, $x_{i,j} \in \left[ 0,1 \right]$ and ${\sum_{j}{}^{p}} x_{i,j} = 1$.
+    * `CountMatrix` represents count data,
+    * `FrequencyMatrix` represents frequency data.
 * Logical matrix:
-    * `IncidenceMatrix` represents presence/absence data, $x_{i,j} \in \lbrace 0,1 \rbrace$.
+    * `IncidenceMatrix` represents presence/absence data.
+    * `OccurrenceMatrix` represents a co-occurence matrix.
 
 It assumes that you keep your data tidy: each variable (taxa) must be saved in its own column and each observation (case) must be saved in its own row.
 
@@ -57,30 +58,43 @@ These new classes are of simple use, on the same way as the base `matrix`:
 
 ```{r create, eval=FALSE}
 # Define a count data matrix
-quanti <- CountMatrix(data = 1:100, nrow = 10, ncol = 10, byrow = TRUE)
+quanti <- CountMatrix(data = sample(0:10, 100, TRUE),
+                      nrow = 10, ncol = 10)
 
-# Define à logical matrix
+# Define a logical matrix
 # Data will be coerced with as.logical()
-quali <- IncidenceMatrix(data = sample(0:1, 100, TRUE), nrow = 10, ncol = 10)
+quali <- IncidenceMatrix(data = sample(0:1, 100, TRUE),
+                         nrow = 10, ncol = 10)
 ```
 
 `tabula` uses coercing mechanisms (with validation methods) for data type conversions:
 
 ```{r coerce}
-data("compiegne") # A dataset of ceramic counts
+# Create a count matrix
+A1 <- CountMatrix(data = sample(0:10, 100, TRUE),
+                  nrow = 10, ncol = 10)
 
-# Define as a count matrix
-count <- as(compiegne, "CountMatrix")
+# Coerce counts to frequencies
+B <- as(A1, "FrequencyMatrix")
 
-# Transform counts to frequencies
-freq <- as(count, "FrequencyMatrix")
-
-# Row sums is internally stored before coercion to a frequency matrix
+# Row sums are internally stored before coercing to a frequency matrix
+# (use totals() to get these values)
 # This allows to restore the source data
-count <- as(freq, "CountMatrix")
+A2 <- as(B, "CountMatrix")
+all(A1 == A2)
+
+# Coerce to presence/absence
+C <- as(A1, "IncidenceMatrix")
+
+# Coerce to a co-occurrence matrix
+D <- as(A1, "OccurrenceMatrix")
 ```
 
 ### Analysis
+
+```{r import}
+count <- as(compiegne, "CountMatrix")
+```
 
 #### Sample richness
 
@@ -168,25 +182,29 @@ cowplot::plot_grid(
 
 ### Visualization
 
-Ranks *vs* abundance plot can be used for abundance models (model fitting will be implemented in a futur release):
-```{r rank, fig.height=3.5}
-plotRank(count, log = "xy")
-```
+Bertin of Ford (battleship curve) diagramms can be plotted, with statistic threshold (B. Desachy's sériographe [^1]). The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence. EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
 
-Spot matrix (no doubt easier to read than a heatmap [^1]) allows direct examination of data (above/below some threshold):
-```{r spot, fig.height=3.5}
-plotSpot(count, threshold = mean)
-```
-
-Bertin of Ford (battleship curve) diagramms can be plotted, with statistic threshold (B. Desachy's seriograph EPPM). The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence. EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
 ```{r seriograph, fig.height=3.5}
 plotBar(count, EPPM = TRUE)
 ```
 
-Matrix plot is displayed as a heatmap. The PVI matrix (i.e. B. Desachy's matrigraph PVI) allows to explore deviations from independence (an intuitive graphical approach to $\chi^2$),
+
+Matrix plot is displayed as a heatmap. The PVI matrix (B. Desachy's matrigraphe) allows to explore deviations from independence (an intuitive graphical approach to $\chi^2$),
 ```{r matrigraph, fig.height=3.5}
 plotMatrix(count, PVI = TRUE) +
   ggplot2::scale_fill_gradient2(midpoint = 1)
 ```
 
-[^1]: Adapted from Dan Gopstein's original [spot matrix](https://dgopstein.github.io/articles/spot-matrix/).
+Spot matrix (no doubt easier to read than a heatmap [^2]) allows direct examination of data (above/below some threshold):
+```{r spot, fig.height=3.5}
+plotSpot(count, threshold = mean)
+```
+
+Ranks *vs* abundance plot can be used for abundance models (model fitting will be implemented in a futur release):
+```{r rank, fig.height=3.5}
+plotRank(count, log = "xy")
+```
+
+[^1]: Desachy, B. (2004). Le sériographe EPPM : un outil informatisé de sériation graphique pour tableaux de comptages. *Revue archéologique de Picardie*, 3(1), 39–56. DOI: [10.3406/pica.2004.2396](https://doi.org/10.3406/pica.2004.2396)
+
+[^2]: Adapted from Dan Gopstein's original [spot matrix](https://dgopstein.github.io/articles/spot-matrix/).
