@@ -67,6 +67,9 @@ buildMatrix <- function(data, nrow, ncol, byrow, dimnames,
   if (cols) ncol <- k / nrow
   if (is.null(dimnames)) {
     dimnames <- list(1:nrow, paste("V", 1:ncol, sep = ""))
+  } else {
+    if (is.null(dimnames[[1]])) dimnames[[1]] <- 1:nrow
+    if (is.null(dimnames[[2]])) dimnames[[2]] <- paste("V", 1:ncol, sep = "")
   }
   M <- matrix(data, nrow, ncol, byrow, dimnames)
   return(M)
