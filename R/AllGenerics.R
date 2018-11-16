@@ -323,7 +323,7 @@ setGeneric(
 #' @family plot
 #' @docType methods
 #' @rdname plotBar-method
-#' @aliases plotBar-method
+#' @aliases plotBar-method seriographe
 setGeneric(
   name = "plotBar",
   def = function(object, ...) standardGeneric("plotBar")
@@ -360,7 +360,7 @@ setGeneric(
 #' @family plot
 #' @docType methods
 #' @rdname plotMatrix-method
-#' @aliases plotMatrix-method
+#' @aliases plotMatrix-method matrigraphe
 setGeneric(
   name = "plotMatrix",
   def = function(object, ...) standardGeneric("plotMatrix")
@@ -503,9 +503,9 @@ setGeneric(
 #'
 #'  \code{seriate} returns a \linkS4class{PermutationOrder} object.
 #'
-#'  Depending on the class of \code{object}, \code{permute} returns either a
-#'  \linkS4class{CountMatrix}, a \linkS4class{FrequencyMatrix} or an
-#'  \linkS4class{IncidenceMatrix}.
+#'  \code{permute} returns either a
+#'  \linkS4class{CountMatrix}, \linkS4class{FrequencyMatrix} or
+#'  \linkS4class{IncidenceMatrix} (the same as \code{object}).
 #' @references
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
 #'  graphique pour tableaux de comptages. \emph{Revue archéologique de
