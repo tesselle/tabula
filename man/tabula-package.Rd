@@ -19,7 +19,8 @@ plots, Ford and Bertin diagrams, etc.
  \strong{Type:} \tab Package \cr
  \strong{Version:} \tab 0.9.0 \cr
  \strong{Date:} \tab 2018-11-16 \cr
- \strong{License:} \tab GPL-3
+ \strong{License:} \tab GPL-3 \cr
+ \strong{DOI:} \tab \href{https://doi.org/10.5281/zenodo.1489944}{10.5281/zenodo.1489944}
 }
 }
 \author{

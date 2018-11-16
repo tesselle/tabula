@@ -7,7 +7,7 @@
 tabula <img width=120px src="man/figures/logo.svg" align="right" />
 ===================================================================
 
-[![Build Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula) [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Build Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula) [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
 
 Overview
 --------
@@ -166,8 +166,8 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Row order: 17 4 10 13 3 20 16 7 8 1 6 18 15 2 5 14 19 12 11 9 
-#>    Column order: 13 11 15 14 7 18 10 9 16 5 3 1 6 17 20 8 19 12 4 2 
+#>    Row order: 11 16 9 3 15 20 18 8 1 7 14 12 17 4 19 13 2 5 10 6 
+#>    Column order: 17 2 13 18 5 9 8 15 10 14 3 19 7 6 12 20 4 1 11 16 
 #>    Method: correspondance
 ```
 
