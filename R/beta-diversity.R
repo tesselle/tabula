@@ -69,8 +69,8 @@ similarityIndex <- function(object, method, ...) {
   m <- nrow(object)
   labels <- rownames(object)
   C <- matrix(data = 1, nrow = m, ncol = m, dimnames = list(labels, labels))
-  C[col(C) > row(C)] <- beta
-  C[row(C) > col(C)] <- beta
+  C[lower.tri(C, diag = FALSE)] <- beta
+  C <- t(C)
 
   return(C)
 }
