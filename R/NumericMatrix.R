@@ -1,12 +1,9 @@
-# NumericMatrix
 #' @include AllClasses.R
 NULL
 
-## Initilize ===================================================================
-# NumericMatrix <- function() {}
-
+# Create =======================================================================
 #' @export
-#' @rdname NumericMatrix
+#' @rdname CountMatrix-class
 CountMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
                         dimnames = NULL) {
   M <- buildMatrix(data, nrow, ncol, byrow, dimnames,
@@ -25,34 +22,26 @@ CountMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
 #   methods::new("FrequencyMatrix", M, totals = totals)
 # }
 
-## Coercions ===================================================================
-setAs(from = "NumericMatrix", to = "vector",
-      def = function(from) as.vector(methods::as(from, "matrix")))
-setAs(from = "NumericMatrix", to = "numeric",
-      def = function(from) as.numeric(methods::as(from, "matrix")))
-setAs(from = "NumericMatrix", to = "logical",
-      def = function(from) as.logical(methods::as(from, "matrix")))
-setAs(from = "NumericMatrix", to = "integer",
-      def = function(from) as.integer(methods::as(from, "matrix")))
-setAs(from = "NumericMatrix", to = "complex",
-      def = function(from) as.complex(methods::as(from, "matrix")))
-setAs(from = "NumericMatrix", to = "data.frame",
-      def = function(from) as.data.frame(methods::as(from, "matrix")))
+# Coerce =======================================================================
+## From NumericMatrix ----------------------------------------------------------
+setAs(from = "NumericMatrix", to = "data.frame", def = function(from)
+  as.data.frame(methods::S3Part(from, strictS3 = TRUE, "matrix")))
 
+## To CountMatrix --------------------------------------------------------------
 matrix2count <- function(from) {
   data <- data.matrix(from)
-  # Work around to ensure that identical() returns TRUE (see below)
-  double <- data * 1
-  dimnames(double) <- dimnames(data)
-  object <- methods::new("CountMatrix", double)
+  integer <- apply(X = data, MARGIN = 2, FUN = as.integer)
+  dimnames(integer) <- dimnames(data)
+  object <- methods::new("CountMatrix", integer)
   methods::validObject(object)
   return(object)
 }
 setAs(from = "matrix", to = "CountMatrix", def = matrix2count)
 setAs(from = "data.frame", to = "CountMatrix", def = matrix2count)
 
+## To FrequencyMatrix ----------------------------------------------------------
 matrix2frequency <- function(from) {
-  data <- data.matrix(from) * 1
+  data <- data.matrix(from)
   totals <- rowSums(data)
   freq <- data / totals
   dimnames(freq) <- dimnames(data)
@@ -63,10 +52,7 @@ matrix2frequency <- function(from) {
 setAs(from = "matrix", to = "FrequencyMatrix", def = matrix2frequency)
 setAs(from = "data.frame", to = "FrequencyMatrix", def = matrix2frequency)
 
-# When coercing a CountMatrix to a FrequencyMatrix then to a CountMatrix again,
-# identical() returns FALSE, unless the starting CountMatrix is coerced to
-# double() and the final one is rounded (no decimal place).
-# NumericMatrix
+## CountMatrix <> FrequencyMatrix ----------------------------------------------
 setAs(
   from = "CountMatrix",
   to = "FrequencyMatrix",
@@ -85,9 +71,10 @@ setAs(
   def = function(from) {
     freq <- methods::S3Part(from, strictS3 = TRUE, "matrix")
     totals <- from@totals
-    # Work around to ensure that identical() returns TRUE (see below)
     count <- round(freq * totals, digits = 0)
-    object <- methods::new("CountMatrix", count)
+    integer <- apply(X = count, MARGIN = 2, FUN = as.integer)
+    dimnames(integer) <- dimnames(freq)
+    object <- methods::new("CountMatrix", integer)
     methods::validObject(object)
     return(object)
   }
