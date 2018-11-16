@@ -4,6 +4,7 @@
 \name{plotBar}
 \alias{plotBar}
 \alias{plotBar-method}
+\alias{seriographe}
 \alias{plotBar,CountMatrix-method}
 \alias{plotBar,FrequencyMatrix-method}
 \title{Bar plot}

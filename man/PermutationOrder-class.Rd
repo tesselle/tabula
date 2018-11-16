@@ -3,16 +3,38 @@
 \docType{class}
 \name{PermutationOrder-class}
 \alias{PermutationOrder-class}
-\title{An S4 class to represent a permutation order}
-\description{
-An S4 class to represent a permutation order
+\alias{rows,PermutationOrder-method}
+\alias{columns,PermutationOrder-method}
+\alias{method,PermutationOrder-method}
+\title{Permutation order}
+\usage{
+\S4method{rows}{PermutationOrder}(object)
+
+\S4method{columns}{PermutationOrder}(object)
+
+\S4method{method}{PermutationOrder}(object)
 }
+\arguments{
+\item{object}{A \code{PermutationOrder} object.}
+}
+\description{
+An S4 class to represent a permutation order.
+}
+\section{Methods (by generic)}{
+\itemize{
+\item \code{rows}: Returns the rows permutation.
+
+\item \code{columns}: Returns the columns permutation.
+
+\item \code{method}: Returns the method used for seriation.
+}}
+
 \section{Slots}{
 
 \describe{
-\item{\code{rows}}{A \code{\link{integer}} vector giving the rows order.}
+\item{\code{rows}}{A \code{\link{integer}} vector giving the rows permutation.}
 
-\item{\code{columns}}{A \code{\link{integer}} vector giving the columns order.}
+\item{\code{columns}}{A \code{\link{integer}} vector giving the columns permutation.}
 
 \item{\code{seriation}}{A \code{\link{character}} vector indicating the seriation
 method used.}

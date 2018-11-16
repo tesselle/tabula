@@ -71,9 +71,9 @@ on EPPM instead of raw data?}
 
  \code{seriate} returns a \linkS4class{PermutationOrder} object.
 
- Depending on the class of \code{object}, \code{permute} returns either a
- \linkS4class{CountMatrix}, a \linkS4class{FrequencyMatrix} or an
- \linkS4class{IncidenceMatrix}.
+ \code{permute} returns either a
+ \linkS4class{CountMatrix}, \linkS4class{FrequencyMatrix} or
+ \linkS4class{IncidenceMatrix} (the same as \code{object}).
 }
 \description{
 \code{refine} performs a partial bootstrap correspondance analysis seriation

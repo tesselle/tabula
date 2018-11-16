@@ -4,6 +4,7 @@
 \name{plotMatrix}
 \alias{plotMatrix}
 \alias{plotMatrix-method}
+\alias{matrigraphe}
 \alias{plotMatrix,CountMatrix-method}
 \alias{plotMatrix,FrequencyMatrix-method}
 \alias{plotMatrix,IncidenceMatrix-method}
