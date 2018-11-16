@@ -58,9 +58,6 @@ independance <- function(x, method = c("EPPM", "PVI")) {
 #  papers}. Berlin: Springer-Verlag.
 # @author N. Frerebeau
 combination <- function(n, k) {
-  # Validation
-  if (k > n) { stop("k cannot be larger than n") }
-
   # Ramanujan factorial approximation
   ramanujan <- function(x){
     x * log(x) - x + log(x * (1 + 4 * x * (1 + 2 * x))) / 6 + log(pi) / 2

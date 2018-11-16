@@ -23,7 +23,10 @@ hurlbertRarefaction <- function(n, sample) {
 
   N <- sum(n)
   E <- sapply(X = n, FUN = function(x, N, sample) {
-    1 - combination(N - x, sample) / combination(N, sample)
+    if (N - x > sample)
+      1 - combination(N - x, sample) / combination(N, sample)
+    else
+      NA
   }, N, sample)
   E <- sum(E)
   return(E)
