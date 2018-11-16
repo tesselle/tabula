@@ -164,7 +164,8 @@ count <- as(compiegne, "CountMatrix")
 ## Plot new matrix
 plotBar(count, EPPM = TRUE)
 
-## Get seriation order for columns on EPPM using the reciprocal ranking method
+## Get seriation order for columns on EPPM using the reciprocal averaging method
+## Expected column order: N, A, C, K, P, L, B, E, I, M, D, G, O, J, F, H
 indices <- seriate(count, method = "reciprocal", EPPM = TRUE, margin = 2)
 
 ## Permute columns
