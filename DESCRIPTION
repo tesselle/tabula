@@ -50,6 +50,7 @@ Imports:
     dplyr (>= 0.7),
     FactoMineR,
     ggplot2 (>= 3.0.0),
+    grDevices,
     magrittr,
     methods,
     rlang,
