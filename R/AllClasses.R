@@ -414,9 +414,43 @@ setMethod(
 )
 
 # Accessors ====================================================================
+#' @export
+#' @param x A \code{PermutationOrder} object from which to extract element(s).
+#' @param i A \code{\link{character}} string specifying elements to extract.
+#'  Character vectors will be matched to the name of the slots.
+#' @describeIn PermutationOrder Returns information about the individual slots.
+#' @aliases [[,PermutationOrder-method
+setMethod(
+  f = "[[",
+  signature = "PermutationOrder",
+  definition = function(x, i){
+    i <- match.arg(i, choices = methods::slotNames("PermutationOrder"),
+                   several.ok = FALSE)
+    slot <- slot(x, i)
+    return(slot)
+  }
+)
+
+#' @export
+#' @param x A \code{BootCA} object from which to extract element(s).
+#' @param i A \code{\link{character}} string specifying elements to extract.
+#'  Character vectors will be matched to the name of the slots.
+#' @describeIn BootCA Returns information about the individual slots.
+#' @aliases [[,BootCA-method
+setMethod(
+  f = "[[",
+  signature = "BootCA",
+  definition = function(x, i){
+    i <- match.arg(i, choices = methods::slotNames("BootCA"),
+                   several.ok = FALSE)
+    slot <- slot(x, i)
+    return(slot)
+  }
+)
+
 #' Accessors
 #'
-#' @param object An object.
+#' @param x An object.
 #' @author N. Frerebeau
 #' @docType methods
 #' @name accessors
@@ -424,33 +458,45 @@ setMethod(
 NULL
 
 #' @rdname accessors
-setGeneric("columns", function(object) standardGeneric("columns"))
+setGeneric("columns", function(x) standardGeneric("columns"))
 
 #' @rdname accessors
-setGeneric("method", function(object) standardGeneric("method"))
+setGeneric("method", function(x) standardGeneric("method"))
 
 #' @rdname accessors
-setGeneric("rows", function(object) standardGeneric("rows"))
+setGeneric("rows", function(x) standardGeneric("rows"))
 
 #' @rdname accessors
-setGeneric("totals", function(object) standardGeneric("totals"))
+setGeneric("totals", function(x) standardGeneric("totals"))
 
 #' @export
 #' @describeIn PermutationOrder Returns the rows permutation.
 #' @aliases rows,PermutationOrder-method
-setMethod("rows", "PermutationOrder", function(object) object@rows)
+setMethod("rows", "PermutationOrder", function(x) x@rows)
+
+#' @export
+#' @describeIn BootCA Returns the convex hull vertice coordinates for each
+#'  individual.
+#' @aliases rows,BootCA-method
+setMethod("rows", "BootCA", function(x) x@rows)
 
 #' @export
 #' @describeIn PermutationOrder Returns the columns permutation.
 #' @aliases columns,PermutationOrder-method
-setMethod("columns", "PermutationOrder", function(object) object@columns)
+setMethod("columns", "PermutationOrder", function(x) x@columns)
+
+#' @export
+#' @describeIn BootCA Returns the convex hull vertice coordinates for each
+#'  variable.
+#' @aliases columns,BootCA-method
+setMethod("columns", "BootCA", function(x) x@columns)
 
 #' @export
 #' @describeIn PermutationOrder Returns the method used for seriation.
 #' @aliases method,PermutationOrder-method
-setMethod("method", "PermutationOrder", function(object) object@method)
+setMethod("method", "PermutationOrder", function(x) x@method)
 
 #' @export
 #' @describeIn FrequencyMatrix Returns the row sums (counts).
 #' @aliases totals,FrequencyMatrix-method
-setMethod("totals", "FrequencyMatrix", function(object) object@totals)
+setMethod("totals", "FrequencyMatrix", function(x) x@totals)

@@ -2,6 +2,7 @@
 
 export(CountMatrix)
 export(IncidenceMatrix)
+exportMethods("[[")
 exportMethods(columns)
 exportMethods(diversity)
 exportMethods(evenness)
