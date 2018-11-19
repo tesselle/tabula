@@ -505,7 +505,7 @@ setGeneric(
 #'
 #'  According to Peebles and Schachner (2012), "[this] point removal procedure
 #'  [results in] a reduced dataset where the position of individuals within the
-#'  CA are highly stable and which produceds an ordering consistend with the
+#'  CA are highly stable and which produces an ordering consistend with the
 #'  assumptions of frequency seriation."
 #'
 #'  \code{refine} returns the subscript of samples to be kept (i.e. samples with

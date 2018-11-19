@@ -22,8 +22,8 @@ seriate(object, ...)
 
 permute(object, order, ...)
 
-\S4method{refine}{CountMatrix}(object, cutoff, n = 1000, margin = 1,
-  axes = c(1, 2), ...)
+\S4method{refine}{CountMatrix}(object, cutoff, n = 1000, axes = c(1,
+  2), ...)
 
 \S4method{seriate}{CountMatrix}(object, method = c("correspondance",
   "reciprocal"), EPPM = FALSE, margin = c(1, 2), stop = 100, ...)
@@ -48,11 +48,6 @@ a single numeric value (see details).}
 \item{n}{A non-negative \code{\link{integer}} giving the number of partial
 bootstrap replications (see details).}
 
-\item{margin}{A \code{\link{numeric}} vector giving the subscripts which the
-rearrangement will be applied over. E.g., for a matrix \code{1} indicates
-rows, \code{2} indicates columns, \code{c(1, 2)} indicates rows then columns,
-\code{c(2, 1)} indicates columns then rows.}
-
 \item{axes}{A \code{\link{numeric}} vector giving the subscripts of the CA
 axes to use (see details).}
 
@@ -62,6 +57,11 @@ used. This must be one of "\code{reciprocal}", "\code{correspondance}"
 
 \item{EPPM}{A \code{\link{logical}} scalar: should the seriation be computed
 on EPPM instead of raw data?}
+
+\item{margin}{A \code{\link{numeric}} vector giving the subscripts which the
+rearrangement will be applied over. E.g., for a matrix \code{1} indicates
+rows, \code{2} indicates columns, \code{c(1, 2)} indicates rows then columns,
+\code{c(2, 1)} indicates columns then rows.}
 
 \item{stop}{A length-one \code{\link{numeric}} vector giving the stopping rule
 (i.e. maximum number of iterations) to avoid infinite loop.}
@@ -133,7 +133,7 @@ The matrix seriation problem in archaeology is based on three conditions
 
  According to Peebles and Schachner (2012), "[this] point removal procedure
  [results in] a reduced dataset where the position of individuals within the
- CA are highly stable and which produceds an ordering consistend with the
+ CA are highly stable and which produces an ordering consistend with the
  assumptions of frequency seriation."
 
  \code{refine} returns the subscript of samples to be kept (i.e. samples with
