@@ -166,8 +166,8 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Row order: 11 16 9 3 15 20 18 8 1 7 14 12 17 4 19 13 2 5 10 6 
-#>    Column order: 17 2 13 18 5 9 8 15 10 14 3 19 7 6 12 20 4 1 11 16 
+#>    Row order: 10 12 9 16 17 15 1 18 13 4 7 6 11 20 3 19 14 5 8 2 
+#>    Column order: 2 7 13 17 8 5 12 10 16 1 11 14 15 9 6 19 20 18 4 3 
 #>    Method: correspondance
 ```
 
@@ -188,6 +188,8 @@ plotMatrix(incidence2) +
 ![](man/figures/README-permute-incidence-plots-1.png)
 
 ### Visualization
+
+`tabula` makes an extensive use of `ggplot2` for plotting informations. This makes it easy to customize diagramms (e.g. using themes and scales).
 
 Bertin of Ford (battleship curve) diagramms can be plotted, with statistic threshold (B. Desachy's sériographe [1]). The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence. EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
 
