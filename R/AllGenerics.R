@@ -499,7 +499,7 @@ setGeneric(
 #'  \code{refine} returns the subscript of samples to be kept (i.e. samples with
 #'  maximum dimension length of the convex hull smaller than the cutoff value).
 #' @return
-#'  \code{refine} returns a numeric vector.
+#'  \code{refine} returns a \linkS4class{BootCA} object.
 #'
 #'  \code{seriate} returns a \linkS4class{PermutationOrder} object.
 #'

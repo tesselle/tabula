@@ -11,11 +11,23 @@ setMethod(
   definition = function(object, cutoff, n = 1000, margin = 1,
                         axes = c(1, 2), ...) {
     # Partial bootstrap CA
-    hull_area <- bootCA(object, n = n, margin = margin, axes = axes, ...)
-    # Sample selection
-    limit <- cutoff(hull_area)
-    keep <- which(hull_area < limit)
-    return(keep)
+    hull_rows <- bootCA(object, n = n, margin = 1, axes = axes, ...)
+    hull_columns <- rows <- bootCA(object, n = n, margin = 2, axes = axes, ...)
+    # Get convex hull maximal dimension length for each sample
+    hull_length <- sapply(X = hull_rows, function(x) {
+      max(stats::dist(x, method = "euclidean"))
+    })
+    # Get cutoff value
+    limit <- cutoff(hull_length)
+    # Samples to be kept
+    keep <- which(hull_length < limit)
+    # Bind hull vertices in a data.frame
+    rows <- dplyr::bind_rows(hull_rows, .id = "id")
+    cols <- dplyr::bind_rows(hull_columns, .id = "id")
+
+    methods::new("BootCA",
+                 rows = rows, columns = cols, cutoff = limit,
+                 lengths = hull_length, keep = keep)
   }
 )
 

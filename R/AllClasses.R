@@ -2,11 +2,10 @@
 NULL
 
 # Class definitions ============================================================
-## Permutation order -----------------------------------------------------------
+## -----------------------------------------------------------------------------
 #' Permutation order
 #'
 #' An S4 class to represent a permutation order.
-#' @param object A \code{PermutationOrder} object.
 #' @slot rows A \code{\link{integer}} vector giving the rows permutation.
 #' @slot columns A \code{\link{integer}} vector giving the columns permutation.
 #' @slot seriation A \code{\link{character}} vector indicating the seriation
@@ -21,6 +20,34 @@ setClass(
             method = "character")
 )
 
+## -----------------------------------------------------------------------------
+#' Partial bootstrap CA
+#'
+#' An S4 class to store partial bootstrap correspondance analysis results.
+#' @slot rows A three columns \code{\link{data.frame}} giving the vertices
+#'  coordinates of the samples convex hull and a identifier to link each row to
+#'  a sample.
+#' @slot columns A three columns \code{\link{data.frame}} giving the vertices
+#'  coordinates of the variables convex hull and a identifier to link each row
+#'  to a variable.
+#' @slot lengths A \code{\link{numeric}} vector giving the convex hull
+#'  maximum dimension length of each sample.
+#' @slot cutoff A length-one \code{\link{numeric}} vector giving the cutoff
+#'  value for sample selection.
+#' @slot keep A named \code{\link{numeric}} vector giving the subscript of
+#'  the samples to be kept.
+#' @author N. Frerebeau
+#' @docType class
+#' @aliases BootCA-class
+setClass(
+  Class = "BootCA",
+  slots = c(rows = "data.frame",
+            columns = "data.frame",
+            lengths = "numeric",
+            cutoff = "numeric",
+            keep = "numeric")
+)
+
 ## Numeric matrix --------------------------------------------------------------
 setClass(
   Class = "NumericMatrix",
@@ -31,6 +58,9 @@ setClass(
 #'
 #' An S4 class to represent a count matrix.
 #' @inheritParams base::matrix
+#' @details
+#'  Numeric values are coerced to \code{\link{integer}} as by
+#'  \code{\link[base]{as.integer}} (and hence truncated towards zero).
 #' @note
 #'  This class extends the \code{base} \link[base]{matrix}.
 #' @seealso \link[base]{matrix}
@@ -47,7 +77,7 @@ setClass(
 #' Frequency matrix
 #'
 #' An S4 class to represent a frequency matrix.
-#' @param object A \code{FrequencyMatrix} object.
+#' @param x A \code{FrequencyMatrix} object from which to extract element.
 #' @slot total A \code{\link{numeric}} vector.
 #' @details
 #'  To ensure data integrity, a \code{FrequencyMatrix} can only be created by
@@ -75,6 +105,9 @@ setClass(
 #'
 #' An S4 class to represent an incidence (presence/absence) matrix.
 #' @inheritParams base::matrix
+#' @details
+#'  Numeric values are coerced to \code{\link{logical}} as by
+#'  \code{\link[base]{as.logical}}.
 #' @note This class extends the \code{base} \link[base]{matrix}.
 #' @seealso \link[base]{matrix}
 #' @family logical matrix
@@ -279,6 +312,22 @@ setMethod(
     if (!missing(rows)) .Object@rows <- rows
     if (!missing(columns)) .Object@columns <- columns
     if (!missing(method)) .Object@method <- method
+    methods::validObject(.Object)
+    if (getOption("verbose")) {
+      message(paste(class(.Object), "instance initialized.", sep = " "))
+    }
+    return(.Object)
+  }
+)
+setMethod(
+  f = "initialize",
+  signature = "BootCA",
+  definition = function(.Object, rows, columns, lengths, cutoff, keep) {
+    if (!missing(rows)) .Object@rows <- rows
+    if (!missing(columns)) .Object@columns <- columns
+    if (!missing(lengths)) .Object@lengths <- lengths
+    if (!missing(cutoff)) .Object@cutoff <- cutoff
+    if (!missing(keep)) .Object@keep <- keep
     methods::validObject(.Object)
     if (getOption("verbose")) {
       message(paste(class(.Object), "instance initialized.", sep = " "))
