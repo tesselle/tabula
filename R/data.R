@@ -58,3 +58,58 @@
 #'  siècle. Bilan des recherches 1996-2000. \emph{Revue archéologique de
 #'  Picardie}. Numéro spécial 20, 123 p.
 "boves"
+
+#' Zuni ceramics
+#'
+#' A dataset containing ceramic counts from the Zuni region of the American
+#' Southwest.
+#' @format A numeric matrix with 420 rows and 18 variables:
+#'  \describe{
+#'    \item{LINO}{}
+#'    \item{KIAT}{}
+#'    \item{RED}{}
+#'    \item{GALL}{}
+#'    \item{ESC}{}
+#'    \item{PUBW}{}
+#'    \item{RES}{}
+#'    \item{TULA}{}
+#'    \item{PINE}{}
+#'    \item{PUBR}{}
+#'    \item{WING}{}
+#'    \item{WIPO}{}
+#'    \item{SJ}{}
+#'    \item{LSJ}{}
+#'    \item{SPR}{}
+#'    \item{PINER}{}
+#'    \item{HESH}{}
+#'    \item{KWAK}{}
+#'  }
+#' @source
+#'  Peeples, M. A., & Schachner, G. (2012). Refining correspondence
+#'  analysis-based ceramic seriation of regional data sets. \emph{Journal of
+#'  Archaeological Science}, 39(8), 2818-2827.
+#'  DOI: \href{https://doi.org/10.1016/j.jas.2012.04.040}{10.1016/j.jas.2012.04.040}.
+"zuni"
+
+#' Mississippi ceramics
+#'
+#' A dataset containing ceramic counts from the Mississippi region.
+#' @format A numeric matrix with 20 rows and 10 variables:
+#'  \describe{
+#'    \item{ParkinPunctate}{}
+#'    \item{BartonKentMPI}{}
+#'    \item{Painted}{}
+#'    \item{FortuneNoded}{}
+#'    \item{RanchIncised}{}
+#'    \item{WallsEngraved}{}
+#'    \item{WallaceIncised}{}
+#'    \item{RhodesIncised}{}
+#'    \item{VernonPaulApplique}{}
+#'    \item{HullEngraved}{}
+#'  }
+#' @source
+#' Lipo, C. P., Madsen, M. E. & Dunnell, R. C. (2015). A
+#' Theoretically-Sufficient and Computationally-Practical Technique for
+#' Deterministic Frequency Seriation. \emph{PLOS ONE}, 10(4), e0124942.
+#' DOI: \href{https://doi.org/10.1371/journal.pone.0124942}{10.1371/journal.pone.0124942}.
+"mississippi"
