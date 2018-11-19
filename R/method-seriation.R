@@ -24,18 +24,17 @@ bootCA <- function(x, margin = 1, n = 1000, axes = c(1, 2), ...) {
     X = x, MARGIN = margin,
     FUN = function(x, n, svd, axes) {
       # n random replicates
-      replicated <- do.call("rbind", replicateSample(x, n = n, simplify = FALSE))
+      replicated <- stats::rmultinom(n = n, size = sum(x), prob = x)
       # Compute new CA coordinates
-      coords <- crossprod(t(replicated / rowSums(replicated)), svd)
-      colnames(coords) <- paste("CA", 1:ncol(coords), sep = "")
+      coords <- crossprod(replicated / colSums(replicated), svd)
+
       # Get convex hull coordinates
       points <- grDevices::chull(coords[, axes])
-      # Repeat first point for area calculation
+      # Repeat first point
       hull <- coords[c(points, points[1]), axes]
-      # Convex hull maximum dimension lengths
-      area <- max(stats::dist(hull, method = "euclidean"))
-      return(area)
-      # return(list(vertices = hull, area = area))
+      colnames(hull) <- c("x", "y")
+
+      return(as.data.frame(hull))
     }, n = n, svd = svd, axes = axes)
 
   return(hull)
