@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^\man\figures\README-.*\.png$
+^\vignettes\figures\.png$
 ^data-raw$
 ^ideas$
 ^cran-comments\.md$
