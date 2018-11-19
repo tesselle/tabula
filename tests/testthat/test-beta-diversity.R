@@ -37,7 +37,7 @@ birds <- rbind(
 
 test_that("Similiraty measure (count data)", {
   count <- as(birds * 10, "CountMatrix")
-  method <- c("bray", "jaccard", "morisita", "sorenson")
+  method <- c("brainerd", "bray", "jaccard", "morisita", "sorenson")
   for (i in 1:length(method)) {
     index <- similarity(count, method = method[i])
     expect_is(index, "matrix")

@@ -54,6 +54,7 @@ setMethod(
 similarityIndex <- function(object, method, ...) {
   index <- switch (
     method,
+    brainerd = brainerdSimilarity,
     bray = braySimilarity,
     jaccard = jaccardSimilarity,
     morisita = morisitaSimilarity,
@@ -81,8 +82,8 @@ similarityIndex <- function(object, method, ...) {
 setMethod(
   f = "similarity",
   signature = signature(object = "CountMatrix"),
-  definition = function(object, method = c("bray", "jaccard", "morisita",
-                                           "sorenson"), ...) {
+  definition = function(object, method = c("brainerd", "bray", "jaccard",
+                                           "morisita", "sorenson"), ...) {
     method <- match.arg(method, several.ok = FALSE)
     C <- similarityIndex(object, method)
     return(C)

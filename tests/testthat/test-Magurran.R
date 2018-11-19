@@ -147,3 +147,8 @@ test_that("Morisita-Horn", {
   # Magurran 1988, p. 167
   expect_equal(round(morisitaSimilarity(birds_unmanaged, birds_managed), 4), 0.8134) # 0.8133
 })
+test_that("Brainerd-Robinson", {
+  x <- c(16, 9, 3, 0, 1)
+  y <- c(13, 3, 2, 0, 0)
+  expect_equal(round(brainerdSimilarity(x, y), 0), 164)
+})

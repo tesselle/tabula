@@ -162,23 +162,33 @@ where $g(H)$ is the number of taxa gained along the transect, $l(H)$ the number 
 
 ### Similarity
 
-Similarity between two samples $a$ and $b$ can be measured as follow. $a_i$ and $b_i$ denote the number of individuals in the $i$-th taxon, $i \in \left[ 1,n \right]$. $j$ denotes the number of taxa common to both samples: $j = \sum_{k = 1}^{n} a_k \cap b_k$.
+Similarity between two samples $a$ and $b$ can be measured as follow. These 
+indices provide a scale of similarity from $0$-$1$ where $1$ is perfect similarity and $0$ is no similarity (with the exception of the Brainerd-Robinson index which is scaled between $0$ and $200$)
 
-#### Jaccard qualitative index
+$a_i$ and $b_i$ denote the number of individuals in the $i$-th taxon, $i \in \left[ 1,n \right]$. $j$ denotes the number of taxa common to both samples: $j = \sum_{k = 1}^{n} a_k \cap b_k$.
+
+#### Qualitative indices
+##### Jaccard index
 
 $$ C_J = \frac{j}{S_a + S_b - j} $$
 
-#### Sorenson qualitative index
+##### Sorenson index
 
 $$ C_S = \frac{2j}{S_a + S_b} $$
 
-#### Sorenson quantitative index
+#### Quantitative index
+
+##### Brainerd-Robinson index [@brainerd1951, @robinson1951]
+
+$$ C_{BR} = 200 - \sum_{i = 1}^{S} \left| \frac{a_i \times 100}{\sum_{i = 1}^{S} a_i} - \frac{b_i \times 100}{\sum_{i = 1}^{S} b_i} \right|$$
+
+##### Sorenson index
 
 @bray1957 modified version of Sorenson's index:
 
 $$ C_N = \frac{2 \sum_{i = 1}^{S} \min(a_i, b_i)}{N_a + N_b} $$
 
-#### Morisita-Horn quantitative index
+##### Morisita-Horn index
 
 $$ C_{MH} = \frac{2 \sum_{i = 1}^{S} a_i \times b_i}{(\frac{\sum_{i = 1}^{S} a_i^2}{N_a^2} + \frac{\sum_{i = 1}^{S} b_i^2}{N_b^2}) \times N_a \times N_b} $$
 

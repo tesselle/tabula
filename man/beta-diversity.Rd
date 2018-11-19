@@ -25,8 +25,8 @@ similarity(object, ...)
   "cody", "routledge1", "routledge2", "routledge3", "wilson"),
   simplify = FALSE, ...)
 
-\S4method{similarity}{CountMatrix}(object, method = c("bray", "jaccard",
-  "morisita", "sorenson"), ...)
+\S4method{similarity}{CountMatrix}(object, method = c("brainerd", "bray",
+  "jaccard", "morisita", "sorenson"), ...)
 
 \S4method{similarity}{IncidenceMatrix}(object, method = c("jaccard",
   "sorenson"), ...)
@@ -74,9 +74,13 @@ Measures differenciation diversity. \code{similarity} returns a similarity
 \section{Similarity}{
 
  \eqn{\beta}-diversity can also be measured by addressing \emph{similarity}
- between pairs of sites. The following methods return a value between \eqn{0}
- (no similarity) and \eqn{1} (identity):
+ between pairs of sites. This provides a scale of similarity from
+ \code{0}-\code{1} where \code{1} is perfect similarity and \code{0} is
+ no similarity (with the exception of the Brainerd-Robinson index which is
+ scaled between \code{0} and \code{200}):
  \describe{
+  \item{brainerd}{Brainerd-Robinson quantitative index. This is a city-block
+  metric of similarity.}
   \item{bray}{Sorenson quantitative index (Bray and Curtis modified version
   of the Sorenson index).}
   \item{jaccard}{Jaccard qualitative index.}
@@ -141,7 +145,11 @@ similarity(birds, "bray") # 0.44
 similarity(birds, "morisita") # 0.81
 }
 \references{
-Bray, J. R. & Curtis, J. T. (1957). An Ordination of the Upland Forest
+Brainerd, G. W. (1951). The Place of Chronological Ordering in
+ Archaeological Analysis. \emph{American Antiquity}, 16(04), 301-313.
+ DOI: \href{https://doi.org/10.2307/276979}{10.2307/276979}.
+
+ Bray, J. R. & Curtis, J. T. (1957). An Ordination of the Upland Forest
  Communities of Southern Wisconsin. \emph{Ecological Monographs}, 27(4),
  325-349. DOI: \href{https://doi.org/10.2307/1942268}{10.2307/1942268}.
 
@@ -153,6 +161,10 @@ Bray, J. R. & Curtis, J. T. (1957). An Ordination of the Upland Forest
  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
  Princeton, NJ: Princeton University Press.
  DOI:\href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+
+ Robinson, W. S. (1951). A Method for Chronologically Ordering Archaeological
+ Deposits. \emph{American Antiquity}, 16(04), 293-301.
+ DOI: \href{https://doi.org/10.2307/276978}{10.2307/276978}.
 
  Routledge, R. D. (1977). On Whittaker’s Components of Diversity.
  \emph{Ecology}, 58(5), 1120-1127.

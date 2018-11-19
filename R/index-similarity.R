@@ -99,3 +99,25 @@ morisitaSimilarity <- function(x, y) {
   Cm <- (2 * sum(x * y)) / ((da + db) * a * b)
   return(Cm)
 }
+
+# Brainerd-Robinson ------------------------------------------------------------
+# Brainerd-Robinson quantitative index
+#
+# @param x A length-p \code{\link{numeric}} vector.
+# @param y A length-p \code{\link{numeric}} vector.
+# @return A length-one \code{\link{numeric}} vector.
+# @author N. Frerebeau
+# @family similarity index
+# @rdname brainerd-index
+brainerdSimilarity <- function(x, y) {
+  # Validation
+  if (!is.numeric(x) | !is.numeric(y))
+    stop("numeric values are expected")
+  if (length(x) != length(y))
+    stop("x and y should have the same length")
+
+  a <- x / sum(x)
+  b <- y / sum(y)
+  Cb <- 2 - sum(abs(a - b))
+  return(Cb * 100)
+}
