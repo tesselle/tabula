@@ -20,7 +20,7 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "vignettes/figures/seriation-"
+  fig.path = "figures/seriation-"
 )
 library(tabula)
 library(ggplot2)
