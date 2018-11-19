@@ -6,10 +6,10 @@
 \alias{totals,FrequencyMatrix-method}
 \title{Frequency matrix}
 \usage{
-\S4method{totals}{FrequencyMatrix}(object)
+\S4method{totals}{FrequencyMatrix}(x)
 }
 \arguments{
-\item{object}{A \code{FrequencyMatrix} object.}
+\item{x}{A \code{FrequencyMatrix} object from which to extract element.}
 }
 \description{
 An S4 class to represent a frequency matrix.

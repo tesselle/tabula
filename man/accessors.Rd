@@ -9,16 +9,16 @@
 \alias{totals}
 \title{Accessors}
 \usage{
-columns(object)
+columns(x)
 
-method(object)
+method(x)
 
-rows(object)
+rows(x)
 
-totals(object)
+totals(x)
 }
 \arguments{
-\item{object}{An object.}
+\item{x}{An object.}
 }
 \description{
 Accessors

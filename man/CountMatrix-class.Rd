@@ -30,6 +30,10 @@ CountMatrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
 \description{
 An S4 class to represent a count matrix.
 }
+\details{
+Numeric values are coerced to \code{\link{integer}} as by
+ \code{\link[base]{as.integer}} (and hence truncated towards zero).
+}
 \note{
 This class extends the \code{base} \link[base]{matrix}.
 }

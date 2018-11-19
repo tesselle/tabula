@@ -67,7 +67,7 @@ on EPPM instead of raw data?}
 (i.e. maximum number of iterations) to avoid infinite loop.}
 }
 \value{
-\code{refine} returns a numeric vector.
+\code{refine} returns a \linkS4class{BootCA} object.
 
  \code{seriate} returns a \linkS4class{PermutationOrder} object.
 
@@ -144,7 +144,7 @@ The matrix seriation problem in archaeology is based on three conditions
 
 # Refine matrix seriation (this is a long running example)
 # Reproduces Peeples and Schachner 2012 results
-count <- as(compiegne, "CountMatrix")
+count <- as(zuni, "CountMatrix")
 
 ## Samples with convex hull maximum dimension length greater than the cutoff
 ## value will be marked for removal.
@@ -152,8 +152,9 @@ count <- as(compiegne, "CountMatrix")
 fun <- function(x) { mean(x) + sd(x) }
 
 ## Get indices of samples to be kept
-## Warning: this may take a few seconds
-keep <- refine(count, cutoff = fun)
+## Warning: this may take a few seconds!
+refined <- refine(count, cutoff = fun)
+refined[["keep"]]
 }
 
 # Matrix seriation

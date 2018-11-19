@@ -30,6 +30,10 @@ IncidenceMatrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
 \description{
 An S4 class to represent an incidence (presence/absence) matrix.
 }
+\details{
+Numeric values are coerced to \code{\link{logical}} as by
+ \code{\link[base]{as.logical}}.
+}
 \note{
 This class extends the \code{base} \link[base]{matrix}.
 }

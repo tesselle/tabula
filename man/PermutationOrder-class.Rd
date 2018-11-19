@@ -3,25 +3,33 @@
 \docType{class}
 \name{PermutationOrder-class}
 \alias{PermutationOrder-class}
+\alias{[[,PermutationOrder-method}
 \alias{rows,PermutationOrder-method}
 \alias{columns,PermutationOrder-method}
 \alias{method,PermutationOrder-method}
 \title{Permutation order}
 \usage{
-\S4method{rows}{PermutationOrder}(object)
+\S4method{[[}{PermutationOrder}(x, i)
 
-\S4method{columns}{PermutationOrder}(object)
+\S4method{rows}{PermutationOrder}(x)
 
-\S4method{method}{PermutationOrder}(object)
+\S4method{columns}{PermutationOrder}(x)
+
+\S4method{method}{PermutationOrder}(x)
 }
 \arguments{
-\item{object}{A \code{PermutationOrder} object.}
+\item{x}{A \code{PermutationOrder} object from which to extract element(s).}
+
+\item{i}{A \code{\link{character}} string specifying elements to extract.
+Character vectors will be matched to the name of the slots.}
 }
 \description{
 An S4 class to represent a permutation order.
 }
 \section{Methods (by generic)}{
 \itemize{
+\item \code{[[}: Returns information about the individual slots.
+
 \item \code{rows}: Returns the rows permutation.
 
 \item \code{columns}: Returns the columns permutation.
