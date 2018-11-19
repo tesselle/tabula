@@ -6,7 +6,7 @@ NULL
 #' @rdname CountMatrix-class
 CountMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
                         dimnames = NULL) {
-  M <- buildMatrix(data, nrow, ncol, byrow, dimnames,
+  M <- buildMatrix(as.integer(data), nrow, ncol, byrow, dimnames,
                    missing(nrow), missing(ncol))
   methods::new("CountMatrix", M)
 }
