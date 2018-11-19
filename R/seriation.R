@@ -8,8 +8,7 @@ NULL
 setMethod(
   f = "refine",
   signature = signature(object = "CountMatrix"),
-  definition = function(object, cutoff, n = 1000, margin = 1,
-                        axes = c(1, 2), ...) {
+  definition = function(object, cutoff, n = 1000, axes = c(1, 2), ...) {
     # Partial bootstrap CA
     hull_rows <- bootCA(object, n = n, margin = 1, axes = axes, ...)
     hull_columns <- rows <- bootCA(object, n = n, margin = 2, axes = axes, ...)
