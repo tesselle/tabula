@@ -28,7 +28,7 @@ library(ggplot2)
 
 ## Introduction
 
-The matrix seriation problem in archaeology is based on three conditions and two assumptions, which @dunell1970 summarizes as follows.
+The matrix seriation problem in archaeology is based on three conditions and two assumptions, which @dunnell1970 summarizes as follows.
 
 The homogeneity conditions state that all the groups included in a seriation must:
 * Be of comparable duration,
