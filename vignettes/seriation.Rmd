@@ -1,0 +1,167 @@
+---
+title: "Matrix seriation"
+author: "N. Frerebeau"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
+    toc: true
+header-includes:
+   - \usepackage{amsmath}
+   - \usepackage{amssymb}
+bibliography: bibliography.bib
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "vignettes/figures/seriation-"
+)
+library(tabula)
+library(ggplot2)
+```
+
+## Introduction
+
+The matrix seriation problem in archaeology is based on three conditions and two assumptions, which @dunell1970 summarizes as follows.
+
+The homogeneity conditions state that all the groups included in a seriation must:
+* Be of comparable duration,
+* Belong to the same cultural tradition,
+* Come from the same local area.
+
+The mathematical assumptions state that the distribution of any historical or temporal class:
+* Is continuous through time,
+* Exhibits the form of a unimodal curve.
+
+Theses assumptions create a distributional model and ordering is accomplished by arranging the matrix so that the class distributions approximate the required pattern. The resulting order is infered to be chronological.
+
+## Seriation
+
+The following methods assume that you keep your data tidy: each variable (taxon/type) must be saved in its own column and each observation (sample/case) must be saved in its own row. Missing values are not allowed.
+
+### Reciprocal ranking
+
+```{r ranking, fig.show='hold'}
+# Build an incidence matrix with random data
+incidence1 <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
+                              nrow = 20)
+
+# Get seriation order on rows and columns
+# Correspondance analysis-based seriation
+(indices <- seriate(incidence1, method = "correspondance", margin = c(1, 2)))
+
+# Permute matrix rows and columns
+incidence2 <- permute(incidence1, indices)
+
+# Plot matrix
+plotMatrix(incidence1) + 
+  labs(title = "Original matrix") +
+  theme(legend.position = "bottom") +
+  scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
+plotMatrix(incidence2) + 
+  labs(title = "Rearranged matrix") +
+  theme(legend.position = "bottom") +
+  scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
+```
+
+### Reciprocal averaging
+
+```{r averaging, fig.width=7, fig.height=4, fig.show='hold'}
+# Reproduces Desachy 2004 results
+## Coerce dataset to an abundance matrix
+comp1 <- as(compiegne, "CountMatrix")
+
+## Plot new matrix
+plotBar(comp1, EPPM = TRUE) +
+  labs(title = "Original dataset") +
+  theme_bw() + theme(panel.spacing = unit(0, "lines"),
+                     panel.border = element_rect(colour = NA))
+
+## Get seriation order for columns on EPPM using the reciprocal averaging method
+## Expected column order: N, A, C, K, P, L, B, E, I, M, D, G, O, J, F, H
+indices <- seriate(comp1, method = "reciprocal", EPPM = TRUE, margin = 2)
+
+## Permute columns
+comp2 <- permute(comp1, indices)
+
+## Plot new matrix
+plotBar(comp2, EPPM = TRUE) +
+  labs(title = "Reordered dataset") +
+  theme_bw() + theme(panel.spacing = unit(0, "lines"),
+                     panel.border = element_rect(colour = NA))
+```
+
+### Correspondance analysis
+
+```{r ca}
+## Coerce dataset to an abundance matrix
+zuni1 <- as(zuni, "CountMatrix")
+
+# Correspondance analysis of the whole dataset
+ca <- FactoMineR::CA(zuni1, graph = FALSE)
+
+# Plot CA results
+ggplot(mapping = aes(x = `Dim 1`, y = `Dim 2`)) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  geom_hline(yintercept = 0, linetype = 2) +
+  geom_point(data = as.data.frame(ca$row$coord), color = "black") +
+  geom_point(data = as.data.frame(ca$col$coord), color = "red") +
+  coord_fixed() + theme_bw()
+```
+
+```{r ca-seriation, fig.width=7}
+# Get row permutations from CA coordinates
+indices <- seriate(zuni1, method = "correspondance", margin = 1)
+
+# Permute data matrix
+zuni2 <- permute(zuni1, order = indices)
+
+# Plot Ford diagram
+# Warning: this may take a few seconds!
+plotBar(zuni2, level = FALSE) +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title = element_blank())
+```
+
+#### Refine CA-based seriation [@peeples2012]
+
+```{r refine, fig.show='hold'}
+# Reproduces Peeples and Schachner 2012 results
+
+## Samples with convex hull maximum dimension length greater than the cutoff
+## value will be marked for removal.
+## Define cutoff as one standard deviation above the mean
+fun <- function(x) { mean(x) + sd(x) }
+
+## Get indices of samples to be kept
+## Warning: this may take a few seconds!
+keep <- refine(zuni1, cutoff = fun)
+
+## Plot convex hull
+### All bootstrap samples
+ggplot(mapping = aes(x = x, y = y, group = id)) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  geom_hline(yintercept = 0, linetype = 2) +
+  geom_polygon(data = keep[["rows"]], fill = "blue", alpha = 0.05) +
+  geom_polygon(data = keep[["columns"]], fill = "red", alpha = 0.5) +
+  coord_fixed() + theme_bw() + labs(title = "Whole dataset",
+                                    x = "Dim. 1", y = "Dim. 2")
+### Only retained samples
+ggplot(mapping = aes(x = x, y = y, group = id)) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  geom_hline(yintercept = 0, linetype = 2) +
+  geom_polygon(data = subset(keep[["rows"]], id %in% names(keep[["keep"]])),
+               fill = "blue", alpha = 0.05) +
+  geom_polygon(data = keep[["columns"]], fill = "red", alpha = 0.5) +
+  coord_fixed() + theme_bw() + labs(title = "Selected samples",
+                                    x = "Dim. 1", y = "Dim. 2")
+```
+
+## References
