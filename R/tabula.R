@@ -23,7 +23,7 @@
 #'  \tabular{ll}{
 #'   Nicolas Frerebeau \tab \emph{IRAMAT-CRP2A, Université Bordeaux Montaigne, France} \cr
 #'   Brice Lebrun \tab \emph{CEREGE, Aix-Marseille Université, France} \cr
-#'   Matthew Peeples \tab \emph{SNArchy, Arizona State University, France}
+#'   Matthew Peeples \tab \emph{SNArchy, Arizona State University, USA}
 #'  }
 #'
 #' \strong{Bug reporting}
