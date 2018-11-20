@@ -22,7 +22,8 @@
 #' @author \strong{Full list of authors and contributors} (alphabetic order)
 #'  \tabular{ll}{
 #'   Nicolas Frerebeau \tab \emph{IRAMAT-CRP2A, Université Bordeaux Montaigne, France} \cr
-#'   Brice Lebrun \tab \emph{CEREGE, Aix-Marseille Université, France}
+#'   Brice Lebrun \tab \emph{CEREGE, Aix-Marseille Université, France} \cr
+#'   Matthew Peeples \tab \emph{SNArchy, Arizona State University, France}
 #'  }
 #'
 #' \strong{Bug reporting}
