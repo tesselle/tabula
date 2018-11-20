@@ -46,7 +46,10 @@ test_that("Initialize a CountMatrix instance", {
   expect_error(new("CountMatrix", test_num_nan))
 })
 test_that("Initialize a FrequencyMatrix instance", {
-  expect_s4_class(new("FrequencyMatrix", test_freq, totals = rowSums(test_freq)), "FrequencyMatrix")
+  expect_s4_class(new("FrequencyMatrix", test_freq,
+                      totals = rowSums(test_freq)), "FrequencyMatrix")
+  expect_is(totals(new("FrequencyMatrix", test_freq,
+                       totals = rowSums(test_freq))), "numeric")
 
   expect_error(new("FrequencyMatrix", test_freq, total = 1)) # Wrong total
   expect_error(new("FrequencyMatrix", test_freq)) # Missing total
@@ -78,4 +81,46 @@ test_that("Initialize a IncidenceMatrix instance", {
 # Seriation ====================================================================
 test_that("Initialize an empty PermutationOrder object", {
   expect_s4_class(new("PermutationOrder"), "PermutationOrder")
+})
+test_that("Access PermutationOrder slots", {
+  df <- data.frame("id" = LETTERS, "x" = 1:26, "y" = 1:26)
+  boot <- new("PermutationOrder", rows = 1:5, columns = 1:5, method = "X")
+
+  expect_is(rows(boot), "integer")
+  expect_is(columns(boot), "integer")
+  expect_is(boot[["rows"]], "integer")
+  expect_is(boot[["columns"]], "integer")
+  expect_is(boot[["method"]], "character")
+})
+test_that("Initialize an empty BootCA object", {
+  expect_s4_class(new("BootCA"), "BootCA")
+})
+test_that("Initialize a BootCA object", {
+  df <- data.frame("id" = LETTERS, "x" = 1:26, "y" = 1:26)
+  expect_s4_class(new("BootCA", rows = df, columns = df, length = 1:26,
+                      cutoff = 3, keep = 1:3), "BootCA")
+
+  expect_error(new("BootCA", rows = data.frame(1:5)))
+  expect_error(new("BootCA", rows = data.frame("id" = 1:26, "m" = 1:26,
+                                               "n" = 1:26)))
+  expect_error(new("BootCA", rows = data.frame("id" = 1:26, "x" = LETTERS,
+                                               "y" = 1:26)))
+  expect_error(new("BootCA", columns = data.frame(1:5)))
+  expect_error(new("BootCA", columns = data.frame("id" = 1:26, "m" = 1:26,
+                                                  "n" = 1:26)))
+  expect_error(new("BootCA", columns = data.frame("id" = 1:26, "x" = LETTERS,
+                                                  "y" = 1:26)))
+  expect_error(new("BootCA", cutoff = 1:2))
+  expect_error(new("BootCA", lengths = LETTERS))
+})
+test_that("Access BootCA slots", {
+  df <- data.frame("id" = LETTERS, "x" = 1:26, "y" = 1:26)
+  boot <- new("BootCA", rows = df, columns = df, length = 1:26,
+              cutoff = 3, keep = 1:3)
+
+  expect_is(boot[["rows"]], "data.frame")
+  expect_is(boot[["columns"]], "data.frame")
+  expect_is(boot[["lengths"]], "integer")
+  expect_is(boot[["cutoff"]], "numeric")
+  expect_is(boot[["keep"]], "integer")
 })

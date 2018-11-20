@@ -167,13 +167,78 @@ setValidity(
         if (any(columns <= 0))
           errors <- c(errors, "strictly positive values are expected")
     }
-    if (length(rows) != 0 | length(columns) != 0) {
-      if (length(method) == 1) {
+    if (length(method) != 0) {
+      if (length(method) != 1) {
+        errors <- c(errors, "a single character string is expected")
+      } else {
         if (!is.character(method))
           errors <- c(errors, "a character string is expected")
-      } else {
-        errors <- c(errors, "should be of length 1")
       }
+    }
+    # Return errors if any
+    if (length(errors) != 0) {
+      stop(paste(errors, collapse = "\n"))
+    } else {
+      return(TRUE)
+    }
+  }
+)
+
+## BootCA ----------------------------------------------------------------------
+setValidity(
+  Class = "BootCA",
+  method = function(object) {
+    errors <- c()
+    # Get data
+    rows <- object@rows
+    columns <- object@columns
+    lengths <- object@lengths
+    cutoff <- object@cutoff
+    keep <- object@keep
+
+    if (length(rows) != 0) {
+      if (ncol(rows) != 3) {
+        errors <- c(errors, "wrong column dimension")
+      } else {
+        if (!identical(colnames(rows), c("id", "x", "y"))) {
+          errors <- c(errors, "wrong column names")
+        } else {
+          if (!is.numeric(rows$x) | !is.numeric(rows$y))
+            errors <- c(errors, "numeric values are expected")
+        }
+      }
+      if (any(is.na(rows)))
+        errors <- c(errors, "NA values were detected")
+    }
+    if (length(columns) != 0) {
+      if (ncol(columns) != 3) {
+        errors <- c(errors, "wrong column dimension")
+      } else {
+        if (!identical(colnames(columns), c("id", "x", "y"))) {
+          errors <- c(errors, "wrong column names")
+        } else {
+          if (!is.numeric(columns$x) | !is.numeric(columns$y))
+            errors <- c(errors, "numeric values are expected")
+        }
+      }
+      if (any(is.na(columns)))
+        errors <- c(errors, "NA values were detected")
+    }
+    if (length(lengths) != 0) {
+      if (any(!is.numeric(lengths)) | any(is.na(lengths)))
+        errors <- c(errors, "numeric values are expected")
+    }
+    if (length(cutoff) != 0) {
+      if (length(cutoff) != 1) {
+        errors <- c(errors, "a single value is expected")
+      } else {
+        if (!is.numeric(cutoff) | is.na(cutoff))
+          errors <- c(errors, "a numeric value is expected")
+      }
+    }
+    if (length(keep) != 0) {
+      if (any(!is.numeric(keep)) | any(is.na(keep)))
+        errors <- c(errors, "numeric values are expected")
     }
     # Return errors if any
     if (length(errors) != 0) {
