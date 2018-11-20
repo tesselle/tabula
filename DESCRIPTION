@@ -1,7 +1,7 @@
 Package: tabula
 Title: Analysis, Seriation and Visualization of Archaeological Count Data
-Version: 0.9.0
-Date: 2018-11-16
+Version: 1.0.0
+Date: 2018-11-20
 Authors@R: c(person("Nicolas", "Frerebeau",
                     email = "nicolas.frerebeau@u-bordeaux-montaigne.fr",
                     role = c("aut", "cre"),
