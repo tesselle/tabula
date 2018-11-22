@@ -11,7 +11,7 @@ header-includes:
    - \usepackage{amssymb}
 bibliography: bibliography.bib
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Matrix seriation}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

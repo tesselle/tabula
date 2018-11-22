@@ -1,5 +1,5 @@
 ---
-title: "Diversity measures calculation"
+title: "Diversity measures"
 author: "N. Frerebeau"
 date: "`r Sys.Date()`"
 output:
@@ -8,7 +8,7 @@ output:
     toc: true
 bibliography: bibliography.bib
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Diversity measures}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

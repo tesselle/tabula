@@ -10,7 +10,7 @@ header-includes:
    - \usepackage{amsmath}
    - \usepackage{amssymb}
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Matrix classes}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
