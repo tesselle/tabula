@@ -46,7 +46,7 @@ Collate:
     'statistics.R'
     'plot.R'
     'seriation.R'
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Suggests:
     testthat,
     knitr,
