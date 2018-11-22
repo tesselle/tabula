@@ -155,7 +155,6 @@ fun <- function(x) { mean(x) + sd(x) }
 ## Warning: this may take a few seconds!
 refined <- refine(count, cutoff = fun)
 refined[["keep"]]
-}
 
 # Matrix seriation
 # Reproduces Desachy 2004 results
@@ -174,6 +173,7 @@ new <- permute(count, indices)
 
 ## Plot new matrix
 plotBar(new, EPPM = TRUE)
+}
 }
 \references{
 Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
