@@ -3,7 +3,7 @@ Title: Analysis, Seriation and Visualization of Archaeological Count Data
 Version: 1.0.0
 Date: 2018-11-22
 Authors@R: c(person("Nicolas", "Frerebeau",
-                    email = "nicolas.frerebeau@u-bordeaux-montaigne.fr",
+                    email = "data@archaeo.science",
                     role = c("aut", "cre"),
                     comment = c(ORCID = "https://orcid.org/0000-0001-5759-4944")),
              person("Brice", "Lebrun",
