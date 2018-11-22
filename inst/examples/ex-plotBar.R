@@ -1,3 +1,5 @@
+\dontrun{
+
 # Coerce dataset to abundance matrix
 # Data from Desachy 2004
 count <- as(compiegne, "CountMatrix")
@@ -20,3 +22,4 @@ plotBar(freq, level = FALSE, center = FALSE, horizontal = FALSE)
 
 ## ...with EPPM (i.e. Bruno Desachy's sériographe)
 plotBar(count, EPPM = TRUE, center = FALSE, horizontal = TRUE)
+}

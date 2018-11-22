@@ -52,6 +52,8 @@ If \code{EPPM} is \code{TRUE} and if a relative abundance is greater than
  \code{\link[=seriate]{seriation}}.
 }
 \examples{
+\dontrun{
+
 # Coerce dataset to abundance matrix
 # Data from Desachy 2004
 count <- as(compiegne, "CountMatrix")
@@ -74,6 +76,7 @@ plotBar(freq, level = FALSE, center = FALSE, horizontal = FALSE)
 
 ## ...with EPPM (i.e. Bruno Desachy's sériographe)
 plotBar(count, EPPM = TRUE, center = FALSE, horizontal = TRUE)
+}
 }
 \references{
 Bertin, J. (1977). \emph{La graphique et le traitement graphique de
