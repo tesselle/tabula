@@ -11,7 +11,7 @@
 #'  \strong{Package:} \tab tabula \cr
 #'  \strong{Type:} \tab Package \cr
 #'  \strong{Version:} \tab 1.0.0 \cr
-#'  \strong{Date:} \tab 2018-11-20 \cr
+#'  \strong{Date:} \tab 2018-11-22 \cr
 #'  \strong{License:} \tab GPL-3 \cr
 #'  \strong{DOI:} \tab \href{https://doi.org/10.5281/zenodo.1489944}{10.5281/zenodo.1489944}
 #' }
