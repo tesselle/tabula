@@ -7,12 +7,12 @@
 tabula <img width=120px src="man/figures/logo.svg" align="right" />
 ===================================================================
 
-[![Build Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula) [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
+[![Build Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula) [![GitHub Release](https://img.shields.io/github/release/nfrerebeau/tabula.svg)](https://github.com/nfrerebeau/tabula/releases) [![CRAN Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula) [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/grand-total/tabula)](https://cran.r-project.org/package=tabula) [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
 
 Overview
 --------
 
-`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity, e.g. richness, rarefaction, diversity, turnover, similarity, etc. It also provides matrix seriation methods for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford and Bertin diagrams, etc.
+`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity (e.g. richness, rarefaction, diversity, turnover, similarity, etc.) discussed in Magurran (1988) and others. It also provides matrix seriation methods for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford (1972) and Bertin (1977) diagrams, etc.
 
 Installation
 ------------
@@ -42,7 +42,7 @@ Usage
     -   `IncidenceMatrix` represents presence/absence data.
     -   `OccurrenceMatrix` represents a co-occurence matrix.
 
-It assumes that you keep your data tidy: each variable (taxa) must be saved in its own column and each observation (case) must be saved in its own row.
+It assumes that you keep your data tidy: each variable (type/taxa) must be saved in its own column and each observation (sample/case) must be saved in its own row.
 
 These new classes are of simple use, on the same way as the base `matrix`:
 
@@ -90,7 +90,7 @@ count <- as(compiegne, "CountMatrix")
 #### Sample richness
 
 ``` r
-richness(count, method = c("margalef", "menhinick", "berger"), simplify = TRUE)
+richness(count, method = c("margalef", "menhinick"), simplify = TRUE)
 #>   margalef  menhinick
 #> 5 1.176699 0.07933617
 #> 4 1.323459 0.07568907
@@ -147,12 +147,12 @@ turnover(count, method = c("whittaker", "cody", "routledge1",
 
 ``` r
 similarity(count, method = "morisita")
-#>   5         4         3         2         1
-#> 5 1 0.9162972 0.7575411 0.6670201 0.6286479
-#> 4 1 1.0000000 0.8879556 0.7964064 0.7106784
-#> 3 1 1.0000000 1.0000000 0.8251501 0.6637747
-#> 2 1 1.0000000 1.0000000 1.0000000 0.9224228
-#> 1 1 1.0000000 1.0000000 1.0000000 1.0000000
+#>           5         4         3         2         1
+#> 5 1.0000000 0.9162972 0.7575411 0.6670201 0.6286479
+#> 4 0.9162972 1.0000000 0.8879556 0.7964064 0.7106784
+#> 3 0.7575411 0.8879556 1.0000000 0.8251501 0.6637747
+#> 2 0.6670201 0.7964064 0.8251501 1.0000000 0.9224228
+#> 1 0.6286479 0.7106784 0.6637747 0.9224228 1.0000000
 ```
 
 ### Seriation
@@ -166,8 +166,8 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Row order: 10 12 9 16 17 15 1 18 13 4 7 6 11 20 3 19 14 5 8 2 
-#>    Column order: 2 7 13 17 8 5 12 10 16 1 11 14 15 9 6 19 20 18 4 3 
+#>    Row order: 6 2 18 14 20 19 16 17 13 7 1 15 8 5 11 4 12 10 9 3 
+#>    Column order: 7 16 11 17 8 6 20 1 3 4 15 9 18 19 13 14 10 2 12 5 
 #>    Method: correspondance
 ```
 
@@ -224,6 +224,6 @@ plotRank(count, log = "xy")
 
 ![](man/figures/README-rank-1.png)
 
-[1] Desachy, B. (2004). Le sériographe EPPM : un outil informatisé de sériation graphique pour tableaux de comptages. *Revue archéologique de Picardie*, 3(1), 39–56. DOI: [10.3406/pica.2004.2396](https://doi.org/10.3406/pica.2004.2396)
+[1] Desachy, B. (2004). Le sériographe EPPM : un outil informatisé de sériation graphique pour tableaux de comptages. *Revue archéologique de Picardie*, 3(1), 39-56. DOI: [10.3406/pica.2004.2396](https://doi.org/10.3406/pica.2004.2396).
 
 [2] Adapted from Dan Gopstein's original [spot matrix](https://dgopstein.github.io/articles/spot-matrix/).
