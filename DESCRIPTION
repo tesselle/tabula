@@ -17,11 +17,13 @@ Authors@R: c(person("Nicolas", "Frerebeau",
             )
 Maintainer: Nicolas Frerebeau <data@archaeo.science>
 Description: An easy way to examine archaeological count data (artifacts, faunal 
-    remains, etc.). This package includes several measures of diversity, e.g. 
-    richness, rarefaction, diversity, turnover, similarity, etc. It also 
-    provides matrix seriation methods for chronological modeling and dating. 
+    remains, etc.). This package includes several measures of diversity (e.g. 
+    richness, rarefaction, diversity, turnover, similarity, etc.) discussed 
+    in Magurran (1988) <isbn:0691084858> and others.
+    It also provides matrix seriation methods for chronological modeling and dating. 
     The package make it easy to visualize count data and statistical thresholds: 
-    rank/abundance plots, Ford and Bertin diagrams, etc.
+    rank/abundance plots, Ford (1972) <isbn:0913134082> and Bertin (1977) 
+    <isbn:2082111121> diagrams, etc.
 URL: http://github.com/nfrerebeau/tabula
 BugReports: http://github.com/nfrerebeau/tabula/issues
 Depends: R (>= 3.4)
