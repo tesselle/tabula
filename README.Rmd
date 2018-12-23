@@ -25,7 +25,7 @@ library(tabula)
 
 ## Overview
 
-`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity, e.g. richness, rarefaction, diversity, turnover, similarity, etc. It also provides matrix seriation methods for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford and Bertin diagrams, etc.
+`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity (e.g. richness, rarefaction, diversity, turnover, similarity, etc.) discussed in Magurran (1988) and others. It also provides matrix seriation methods for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford (1972) and Bertin (1977) diagrams, etc.
 
 ## Installation
 
@@ -53,7 +53,7 @@ devtools::install_github("nfrerebeau/tabula")
     * `IncidenceMatrix` represents presence/absence data.
     * `OccurrenceMatrix` represents a co-occurence matrix.
 
-It assumes that you keep your data tidy: each variable (taxa) must be saved in its own column and each observation (case) must be saved in its own row.
+It assumes that you keep your data tidy: each variable (type/taxa) must be saved in its own column and each observation (sample/case) must be saved in its own row.
 
 These new classes are of simple use, on the same way as the base `matrix`:
 
@@ -100,7 +100,7 @@ count <- as(compiegne, "CountMatrix")
 #### Sample richness
 
 ```{r richness}
-richness(count, method = c("margalef", "menhinick", "berger"), simplify = TRUE)
+richness(count, method = c("margalef", "menhinick"), simplify = TRUE)
 ```
 
 #### Heterogeneity and evenness measures
@@ -208,6 +208,6 @@ Ranks *vs* abundance plot can be used for abundance models (model fitting will b
 plotRank(count, log = "xy")
 ```
 
-[^1]: Desachy, B. (2004). Le sériographe EPPM : un outil informatisé de sériation graphique pour tableaux de comptages. *Revue archéologique de Picardie*, 3(1), 39–56. DOI: [10.3406/pica.2004.2396](https://doi.org/10.3406/pica.2004.2396)
+[^1]: Desachy, B. (2004). Le sériographe EPPM : un outil informatisé de sériation graphique pour tableaux de comptages. *Revue archéologique de Picardie*, 3(1), 39-56. DOI: [10.3406/pica.2004.2396](https://doi.org/10.3406/pica.2004.2396).
 
 [^2]: Adapted from Dan Gopstein's original [spot matrix](https://dgopstein.github.io/articles/spot-matrix/).
