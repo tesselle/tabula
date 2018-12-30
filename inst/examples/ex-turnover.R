@@ -18,9 +18,9 @@ turnover(trees, "whittaker") # 1
 turnover(trees, "cody") # 3
 
 # Routledge's measures
-turnover(trees, "routledge1") # 0.29
-turnover(trees, "routledge2") # 0.56
-turnover(trees, "routledge3") # 1.75
+turnover(trees, method = c("routledge1", "routledge2", "routledge3"),
+         simplify = TRUE)
+# 0.29 0.56 1.75
 
 # Wilson and Shmida's measure
 turnover(trees, "wilson") # 1

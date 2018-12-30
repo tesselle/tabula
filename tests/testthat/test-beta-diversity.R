@@ -20,9 +20,9 @@ test_that("Turnover measure (presence/absence data)", {
               "wilson")
   expected <- c(1.00, 3.00, 0.29, 0.56, 1.75, 1.00)
   for (i in 1:length(method)) {
-    index <- turnover(count, method = method[i])
+    index <- turnover(count, method = method[i], simplify = TRUE)
     expect_is(index, "numeric")
-    expect_identical(round(index, 2), expected[i])
+    expect_equal(round(index, 2), expected[i], check.attributes = FALSE)
   }
 })
 
