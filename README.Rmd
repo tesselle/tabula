@@ -21,13 +21,13 @@ library(tabula)
 [![Build Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula)
 [![GitHub Release](https://img.shields.io/github/release/nfrerebeau/tabula.svg)](https://github.com/nfrerebeau/tabula/releases)
 [![CRAN Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula)
-[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/grand-total/tabula)](https://cran.r-project.org/package=tabula)
+[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/tabula)](https://cran.r-project.org/package=tabula)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
 
 ## Overview
 
-`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity (e.g. richness, rarefaction, diversity, turnover, similarity, etc.) discussed in Magurran (1988) and others. It also provides matrix seriation methods for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford (1972) and Bertin (1977) diagrams, etc.
+`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity: e.g. richness and rarefaction [Chao1, Chao2, ACE, ICE, etc.; Chao (1984), Chao & Lee (1992)], diversity/dominance and evenness [Brillouin, Shannon, Simpson, etc.; Magurran (1988)], turnover and similarity. It also provides matrix seriation methods for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford (1972) and Bertin (1977) diagrams, etc.
 
 ## Installation
 
@@ -102,7 +102,7 @@ count <- as(compiegne, "CountMatrix")
 #### Sample richness
 
 ```{r richness}
-richness(count, method = c("margalef", "menhinick"), simplify = TRUE)
+richness(count, method = c("margalef", "menhinick", "chao1"), simplify = TRUE)
 ```
 
 #### Heterogeneity and evenness measures
@@ -194,18 +194,21 @@ plotBar(count, EPPM = TRUE)
 ```
 
 
-Matrix plot is displayed as a heatmap. The PVI matrix (B. Desachy's matrigraphe) allows to explore deviations from independence (an intuitive graphical approach to $\chi^2$),
+Matrix plot is displayed as a heatmap. The PVI matrix (B. Desachy's matrigraphe) allows to explore deviations from independence (an intuitive graphical approach to $\chi^2$).
+
 ```{r matrigraph, fig.height=3.5}
 plotMatrix(count, PVI = TRUE) +
   ggplot2::scale_fill_gradient2(midpoint = 1)
 ```
 
 Spot matrix (no doubt easier to read than a heatmap [^2]) allows direct examination of data (above/below some threshold):
+
 ```{r spot, fig.height=3.5}
 plotSpot(count, threshold = mean)
 ```
 
 Ranks *vs* abundance plot can be used for abundance models (model fitting will be implemented in a futur release):
+
 ```{r rank, fig.height=3.5}
 plotRank(count, log = "xy")
 ```

@@ -7,12 +7,12 @@
 tabula <img width=120px src="man/figures/logo.svg" align="right" />
 ===================================================================
 
-[![Build Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula) [![GitHub Release](https://img.shields.io/github/release/nfrerebeau/tabula.svg)](https://github.com/nfrerebeau/tabula/releases) [![CRAN Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula) [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/grand-total/tabula)](https://cran.r-project.org/package=tabula) [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
+[![Build Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula) [![GitHub Release](https://img.shields.io/github/release/nfrerebeau/tabula.svg)](https://github.com/nfrerebeau/tabula/releases) [![CRAN Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula) [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/tabula)](https://cran.r-project.org/package=tabula) [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
 
 Overview
 --------
 
-`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity (e.g. richness, rarefaction, diversity, turnover, similarity, etc.) discussed in Magurran (1988) and others. It also provides matrix seriation methods for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford (1972) and Bertin (1977) diagrams, etc.
+`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity: e.g. richness and rarefaction \[Chao1, Chao2, ACE, ICE, etc.; Chao (1984), Chao & Lee (1992)\], diversity/dominance and evenness \[Brillouin, Shannon, Simpson, etc.; Magurran (1988)\], turnover and similarity. It also provides matrix seriation methods for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford (1972) and Bertin (1977) diagrams, etc.
 
 Installation
 ------------
@@ -90,13 +90,13 @@ count <- as(compiegne, "CountMatrix")
 #### Sample richness
 
 ``` r
-richness(count, method = c("margalef", "menhinick"), simplify = TRUE)
-#>   margalef  menhinick
-#> 5 1.176699 0.07933617
-#> 4 1.323459 0.07568907
-#> 3 1.412383 0.07905694
-#> 2 1.429741 0.08432155
-#> 1 1.428106 0.08381675
+richness(count, method = c("margalef", "menhinick", "chao1"), simplify = TRUE)
+#>   margalef  menhinick chao1
+#> 5 1.176699 0.07933617    13
+#> 4 1.323459 0.07568907    15
+#> 3 1.412383 0.07905694    16
+#> 2 1.429741 0.08432155    16
+#> 1 1.428106 0.08381675    16
 ```
 
 #### Heterogeneity and evenness measures
@@ -166,8 +166,8 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Row order: 6 2 18 14 20 19 16 17 13 7 1 15 8 5 11 4 12 10 9 3 
-#>    Column order: 7 16 11 17 8 6 20 1 3 4 15 9 18 19 13 14 10 2 12 5 
+#>    Row order: 4 6 11 18 2 20 5 12 3 13 16 9 14 7 8 17 19 15 1 10 
+#>    Column order: 8 19 12 6 20 2 5 14 4 11 1 7 9 17 10 16 18 3 13 15 
 #>    Method: correspondance
 ```
 
@@ -199,7 +199,7 @@ plotBar(count, EPPM = TRUE)
 
 ![](man/figures/README-seriograph-1.png)
 
-Matrix plot is displayed as a heatmap. The PVI matrix (B. Desachy's matrigraphe) allows to explore deviations from independence (an intuitive graphical approach to *χ*<sup>2</sup>),
+Matrix plot is displayed as a heatmap. The PVI matrix (B. Desachy's matrigraphe) allows to explore deviations from independence (an intuitive graphical approach to *χ*<sup>2</sup>).
 
 ``` r
 plotMatrix(count, PVI = TRUE) +
