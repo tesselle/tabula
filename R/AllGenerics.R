@@ -11,12 +11,16 @@ NULL
 #' estimate of Sander's rarefaction.
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
 #' @param method A \code{\link{character}} string specifiying the index to be
-#'  computed. This must be one or more of "\code{berger}",
-#'  "\code{brillouin}", "\code{margalef}", "\code{mcintosh}",
+#'  computed. This must be one or more of
+#'  "\code{ace}", "\code{chao1}", "\code{chao2}", "\code{berger}",
+#'  "\code{brillouin}", "\code{ice}", "\code{margalef}", "\code{mcintosh}",
 #'  "\code{menhinick}", "\code{shannon}", "\code{simpson}" (see details).
 #'  Any unambiguous substring can be given.
 #' @param sample A length-one \code{\link{numeric}} vector giving the sub-sample
 #'  size.
+#' @param k A length-one \code{\link{numeric}} vector giving the threshold
+#'  between rare/infrequent and abundant/frequent species (only used if
+#'  \code{method} is "\code{ace}" or "\code{ice}" ; see details).
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
 #' @param ... Further arguments passed to other methods.
@@ -38,10 +42,17 @@ NULL
 #'
 #'  The following richness measures are available:
 #'  \describe{
-#'   \item{margalef}{Margalef richness index:
-#'    \eqn{D_{Mg} = \frac{S - 1}{\ln N}}{D = (S - 1) / ln N}}
-#'   \item{menhinick}{Menhinick richness index:
-#'    \eqn{D_{Mn} = \frac{S}{\sqrt{N}}}{D = S / \sqrt N}}
+#'   \item{ace}{Abundance-based Coverage Estimator.}
+#'   \item{ice}{Incidence-based Coverage Estimator.}
+#'   \item{chao1}{Chao1 estimator for abundance data: lower bound
+#'   of undetected species richness in terms of the numbers of singletons and
+#'   doubletons.}
+#'   \item{chao1bc}{Bias-corrected Chao1 estimator for abundance data.}
+#'   \item{chao1i}{Improved Chao1 estimator for abundance data.}
+#'   \item{chao2}{Chao2 estimator for replicated incidence data.}
+#'   \item{chao2i}{Improved Chao2 estimator for replicated incidence data.}
+#'   \item{margalef}{Margalef richness index for abundance data.}
+#'   \item{menhinick}{Menhinick richness index for abundance data.}
 #'  }
 #' @section Diversity and Evenness:
 #'  \emph{Diversity} measurement assumes that all individuals in a specific
@@ -106,6 +117,29 @@ NULL
 #'
 #'  Brillouin, L. (1956). \emph{Science and information theory}. New York:
 #'  Academic Press.
+#'
+#'  Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
+#'  Population. \emph{Scandinavian Journal of Statistics}, 11(4), 265-270.
+#'
+#'  Chao, A. (1987). Estimating the Population Size for Capture-Recapture Data
+#'  with Unequal Catchability. \emph{Biometrics} 43(4), 783-791.
+#'  DOI: \href{https://doi.org/10.2307/2531532}{10.2307/2531532}.
+#'
+#'  Chao, A. & Chiu, C.-H. (2016). Species Richness: Estimation and Comparison.
+#'  \emph{In} Balakrishnan, N., Colton, T., Everitt, B., Piegorsch, B., Ruggeri,
+#'  F. & Teugels, J. L. (Eds.), \emph{Wiley StatsRef: Statistics Reference Online}.
+#'  Chichester, UK: John Wiley & Sons, Ltd., 1-26.
+#'  DOI: \href{https://doi.org/10.1002/9781118445112.stat03432.pub2}{10.1002/9781118445112.stat03432.pub2}
+#'
+#'  Chao, A. & Lee, S.-M. (1992). Estimating the Number of Classes via Sample
+#'  Coverage. \emph{Journal of the American Statistical Association}, 87(417),
+#'  210-217.
+#'  DOI: \href{https://doi.org/10.1080/01621459.1992.10475194}{10.1080/01621459.1992.10475194}.
+#'
+#'  Chiu, C.-H., Wang, Y.-T., Walther, B. A. & Chao, A. (2014). An improved
+#'  nonparametric lower bound of species richness via a modified good-turing
+#'  frequency formula. \emph{Biometrics}, 70(3), 671-682.
+#'  DOI: \href{https://doi.org/10.1111/biom.12200}{10.1111/biom.12200}.
 #'
 #'  Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
 #'  Alternative Parameters. \emph{Ecology}, 52(4), 577-586.

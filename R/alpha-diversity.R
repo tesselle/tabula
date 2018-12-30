@@ -8,18 +8,44 @@ NULL
 setMethod(
   f = "richness",
   signature = signature(object = "CountMatrix"),
-  definition = function(object, method = c("margalef", "menhinick"),
-                        simplify = FALSE) {
+  definition = function(object, method = c("ace", "chao1", "chao1bc", "chao1i",
+                                           "margalef", "menhinick"),
+                        k = 10, simplify = FALSE) {
     # Validation
     method <- match.arg(method, several.ok = TRUE)
-    E <- sapply(X = method, FUN = function(x, object) {
+    E <- sapply(X = method, FUN = function(x, object, k) {
       index <- switch (
         x,
+        ace = aceRichness,
+        chao1 = chao1Richness,
+        chao1bc = chao1bcRichness,
+        chao1i = chao1iRichness,
         margalef = margalefRichness,
         menhinick = menhinickRichness
       )
-      apply(X = object, MARGIN = 1, FUN = index, x)
-    }, object, simplify = simplify)
+      apply(X = object, MARGIN = 1, FUN = index, k)
+    }, object, k, simplify = simplify)
+    return(E)
+  }
+)
+
+#' @export
+#' @rdname alpha-diversity
+#' @aliases richness,IncidenceMatrix-method
+setMethod(
+  f = "richness",
+  signature = signature(object = "IncidenceMatrix"),
+  definition = function(object, method = c("chao2", "chao2i", "ice"), k = 10,
+                        simplify = FALSE) {
+    # Validation
+    method <- match.arg(method, several.ok = FALSE)
+    index <- switch (
+      method,
+      ice = iceRichness,
+      chao2 = chao2Richness,
+      chao2i = chao2iRichness
+    )
+    E <- index(object, k)
     return(E)
   }
 )
