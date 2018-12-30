@@ -12,7 +12,7 @@ tabula <img width=120px src="man/figures/logo.svg" align="right" />
 Overview
 --------
 
-`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity: e.g. richness and rarefaction \[Chao1, Chao2, ACE, ICE, etc.; Chao (1984), Chao & Lee (1992)\], diversity/dominance and evenness \[Brillouin, Shannon, Simpson, etc.; Magurran (1988)\], turnover and similarity. It also provides matrix seriation methods for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford (1972) and Bertin (1977) diagrams, etc.
+`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity: e.g. richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), diversity/dominance and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity. It also provides matrix seriation methods for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford (1962) and Bertin (1977) diagrams, etc.
 
 Installation
 ------------
@@ -166,8 +166,8 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Row order: 4 6 11 18 2 20 5 12 3 13 16 9 14 7 8 17 19 15 1 10 
-#>    Column order: 8 19 12 6 20 2 5 14 4 11 1 7 9 17 10 16 18 3 13 15 
+#>    Row order: 11 5 18 9 20 6 15 17 19 7 10 4 13 14 3 2 8 16 1 12 
+#>    Column order: 19 2 9 5 11 8 12 13 4 3 15 18 1 16 17 10 14 20 7 6 
 #>    Method: correspondance
 ```
 

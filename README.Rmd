@@ -27,7 +27,7 @@ library(tabula)
 
 ## Overview
 
-`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity: e.g. richness and rarefaction [Chao1, Chao2, ACE, ICE, etc.; Chao (1984), Chao & Lee (1992)], diversity/dominance and evenness [Brillouin, Shannon, Simpson, etc.; Magurran (1988)], turnover and similarity. It also provides matrix seriation methods for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford (1972) and Bertin (1977) diagrams, etc.
+`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity: e.g. richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), diversity/dominance and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity. It also provides matrix seriation methods for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford (1962) and Bertin (1977) diagrams, etc.
 
 ## Installation
 
