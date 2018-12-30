@@ -8,10 +8,8 @@ NULL
 #'  \code{diversity} returns a diversity or dominance index.
 #'  \code{evenness} returns an evenness measure.
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
-#' @param method A \code{\link{character}} string specifiying the index to be
-#'  computed. This must be one or more of
-#'  "\code{berger}", "\code{brillouin}", "\code{mcintosh}",
-#'  "\code{shannon}", "\code{simpson}" (see details).
+#' @param method A \code{\link{character}} string or vector of strings
+#'  specifiying the index to be computed (see details).
 #'  Any unambiguous substring can be given.
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
@@ -265,11 +263,8 @@ setGeneric(
 #'  \code{rarefaction} returns Hurlbert's unbiaised estimate of Sander's
 #'  rarefaction.
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
-#' @param method A \code{\link{character}} string specifiying the index to be
-#'  computed. This must be one or more of
-#'  "\code{ace}", "\code{chao1}", "\code{chao2}", "\code{berger}",
-#'  "\code{brillouin}", "\code{ice}", "\code{margalef}", "\code{mcintosh}",
-#'  "\code{menhinick}", "\code{shannon}", "\code{simpson}" (see details).
+#' @param method A \code{\link{character}} string or vector of strings
+#'  specifiying the index to be computed (see details).
 #'  Any unambiguous substring can be given.
 #' @param sample A length-one \code{\link{numeric}} vector giving the sub-sample
 #'  size.
@@ -295,25 +290,30 @@ setGeneric(
 #'  between taxa are due to sampling and not to differences in actual
 #'  abundances.
 #'
-#'  The following richness measures are available:
+#'  The following richness measures are available for count data:
 #'  \describe{
 #'   \item{ace}{Abundance-based Coverage Estimator.}
-#'   \item{ice}{Incidence-based Coverage Estimator.}
 #'   \item{chao1}{Chao1 estimator for abundance data: lower bound
 #'   of undetected species richness in terms of the numbers of singletons and
 #'   doubletons.}
 #'   \item{chao1bc}{Bias-corrected Chao1 estimator for abundance data.}
 #'   \item{chao1i}{Improved Chao1 estimator for abundance data.}
-#'   \item{chao2}{Chao2 estimator for replicated incidence data.}
-#'   \item{chao2i}{Improved Chao2 estimator for replicated incidence data.}
 #'   \item{margalef}{Margalef richness index for abundance data.}
 #'   \item{menhinick}{Menhinick richness index for abundance data.}
+#'  }
+#'
+#'  The following richness measures are available for incidence data:
+#'  \describe{
+#'   \item{ice}{Incidence-based Coverage Estimator.}
+#'   \item{chao2}{Chao2 estimator for replicated incidence data.}
+#'   \item{chao2i}{Improved Chao2 estimator for replicated incidence data.}
 #'  }
 #' @return
 #'  \code{rarefaction} returns a numeric vector.
 #'
-#'  If \code{simplify} is \code{FALSE}, then \code{richness} return a list
-#'  (default), else return a matrix.
+#'  If \code{simplify} is \code{FALSE}, then \code{richness} method for
+#'  \code{CountMatrix} returns a list (default), else returns a matrix.
+#'  \code{richness} method for \code{IncidenceMatrix} returns a numeric vector.
 #' @references
 #'  Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
 #'  Population. \emph{Scandinavian Journal of Statistics}, 11(4), 265-270.
