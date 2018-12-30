@@ -1,20 +1,5 @@
-# Richness
-## Margalef and Menhinick index
-## Data from Magurran 1988, p. 128-129
-trap <- CountMatrix(data = c(9, 3, 0, 4, 2, 1, 1, 0, 1, 0, 1, 1,
-                             1, 0, 1, 0, 0, 0, 1, 2, 0, 5, 3, 0),
-                    nrow = 2, byrow = TRUE, dimnames = list(c("A", "B"), NULL))
-
-richness(trap, method = c("margalef", "menhinick"), simplify = TRUE)
-## A 2.55 1.88
-## B 1.95 1.66
-
-# Rarefaction
-rarefaction(trap, sample = 13) # 6.56
-
-# Diversity
-## Shannon diversity index
-## Data from Magurran 1988, p. 145-149
+# Shannon diversity index
+# Data from Magurran 1988, p. 145-149
 birds <- CountMatrix(
   data = c(35, 26, 25, 21, 16, 11, 6, 5, 3, 3,
            3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 0, 0,
@@ -25,16 +10,16 @@ birds <- CountMatrix(
 diversity(birds, "shannon") # 2.40 2.06
 evenness(birds, "shannon") # 0.80 0.78
 
-## Brillouin diversity index
-## Data from Magurran 1988, p. 150-151
+# Brillouin diversity index
+# Data from Magurran 1988, p. 150-151
 moths <- CountMatrix(data = c(17, 15, 11, 4, 4, 3, 3, 3, 2, 2, 1, 1, 1),
                      nrow = 1, byrow = TRUE)
 
 diversity(moths, "brillouin") # 1.88
 evenness(moths, "brillouin") # 0.83
 
-## Simpson dominance index
-## Data from Magurran 1988, p. 152-153
+# Simpson dominance index
+# Data from Magurran 1988, p. 152-153
 trees <- CountMatrix(
   data = c(752, 276, 194, 126, 121, 97, 95, 83, 72, 44, 39,
            16, 15, 13, 9, 9, 9, 8, 7, 4, 2, 2, 1, 1, 1),
@@ -44,8 +29,8 @@ trees <- CountMatrix(
 diversity(trees, "simpson") # 1.19
 evenness(trees, "simpson") # 0.21
 
-## McIntosh dominance index
-## Data from Magurran 1988, p. 154-155
+# McIntosh dominance index
+# Data from Magurran 1988, p. 154-155
 invertebrates <- CountMatrix(
   data = c(254, 153, 90, 69, 68, 58, 51, 45, 40, 39, 25, 23, 19, 18, 16, 14, 14,
            11, 11, 11, 11, 10, 6, 6, 6, 6, 5, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1),
@@ -55,8 +40,8 @@ invertebrates <- CountMatrix(
 diversity(invertebrates, "mcintosh") # 0.71
 evenness(invertebrates, "mcintosh") # 0.82
 
-## Berger-Parker dominance index
-## Data from Magurran 1988, p. 156-157
+# Berger-Parker dominance index
+# Data from Magurran 1988, p. 156-157
 fishes <- CountMatrix(
   data = c(394, 3487, 275, 683, 22, 1, 0, 1, 6, 8, 1, 1, 2,
            1642, 5681, 196, 1348, 12, 0, 1, 48, 21, 1, 5, 7, 3,

@@ -103,7 +103,7 @@ NULL
 #'
 #'  Simpson, E. H. (1949). Measurement of Diversity. \emph{Nature}, 163(4148),
 #'  688-688. DOI: \href{https://doi.org/10.1038/163688a0}{10.1038/163688a0}.
-#' @example inst/examples/ex-alpha.R
+#' @example inst/examples/ex-diversity.R
 #' @author N. Frerebeau
 #' @family alpha-diversity
 #' @seealso
@@ -359,7 +359,7 @@ setGeneric(
 #'
 #'  Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
 #'  \emph{The American Naturalist}, 102(925), 243-282.
-#' @example inst/examples/ex-alpha.R
+#' @example inst/examples/ex-richness.R
 #' @author N. Frerebeau
 #' @family alpha-diversity
 #' @seealso
@@ -562,7 +562,7 @@ setGeneric(
 #'  Robinson, W. S. (1951). A Method for Chronologically Ordering Archaeological
 #'  Deposits. \emph{American Antiquity}, 16(04), 293-301.
 #'  DOI: \href{https://doi.org/10.2307/276978}{10.2307/276978}.
-#' @example inst/examples/ex-beta.R
+#' @example inst/examples/ex-similarity.R
 #' @author N. Frerebeau
 #' @family beta-diversity
 #' @seealso
@@ -624,7 +624,7 @@ setGeneric(
 #'  Wilson, M. V., & Shmida, A. (1984). Measuring Beta Diversity with
 #'  Presence-Absence Data. \emph{The Journal of Ecology}, 72(3), 1055-1064.
 #'  DOI: \href{https://doi.org/10.2307/2259551}{10.2307/2259551}.
-#' @example inst/examples/ex-beta.R
+#' @example inst/examples/ex-turnover.R
 #' @author N. Frerebeau
 #' @family beta-diversity
 #' @seealso
