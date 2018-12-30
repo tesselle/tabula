@@ -1,4 +1,17 @@
-# tabula 1.0.0.9000
+# tabula 1.1.0
+
+* ADD: Chao1 estimator for abundance data
+* ADD: Bias-corrected Chao1 estimator
+* ADD: Improved Chao1 estimator
+* ADD: Chao2 estimator for replicated incidence data
+* ADD: Bias-corrected Chao2 estimator
+* ADD: Improved Chao2 estimator
+* ADD: Abundance-based Coverage Estimator (ACE)
+* ADD: Incidence-based Coverage Estimator (ICE)
+* FIX: similarity() now returns a symmetric matrix
+* FIX: add references in the 'Description' field of the DESCRIPTION file (#1)
+* FIX: split documentation for alpha-diversity measures
+* FIX: split documentation for beta-diversity measures
 
 # tabula 1.0.0
 
