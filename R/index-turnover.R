@@ -1,4 +1,53 @@
-# Turnover measures
+#' @include AllGenerics.R AllClasses.R
+NULL
+
+turnoverIndex <- function(object, method, simplify = FALSE, ...) {
+  # Validation
+  index <- switch (
+    method,
+    whittaker = whittakerBeta,
+    cody = codyBeta,
+    routledge1 = routledge1Beta,
+    routledge2 = routledge2Beta,
+    routledge3 = routledge3Beta,
+    wilson = wilsonBeta,
+    stop(paste("there is no such method:", method, sep = " "))
+  )
+  B <- index(object)
+  return(B)
+}
+
+#' @export
+#' @rdname turnover-method
+#' @aliases turnover,CountMatrix-method
+setMethod(
+  f = "turnover",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, method = c("whittaker", "cody", "routledge1",
+                                           "routledge2", "routledge3",
+                                           "wilson"), simplify = FALSE, ...) {
+    method <- match.arg(method, several.ok = TRUE)
+    B <- sapply(X = method, FUN = function(x, data) {
+      turnoverIndex(data, x)
+    }, data = object, simplify = simplify)
+    return(B)
+  }
+)
+
+#' @export
+#' @rdname turnover-method
+#' @aliases turnover,IncidenceMatrix-method
+setMethod(
+  f = "turnover",
+  signature = signature(object = "IncidenceMatrix"),
+  definition = function(object, method = c("whittaker", "cody", "routledge1",
+                                           "routledge2", "routledge3",
+                                           "wilson"), simplify = FALSE, ...) {
+    method <- match.arg(method, several.ok = TRUE)
+    B <- turnoverIndex(object, method)
+    return(B)
+  }
+)
 
 # Whittaker ====================================================================
 # @param x A \code{\link{logical}} or \code{\link{numeric}} matrix.

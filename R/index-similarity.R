@@ -1,4 +1,58 @@
-# Similarity index
+#' @include AllGenerics.R AllClasses.R
+NULL
+
+similarityIndex <- function(object, method, ...) {
+  index <- switch (
+    method,
+    brainerd = brainerdSimilarity,
+    bray = braySimilarity,
+    jaccard = jaccardSimilarity,
+    morisita = morisitaSimilarity,
+    sorenson = sorensonSimilarity,
+    stop(paste("there is no such method:", method, sep = " "))
+  )
+  # Pairwise comparison
+  m <- nrow(object)
+  beta <- apply(X = utils::combn(1:m, 2), MARGIN = 2, FUN = function(x) {
+    index(object[x[1], ], object[x[2], ])
+  })
+  # Matrix of results
+  m <- nrow(object)
+  labels <- rownames(object)
+  C <- matrix(data = 1, nrow = m, ncol = m, dimnames = list(labels, labels))
+  C[lower.tri(C, diag = FALSE)] <- beta
+  C <- t(C)
+  C[lower.tri(C, diag = FALSE)] <- beta
+
+  return(C)
+}
+
+#' @export
+#' @rdname similarity-method
+#' @aliases similarity,CountMatrix-method
+setMethod(
+  f = "similarity",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, method = c("brainerd", "bray", "jaccard",
+                                           "morisita", "sorenson"), ...) {
+    method <- match.arg(method, several.ok = FALSE)
+    C <- similarityIndex(object, method)
+    return(C)
+  }
+)
+
+#' @export
+#' @rdname similarity-method
+#' @aliases similarity,IncidenceMatrix-method
+setMethod(
+  f = "similarity",
+  signature = signature(object = "IncidenceMatrix"),
+  definition = function(object, method = c("jaccard", "sorenson"), ...) {
+    method <- match.arg(method, several.ok = FALSE)
+    C <- similarityIndex(object, method)
+    return(C)
+  }
+)
 
 # Qualitative index ============================================================
 # Jaccard ----------------------------------------------------------------------

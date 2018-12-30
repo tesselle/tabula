@@ -107,8 +107,8 @@ NULL
 #' @author N. Frerebeau
 #' @family alpha-diversity
 #' @seealso
-#'  \code{\link[=beta-diversity]{turnover}}
-#'  \code{\link[=beta-diversity]{similarity}}
+#'  \code{\link{turnover}}
+#'  \code{\link{similarity}}
 #' @docType methods
 #' @rdname diversity-method
 #' @aliases diversity-method
@@ -122,114 +122,6 @@ setGeneric(
 setGeneric(
   name = "evenness",
   def = function(object, ...) standardGeneric("evenness")
-)
-
-# ==============================================================================
-#' \eqn{\beta}{\beta}-diversity
-#'
-#' @description
-#'  Measures differenciation diversity. \code{similarity} returns a similarity
-#'  matrix. \code{turnover} returns the degree of turnover in taxa composition
-#'  along a grandient or transect.
-#' @param object A \eqn{m \times p}{m x p} matrix of count data.
-#' @param method A \code{\link{character}} string specifiying the method to be
-#'  used (see details). Any unambiguous substring can be given.
-#' @param simplify A \code{\link{logical}} scalar: should the result be
-#'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
-#' @param ... Further arguments passed to other methods.
-#' @section Turnover:
-#'  The following methods can be used to acertain the degree of \emph{turnover}
-#'  in taxa composition along a gradient (\eqn{\beta}-diversity) on qualitative
-#'  (presence/absence) data. This assumes that the order of the matrix rows
-#'  (from 1 to \eqn{n}) follows the progression along the gradient/transect.
-#'
-#'  \describe{
-#'   \item{whittaker}{Whittaker measure.}
-#'   \item{cody}{Cody measure.}
-#'   \item{routledge1}{Routledge first measure.}
-#'   \item{routledge2}{Routledge second measure.}
-#'   \item{routledge3}{Routledge third measure. This is the exponential form of
-#'   the second measure.}
-#'   \item{wilson}{Wilson measure.}
-#'  }
-#'
-#' @section Similarity:
-#'  \eqn{\beta}-diversity can also be measured by addressing \emph{similarity}
-#'  between pairs of sites. This provides a scale of similarity from
-#'  \code{0}-\code{1} where \code{1} is perfect similarity and \code{0} is
-#'  no similarity (with the exception of the Brainerd-Robinson index which is
-#'  scaled between \code{0} and \code{200}):
-#'  \describe{
-#'   \item{brainerd}{Brainerd-Robinson quantitative index. This is a city-block
-#'   metric of similarity.}
-#'   \item{bray}{Sorenson quantitative index (Bray and Curtis modified version
-#'   of the Sorenson index).}
-#'   \item{jaccard}{Jaccard qualitative index.}
-#'   \item{morisita}{Morisita-Horn quantitative index.}
-#'   \item{sorenson}{Sorenson qualitative index.}
-#'  }
-#' @return
-#'  \code{similarity} returns a \eqn{m \times m}{m x m} symetric matrix.
-#'
-#'  If \code{simplify} is \code{FALSE}, \code{turnover} returns a list
-#'  (default), else returns a matrix.
-#' @references
-#'  Brainerd, G. W. (1951). The Place of Chronological Ordering in
-#'  Archaeological Analysis. \emph{American Antiquity}, 16(04), 301-313.
-#'  DOI: \href{https://doi.org/10.2307/276979}{10.2307/276979}.
-#'
-#'  Bray, J. R. & Curtis, J. T. (1957). An Ordination of the Upland Forest
-#'  Communities of Southern Wisconsin. \emph{Ecological Monographs}, 27(4),
-#'  325-349. DOI: \href{https://doi.org/10.2307/1942268}{10.2307/1942268}.
-#'
-#'  Cody, M. L. (1975). Towards a theory of continental species diversity: Bird
-#'  distributions over Mediterranean habitat gradients. \emph{In} M. L. Cody &
-#'  J. M. Diamond (Eds.), \emph{Ecology and Evolution of Communities}.
-#'  Cambridge, MA: Harvard University Press, p. 214–257.
-#'
-#'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
-#'  Princeton, NJ: Princeton University Press.
-#'  DOI:\href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
-#'
-#'  Robinson, W. S. (1951). A Method for Chronologically Ordering Archaeological
-#'  Deposits. \emph{American Antiquity}, 16(04), 293-301.
-#'  DOI: \href{https://doi.org/10.2307/276978}{10.2307/276978}.
-#'
-#'  Routledge, R. D. (1977). On Whittaker’s Components of Diversity.
-#'  \emph{Ecology}, 58(5), 1120-1127.
-#'  DOI: \href{https://doi.org/10.2307/1936932}{10.2307/1936932}.
-#'
-#'  Whittaker, R. H. (1960). Vegetation of the Siskiyou Mountains, Oregon and
-#'  California. \emph{Ecological Monographs}, 30(3), 279-338.
-#'  DOI: \href{https://doi.org/10.2307/1943563}{10.2307/1943563}.
-#'
-#'  Wilson, M. V., & Shmida, A. (1984). Measuring Beta Diversity with
-#'  Presence-Absence Data. \emph{The Journal of Ecology}, 72(3), 1055-1064.
-#'  DOI: \href{https://doi.org/10.2307/2259551}{10.2307/2259551}.
-#' @example inst/examples/ex-beta.R
-#' @author N. Frerebeau
-#' @seealso
-#'  \code{\link[=alpha-diversity]{richness}}
-#'  \code{\link[=alpha-diversity]{rarefaction}}
-#'  \code{\link[=alpha-diversity]{diversity}}
-#'  \code{\link[=alpha-diversity]{evenness}}
-#' @docType methods
-#' @name beta-diversity
-#' @rdname beta-diversity
-NULL
-
-#' @rdname beta-diversity
-#' @aliases turnover-method
-setGeneric(
-  name = "turnover",
-  def = function(object, ...) standardGeneric("turnover")
-)
-
-#' @rdname beta-diversity
-#' @aliases similarity-method
-setGeneric(
-  name = "similarity",
-  def = function(object, ...) standardGeneric("similarity")
 )
 
 # Plot =========================================================================
@@ -471,8 +363,8 @@ setGeneric(
 #' @author N. Frerebeau
 #' @family alpha-diversity
 #' @seealso
-#'  \code{\link[=beta-diversity]{turnover}}
-#'  \code{\link[=beta-diversity]{similarity}}
+#'  \code{\link{turnover}}
+#'  \code{\link{similarity}}
 #' @docType methods
 #' @rdname richness-method
 #' @aliases richness-method
@@ -627,4 +519,123 @@ setGeneric(
 setGeneric(
   name = "permute",
   def = function(object, order, ...) standardGeneric("permute")
+)
+
+# ==============================================================================
+#' Similarity
+#'
+#' \code{similarity} returns a similarity matrix.
+#' @param object A \eqn{m \times p}{m x p} matrix of count data.
+#' @param method A \code{\link{character}} string specifiying the method to be
+#'  used (see details). Any unambiguous substring can be given.
+#' @param ... Further arguments passed to other methods.
+#' @details
+#'  \eqn{\beta}-diversity can be measured by addressing \emph{similarity}
+#'  between pairs of sites. This provides a scale of similarity from
+#'  \code{0}-\code{1} where \code{1} is perfect similarity and \code{0} is
+#'  no similarity (with the exception of the Brainerd-Robinson index which is
+#'  scaled between \code{0} and \code{200}):
+#'  \describe{
+#'   \item{brainerd}{Brainerd-Robinson quantitative index. This is a city-block
+#'   metric of similarity.}
+#'   \item{bray}{Sorenson quantitative index (Bray and Curtis modified version
+#'   of the Sorenson index).}
+#'   \item{jaccard}{Jaccard qualitative index.}
+#'   \item{morisita}{Morisita-Horn quantitative index.}
+#'   \item{sorenson}{Sorenson qualitative index.}
+#'  }
+#' @return
+#'  \code{similarity} returns a \eqn{m \times m}{m x m} symetric matrix.
+#' @references
+#'  Brainerd, G. W. (1951). The Place of Chronological Ordering in
+#'  Archaeological Analysis. \emph{American Antiquity}, 16(04), 301-313.
+#'  DOI: \href{https://doi.org/10.2307/276979}{10.2307/276979}.
+#'
+#'  Bray, J. R. & Curtis, J. T. (1957). An Ordination of the Upland Forest
+#'  Communities of Southern Wisconsin. \emph{Ecological Monographs}, 27(4),
+#'  325-349. DOI: \href{https://doi.org/10.2307/1942268}{10.2307/1942268}.
+#'
+#'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
+#'  Princeton, NJ: Princeton University Press.
+#'  DOI:\href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+#'
+#'  Robinson, W. S. (1951). A Method for Chronologically Ordering Archaeological
+#'  Deposits. \emph{American Antiquity}, 16(04), 293-301.
+#'  DOI: \href{https://doi.org/10.2307/276978}{10.2307/276978}.
+#' @example inst/examples/ex-beta.R
+#' @author N. Frerebeau
+#' @family beta-diversity
+#' @seealso
+#'  \code{\link{richness}}
+#'  \code{\link{rarefaction}}
+#'  \code{\link{diversity}}
+#'  \code{\link{evenness}}
+#' @docType methods
+#' @rdname similarity-method
+#' @aliases similarity-method
+setGeneric(
+  name = "similarity",
+  def = function(object, ...) standardGeneric("similarity")
+)
+
+# ==============================================================================
+#' Turnover
+#'
+#' Returns the degree of turnover in taxa composition along a grandient or
+#' transect.
+#' @param object A \eqn{m \times p}{m x p} matrix of count data.
+#' @param method A \code{\link{character}} string specifiying the method to be
+#'  used (see details). Any unambiguous substring can be given.
+#' @param simplify A \code{\link{logical}} scalar: should the result be
+#'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
+#' @param ... Further arguments passed to other methods.
+#' @details
+#'  The following methods can be used to acertain the degree of \emph{turnover}
+#'  in taxa composition along a gradient (\eqn{\beta}-diversity) on qualitative
+#'  (presence/absence) data. This assumes that the order of the matrix rows
+#'  (from 1 to \eqn{n}) follows the progression along the gradient/transect.
+#'
+#'  \describe{
+#'   \item{whittaker}{Whittaker measure.}
+#'   \item{cody}{Cody measure.}
+#'   \item{routledge1}{Routledge first measure.}
+#'   \item{routledge2}{Routledge second measure.}
+#'   \item{routledge3}{Routledge third measure. This is the exponential form of
+#'   the second measure.}
+#'   \item{wilson}{Wilson measure.}
+#'  }
+#' @return
+#'  If \code{simplify} is \code{FALSE}, returns a list (default), else returns
+#'  a matrix.
+#' @references
+#'  Cody, M. L. (1975). Towards a theory of continental species diversity: Bird
+#'  distributions over Mediterranean habitat gradients. \emph{In} M. L. Cody &
+#'  J. M. Diamond (Eds.), \emph{Ecology and Evolution of Communities}.
+#'  Cambridge, MA: Harvard University Press, p. 214–257.
+#'
+#'  Routledge, R. D. (1977). On Whittaker’s Components of Diversity.
+#'  \emph{Ecology}, 58(5), 1120-1127.
+#'  DOI: \href{https://doi.org/10.2307/1936932}{10.2307/1936932}.
+#'
+#'  Whittaker, R. H. (1960). Vegetation of the Siskiyou Mountains, Oregon and
+#'  California. \emph{Ecological Monographs}, 30(3), 279-338.
+#'  DOI: \href{https://doi.org/10.2307/1943563}{10.2307/1943563}.
+#'
+#'  Wilson, M. V., & Shmida, A. (1984). Measuring Beta Diversity with
+#'  Presence-Absence Data. \emph{The Journal of Ecology}, 72(3), 1055-1064.
+#'  DOI: \href{https://doi.org/10.2307/2259551}{10.2307/2259551}.
+#' @example inst/examples/ex-beta.R
+#' @author N. Frerebeau
+#' @family beta-diversity
+#' @seealso
+#'  \code{\link{richness}}
+#'  \code{\link{rarefaction}}
+#'  \code{\link{diversity}}
+#'  \code{\link{evenness}}
+#' @docType methods
+#' @rdname turnover-method
+#' @aliases turnover-method
+setGeneric(
+  name = "turnover",
+  def = function(object, ...) standardGeneric("turnover")
 )
