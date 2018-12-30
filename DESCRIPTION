@@ -1,6 +1,6 @@
 Package: tabula
 Title: Analysis, Seriation and Visualization of Archaeological Count Data
-Version: 1.1.0
+Version: 1.1.0.9000
 Date: 2018-12-30
 Authors@R: c(person("Nicolas", "Frerebeau",
                     email = "data@archaeo.science",
