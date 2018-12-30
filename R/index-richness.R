@@ -7,23 +7,22 @@ NULL
 setMethod(
   f = "richness",
   signature = signature(object = "CountMatrix"),
-  definition = function(object, method = c("ace", "chao1", "chao1bc", "chao1i",
+  definition = function(object, method = c("ace", "chao1", "chao1i",
                                            "margalef", "menhinick"),
-                        k = 10, simplify = FALSE) {
+                        unbiased = FALSE, k = 10, simplify = FALSE) {
     # Validation
     method <- match.arg(method, several.ok = TRUE)
-    E <- sapply(X = method, FUN = function(x, object, k) {
+    E <- sapply(X = method, FUN = function(x, object, unbiased, k) {
       index <- switch (
         x,
         ace = aceRichness,
         chao1 = chao1Richness,
-        chao1bc = chao1bcRichness,
         chao1i = chao1iRichness,
         margalef = margalefRichness,
         menhinick = menhinickRichness
       )
-      apply(X = object, MARGIN = 1, FUN = index, k)
-    }, object, k, simplify = simplify)
+      apply(X = object, MARGIN = 1, FUN = index, unbiased = unbiased, k = k)
+    }, object, unbiased, k, simplify = simplify)
     return(E)
   }
 )
@@ -34,17 +33,19 @@ setMethod(
 setMethod(
   f = "richness",
   signature = signature(object = "IncidenceMatrix"),
-  definition = function(object, method = c("chao2", "chao2i", "ice"), k = 10,
-                        simplify = FALSE) {
+  definition = function(object, method = c("chao2", "chao2i", "ice"),
+                        unbiased = FALSE, k = 10, simplify = FALSE) {
     # Validation
-    method <- match.arg(method, several.ok = FALSE)
-    index <- switch (
-      method,
-      ice = iceRichness,
-      chao2 = chao2Richness,
-      chao2i = chao2iRichness
-    )
-    E <- index(object, k)
+    method <- match.arg(method, several.ok = TRUE)
+    E <- sapply(X = method, FUN = function(x, object, unbiased, k) {
+      index <- switch (
+        x,
+        ice = iceRichness,
+        chao2 = chao2Richness,
+        chao2i = chao2iRichness
+      )
+      index(object, unbiased = unbiased, k = k)
+    }, object, unbiased, k, simplify = simplify)
     return(E)
   }
 )
@@ -79,7 +80,7 @@ aceRichness <- function(n, k = 10, ...) {
   f1 <- sum(n == 1) # Number of singleton species
   if (f1 == N_rare)
     stop("ACE is undefined when all rare species are singletons,
-         consider using the unbiased Chao1 index instead.")
+         consider using the bias-corrected Chao1 index instead.")
   C_rare <- 1 - (f1 / N_rare) # Sample coverage estimate for rare species
   # ie. proportion of all individuals in rare species that are not singletons
 
@@ -98,6 +99,8 @@ aceRichness <- function(n, k = 10, ...) {
 # Chao1 estimator for abundance data.
 # @param n A \code{\link{numeric}} vector giving the number of individuals for
 #  each type.
+# @param unbiased A \code{\link{logical}} scalar. Should the bias-corrected
+#  estimator be used?
 # @param ... Currently not used.
 # @return A length-one \code{\link{numeric}} vector.
 # @references
@@ -107,43 +110,23 @@ aceRichness <- function(n, k = 10, ...) {
 # @family richness index
 # @family Chao1 index
 # @rdname chao1-index
-chao1Richness <- function(n, ...) {
+chao1Richness <- function(n, unbiased = FALSE, ...) {
   n <- n[n > 0] # Remove unobserved species
   S <- length(n) # Number of observed species
   N <- sum(n) # Number of individuals
   f1 <- sum(n == 1) # Number of singleton species
   f2 <- sum(n == 2) # Number of doubleton species
 
-  if (f2 == 0) {
-    D <- S + ((N - 1) / N) * f1 * ((f1 - 1) / 2)
+  if (unbiased) {
+    D <- S + (((N - 1) / N) * f1 * (f1 - 1)) / (2 * (f2 + 1))
   } else {
-    D <- S + ((N - 1) / N) * (f1^2 / (2 * f2))
+    if (f2 == 0) {
+      D <- S + ((N - 1) / N) * f1 * ((f1 - 1) / 2)
+    } else {
+      D <- S + ((N - 1) / N) * (f1^2 / (2 * f2))
+    }
   }
 
-  return(D)
-}
-
-# Bias-corrected Chao1 estimator
-#
-# Bias-corrected Chao1 estimator for abundance data.
-# @param n A \code{\link{numeric}} vector giving the number of individuals for
-#  each type.
-# @param ... Currently not used.
-# @return A length-one \code{\link{numeric}} vector.
-# @references
-#  Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
-#  Population. \emph{Scandinavian Journal of Statistics}, 11(4), 265-270.
-# @author N. Frerebeau
-# @family richness index
-# @family Chao1 index
-# @rdname bcchao1-index
-chao1bcRichness <- function(n, ...) {
-  n <- n[n > 0] # Remove unobserved species
-  S <- length(n) # Number of observed species
-  N <- sum(n) # Number of individuals
-  f1 <- sum(n == 1) # Number of singleton species
-  f2 <- sum(n == 2) # Number of doubleton species
-  D <- S + (((N - 1) / N) * f1 * (f1 - 1)) / (2 * (f2 + 1))
   return(D)
 }
 
@@ -163,7 +146,7 @@ chao1bcRichness <- function(n, ...) {
 # @family richness index
 # @family Chao1 index
 # @rdname ichao1-index
-chao1iRichness <- function(n, ...) {
+chao1iRichness <- function(n, unbiased = FALSE, ...) {
   n <- n[n > 0] # Remove unobserved species
   S <- length(n) # Number of observed species
   N <- sum(n) # Number of individuals
@@ -171,7 +154,10 @@ chao1iRichness <- function(n, ...) {
   f2 <- sum(n == 2) # Number of doubleton species
   f3 <- sum(n == 3) # Number of tripleton species
   f4 <- sum(n == 4) # Number of quadrupleton species
-  chao1 <- chao1Richness(n)
+  if (f4 == 0)
+    stop("Improved Chao1 estimator is undefined when there is no quadrupleton species.")
+
+  chao1 <- chao1Richness(n, unbiased, ...)
   k <- f1 - ((N - 3) / (N - 1)) * ((f2 * f3) / (2 * f4))
   D <- chao1 + ((N - 3) / N) * (f3 / (4 * f4)) * max(k, 0)
   return(D)
@@ -225,6 +211,8 @@ menhinickRichness <- function(n, ...) {
 #
 # Chao2 estimator for replicated incidence data.
 # @param x A \code{\link{logical}} matrix.
+# @param unbiased A \code{\link{logical}} scalar. Should the bias-corrected
+#  estimator be used?
 # @param ... Currently not used.
 # @return A length-one \code{\link{numeric}} vector.
 # @references
@@ -235,45 +223,24 @@ menhinickRichness <- function(n, ...) {
 # @family richness index
 # @family Chao2 index
 # @rdname chao2-index
-chao2Richness <- function(x, ...) {
+chao2Richness <- function(x, unbiased = FALSE, ...) {
   q <- colSums(x) # Number of species in the assemblage
   q <- q[q > 0] # Remove unobserved species
   S <- length(q) # Number of observed species
-  t <- sum(rowSums(x) != 0) # Total number of samples
+  t <- nrow(x) # Total number of sampling units
   q1 <- sum(q == 1) # Number of unique species in the assemblage
   q2 <- sum(q == 2) # Number of duplicate species in the assemblage
 
-  if (q2 == 0) {
-    D <- S + ((t - 1) / t) * q1 * ((q1 - 1) / 2)
+  if (unbiased) {
+    D <- S + ((t - 1) / t) * q1 * ((q1 - 1) / (2 * (q2 + 1)))
   } else {
-    D <- S + ((t - 1) / t) * (q1^2 / (2 * q2))
+    if (q2 == 0) {
+      D <- S + ((t - 1) / t) * q1 * ((q1 - 1) / 2)
+    } else {
+      D <- S + ((t - 1) / t) * (q1^2 / (2 * q2))
+    }
   }
 
-  return(D)
-}
-
-# Bias-corrected Chao2 estimator
-#
-# Bias-corrected Chao2 estimator for replicated incidence data.
-# @param x A \code{\link{logical}} matrix.
-# @param ... Currently not used.
-# @return A length-one \code{\link{numeric}} vector.
-# @references
-#  Chao, A. (1987). Estimating the Population Size for Capture-Recapture Data
-#  with Unequal Catchability. \emph{Biometrics} 43(4): 783.
-#  DOI: \href{https://doi.org/10.2307/2531532}{10.2307/2531532}.
-# @author N. Frerebeau
-# @family richness index
-# @family Chao2 index
-# @rdname chao2bc-index
-chao2bcRichness <- function(x, ...) {
-  q <- colSums(x) # Number of species in the assemblage
-  q <- q[q > 0] # Remove unobserved species
-  S <- length(q) # Number of observed species
-  t <- sum(rowSums(x) != 0) # Total number of samples
-  q1 <- sum(q == 1) # Number of unique species in the assemblage
-  q2 <- sum(q == 2) # Number of duplicate species in the assemblage
-  D <- S + ((t - 1) / t) * (q1 * (q1 - 1)) / (2 * (q2 + 1))
   return(D)
 }
 
@@ -292,17 +259,19 @@ chao2bcRichness <- function(x, ...) {
 # @family richness index
 # @family Chao2 index
 # @rdname chao2i-index
-chao2iRichness <- function(x, ...) {
+chao2iRichness <- function(x, unbiased = FALSE, ...) {
   q <- colSums(x) # Number of species in the assemblage
   q <- q[q > 0] # Remove unobserved species
   S <- length(q) # Number of observed species
   t <- sum(rowSums(x) != 0) # Total number of samples
   q1 <- sum(q == 1) # Number of unique species in the assemblage
   q2 <- sum(q == 2) # Number of duplicate species in the assemblage
-  q3 <- sum(q == 3) # Number of tripleton species
-  q4 <- sum(q == 4) # Number of quadrupleton species
+  q3 <- sum(q == 3) # Number of triple species
+  q4 <- sum(q == 4) # Number of quadruple species
+  if (q4 == 0)
+    stop("Improved Chao2 estimator is undefined when there is no quadruple species.")
 
-  chao2 <- chao2Richness(q)
+  chao2 <- chao2Richness(x, unbiased, ...)
   k <- q1 - ((t - 3) / (t - 1)) * ((q2 * q3) / (2 * q4))
   D <- chao2 + ((t - 3) / (4 * t)) * (q3 / q4) * max(k, 0)
   return(D)
@@ -318,7 +287,7 @@ chao2iRichness <- function(x, ...) {
 # @author N. Frerebeau
 # @family richness index
 # @rdname ice-index
-iceRichness <- function(x, k, ...) {
+iceRichness <- function(x, k = 10, ...) {
   q <- colSums(x) # Number of species in the assemblage
   q <- q[q > 0] # Remove unobserved species
 
@@ -330,8 +299,8 @@ iceRichness <- function(x, k, ...) {
 
   q1 <- sum(q == 1) # Number of unique species in the assemblage
   if (q1 == N_infr)
-    stop("ICE is undefined when when all infrequent species are unique,
-         consider using the unbiased Chao2 index instead.")
+    stop("ICE is undefined when all infrequent species are unique,
+         consider using the bias-corrected Chao2 estimator instead.")
   C_infr <- 1 - (q1 / N_infr) # Sample coverage estimate
   # ie. proportion of all incidences of infrequent species that are not uniques
 

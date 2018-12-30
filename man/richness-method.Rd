@@ -19,11 +19,11 @@ rarefaction(object, ...)
 \S4method{rarefaction}{CountMatrix}(object, sample)
 
 \S4method{richness}{CountMatrix}(object, method = c("ace", "chao1",
-  "chao1bc", "chao1i", "margalef", "menhinick"), k = 10,
+  "chao1i", "margalef", "menhinick"), unbiased = FALSE, k = 10,
   simplify = FALSE)
 
 \S4method{richness}{IncidenceMatrix}(object, method = c("chao2",
-  "chao2i", "ice"), k = 10)
+  "chao2i", "ice"), unbiased = FALSE, k = 10, simplify = FALSE)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
@@ -37,9 +37,13 @@ size.}
 specifiying the index to be computed (see details).
 Any unambiguous substring can be given.}
 
+\item{unbiased}{A \code{\link{logical}} scalar. Should the bias-corrected
+estimator be used? Only used with "\code{chao1}" or "\code{chao2}"
+(improved) estimator.}
+
 \item{k}{A length-one \code{\link{numeric}} vector giving the threshold
-between rare/infrequent and abundant/frequent species (only used if
-\code{method} is "\code{ace}" or "\code{ice}" ; see details).}
+between rare/infrequent and abundant/frequent species. Only used if
+\code{method} is "\code{ace}" or "\code{ice}".}
 
 \item{simplify}{A \code{\link{logical}} scalar: should the result be
 simplified to a matrix? The default value, \code{FALSE}, returns a list.}
@@ -75,20 +79,17 @@ The number of different taxa, provides an instantly comprehensible
  The following richness measures are available for count data:
  \describe{
   \item{ace}{Abundance-based Coverage Estimator.}
-  \item{chao1}{Chao1 estimator for abundance data: lower bound
-  of undetected species richness in terms of the numbers of singletons and
-  doubletons.}
-  \item{chao1bc}{Bias-corrected Chao1 estimator for abundance data.}
-  \item{chao1i}{Improved Chao1 estimator for abundance data.}
-  \item{margalef}{Margalef richness index for abundance data.}
-  \item{menhinick}{Menhinick richness index for abundance data.}
+  \item{chao1}{Chao1 estimator.}
+  \item{chao1i}{Improved Chao1 estimator.}
+  \item{margalef}{Margalef richness index.}
+  \item{menhinick}{Menhinick richness index.}
  }
 
- The following richness measures are available for incidence data:
+ The following richness measures are available for replicated incidence data:
  \describe{
   \item{ice}{Incidence-based Coverage Estimator.}
-  \item{chao2}{Chao2 estimator for replicated incidence data.}
-  \item{chao2i}{Improved Chao2 estimator for replicated incidence data.}
+  \item{chao2}{Chao2 estimator.}
+  \item{chao2i}{Improved Chao2 estimator.}
  }
 }
 \examples{
@@ -102,7 +103,7 @@ richness(trap, method = c("margalef", "menhinick"), simplify = TRUE)
 ## A 2.55 1.88
 ## B 1.95 1.66
 
-## Chao estimators
+## Chao1-type estimators
 ## Data from Chao & Chiu 2016
 brazil <- CountMatrix(
   data = rep(x = c(1:21, 23, 25, 27, 28, 30, 32, 34:37, 41,
@@ -113,8 +114,9 @@ brazil <- CountMatrix(
   nrow = 1, byrow = TRUE
 )
 
-richness(brazil, method = c("chao1", "chao1bc", "chao1i"), simplify = TRUE)
-## 461.625 458.016 488.284
+richness(brazil, method = c("chao1", "chao1i", "ace"),
+         unbiased = FALSE, simplify = TRUE)
+## 461.625 488.284 445.822
 
 # Rarefaction
 rarefaction(trap, sample = 13) # 6.56

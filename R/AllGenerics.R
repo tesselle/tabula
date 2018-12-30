@@ -266,11 +266,14 @@ setGeneric(
 #' @param method A \code{\link{character}} string or vector of strings
 #'  specifiying the index to be computed (see details).
 #'  Any unambiguous substring can be given.
+#' @param unbiased A \code{\link{logical}} scalar. Should the bias-corrected
+#'  estimator be used? Only used with "\code{chao1}" or "\code{chao2}"
+#'  (improved) estimator.
 #' @param sample A length-one \code{\link{numeric}} vector giving the sub-sample
 #'  size.
 #' @param k A length-one \code{\link{numeric}} vector giving the threshold
-#'  between rare/infrequent and abundant/frequent species (only used if
-#'  \code{method} is "\code{ace}" or "\code{ice}" ; see details).
+#'  between rare/infrequent and abundant/frequent species. Only used if
+#'  \code{method} is "\code{ace}" or "\code{ice}".
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
 #' @param ... Further arguments passed to other methods.
@@ -293,20 +296,17 @@ setGeneric(
 #'  The following richness measures are available for count data:
 #'  \describe{
 #'   \item{ace}{Abundance-based Coverage Estimator.}
-#'   \item{chao1}{Chao1 estimator for abundance data: lower bound
-#'   of undetected species richness in terms of the numbers of singletons and
-#'   doubletons.}
-#'   \item{chao1bc}{Bias-corrected Chao1 estimator for abundance data.}
-#'   \item{chao1i}{Improved Chao1 estimator for abundance data.}
-#'   \item{margalef}{Margalef richness index for abundance data.}
-#'   \item{menhinick}{Menhinick richness index for abundance data.}
+#'   \item{chao1}{Chao1 estimator.}
+#'   \item{chao1i}{Improved Chao1 estimator.}
+#'   \item{margalef}{Margalef richness index.}
+#'   \item{menhinick}{Menhinick richness index.}
 #'  }
 #'
-#'  The following richness measures are available for incidence data:
+#'  The following richness measures are available for replicated incidence data:
 #'  \describe{
 #'   \item{ice}{Incidence-based Coverage Estimator.}
-#'   \item{chao2}{Chao2 estimator for replicated incidence data.}
-#'   \item{chao2i}{Improved Chao2 estimator for replicated incidence data.}
+#'   \item{chao2}{Chao2 estimator.}
+#'   \item{chao2i}{Improved Chao2 estimator.}
 #'  }
 #' @return
 #'  \code{rarefaction} returns a numeric vector.

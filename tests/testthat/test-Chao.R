@@ -15,28 +15,25 @@ interior <- rep(x = c(1:21, 23, 25, 27, 28, 30, 32, 34:37, 41,
                           1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1))
 
 test_that("Chao1-type estimators", {
-  expect_equal(round(chao1Richness(edge), 3), 461.625)
-  expect_equal(round(chao1bcRichness(edge), 3), 458.016)
-  expect_equal(round(chao1iRichness(edge), 3), 488.284) # 488.313
+  expect_equal(round(chao1Richness(edge, unbiased = FALSE), 3), 461.625)
+  expect_equal(round(chao1Richness(edge, unbiased = TRUE), 3), 458.016)
+  expect_equal(round(chao1iRichness(edge, unbiased = FALSE), 3), 488.284) # 488.313
 
-  expect_equal(round(chao1Richness(interior), 3), 540.728)
-  expect_equal(round(chao1bcRichness(interior), 3), 536.044)
-  expect_equal(round(chao1iRichness(interior), 3), 572.471) # 572.505
+  expect_equal(round(chao1Richness(interior, unbiased = FALSE), 3), 540.728)
+  expect_equal(round(chao1Richness(interior, unbiased = TRUE), 3), 536.044)
+  expect_equal(round(chao1iRichness(interior, unbiased = FALSE), 3), 572.471) # 572.505
 })
 test_that("ACE-type estimators", {
   expect_equal(round(aceRichness(edge, k = 10), 3), 445.822) # 443.684
   expect_equal(round(aceRichness(interior, k = 10), 3), 501.045) # 498.834
 })
-# test_that("Chao2-type estimators", {
-#   expect_equal(round(chao2Richness(edge), 3), 461.625)
-#   expect_equal(round(chao2bcRichness(edge), 3), 458.016)
-#   expect_equal(round(chao2iRichness(edge), 3), 488.284)
-#
-#   expect_equal(round(chao2Richness(interior), 3), 540.728)
-#   expect_equal(round(chao2bcRichness(interior), 3), 536.044)
-#   expect_equal(round(chao2iRichness(interior), 3), 572.471)
-# })
-# test_that("ICE-type estimators", {
-#   expect_equal(round(iceRichness(edge, k = 10), 3), 445.822)
-#   expect_equal(round(iceRichness(interior, k = 10), 3), 501.045)
-# })
+test_that("Chao2-type estimators", {
+  a <- t(matrix(c(0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1), 4, 3))
+  expect_equal(round(chao2Richness(a, unbiased = FALSE), 2), 5.33)
+  expect_equal(round(chao2Richness(a, unbiased = TRUE), 2), 4.33)
+  expect_error(chao2iRichness(a, unbiased = FALSE))
+})
+test_that("ICE-type estimators", {
+  a <- t(matrix(c(0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1), 4, 3))
+  expect_equal(round(iceRichness(a, k = 10), 1), 5.6)
+})

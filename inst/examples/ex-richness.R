@@ -8,7 +8,7 @@ richness(trap, method = c("margalef", "menhinick"), simplify = TRUE)
 ## A 2.55 1.88
 ## B 1.95 1.66
 
-## Chao estimators
+## Chao1-type estimators
 ## Data from Chao & Chiu 2016
 brazil <- CountMatrix(
   data = rep(x = c(1:21, 23, 25, 27, 28, 30, 32, 34:37, 41,
@@ -19,8 +19,9 @@ brazil <- CountMatrix(
   nrow = 1, byrow = TRUE
 )
 
-richness(brazil, method = c("chao1", "chao1bc", "chao1i"), simplify = TRUE)
-## 461.625 458.016 488.284
+richness(brazil, method = c("chao1", "chao1i", "ace"),
+         unbiased = FALSE, simplify = TRUE)
+## 461.625 488.284 445.822
 
 # Rarefaction
 rarefaction(trap, sample = 13) # 6.56
