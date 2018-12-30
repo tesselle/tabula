@@ -1,13 +1,9 @@
-# Rarefaction
-rarefaction(trap, sample = 13) # 6.56
-
 # Richness
 ## Margalef and Menhinick index
 ## Data from Magurran 1988, p. 128-129
 trap <- CountMatrix(data = c(9, 3, 0, 4, 2, 1, 1, 0, 1, 0, 1, 1,
                              1, 0, 1, 0, 0, 0, 1, 2, 0, 5, 3, 0),
                     nrow = 2, byrow = TRUE, dimnames = list(c("A", "B"), NULL))
-
 richness(trap, method = c("margalef", "menhinick"), simplify = TRUE)
 ## A 2.55 1.88
 ## B 1.95 1.66
@@ -25,3 +21,6 @@ brazil <- CountMatrix(
 
 richness(brazil, method = c("chao1", "chao1bc", "chao1i"), simplify = TRUE)
 ## 461.625 458.016 488.284
+
+# Rarefaction
+rarefaction(trap, sample = 13) # 6.56
