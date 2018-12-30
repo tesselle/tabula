@@ -25,11 +25,13 @@ Thereafter, we denote by:
 * $S$ the total number of taxa recorded,
 * $N$ the total number of individuals,
 * $n_i$ the number of individuals in the $i$-th taxon,
-* $p_i$ the relative proportion of the $i$-th taxon in the population.
+* $p_i$ the relative proportion of the $i$-th taxon in the population,
+* $f_k$ the number of taxa with $k$ individuals,
+* $Q_i$ the incidence of the $i$-th taxon.
 
 ## $\alpha$-diversity
 
-### Richness and rarefaction
+### Richness
 
 #### Margalef index [@margalef1958]
 
@@ -39,7 +41,57 @@ $$ D_{Mg} = \frac{S - 1}{\ln N} $$
 
 $$ D_{Mn} = \frac{S}{\sqrt{N}} $$
 
-#### Rarefaction
+#### Chao1 estimator [@chao1984]
+
+$$ \hat{S}_{Chao1} = 
+\begin{cases}
+  S + \frac{N - 1}{N} \frac{f_1^2}{2 f_2} & f_2 > 0 \\
+  S + \frac{N - 1}{N} \frac{f_1 (f_1 - 1)}{2} & f_2 = 0
+\end{cases}
+$$
+
+In the special case of homogeneous case, a bias-corrected estimator is:
+
+$$ \hat{S}_{Chao1-bc} = S + \frac{N - 1}{N} \frac{f_1 (f_1 - 1)}{2 f_2 + 1}$$
+
+Improved Chao1 estimator (makes use of the additional information of tripletons and quadrupletons; @chiu2014) :
+
+$$ \hat{S}_{iChao1} = \hat{S}_{Chao1} + \frac{N - 3}{4 N} \frac{f_3}{f_4} \times \max\left(f_1 - \frac{N - 3}{N - 1} \frac{f_2 f_3}{2 f_4} , 0\right)$$
+
+#### Abundance-based Coverage Estimator [@chao1992]
+
+$$ \hat{S}_{ACE} = \hat{S}_{abun} + \frac{\hat{S}_{rare}}{\hat{C}_{rare}} + \frac{f_1}{\hat{C}_{rare}} \times \hat{\gamma}^2_{rare} $$
+
+Where $\hat{S}_{rare} = \sum_{i = 1}^{k} f_i$ is the number of rare taxa, $\hat{S}_{abun} = \sum_{i > k}^{N} f_i$ is the number of abundant taxa (for a given cut-off value $k$), $\hat{C}_{rare} = 1 - \frac{f_1}{N_{rare}}$ is the Turing's coverage estimate and:
+
+$$ \hat{\gamma}^2_{rare} = \max\left[\frac{\hat{S}_{rare}}{\hat{C}_{rare}} \frac{\sum_{i = 1}^{k} i(i - 1)f_i}{\left(\sum_{i = 1}^{k} if_i\right)\left(\sum_{i = 1}^{k} if_i - 1\right)} - 1, 0\right]  $$
+
+#### Chao2 estimator [@chao1987]
+
+For replicated incidence data (i.e. a $m \times p$ logical matrix), the Chao2 estimator is:
+
+$$ \hat{S}_{Chao2} = 
+\begin{cases}
+  S + \frac{m - 1}{m} \frac{Q_1^2}{2 Q_2} & Q_2 > 0 \\
+  S + \frac{m - 1}{m} \frac{Q_1 (Q_1 - 1)}{2} & Q_2 = 0
+\end{cases}
+$$
+
+Improved Chao2 estimator [@chiu2014]:
+
+$$ \hat{S}_{iChao2} = \hat{S}_{Chao2} + \frac{m - 3}{4 m} \frac{Q_3}{Q_4} \times \max\left(Q_1 - \frac{m - 3}{m - 1} \frac{Q_2 Q_3}{2 Q_4} , 0\right)$$
+
+#### Incidence-based Coverage Estimator [@chao2016]
+
+$$ \hat{S}_{ICE} = \hat{S}_{freq} + \frac{\hat{S}_{infreq}}{\hat{C}_{infreq}} + \frac{Q_1}{\hat{C}_{infreq}} \times \hat{\gamma}^2_{infreq} $$
+
+Where $\hat{S}_{infreq} = \sum_{i = 1}^{k} Q_i$ is the number of infrequent taxa, $\hat{S}_{freq} = \sum_{i > k}^{N} Q_i$ is the number of frequent taxa (for a given cut-off value $k$), $\hat{C}_{infreq} = 1 - \frac{Q_1}{\sum_{i = 1}^{k} iQ_i}$ is the Turing's coverage estimate and:
+
+$$ \hat{\gamma}^2_{infreq} = \max\left[\frac{\hat{S}_{infreq}}{\hat{C}_{infreq}} \frac{m_{infreq}}{m_{infreq} - 1} \frac{\sum_{i = 1}^{k} i(i - 1)Q_i}{\left(\sum_{i = 1}^{k} iQ_i\right)\left(\sum_{i = 1}^{k} iQ_i - 1\right)} - 1, 0\right]  $$
+
+Where $m_{infreq}$ is the number of sampling units that include at least one infrequent species.
+
+### Rarefaction
 
 @hurlbert1971 unbiaised estimate of @sander1968 rarefaction:
 
