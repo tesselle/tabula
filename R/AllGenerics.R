@@ -2,59 +2,21 @@
 NULL
 
 # ==============================================================================
-#' \eqn{\alpha}{\alpha}-diversity
+#' Heterogeneity and evenness
 #'
 #' @description
-#' Measures within-sample diversity. \code{diversity} returns a diversity or
-#' dominance index. \code{evenness} returns an evenness measure. \code{richness}
-#' returns sample richness. \code{rarefaction} returns Hurlbert's unbiaised
-#' estimate of Sander's rarefaction.
+#'  \code{diversity} returns a diversity or dominance index.
+#'  \code{evenness} returns an evenness measure.
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
 #' @param method A \code{\link{character}} string specifiying the index to be
 #'  computed. This must be one or more of
-#'  "\code{ace}", "\code{chao1}", "\code{chao2}", "\code{berger}",
-#'  "\code{brillouin}", "\code{ice}", "\code{margalef}", "\code{mcintosh}",
-#'  "\code{menhinick}", "\code{shannon}", "\code{simpson}" (see details).
+#'  "\code{berger}", "\code{brillouin}", "\code{mcintosh}",
+#'  "\code{shannon}", "\code{simpson}" (see details).
 #'  Any unambiguous substring can be given.
-#' @param sample A length-one \code{\link{numeric}} vector giving the sub-sample
-#'  size.
-#' @param k A length-one \code{\link{numeric}} vector giving the threshold
-#'  between rare/infrequent and abundant/frequent species (only used if
-#'  \code{method} is "\code{ace}" or "\code{ice}" ; see details).
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
 #' @param ... Further arguments passed to other methods.
-#' @section Richness and Rarefaction:
-#'  The number of different taxa, provides an instantly comprehensible
-#'  expression of diversity. While the number of taxa within a sample
-#'  is easy to ascertain, as a term, it makes little sense: some taxa
-#'  may not have been seen, or there may not be a fixed number of taxa
-#'  (e.g. in an open system; Peet 1974). As an alternative, \emph{richness}
-#'  (\eqn{S}) can be used for the concept of taxa number (McIntosh 1967).
-#'
-#'  It is not always possible to ensure that all sample sizes are equal
-#'  and the number of different taxa increases with sample size and
-#'  sampling effort (Magurran 1988). Then, \emph{rarefaction} (\eqn{E(S)}) is
-#'  the number of taxa expected if all samples were of a standard size (i.e.
-#'  taxa per fixed number of individuals). Rarefaction assumes that imbalances
-#'  between taxa are due to sampling and not to differences in actual
-#'  abundances.
-#'
-#'  The following richness measures are available:
-#'  \describe{
-#'   \item{ace}{Abundance-based Coverage Estimator.}
-#'   \item{ice}{Incidence-based Coverage Estimator.}
-#'   \item{chao1}{Chao1 estimator for abundance data: lower bound
-#'   of undetected species richness in terms of the numbers of singletons and
-#'   doubletons.}
-#'   \item{chao1bc}{Bias-corrected Chao1 estimator for abundance data.}
-#'   \item{chao1i}{Improved Chao1 estimator for abundance data.}
-#'   \item{chao2}{Chao2 estimator for replicated incidence data.}
-#'   \item{chao2i}{Improved Chao2 estimator for replicated incidence data.}
-#'   \item{margalef}{Margalef richness index for abundance data.}
-#'   \item{menhinick}{Menhinick richness index for abundance data.}
-#'  }
-#' @section Diversity and Evenness:
+#' @details
 #'  \emph{Diversity} measurement assumes that all individuals in a specific
 #'  taxa are equivalent and that all types are equally different from each
 #'  other (Peet 1974). A measure of diversity can be achieved by using indices
@@ -104,10 +66,8 @@ NULL
 #'  so that an increase in the value of the index accompanies a decrease in
 #'  diversity.
 #' @return
-#'  \code{rarefaction} returns a numeric vector.
-#'
-#'  If \code{simplify} is \code{FALSE}, then \code{diversity}, \code{evenness}
-#'  and \code{richness} return a list (default), else return a matrix.
+#'  If \code{simplify} is \code{FALSE}, then \code{diversity} and
+#'  \code{evenness} return a list (default), else return a matrix.
 #' @note
 #'  Ramanujan approximation is used for \eqn{x!} computation if \eqn{x > 170}.
 #' @references
@@ -118,33 +78,6 @@ NULL
 #'  Brillouin, L. (1956). \emph{Science and information theory}. New York:
 #'  Academic Press.
 #'
-#'  Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
-#'  Population. \emph{Scandinavian Journal of Statistics}, 11(4), 265-270.
-#'
-#'  Chao, A. (1987). Estimating the Population Size for Capture-Recapture Data
-#'  with Unequal Catchability. \emph{Biometrics} 43(4), 783-791.
-#'  DOI: \href{https://doi.org/10.2307/2531532}{10.2307/2531532}.
-#'
-#'  Chao, A. & Chiu, C.-H. (2016). Species Richness: Estimation and Comparison.
-#'  \emph{In} Balakrishnan, N., Colton, T., Everitt, B., Piegorsch, B., Ruggeri,
-#'  F. & Teugels, J. L. (Eds.), \emph{Wiley StatsRef: Statistics Reference Online}.
-#'  Chichester, UK: John Wiley & Sons, Ltd., 1-26.
-#'  DOI: \href{https://doi.org/10.1002/9781118445112.stat03432.pub2}{10.1002/9781118445112.stat03432.pub2}
-#'
-#'  Chao, A. & Lee, S.-M. (1992). Estimating the Number of Classes via Sample
-#'  Coverage. \emph{Journal of the American Statistical Association}, 87(417),
-#'  210-217.
-#'  DOI: \href{https://doi.org/10.1080/01621459.1992.10475194}{10.1080/01621459.1992.10475194}.
-#'
-#'  Chiu, C.-H., Wang, Y.-T., Walther, B. A. & Chao, A. (2014). An improved
-#'  nonparametric lower bound of species richness via a modified good-turing
-#'  frequency formula. \emph{Biometrics}, 70(3), 671-682.
-#'  DOI: \href{https://doi.org/10.1111/biom.12200}{10.1111/biom.12200}.
-#'
-#'  Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
-#'  Alternative Parameters. \emph{Ecology}, 52(4), 577-586.
-#'  DOI: \href{https://doi.org/10.2307/1934145}{10.2307/1934145}.
-#'
 #'  Laxton, R. R. (1978). The measure of diversity. \emph{Journal of Theoretical
 #'  Biology}, 70(1), 51-67.
 #'  DOI: \href{https://doi.org/10.1016/0022-5193(78)90302-8}{10.1016/0022-5193(78)90302-8}.
@@ -153,16 +86,9 @@ NULL
 #'  Princeton, NJ: Princeton University Press.
 #'  DOI:\href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
 #'
-#'  Margalef, R. (1958). Information Theory in Ecology. \emph{General Systems},
-#'  3, 36-71.
-#'
 #'  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
 #'  Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
 #'  DOI: \href{https://doi.org/10.2307/1932674}{10.2307/1932674}.
-#'
-#'  Menhinick, E. F. (1964). A Comparison of Some Species-Individuals Diversity
-#'  Indices Applied to Samples of Field Insects. \emph{Ecology}, 45(4), 859-861.
-#'  DOI: \href{https://doi.org/10.2307/1934933}{10.2307/1934933}.
 #'
 #'  Peet, R. K. (1974). The Measurement of Species Diversity. \emph{Annual
 #'  Review of Ecology and Systematics}, 5(1), 285-307.
@@ -170,9 +96,6 @@ NULL
 #'
 #'  Pielou, E. C. (1975). \emph{Ecological Diversity}. New York: Wiley.
 #'  DOI: \href{https://doi.org/10.4319/lo.1977.22.1.0174b}{10.4319/lo.1977.22.1.0174b}
-#'
-#'  Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
-#'  \emph{The American Naturalist}, 102(925), 243-282.
 #'
 #'  Shannon, C. E. (1948). A Mathematical Theory of Communication. \emph{The
 #'  Bell System Technical Journal}, 27, 379-423.
@@ -182,40 +105,23 @@ NULL
 #'  688-688. DOI: \href{https://doi.org/10.1038/163688a0}{10.1038/163688a0}.
 #' @example inst/examples/ex-alpha.R
 #' @author N. Frerebeau
+#' @family alpha-diversity
 #' @seealso
 #'  \code{\link[=beta-diversity]{turnover}}
 #'  \code{\link[=beta-diversity]{similarity}}
 #' @docType methods
-#' @name alpha-diversity
-#' @rdname alpha-diversity
-NULL
-
-#' @rdname alpha-diversity
+#' @rdname diversity-method
 #' @aliases diversity-method
 setGeneric(
   name = "diversity",
   def = function(object, ...) standardGeneric("diversity")
 )
 
-#' @rdname alpha-diversity
+#' @rdname diversity-method
 #' @aliases evenness-method
 setGeneric(
   name = "evenness",
   def = function(object, ...) standardGeneric("evenness")
-)
-
-#' @rdname alpha-diversity
-#' @aliases rarefaction-method
-setGeneric(
-  name = "rarefaction",
-  def = function(object, ...) standardGeneric("rarefaction")
-)
-
-#' @rdname alpha-diversity
-#' @aliases richness-method
-setGeneric(
-  name = "richness",
-  def = function(object, ...) standardGeneric("richness")
 )
 
 # ==============================================================================
@@ -457,6 +363,129 @@ setGeneric(
 setGeneric(
   name = "plotSpot",
   def = function(object, ...) standardGeneric("plotSpot")
+)
+
+# ==============================================================================
+#' Richness and rarefaction
+#'
+#' @description
+#'  \code{richness} returns sample richness.
+#'  \code{rarefaction} returns Hurlbert's unbiaised estimate of Sander's
+#'  rarefaction.
+#' @param object A \eqn{m \times p}{m x p} matrix of count data.
+#' @param method A \code{\link{character}} string specifiying the index to be
+#'  computed. This must be one or more of
+#'  "\code{ace}", "\code{chao1}", "\code{chao2}", "\code{berger}",
+#'  "\code{brillouin}", "\code{ice}", "\code{margalef}", "\code{mcintosh}",
+#'  "\code{menhinick}", "\code{shannon}", "\code{simpson}" (see details).
+#'  Any unambiguous substring can be given.
+#' @param sample A length-one \code{\link{numeric}} vector giving the sub-sample
+#'  size.
+#' @param k A length-one \code{\link{numeric}} vector giving the threshold
+#'  between rare/infrequent and abundant/frequent species (only used if
+#'  \code{method} is "\code{ace}" or "\code{ice}" ; see details).
+#' @param simplify A \code{\link{logical}} scalar: should the result be
+#'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
+#' @param ... Further arguments passed to other methods.
+#' @details
+#'  The number of different taxa, provides an instantly comprehensible
+#'  expression of diversity. While the number of taxa within a sample
+#'  is easy to ascertain, as a term, it makes little sense: some taxa
+#'  may not have been seen, or there may not be a fixed number of taxa
+#'  (e.g. in an open system; Peet 1974). As an alternative, \emph{richness}
+#'  (\eqn{S}) can be used for the concept of taxa number (McIntosh 1967).
+#'
+#'  It is not always possible to ensure that all sample sizes are equal
+#'  and the number of different taxa increases with sample size and
+#'  sampling effort (Magurran 1988). Then, \emph{rarefaction} (\eqn{E(S)}) is
+#'  the number of taxa expected if all samples were of a standard size (i.e.
+#'  taxa per fixed number of individuals). Rarefaction assumes that imbalances
+#'  between taxa are due to sampling and not to differences in actual
+#'  abundances.
+#'
+#'  The following richness measures are available:
+#'  \describe{
+#'   \item{ace}{Abundance-based Coverage Estimator.}
+#'   \item{ice}{Incidence-based Coverage Estimator.}
+#'   \item{chao1}{Chao1 estimator for abundance data: lower bound
+#'   of undetected species richness in terms of the numbers of singletons and
+#'   doubletons.}
+#'   \item{chao1bc}{Bias-corrected Chao1 estimator for abundance data.}
+#'   \item{chao1i}{Improved Chao1 estimator for abundance data.}
+#'   \item{chao2}{Chao2 estimator for replicated incidence data.}
+#'   \item{chao2i}{Improved Chao2 estimator for replicated incidence data.}
+#'   \item{margalef}{Margalef richness index for abundance data.}
+#'   \item{menhinick}{Menhinick richness index for abundance data.}
+#'  }
+#' @return
+#'  \code{rarefaction} returns a numeric vector.
+#'
+#'  If \code{simplify} is \code{FALSE}, then \code{richness} return a list
+#'  (default), else return a matrix.
+#' @references
+#'  Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
+#'  Population. \emph{Scandinavian Journal of Statistics}, 11(4), 265-270.
+#'
+#'  Chao, A. (1987). Estimating the Population Size for Capture-Recapture Data
+#'  with Unequal Catchability. \emph{Biometrics} 43(4), 783-791.
+#'  DOI: \href{https://doi.org/10.2307/2531532}{10.2307/2531532}.
+#'
+#'  Chao, A. & Chiu, C.-H. (2016). Species Richness: Estimation and Comparison.
+#'  \emph{In} Balakrishnan, N., Colton, T., Everitt, B., Piegorsch, B., Ruggeri,
+#'  F. & Teugels, J. L. (Eds.), \emph{Wiley StatsRef: Statistics Reference Online}.
+#'  Chichester, UK: John Wiley & Sons, Ltd., 1-26.
+#'  DOI: \href{https://doi.org/10.1002/9781118445112.stat03432.pub2}{10.1002/9781118445112.stat03432.pub2}
+#'
+#'  Chao, A. & Lee, S.-M. (1992). Estimating the Number of Classes via Sample
+#'  Coverage. \emph{Journal of the American Statistical Association}, 87(417),
+#'  210-217.
+#'  DOI: \href{https://doi.org/10.1080/01621459.1992.10475194}{10.1080/01621459.1992.10475194}.
+#'
+#'  Chiu, C.-H., Wang, Y.-T., Walther, B. A. & Chao, A. (2014). An improved
+#'  nonparametric lower bound of species richness via a modified good-turing
+#'  frequency formula. \emph{Biometrics}, 70(3), 671-682.
+#'  DOI: \href{https://doi.org/10.1111/biom.12200}{10.1111/biom.12200}.
+#'
+#'  Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
+#'  Alternative Parameters. \emph{Ecology}, 52(4), 577-586.
+#'  DOI: \href{https://doi.org/10.2307/1934145}{10.2307/1934145}.
+#'
+#'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
+#'  Princeton, NJ: Princeton University Press.
+#'  DOI:\href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+#'
+#'  Margalef, R. (1958). Information Theory in Ecology. \emph{General Systems},
+#'  3, 36-71.
+#'
+#'  Menhinick, E. F. (1964). A Comparison of Some Species-Individuals Diversity
+#'  Indices Applied to Samples of Field Insects. \emph{Ecology}, 45(4), 859-861.
+#'  DOI: \href{https://doi.org/10.2307/1934933}{10.2307/1934933}.
+#'
+#'  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
+#'  Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
+#'  DOI: \href{https://doi.org/10.2307/1932674}{10.2307/1932674}.
+#'
+#'  Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
+#'  \emph{The American Naturalist}, 102(925), 243-282.
+#' @example inst/examples/ex-alpha.R
+#' @author N. Frerebeau
+#' @family alpha-diversity
+#' @seealso
+#'  \code{\link[=beta-diversity]{turnover}}
+#'  \code{\link[=beta-diversity]{similarity}}
+#' @docType methods
+#' @rdname richness-method
+#' @aliases richness-method
+setGeneric(
+  name = "richness",
+  def = function(object, ...) standardGeneric("richness")
+)
+
+#' @rdname richness-method
+#' @aliases rarefaction-method
+setGeneric(
+  name = "rarefaction",
+  def = function(object, ...) standardGeneric("rarefaction")
 )
 
 # ==============================================================================

@@ -1,36 +1,53 @@
-# Rarefaction ==================================================================
-# Hurlbert rarefaction
-#
-# Hurlbert's unbiaised estimate of Sander's rarefaction.
-# @param n A \code{\link{numeric}} vector giving the number of individuals for
-#  each type.
-# @param ... Currently not used.
-# @return A length-one \code{\link{numeric}} vector.
-# @references
-#  Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
-#  Alternative Parameters. \emph{Ecology}, 52(4), 577-586.
-#  DOI: \href{https://doi.org/10.2307/1934145}{10.2307/1934145}.
-#
-#  Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
-#  \emph{The American Naturalist}, 102(925), 243-282.
-# @author N. Frerebeau
-# @family rarefaction index
-# @rdname hurlbert-index
-hurlbertRarefaction <- function(n, sample) {
-  # Strictly positive whole numbers
-  n <- trunc(n, digits = 0)[n > 0]
-  sample <- trunc(sample, digits = 0)
+#' @include AllGenerics.R AllClasses.R
+NULL
 
-  N <- sum(n)
-  E <- sapply(X = n, FUN = function(x, N, sample) {
-    if (N - x > sample)
-      1 - combination(N - x, sample) / combination(N, sample)
-    else
-      NA
-  }, N, sample)
-  E <- sum(E)
-  return(E)
-}
+#' @export
+#' @rdname richness-method
+#' @aliases richness,CountMatrix-method
+setMethod(
+  f = "richness",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, method = c("ace", "chao1", "chao1bc", "chao1i",
+                                           "margalef", "menhinick"),
+                        k = 10, simplify = FALSE) {
+    # Validation
+    method <- match.arg(method, several.ok = TRUE)
+    E <- sapply(X = method, FUN = function(x, object, k) {
+      index <- switch (
+        x,
+        ace = aceRichness,
+        chao1 = chao1Richness,
+        chao1bc = chao1bcRichness,
+        chao1i = chao1iRichness,
+        margalef = margalefRichness,
+        menhinick = menhinickRichness
+      )
+      apply(X = object, MARGIN = 1, FUN = index, k)
+    }, object, k, simplify = simplify)
+    return(E)
+  }
+)
+
+#' @export
+#' @rdname richness-method
+#' @aliases richness,IncidenceMatrix-method
+setMethod(
+  f = "richness",
+  signature = signature(object = "IncidenceMatrix"),
+  definition = function(object, method = c("chao2", "chao2i", "ice"), k = 10,
+                        simplify = FALSE) {
+    # Validation
+    method <- match.arg(method, several.ok = FALSE)
+    index <- switch (
+      method,
+      ice = iceRichness,
+      chao2 = chao2Richness,
+      chao2i = chao2iRichness
+    )
+    E <- index(object, k)
+    return(E)
+  }
+)
 
 # Richness =====================================================================
 # Abundance data ---------------------------------------------------------------
