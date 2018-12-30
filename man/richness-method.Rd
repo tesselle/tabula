@@ -51,9 +51,9 @@ simplified to a matrix? The default value, \code{FALSE}, returns a list.}
 \value{
 \code{rarefaction} returns a numeric vector.
 
- If \code{simplify} is \code{FALSE}, then \code{richness} method for
- \code{CountMatrix} returns a list (default), else returns a matrix.
- \code{richness} method for \code{IncidenceMatrix} returns a numeric vector.
+ If \code{simplify} is \code{FALSE}, then \code{richness} method returns a
+ list (default), else returns a matrix (for \code{CountMatrix}) or a
+ a numeric vector (for \code{IncidenceMatrix}).
 }
 \description{
 \code{richness} returns sample richness.

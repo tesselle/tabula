@@ -311,9 +311,9 @@ setGeneric(
 #' @return
 #'  \code{rarefaction} returns a numeric vector.
 #'
-#'  If \code{simplify} is \code{FALSE}, then \code{richness} method for
-#'  \code{CountMatrix} returns a list (default), else returns a matrix.
-#'  \code{richness} method for \code{IncidenceMatrix} returns a numeric vector.
+#'  If \code{simplify} is \code{FALSE}, then \code{richness} method returns a
+#'  list (default), else returns a matrix (for \code{CountMatrix}) or a
+#'  a numeric vector (for \code{IncidenceMatrix}).
 #' @references
 #'  Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
 #'  Population. \emph{Scandinavian Journal of Statistics}, 11(4), 265-270.
