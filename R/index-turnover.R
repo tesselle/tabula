@@ -1,22 +1,6 @@
 #' @include AllGenerics.R AllClasses.R
 NULL
 
-turnoverIndex <- function(object, method, simplify = FALSE, ...) {
-  # Validation
-  index <- switch (
-    method,
-    whittaker = whittakerBeta,
-    cody = codyBeta,
-    routledge1 = routledge1Beta,
-    routledge2 = routledge2Beta,
-    routledge3 = routledge3Beta,
-    wilson = wilsonBeta,
-    stop(paste("there is no such method:", method, sep = " "))
-  )
-  B <- index(object)
-  return(B)
-}
-
 #' @export
 #' @rdname turnover-method
 #' @aliases turnover,CountMatrix-method
@@ -26,10 +10,8 @@ setMethod(
   definition = function(object, method = c("whittaker", "cody", "routledge1",
                                            "routledge2", "routledge3",
                                            "wilson"), simplify = FALSE, ...) {
-    method <- match.arg(method, several.ok = TRUE)
-    B <- sapply(X = method, FUN = function(x, data) {
-      turnoverIndex(data, x)
-    }, data = object, simplify = simplify)
+    object <- methods::as(object, "IncidenceMatrix")
+    B <- turnover(object, method, simplify, ...)
     return(B)
   }
 )
@@ -44,7 +26,18 @@ setMethod(
                                            "routledge2", "routledge3",
                                            "wilson"), simplify = FALSE, ...) {
     method <- match.arg(method, several.ok = TRUE)
-    B <- turnoverIndex(object, method)
+    B <- sapply(X = method, FUN = function(x, data) {
+      index <- switch (
+        x,
+        whittaker = whittakerBeta,
+        cody = codyBeta,
+        routledge1 = routledge1Beta,
+        routledge2 = routledge2Beta,
+        routledge3 = routledge3Beta,
+        wilson = wilsonBeta
+      )
+      index(object)
+    }, data = object, simplify = simplify)
     return(B)
   }
 )
