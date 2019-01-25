@@ -3,26 +3,49 @@
 \docType{class}
 \name{DateEvent-class}
 \alias{DateEvent-class}
+\alias{[[,DateEvent-method}
 \title{Event time}
+\usage{
+\S4method{[[}{DateEvent}(x, i)
+}
+\arguments{
+\item{x}{A \code{DateEvent} object from which to extract element(s).}
+
+\item{i}{A \code{\link{character}} string specifying elements to extract.
+Character vectors will be matched to the name of the slots.}
+}
 \description{
 An S4 class to represent the event time of an archaeological assemblage.
 }
+\section{Methods (by generic)}{
+\itemize{
+\item \code{[[}: Returns information about the individual slots.
+}}
+
 \section{Slots}{
 
 \describe{
-\item{\code{assemblage}}{A \code{\link{character}} vector giving the name of the
+\item{\code{assemblages}}{A \code{\link{character}} vector giving the name of the
 archaeological assemblage.}
 
 \item{\code{level}}{A length-one \code{\link{numeric}} vector giving the
 confidence level.}
 
-\item{\code{date}}{An \code{\link{integer}} vector giving the modelled date (in
+\item{\code{R2}}{A length-one \code{\link{numeric}} vector giving the R squared.}
+
+\item{\code{residual}}{A length-one \code{\link{numeric}} vector giving the residual
+standard deviation.}
+
+\item{\code{standard_errors}}{A \code{\link{numeric}} vector giving the standard
+error of predicted means.}
+
+\item{\code{dates}}{An \code{\link{numeric}} vector giving the modelled date (in
 years, calendar time) of the event.}
 
-\item{\code{earliest}}{An \code{\link{integer}} vector giving the modelled earliest
+\item{\code{earliest}}{An \code{\link{numeric}} vector giving the modelled earliest
 possible date (in years, calendar time) of the event.}
 
-\item{\code{latest}}{An \code{\link{integer}} vector giving the modelled latest
+\item{\code{latest}}{An \code{\link{numeric}} vector giving the modelled latest
 possible date (in years, calendar time) of the events.}
 }}
 

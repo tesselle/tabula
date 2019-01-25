@@ -91,8 +91,9 @@ Bertin, J. (1977). \emph{La graphique et le traitement graphique de
  chronology}. Washington, DC: Pan American Union. Technical manual 1.
 }
 \seealso{
-Other plot: \code{\link{plotMatrix}},
-  \code{\link{plotRank}}, \code{\link{plotSpot}}
+Other plot: \code{\link{plotDate}},
+  \code{\link{plotMatrix}}, \code{\link{plotRank}},
+  \code{\link{plotSpot}}
 }
 \author{
 N. Frerebeau

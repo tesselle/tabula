@@ -47,7 +47,7 @@ plotRank(freq, facet = FALSE)
 plotRank(freq, facet = FALSE, log = "xy")
 }
 \seealso{
-Other plot: \code{\link{plotBar}},
+Other plot: \code{\link{plotBar}}, \code{\link{plotDate}},
   \code{\link{plotMatrix}}, \code{\link{plotSpot}}
 }
 \author{

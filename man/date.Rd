@@ -7,13 +7,17 @@
 \alias{dateAccumulation}
 \alias{dateAccumulation-method}
 \alias{dateEvent,CountMatrix-method}
-\title{Date archaeological contexts}
+\alias{dateAccumulation,CountMatrix-method}
+\title{Date archaeological assemblages}
 \usage{
 dateEvent(object, ...)
 
 dateAccumulation(object, ...)
 
-\S4method{dateEvent}{CountMatrix}(object, time, axes = 10,
+\S4method{dateEvent}{CountMatrix}(object, time, axes = 5, level = 0.95,
+  verbose = FALSE, ...)
+
+\S4method{dateAccumulation}{CountMatrix}(object, time, axes = 5,
   level = 0.95, verbose = FALSE, ...)
 }
 \arguments{
@@ -22,20 +26,23 @@ dateAccumulation(object, ...)
 \item{...}{Further arguments to be passed to \code{\link[FactoMineR]{CA}}.}
 
 \item{time}{A named \code{\link{numeric}} vector giving the reliable known
-dates (in years) of the archaeological contexts.
-Contexts are matched by names.}
+dates (in years) of the archaeological assemblages.
+Assemblages are matched by names.}
 
-\item{axes}{An \code{\link{integer}} giving the number of dimensions kept in
-the results of the Correspondance Analysis (by default 10).}
+\item{axes}{An \code{\link{integer}} indicating th factorial components of
+the correspondance analysis to retain (by default 5).}
 
 \item{level}{A length-one \code{\link{numeric}} vector giving the
 confidence level.}
+
+\item{verbose}{A \code{\link{logical}} scalar. Should extra summary
+statistics be printed?}
 }
 \value{
 An object of class \linkS4class{DateEvent} or \linkS4class{DateAccumulation}.
 }
 \description{
-Date archaeological contexts
+Date archaeological assemblages
 }
 \references{
 Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and

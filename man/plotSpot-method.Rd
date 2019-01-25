@@ -50,7 +50,7 @@ plotSpot(count, threshold = mean)
 plotSpot(count, threshold = median)
 }
 \seealso{
-Other plot: \code{\link{plotBar}},
+Other plot: \code{\link{plotBar}}, \code{\link{plotDate}},
   \code{\link{plotMatrix}}, \code{\link{plotRank}}
 }
 \author{
