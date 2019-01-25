@@ -1,6 +1,44 @@
 #' @include AllClasses.R
 NULL
 
+# Date =========================================================================
+
+#' Date archaeological assemblages
+#'
+#' @param object A \eqn{m \times p}{m x p} matrix of count data.
+#' @param time A named \code{\link{numeric}} vector giving the reliable known
+#'  dates (in years) of the archaeological assemblages.
+#'  Assemblages are matched by names.
+#' @param axes An \code{\link{integer}} giving the number of dimensions kept in
+#'  the results of the Correspondance Analysis (by default 10).
+#' @param level A length-one \code{\link{numeric}} vector giving the
+#'  confidence level.
+#' @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
+#' @return
+#'  An object of class \linkS4class{DateEvent} or \linkS4class{DateAccumulation}.
+#' @references
+#'  Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
+#'  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
+#'  Archaeological Science}, 39(4), 777-790.
+#'  DOI: \href{https://doi.org/10.1016/j.jas.2011.06.031}{10.1016/j.jas.2011.06.031}.
+#' @author N. Frerebeau
+#' @docType methods
+#' @rdname date
+
+#' @rdname date
+#' @aliases dateEvent-method
+setGeneric(
+  name = "dateEvent",
+  def = function(object, ...) standardGeneric("dateEvent")
+)
+
+#' @rdname date
+#' @aliases dateAccumulation-method
+setGeneric(
+  name = "dateAccumulation",
+  def = function(object, ...) standardGeneric("dateAccumulation")
+)
+
 # ==============================================================================
 #' Heterogeneity and evenness
 #'
