@@ -3,11 +3,63 @@ NULL
 
 # Class definitions ============================================================
 ## -----------------------------------------------------------------------------
+#' Event time
+#'
+#' An S4 class to represent the event time of an archaeological assemblage.
+#' @slot assemblage A \code{\link{character}} vector giving the name of the
+#'  archaeological assemblage.
+#' @slot level A length-one \code{\link{numeric}} vector giving the
+#'  confidence level.
+#' @slot date An \code{\link{integer}} vector giving the modelled date (in
+#'  years, calendar time) of the event.
+#' @slot earliest An \code{\link{integer}} vector giving the modelled earliest
+#'  possible date (in years, calendar time) of the event.
+#' @slot latest An \code{\link{integer}} vector giving the modelled latest
+#'  possible date (in years, calendar time) of the events.
+#' @author N. Frerebeau
+#' @docType class
+#' @aliases DateEvent-class
+setClass(
+  Class = "DateEvent",
+  slots = c(assemblage = "character",
+            level = "numeric",
+            date = "integer",
+            earliest = "integer",
+            latest = "integer")
+)
+
+#' Accumulation time
+#'
+#' An S4 class to represent the accumulation time of an archaeological
+#'  assemblage.
+#' @slot assemblage A \code{\link{character}} vector giving the name of the
+#'  archaeological assemblage.
+#' @slot level A length-one \code{\link{numeric}} vector giving the
+#'  confidence level.
+#' @slot date An \code{\link{integer}} vector giving the modelled date (in
+#'  years, calendar time) of the accumulation.
+#' @slot earliest An \code{\link{integer}} vector giving the modelled earliest
+#'  possible date (in years, calendar time) of the accumulation.
+#' @slot latest An \code{\link{integer}} vector giving the modelled latest
+#'  possible date (in years, calendar time) of the accumulation.
+#' @author N. Frerebeau
+#' @docType class
+#' @aliases DateAccumulation-class
+setClass(
+  Class = "DateAccumulation",
+  slots = c(assemblage = "character",
+            level = "numeric",
+            date = "integer",
+            earliest = "integer",
+            latest = "integer")
+)
+
+## -----------------------------------------------------------------------------
 #' Permutation order
 #'
 #' An S4 class to represent a permutation order.
-#' @slot rows A \code{\link{integer}} vector giving the rows permutation.
-#' @slot columns A \code{\link{integer}} vector giving the columns permutation.
+#' @slot rows An \code{\link{integer}} vector giving the rows permutation.
+#' @slot columns An \code{\link{integer}} vector giving the columns permutation.
 #' @slot seriation A \code{\link{character}} vector indicating the seriation
 #'  method used.
 #' @author N. Frerebeau
