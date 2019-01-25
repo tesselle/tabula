@@ -40,9 +40,9 @@ An S4 class to represent a permutation order.
 \section{Slots}{
 
 \describe{
-\item{\code{rows}}{A \code{\link{integer}} vector giving the rows permutation.}
+\item{\code{rows}}{An \code{\link{integer}} vector giving the rows permutation.}
 
-\item{\code{columns}}{A \code{\link{integer}} vector giving the columns permutation.}
+\item{\code{columns}}{An \code{\link{integer}} vector giving the columns permutation.}
 
 \item{\code{seriation}}{A \code{\link{character}} vector indicating the seriation
 method used.}
