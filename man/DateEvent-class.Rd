@@ -4,9 +4,15 @@
 \name{DateEvent-class}
 \alias{DateEvent-class}
 \alias{[[,DateEvent-method}
+\alias{rows,DateEvent-method}
+\alias{columns,DateEvent-method}
 \title{Event time}
 \usage{
 \S4method{[[}{DateEvent}(x, i)
+
+\S4method{rows}{DateEvent}(x)
+
+\S4method{columns}{DateEvent}(x)
 }
 \arguments{
 \item{x}{A \code{DateEvent} object from which to extract element(s).}
@@ -20,33 +26,30 @@ An S4 class to represent the event time of an archaeological assemblage.
 \section{Methods (by generic)}{
 \itemize{
 \item \code{[[}: Returns information about the individual slots.
+
+\item \code{rows}: Returns the predicted dates for each archaeological
+assemblage, the corresponding confidence interval and standard error of
+the predicted dates.
+
+\item \code{columns}: Returns the predicted dates for each archaeological
+type or fabric, the corresponding confidence interval and standard error of
+the predicted dates.
 }}
 
 \section{Slots}{
 
 \describe{
-\item{\code{assemblages}}{A \code{\link{character}} vector giving the name of the
-archaeological assemblage.}
+\item{\code{model}}{A \code{\link[stats:lm]{multiple linear model}} TODO.}
 
 \item{\code{level}}{A length-one \code{\link{numeric}} vector giving the
 confidence level.}
 
-\item{\code{R2}}{A length-one \code{\link{numeric}} vector giving the R squared.}
-
 \item{\code{residual}}{A length-one \code{\link{numeric}} vector giving the residual
 standard deviation.}
 
-\item{\code{standard_errors}}{A \code{\link{numeric}} vector giving the standard
-error of predicted means.}
+\item{\code{rows}}{A numeric \code{\link{matrix}} giving the TODO.}
 
-\item{\code{dates}}{An \code{\link{numeric}} vector giving the modelled date (in
-years, calendar time) of the event.}
-
-\item{\code{earliest}}{An \code{\link{numeric}} vector giving the modelled earliest
-possible date (in years, calendar time) of the event.}
-
-\item{\code{latest}}{An \code{\link{numeric}} vector giving the modelled latest
-possible date (in years, calendar time) of the events.}
+\item{\code{columns}}{A numeric \code{\link{matrix}} giving the TODO.}
 }}
 
 \author{

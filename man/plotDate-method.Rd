@@ -4,26 +4,32 @@
 \name{plotDate}
 \alias{plotDate}
 \alias{plotDate-method}
-\alias{plotDate,DateEvent,missing-method}
-\alias{plotDate,missing,DateAccumulation-method}
-\alias{plotDate,DateEvent,DateAccumulation-method}
+\alias{plotDate,CountMatrix,DateEvent-method}
+\alias{plotBar,DateEvent-method}
 \title{Date plot}
 \usage{
-plotDate(event, accumulation, ...)
+plotDate(object, event, ...)
 
-\S4method{plotDate}{DateEvent,missing}(event, assemblage = 1)
+\S4method{plotDate}{CountMatrix,DateEvent}(object, event,
+  type = c("event", "accumulation"), select = 1)
 
-\S4method{plotDate}{missing,DateAccumulation}(accumulation,
-  assemblage = 1)
-
-\S4method{plotDate}{DateEvent,DateAccumulation}(event, accumulation,
-  assemblage = 1)
+\S4method{plotBar}{DateEvent}(object, select = 1, sort = "dsc")
 }
 \arguments{
+\item{object}{An object to be plotted.}
+
 \item{event}{An object of class \linkS4class{DateEvent} to be plotted.}
 
-\item{accumulation}{An object of class \linkS4class{DateAccumulation} to be
-plotted.}
+\item{...}{Further arguments passed to other methods.}
+
+\item{type}{A \code{\link{character}} string or vector of character strings
+indicating the TODO.}
+
+\item{select}{A \code{\link{numeric}} or \code{\link{character}} vector
+giving the selection of the elements that are drawn.}
+
+\item{sort}{A \code{\link{character}} string indicating if TODO.
+If \code{NULL} TODO.}
 }
 \description{
 Date plot

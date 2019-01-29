@@ -4,21 +4,13 @@
 \name{dateEvent}
 \alias{dateEvent}
 \alias{dateEvent-method}
-\alias{dateAccumulation}
-\alias{dateAccumulation-method}
 \alias{dateEvent,CountMatrix-method}
-\alias{dateAccumulation,CountMatrix-method}
 \title{Date archaeological assemblages}
 \usage{
 dateEvent(object, ...)
 
-dateAccumulation(object, ...)
-
 \S4method{dateEvent}{CountMatrix}(object, time, axes = 5, level = 0.95,
   verbose = FALSE, ...)
-
-\S4method{dateAccumulation}{CountMatrix}(object, time, axes = 5,
-  level = 0.95, verbose = FALSE, ...)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
@@ -29,7 +21,7 @@ dateAccumulation(object, ...)
 dates (in years) of the archaeological assemblages.
 Assemblages are matched by names.}
 
-\item{axes}{An \code{\link{integer}} indicating th factorial components of
+\item{axes}{An \code{\link{integer}} indicating the factorial components of
 the correspondance analysis to retain (by default 5).}
 
 \item{level}{A length-one \code{\link{numeric}} vector giving the
@@ -39,7 +31,7 @@ confidence level.}
 statistics be printed?}
 }
 \value{
-An object of class \linkS4class{DateEvent} or \linkS4class{DateAccumulation}.
+An object of class \linkS4class{DateEvent}.
 }
 \description{
 Date archaeological assemblages
