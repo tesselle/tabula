@@ -1,7 +1,130 @@
 #' @include AllGenerics.R AllClasses.R statistics.R
 NULL
 
+# Date plot ====================================================================
+#' @export
+#' @rdname plotDate-method
+#' @aliases plotDate,CountMatrix,DateEvent-method
+setMethod(
+  f = "plotDate",
+  signature = c("CountMatrix", "DateEvent"),
+  definition = function(object, event, type = c("event", "accumulation"), select = 1) {
+    # Selection
+    type <- match.arg(type, several.ok = TRUE)
+    cases <- rownames(event[["rows"]])
+    index <- if (is.character(select)) {
+      which(cases %in% select)
+    } else {
+      as.numeric(select)
+    }
+
+    # Validation
+    if (length(index) == 0 | max(index) > length(cases))
+      stop("wrong selection")
+
+    # Get date range
+    row_dates <- event[["rows"]][, "estimation"]
+    date_range <- seq(from = min(row_dates), to = max(row_dates), length.out = 500)
+
+    plot_event <- plot_accumulation <- plot_facet <- NULL
+    if ("event" %in% type) {
+      row_errors <- event[["rows"]][, "error"]
+
+      date_event <- mapply(function(mean, sd, x) { stats::dnorm(x, mean, sd) },
+                           mean = row_dates[index], sd = row_errors[index],
+                           MoreArgs = list(x = date_range), SIMPLIFY = TRUE)
+      colnames(date_event) <- cases[index]
+
+      row_data <- cbind.data.frame(date = date_range, date_event) %>%
+        tidyr::gather(key = "assemblage", value = "density", -date)
+
+      plot_event <- geom_line(data = row_data,
+                              mapping = aes_string(color = "assemblage"))
+    }
+
+    if ("accumulation" %in% type) {
+      # Weighted sum of the fabric dates
+      count <- object[index, , drop = FALSE]
+      freq <- count / rowSums(count)
+      # Transpose for mapply
+      col_dates <- event[["columns"]][, "estimation"]
+      col_errors <- event[["columns"]][, "error"]
+
+      col_density <- mapply(function(mean, sd, x) { stats::dnorm(x, mean, sd) },
+                            mean = col_dates, sd = col_errors,
+                            MoreArgs = list(x = date_range), SIMPLIFY = TRUE)
+      date_acc <- apply(X = freq, MARGIN = 1, FUN = function(x, density) {
+        colSums(t(density) * as.numeric(x))
+      }, density = col_density)
+
+      col_data <- cbind.data.frame(date = date_range, date_acc) %>%
+        tidyr::gather(key = "assemblage", value = "density", -date)
+
+      plot_accumulation <- geom_area(
+        data = col_data, fill = "darkgrey", color = "darkgrey", alpha = 0.7)
+        # mapping = aes(fill = assemblage, color = assemblage))
+    }
+
+    if (length(index) > 1) {
+      plot_facet <- facet_wrap(. ~ assemblage, nrow = length(index))
+    }
+
+    ggplot(mapping = aes_string(x = "date", y = "density")) +
+      plot_accumulation + plot_event + plot_facet +
+      labs(x = "Date (years)", y = "Density",
+           fill = "Assemblage", color = "Assemblage")
+  }
+)
+
 # Bar plot =====================================================================
+#' @param sort A \code{\link{character}} string indicating if TODO.
+#'  If \code{NULL} TODO.
+#' @export
+#' @rdname plotDate-method
+#' @aliases plotBar,DateEvent-method
+setMethod(
+  f = "plotBar",
+  signature = signature(object = "DateEvent"),
+  definition = function(object, select = 1, sort = "dsc") {
+    # Selection
+    cases <- rownames(object[["rows"]])
+    index <- if (is.character(select)) {
+      which(cases %in% select)
+    } else {
+      as.numeric(select)
+    }
+
+    # Validation
+    if (length(index) == 0 | max(index) > length(cases))
+      stop("wrong selection")
+
+    data <- cbind.data.frame(
+      id = as.factor(cases),
+      x = object[["rows"]][, "estimation"],
+      y = as.numeric(as.factor(cases)),
+      xmin = object[["rows"]][, "earliest"],
+      xmax = object[["rows"]][, "latest"]
+    )[index, ]
+
+    if (!is.null(sort)) {
+      sort <- match.arg(sort, choices = c("asc", "dsc"), several.ok = FALSE)
+      data <- switch (
+        sort,
+        asc = dplyr::arrange(data, .data$x),
+        dsc = dplyr::arrange(data, dplyr::desc(.data$x))
+      )
+      data %<>% dplyr::mutate(y = 1:nrow(.))
+    }
+
+    ggplot(data = data, mapping = aes_string(color = "id")) +
+      geom_point(mapping = aes_string(x = "x", y = "y")) +
+      geom_segment(mapping = aes_string(x = "xmin", y = "y",
+                                        xend = "xmax", yend = "y")) +
+      scale_y_continuous(breaks = data$y, labels = data$id) +
+      labs(x = "Date (years)", y = "", color = "Assemblage")
+  }
+)
+
 #' @export
 #' @rdname plotBar-method
 #' @aliases plotBar,CountMatrix-method
