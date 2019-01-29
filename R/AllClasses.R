@@ -6,52 +6,23 @@ NULL
 #' Event time
 #'
 #' An S4 class to represent the event time of an archaeological assemblage.
-#' @slot assemblage A \code{\link{character}} vector giving the name of the
-#'  archaeological assemblage.
+#' @slot model A \code{\link[stats:lm]{multiple linear model}} TODO.
 #' @slot level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
-#' @slot date An \code{\link{integer}} vector giving the modelled date (in
-#'  years, calendar time) of the event.
-#' @slot earliest An \code{\link{integer}} vector giving the modelled earliest
-#'  possible date (in years, calendar time) of the event.
-#' @slot latest An \code{\link{integer}} vector giving the modelled latest
-#'  possible date (in years, calendar time) of the events.
+#' @slot residual A length-one \code{\link{numeric}} vector giving the residual
+#'  standard deviation.
+#' @slot rows A numeric \code{\link{matrix}} giving the TODO.
+#' @slot columns A numeric \code{\link{matrix}} giving the TODO.
 #' @author N. Frerebeau
 #' @docType class
 #' @aliases DateEvent-class
 setClass(
   Class = "DateEvent",
-  slots = c(assemblage = "character",
+  slots = c(model = "lm",
             level = "numeric",
-            date = "integer",
-            earliest = "integer",
-            latest = "integer")
-)
-
-#' Accumulation time
-#'
-#' An S4 class to represent the accumulation time of an archaeological
-#'  assemblage.
-#' @slot assemblage A \code{\link{character}} vector giving the name of the
-#'  archaeological assemblage.
-#' @slot level A length-one \code{\link{numeric}} vector giving the
-#'  confidence level.
-#' @slot date An \code{\link{integer}} vector giving the modelled date (in
-#'  years, calendar time) of the accumulation.
-#' @slot earliest An \code{\link{integer}} vector giving the modelled earliest
-#'  possible date (in years, calendar time) of the accumulation.
-#' @slot latest An \code{\link{integer}} vector giving the modelled latest
-#'  possible date (in years, calendar time) of the accumulation.
-#' @author N. Frerebeau
-#' @docType class
-#' @aliases DateAccumulation-class
-setClass(
-  Class = "DateAccumulation",
-  slots = c(assemblage = "character",
-            level = "numeric",
-            date = "integer",
-            earliest = "integer",
-            latest = "integer")
+            residual = "numeric",
+            rows = "matrix",
+            columns = "matrix")
 )
 
 ## -----------------------------------------------------------------------------
@@ -468,6 +439,19 @@ setMethod("initialize", "IncidenceMatrix", initialize_matrix)
 setMethod("initialize", "OccurrenceMatrix", initialize_matrix)
 
 # Show =========================================================================
+## DateEvent -------------------------------------------------------------------
+setMethod(
+  f = "show",
+  signature = "DateEvent",
+  definition = function(object) {
+    cat("Modelled event date (calendar time):\n",
+        "  R2:", stats::summary.lm(object@model)$r.squared, "\n",
+        "  Residual standard deviation:", round(object@residual, digits = 0), "years\n",
+        "  CI:", object@level * 100, "%\n",
+        sep = " ")
+  }
+)
+
 ## PermutationOrder ------------------------------------------------------------
 setMethod(
   f = "show",
@@ -565,6 +549,23 @@ setMethod(
   }
 )
 
+#' @export
+#' @param x A \code{DateEvent} object from which to extract element(s).
+#' @param i A \code{\link{character}} string specifying elements to extract.
+#'  Character vectors will be matched to the name of the slots.
+#' @describeIn DateEvent Returns information about the individual slots.
+#' @aliases [[,DateEvent-method
+setMethod(
+  f = "[[",
+  signature = "DateEvent",
+  definition = function(x, i){
+    i <- match.arg(i, choices = methods::slotNames("DateEvent"),
+                   several.ok = FALSE)
+    slot <- slot(x, i)
+    return(slot)
+  }
+)
+
 #' Accessors
 #'
 #' @param x An object.
@@ -598,6 +599,13 @@ setMethod("rows", "PermutationOrder", function(x) x@rows)
 setMethod("rows", "BootCA", function(x) x@rows)
 
 #' @export
+#' @describeIn DateEvent Returns the predicted dates for each archaeological
+#'  assemblage, the corresponding confidence interval and standard error of
+#'  the predicted dates.
+#' @aliases rows,DateEvent-method
+setMethod("rows", "DateEvent", function(x) x@rows)
+
+#' @export
 #' @describeIn PermutationOrder Returns the columns permutation.
 #' @aliases columns,PermutationOrder-method
 setMethod("columns", "PermutationOrder", function(x) x@columns)
@@ -607,6 +615,13 @@ setMethod("columns", "PermutationOrder", function(x) x@columns)
 #'  variable.
 #' @aliases columns,BootCA-method
 setMethod("columns", "BootCA", function(x) x@columns)
+
+#' @export
+#' @describeIn DateEvent Returns the predicted dates for each archaeological
+#'  type or fabric, the corresponding confidence interval and standard error of
+#'  the predicted dates.
+#' @aliases rows,DateEvent-method
+setMethod("columns", "DateEvent", function(x) x@columns)
 
 #' @export
 #' @describeIn PermutationOrder Returns the method used for seriation.

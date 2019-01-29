@@ -37,7 +37,6 @@ Collate:
     'tabula.R'
     'AllClasses.R'
     'AllGenerics.R'
-    'Date-classes.R'
     'LogicalMatrix.R'
     'NumericMatrix.R'
     'data.R'
