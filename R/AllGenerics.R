@@ -2,20 +2,21 @@
 NULL
 
 # Date =========================================================================
-
 #' Date archaeological assemblages
 #'
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
 #' @param time A named \code{\link{numeric}} vector giving the reliable known
 #'  dates (in years) of the archaeological assemblages.
 #'  Assemblages are matched by names.
-#' @param axes An \code{\link{integer}} giving the number of dimensions kept in
-#'  the results of the Correspondance Analysis (by default 10).
+#' @param axes An \code{\link{integer}} indicating the factorial components of
+#'  the correspondance analysis to retain (by default 5).
 #' @param level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
+#' @param verbose A \code{\link{logical}} scalar. Should extra summary
+#'  statistics be printed?
 #' @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
 #' @return
-#'  An object of class \linkS4class{DateEvent} or \linkS4class{DateAccumulation}.
+#'  An object of class \linkS4class{DateEvent}.
 #' @references
 #'  Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
 #'  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
@@ -30,13 +31,6 @@ NULL
 setGeneric(
   name = "dateEvent",
   def = function(object, ...) standardGeneric("dateEvent")
-)
-
-#' @rdname date
-#' @aliases dateAccumulation-method
-setGeneric(
-  name = "dateAccumulation",
-  def = function(object, ...) standardGeneric("dateAccumulation")
 )
 
 # ==============================================================================
@@ -161,6 +155,30 @@ setGeneric(
 )
 
 # Plot =========================================================================
+#' Date plot
+#'
+#' @param object An object to be plotted.
+#' @param event An object of class \linkS4class{DateEvent} to be plotted.
+#' @param type A \code{\link{character}} string or vector of character strings
+#'  indicating the TODO.
+#' @param select A \code{\link{numeric}} or \code{\link{character}} vector
+#'  giving the selection of the elements that are drawn.
+#' @param ... Further arguments passed to other methods.
+#' @references
+#'  Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
+#'  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
+#'  Archaeological Science}, 39(4), 777-790.
+#'  DOI: \href{https://doi.org/10.1016/j.jas.2011.06.031}{10.1016/j.jas.2011.06.031}.
+#' @author N. Frerebeau
+#' @family plot
+#' @docType methods
+#' @rdname plotDate-method
+#' @aliases plotDate-method
+setGeneric(
+  name = "plotDate",
+  def = function(object, event, ...) standardGeneric("plotDate")
+)
+# ------------------------------------------------------------------------------
 #' Bar plot
 #'
 #' Plots a Bertin or a Ford (battleship curve) diagram.
