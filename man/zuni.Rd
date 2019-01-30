@@ -4,26 +4,28 @@
 \name{zuni}
 \alias{zuni}
 \title{Zuni ceramics}
-\format{A numeric matrix with 420 rows and 18 variables:
+\format{A numeric matrix with 420 rows (assemblages) and 18 variables
+ (ceramic types). The numbers in brackets correspond to the date range of
+ each type (in AD years):
  \describe{
-   \item{LINO}{}
-   \item{KIAT}{}
-   \item{RED}{}
-   \item{GALL}{}
-   \item{ESC}{}
-   \item{PUBW}{}
-   \item{RES}{}
-   \item{TULA}{}
-   \item{PINE}{}
-   \item{PUBR}{}
-   \item{WING}{}
-   \item{WIPO}{}
-   \item{SJ}{}
-   \item{LSJ}{}
-   \item{SPR}{}
-   \item{PINER}{}
-   \item{HESH}{}
-   \item{KWAK}{}
+   \item{LINO}{Lino Gray (575-875).}
+   \item{KIAT}{Kiatuthlanna Black-on-white (850-910).}
+   \item{RED}{Red Mesa Black-on-white (900-1030).}
+   \item{GALL}{Gallup Black-on-white (1025-1150).}
+   \item{ESC}{Escavada Black-on-white (1050-1150).}
+   \item{PUBW}{Puerco Black-on-white (1050-1200).}
+   \item{RES}{Reserve Black-on-white (1071-1115).}
+   \item{TULA}{Tularosa Black-on-white (1175-1300).}
+   \item{PINE}{Pinedale Black-on-white (1275-1325).}
+   \item{PUBR}{Puerco Black-on-red (1050-1200).}
+   \item{WING}{Wingate Black-on-red (1070-1200).}
+   \item{WIPO}{Wingate Polychrome (1150-1250).}
+   \item{SJ}{St. Johns Black-on-red/Polychrome (1200-1300).}
+   \item{LSJ}{St.Johns glaze, Techado Polychrome (1275-1300).}
+   \item{SPR}{Springerville Polychrome (1250-1300).}
+   \item{PINER}{Pinedale Black-on-red/Polychrome (1275-1325).}
+   \item{HESH}{Heshotauthla Polychrome (1285-1400).}
+   \item{KWAK}{Kwakina Polychrome (1285-1400).}
  }}
 \source{
 Peeples, M. A., & Schachner, G. (2012). Refining correspondence
@@ -36,6 +38,6 @@ zuni
 }
 \description{
 A dataset containing ceramic counts from the Zuni region of the American
-Southwest.
+ Southwest.
 }
 \keyword{datasets}

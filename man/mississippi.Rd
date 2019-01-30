@@ -4,7 +4,7 @@
 \name{mississippi}
 \alias{mississippi}
 \title{Mississippi ceramics}
-\format{A numeric matrix with 20 rows and 10 variables:
+\format{A numeric matrix with 20 rows and 10 variables (ceramic types):
  \describe{
    \item{ParkinPunctate}{}
    \item{BartonKentMPI}{}

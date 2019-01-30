@@ -4,7 +4,7 @@
 \name{boves}
 \alias{boves}
 \title{Boves ceramics}
-\format{A numeric matrix with 8 rows and 13 variables:
+\format{A numeric matrix with 8 rows and 13 variables (ceramic types):
  \describe{
    \item{I}{}
    \item{IIa}{}
