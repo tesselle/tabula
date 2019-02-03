@@ -19,7 +19,7 @@ rarefaction(object, ...)
 \S4method{rarefaction}{CountMatrix}(object, sample)
 
 \S4method{richness}{CountMatrix}(object, method = c("ace", "chao1",
-  "chao1i", "margalef", "menhinick"), unbiased = FALSE, k = 10,
+  "chao1i", "margalef", "menhinick", "none"), unbiased = FALSE, k = 10,
   simplify = FALSE)
 
 \S4method{richness}{IncidenceMatrix}(object, method = c("chao2",
@@ -83,6 +83,7 @@ The number of different taxa, provides an instantly comprehensible
   \item{chao1i}{Improved Chao1 estimator.}
   \item{margalef}{Margalef richness index.}
   \item{menhinick}{Menhinick richness index.}
+  \item{none}{Returns the number of observed taxa/types.}
  }
 
  The following richness measures are available for replicated incidence data:

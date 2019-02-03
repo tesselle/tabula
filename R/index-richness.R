@@ -8,7 +8,7 @@ setMethod(
   f = "richness",
   signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("ace", "chao1", "chao1i",
-                                           "margalef", "menhinick"),
+                                           "margalef", "menhinick", "none"),
                         unbiased = FALSE, k = 10, simplify = FALSE) {
     # Validation
     method <- match.arg(method, several.ok = TRUE)
@@ -19,7 +19,8 @@ setMethod(
         chao1 = chao1Richness,
         chao1i = chao1iRichness,
         margalef = margalefRichness,
-        menhinick = menhinickRichness
+        menhinick = menhinickRichness,
+        none = function(x, ...) { sum(x > 0) }
       )
       apply(X = object, MARGIN = 1, FUN = index, unbiased = unbiased, k = k)
     }, object, unbiased, k, simplify = simplify)

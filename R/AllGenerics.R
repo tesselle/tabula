@@ -5,7 +5,7 @@ NULL
 #' Date archaeological assemblages
 #'
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
-#' @param time A named \code{\link{numeric}} vector giving the reliable known
+#' @param dates A named \code{\link{numeric}} vector giving the reliable known
 #'  dates (in years) of the archaeological assemblages.
 #'  Assemblages are matched by names.
 #' @param axes An \code{\link{integer}} indicating the factorial components of
@@ -22,6 +22,7 @@ NULL
 #'  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
 #'  Archaeological Science}, 39(4), 777-790.
 #'  DOI: \href{https://doi.org/10.1016/j.jas.2011.06.031}{10.1016/j.jas.2011.06.031}.
+#' @example inst/examples/ex-dating.R
 #' @author N. Frerebeau
 #' @docType methods
 #' @rdname date
@@ -356,6 +357,7 @@ setGeneric(
 #'   \item{chao1i}{Improved Chao1 estimator.}
 #'   \item{margalef}{Margalef richness index.}
 #'   \item{menhinick}{Menhinick richness index.}
+#'   \item{none}{Returns the number of observed taxa/types.}
 #'  }
 #'
 #'  The following richness measures are available for replicated incidence data:
