@@ -107,9 +107,10 @@ setMethod(
     if (length(index) == 0 | max(index) > length(cases))
       stop("wrong selection")
 
-    data <- cbind.data.frame(
+    date_data <- cbind.data.frame(
       id = as.factor(cases),
-      x = object[["rows"]][, "estimation"],
+      event = object[["rows"]][, "estimation"],
+      accumulation = object[["accumulation"]],
       y = as.numeric(as.factor(cases)),
       xmin = object[["rows"]][, "earliest"],
       xmax = object[["rows"]][, "latest"]
@@ -117,20 +118,28 @@ setMethod(
 
     if (!is.null(sort)) {
       sort <- match.arg(sort, choices = c("asc", "dsc"), several.ok = FALSE)
-      data <- switch (
+      date_data <- switch (
         sort,
-        asc = dplyr::arrange(data, .data$x),
-        dsc = dplyr::arrange(data, dplyr::desc(.data$x))
+        asc = dplyr::arrange(date_data, .data$event),
+        dsc = dplyr::arrange(date_data, dplyr::desc(.data$event))
       )
-      data %<>% dplyr::mutate(y = 1:nrow(.))
+      date_data %<>% dplyr::mutate(y = 1:nrow(.))
     }
 
-    ggplot(data = data, mapping = aes_string(color = "id")) +
-      geom_point(mapping = aes_string(x = "x", y = "y")) +
-      geom_segment(mapping = aes_string(x = "xmin", y = "y",
-                                        xend = "xmax", yend = "y")) +
-      scale_y_continuous(breaks = data$y, labels = data$id) +
-      labs(x = "Date (years)", y = "", color = "Assemblage")
+    date_data %<>% tidyr::gather(key = "model", value = "date",
+                                 -.data$id, -.data$y, -.data$xmin, -.data$xmax)
+
+    ggplot(mapping = aes_string(color = "model", fill = "model")) +
+      geom_errorbarh(data = subset(date_data, date_data$model == "event"),
+                     mapping = aes_string(xmin = "xmin", xmax = "xmax", y = "y"),
+                     height = 0.5) +
+      geom_point(data = date_data,
+                 mapping = aes_string(x = "date", y = "y", shape = "model"),
+                 size = 2) +
+      scale_y_continuous(breaks = date_data$y, labels = date_data$id) +
+      scale_shape_manual(values = c("event" = 21, "accumulation" = 23)) +
+      labs(x = "Date (years)", y = "",
+           color = "Model", fill = "Model", shape = "Model")
   }
 )
 
