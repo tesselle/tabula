@@ -460,6 +460,8 @@ setGeneric(
 #'
 #'  \code{permute} rearranges a data matrix according to a permutation order.
 #' @param object An \eqn{m \times p}{m x p} data matrix.
+#' @param constraint A constraining object (typically a \linkS4class{BootCA}
+#'  object).
 #' @param order An object giving the permutation order for rows and columns.
 #' @param axes A \code{\link{numeric}} vector giving the subscripts of the CA
 #'  axes to use (see details).
@@ -479,7 +481,7 @@ setGeneric(
 #' @param stop A length-one \code{\link{numeric}} vector giving the stopping rule
 #'  (i.e. maximum number of iterations) to avoid infinite loop.
 #' @param ... Further arguments passed to other methods.
-#' @details
+#' @section Seriation:
 #'  The matrix seriation problem in archaeology is based on three conditions
 #'  and two assumptions, which Dunell (1970) summarizes as follows.
 #'
@@ -518,7 +520,7 @@ setGeneric(
 #'   If no convergence is reached before the maximum number of iterations, it
 #'   stops with a warning.}
 #'  }
-#'
+#' @section CA seriation seriation:
 #'  \code{refine} allows to identify samples that are subject to sampling error
 #'  or samples that have underlying structural relationships and might be
 #'  influencing the ordering along the CA space.
@@ -534,6 +536,10 @@ setGeneric(
 #'
 #'  \code{refine} returns the subscript of samples to be kept (i.e. samples with
 #'  maximum dimension length of the convex hull smaller than the cutoff value).
+#'
+#'  If the results of \code{refine} is used as an input argument in
+#'  \code{seriate}, a CA-based seriation is performed on the subset of
+#'  \code{object} which matches the samples to be kept.
 #' @return
 #'  \code{refine} returns a \linkS4class{BootCA} object.
 #'
@@ -580,7 +586,7 @@ setGeneric(
 #' @aliases seriate-method
 setGeneric(
   name = "seriate",
-  def = function(object, ...) standardGeneric("seriate")
+  def = function(object, constraint, ...) standardGeneric("seriate")
 )
 
 #' @rdname seriation

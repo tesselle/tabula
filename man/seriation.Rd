@@ -10,26 +10,32 @@
 \alias{permute}
 \alias{permute-method}
 \alias{refine,CountMatrix-method}
-\alias{seriate,CountMatrix-method}
-\alias{seriate,IncidenceMatrix-method}
+\alias{seriate,CountMatrix,missing-method}
+\alias{seriate,CountMatrix,BootCA-method}
+\alias{seriate,IncidenceMatrix,missing-method}
 \alias{permute,CountMatrix,PermutationOrder-method}
 \alias{permute,IncidenceMatrix,PermutationOrder-method}
 \title{Matrix seriation}
 \usage{
 refine(object, ...)
 
-seriate(object, ...)
+seriate(object, constraint, ...)
 
 permute(object, order, ...)
 
 \S4method{refine}{CountMatrix}(object, cutoff, n = 1000, axes = c(1,
   2), ...)
 
-\S4method{seriate}{CountMatrix}(object, method = c("correspondance",
-  "reciprocal"), EPPM = FALSE, margin = c(1, 2), stop = 100, ...)
+\S4method{seriate}{CountMatrix,missing}(object,
+  method = c("correspondance", "reciprocal"), EPPM = FALSE,
+  margin = c(1, 2), stop = 100, ...)
 
-\S4method{seriate}{IncidenceMatrix}(object, method = c("correspondance",
-  "reciprocal"), margin = c(1, 2), stop = 100, ...)
+\S4method{seriate}{CountMatrix,BootCA}(object, constraint, margin = c(1,
+  2), ...)
+
+\S4method{seriate}{IncidenceMatrix,missing}(object,
+  method = c("correspondance", "reciprocal"), margin = c(1, 2),
+  stop = 100, ...)
 
 \S4method{permute}{CountMatrix,PermutationOrder}(object, order)
 
@@ -39,6 +45,9 @@ permute(object, order, ...)
 \item{object}{An \eqn{m \times p}{m x p} data matrix.}
 
 \item{...}{Further arguments passed to other methods.}
+
+\item{constraint}{A constraining object (typically a \linkS4class{BootCA}
+object).}
 
 \item{order}{An object giving the permutation order for rows and columns.}
 
@@ -83,8 +92,9 @@ rows, \code{2} indicates columns, \code{c(1, 2)} indicates rows then columns,
 
  \code{permute} rearranges a data matrix according to a permutation order.
 }
-\details{
-The matrix seriation problem in archaeology is based on three conditions
+\section{Seriation}{
+
+ The matrix seriation problem in archaeology is based on three conditions
  and two assumptions, which Dunell (1970) summarizes as follows.
 
  The homogeneity conditions state that all the groups included in a
@@ -122,6 +132,9 @@ The matrix seriation problem in archaeology is based on three conditions
   If no convergence is reached before the maximum number of iterations, it
   stops with a warning.}
  }
+}
+
+\section{CA seriation seriation}{
 
  \code{refine} allows to identify samples that are subject to sampling error
  or samples that have underlying structural relationships and might be
@@ -138,13 +151,37 @@ The matrix seriation problem in archaeology is based on three conditions
 
  \code{refine} returns the subscript of samples to be kept (i.e. samples with
  maximum dimension length of the convex hull smaller than the cutoff value).
+
+ If the results of \code{refine} is used as an input argument in
+ \code{seriate}, a CA-based seriation is performed on the subset of
+ \code{object} which matches the samples to be kept.
 }
+
 \examples{
 \dontrun{
 
+# Matrix seriation
+# Reproduces Desachy 2004 results
+## Coerce dataset to abundance matrix
+compiegne_count <- as(compiegne, "CountMatrix")
+
+## Plot new matrix
+plotBar(compiegne_count, EPPM = TRUE)
+
+## Get seriation order for columns on EPPM using the reciprocal averaging method
+## Expected column order: N, A, C, K, P, L, B, E, I, M, D, G, O, J, F, H
+(compiegne_indices <- seriate(compiegne_count, method = "reciprocal",
+                              EPPM = TRUE, margin = 2))
+
+## Permute columns
+compiegne_new <- permute(compiegne_count, compiegne_indices)
+
+## Plot new matrix
+plotBar(compiegne_new, EPPM = TRUE)
+
 # Refine matrix seriation (this is a long running example)
 # Reproduces Peeples and Schachner 2012 results
-count <- as(zuni, "CountMatrix")
+zuni_count <- as(zuni, "CountMatrix")
 
 ## Samples with convex hull maximum dimension length greater than the cutoff
 ## value will be marked for removal.
@@ -153,26 +190,11 @@ fun <- function(x) { mean(x) + sd(x) }
 
 ## Get indices of samples to be kept
 ## Warning: this may take a few seconds!
-refined <- refine(count, cutoff = fun)
-refined[["keep"]]
+set.seed(2015)
+(zuni_refined <- refine(zuni_count, cutoff = fun))
 
-# Matrix seriation
-# Reproduces Desachy 2004 results
-## Coerce dataset to abundance matrix
-count <- as(compiegne, "CountMatrix")
-
-## Plot new matrix
-plotBar(count, EPPM = TRUE)
-
-## Get seriation order for columns on EPPM using the reciprocal averaging method
-## Expected column order: N, A, C, K, P, L, B, E, I, M, D, G, O, J, F, H
-indices <- seriate(count, method = "reciprocal", EPPM = TRUE, margin = 2)
-
-## Permute columns
-new <- permute(count, indices)
-
-## Plot new matrix
-plotBar(new, EPPM = TRUE)
+## Get CA-based seriation order
+(zuni_indices <- seriate(zuni_count, zuni_refined, margin = 1))
 }
 }
 \references{
