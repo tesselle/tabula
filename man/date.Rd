@@ -10,7 +10,7 @@
 dateEvent(object, ...)
 
 \S4method{dateEvent}{CountMatrix}(object, dates, axes = 5,
-  level = 0.95, verbose = FALSE, ...)
+  level = 0.95, n = 500, verbose = FALSE, ...)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
@@ -31,7 +31,7 @@ confidence level.}
 statistics be printed?}
 }
 \value{
-An object of class \linkS4class{DateEvent}.
+An object of class \linkS4class{DateModel}.
 }
 \description{
 Date archaeological assemblages
@@ -46,13 +46,19 @@ dates <- c(
   LZ0578 = 1180, LZ0227 = 1104, LZ0610 = 1074
 )
 
-(events <- dateEvent(zuni, dates, axes = 10, verbose = TRUE))
+(events <- dateEvent(zuni, dates, axes = 10))
 
 head(events[["rows"]])
 
-events[["columns"]]
+head(events[["columns"]])
 
-plotDate(zuni, events, select = 1:5) +
+plotDate(zuni, events, type = "event", select = 2) +
+  ggplot2::theme_bw()
+
+plotDate(zuni, events, type = "acc", select = 2) +
+  ggplot2::theme_bw()
+
+plotDate(zuni, events, select = 2) +
   ggplot2::theme_bw()
 
 plotBar(events, select = 1:20) +

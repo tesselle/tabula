@@ -3,12 +3,15 @@
 \docType{methods}
 \name{accessors}
 \alias{accessors}
+\alias{accumulation}
 \alias{columns}
 \alias{method}
 \alias{rows}
 \alias{totals}
 \title{Accessors}
 \usage{
+accumulation(x)
+
 columns(x)
 
 method(x)

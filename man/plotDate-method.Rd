@@ -4,21 +4,19 @@
 \name{plotDate}
 \alias{plotDate}
 \alias{plotDate-method}
-\alias{plotDate,CountMatrix,DateEvent-method}
-\alias{plotBar,DateEvent-method}
+\alias{plotDate,CountMatrix,DateModel-method}
+\alias{plotBar,DateModel-method}
 \title{Date plot}
 \usage{
-plotDate(object, event, ...)
+plotDate(object, date, ...)
 
-\S4method{plotDate}{CountMatrix,DateEvent}(object, event,
-  type = c("event", "accumulation"), select = 1)
+\S4method{plotDate}{CountMatrix,DateModel}(object, date,
+  type = c("event", "accumulation"), select = 1, n = 500)
 
-\S4method{plotBar}{DateEvent}(object, select = 1, sort = "dsc")
+\S4method{plotBar}{DateModel}(object, select = 1, sort = "dsc")
 }
 \arguments{
 \item{object}{An object to be plotted.}
-
-\item{event}{An object of class \linkS4class{DateEvent} to be plotted.}
 
 \item{...}{Further arguments passed to other methods.}
 
@@ -30,6 +28,8 @@ giving the selection of the elements that are drawn.}
 
 \item{sort}{A \code{\link{character}} string indicating if TODO.
 If \code{NULL} TODO.}
+
+\item{event}{An object of class \linkS4class{DateModel} to be plotted.}
 }
 \description{
 Date plot

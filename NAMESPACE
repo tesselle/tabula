@@ -3,6 +3,7 @@
 export(CountMatrix)
 export(IncidenceMatrix)
 exportMethods("[[")
+exportMethods(accumulation)
 exportMethods(columns)
 exportMethods(dateEvent)
 exportMethods(diversity)
