@@ -7,14 +7,21 @@ NULL
 #'
 #' An S4 class to represent the event and accumulation times of archaeological
 #'  assemblages.
-#' @slot model A \code{\link[stats:lm]{multiple linear model}} TODO.
+#' @slot model A \code{\link[stats:lm]{multiple linear model}}: the Gaussian
+#'  multiple linear regression model fitted for event date estimation and
+#'  prediction.
 #' @slot level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
 #' @slot residual A length-one \code{\link{numeric}} vector giving the residual
 #'  standard deviation.
-#' @slot rows A numeric \code{\link{matrix}} giving the TODO.
-#' @slot columns A numeric \code{\link{matrix}} giving the TODO.
-#' @slot accumulation A named \code{\link{numeric}} vector giving the TODO.
+#' @slot rows A numeric \code{\link{matrix}} giving the predicted event
+#'  dates for each archaeological assemblage, the corresponding confidence
+#'  interval and standard error of the predicted dates.
+#' @slot columns A numeric \code{\link{matrix}} giving the predicted event
+#'  dates for each archaeological type or fabric, the corresponding confidence
+#'  interval and standard error of the predicted dates.
+#' @slot accumulation A named \code{\link{numeric}} vector giving the
+#'  accumulation dates of archaeological assemblages.
 #' @author N. Frerebeau
 #' @docType class
 #' @aliases DateEvent-class

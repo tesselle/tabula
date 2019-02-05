@@ -84,8 +84,10 @@ setMethod(
 )
 
 # Bar plot =====================================================================
-#' @param sort A \code{\link{character}} string indicating if TODO.
-#'  If \code{NULL} TODO.
+#' @param sort A \code{\link{character}} string indicating whether the dates
+#'  should be sorted. It can be one of \code{asc} or \code{dsc} (default).
+#'  Any unambiguous substring can be given. If \code{NULL} no sorting is
+#'  performed.
 #' @export
 #' @rdname plotDate-method
 #' @aliases plotBar,DateModel-method

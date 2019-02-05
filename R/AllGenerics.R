@@ -4,6 +4,7 @@ NULL
 # Date =========================================================================
 #' Date archaeological assemblages
 #'
+#' Experimental (see note).
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
 #' @param dates A named \code{\link{numeric}} vector giving the reliable known
 #'  dates (in years) of the archaeological assemblages.
@@ -12,6 +13,8 @@ NULL
 #'  the correspondance analysis to retain (by default 5).
 #' @param level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
+#' @param n A length-one non-negative \code{\link{numeric}} vector giving the
+#'  desired length of the vector of quantiles for density computation.
 #' @param verbose A \code{\link{logical}} scalar. Should extra summary
 #'  statistics be printed?
 #' @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
@@ -22,6 +25,10 @@ NULL
 #'  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
 #'  Archaeological Science}, 39(4), 777-790.
 #'  DOI: \href{https://doi.org/10.1016/j.jas.2011.06.031}{10.1016/j.jas.2011.06.031}.
+#' @note
+#'  The original authors of the method did not publish the data supporting their
+#'  demonstration. As such, no replication of their results is possible and this
+#'  implementation should be considered \strong{EXPERIMENTAL}.
 #' @example inst/examples/ex-dating.R
 #' @author N. Frerebeau
 #' @docType methods
@@ -159,11 +166,15 @@ setGeneric(
 #' Date plot
 #'
 #' @param object An object to be plotted.
-#' @param event An object of class \linkS4class{DateModel} to be plotted.
+#' @param date An object of class \linkS4class{DateModel} to be plotted.
 #' @param type A \code{\link{character}} string or vector of character strings
-#'  indicating the TODO.
+#'  indicating the modelled dates to be plotted. It must be one or both
+#'  (default) of \code{event} and \code{accumulation}. Any unambiguous substring
+#'  can be given.
 #' @param select A \code{\link{numeric}} or \code{\link{character}} vector
 #'  giving the selection of the elements that are drawn.
+#' @param n A length-one non-negative \code{\link{numeric}} vector giving the
+#'  desired length of the vector of quantiles for density computation.
 #' @param ... Further arguments passed to other methods.
 #' @references
 #'  Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and

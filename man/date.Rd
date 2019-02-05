@@ -27,6 +27,9 @@ the correspondance analysis to retain (by default 5).}
 \item{level}{A length-one \code{\link{numeric}} vector giving the
 confidence level.}
 
+\item{n}{A length-one non-negative \code{\link{numeric}} vector giving the
+desired length of the vector of quantiles for density computation.}
+
 \item{verbose}{A \code{\link{logical}} scalar. Should extra summary
 statistics be printed?}
 }
@@ -34,7 +37,12 @@ statistics be printed?}
 An object of class \linkS4class{DateModel}.
 }
 \description{
-Date archaeological assemblages
+Experimental (see note).
+}
+\note{
+The original authors of the method did not publish the data supporting their
+ demonstration. As such, no replication of their results is possible and this
+ implementation should be considered \strong{EXPERIMENTAL}.
 }
 \examples{
 zuni <- as(zuni, "CountMatrix")

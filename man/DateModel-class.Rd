@@ -48,7 +48,9 @@ assemblage.
 \section{Slots}{
 
 \describe{
-\item{\code{model}}{A \code{\link[stats:lm]{multiple linear model}} TODO.}
+\item{\code{model}}{A \code{\link[stats:lm]{multiple linear model}}: the Gaussian
+multiple linear regression model fitted for event date estimation and
+prediction.}
 
 \item{\code{level}}{A length-one \code{\link{numeric}} vector giving the
 confidence level.}
@@ -56,11 +58,16 @@ confidence level.}
 \item{\code{residual}}{A length-one \code{\link{numeric}} vector giving the residual
 standard deviation.}
 
-\item{\code{rows}}{A numeric \code{\link{matrix}} giving the TODO.}
+\item{\code{rows}}{A numeric \code{\link{matrix}} giving the predicted event
+dates for each archaeological assemblage, the corresponding confidence
+interval and standard error of the predicted dates.}
 
-\item{\code{columns}}{A numeric \code{\link{matrix}} giving the TODO.}
+\item{\code{columns}}{A numeric \code{\link{matrix}} giving the predicted event
+dates for each archaeological type or fabric, the corresponding confidence
+interval and standard error of the predicted dates.}
 
-\item{\code{accumulation}}{A named \code{\link{numeric}} vector giving the TODO.}
+\item{\code{accumulation}}{A named \code{\link{numeric}} vector giving the
+accumulation dates of archaeological assemblages.}
 }}
 
 \author{

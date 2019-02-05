@@ -18,18 +18,25 @@ plotDate(object, date, ...)
 \arguments{
 \item{object}{An object to be plotted.}
 
+\item{date}{An object of class \linkS4class{DateModel} to be plotted.}
+
 \item{...}{Further arguments passed to other methods.}
 
 \item{type}{A \code{\link{character}} string or vector of character strings
-indicating the TODO.}
+indicating the modelled dates to be plotted. It must be one or both
+(default) of \code{event} and \code{accumulation}. Any unambiguous substring
+can be given.}
 
 \item{select}{A \code{\link{numeric}} or \code{\link{character}} vector
 giving the selection of the elements that are drawn.}
 
-\item{sort}{A \code{\link{character}} string indicating if TODO.
-If \code{NULL} TODO.}
+\item{n}{A length-one non-negative \code{\link{numeric}} vector giving the
+desired length of the vector of quantiles for density computation.}
 
-\item{event}{An object of class \linkS4class{DateModel} to be plotted.}
+\item{sort}{A \code{\link{character}} string indicating whether the dates
+should be sorted. It can be one of \code{asc} or \code{dsc} (default).
+Any unambiguous substring can be given. If \code{NULL} no sorting is
+performed.}
 }
 \description{
 Date plot
