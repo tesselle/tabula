@@ -16,7 +16,7 @@ NULL
 #'  statistics be printed?
 #' @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
 #' @return
-#'  An object of class \linkS4class{DateEvent}.
+#'  An object of class \linkS4class{DateModel}.
 #' @references
 #'  Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
 #'  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
@@ -159,7 +159,7 @@ setGeneric(
 #' Date plot
 #'
 #' @param object An object to be plotted.
-#' @param event An object of class \linkS4class{DateEvent} to be plotted.
+#' @param event An object of class \linkS4class{DateModel} to be plotted.
 #' @param type A \code{\link{character}} string or vector of character strings
 #'  indicating the TODO.
 #' @param select A \code{\link{numeric}} or \code{\link{character}} vector
@@ -177,7 +177,7 @@ setGeneric(
 #' @aliases plotDate-method
 setGeneric(
   name = "plotDate",
-  def = function(object, event, ...) standardGeneric("plotDate")
+  def = function(object, date, ...) standardGeneric("plotDate")
 )
 # ------------------------------------------------------------------------------
 #' Bar plot

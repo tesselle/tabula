@@ -4,14 +4,15 @@ NULL
 # Date plot ====================================================================
 #' @export
 #' @rdname plotDate-method
-#' @aliases plotDate,CountMatrix,DateEvent-method
+#' @aliases plotDate,CountMatrix,DateModel-method
 setMethod(
   f = "plotDate",
-  signature = c("CountMatrix", "DateEvent"),
-  definition = function(object, event, type = c("event", "accumulation"), select = 1) {
+  signature = c("CountMatrix", "DateModel"),
+  definition = function(object, date, type = c("event", "accumulation"),
+                        select = 1, n = 500) {
     # Selection
     type <- match.arg(type, several.ok = TRUE)
-    cases <- rownames(event[["rows"]])
+    cases <- rownames(date[["rows"]])
     index <- if (is.character(select)) {
       which(cases %in% select)
     } else {
@@ -23,12 +24,15 @@ setMethod(
       stop("wrong selection")
 
     # Get date range
-    row_dates <- event[["rows"]][, "estimation"]
-    date_range <- seq(from = min(row_dates), to = max(row_dates), length.out = 500)
+    row_dates <- date[["rows"]][, "estimation"]
+    date_range <- seq(from = min(date[["rows"]][, "earliest"]),
+                      to = max(date[["rows"]][, "latest"]), length.out = n)
 
     plot_event <- plot_accumulation <- plot_facet <- NULL
+
+    # Event time
     if ("event" %in% type) {
-      row_errors <- event[["rows"]][, "error"]
+      row_errors <- date[["rows"]][, "error"]
 
       date_event <- mapply(function(mean, sd, x) { stats::dnorm(x, mean, sd) },
                            mean = row_dates[index], sd = row_errors[index],
@@ -42,17 +46,19 @@ setMethod(
                               mapping = aes_string(color = "assemblage"))
     }
 
+    # Accumulation time
     if ("accumulation" %in% type) {
       # Weighted sum of the fabric dates
       count <- object[index, , drop = FALSE]
       freq <- count / rowSums(count)
       # Transpose for mapply
-      col_dates <- event[["columns"]][, "estimation"]
-      col_errors <- event[["columns"]][, "error"]
+      col_dates <- date[["columns"]][, "estimation"]
+      col_errors <- date[["columns"]][, "error"]
 
       col_density <- mapply(function(mean, sd, x) { stats::dnorm(x, mean, sd) },
                             mean = col_dates, sd = col_errors,
                             MoreArgs = list(x = date_range), SIMPLIFY = TRUE)
+
       date_acc <- apply(X = freq, MARGIN = 1, FUN = function(x, density) {
         colSums(t(density) * as.numeric(x))
       }, density = col_density)
@@ -66,7 +72,8 @@ setMethod(
     }
 
     if (length(index) > 1) {
-      plot_facet <- facet_wrap(. ~ assemblage, nrow = length(index))
+      plot_facet <- facet_wrap(. ~ assemblage, nrow = length(index),
+                               scales = "free_y")
     }
 
     ggplot(mapping = aes_string(x = "date", y = "density")) +
@@ -81,10 +88,10 @@ setMethod(
 #'  If \code{NULL} TODO.
 #' @export
 #' @rdname plotDate-method
-#' @aliases plotBar,DateEvent-method
+#' @aliases plotBar,DateModel-method
 setMethod(
   f = "plotBar",
-  signature = signature(object = "DateEvent"),
+  signature = signature(object = "DateModel"),
   definition = function(object, select = 1, sort = "dsc") {
     # Selection
     cases <- rownames(object[["rows"]])

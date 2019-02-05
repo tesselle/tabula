@@ -3,9 +3,10 @@ NULL
 
 # Class definitions ============================================================
 ## -----------------------------------------------------------------------------
-#' Event time
+#' Date model
 #'
-#' An S4 class to represent the event time of an archaeological assemblage.
+#' An S4 class to represent the event and accumulation times of archaeological
+#'  assemblages.
 #' @slot model A \code{\link[stats:lm]{multiple linear model}} TODO.
 #' @slot level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
@@ -13,16 +14,18 @@ NULL
 #'  standard deviation.
 #' @slot rows A numeric \code{\link{matrix}} giving the TODO.
 #' @slot columns A numeric \code{\link{matrix}} giving the TODO.
+#' @slot accumulation A named \code{\link{numeric}} vector giving the TODO.
 #' @author N. Frerebeau
 #' @docType class
 #' @aliases DateEvent-class
 setClass(
-  Class = "DateEvent",
+  Class = "DateModel",
   slots = c(model = "lm",
             level = "numeric",
             residual = "numeric",
             rows = "matrix",
-            columns = "matrix")
+            columns = "matrix",
+            accumulation = "numeric")
 )
 
 ## -----------------------------------------------------------------------------
@@ -162,6 +165,68 @@ setClass(
 )
 
 # Class validation =============================================================
+## DateModel -------------------------------------------------------------------
+setValidity(
+  Class = "DateModel",
+  method = function(object) {
+    errors <- c()
+    # Get data
+    model <- object@model
+    level <- object@level
+    residual <- object@residual
+    rows <- object@rows
+    columns <- object@columns
+    accumulation <- object@accumulation
+
+    if (length(level) != 0) {
+      if (!is.numeric(level) | length(level) != 1)
+        errors <- c(errors, "'level': a length-one numeric vector is expected.")
+      if (level <= 0 | level >= 1)
+        errors <- c(errors, "'level' must be in the range of 0 to 1 (excluded).")
+      if (any(is.na(level)))
+        errors <- c(errors, "'level': NA value was detected.")
+    }
+    if (length(residual) != 0) {
+      if (!is.numeric(residual) | length(residual) != 1)
+        errors <- c(errors, "'residual': a length-one numeric vector is expected.")
+      if (level < 0)
+        errors <- c(errors, "'residual': a strictly positive value is expected.")
+      if (any(is.na(residual)))
+        errors <- c(errors, "'residual': NA value was detected.")
+    }
+    if (length(rows) != 0) {
+      if (!is.numeric(rows))
+        errors <- c(errors, "'rows': a numeric matrix is expected.")
+      if (any(is.na(rows)))
+        errors <- c(errors, "'rows': NA values were detected.")
+    }
+    if (length(columns) != 0) {
+      if (!is.numeric(columns))
+        errors <- c(errors, "'columns': a numeric matrix is expected.")
+      if (any(is.na(columns)))
+        errors <- c(errors, "'columns': NA values were detected.")
+    }
+    if (length(accumulation) != 0) {
+      if (!is.numeric(accumulation) | length(names(accumulation)) == 0)
+        errors <- c(errors, "'accumulation': a named numeric vector is expected.")
+    }
+    if (length(rows) != 0 & length(accumulation) != 0) {
+      a <- length(accumulation)
+      b <- nrow(rows)
+      if (b != a)
+        errors <- c(errors,
+                    paste("The length of 'accumulation' (", a,
+                          ") must be equal to the number of rows present in 'rows' (", b,
+                          ").", sep = ""))
+    }
+    # Return errors if any
+    if (length(errors) != 0) {
+      stop(paste(errors, collapse = "\n"))
+    } else {
+      return(TRUE)
+    }
+  }
+)
 ## PermutationOrder ------------------------------------------------------------
 setValidity(
   Class = "PermutationOrder",
@@ -206,7 +271,6 @@ setValidity(
     }
   }
 )
-
 ## BootCA ----------------------------------------------------------------------
 setValidity(
   Class = "BootCA",
@@ -271,7 +335,6 @@ setValidity(
     }
   }
 )
-
 ## NumericMatrix ---------------------------------------------------------------
 setValidity(
   Class = "NumericMatrix",
@@ -392,6 +455,25 @@ setValidity(
 )
 
 # Class constructors ===========================================================
+## DateModel -------------------------------------------------------------------
+setMethod(
+  f = "initialize",
+  signature = "DateModel",
+  definition = function(.Object, model, level, residual, rows, columns,
+                        accumulation) {
+    if (!missing(model)) .Object@model <- model
+    if (!missing(level)) .Object@level <- level
+    if (!missing(residual)) .Object@residual <- residual
+    if (!missing(rows)) .Object@rows <- rows
+    if (!missing(columns)) .Object@columns <- columns
+    if (!missing(accumulation)) .Object@accumulation <- accumulation
+    methods::validObject(.Object)
+    if (getOption("verbose")) {
+      message(paste(class(.Object), "instance initialized.", sep = " "))
+    }
+    return(.Object)
+  }
+)
 ## PermutationOrder ------------------------------------------------------------
 setMethod(
   f = "initialize",
@@ -407,6 +489,7 @@ setMethod(
     return(.Object)
   }
 )
+## BootCA ----------------------------------------------------------------------
 setMethod(
   f = "initialize",
   signature = "BootCA",
@@ -442,7 +525,7 @@ setMethod("initialize", "OccurrenceMatrix", initialize_matrix)
 ## DateEvent -------------------------------------------------------------------
 setMethod(
   f = "show",
-  signature = "DateEvent",
+  signature = "DateModel",
   definition = function(object) {
     cat("Modelled event date (calendar time):\n",
         "  R2:", stats::summary.lm(object@model)$r.squared, "\n",
@@ -451,7 +534,6 @@ setMethod(
         sep = " ")
   }
 )
-
 ## PermutationOrder ------------------------------------------------------------
 setMethod(
   f = "show",
@@ -550,16 +632,16 @@ setMethod(
 )
 
 #' @export
-#' @param x A \code{DateEvent} object from which to extract element(s).
+#' @param x A \code{DateModel} object from which to extract element(s).
 #' @param i A \code{\link{character}} string specifying elements to extract.
-#'  Character vectors will be matched to the name of the slots.
-#' @describeIn DateEvent Returns information about the individual slots.
-#' @aliases [[,DateEvent-method
+#'  Character string will be matched to the name of the slots.
+#' @describeIn DateModel Returns information about the individual slots.
+#' @aliases [[,DateModel-method
 setMethod(
   f = "[[",
-  signature = "DateEvent",
+  signature = "DateModel",
   definition = function(x, i){
-    i <- match.arg(i, choices = methods::slotNames("DateEvent"),
+    i <- match.arg(i, choices = methods::slotNames("DateModel"),
                    several.ok = FALSE)
     slot <- slot(x, i)
     return(slot)
@@ -574,6 +656,9 @@ setMethod(
 #' @name accessors
 #' @rdname accessors
 NULL
+
+#' @rdname accessors
+setGeneric("accumulation", function(x) standardGeneric("accumulation"))
 
 #' @rdname accessors
 setGeneric("columns", function(x) standardGeneric("columns"))
@@ -599,11 +684,11 @@ setMethod("rows", "PermutationOrder", function(x) x@rows)
 setMethod("rows", "BootCA", function(x) x@rows)
 
 #' @export
-#' @describeIn DateEvent Returns the predicted dates for each archaeological
-#'  assemblage, the corresponding confidence interval and standard error of
-#'  the predicted dates.
-#' @aliases rows,DateEvent-method
-setMethod("rows", "DateEvent", function(x) x@rows)
+#' @describeIn DateModel Returns a numeric matrix giving the predicted event
+#'  dates for each archaeological assemblage, the corresponding confidence
+#'  interval and standard error of the predicted dates.
+#' @aliases rows,DateModel-method
+setMethod("rows", "DateModel", function(x) x@rows)
 
 #' @export
 #' @describeIn PermutationOrder Returns the columns permutation.
@@ -617,11 +702,17 @@ setMethod("columns", "PermutationOrder", function(x) x@columns)
 setMethod("columns", "BootCA", function(x) x@columns)
 
 #' @export
-#' @describeIn DateEvent Returns the predicted dates for each archaeological
-#'  type or fabric, the corresponding confidence interval and standard error of
-#'  the predicted dates.
-#' @aliases rows,DateEvent-method
-setMethod("columns", "DateEvent", function(x) x@columns)
+#' @describeIn DateModel Returns a numeric matrix giving the predicted event
+#'  dates for each archaeological type or fabric, the corresponding confidence
+#'  interval and standard error of the predicted dates.
+#' @aliases rows,DateModel-method
+setMethod("columns", "DateModel", function(x) x@columns)
+
+#' @export
+#' @describeIn DateModel Returns the accumulation date for each archaeological
+#'  assemblage.
+#' @aliases method,DateModel-method
+setMethod("accumulation", "DateModel", function(x) x@accumulation)
 
 #' @export
 #' @describeIn PermutationOrder Returns the method used for seriation.
