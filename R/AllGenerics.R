@@ -616,7 +616,9 @@ setGeneric(
 #'  \code{200}. The Binomial co-occurrence assessment approximates a Z-score.
 #'  \describe{
 #'   \item{binomial}{Binomial co-occurrence assessment. This assesses the degree
-#'   of co-occurrence between taxa/types within a dataset.}
+#'   of co-occurrence between taxa/types within a dataset. The strongest
+#'   associations are shown by large positive numbers, the strongest
+#'   segregations by large negative numbers.}
 #'   \item{brainerd}{Brainerd-Robinson quantitative index. This is a city-block
 #'   metric of similarity between pairs of samples/cases.}
 #'   \item{bray}{Sorenson quantitative index (Bray and Curtis modified version

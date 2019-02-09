@@ -17,6 +17,13 @@ similarityIndex <- function(object, method, ...) {
   by_row <- method != "binomial"
   m <- if (by_row) nrow(object) else ncol(object)
   labels <- if (by_row) rownames(object) else colnames(object)
+  diag_value <- switch (
+    method,
+    "brainerd" = 200,
+    "binomial" = 0,
+    1
+  )
+
   if (by_row) {
     # Sample/case comparisons
     beta <- apply(X = utils::combn(1:m, 2), MARGIN = 2, FUN = function(x) {
@@ -30,7 +37,8 @@ similarityIndex <- function(object, method, ...) {
   }
 
   # Matrix of results
-  C <- matrix(data = 1, nrow = m, ncol = m, dimnames = list(labels, labels))
+  C <- matrix(data = diag_value, nrow = m, ncol = m,
+              dimnames = list(labels, labels))
   C[lower.tri(C, diag = FALSE)] <- beta
   C <- t(C)
   C[lower.tri(C, diag = FALSE)] <- beta
@@ -210,7 +218,12 @@ binomialSimilarity <- function(x, y) {
   p <- sum(x > 0) * sum(y > 0) / N^2
   # Number of observed co-occurence for artifact classes
   o <- sum((x > 0) + (y > 0) == 2)
-
-  Cbi <- (o - N * p) / sqrt(N * p * (1 - p))
+  if (p == 1) {
+    # Avoid NaN generation
+    # Print warning ?
+    Cbi <- 0
+  } else {
+    Cbi <- (o - N * p) / sqrt(N * p * (1 - p))
+  }
   return(Cbi)
 }
