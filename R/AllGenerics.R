@@ -606,13 +606,19 @@ setGeneric(
 #' @param ... Further arguments passed to other methods.
 #' @details
 #'  \eqn{\beta}-diversity can be measured by addressing \emph{similarity}
-#'  between pairs of sites. This provides a scale of similarity from
-#'  \code{0}-\code{1} where \code{1} is perfect similarity and \code{0} is
-#'  no similarity (with the exception of the Brainerd-Robinson index which is
-#'  scaled between \code{0} and \code{200}):
+#'  between pairs of samples/cases (Brainerd-Robinson, Jaccard, Morisita-Horn
+#'  and Sorenson indices). Similarity bewteen pairs of taxa/types can be
+#'  measured by assessing the degree of co-occurrence (binomial co-occurrence).
+#'
+#'  Jaccard, Morisita-Horn and Sorenson indices provide a scale of similarity
+#'  from \code{0}-\code{1} where \code{1} is perfect similarity and \code{0} is
+#'  no similarity. The Brainerd-Robinson index is scaled between \code{0} and
+#'  \code{200}. The Binomial co-occurrence assessment approximates a Z-score.
 #'  \describe{
+#'   \item{binomial}{Binomial co-occurrence assessment. This assesses the degree
+#'   of co-occurrence between taxa/types within a dataset.}
 #'   \item{brainerd}{Brainerd-Robinson quantitative index. This is a city-block
-#'   metric of similarity.}
+#'   metric of similarity between pairs of samples/cases.}
 #'   \item{bray}{Sorenson quantitative index (Bray and Curtis modified version
 #'   of the Sorenson index).}
 #'   \item{jaccard}{Jaccard qualitative index.}
@@ -629,6 +635,11 @@ setGeneric(
 #'  Bray, J. R. & Curtis, J. T. (1957). An Ordination of the Upland Forest
 #'  Communities of Southern Wisconsin. \emph{Ecological Monographs}, 27(4),
 #'  325-349. DOI: \href{https://doi.org/10.2307/1942268}{10.2307/1942268}.
+#'
+#'  Kintigh, K. (2006). Ceramic Dating and Type Associations. In J. Hantman and
+#'  R. Most (eds.), \emph{Managing Archaeological Data: Essays in Honor of
+#'  Sylvia W. Gaines}. Anthropological Research Paper, 57. Tempe, AZ: Arizona
+#'  State University, p. 17-26.
 #'
 #'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
 #'  Princeton, NJ: Princeton University Press.

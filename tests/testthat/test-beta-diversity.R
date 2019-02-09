@@ -60,3 +60,21 @@ test_that("Similiraty measure (presence/absence data)", {
     expect_error(similarity(bin, method = method2[i]))
   }
 })
+
+# Brainerd Robinson similarity =================================================
+zuni_BR <- rbind(`Atsinna` = c(16, 9, 3, 0, 1),
+                 `Cienega` = c(13, 3, 2, 0, 0),
+                 `Mirabal` = c(9, 5, 2, 5, 0),
+                 `PdMuertos` = c(14, 12, 3, 0, 0),
+                 `Hesh` = c(0, 26, 4, 0, 0),
+                 `LowPesc` = c(1, 26, 4, 0, 0),
+                 `BoxS` = c(0, 11, 3, 13, 0),
+                 `Ojo Bon` = c(0, 0, 17, 0, 16),
+                 `S170` = c(0, 0, 18, 0, 14))
+
+test_that("Brainerd Robinson", {
+  zuni_BR <- as(zuni_BR, "CountMatrix")
+  index <- similarity(zuni_BR, method = "brainerd")
+  expect_is(index, "matrix")
+})
+
