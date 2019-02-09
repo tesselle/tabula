@@ -6,12 +6,16 @@
 \alias{tabula}
 \title{Analysis, Seriation and Visualization of Archaeological Count Data}
 \description{
-An easy way to examine archaeological count data (artifacts, faunal remains,
-etc.). This package includes several measures of diversity, e.g. richness,
-rarefaction, diversity, turnover, similarity, etc. It also provides matrix
-seriation methods for chronological modeling and dating. The package make it
-easy to visualize count data and statistical thresholds: rank/abundance
-plots, Ford and Bertin diagrams, etc.
+An easy way to examine archaeological count data (artifacts, faunal
+remains, etc.). This package includes several measures of diversity: e.g.
+richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), diversity/dominance
+and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity
+(Brainerd-Robinson, ...). Most of these methods are described and discussed
+in Maguran (1988) <doi:10.1007/978-94-015-7358-0>. It also provides matrix
+seriation methods (reciprocal ranking, CA-based seriation, IDSS) for
+chronological modeling and dating. The package make it easy to visualize
+count data and statistical thresholds: rank/abundance plots, Ford (1972)
+<isbn:0913134082> and Bertin (1977) <isbn:2082111121> diagrams, etc.
 }
 \details{
 \tabular{ll}{
