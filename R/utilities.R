@@ -1,3 +1,5 @@
+# HELPERS
+
 # Integer numbers
 #
 # Checks if an object only contains integer numbers.

@@ -1,4 +1,5 @@
-#' @include AllClasses.R
+# GENERIC METHODS
+#' @include AllClasses.R access.R coerce.R
 NULL
 
 # Date =========================================================================
@@ -18,17 +19,28 @@ NULL
 #' @param verbose A \code{\link{logical}} scalar. Should extra summary
 #'  statistics be printed?
 #' @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
+#' @details
+#'  ccc
+#' @note
+#'  The original authors of the method did not publish the data supporting their
+#'  demonstration and some elements are unclear. As such, no replication of
+#'  their results is possible and this implementation should be considered
+#'  \strong{EXPERIMENTAL}.
 #' @return
 #'  An object of class \linkS4class{DateModel}.
 #' @references
+#'  Bellanger, L. & Husi, P. (2013). Mesurer et modéliser le temps inscrit dans
+#'  la matière à partir d'une source matérielle : la céramique médiévale.
+#'  In \emph{Mesure et Histoire Médiévale}. Histoire ancienne et médiévale.
+#'  Paris: Publication de la Sorbonne, p. 119-134.
+#'
 #'  Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
 #'  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
 #'  Archaeological Science}, 39(4), 777-790.
 #'  DOI: \href{https://doi.org/10.1016/j.jas.2011.06.031}{10.1016/j.jas.2011.06.031}.
-#' @note
-#'  The original authors of the method did not publish the data supporting their
-#'  demonstration. As such, no replication of their results is possible and this
-#'  implementation should be considered \strong{EXPERIMENTAL}.
+#'
+#'  Bellanger, L., Tomassone, R. & Husi, P. (2008). A Statistical Approach for
+#'  Dating Archaeological Contexts. \emph{Journal of Data Science}, 6, 135-154.
 #' @example inst/examples/ex-dating.R
 #' @author N. Frerebeau
 #' @docType methods
@@ -520,7 +532,7 @@ setGeneric(
 #'   If no convergence is reached before the maximum number of iterations, it
 #'   stops with a warning.}
 #'  }
-#' @section CA seriation seriation:
+#' @section CA seriation refining:
 #'  \code{refine} allows to identify samples that are subject to sampling error
 #'  or samples that have underlying structural relationships and might be
 #'  influencing the ordering along the CA space.
@@ -538,8 +550,11 @@ setGeneric(
 #'  maximum dimension length of the convex hull smaller than the cutoff value).
 #'
 #'  If the results of \code{refine} is used as an input argument in
-#'  \code{seriate}, a CA-based seriation is performed on the subset of
-#'  \code{object} which matches the samples to be kept.
+#'  \code{seriate}, a correspondance analysis is performed on the subset of
+#'  \code{object} which matches the samples to be kept. Then excluded samples
+#'  are projected onto the dimensions of the CA coordinate space using the row
+#'  transition formulae. Finally, row coordinates onto the first dimension
+#'  give the seriation order.
 #' @return
 #'  \code{refine} returns a \linkS4class{BootCA} object.
 #'
