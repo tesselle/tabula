@@ -9,4 +9,5 @@
 ^cran-comments\.md$
 ^README\.Rmd$
 ^NEWS\.md$
+^CONTRIBUTING\.md$
 ^LICENSE$
