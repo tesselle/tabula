@@ -95,8 +95,7 @@ setClass(
 #' @details
 #'  Numeric values are coerced to \code{\link{integer}} as by
 #'  \code{\link[base]{as.integer}} (and hence truncated towards zero).
-#' @note
-#'  This class extends the \code{base} \link[base]{matrix}.
+#' @note This class extends the \code{base} \link[base]{matrix}.
 #' @seealso \link[base]{matrix}
 #' @family abundance matrix
 #' @example inst/examples/ex-abundance-class.R
@@ -126,6 +125,22 @@ setClass(
 setClass(
   Class = "FrequencyMatrix",
   slots = c(totals = "numeric"),
+  contains = "NumericMatrix"
+)
+
+#' Similarity matrix
+#'
+#' An S4 class to represent a (dis)similarity matrix.
+#' @param x A \code{SimilarityMatrix} object from which to extract element.
+#' @note This class extends the \code{base} \link[base]{matrix}.
+#' @seealso \link[base]{matrix}
+# @family
+# @example
+#' @author N. Frerebeau
+#' @docType class
+#' @aliases SimilarityMatrix-class
+setClass(
+  Class = "SimilarityMatrix",
   contains = "NumericMatrix"
 )
 
@@ -229,12 +244,13 @@ setValidity(
     }
     # Return errors if any
     if (length(errors) != 0) {
-      stop(paste(errors, collapse = "\n"))
+      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
     } else {
       return(TRUE)
     }
   }
 )
+
 ## PermutationOrder ------------------------------------------------------------
 setValidity(
   Class = "PermutationOrder",
@@ -250,35 +266,31 @@ setValidity(
         errors <- c(errors, "whole numbers are expected")
       if (any(is.na(rows)))
         errors <- c(errors, "NA values were detected")
-      if (!any(is.nan(rows)))
-        if (any(rows <= 0))
-          errors <- c(errors, "strictly positive values are expected")
+      if (!isPositive(data))
+        errors <- c(errors, "strictly positive values are expected")
     }
     if (length(columns) != 0) {
       if (!is.integer(columns))
         errors <- c(errors, "whole numbers are expected")
       if (any(is.na(columns)))
         errors <- c(errors, "NA values were detected")
-      if (!any(is.nan(columns)))
-        if (any(columns <= 0))
-          errors <- c(errors, "strictly positive values are expected")
+      if (!isPositive(data))
+        errors <- c(errors, "strictly positive values are expected")
     }
     if (length(method) != 0) {
-      if (length(method) != 1) {
+      if (length(method) != 1 | !is.character(method)) {
         errors <- c(errors, "a single character string is expected")
-      } else {
-        if (!is.character(method))
-          errors <- c(errors, "a character string is expected")
       }
     }
     # Return errors if any
     if (length(errors) != 0) {
-      stop(paste(errors, collapse = "\n"))
+      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
     } else {
       return(TRUE)
     }
   }
 )
+
 ## BootCA ----------------------------------------------------------------------
 setValidity(
   Class = "BootCA",
@@ -337,12 +349,13 @@ setValidity(
     }
     # Return errors if any
     if (length(errors) != 0) {
-      stop(paste(errors, collapse = "\n"))
+      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
     } else {
       return(TRUE)
     }
   }
 )
+
 ## NumericMatrix ---------------------------------------------------------------
 setValidity(
   Class = "NumericMatrix",
@@ -350,20 +363,22 @@ setValidity(
     errors <- c()
     # Get data
     data <- S3Part(object, strictS3 = TRUE, "matrix")
+
+    # Check data
     if (length(data) != 0) {
       if (!is.numeric(data))
-        errors <- c(errors, "numeric values are expected")
+        errors <- c(errors, "numeric values are expected.")
       if (any(is.na(data)))
-        errors <- c(errors, "NA values were detected")
+        errors <- c(errors, "NA values were detected.")
       if (any(is.infinite(data)))
-        errors <- c(errors, "infinite numbers were detected")
-      if (!any(is.nan(data)))
-        if (any(data < 0))
-          errors <- c(errors, "positive values are expected")
+        errors <- c(errors, "infinite numbers were detected.")
+      if (!isPositive(data))
+        errors <- c(errors, "positive values are expected.")
     }
+
     # Return errors if any
     if (length(errors) != 0) {
-      stop(paste(errors, collapse = "\n"))
+      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
     } else {
       return(TRUE)
     }
@@ -377,15 +392,18 @@ setValidity(
     errors <- c()
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
+
+    # Check data
     if (length(data) != 0) {
       if (sum(!isWholeNumber(data)) != 0)
-        errors <- c(errors, "whole numbers are expected")
+        errors <- c(errors, "whole numbers are expected.")
       if (isBinary(data))
-        errors <- c(errors, "you should consider using an incidence matrix")
+        errors <- c(errors, "you should consider using an incidence matrix.")
     }
+
     # Return errors, if any
     if (length(errors) != 0) {
-      stop(paste(errors, collapse = "\n"))
+      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
     } else {
       return(TRUE)
     }
@@ -400,17 +418,47 @@ setValidity(
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     totals <- object@totals
+
+    # Check data
     if (length(data) != 0) {
       if (!isEqual(rowSums(data, na.rm = TRUE)))
-        errors <- c(errors, "frequencies are expected")
+        errors <- c(errors, "constant row sums are expected.")
       if (isBinary(data))
-        errors <- c(errors, "you should consider using an incidence matrix")
+        errors <- c(errors, "you should consider using an incidence matrix.")
       if (length(totals) != nrow(data))
-        errors <- c(errors, "wrong row sums")
+        errors <- c(errors, paste("'totals' should be of length", nrow(data)))
     }
+
     # Return errors, if any
     if (length(errors) != 0) {
-      stop(paste(errors, collapse = "\n"))
+      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
+    } else {
+      return(TRUE)
+    }
+  }
+)
+
+## SimilarityMatrix ------------------------------------------------------------
+setValidity(
+  Class = "SimilarityMatrix",
+  method = function(object) {
+    errors <- c()
+    # Get data
+    data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
+
+    # Check data
+    if (length(data) != 0) {
+      if (!isSquare(data))
+        errors <- c(errors, "a square matrix is expected.")
+      if (!isSymmetric(data))
+        errors <- c(errors, "a symmetric matrix is expected.")
+      if (!identical(rownames(data), colnames(data)))
+        errors <- c(errors, "rows and columns should have the same names.")
+    }
+
+    # Return errors, if any
+    if (length(errors) != 0) {
+      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
     } else {
       return(TRUE)
     }
@@ -424,15 +472,18 @@ setValidity(
     errors <- c()
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
+
+    # Check data
     if (length(data) != 0) {
       if (!is.logical(data))
-        errors <- c("logical values are expected")
+        errors <- c("logical values are expected.")
       if (any(is.na(data)))
-        errors <- c(errors, "NA values were detected")
+        errors <- c(errors, "NA values were detected.")
     }
+
     # Return errors, if any
     if (length(errors) != 0) {
-      stop(paste(errors, collapse = "\n"))
+      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
     } else {
       return(TRUE)
     }
@@ -447,15 +498,17 @@ setValidity(
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
 
+    # Check data
     if (length(data) != 0) {
-      if (nrow(data) != ncol(data))
-        errors <- c(errors, "a square matrix is expected")
+      if (!isSquare(data))
+        errors <- c(errors, "a square matrix is expected.")
       if (!identical(rownames(data), colnames(data)))
-        errors <- c(errors, "rows and columns should have the same names")
+        errors <- c(errors, "rows and columns should have the same names.")
     }
+
     # Return errors, if any
     if (length(errors) != 0) {
-      stop(paste(errors, collapse = "\n"))
+      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
     } else {
       return(TRUE)
     }
@@ -463,6 +516,23 @@ setValidity(
 )
 
 # INITIALIZATION ===============================================================
+## BootCA ----------------------------------------------------------------------
+setMethod(
+  f = "initialize",
+  signature = "BootCA",
+  definition = function(.Object, rows, columns, lengths, cutoff, keep) {
+    if (!missing(rows)) .Object@rows <- rows
+    if (!missing(columns)) .Object@columns <- columns
+    if (!missing(lengths)) .Object@lengths <- lengths
+    if (!missing(cutoff)) .Object@cutoff <- cutoff
+    if (!missing(keep)) .Object@keep <- keep
+    methods::validObject(.Object)
+    if (getOption("verbose")) {
+      message(paste(class(.Object), "instance initialized.", sep = " "))
+    }
+    return(.Object)
+  }
+)
 ## DateModel -------------------------------------------------------------------
 setMethod(
   f = "initialize",
@@ -497,23 +567,6 @@ setMethod(
     return(.Object)
   }
 )
-## BootCA ----------------------------------------------------------------------
-setMethod(
-  f = "initialize",
-  signature = "BootCA",
-  definition = function(.Object, rows, columns, lengths, cutoff, keep) {
-    if (!missing(rows)) .Object@rows <- rows
-    if (!missing(columns)) .Object@columns <- columns
-    if (!missing(lengths)) .Object@lengths <- lengths
-    if (!missing(cutoff)) .Object@cutoff <- cutoff
-    if (!missing(keep)) .Object@keep <- keep
-    methods::validObject(.Object)
-    if (getOption("verbose")) {
-      message(paste(class(.Object), "instance initialized.", sep = " "))
-    }
-    return(.Object)
-  }
-)
 
 ## *Matrix ---------------------------------------------------------------------
 initialize_matrix <- function(.Object, ...) {
@@ -526,10 +579,34 @@ initialize_matrix <- function(.Object, ...) {
 }
 setMethod("initialize", "CountMatrix", initialize_matrix)
 setMethod("initialize", "FrequencyMatrix", initialize_matrix)
+setMethod("initialize", "SimilarityMatrix", initialize_matrix)
 setMethod("initialize", "IncidenceMatrix", initialize_matrix)
 setMethod("initialize", "OccurrenceMatrix", initialize_matrix)
 
 # CREATE =======================================================================
+# Matrix constructor
+#
+# @inheritParams base::matrix
+# @param rows A \code{link{logical}} scalar indicating if the number of rows is
+#  unspecified.
+# @param cols A \code{link{logical}} scalar indicating if the number of columns
+#  is unspecified.
+# @return A \link{\code{matrix}}.
+buildMatrix <- function(data, nrow, ncol, byrow, dimnames,
+                        rows = FALSE, cols = FALSE) {
+  k <- length(data)
+  if (rows) nrow <- k / ncol
+  if (cols) ncol <- k / nrow
+  if (is.null(dimnames)) {
+    dimnames <- list(1:nrow, paste("V", 1:ncol, sep = ""))
+  } else {
+    if (is.null(dimnames[[1]])) dimnames[[1]] <- 1:nrow
+    if (is.null(dimnames[[2]])) dimnames[[2]] <- paste("V", 1:ncol, sep = "")
+  }
+  M <- matrix(data, nrow, ncol, byrow, dimnames)
+  return(M)
+}
+
 #' @export
 #' @rdname CountMatrix-class
 CountMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,

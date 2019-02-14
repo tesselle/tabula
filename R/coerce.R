@@ -31,6 +31,16 @@ matrix2frequency <- function(from) {
 setAs(from = "matrix", to = "FrequencyMatrix", def = matrix2frequency)
 setAs(from = "data.frame", to = "FrequencyMatrix", def = matrix2frequency)
 
+## To SimilarityMatrix ----------------------------------------------------------
+matrix2similarity <- function(from) {
+  data <- data.matrix(from)
+  object <- methods::new("SimilarityMatrix", data)
+  methods::validObject(object)
+  return(object)
+}
+setAs(from = "matrix", to = "SimilarityMatrix", def = matrix2similarity)
+setAs(from = "data.frame", to = "SimilarityMatrix", def = matrix2similarity)
+
 ## CountMatrix <> FrequencyMatrix ----------------------------------------------
 setAs(
   from = "CountMatrix",
