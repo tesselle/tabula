@@ -47,12 +47,13 @@ isPeak <- function(x, na.rm = TRUE) {
 # @param x A \code{\link{numeric}} object to be checked.
 # @param strict A \code{\link{logical}} scalar.
 # @return A \link{\code{logical}}.
-isPositive <- function(x, strict = FALSE) {
+isPositive <- function(x, strict = FALSE, na.rm = TRUE) {
+  x <- as.numeric(x)
   if (!any(is.nan(x))) {
     if (strict) {
-      !any(x <= 0, na.rm = TRUE)
+      !any(x <= 0, na.rm = na.rm)
     } else {
-      !any(x < 0, na.rm = TRUE)
+      !any(x < 0, na.rm = na.rm)
     }
   } else {
     FALSE
