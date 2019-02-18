@@ -32,7 +32,7 @@ independance <- function(x, method = c("EPPM", "PVI")) {
     column_total = colSums(x),
     grand_total = sum(x)
   )
-  # Threshold ------------------------------------------------------------------
+  # Threshold
   if (method == "EPPM") {
     threshold <- (x - t(values)) / rowSums(x)
     threshold[threshold < 0] <- 0
@@ -91,6 +91,32 @@ confidence <- function(x, level = 0.05) {
   p <- x / n
   stardard_error <- sqrt(p * (1 - p) / n)
   return(z * stardard_error)
+}
+
+# Jackknife estimation
+#
+# @param x A \code{\link{numeric}} vector.
+# @param do A \code{\link{function}} that takes \code{x} as an argument
+#  and returns a single numeric value.
+# @param ... Extra arguments passed to \code{do}.
+# @return A list with the following elements:
+#  \describe{
+#   \item{values}{The \code{n} leave-one-out values.}
+#   \item{bias}{The jackknife estimate of bias.}
+#   \item{errors}{he jackknife estimate of standard error.}
+#  }
+# @author N. Frerebeau
+jackknife <- function(x, do, ...) {
+  n <- length(x)
+  hat <- do(x, ...)
+  jack_values <- lapply(X = 1:n, FUN = function(i, x, do, ...) {
+    do(x[-i], ...)
+  }, x, do, ...)
+  jack_bias <- (n - 1) * (mean(jack_values) - hat)
+  jack_error <- sqrt(((n - 1) / n) * sum((jack_values - mean(jack_values))^2))
+
+  results <- list(values = jack_values, bias = jack_bias, errors = jack_error)
+  return(results)
 }
 
 # Sample replication
