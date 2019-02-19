@@ -202,6 +202,7 @@ setMethod(
     data %<>% dplyr::rename(frequency = "data")
 
     # ggplot -------------------------------------------------------------------
+    scale_breaks <- c(-4:4) * 0.10
     fill <- if (EPPM) "threshold" else NULL
     bertin <- center | horizontal
     facets <- if (bertin) ".~type" else "type~."
@@ -209,13 +210,15 @@ setMethod(
     axis <- if (bertin) {
       list(
         theme(axis.title.y = element_blank(),
-              axis.ticks.y = element_blank())
+              axis.ticks.y = element_blank()),
+        scale_y_continuous(breaks = scale_breaks, labels = abs(scale_breaks))
       )
     } else {
       list(
         theme(axis.title.x = element_blank(),
               axis.ticks.x = element_blank()),
-        scale_x_discrete(expand = c(0, 0), position = "top")
+        scale_x_discrete(expand = c(0, 0), position = "top"),
+        scale_y_continuous(breaks = scale_breaks, labels = abs(scale_breaks))
       )
     }
 
@@ -321,7 +324,7 @@ setMethod(
   f = "plotMatrix",
   signature = signature(object = "IncidenceMatrix"),
   definition = function(object) {
-    # Prepare data -------------------------------------------------------------
+    # Prepare data
     # Get row names and coerce to factor (preserve original ordering)
     row_names <- rownames(object) %>% factor(levels = unique(.))
 
@@ -332,7 +335,7 @@ setMethod(
       tidyr::gather(key = "type", value = "value",
                     -.data$case, factor_key = TRUE)
 
-    # ggplot -------------------------------------------------------------------
+    # ggplot
     ggplot(data = data, aes_string(x = "type", y = "case", fill = "value")) +
       geom_tile(color = "black") +
       scale_x_discrete(position = "top") +
@@ -365,7 +368,7 @@ setMethod(
   f = "plotRank",
   signature = signature(object = "FrequencyMatrix"),
   definition = function(object, log = NULL, facet = TRUE) {
-    # Prepare data -------------------------------------------------------------
+    # Prepare data
     # Get row names and coerce to factor (preserve original ordering)
     row_names <- rownames(object) %>% factor(levels = unique(.))
     # Get number of cases
@@ -383,7 +386,7 @@ setMethod(
       dplyr::mutate(rank = rev(.data$rank)) %>%
       dplyr::ungroup()
 
-    # ggplot -------------------------------------------------------------------
+    # ggplot
     log_x <- log_y <- NULL
     if (!is.null(log)) {
       if (log == "x" | log == "xy" | log == "yx") log_x <- scale_x_log10()
@@ -423,7 +426,7 @@ setMethod(
   f = "plotSpot",
   signature = signature(object = "FrequencyMatrix"),
   definition = function(object, threshold = NULL) {
-    # Prepare data -------------------------------------------------------------
+    # Prepare data
     # Get row names and coerce to factor (preserve original ordering)
     row_names <- rownames(object) %>% factor(levels = unique(.))
 
@@ -447,7 +450,7 @@ setMethod(
                                             "above", "below"))
     }
 
-    # ggplot -------------------------------------------------------------------
+    # ggplot
     colour <- if (is.null(threshold)) NULL else function_name
     ggplot(data = data, aes_string(x = "type", y = "case")) +
       geom_point(aes(size = 1), colour = "black") +
