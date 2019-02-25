@@ -36,11 +36,11 @@ Collate:
     'utilities.R'
     'tabula.R'
     'AllClasses.R'
+    'coerce.R'
+    'access.R'
     'AllGenerics.R'
-    'LogicalMatrix.R'
-    'NumericMatrix.R'
     'data.R'
-    'dating.R'
+    'date.R'
     'index-diversity.R'
     'index-rarefaction.R'
     'index-richness.R'
@@ -49,7 +49,9 @@ Collate:
     'method-seriation.R'
     'statistics.R'
     'plot.R'
-    'seriation.R'
+    'refine.R'
+    'seriate.R'
+    'show.R'
 RoxygenNote: 6.1.1
 Suggests:
     testthat,

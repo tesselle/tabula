@@ -4,36 +4,37 @@ NULL
 # Date plot ====================================================================
 #' @export
 #' @rdname plotDate-method
-#' @aliases plotDate,CountMatrix,DateModel-method
+#' @aliases plotDate,DateModel-method
 setMethod(
   f = "plotDate",
-  signature = c("CountMatrix", "DateModel"),
-  definition = function(object, date, type = c("event", "accumulation"),
+  signature = c("DateModel"),
+  definition = function(object, type = c("event", "accumulation"),
                         select = 1, n = 500) {
     # Selection
     type <- match.arg(type, several.ok = TRUE)
-    cases <- rownames(date[["rows"]])
+    cases <- object@rows$id
     index <- if (is.character(select)) {
       which(cases %in% select)
     } else {
       as.numeric(select)
     }
-
     # Validation
     if (length(index) == 0 | max(index) > length(cases))
       stop("wrong selection")
 
-    # Get date range
-    row_dates <- date[["rows"]][, "estimation"]
-    date_range <- seq(from = min(date[["rows"]][, "earliest"]),
-                      to = max(date[["rows"]][, "latest"]), length.out = n)
+    # Get data
+    row_dates <- object@rows$estimation
+    row_lower <- object@rows$earliest
+    row_upper <- object@rows$latest
+    row_errors <- object@rows$error
+    col_dates <- object@columns$estimation
+    col_errors <- object@columns$error
+    date_range <- seq(from = min(row_lower), to = max(row_upper), length.out = n)
 
     plot_event <- plot_accumulation <- plot_facet <- NULL
 
     # Event time
     if ("event" %in% type) {
-      row_errors <- date[["rows"]][, "error"]
-
       date_event <- mapply(function(mean, sd, x) { stats::dnorm(x, mean, sd) },
                            mean = row_dates[index], sd = row_errors[index],
                            MoreArgs = list(x = date_range), SIMPLIFY = TRUE)
@@ -49,11 +50,8 @@ setMethod(
     # Accumulation time
     if ("accumulation" %in% type) {
       # Weighted sum of the fabric dates
-      count <- object[index, , drop = FALSE]
+      count <- object@counts[index, , drop = FALSE]
       freq <- count / rowSums(count)
-      # Transpose for mapply
-      col_dates <- date[["columns"]][, "estimation"]
-      col_errors <- date[["columns"]][, "error"]
 
       col_density <- mapply(function(mean, sd, x) { stats::dnorm(x, mean, sd) },
                             mean = col_dates, sd = col_errors,
@@ -96,7 +94,7 @@ setMethod(
   signature = signature(object = "DateModel"),
   definition = function(object, select = 1, sort = "dsc") {
     # Selection
-    cases <- rownames(object[["rows"]])
+    cases <- object@rows$id
     index <- if (is.character(select)) {
       which(cases %in% select)
     } else {
@@ -109,11 +107,11 @@ setMethod(
 
     date_data <- cbind.data.frame(
       id = as.factor(cases),
-      event = object[["rows"]][, "estimation"],
-      accumulation = object[["accumulation"]],
+      event = object@rows$estimation,
+      accumulation = object@accumulation$date,
       y = as.numeric(as.factor(cases)),
-      xmin = object[["rows"]][, "earliest"],
-      xmax = object[["rows"]][, "latest"]
+      xmin = object@rows$earliest,
+      xmax = object@rows$latest
     )[index, ]
 
     if (!is.null(sort)) {
@@ -257,7 +255,7 @@ setMethod(
   f = "plotMatrix",
   signature = signature(object = "CountMatrix"),
   definition = function(object, PVI = FALSE) {
-    # Prepare data -------------------------------------------------------------
+    # Prepare data
     # Get row names and coerce to factor (preserve original ordering)
     row_names <- rownames(object) %>% factor(levels = unique(.))
 
@@ -287,7 +285,7 @@ setMethod(
       y = as.numeric(.data$case)
     )
 
-    # ggplot -------------------------------------------------------------------
+    # ggplot
     fill <- ifelse(PVI, "PVI", "frequency")
     ggplot(data = data) +
       geom_tile(aes_string(x = "x", y = "y", fill = fill)) +
@@ -460,6 +458,46 @@ setMethod(
       scale_y_discrete(limits = rev(levels(data$case))) +
       scale_size_area() +
       theme(axis.ticks = element_blank(),
+            axis.title.x = element_blank(),
+            axis.title.y = element_blank(),
+            legend.key = element_rect(fill = "white"),
+            panel.background = element_rect(fill = "white"),
+            panel.grid = element_blank()) +
+      coord_fixed()
+  }
+)
+
+#' @export
+#' @rdname plotSpot-method
+#' @aliases plotSpot,SimilarityMatrix-method
+setMethod(
+  f = "plotSpot",
+  signature = signature(object = "SimilarityMatrix"),
+  definition = function(object) {
+    # Prepare data
+    # Get row names and coerce to factor (preserve original ordering)
+    row_names <- rownames(object) %>% factor(levels = unique(.))
+
+    # Replace lower part and diagonal values with 0
+    clean <- object
+    clean[lower.tri(clean, diag = TRUE)] <- NA
+
+    # Build long table from data
+    data <- clean %>%
+      as.data.frame() %>%
+      dplyr::mutate(case = row_names) %>%
+      tidyr::gather(key = "type", value = "similarity",
+                    -.data$case, factor_key = TRUE) %>%
+      stats::na.omit()
+
+    # ggplot
+    ggplot(data = data, aes_string(x = "type", y = "case")) +
+      geom_point(aes_string(size = "similarity", color = "similarity")) +
+      scale_x_discrete(position = "top") +
+      scale_y_discrete(limits = rev(levels(data$case))) +
+      scale_size_area() +
+      theme(axis.text.x = element_text(angle = 90, hjust = 0),
+            axis.ticks = element_blank(),
             axis.title.x = element_blank(),
             axis.title.y = element_blank(),
             legend.key = element_rect(fill = "white"),
