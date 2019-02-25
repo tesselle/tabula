@@ -12,12 +12,12 @@ tabula <img width=120px src="man/figures/logo.svg" align="right" />
 Overview
 --------
 
-`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity: e.g. richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), diversity/dominance and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity. It also provides matrix seriation methods for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford (1962) and Bertin (1977) diagrams, etc.
+`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity: e.g. richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), diversity/dominance and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity (Brainerd-Robinson, ...). It also provides matrix seriation methods (reciprocal ranking, CA-based seriation, IDSS) for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford and Bertin diagrams, etc.
 
 Installation
 ------------
 
-Install the released version of `tabula` from CRAN:
+You can install the released version of `tabula` from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("tabula")
@@ -38,6 +38,7 @@ Usage
 -   Abundance matrix:
     -   `CountMatrix` represents count data,
     -   `FrequencyMatrix` represents frequency data.
+    -   `SimilarityMatrix` represents a (dis)similarity matrix.
 -   Logical matrix:
     -   `IncidenceMatrix` represents presence/absence data.
     -   `OccurrenceMatrix` represents a co-occurence matrix.
@@ -83,14 +84,11 @@ D <- as(A1, "OccurrenceMatrix")
 
 ### Analysis
 
-``` r
-count <- as(compiegne, "CountMatrix")
-```
-
 #### Sample richness
 
 ``` r
-richness(count, method = c("margalef", "menhinick", "chao1"), simplify = TRUE)
+compiegne <- as(compiegne, "CountMatrix")
+richness(compiegne, method = c("margalef", "menhinick", "chao1"), simplify = TRUE)
 #>   margalef  menhinick chao1
 #> 5 1.176699 0.07933617    13
 #> 4 1.323459 0.07568907    15
@@ -104,7 +102,7 @@ richness(count, method = c("margalef", "menhinick", "chao1"), simplify = TRUE)
 *Diversity* can be measured according to several indices (sometimes refered to as indices of *heterogeneity*):
 
 ``` r
-diversity(count, method = c("shannon", "brillouin", "simpson", "mcintosh", "berger"), simplify = TRUE)
+diversity(compiegne, method = c("shannon", "brillouin", "simpson", "mcintosh", "berger"), simplify = TRUE)
 #>    shannon brillouin   simpson  mcintosh    berger
 #> 5 1.311123  1.309565 0.3648338 0.3983970 0.5117318
 #> 4 1.838332  1.836827 0.2246218 0.5287042 0.3447486
@@ -115,45 +113,21 @@ diversity(count, method = c("shannon", "brillouin", "simpson", "mcintosh", "berg
 
 Note that `berger`, `mcintosh` and `simpson` methods return a *dominance* index, not the reciprocal form usually adopted, so that an increase in the value of the index accompanies a decrease in diversity.
 
-*Evenness* is a measure of how evenly individuals are distributed across the sample:
+Corresponding *evenness* (i.e. a measure of how evenly individuals are distributed across the sample) can also be computed.
 
-``` r
-evenness(count, method = c("shannon", "brillouin", "simpson", "mcintosh"), simplify = TRUE)
-#>     shannon brillouin   simpson  mcintosh
-#> 5 0.5111691 0.5109738 0.2108442 0.5479357
-#> 4 0.6788396 0.6787091 0.2967952 0.7091340
-#> 3 0.7349264 0.7348441 0.3637822 0.7806408
-#> 2 0.8901817 0.8901334 0.6018087 0.9035975
-#> 1 0.8286460 0.8285786 0.4929544 0.8585271
-```
+#### Turnover and Similarity
 
-#### Turnover
-
-The following method can be used to acertain the degree of *turnover* in taxa composition along a gradient (*β*-diversity) on qualitative (presence/absence) data.
-
-It assumes that the order of the matrix rows (from 1 to *n*) follows the progression along the gradient/transect.
-
-``` r
-turnover(count, method = c("whittaker", "cody", "routledge1",
-                           "routledge2", "routledge3", "wilson"),
-         simplify = TRUE)
-#>  whittaker       cody routledge1 routledge2 routledge3     wilson 
-#> 0.05263158 1.50000000 0.00000000 0.04061480 1.04145086 0.09868421
-```
-
-#### Similarity coefficients
+The several methods can be used to acertain the degree of *turnover* in taxa composition along a gradient (*β*-diversity) on qualitative (presence/absence) data. It assumes that the order of the matrix rows (from 1 to *n*) follows the progression along the gradient/transect.
 
 *β*-diversity can also be measured by addressing *similarity* between pairs of sites:
 
 ``` r
-similarity(count, method = "morisita")
-#>           5         4         3         2         1
-#> 5 1.0000000 0.9162972 0.7575411 0.6670201 0.6286479
-#> 4 0.9162972 1.0000000 0.8879556 0.7964064 0.7106784
-#> 3 0.7575411 0.8879556 1.0000000 0.8251501 0.6637747
-#> 2 0.6670201 0.7964064 0.8251501 1.0000000 0.9224228
-#> 1 0.6286479 0.7106784 0.6637747 0.9224228 1.0000000
+mississippi <- as(mississippi, "CountMatrix")
+C <- similarity(mississippi, method = "brainerd")
+plotSpot(C)
 ```
+
+![](man/figures/README-similarity-brainerd-1.png)
 
 ### Seriation
 
@@ -164,17 +138,18 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 
 # Get seriation order on rows and columns
 # Correspondance analysis-based seriation
+set.seed(12345)
 (indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Row order: 11 5 18 9 20 6 15 17 19 7 10 4 13 14 3 2 8 16 1 12 
-#>    Column order: 19 2 9 5 11 8 12 13 4 3 15 18 1 16 17 10 14 20 7 6 
+#>    Row order: 3 15 1 10 13 8 5 11 12 19 2 18 7 6 9 20 17 4 14 16 
+#>    Column order: 8 16 18 5 2 12 15 10 14 20 7 3 6 11 4 17 9 19 13 1 
 #>    Method: correspondance
+
+# Permute matrix rows and columns
+incidence2 <- permute(incidence, indices)
 ```
 
 ``` r
-# Permute matrix rows and columns
-incidence2 <- permute(incidence, indices)
-
 # Plot matrix
 library(ggplot2)
 plotMatrix(incidence) + 
@@ -194,6 +169,7 @@ plotMatrix(incidence2) +
 Bertin of Ford (battleship curve) diagramms can be plotted, with statistic threshold (B. Desachy's sériographe [1]). The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence. EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
 
 ``` r
+count <- as(compiegne, "CountMatrix")
 plotBar(count, EPPM = TRUE)
 ```
 

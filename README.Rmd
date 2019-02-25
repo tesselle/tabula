@@ -27,11 +27,11 @@ library(tabula)
 
 ## Overview
 
-`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity: e.g. richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), diversity/dominance and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity. It also provides matrix seriation methods for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford (1962) and Bertin (1977) diagrams, etc.
+`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity: e.g. richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), diversity/dominance and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity (Brainerd-Robinson, ...). It also provides matrix seriation methods (reciprocal ranking, CA-based seriation, IDSS) for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford and Bertin diagrams, etc.
 
 ## Installation
 
-Install the released version of `tabula` from CRAN:
+You can install the released version of `tabula` from [CRAN](https://CRAN.R-project.org) with:
 
 ```{r cran-installation, eval = FALSE}
 install.packages("tabula")
@@ -51,6 +51,7 @@ devtools::install_github("nfrerebeau/tabula")
 * Abundance matrix:
     * `CountMatrix` represents count data,
     * `FrequencyMatrix` represents frequency data.
+    * `SimilarityMatrix` represents a (dis)similarity matrix.
 * Logical matrix:
     * `IncidenceMatrix` represents presence/absence data.
     * `OccurrenceMatrix` represents a co-occurence matrix.
@@ -94,15 +95,11 @@ D <- as(A1, "OccurrenceMatrix")
 ```
 
 ### Analysis
-
-```{r import}
-count <- as(compiegne, "CountMatrix")
-```
-
 #### Sample richness
 
 ```{r richness}
-richness(count, method = c("margalef", "menhinick", "chao1"), simplify = TRUE)
+compiegne <- as(compiegne, "CountMatrix")
+richness(compiegne, method = c("margalef", "menhinick", "chao1"), simplify = TRUE)
 ```
 
 #### Heterogeneity and evenness measures
@@ -110,36 +107,24 @@ richness(count, method = c("margalef", "menhinick", "chao1"), simplify = TRUE)
 *Diversity* can be measured according to several indices (sometimes refered to as indices of *heterogeneity*):
 
 ```{r diversity}
-diversity(count, method = c("shannon", "brillouin", "simpson", "mcintosh", "berger"), simplify = TRUE)
+diversity(compiegne, method = c("shannon", "brillouin", "simpson", "mcintosh", "berger"), simplify = TRUE)
 ```
 
 Note that `berger`, `mcintosh` and `simpson` methods return a *dominance* index, not the reciprocal form usually adopted, so that an increase in the value of the index accompanies a decrease in diversity.
 
-*Evenness* is a measure of how evenly individuals are distributed across the sample:
-```{r evenness}
-evenness(count, method = c("shannon", "brillouin", "simpson", "mcintosh"), simplify = TRUE)
-```
+Corresponding *evenness* (i.e. a measure of how evenly individuals are distributed across the sample) can also be computed.
 
-#### Turnover
+#### Turnover and Similarity
 
-The following method can be used to acertain the degree of *turnover* in taxa composition along a gradient ($\beta$-diversity) on qualitative (presence/absence) data.
-
-It assumes that the order of the matrix rows (from $1$ to $n$) follows the progression along the gradient/transect.
-
-```{r turnover}
-turnover(count, method = c("whittaker", "cody", "routledge1",
-                           "routledge2", "routledge3", "wilson"),
-         simplify = TRUE)
-```
-
-#### Similarity coefficients
+The several methods can be used to acertain the degree of *turnover* in taxa composition along a gradient ($\beta$-diversity) on qualitative (presence/absence) data. It assumes that the order of the matrix rows (from $1$ to $n$) follows the progression along the gradient/transect.
 
 $\beta$-diversity can also be measured by addressing *similarity* between pairs of sites:
 
-```{r similarity}
-similarity(count, method = "morisita")
+```{r similarity-brainerd}
+mississippi <- as(mississippi, "CountMatrix")
+C <- similarity(mississippi, method = "brainerd")
+plotSpot(C)
 ```
-
 
 ### Seriation
 
@@ -150,13 +135,14 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 
 # Get seriation order on rows and columns
 # Correspondance analysis-based seriation
+set.seed(12345)
 (indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
+
+# Permute matrix rows and columns
+incidence2 <- permute(incidence, indices)
 ```
 
 ```{r permute-incidence, eval=FALSE, warning=FALSE}
-# Permute matrix rows and columns
-incidence2 <- permute(incidence, indices)
-
 # Plot matrix
 library(ggplot2)
 plotMatrix(incidence) + 
@@ -168,16 +154,13 @@ plotMatrix(incidence2) +
 ```
 
 ```{r permute-incidence-plots, echo=FALSE, warning=FALSE, fig.height=3.5}
-# Permute matrix rows and columns
-incidence2 <- permute(incidence, indices)
-
 # Plot matrix
 cowplot::plot_grid(
   plotMatrix(incidence) + 
-    labs(title = "Original matrix") +
+    ggplot2::labs(title = "Original matrix") +
     ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white")),
   plotMatrix(incidence2) + 
-    labs(title = "Rearranged matrix") +
+    ggplot2::labs(title = "Rearranged matrix") +
     ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white")),
   ncol = 2
 )
@@ -190,6 +173,7 @@ cowplot::plot_grid(
 Bertin of Ford (battleship curve) diagramms can be plotted, with statistic threshold (B. Desachy's sériographe [^1]). The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence. EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
 
 ```{r seriograph, fig.height=3.5}
+count <- as(compiegne, "CountMatrix")
 plotBar(count, EPPM = TRUE)
 ```
 
