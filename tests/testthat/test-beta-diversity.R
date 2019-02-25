@@ -71,10 +71,13 @@ zuni_BR <- rbind(`Atsinna` = c(16, 9, 3, 0, 1),
                  `BoxS` = c(0, 11, 3, 13, 0),
                  `Ojo Bon` = c(0, 0, 17, 0, 16),
                  `S170` = c(0, 0, 18, 0, 14))
+zuni_BR <- as(zuni_BR, "CountMatrix")
 
 test_that("Brainerd Robinson", {
-  zuni_BR <- as(zuni_BR, "CountMatrix")
   index <- similarity(zuni_BR, method = "brainerd")
   expect_is(index, "matrix")
 })
-
+test_that("Binomial co-occurrence", {
+  index <- similarity(zuni_BR, method = "binomial")
+  expect_is(index, "matrix")
+})

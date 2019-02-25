@@ -25,8 +25,6 @@ test_that("Initialize a NumericMatrix instance", {
   expect_s4_class(new("NumericMatrix", test_count), "NumericMatrix")
   expect_s4_class(new("NumericMatrix", test_freq), "NumericMatrix")
 
-  expect_error(new("NumericMatrix", -test_count))
-  expect_error(new("NumericMatrix", -test_freq))
   expect_error(new("NumericMatrix", test_incid))
   expect_error(new("NumericMatrix", test_character))
   expect_error(new("NumericMatrix", test_num_na))
