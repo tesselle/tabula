@@ -72,9 +72,6 @@ setGeneric("accumulation", function(x) standardGeneric("accumulation"))
 setGeneric("columns", function(x) standardGeneric("columns"))
 
 #' @rdname accessors
-setGeneric("method", function(x) standardGeneric("method"))
-
-#' @rdname accessors
 setGeneric("rows", function(x) standardGeneric("rows"))
 
 #' @rdname accessors
@@ -121,11 +118,6 @@ setMethod("columns", "DateModel", function(x) x@columns)
 #'  assemblage.
 #' @aliases method,DateModel-method
 setMethod("accumulation", "DateModel", function(x) x@accumulation)
-
-#' @export
-#' @describeIn PermutationOrder Returns the method used for seriation.
-#' @aliases method,PermutationOrder-method
-setMethod("method", "PermutationOrder", function(x) x@method)
 
 #' @export
 #' @describeIn FrequencyMatrix Returns the row sums (counts).
