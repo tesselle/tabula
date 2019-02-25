@@ -7,15 +7,14 @@ NULL
 #'
 #' Experimental (see note).
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
-#' @param dates A named \code{\link{numeric}} vector giving the reliable known
-#'  dates (in years) of the archaeological assemblages.
-#'  Assemblages are matched by names.
-#' @param axes An \code{\link{integer}} indicating the factorial components of
-#'  the correspondance analysis to retain (by default 5).
+#' @param dates A list of \code{\link{numeric}} dates.
+#'  Dates will be matched with assemblage by names.
+#' @param cutoff An \code{\link{integer}} giving the cumulative percentage of
+#'  variance used to select CA factorial components for linear model fitting
+#'  (see details). All compounds with a cumulative percentage of variance of
+#'  less than the \code{cutoff} value will be retained.
 #' @param level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
-#' @param n A length-one non-negative \code{\link{numeric}} vector giving the
-#'  desired length of the vector of quantiles for density computation.
 #' @param verbose A \code{\link{logical}} scalar. Should extra summary
 #'  statistics be printed?
 #' @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
@@ -25,7 +24,8 @@ NULL
 #'  The original authors of the method did not publish the data supporting their
 #'  demonstration and some elements are unclear. As such, no replication of
 #'  their results is possible and this implementation should be considered
-#'  \strong{EXPERIMENTAL}.
+#'  \strong{EXPERIMENTAL}. It may be subject to major changes in a future
+#'  release.
 #' @return
 #'  An object of class \linkS4class{DateModel}.
 #' @references
@@ -41,6 +41,16 @@ NULL
 #'
 #'  Bellanger, L., Tomassone, R. & Husi, P. (2008). A Statistical Approach for
 #'  Dating Archaeological Contexts. \emph{Journal of Data Science}, 6, 135-154.
+#'
+#'  Bellanger, L., Husi, P. & Tomassone, R. (2006). Une approche statistique
+#'  pour la datation de contextes archéologiques. \emph{Revue de Statistique
+#'  Appliquée}, 54(2), 65-81.
+#'
+#'  Bellanger, L., Husi, P. & Tomassone, R. (2006). Statistical Aspects of
+#'  Pottery Quantification for the Dating of Some Archaeological Contexts.
+#'  \emph{Archaeometry}, 48(1), 169-183.
+#'  DOI: \href{https://doi.org/10.1111/j.1475-4754.2006.00249.x}{10.1111/j.1475-4754.2006.00249.x}.
+#' @seealso \link{refine}
 #' @example inst/examples/ex-dating.R
 #' @author N. Frerebeau
 #' @docType methods
@@ -177,8 +187,7 @@ setGeneric(
 # Plot =========================================================================
 #' Date plot
 #'
-#' @param object An object to be plotted.
-#' @param date An object of class \linkS4class{DateModel} to be plotted.
+#' @param object An object of class \linkS4class{DateModel} to be plotted.
 #' @param type A \code{\link{character}} string or vector of character strings
 #'  indicating the modelled dates to be plotted. It must be one or both
 #'  (default) of \code{event} and \code{accumulation}. Any unambiguous substring
@@ -200,7 +209,7 @@ setGeneric(
 #' @aliases plotDate-method
 setGeneric(
   name = "plotDate",
-  def = function(object, date, ...) standardGeneric("plotDate")
+  def = function(object, ...) standardGeneric("plotDate")
 )
 # ------------------------------------------------------------------------------
 #' Bar plot
@@ -462,12 +471,49 @@ setGeneric(
 )
 
 # ==============================================================================
+#' Refine models
+#'
+#' See references bellow for more details.
+#' @param object An object to refine.
+#' @param axes A \code{\link{numeric}} vector giving the subscripts of the CA
+#'  axes to use (see details).
+#' @param cutoff A function that takes a numeric vector as argument and returns
+#'  a single numeric value (see details).
+#' @param bootstrap A \code{\link{logical}} scalar: should the model be checked
+#'  by bootstrap resampling?
+#' @param jackknife A \code{\link{logical}} scalar: should the model be checked
+#'  by jackknife estimation (removing each fabric/type one at a time)?
+#' @param n A non-negative \code{\link{integer}} giving the number of partial
+#'  bootstrap replications (see details).
+#' @param ... Further arguments passed to other methods.
+#' @references
+#'  Bellanger, L., Husi, P. & Tomassone, R. (2006). Une approche statistique
+#'  pour la datation de contextes archéologiques. \emph{Revue de Statistique
+#'  Appliquée}, 54(2), 65-81.
+#'
+#'  Bellanger, L., Husi, P. & Tomassone, R. (2006). Statistical Aspects of
+#'  Pottery Quantification for the Dating of Some Archaeological Contexts.
+#'  \emph{Archaeometry}, 48(1), 169-183.
+#'  DOI: \href{https://doi.org/10.1111/j.1475-4754.2006.00249.x}{10.1111/j.1475-4754.2006.00249.x}.
+#'
+#'  Peeples, M. A., & Schachner, G. (2012). Refining correspondence
+#'  analysis-based ceramic seriation of regional data sets. \emph{Journal of
+#'  Archaeological Science}, 39(8), 2818-2827.
+#'  DOI: \href{https://doi.org/10.1016/j.jas.2012.04.040}{10.1016/j.jas.2012.04.040}.
+#' @seealso \link{dateEvent} \link{seriate}
+#' @author N. Frerebeau
+#' @docType methods
+#' @rdname refine
+#' @aliases refine-method
+setGeneric(
+  name = "refine",
+  def = function(object, ...) standardGeneric("refine")
+)
+
+# ==============================================================================
 #' Matrix seriation
 #'
 #' @description
-#'  \code{refine} performs a partial bootstrap correspondance analysis seriation
-#'  refinement.
-#'
 #'  \code{seriate} computes a permutation order for rows and/or columns.
 #'
 #'  \code{permute} rearranges a data matrix according to a permutation order.
@@ -475,21 +521,15 @@ setGeneric(
 #' @param constraint A constraining object (typically a \linkS4class{BootCA}
 #'  object).
 #' @param order An object giving the permutation order for rows and columns.
-#' @param axes A \code{\link{numeric}} vector giving the subscripts of the CA
-#'  axes to use (see details).
-#' @param cutoff A function that takes a numeric vector as argument and returns
-#'  a single numeric value (see details).
 #' @param EPPM A \code{\link{logical}} scalar: should the seriation be computed
 #'  on EPPM instead of raw data?
 #' @param margin A \code{\link{numeric}} vector giving the subscripts which the
-#'  rearrangement will be applied over. E.g., for a matrix \code{1} indicates
-#'  rows, \code{2} indicates columns, \code{c(1, 2)} indicates rows then columns,
+#'  rearrangement will be applied over: \code{1} indicates rows, \code{2}
+#'  indicates columns, \code{c(1, 2)} indicates rows then columns,
 #'  \code{c(2, 1)} indicates columns then rows.
 #' @param method A \code{\link{character}} string specifiying the method to be
 #'  used. This must be one of "\code{reciprocal}", "\code{correspondance}"
 #'  (see details). Any unambiguous substring can be given.
-#' @param n A non-negative \code{\link{integer}} giving the number of partial
-#'  bootstrap replications (see details).
 #' @param stop A length-one \code{\link{numeric}} vector giving the stopping rule
 #'  (i.e. maximum number of iterations) to avoid infinite loop.
 #' @param ... Further arguments passed to other methods.
@@ -533,31 +573,13 @@ setGeneric(
 #'   stops with a warning.}
 #'  }
 #' @section CA seriation refining:
-#'  \code{refine} allows to identify samples that are subject to sampling error
-#'  or samples that have underlying structural relationships and might be
-#'  influencing the ordering along the CA space.
-#'  This relies on a partial bootstrap approach to CA-based seriation where each
-#'  sample is replicated \code{n} times. The maximum dimension length of
-#'  the convex hull around the sample point cloud allows to remove samples for
-#'  a given \code{cutoff} value.
-#'
-#'  According to Peebles and Schachner (2012), "[this] point removal procedure
-#'  [results in] a reduced dataset where the position of individuals within the
-#'  CA are highly stable and which produces an ordering consistend with the
-#'  assumptions of frequency seriation."
-#'
-#'  \code{refine} returns the subscript of samples to be kept (i.e. samples with
-#'  maximum dimension length of the convex hull smaller than the cutoff value).
-#'
-#'  If the results of \code{refine} is used as an input argument in
+#'  If the results of \code{\link{refine}} is used as an input argument in
 #'  \code{seriate}, a correspondance analysis is performed on the subset of
 #'  \code{object} which matches the samples to be kept. Then excluded samples
 #'  are projected onto the dimensions of the CA coordinate space using the row
 #'  transition formulae. Finally, row coordinates onto the first dimension
 #'  give the seriation order.
 #' @return
-#'  \code{refine} returns a \linkS4class{BootCA} object.
-#'
 #'  \code{seriate} returns a \linkS4class{PermutationOrder} object.
 #'
 #'  \code{permute} returns either a
@@ -582,20 +604,13 @@ setGeneric(
 #'  analysis-based ceramic seriation of regional data sets. \emph{Journal of
 #'  Archaeological Science}, 39(8), 2818-2827.
 #'  DOI: \href{https://doi.org/10.1016/j.jas.2012.04.040}{10.1016/j.jas.2012.04.040}.
-#' @seealso \link[FactoMineR]{CA}
+#' @seealso \link{refine} \link[FactoMineR]{CA}
 #' @example inst/examples/ex-seriation.R
 #' @author N. Frerebeau
 #' @docType methods
 #' @name seriation
 #' @rdname seriation
 NULL
-
-#' @rdname seriation
-#' @aliases refine-method
-setGeneric(
-  name = "refine",
-  def = function(object, ...) standardGeneric("refine")
-)
 
 #' @rdname seriation
 #' @aliases seriate-method

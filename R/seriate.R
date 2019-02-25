@@ -1,34 +1,5 @@
-#' @include AllGenerics.R AllClasses.R method-seriation.R statistics.R utilities.R
+#' @include AllGenerics.R AllClasses.R method-seriation.R refine.R statistics.R utilities.R
 NULL
-
-# Refine matrix seriation ======================================================
-#' @export
-#' @rdname seriation
-#' @aliases refine,CountMatrix-method
-setMethod(
-  f = "refine",
-  signature = signature(object = "CountMatrix"),
-  definition = function(object, cutoff, n = 1000, axes = c(1, 2), ...) {
-    # Partial bootstrap CA
-    hull_rows <- bootCA(object, n = n, margin = 1, axes = axes, ...)
-    hull_columns <- bootCA(object, n = n, margin = 2, axes = axes, ...)
-    # Get convex hull maximal dimension length for each sample
-    hull_length <- sapply(X = hull_rows, function(x) {
-      max(stats::dist(x, method = "euclidean"))
-    })
-    # Get cutoff value
-    limit <- cutoff(hull_length)
-    # Samples to be kept
-    keep <- which(hull_length < limit)
-    # Bind hull vertices in a data.frame
-    rows <- dplyr::bind_rows(hull_rows, .id = "id")
-    cols <- dplyr::bind_rows(hull_columns, .id = "id")
-
-    methods::new("BootCA",
-                 rows = rows, columns = cols, cutoff = limit,
-                 lengths = hull_length, keep = keep)
-  }
-)
 
 # Matrix seriation order =======================================================
 seriation <- function(object, method = c("correspondance", "reciprocal"),
