@@ -6,34 +6,45 @@ NULL
 ## -----------------------------------------------------------------------------
 #' Date model
 #'
-#' An S4 class to represent the event and accumulation times of archaeological
+#' An S4 class to store the event and accumulation times of archaeological
 #'  assemblages.
+#' @slot counts A \eqn{m \times p}{m x p} \code{\link{numeric}} matrix of count
+#'  data used for model fitting.
+#' @slot dates A two columns \code{\link{data.frame}} giving the known dates
+#'  used for model fitting and an identifier to link each row to an assemblage.
+#' @slot level A length-one \code{\link{numeric}} vector giving the
+#'  confidence level.
 #' @slot model A \code{\link[stats:lm]{multiple linear model}}: the Gaussian
 #'  multiple linear regression model fitted for event date estimation and
 #'  prediction.
-#' @slot level A length-one \code{\link{numeric}} vector giving the
-#'  confidence level.
 #' @slot residual A length-one \code{\link{numeric}} vector giving the residual
 #'  standard deviation.
-#' @slot rows A numeric \code{\link{matrix}} giving the predicted event
+#' @slot rows A five columns \code{\link{data.frame}} giving the predicted event
 #'  dates for each archaeological assemblage, the corresponding confidence
-#'  interval and standard error of the predicted dates.
-#' @slot columns A numeric \code{\link{matrix}} giving the predicted event
-#'  dates for each archaeological type or fabric, the corresponding confidence
-#'  interval and standard error of the predicted dates.
-#' @slot accumulation A named \code{\link{numeric}} vector giving the
-#'  accumulation dates of archaeological assemblages.
+#'  interval boundaries, standard error of the predicted dates and an
+#'  identifier to link each row to an assemblage.
+#' @slot columns A five columns \code{\link{data.frame}} giving the predicted
+#'  event dates for each archaeological type or fabric, the corresponding
+#'  confidence interval boundaries, standard error of the predicted dates and an
+#'  identifier to link each row to a type or fabric.
+#' @slot accumulation A two columns \code{\link{data.frame}} giving the point
+#'  estimate of accumulation dates of archaeological assemblages and an
+#'  identifier to link each row to an assemblage.
 #' @author N. Frerebeau
 #' @docType class
-#' @aliases DateEvent-class
+#' @aliases DateModel-class
 setClass(
   Class = "DateModel",
-  slots = c(model = "lm",
-            level = "numeric",
-            residual = "numeric",
-            rows = "matrix",
-            columns = "matrix",
-            accumulation = "numeric")
+  slots = c(
+    counts = "matrix",
+    dates = "data.frame",
+    level = "numeric",
+    model = "lm",
+    residual = "numeric",
+    rows = "data.frame",
+    columns = "data.frame",
+    accumulation = "data.frame"
+  )
 )
 
 ## -----------------------------------------------------------------------------
@@ -42,7 +53,7 @@ setClass(
 #' An S4 class to represent a permutation order.
 #' @slot rows An \code{\link{integer}} vector giving the rows permutation.
 #' @slot columns An \code{\link{integer}} vector giving the columns permutation.
-#' @slot seriation A \code{\link{character}} vector indicating the seriation
+#' @slot seriation A \code{\link{character}} string indicating the seriation
 #'  method used.
 #' @author N. Frerebeau
 #' @docType class
@@ -80,6 +91,42 @@ setClass(
             lengths = "numeric",
             cutoff = "numeric",
             keep = "numeric")
+)
+
+## -----------------------------------------------------------------------------
+#' Date model checking
+#'
+#' An S4 class to store the results of resampling methods for date model
+#'  checking.
+#' @slot jackknife A six columns \code{\link{data.frame}} giving the results of
+#'  the resamping procedure (jackknifing) for each sample (in rows) with the
+#'  following columns:
+#'  \describe{
+#'   \item{id}{An identifier.}
+#'   \item{estimation}{The jackknife date estimate.}
+#'   \item{earliest}{The lower boundary of the associated prediction interval.}
+#'   \item{latest}{The upper boundary of the associated prediction interval.}
+#'   \item{error}{The standard error of predicted means.}
+#'   \item{bias}{The jackknife estimate of bias.}
+#'  }
+#' @slot bootstrap A six columns \code{\link{data.frame}} giving the boostrap
+#'  distribution statistics for each replicated sample (in rows) with the
+#'  following columns:
+#'  \describe{
+#'   \item{id}{An identifier.}
+#'   \item{min}{Minimum value.}
+#'   \item{Q05}{Sample quantile to 0.05 probability.}
+#'   \item{mean}{Mean value.}
+#'   \item{Q95}{Sample quantile to 0.95 probability.}
+#'   \item{max}{Maximum value.}
+#'  }
+#' @author N. Frerebeau
+#' @docType class
+#' @aliases BootDate-class
+setClass(
+  Class = "BootDate",
+  slots = c(jackknife = "data.frame",
+            bootstrap = "data.frame")
 )
 
 ## Numeric matrix --------------------------------------------------------------
@@ -194,53 +241,66 @@ setValidity(
   method = function(object) {
     errors <- c()
     # Get data
-    model <- object@model
+    counts <- object@counts
+    dates <- object@dates
     level <- object@level
+    model <- object@model
     residual <- object@residual
     rows <- object@rows
     columns <- object@columns
     accumulation <- object@accumulation
 
+    if (length(counts) != 0) {
+      if (!is.numeric(counts))
+        errors <- c(errors, "'counts' must be a numeric matrix.")
+      if (any(is.na(counts)))
+        errors <- c(errors, "'counts' must not contain NA values.")
+    }
     if (length(level) != 0) {
-      if (!is.numeric(level) | length(level) != 1)
-        errors <- c(errors, "'level': a length-one numeric vector is expected.")
+      if (!is.numeric(level) | length(level) != 1 | any(is.na(level)))
+        errors <- c(errors, "'level' must be a length-one numeric vector.")
       if (level <= 0 | level >= 1)
         errors <- c(errors, "'level' must be in the range of 0 to 1 (excluded).")
-      if (any(is.na(level)))
-        errors <- c(errors, "'level': NA value was detected.")
     }
     if (length(residual) != 0) {
-      if (!is.numeric(residual) | length(residual) != 1)
-        errors <- c(errors, "'residual': a length-one numeric vector is expected.")
-      if (level < 0)
-        errors <- c(errors, "'residual': a strictly positive value is expected.")
-      if (any(is.na(residual)))
-        errors <- c(errors, "'residual': NA value was detected.")
+      if (!is.numeric(residual) | any(is.na(residual)) | length(residual) != 1 | level < 0)
+        errors <- c(errors, "'residual' must be a strictly positive numeric value.")
     }
     if (length(rows) != 0) {
-      if (!is.numeric(rows))
-        errors <- c(errors, "'rows': a numeric matrix is expected.")
+      if (ncol(rows) != 5)
+        errors <- c(errors, "'rows' must be a five columns data frame.")
       if (any(is.na(rows)))
-        errors <- c(errors, "'rows': NA values were detected.")
+        errors <- c(errors, "'rows' must not contain NA values.")
     }
     if (length(columns) != 0) {
-      if (!is.numeric(columns))
-        errors <- c(errors, "'columns': a numeric matrix is expected.")
+      if (ncol(columns) != 5)
+        errors <- c(errors, "'columns' must be a five columns data frame.")
       if (any(is.na(columns)))
-        errors <- c(errors, "'columns': NA values were detected.")
+        errors <- c(errors, "'columns' must not contain NA values.")
     }
     if (length(accumulation) != 0) {
-      if (!is.numeric(accumulation) | length(names(accumulation)) == 0)
-        errors <- c(errors, "'accumulation': a named numeric vector is expected.")
+      if (ncol(accumulation) != 2)
+        errors <- c(errors, "'accumulation' must be a two columns data frame.")
+      if (any(is.na(accumulation)))
+        errors <- c(errors, "'columns' must not contain NA values.")
     }
-    if (length(rows) != 0 & length(accumulation) != 0) {
-      a <- length(accumulation)
+    if (length(counts) != 0 & length(rows) != 0) {
+      a <- nrow(counts)
       b <- nrow(rows)
       if (b != a)
-        errors <- c(errors,
-                    paste("The length of 'accumulation' (", a,
-                          ") must be equal to the number of rows present in 'rows' (", b,
-                          ").", sep = ""))
+        errors <- c(errors, paste("'rows' must be a 5 x", a, "data frame."))
+    }
+    if (length(counts) != 0 & length(columns) != 0) {
+      a <- ncol(counts)
+      b <- nrow(columns)
+      if (b != a)
+        errors <- c(errors, paste("'columns' must be a 5 x", a, "data frame."))
+    }
+    if (length(counts) != 0 & length(accumulation) != 0) {
+      a <- nrow(counts)
+      b <- nrow(accumulation)
+      if (b != a)
+        errors <- c(errors, paste("'accumulation' must be a 2 x", a, "data frame."))
     }
     # Return errors if any
     if (length(errors) != 0) {
@@ -262,24 +322,16 @@ setValidity(
     method <- object@method
 
     if (length(rows) != 0) {
-      if (!is.integer(rows))
-        errors <- c(errors, "whole numbers are expected")
-      if (any(is.na(rows)))
-        errors <- c(errors, "NA values were detected")
-      if (!isPositive(data))
-        errors <- c(errors, "strictly positive values are expected")
+      if (!is.integer(rows) | any(is.na(rows)) | !isPositive(rows))
+        errors <- c(errors, "'rows' must be a vector of strictly positive integers.")
     }
     if (length(columns) != 0) {
-      if (!is.integer(columns))
-        errors <- c(errors, "whole numbers are expected")
-      if (any(is.na(columns)))
-        errors <- c(errors, "NA values were detected")
-      if (!isPositive(data))
-        errors <- c(errors, "strictly positive values are expected")
+      if (!is.integer(columns) | any(is.na(columns)) | !isPositive(columns))
+        errors <- c(errors, "'columns' must be a vector of strictly positive integers.")
     }
     if (length(method) != 0) {
       if (length(method) != 1 | !is.character(method)) {
-        errors <- c(errors, "a single character string is expected")
+        errors <- c(errors, "'method' must be a single character string.")
       }
     }
     # Return errors if any
@@ -305,47 +357,43 @@ setValidity(
 
     if (length(rows) != 0) {
       if (ncol(rows) != 3) {
-        errors <- c(errors, "wrong column dimension")
+        errors <- c(errors, "'rows' must be a three columns data frame.")
       } else {
         if (!identical(colnames(rows), c("id", "x", "y"))) {
-          errors <- c(errors, "wrong column names")
+          errors <- c(errors, "'rows' has wrong column names.")
         } else {
           if (!is.numeric(rows$x) | !is.numeric(rows$y))
-            errors <- c(errors, "numeric values are expected")
+            errors <- c(errors, "'x' and 'y' columns of 'rows' must be of numeric type.")
         }
       }
       if (any(is.na(rows)))
-        errors <- c(errors, "NA values were detected")
+        errors <- c(errors, "'rows' must not contain NA values.")
     }
     if (length(columns) != 0) {
       if (ncol(columns) != 3) {
-        errors <- c(errors, "wrong column dimension")
+        errors <- c(errors, "'columns' must be a three columns data frame.")
       } else {
         if (!identical(colnames(columns), c("id", "x", "y"))) {
-          errors <- c(errors, "wrong column names")
+          errors <- c(errors, "'columns' has wrong column names.")
         } else {
           if (!is.numeric(columns$x) | !is.numeric(columns$y))
-            errors <- c(errors, "numeric values are expected")
+            errors <- c(errors, "'x' and 'y' columns of 'columns' must be of numeric type.")
         }
       }
       if (any(is.na(columns)))
-        errors <- c(errors, "NA values were detected")
+        errors <- c(errors, "'columns' must not contain NA values.")
     }
     if (length(lengths) != 0) {
       if (any(!is.numeric(lengths)) | any(is.na(lengths)))
-        errors <- c(errors, "numeric values are expected")
+        errors <- c(errors, "'length' must be a numeric vector")
     }
     if (length(cutoff) != 0) {
-      if (length(cutoff) != 1) {
-        errors <- c(errors, "a single value is expected")
-      } else {
-        if (!is.numeric(cutoff) | is.na(cutoff))
-          errors <- c(errors, "a numeric value is expected")
-      }
+      if (length(cutoff) != 1 | !is.numeric(cutoff) | is.na(cutoff))
+        errors <- c(errors, "'cutoff' must be a length-one numeric vector")
     }
     if (length(keep) != 0) {
       if (any(!is.numeric(keep)) | any(is.na(keep)))
-        errors <- c(errors, "numeric values are expected")
+        errors <- c(errors, "'keep' must be a numeric vector")
     }
     # Return errors if any
     if (length(errors) != 0) {
@@ -372,8 +420,6 @@ setValidity(
         errors <- c(errors, "NA values were detected.")
       if (any(is.infinite(data)))
         errors <- c(errors, "infinite numbers were detected.")
-      if (!isPositive(data))
-        errors <- c(errors, "positive values are expected.")
     }
 
     # Return errors if any
@@ -399,6 +445,8 @@ setValidity(
         errors <- c(errors, "whole numbers are expected.")
       if (isBinary(data))
         errors <- c(errors, "you should consider using an incidence matrix.")
+      if (!isPositive(data))
+        errors <- c(errors, "positive values are expected.")
     }
 
     # Return errors, if any
@@ -427,6 +475,8 @@ setValidity(
         errors <- c(errors, "you should consider using an incidence matrix.")
       if (length(totals) != nrow(data))
         errors <- c(errors, paste("'totals' should be of length", nrow(data)))
+      if (!isPositive(data))
+        errors <- c(errors, "positive values are expected.")
     }
 
     # Return errors, if any
@@ -533,12 +583,28 @@ setMethod(
     return(.Object)
   }
 )
+## BootDate ----------------------------------------------------------------------
+setMethod(
+  f = "initialize",
+  signature = "BootDate",
+  definition = function(.Object, jackknife, bootstrap) {
+    if (!missing(jackknife)) .Object@jackknife <- jackknife
+    if (!missing(bootstrap)) .Object@bootstrap <- bootstrap
+    methods::validObject(.Object)
+    if (getOption("verbose")) {
+      message(paste(class(.Object), "instance initialized.", sep = " "))
+    }
+    return(.Object)
+  }
+)
 ## DateModel -------------------------------------------------------------------
 setMethod(
   f = "initialize",
   signature = "DateModel",
-  definition = function(.Object, model, level, residual, rows, columns,
-                        accumulation) {
+  definition = function(.Object, counts, dates, model, level, residual,
+                        rows, columns, accumulation) {
+    if (!missing(counts)) .Object@counts <- counts
+    if (!missing(dates)) .Object@dates <- dates
     if (!missing(model)) .Object@model <- model
     if (!missing(level)) .Object@level <- level
     if (!missing(residual)) .Object@residual <- residual
