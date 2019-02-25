@@ -57,7 +57,7 @@ setMethod(
                         ...) {
     method <- match.arg(method, several.ok = FALSE)
     C <- similarityIndex(object, method)
-    return(C)
+    methods::new("SimilarityMatrix", C)
   }
 )
 
@@ -70,7 +70,7 @@ setMethod(
   definition = function(object, method = c("jaccard", "sorenson"), ...) {
     method <- match.arg(method, several.ok = FALSE)
     C <- similarityIndex(object, method)
-    return(C)
+    methods::new("SimilarityMatrix", C)
   }
 )
 
