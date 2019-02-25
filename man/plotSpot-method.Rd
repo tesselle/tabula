@@ -6,6 +6,7 @@
 \alias{plotSpot-method}
 \alias{plotSpot,CountMatrix-method}
 \alias{plotSpot,FrequencyMatrix-method}
+\alias{plotSpot,SimilarityMatrix-method}
 \title{Spot plot}
 \usage{
 plotSpot(object, ...)
@@ -13,6 +14,8 @@ plotSpot(object, ...)
 \S4method{plotSpot}{CountMatrix}(object, threshold = NULL)
 
 \S4method{plotSpot}{FrequencyMatrix}(object, threshold = NULL)
+
+\S4method{plotSpot}{SimilarityMatrix}(object)
 }
 \arguments{
 \item{object}{An object to be plotted.}

@@ -42,7 +42,9 @@ used (see details). Any unambiguous substring can be given.}
  \code{200}. The Binomial co-occurrence assessment approximates a Z-score.
  \describe{
   \item{binomial}{Binomial co-occurrence assessment. This assesses the degree
-  of co-occurrence between taxa/types within a dataset.}
+  of co-occurrence between taxa/types within a dataset. The strongest
+  associations are shown by large positive numbers, the strongest
+  segregations by large negative numbers.}
   \item{brainerd}{Brainerd-Robinson quantitative index. This is a city-block
   metric of similarity between pairs of samples/cases.}
   \item{bray}{Sorenson quantitative index (Bray and Curtis modified version
@@ -53,6 +55,27 @@ used (see details). Any unambiguous substring can be given.}
  }
 }
 \examples{
+# Data from Huntley 2008
+ceramics <- CountMatrix(
+  data = c(16, 9, 3, 0, 1,
+           13, 3, 2, 0, 0,
+           9, 5, 2, 5, 0,
+           14, 12, 3, 0, 0,
+           0, 26, 4, 0, 0,
+           1, 26, 4, 0, 0,
+           0, 11, 3, 13, 0,
+           0, 0, 17, 0, 16,
+           0, 0, 18, 0, 14),
+  nrow = 9, byrow = TRUE,
+  dimnames = list(c("Atsinna", "Cienega", "Mirabal", "PdMuertos",
+                    "Hesh", "LowPesc", "BoxS", "Ojo Bon", "S170"),
+                  c("DLH-1", "DLH-2a", "DLH-2b", "DLH-2c", "DLH-4"))
+)
+
+# Brainerd-Robinson measure (count data)
+C <- similarity(ceramics, "brainerd")
+plotSpot(C)
+
 # Data from Magurran 1988, p. 166
 birds <- CountMatrix(
   data = c(1.4, 4.3, 2.9, 8.6, 4.2, 15.7, 2.0, 50, 1, 11.4, 11.4, 4.3, 13.0,
