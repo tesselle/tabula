@@ -7,7 +7,7 @@
 tabula <img width=120px src="man/figures/logo.svg" align="right" />
 ===================================================================
 
-[![Build Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula) [![GitHub Release](https://img.shields.io/github/release/nfrerebeau/tabula.svg)](https://github.com/nfrerebeau/tabula/releases) [![CRAN Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula) [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/tabula)](https://cran.r-project.org/package=tabula) [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
+[![Build Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula) [![codecov](https://codecov.io/gh/nfrerebeau/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/nfrerebeau/tabula) [![GitHub Release](https://img.shields.io/github/release/nfrerebeau/tabula.svg)](https://github.com/nfrerebeau/tabula/releases) [![CRAN Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula) [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/tabula)](https://cran.r-project.org/package=tabula) [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
 
 Overview
 --------
@@ -37,7 +37,7 @@ Usage
 
 -   Abundance matrix:
     -   `CountMatrix` represents count data,
-    -   `FrequencyMatrix` represents frequency data.
+    -   `FrequencyMatrix` represents relative frequency data.
     -   `SimilarityMatrix` represents a (dis)similarity matrix.
 -   Logical matrix:
     -   `IncidenceMatrix` represents presence/absence data.
@@ -141,8 +141,8 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 set.seed(12345)
 (indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Row order: 3 15 1 10 13 8 5 11 12 19 2 18 7 6 9 20 17 4 14 16 
-#>    Column order: 8 16 18 5 2 12 15 10 14 20 7 3 6 11 4 17 9 19 13 1 
+#>    Row order: 20 17 2 14 11 10 13 18 4 16 19 15 7 1 5 6 12 8 3 9 
+#>    Column order: 12 5 16 8 11 19 13 7 9 6 17 3 14 10 1 20 15 4 18 2 
 #>    Method: correspondance
 
 # Permute matrix rows and columns
@@ -166,7 +166,7 @@ plotMatrix(incidence2) +
 
 `tabula` makes an extensive use of `ggplot2` for plotting informations. This makes it easy to customize diagramms (e.g. using themes and scales).
 
-Bertin of Ford (battleship curve) diagramms can be plotted, with statistic threshold (B. Desachy's sériographe [1]). The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence. EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
+Bertin of Ford (battleship curve) diagramms can be plotted, with statistic threshold ([B. Desachy's *sériographe*](https://doi.org/10.3406/pica.2004.2396)). The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence. EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
 
 ``` r
 count <- as(compiegne, "CountMatrix")
@@ -175,7 +175,7 @@ plotBar(count, EPPM = TRUE)
 
 ![](man/figures/README-seriograph-1.png)
 
-Matrix plot is displayed as a heatmap. The PVI matrix (B. Desachy's matrigraphe) allows to explore deviations from independence (an intuitive graphical approach to *χ*<sup>2</sup>).
+Matrix plot is displayed as a heatmap. The PVI matrix ([B. Desachy's *matrigraphe*](https://doi.org/10.3406/pica.2004.2396)) allows to explore deviations from independence (an intuitive graphical approach to *χ*<sup>2</sup>).
 
 ``` r
 plotMatrix(count, PVI = TRUE) +
@@ -184,7 +184,7 @@ plotMatrix(count, PVI = TRUE) +
 
 ![](man/figures/README-matrigraph-1.png)
 
-Spot matrix (no doubt easier to read than a heatmap [2]) allows direct examination of data (above/below some threshold):
+Spot matrix (easier to read than a heatmap [1]) allows direct examination of data (above/below some threshold):
 
 ``` r
 plotSpot(count, threshold = mean)
@@ -200,6 +200,4 @@ plotRank(count, log = "xy")
 
 ![](man/figures/README-rank-1.png)
 
-[1] Desachy, B. (2004). Le sériographe EPPM : un outil informatisé de sériation graphique pour tableaux de comptages. *Revue archéologique de Picardie*, 3(1), 39-56. DOI: [10.3406/pica.2004.2396](https://doi.org/10.3406/pica.2004.2396).
-
-[2] Adapted from Dan Gopstein's original [spot matrix](https://dgopstein.github.io/articles/spot-matrix/).
+[1] Adapted from Dan Gopstein's original [spot matrix](https://dgopstein.github.io/articles/spot-matrix/).

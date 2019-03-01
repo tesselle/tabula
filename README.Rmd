@@ -19,6 +19,7 @@ library(tabula)
 # tabula <img width=120px src="man/figures/logo.svg" align="right" />
 
 [![Build Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula)
+[![codecov](https://codecov.io/gh/nfrerebeau/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/nfrerebeau/tabula)
 [![GitHub Release](https://img.shields.io/github/release/nfrerebeau/tabula.svg)](https://github.com/nfrerebeau/tabula/releases)
 [![CRAN Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula)
 [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/tabula)](https://cran.r-project.org/package=tabula)
@@ -50,7 +51,7 @@ devtools::install_github("nfrerebeau/tabula")
 
 * Abundance matrix:
     * `CountMatrix` represents count data,
-    * `FrequencyMatrix` represents frequency data.
+    * `FrequencyMatrix` represents relative frequency data.
     * `SimilarityMatrix` represents a (dis)similarity matrix.
 * Logical matrix:
     * `IncidenceMatrix` represents presence/absence data.
@@ -170,7 +171,7 @@ cowplot::plot_grid(
 
 `tabula` makes an extensive use of `ggplot2` for plotting informations. This makes it easy to customize diagramms (e.g. using themes and scales).
 
-Bertin of Ford (battleship curve) diagramms can be plotted, with statistic threshold (B. Desachy's sériographe [^1]). The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence. EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
+Bertin of Ford (battleship curve) diagramms can be plotted, with statistic threshold ([B. Desachy's *sériographe*](https://doi.org/10.3406/pica.2004.2396)). The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence. EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
 
 ```{r seriograph, fig.height=3.5}
 count <- as(compiegne, "CountMatrix")
@@ -178,14 +179,14 @@ plotBar(count, EPPM = TRUE)
 ```
 
 
-Matrix plot is displayed as a heatmap. The PVI matrix (B. Desachy's matrigraphe) allows to explore deviations from independence (an intuitive graphical approach to $\chi^2$).
+Matrix plot is displayed as a heatmap. The PVI matrix ([B. Desachy's *matrigraphe*](https://doi.org/10.3406/pica.2004.2396)) allows to explore deviations from independence (an intuitive graphical approach to $\chi^2$).
 
 ```{r matrigraph, fig.height=3.5}
 plotMatrix(count, PVI = TRUE) +
   ggplot2::scale_fill_gradient2(midpoint = 1)
 ```
 
-Spot matrix (no doubt easier to read than a heatmap [^2]) allows direct examination of data (above/below some threshold):
+Spot matrix (easier to read than a heatmap [^2]) allows direct examination of data (above/below some threshold):
 
 ```{r spot, fig.height=3.5}
 plotSpot(count, threshold = mean)
@@ -197,6 +198,6 @@ Ranks *vs* abundance plot can be used for abundance models (model fitting will b
 plotRank(count, log = "xy")
 ```
 
-[^1]: Desachy, B. (2004). Le sériographe EPPM : un outil informatisé de sériation graphique pour tableaux de comptages. *Revue archéologique de Picardie*, 3(1), 39-56. DOI: [10.3406/pica.2004.2396](https://doi.org/10.3406/pica.2004.2396).
+[^1]: Desachy, B. (2004). Le sériographe EPPM : un outil informatisé de sériation graphique pour tableaux de comptages. *Revue archéologique de Picardie*, 3(1), 39-56. DOI: .
 
 [^2]: Adapted from Dan Gopstein's original [spot matrix](https://dgopstein.github.io/articles/spot-matrix/).
