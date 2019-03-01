@@ -54,6 +54,7 @@ Collate:
     'show.R'
 RoxygenNote: 6.1.1
 Suggests:
+    covr,
     testthat,
     knitr,
     rmarkdown
