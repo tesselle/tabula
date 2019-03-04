@@ -52,12 +52,14 @@ Collate:
     'refine.R'
     'seriate.R'
     'show.R'
+    'zzz.R'
 RoxygenNote: 6.1.1
 Suggests:
     covr,
-    testthat,
     knitr,
-    rmarkdown
+    pbapply,
+    rmarkdown,
+    testthat
 Imports:
     dplyr (>= 0.7),
     FactoMineR,
@@ -65,6 +67,7 @@ Imports:
     grDevices,
     magrittr,
     methods,
+    plyr,
     rlang,
     stats,
     tidyr,

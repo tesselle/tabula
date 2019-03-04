@@ -75,22 +75,83 @@ combination <- function(n, k) {
 
 # Confidence interval for a proportion
 #
-# Computes a confidence interval for a porportion at a desired level of
+# Computes the margin of errors of a confidence interval at a desired level of
 #  significance.
 # @param x A \code{\link{numeric}} vector.
 # @param level A length-one \code{\link{numeric}} vector giving the significance
 #  level to be used.
-# @return A \code{\link{numeric}} vector.
+# @param type A \code{\link{character}} string giving the type of confidence
+#  interval to be returned. It must be one \code{normal} (default) or
+#  \code{student}. Any unambiguous substring can be given.
+# @return A \code{\link{numeric}} vector giving the margin of errors.
 # @author N. Frerebeau
-confidence <- function(x, level = 0.05) {
+confidence <- function(x, level = 0.05, type = c("normal", "student")) {
   # Validation
   if (!is.vector(x) | !is.numeric(x))
-    stop("a numeric vector is expected")
-  z <- stats::qnorm(1 - level / 2)
+    stop("A numeric vector is expected.")
+  type <- match.arg(type, several.ok = FALSE)
+
   n <- sum(x)
   p <- x / n
+  z <- switch(
+    type,
+    "normal" = stats::qnorm(1 - level / 2),
+    "student" = stats::qt(1 - level / 2, n - 1)
+  )
   stardard_error <- sqrt(p * (1 - p) / n)
-  return(z * stardard_error)
+
+  margin <- z * stardard_error
+  return(margin)
+}
+
+# Bootstrap confidence interval
+#
+# Computes the margin of errors of a confidence interval at a desired level of
+#  significance.
+# @param x A \code{\link{numeric}} vector.
+# @param level A length-one \code{\link{numeric}} vector giving the significance
+#  level to be used.
+# @param type A \code{\link{character}} string giving the type of confidence
+#  interval to be returned. It must be one \code{normal} (default) or
+#  \code{student}. Any unambiguous substring can be given.
+# @param n A non-negative \code{\link{integer}} giving the number of
+#  replications.
+# @return A \code{\link{numeric}} vector giving the margin of errors.
+# @author N. Frerebeau
+boostrapCI <- function(x, level = 0.05, type = c("normal", "student"),
+                       n = 1000) {
+  # Validation
+  if (!is.vector(x) | !is.numeric(x))
+    stop("A numeric vector is expected.")
+  type <- match.arg(type, several.ok = FALSE)
+
+  # Bootstrap
+  x_names <- names(x)
+  x_seq <- if (is.null(x_names)) seq_along(x) else x_names
+  spl <- replicate(n, sample(x = x_seq, size = sum(x), replace = TRUE, prob = x),
+                   simplify = FALSE)
+  # Tabulate data
+  tbl <- lapply(X = spl, FUN = table)
+  # Add an empty table at the end to keep empty columns in the final data frame
+  tbl[[length(tbl) + 1]] <- matrix(0, ncol = length(x_seq),
+                                   dimnames = list(NULL, x_seq))
+  # Combine results and keep original order
+  mtx <- plyr::ldply(tbl, rbind) %>% dplyr::select(as.character(x_seq))
+  # Replace missing values with zeros
+  mtx[is.na(mtx)] <- 0
+
+  # Compute CI margins
+  ci <- apply(X = mtx, MARGIN = 2, FUN = function(x, n, level, type) {
+    z <- switch(
+      type,
+      "normal" = stats::qnorm(1 - level / 2),
+      "student" = stats::qt(1 - level / 2, n - 1)
+    )
+    margin <- z * sd(x) / sqrt(n)
+    return(margin)
+  }, n = n, level = level, type = type)
+
+  return(ci)
 }
 
 # Jackknife estimation
@@ -117,32 +178,4 @@ jackknife <- function(x, do, ...) {
 
   results <- list(values = jack_values, bias = jack_bias, errors = jack_error)
   return(results)
-}
-
-# Sample replication
-#
-# Creates random replicates of an observed sample by resampling with
-# replacement.
-# @param x A \code{\link{numeric vector}}.
-# @param n A non-negative \code{\link{integer}} giving the number of partial
-#  bootstrap replications.
-# @param simplify A \code{\link{logical}} scalar: should the result be
-#  simplified to a matrix? The default value, \code{FALSE}, returns a list.
-# @return
-#  If \code{simplify} is \code{FALSE}, returns a list (default), else returns
-#  a matrix.
-# @author N. Frerebeau
-replicateSample <- function(x, n = 1000, simplify = FALSE) {
-  resample <- function(x) {
-    k <- length(x)
-
-    spl <- base::sample(k, size = sum(x), replace = TRUE, prob = x / sum(x))
-    tbl <- table(spl)
-    vec <- vector(mode = "numeric", length = k)
-    vec[as.numeric(names(tbl))] <- tbl
-    return(vec)
-  }
-
-  replicated <- replicate(n, resample(x), simplify = simplify)
-  return(replicated)
 }
