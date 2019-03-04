@@ -25,22 +25,28 @@ bootHull <- function(x, margin = 1, n = 1000, axes = c(1, 2), ...) {
   svd <- if (margin == 1) results_CA$svd$V else results_CA$svd$U
 
   # Compute convex hull area for each replicated sample
-  hull <- apply(
-    X = x, MARGIN = margin,
-    FUN = function(x, n, svd, axes) {
-      # n random replicates
-      replicated <- stats::rmultinom(n = n, size = sum(x), prob = x)
-      # Compute new CA coordinates
-      coords <- crossprod(replicated / colSums(replicated), svd)
+  computeHull <- function(x, n, svd, axes) {
+    # n random replicates
+    replicated <- stats::rmultinom(n = n, size = sum(x), prob = x)
+    # Compute new CA coordinates
+    coords <- crossprod(replicated / colSums(replicated), svd)
 
-      # Get convex hull coordinates
-      points <- grDevices::chull(coords[, axes])
-      # Repeat first point
-      hull <- coords[c(points, points[1]), axes]
-      colnames(hull) <- c("x", "y")
+    # Get convex hull coordinates
+    points <- grDevices::chull(coords[, axes])
+    # Repeat first point
+    hull <- coords[c(points, points[1]), axes]
+    colnames(hull) <- c("x", "y")
 
-      return(as.data.frame(hull))
-    }, n = n, svd = svd, axes = axes)
+    return(as.data.frame(hull))
+  }
+
+  hull <- if (requireNamespace("pbapply", quietly = TRUE)) {
+    pbapply::pbapply(X = x, MARGIN = margin,
+                     FUN = computeHull, n = n, svd = svd, axes = axes)
+  } else {
+    apply(X = x, MARGIN = margin,
+          FUN = computeHull, n = n, svd = svd, axes = axes)
+  }
 
   return(hull)
 }
@@ -76,8 +82,6 @@ bootDate <- function(x, model, margin = 1, n = 1000, keep = ncol(x),
   n <- as.integer(n)
   keep <- as.integer(keep)
   level <- as.numeric(level)
-  # Set progress bar
-  # progress_bar <- utils::txtProgressBar(min = 0, max = ncol(x), style = 3)
 
   # CA on the whole dataset
   axes <- min(dim(x))
@@ -85,23 +89,31 @@ bootDate <- function(x, model, margin = 1, n = 1000, keep = ncol(x),
   svd <- if (margin == 1) results_CA$svd$V else results_CA$svd$U
 
   # Compute date event statistics for each replicated sample
-  boot <- apply(
-    X = x, MARGIN = margin,
-    FUN = function(x, n, svd, keep, model) {
-      # n random replicates
-      # replicated <- sample(x = n, size = sum(x), prob = x)
-      replicated <- stats::rmultinom(n = n, size = sum(x), prob = x)
-      # Compute new CA coordinates
-      coords <- crossprod(replicated / colSums(replicated), svd)
-      coords <- coords[, keep]
-      # Workaround: same colnames as FactoMineR results used to build the model
-      colnames(coords) <- paste("Dim", keep, sep = " ")
-      # Gaussian multiple linear regression model
-      event <- predictEvent(model, coords, level)$fit[, "estimation"]
-      Q <- stats::quantile(event, probs = c(0.05, 0.95), names = FALSE)
-      distrib <- cbind(min(event), Q[1], mean(event), Q[2], max(event))
-      return(distrib)
-    }, n = n, svd = svd, keep = keep, model = model)
+  computeStats <- function(x, n, svd, keep, model) {
+    # n random replicates
+    # replicated <- sample(x = n, size = sum(x), prob = x)
+    replicated <- stats::rmultinom(n = n, size = sum(x), prob = x)
+    # Compute new CA coordinates
+    coords <- crossprod(replicated / colSums(replicated), svd)
+    coords <- coords[, keep]
+    # Workaround: same colnames as FactoMineR results used to build the model
+    colnames(coords) <- paste("Dim", keep, sep = " ")
+    # Gaussian multiple linear regression model
+    event <- predictEvent(model, coords, level)$fit[, "estimation"]
+    Q <- stats::quantile(event, probs = c(0.05, 0.95), names = FALSE)
+    distrib <- cbind(min(event), Q[1], mean(event), Q[2], max(event))
+    return(distrib)
+  }
+
+  boot <- if (requireNamespace("pbapply", quietly = TRUE)) {
+    pbapply::pbapply(X = x, MARGIN = margin,
+                     FUN = computeStats,
+                     n = n, svd = svd, keep = keep, model = model)
+  } else {
+    apply(X = x, MARGIN = margin,
+          FUN = computeStats,
+          n = n, svd = svd, keep = keep, model = model)
+  }
 
   boot_event <- data.frame(colnames(boot), t(boot), row.names = NULL)
   colnames(boot_event) <- c("id", "min", "Q05", "mean", "Q95", "max")
@@ -127,37 +139,36 @@ jackDate <- function(x, dates, model, keep = ncol(x), level = 0.95, ...) {
   # Validation
   keep <- as.integer(keep)
   level <- as.numeric(level)
-  # Set progress bar
-  progress_bar <- utils::txtProgressBar(min = 0, max = ncol(x), style = 3)
 
   # CA on the whole dataset
   axes <- min(dim(x))
   results_CA <- FactoMineR::CA(x, ncp = axes, graph = FALSE, ...)
 
-  jack_coef <- lapply(
-    X = 1:ncol(x),
-    FUN = function(i, data, dates, keep, level, progress) {
-      # Removing a column may lead to rows filled only with zeros
-      # We need to remove such rows to compute CA
-      zero <- which(rowSums(data[, -i]) == 0)
-      sampled <- if (length(zero) != 0) data[-zero, -i] else data[, -i]
-      # Compute CA
-      axes <- min(dim(sampled))
-      results_CA <- FactoMineR::CA(sampled, ncp = axes, graph = FALSE, ...)
-      row_coord <- as.data.frame(results_CA$row$coord)
-      # Gaussian multiple linear regression model
-      contexts <- merge(dates, row_coord[, keep], by.x = "id", by.y = "row.names")
-      contexts %<>% as.data.frame() %>% dplyr::select(-1)
-      fit <- stats::lm(date ~ ., data = contexts)
-      # Return model coefficients
-      utils::setTxtProgressBar(progress, i)
-      return(stats::coef(fit))
-    },
-    data = x, dates = dates, keep = keep, level = level, progress = progress_bar
-  )
+  computeCoef <- function(i, data, dates, keep, level) {
+    # Removing a column may lead to rows filled only with zeros
+    # We need to remove such rows to compute CA
+    zero <- which(rowSums(data[, -i]) == 0)
+    sampled <- if (length(zero) != 0) data[-zero, -i] else data[, -i]
+    # Compute CA
+    axes <- min(dim(sampled))
+    results_CA <- FactoMineR::CA(sampled, ncp = axes, graph = FALSE, ...)
+    row_coord <- as.data.frame(results_CA$row$coord)
+    # Gaussian multiple linear regression model
+    contexts <- merge(dates, row_coord[, keep], by.x = "id", by.y = "row.names")
+    contexts %<>% as.data.frame() %>% dplyr::select(-1)
+    fit <- stats::lm(date ~ ., data = contexts)
+    # Return model coefficients
+    return(stats::coef(fit))
+  }
 
-  # Close progress bar
-  close(progress_bar)
+  jack_coef <- if (requireNamespace("pbapply", quietly = TRUE)) {
+    pbapply::pblapply(X = 1:ncol(x), FUN = computeCoef,
+                     data = x, dates = dates, keep = keep, level = level)
+  } else {
+    lapply(X = 1:ncol(x), FUN = computeCoef,
+           data = x, dates = dates, keep = keep, level = level)
+  }
+
   # Predict event date for each context
   jack_mean <- apply(X = do.call(rbind, jack_coef), MARGIN = 2, FUN = mean)
   jack_fit <- model
