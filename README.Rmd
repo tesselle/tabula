@@ -28,7 +28,7 @@ library(tabula)
 
 ## Overview
 
-`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity: e.g. richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), diversity/dominance and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity (Brainerd-Robinson, ...). It also provides matrix seriation methods (reciprocal ranking, CA-based seriation, IDSS) for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford and Bertin diagrams, etc.
+`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity: e.g. richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), diversity/dominance and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity (Brainerd-Robinson, ...). It also provides matrix seriation methods (reciprocal ranking, CA-based seriation) for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford and Bertin diagrams, etc.
 
 ## Installation
 
@@ -52,10 +52,11 @@ devtools::install_github("nfrerebeau/tabula")
 * Abundance matrix:
     * `CountMatrix` represents count data,
     * `FrequencyMatrix` represents relative frequency data.
-    * `SimilarityMatrix` represents a (dis)similarity matrix.
 * Logical matrix:
     * `IncidenceMatrix` represents presence/absence data.
     * `OccurrenceMatrix` represents a co-occurence matrix.
+* Numeric matrix:
+    * `SimilarityMatrix` represents a (dis)similarity matrix.
 
 It assumes that you keep your data tidy: each variable (type/taxa) must be saved in its own column and each observation (sample/case) must be saved in its own row.
 
@@ -100,7 +101,7 @@ D <- as(A1, "OccurrenceMatrix")
 
 ```{r richness}
 compiegne <- as(compiegne, "CountMatrix")
-richness(compiegne, method = c("margalef", "menhinick", "chao1"), simplify = TRUE)
+richness(compiegne, method = "chao1")
 ```
 
 #### Heterogeneity and evenness measures
@@ -122,9 +123,7 @@ The several methods can be used to acertain the degree of *turnover* in taxa com
 $\beta$-diversity can also be measured by addressing *similarity* between pairs of sites:
 
 ```{r similarity-brainerd}
-mississippi <- as(mississippi, "CountMatrix")
-C <- similarity(mississippi, method = "brainerd")
-plotSpot(C)
+similarity(compiegne, method = "brainerd")
 ```
 
 ### Seriation
@@ -186,7 +185,7 @@ plotMatrix(count, PVI = TRUE) +
   ggplot2::scale_fill_gradient2(midpoint = 1)
 ```
 
-Spot matrix (easier to read than a heatmap [^2]) allows direct examination of data (above/below some threshold):
+Spot matrix (easier to read than a heatmap [^1]) allows direct examination of data (above/below some threshold):
 
 ```{r spot, fig.height=3.5}
 plotSpot(count, threshold = mean)
@@ -198,6 +197,7 @@ Ranks *vs* abundance plot can be used for abundance models (model fitting will b
 plotRank(count, log = "xy")
 ```
 
-[^1]: Desachy, B. (2004). Le sériographe EPPM : un outil informatisé de sériation graphique pour tableaux de comptages. *Revue archéologique de Picardie*, 3(1), 39-56. DOI: .
+[^1]: Adapted from Dan Gopstein's original [spot matrix](https://dgopstein.github.io/articles/spot-matrix/).
 
-[^2]: Adapted from Dan Gopstein's original [spot matrix](https://dgopstein.github.io/articles/spot-matrix/).
+## Contributing
+Please note that the `tabula` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.

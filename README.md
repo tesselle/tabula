@@ -12,7 +12,7 @@ tabula <img width=120px src="man/figures/logo.svg" align="right" />
 Overview
 --------
 
-`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity: e.g. richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), diversity/dominance and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity (Brainerd-Robinson, ...). It also provides matrix seriation methods (reciprocal ranking, CA-based seriation, IDSS) for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford and Bertin diagrams, etc.
+`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity: e.g. richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), diversity/dominance and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity (Brainerd-Robinson, ...). It also provides matrix seriation methods (reciprocal ranking, CA-based seriation) for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford and Bertin diagrams, etc.
 
 Installation
 ------------
@@ -38,10 +38,11 @@ Usage
 -   Abundance matrix:
     -   `CountMatrix` represents count data,
     -   `FrequencyMatrix` represents relative frequency data.
-    -   `SimilarityMatrix` represents a (dis)similarity matrix.
 -   Logical matrix:
     -   `IncidenceMatrix` represents presence/absence data.
     -   `OccurrenceMatrix` represents a co-occurence matrix.
+-   Numeric matrix:
+    -   `SimilarityMatrix` represents a (dis)similarity matrix.
 
 It assumes that you keep your data tidy: each variable (type/taxa) must be saved in its own column and each observation (sample/case) must be saved in its own row.
 
@@ -88,13 +89,10 @@ D <- as(A1, "OccurrenceMatrix")
 
 ``` r
 compiegne <- as(compiegne, "CountMatrix")
-richness(compiegne, method = c("margalef", "menhinick", "chao1"), simplify = TRUE)
-#>   margalef  menhinick chao1
-#> 5 1.176699 0.07933617    13
-#> 4 1.323459 0.07568907    15
-#> 3 1.412383 0.07905694    16
-#> 2 1.429741 0.08432155    16
-#> 1 1.428106 0.08381675    16
+richness(compiegne, method = "chao1")
+#> $chao1
+#>  5  4  3  2  1 
+#> 13 15 16 16 16
 ```
 
 #### Heterogeneity and evenness measures
@@ -122,12 +120,15 @@ The several methods can be used to acertain the degree of *turnover* in taxa com
 *β*-diversity can also be measured by addressing *similarity* between pairs of sites:
 
 ``` r
-mississippi <- as(mississippi, "CountMatrix")
-C <- similarity(mississippi, method = "brainerd")
-plotSpot(C)
+C <- similarity(compiegne, method = "brainerd")
+head(C)
+#>           5        4        3         2         1
+#> 5 200.00000 147.0860 104.6193  95.83558  92.00659
+#> 4 147.08600 200.0000 152.4492 124.83757 109.87089
+#> 3 104.61927 152.4492 200.0000 131.20713 104.81193
+#> 2  95.83558 124.8376 131.2071 200.00000 162.68247
+#> 1  92.00659 109.8709 104.8119 162.68247 200.00000
 ```
-
-![](man/figures/README-similarity-brainerd-1.png)
 
 ### Seriation
 
@@ -141,8 +142,8 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 set.seed(12345)
 (indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Row order: 20 17 2 14 11 10 13 18 4 16 19 15 7 1 5 6 12 8 3 9 
-#>    Column order: 12 5 16 8 11 19 13 7 9 6 17 3 14 10 1 20 15 4 18 2 
+#>    Row order: 2 16 5 4 10 20 11 17 12 1 18 13 19 8 9 15 6 7 14 3 
+#>    Column order: 3 10 2 8 9 14 20 15 6 7 11 4 16 12 13 1 5 17 18 19 
 #>    Method: correspondance
 
 # Permute matrix rows and columns
@@ -199,5 +200,10 @@ plotRank(count, log = "xy")
 ```
 
 ![](man/figures/README-rank-1.png)
+
+Contributing
+------------
+
+Please note that the `tabula` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
 [1] Adapted from Dan Gopstein's original [spot matrix](https://dgopstein.github.io/articles/spot-matrix/).
