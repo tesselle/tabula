@@ -97,45 +97,32 @@ D <- as(A1, "OccurrenceMatrix")
 ```
 
 ### Analysis
-#### Sample richness
-
-```{r richness}
-compiegne <- as(compiegne, "CountMatrix")
-richness(compiegne, method = "chao1")
-```
-
-#### Heterogeneity and evenness measures
 
 *Diversity* can be measured according to several indices (sometimes refered to as indices of *heterogeneity*):
 
 ```{r diversity}
-diversity(compiegne, method = c("shannon", "brillouin", "simpson", "mcintosh", "berger"), simplify = TRUE)
+counts <- as(compiegne, "CountMatrix")
+diversity(counts, method = c("shannon", "brillouin", "simpson", "mcintosh", "berger"), simplify = TRUE)
 ```
 
 Note that `berger`, `mcintosh` and `simpson` methods return a *dominance* index, not the reciprocal form usually adopted, so that an increase in the value of the index accompanies a decrease in diversity.
 
-Corresponding *evenness* (i.e. a measure of how evenly individuals are distributed across the sample) can also be computed.
-
-#### Turnover and Similarity
-
-The several methods can be used to acertain the degree of *turnover* in taxa composition along a gradient ($\beta$-diversity) on qualitative (presence/absence) data. It assumes that the order of the matrix rows (from $1$ to $n$) follows the progression along the gradient/transect.
-
-$\beta$-diversity can also be measured by addressing *similarity* between pairs of sites:
+$\beta$-diversity can be measured by addressing *similarity* between pairs of sites:
 
 ```{r similarity-brainerd}
-similarity(compiegne, method = "brainerd")
+similarity(counts, method = "brainerd")
 ```
 
 ### Seriation
 
 ```{r seriate-incidence}
 # Build an incidence matrix with random data
+set.seed(12345)
 incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
                              nrow = 20)
 
 # Get seriation order on rows and columns
 # Correspondance analysis-based seriation
-set.seed(12345)
 (indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
 
 # Permute matrix rows and columns
@@ -173,31 +160,8 @@ cowplot::plot_grid(
 Bertin of Ford (battleship curve) diagramms can be plotted, with statistic threshold ([B. Desachy's *sériographe*](https://doi.org/10.3406/pica.2004.2396)). The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence. EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
 
 ```{r seriograph, fig.height=3.5}
-count <- as(compiegne, "CountMatrix")
-plotBar(count, EPPM = TRUE)
+plotBar(counts, EPPM = TRUE)
 ```
-
-
-Matrix plot is displayed as a heatmap. The PVI matrix ([B. Desachy's *matrigraphe*](https://doi.org/10.3406/pica.2004.2396)) allows to explore deviations from independence (an intuitive graphical approach to $\chi^2$).
-
-```{r matrigraph, fig.height=3.5}
-plotMatrix(count, PVI = TRUE) +
-  ggplot2::scale_fill_gradient2(midpoint = 1)
-```
-
-Spot matrix (easier to read than a heatmap [^1]) allows direct examination of data (above/below some threshold):
-
-```{r spot, fig.height=3.5}
-plotSpot(count, threshold = mean)
-```
-
-Ranks *vs* abundance plot can be used for abundance models (model fitting will be implemented in a futur release):
-
-```{r rank, fig.height=3.5}
-plotRank(count, log = "xy")
-```
-
-[^1]: Adapted from Dan Gopstein's original [spot matrix](https://dgopstein.github.io/articles/spot-matrix/).
 
 ## Contributing
 Please note that the `tabula` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
