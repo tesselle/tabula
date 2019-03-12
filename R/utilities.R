@@ -74,20 +74,19 @@ isOverlapping <- function(x, y) {
 #' Checks if an object only contains positive values.
 #' @param x A \code{\link{numeric}} object to be checked.
 #' @param strict A \code{\link{logical}} scalar.
+#' @param na.rm A \code{\link{logical}} scalar specifying if missing values
+#'  (including NaN) should be omitted.
 #' @return A \code{\link{logical}}.
 #' @noRd
 isPositive <- function(x, strict = FALSE, na.rm = TRUE) {
   # Validation
   if (!is.numeric(x))
     stop("A numeric vector is expected.")
-  if (!any(is.nan(x))) {
-    if (strict) {
-      !any(x <= 0, na.rm = na.rm)
-    } else {
-      !any(x < 0, na.rm = na.rm)
-    }
+
+  if (strict) {
+    !any(x <= 0, na.rm = na.rm)
   } else {
-    FALSE
+    !any(x < 0, na.rm = na.rm)
   }
 }
 
@@ -121,7 +120,7 @@ isSubset <- function(subset, set) {
     FALSE
   } else {
     if (n_sub == n_set) {
-      identical(subset, sub)
+      identical(subset, set)
     } else {
       # Split 'set' in chunks of adjacent elements
       # Each chunk as the same length as 'subset'
