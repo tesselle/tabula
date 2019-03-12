@@ -41,6 +41,6 @@ count data and statistical thresholds: rank/abundance plots, Ford (1972)
 
 \strong{Package maintainer}
 
-Nicolas Frerebea, IRAMAT-CRP2A, Universite Bordeaux Montaigne, Pessac, France,\cr
+Nicolas Frerebeau, IRAMAT-CRP2A, Maison de l'Archéologie, Universite Bordeaux Montaigne, 33607 Pessac cedex, France,\cr
 \email{nicolas.frerebeau@u-bordeaux-montaigne.fr}
 }
