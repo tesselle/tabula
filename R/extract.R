@@ -141,10 +141,14 @@ setMethod(
 # ==============================================================================
 #' Accessors
 #'
-#' @param x An object.
+#' @param x An object from which to extract element(s).
 #' @author N. Frerebeau
 #' @docType methods
 #' @name accessors
+#' @rdname accessors
+NULL
+
+#' @aliases totals
 #' @rdname accessors
 #' @export
 setGeneric("totals", function(x) standardGeneric("totals"))

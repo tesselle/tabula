@@ -3,12 +3,13 @@
 \docType{methods}
 \name{accessors}
 \alias{accessors}
+\alias{totals}
 \title{Accessors}
 \usage{
 totals(x)
 }
 \arguments{
-\item{x}{An object.}
+\item{x}{An object from which to extract element(s).}
 }
 \description{
 Accessors
