@@ -1,72 +1,85 @@
 # HELPERS TO CHECK DATA
 
-# Binary numbers
-#
-# Checks if an object only contains 0s and 1s.
-# @param x A \code{\link{numeric}} object to be checked.
-# @return A \code{\link{logical}}.
+#' Binary numbers
+#'
+#' Checks if an object only contains 0s and 1s.
+#' @param x A \code{\link{numeric}} object to be checked.
+#' @return A \code{\link{logical}}.
+#' @noRd
 isBinary <- function(x) {
+  # Validation
+  if (!is.numeric(x))
+    stop("A numeric vector is expected.")
   sum(x == 1 | x == 0) == length(x)
 }
 
-# Equality within a vector
-#
-# Checks for equality among all elements of a vector.
-# @param x A \code{\link{numeric}} vector to be checked.
-# @param tolerance A length-one \link{\code{numeric}} vector giving the
-#  tolerance to check within.
-# @param na.rm A \code{\link{logical}} scalar specifying if missing values
-#  (including NaN) should be omitted.
-# @return A \code{\link{logical}}.
+#' Equality within a vector
+#'
+#' Checks for equality among all elements of a vector.
+#' @param x A \code{\link{numeric}} vector to be checked.
+#' @param tolerance A length-one \link{\code{numeric}} vector giving the
+#'  tolerance to check within.
+#' @param na.rm A \code{\link{logical}} scalar specifying if missing values
+#'  (including NaN) should be omitted.
+#' @return A \code{\link{logical}}.
+#' @noRd
 isEqual <- function(x, tolerance = .Machine$double.eps^0.5, na.rm = TRUE) {
-  abs(max(x, na.rm = na.rm) - min(x, na.rm = na.rm)) < tolerance
+  # Validation
+  if (!is.numeric(x))
+    stop("A numeric vector is expected.")
+  abs(max(x, na.rm = na.rm) - min(x, na.rm = na.rm)) <= tolerance
 }
 
-# Trends
-#
-# Checks if a sequence of numbers is monotonically increasing or decreasing.
-# @param x A \code{\link{numeric}} vector to be checked.
-# @param na.rm A \code{\link{logical}} scalar specifying if missing values
-#  (including NaN) should be omitted.
-# @return A \code{\link{logical}}.
-# @rdname trends
+#' Trends
+#'
+#' Checks if a sequence of numbers is monotonically increasing or decreasing.
+#' @param x A \code{\link{numeric}} vector to be checked.
+#' @param na.rm A \code{\link{logical}} scalar specifying if missing values
+#'  (including NaN) should be omitted.
+#' @return A \code{\link{logical}}.
+#' @rdname trends
+#' @noRd
 isIncreasing <- function(x, na.rm = TRUE) {
-  all(x == cummax(x), na.rm = na.rm) & sum(x) != 0
+  # Validation
+  if (!is.numeric(x))
+    stop("A numeric vector is expected.")
+  all(x == cummax(x), na.rm = na.rm) & sum(x, na.rm = na.rm) != 0
 }
+#' @rdname trends
+#' @noRd
 isDecreasing <- function(x, na.rm = TRUE) {
-  all(x == cummin(x), na.rm = na.rm) & sum(x) != 0
-}
-isPeak <- function(x, na.rm = TRUE) {
-  n <- length(x)
-  i <- which.max(x)
-  isIncreasing(x[1:i], na.rm = na.rm) &
-    isDecreasing(x[i:n], na.rm = na.rm)
+  # Validation
+  if (!is.numeric(x))
+    stop("A numeric vector is expected.")
+  all(x == cummin(x), na.rm = na.rm) & sum(x, na.rm = na.rm) != 0
 }
 
-# Overlap
-#
-# Checks if two data ranges overlap at all.
-# @param x A vector of two \code{\link{numeric}} values (range 1).
-# @param y A vector of two \code{\link{numeric}} values (range 2).
-# @return A \code{\link{logical}}.
+#' Overlap
+#'
+#' Checks if two data ranges overlap at all.
+#' @param x A \code{\link{numeric}} vector.
+#' @param y A \code{\link{numeric}} vector.
+#' @return A \code{\link{logical}}.
+#' @noRd
 isOverlapping <- function(x, y) {
   # Validation
-  if (length(x) != 2 | length(y) != 2)
-    stop("Vectors of length two are expected (min-max ranges).")
+  if (!is.numeric(x) | !is.numeric(y))
+    stop("Numeric vectors are expected.")
 
-  x <- range(x)
-  y <- range(y)
-  !(x[1] >= y[2] | x[2] <= y[1]) | sum(x, y) == 0
+  !(min(x) > max(y) | max(x) < min(y))
 }
 
-# Positive numbers
-#
-# Checks if an object only contains positive values.
-# @param x A \code{\link{numeric}} object to be checked.
-# @param strict A \code{\link{logical}} scalar.
-# @return A \code{\link{logical}}.
+#' Positive numbers
+#'
+#' Checks if an object only contains positive values.
+#' @param x A \code{\link{numeric}} object to be checked.
+#' @param strict A \code{\link{logical}} scalar.
+#' @return A \code{\link{logical}}.
+#' @noRd
 isPositive <- function(x, strict = FALSE, na.rm = TRUE) {
-  x <- as.numeric(x)
+  # Validation
+  if (!is.numeric(x))
+    stop("A numeric vector is expected.")
   if (!any(is.nan(x))) {
     if (strict) {
       !any(x <= 0, na.rm = na.rm)
@@ -78,11 +91,12 @@ isPositive <- function(x, strict = FALSE, na.rm = TRUE) {
   }
 }
 
-# Square matrix
-#
-# Checks if a matrix is square.
-# @param x A \code{\link{matrix}} to be checked.
-# @return A \code{\link{logical}}.
+#' Square matrix
+#'
+#' Checks if a matrix is square.
+#' @param x A \code{\link{matrix}} to be checked.
+#' @return A \code{\link{logical}}.
+#' @noRd
 isSquare <- function(x) {
   if (is.matrix(x)) {
     nrow(x) == ncol(x)
@@ -91,12 +105,13 @@ isSquare <- function(x) {
   }
 }
 
-# Contain
-#
-# Checks if a vector is a strict subset of another one.
-# @param subset A vector.
-# @param set A vector.
-# @return A \code{\link{logical}}.
+#' Contain
+#'
+#' Checks if a vector is a strict subset of another one.
+#' @param subset A vector.
+#' @param set A vector.
+#' @return A \code{\link{logical}}.
+#' @noRd
 isSubset <- function(subset, set) {
   # Validation
   n_sub <- length(subset)
@@ -116,11 +131,12 @@ isSubset <- function(subset, set) {
   }
 }
 
-# Symmetric matrix
-#
-# Checks if a matrix is symmetric.
-# @param x A \code{\link{matrix}} to be checked.
-# @return A \code{\link{logical}}.
+#' Symmetric matrix
+#'
+#' Checks if a matrix is symmetric.
+#' @param x A \code{\link{matrix}} to be checked.
+#' @return A \code{\link{logical}}.
+#' @noRd
 isSymmetric <- function(x) {
   if (is.matrix(x)) {
     identical(x, t(x))
@@ -129,15 +145,19 @@ isSymmetric <- function(x) {
   }
 }
 
-# Integer numbers
-#
-# Checks if an object only contains integer numbers.
-# @param x A \code{\link{numeric}} object to be checked.
-# @param tolerance A length-one \link{\code{numeric}} vector giving the
-#  tolerance to check within.
-# @return A \code{\link{logical}} depending on whether \code{x} contains integer
-#  numbers.
-# @seealso \code{\link[base]{is.integer}}
+#' Integer numbers
+#'
+#' Checks if an object only contains integer numbers.
+#' @param x A \code{\link{numeric}} object to be checked.
+#' @param tolerance A length-one \link{\code{numeric}} vector giving the
+#'  tolerance to check within.
+#' @return A \code{\link{logical}} depending on whether \code{x} contains integer
+#'  numbers.
+#' @seealso \code{\link[base]{is.integer}}
+#' @noRd
 isWholeNumber <- function(x, tolerance = .Machine$double.eps^0.5) {
-  abs(x - round(x)) < tolerance
+  # Validation
+  if (!is.numeric(x))
+    stop("A numeric vector is expected.")
+  abs(x - round(x)) <= tolerance
 }
