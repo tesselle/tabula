@@ -146,6 +146,7 @@ setMethod(
 #' @docType methods
 #' @name accessors
 #' @rdname accessors
+#' @export
 setGeneric("totals", function(x) standardGeneric("totals"))
 
 #' @export

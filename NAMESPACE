@@ -2,6 +2,7 @@
 
 export(CountMatrix)
 export(IncidenceMatrix)
+export(totals)
 exportMethods("[")
 exportMethods("[[")
 exportMethods(dateEvent)
