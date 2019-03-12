@@ -210,6 +210,8 @@ setMethod(
     hull_length <- sapply(X = hull_rows, function(x) {
       max(stats::dist(x, method = "euclidean"))
     })
+    lengths <- data.frame(id = names(hull_length), d = hull_length,
+                          row.names = seq_along(hull_length))
     # Get cutoff value
     limit <- cutoff(hull_length)
     # Samples to be kept
@@ -220,7 +222,7 @@ setMethod(
 
     methods::new("BootCA",
                  rows = rows, columns = cols, cutoff = limit,
-                 lengths = hull_length, keep = keep)
+                 lengths = lengths, keep = keep)
   }
 )
 

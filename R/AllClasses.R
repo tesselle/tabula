@@ -75,8 +75,9 @@ setClass(
 #' @slot columns A three columns \code{\link{data.frame}} giving the vertices
 #'  coordinates of the variables convex hull and a identifier to link each row
 #'  to a variable.
-#' @slot lengths A \code{\link{numeric}} vector giving the convex hull
-#'  maximum dimension length of each sample.
+#' @slot lengths A two columns \code{\link{data.frame}} giving the convex hull
+#'  maximum dimension length of each sample and a identifier to link each row to
+#'  a sample.
 #' @slot cutoff A length-one \code{\link{numeric}} vector giving the cutoff
 #'  value for sample selection.
 #' @slot keep A named \code{\link{numeric}} vector giving the subscript of
@@ -88,7 +89,7 @@ setClass(
   Class = "BootCA",
   slots = c(rows = "data.frame",
             columns = "data.frame",
-            lengths = "numeric",
+            lengths = "data.frame",
             cutoff = "numeric",
             keep = "numeric")
 )
