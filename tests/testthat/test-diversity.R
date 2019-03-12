@@ -1,7 +1,11 @@
 context("Diversity index")
 
-birds <- read.table("../../data-raw/birds.csv", sep = ",", dec= ".",
-                    header = TRUE, row.names = 1, encoding = "UTF-8")
+birds <- matrix(c(1.4, 4.3, 2.9, 8.6, 4.2, 15.7, 2.0, 50, 1, 11.4, 11.4, 4.3,
+                  13.0, 14.3, 8.6, 7.1, 10.0, 1.4, 2.9, 5.7, 1.4, 11.4, 2.9,
+                  4.3, 1.4, 2.9,
+                  0, 0, 0, 2.9, 0, 0, 0, 10, 0, 0, 5.7, 2.5, 5.7, 8.6, 5.7,
+                  2.9, 0, 0, 2.9, 0, 0, 5.7, 0, 2.9, 0, 2.9),
+                nrow = 2, byrow = TRUE)
 
 # Diversity index ==============================================================
 test_that("Diversity index - simplify = FALSE", {
