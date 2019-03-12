@@ -1,5 +1,4 @@
 context("Classes initialization")
-library(tabula)
 options("verbose" = TRUE)
 
 test_count <- matrix(sample(1:100, 100, TRUE), ncol = 10)
@@ -84,8 +83,6 @@ test_that("Access PermutationOrder slots", {
   df <- data.frame("id" = LETTERS, "x" = 1:26, "y" = 1:26)
   boot <- new("PermutationOrder", rows = 1:5, columns = 1:5, method = "X")
 
-  expect_is(rows(boot), "integer")
-  expect_is(columns(boot), "integer")
   expect_is(boot[["rows"]], "integer")
   expect_is(boot[["columns"]], "integer")
   expect_is(boot[["method"]], "character")

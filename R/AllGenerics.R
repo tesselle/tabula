@@ -1,5 +1,5 @@
 # GENERIC METHODS
-#' @include AllClasses.R access.R coerce.R
+#' @include AllClasses.R coerce.R
 NULL
 
 # Date =========================================================================
@@ -82,9 +82,9 @@ setGeneric(
 #'  other (Peet 1974). A measure of diversity can be achieved by using indices
 #'  built on the relative abundance of taxa. These indices (sometimes referred
 #'  to as non-parametric indices) benefit from not making assumptions about the
-#'  underlying distribution of taxa abundance: they only take evenness and
-#'  \emph{richness} into account. Peet (1974) refers to them as indices of
-#'  \emph{heterogeneity}.
+#'  underlying distribution of taxa abundance: they only take relative abundances
+#'  of the species that are present and species richness into account.
+#'  Peet (1974) refers to them as indices of \emph{heterogeneity}.
 #'
 #'  Diversity indices focus on one aspect of the taxa abundance and emphasize
 #'  either \emph{richness} (weighting towards uncommon taxa)
@@ -97,7 +97,9 @@ setGeneric(
 #'  are available (see Magurran 1988 for details):
 #'  \describe{
 #'   \item{berger}{Berger-Parker dominance index. The Berger-Parker index
-#'    expresses the proportional importance of the most abundant type.}
+#'    expresses the proportional importance of the most abundant type. This
+#'    metric is highly biased by sample size and richness, moreover it does not
+#'    make use of all the information available from sample.}
 #'   \item{brillouin}{Brillouin diversity index. The Brillouin index describes a
 #'    known collection: it does not assume random sampling in an infinite
 #'    population. Pielou (1975) and Laxton (1978) argues for the use of the
@@ -105,8 +107,8 @@ setGeneric(
 #'    Shannon index.}
 #'   \item{mcintosh}{McIntosh dominance index. The McIntosh index expresses the
 #'    heterogeneity of a sample in geometric terms. It describes the sample as a
-#'    point of a S-dimensional hypervolume and uses the Euclidean distance of
-#'    this point from the origin.}
+#'    point of a \code{S}-dimensional hypervolume and uses the Euclidean
+#'    distance of this point from the origin.}
 #'   \item{shannon}{Shannon-Wiener diversity index. The Shannon index assumes
 #'    that individuals are randomly sampled from an infinite population and that
 #'    all taxa are represented in the sample (it does not reflect the
@@ -114,11 +116,13 @@ setGeneric(
 #'    all taxa in the sample: this error increases as the proportion of species
 #'    discovered in the sample declines (Peet 1974, Magurran 1988). The
 #'    maximum likelihood estimator (MLE) is used for the relative abundance,
-#'    this is known to be negatively biased.}
+#'    this is known to be negatively biased by sample size.}
 #'   \item{simpson}{Simpson dominance index for finite sample. The Simpson index
 #'    expresses the probability that two individuals randomly picked from a
 #'    finite sample belong to two different types. It can be interpreted as the
-#'    weighted mean of the proportional abundances.}
+#'    weighted mean of the proportional abundances. This metric is a true
+#'    probability value, it ranges from \code{0} (perfectly uneven) to \code{1}
+#'    (perfectly even).}
 #'  }
 #'
 #'  The \code{berger}, \code{mcintosh} and \code{simpson} methods return a

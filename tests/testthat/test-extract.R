@@ -1,0 +1,57 @@
+context("Extract")
+
+test_that("BootCA", {
+  boot_ca <- new("BootCA")
+
+  expect_is(boot_ca[["rows"]], "data.frame")
+  expect_is(boot_ca[["columns"]], "data.frame")
+  expect_is(boot_ca[["lengths"]], "data.frame")
+  expect_is(boot_ca[["cutoff"]], "numeric")
+  expect_is(boot_ca[["keep"]], "numeric")
+  expect_error(boot_ca[["X"]])
+
+  expect_is(boot_ca["rows", ], "data.frame")
+  expect_is(boot_ca["columns", ], "data.frame")
+  expect_is(boot_ca["lengths", ], "data.frame")
+  expect_error(boot_ca["X", ])
+})
+test_that("BootDate", {
+  boot_date <- new("BootDate")
+
+  expect_is(boot_date[["jackknife"]], "data.frame")
+  expect_is(boot_date[["bootstrap"]], "data.frame")
+  expect_error(boot_date[["X"]])
+
+  expect_is(boot_date["jackknife", ], "data.frame")
+  expect_is(boot_date["bootstrap", ], "data.frame")
+  expect_error(boot_date["X", ])
+})
+test_that("DateModel", {
+  date_model <- new("DateModel")
+
+  expect_is(date_model[["counts"]], "matrix")
+  expect_is(date_model[["dates"]], "data.frame")
+  expect_is(date_model[["level"]], "numeric")
+  expect_is(date_model[["model"]], "lm")
+  expect_is(date_model[["residual"]], "numeric")
+  expect_is(date_model[["rows"]], "data.frame")
+  expect_is(date_model[["columns"]], "data.frame")
+  expect_is(date_model[["accumulation"]], "data.frame")
+  expect_error(date_model[["X"]])
+
+  expect_is(date_model["rows", ], "data.frame")
+  expect_is(date_model["columns", ], "data.frame")
+  expect_is(date_model["accumulation", ], "data.frame")
+  expect_error(date_model["X", ])
+})
+test_that("NumericMatrix", {
+  freq <- new("FrequencyMatrix")
+  expect_is(totals(freq), "numeric")
+})
+test_that("PermutationOrder", {
+  perm_order <- new("PermutationOrder")
+
+  expect_is(perm_order[["rows"]], "integer")
+  expect_is(perm_order[["columns"]], "integer")
+  expect_is(perm_order[["method"]], "character")
+})

@@ -30,6 +30,14 @@ NULL
 #' @slot accumulation A two columns \code{\link{data.frame}} giving the point
 #'  estimate of accumulation dates of archaeological assemblages and an
 #'  identifier to link each row to an assemblage.
+#' @param x A \code{DateModel} object from which to extract element(s).
+#' @param i,j Indices specifying elements to extract.
+#'  \code{i} is a \code{\link{character}} string matching to the name of a slot.
+#'  \code{j} can be \code{\link{missing}} or \code{\link{NULL}},
+#'  a \code{\link{numeric}} or \code{\link{character}} vector.
+#'  Numeric values are coerced to \code{\link{integer}} as by
+#'  \code{\link{as.integer}} (and hence truncated towards zero).
+#'  Character vectors will be matched to the names of the object.
 #' @author N. Frerebeau
 #' @docType class
 #' @aliases DateModel-class
@@ -82,6 +90,14 @@ setClass(
 #'  value for sample selection.
 #' @slot keep A named \code{\link{numeric}} vector giving the subscript of
 #'  the samples to be kept.
+#' @param x A \code{BootCA} object from which to extract element(s).
+#' @param i,j Indices specifying elements to extract.
+#'  \code{i} is a \code{\link{character}} string matching to the name of a slot.
+#'  \code{j} can be \code{\link{missing}} or \code{\link{NULL}},
+#'  a \code{\link{numeric}} or \code{\link{character}} vector.
+#'  Numeric values are coerced to \code{\link{integer}} as by
+#'  \code{\link{as.integer}} (and hence truncated towards zero).
+#'  Character vectors will be matched to the names of the object.
 #' @author N. Frerebeau
 #' @docType class
 #' @aliases BootCA-class
@@ -121,6 +137,14 @@ setClass(
 #'   \item{Q95}{Sample quantile to 0.95 probability.}
 #'   \item{max}{Maximum value.}
 #'  }
+#' @param x A \code{BootDate} object from which to extract element(s).
+#' @param i,j Indices specifying elements to extract.
+#'  \code{i} is a \code{\link{character}} string matching to the name of a slot.
+#'  \code{j} can be \code{\link{missing}} or \code{\link{NULL}},
+#'  a \code{\link{numeric}} or \code{\link{character}} vector.
+#'  Numeric values are coerced to \code{\link{integer}} as by
+#'  \code{\link{as.integer}} (and hence truncated towards zero).
+#'  Character vectors will be matched to the names of the object.
 #' @author N. Frerebeau
 #' @docType class
 #' @aliases BootDate-class
