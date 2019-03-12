@@ -1,11 +1,10 @@
 context("Coerce")
-library(tabula)
-options("verbose" = TRUE)
 
 # matrix =======================================================================
 mtx_count <- matrix(sample(0:10, 50, TRUE), ncol = 10)
 mtx_freq <- mtx_count / rowSums(mtx_count)
 mtx_incid <- matrix(as.logical(sample(0:1, 50, TRUE)), ncol = 10)
+mtx_sim <- matrix(1, nrow = 5, ncol = 5)
 
 test_that("matrix <> CountMatrix", {
   A <- as(mtx_count, "CountMatrix")
@@ -39,11 +38,17 @@ test_that("matrix <> OccurrenceMatrix", {
   expect_s4_class(as(mtx_count, "OccurrenceMatrix"), "OccurrenceMatrix")
   expect_s4_class(as(mtx_freq, "OccurrenceMatrix"), "OccurrenceMatrix")
 })
+test_that("matrix <> SimilarityMatrix", {
+  E <- as(mtx_sim, "SimilarityMatrix")
+  expect_s4_class(E, "SimilarityMatrix")
+  expect_is(as(E, "matrix"), "matrix")
+})
 
 # data.frame ===================================================================
 df_count <- as.data.frame(mtx_count)
 df_freq <- as.data.frame(mtx_freq)
 df_incid <- as.data.frame(mtx_incid)
+df_sim <- as.data.frame(mtx_sim)
 
 test_that("data.frame <> CountMatrix", {
   A <- as(df_count, "CountMatrix")
@@ -70,12 +75,17 @@ test_that("data.frame <> IncidenceMatrix", {
   expect_s4_class(as(df_freq, "IncidenceMatrix"), "IncidenceMatrix")
 })
 test_that("data.frame <> OccurrenceMatrix", {
-  C <- as(df_incid, "OccurrenceMatrix")
-  expect_s4_class(C, "OccurrenceMatrix")
-  expect_is(as(C, "data.frame"), "data.frame")
+  D <- as(df_incid, "OccurrenceMatrix")
+  expect_s4_class(D, "OccurrenceMatrix")
+  expect_is(as(D, "data.frame"), "data.frame")
 
   expect_s4_class(as(df_count, "OccurrenceMatrix"), "OccurrenceMatrix")
   expect_s4_class(as(df_freq, "OccurrenceMatrix"), "OccurrenceMatrix")
+})
+test_that("data.frame <> SimilarityMatrix", {
+  E <- as(df_sim, "SimilarityMatrix")
+  expect_s4_class(E, "SimilarityMatrix")
+  expect_is(as(E, "data.frame"), "data.frame")
 })
 
 # *Matrix ======================================================================

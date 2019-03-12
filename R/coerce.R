@@ -34,7 +34,8 @@ setAs(from = "data.frame", to = "FrequencyMatrix", def = matrix2frequency)
 ## To SimilarityMatrix ----------------------------------------------------------
 matrix2similarity <- function(from) {
   data <- data.matrix(from)
-  object <- methods::new("SimilarityMatrix", data)
+  rownames(data) <- colnames(from)
+  object <- methods::new("SimilarityMatrix", data, method = "unknown")
   methods::validObject(object)
   return(object)
 }
