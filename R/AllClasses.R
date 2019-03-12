@@ -188,6 +188,7 @@ setClass(
 #' @aliases SimilarityMatrix-class
 setClass(
   Class = "SimilarityMatrix",
+  slots = c(method = "character"),
   contains = "NumericMatrix"
 )
 
@@ -605,7 +606,8 @@ setMethod(
                         rows, columns, accumulation) {
     if (!missing(counts)) .Object@counts <- counts
     if (!missing(dates)) .Object@dates <- dates
-    if (!missing(model)) .Object@model <- model
+    # FIXME: workaround to initialize empty instance
+    .Object@model <- if (!missing(model)) model else stats::lm(0 ~ 0)
     if (!missing(level)) .Object@level <- level
     if (!missing(residual)) .Object@residual <- residual
     if (!missing(rows)) .Object@rows <- rows
@@ -650,14 +652,15 @@ setMethod("initialize", "IncidenceMatrix", initialize_matrix)
 setMethod("initialize", "OccurrenceMatrix", initialize_matrix)
 
 # CREATE =======================================================================
-# Matrix constructor
-#
-# @inheritParams base::matrix
-# @param rows A \code{link{logical}} scalar indicating if the number of rows is
-#  unspecified.
-# @param cols A \code{link{logical}} scalar indicating if the number of columns
-#  is unspecified.
-# @return A \link{\code{matrix}}.
+#' Matrix constructor
+#'
+#' @inheritParams base::matrix
+#' @param rows A \code{\link{logical}} scalar indicating if the number of rows is
+#'  unspecified.
+#' @param cols A \code{\link{logical}} scalar indicating if the number of columns
+#'  is unspecified.
+#' @return A \link{\code{matrix}}.
+#' @noRd
 buildMatrix <- function(data, nrow, ncol, byrow, dimnames,
                         rows = FALSE, cols = FALSE) {
   k <- length(data)

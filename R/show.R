@@ -2,6 +2,16 @@
 #' @include AllClasses.R
 NULL
 
+# BootDate =======================================================================
+setMethod(
+  f = "show",
+  signature = "BootDate",
+  definition = function(object) {
+    cat("Partial bootstrap date model refinement:", "\n",
+        sep = "")
+  }
+)
+
 # BootCA =======================================================================
 setMethod(
   f = "show",
@@ -12,8 +22,7 @@ setMethod(
     cat("Partial bootstrap CA seriation refinement:", "\n",
         "  Cutoff: ", round(object@cutoff, digits = 2), "\n",
         "  Rows to keep: ", keep, " of ", total, " (", round(keep * 100 / total), "%)",
-        sep = ""
-    )
+        sep = "")
   }
 )
 
@@ -76,6 +85,18 @@ setMethod(
     m <- nrow(data)
     p <- ncol(data)
     cat(paste(m, "x", p, "frequency data matrix:", sep = " "), "\n", sep = " ")
+    print(data)
+  }
+)
+setMethod(
+  f = "show",
+  signature = "SimilarityMatrix",
+  definition = function(object) {
+    data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
+    m <- nrow(data)
+    p <- ncol(data)
+    cat(paste(m, "x", p, "(dis)similarity matrix:", sep = " "), "\n",
+        "  Method:", object@method, "\n", sep = " ")
     print(data)
   }
 )

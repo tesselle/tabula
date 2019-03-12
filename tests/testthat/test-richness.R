@@ -83,9 +83,30 @@ test_that("Chao2-type estimators", {
   expect_error(chao2Richness(LETTERS))
   expect_error(chao2iRichness(LETTERS))
 
-  a <- t(matrix(as.logical(c(0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1)), 4, 3))
-  expect_equal(round(chao2Richness(a, unbiased = FALSE), 2), 5.33)
+  a <- matrix(as.logical(
+    c(0, 1, 1, 1,
+      1, 0, 0, 1,
+      0, 0, 1, 1)),
+    nrow = 3, ncol = 4, byrow = TRUE
+  )
+  b <- matrix(as.logical(
+    c(0, 1, 1, 1,
+      1, 0, 0, 1,
+      0, 0, 0, 1)),
+    nrow = 3, ncol = 4, byrow = TRUE
+  )
+  c <- matrix(
+    as.logical(c(0, 1, 1, 1,
+                 1, 0, 0, 1,
+                 0, 0, 1, 1,
+                 1, 0, 1, 1)),
+    nrow = 4, ncol = 4, byrow = TRUE
+  )
   expect_equal(round(chao2Richness(a, unbiased = TRUE), 2), 4.33)
+  expect_equal(round(chao2Richness(a, unbiased = FALSE), 2), 5.33)
+  expect_equal(round(chao2Richness(b, unbiased = FALSE), 2), 6.00)
+  expect_equal(round(chao2iRichness(c, unbiased = TRUE), 2), 4.05)
+  expect_equal(round(chao2iRichness(c, unbiased = FALSE), 2), 4.43)
   expect_error(chao2iRichness(a, unbiased = FALSE))
 })
 test_that("ICE-type estimators", {
