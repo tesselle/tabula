@@ -33,7 +33,6 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Collate:
-    'utilities.R'
     'tabula.R'
     'AllClasses.R'
     'coerce.R'
@@ -48,10 +47,12 @@ Collate:
     'rarefaction.R'
     'refine.R'
     'richness.R'
+    'utilities.R'
     'seriate.R'
     'show.R'
     'similarity.R'
     'turnover.R'
+    'validate.R'
     'zzz.R'
 RoxygenNote: 6.1.1
 Suggests:
