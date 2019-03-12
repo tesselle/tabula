@@ -16,21 +16,24 @@ test_that("Logical matrix", {
   A <- methods::new("LogicalMatrix")
   expect_output(show(A), "An object of class \"LogicalMatrix\"")
 
-  A <- methods::new("OccurrenceMatrix")
-  expect_output(show(A), "co-occurrence matrix")
+  B <- methods::new("IncidenceMatrix")
+  expect_output(show(B), "presence/absence data matrix")
+
+  C <- methods::new("OccurrenceMatrix")
+  expect_output(show(C), "co-occurrence matrix")
 })
 test_that("Numeric matrix", {
   A <- methods::new("NumericMatrix")
   expect_output(show(A), "An object of class \"NumericMatrix\"")
 
-  A <- methods::new("CountMatrix")
-  expect_output(show(A), "count data matrix")
+  B <- methods::new("CountMatrix")
+  expect_output(show(B), "count data matrix")
 
-  A <- methods::new("FrequencyMatrix")
-  expect_output(show(A), "frequency data matrix")
+  C <- methods::new("FrequencyMatrix")
+  expect_output(show(C), "frequency data matrix")
 
-  A <- methods::new("SimilarityMatrix")
-  expect_output(show(A), "similarity matrix")
+  D <- methods::new("SimilarityMatrix")
+  expect_output(show(D), "similarity matrix")
 })
 test_that("PermutationOrder", {
   A <- methods::new("PermutationOrder")

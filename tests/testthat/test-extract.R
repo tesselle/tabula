@@ -11,6 +11,9 @@ test_that("BootCA", {
   expect_error(boot_ca[["X"]])
 
   expect_is(boot_ca["rows", ], "data.frame")
+  expect_is(boot_ca["rows", NULL], "data.frame")
+  expect_is(boot_ca["rows", 1], "data.frame")
+  expect_is(boot_ca["rows", "a"], "data.frame")
   expect_is(boot_ca["columns", ], "data.frame")
   expect_is(boot_ca["lengths", ], "data.frame")
   expect_error(boot_ca["X", ])
@@ -23,6 +26,9 @@ test_that("BootDate", {
   expect_error(boot_date[["X"]])
 
   expect_is(boot_date["jackknife", ], "data.frame")
+  expect_is(boot_date["jackknife", NULL], "data.frame")
+  expect_is(boot_date["jackknife", 1], "data.frame")
+  expect_is(boot_date["jackknife", "a"], "data.frame")
   expect_is(boot_date["bootstrap", ], "data.frame")
   expect_error(boot_date["X", ])
 })
@@ -40,6 +46,9 @@ test_that("DateModel", {
   expect_error(date_model[["X"]])
 
   expect_is(date_model["rows", ], "data.frame")
+  expect_is(date_model["rows", NULL], "data.frame")
+  expect_is(date_model["rows", 1], "data.frame")
+  expect_is(date_model["rows", "a"], "data.frame")
   expect_is(date_model["columns", ], "data.frame")
   expect_is(date_model["accumulation", ], "data.frame")
   expect_error(date_model["X", ])

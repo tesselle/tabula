@@ -124,8 +124,11 @@ isSubset <- function(subset, set) {
     } else {
       # Split 'set' in chunks of adjacent elements
       # Each chunk as the same length as 'subset'
-      k <- matrix(c(set[-n_set], set[-1]), ncol = n_sub, byrow = TRUE)
-      any(apply(X = k, MARGIN = 1, FUN = identical, y = subset))
+      set2 <- c(set[-n_set], set[-1])
+      k <- length(set2) %% n_sub
+
+      m <- matrix(c(set2, set2[1:(n_sub - k)]), ncol = n_sub, byrow = TRUE)
+      any(apply(X = m, MARGIN = 1, FUN = identical, y = subset))
     }
   }
 }
