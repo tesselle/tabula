@@ -53,66 +53,68 @@ setMethod(
 )
 
 # Berger-Parker ================================================================
-# Berger-Parker dominance index
-#
-# @param n A \code{\link{numeric}} vector giving the number of individuals for
-#  each class.
-# @param ... Currently not used.
-# @return A length-one \code{\link{numeric}} vector.
-# @references
-#  Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
-#  in Deep-Sea Sediments. \emph{Science}, 168(3937), 1345-1347.
-#  DOI: \href{https://doi.org/10.1126/science.168.3937.1345}{10.1126/science.168.3937.1345}.
-# @author N. Frerebeau
-# @family diversity index
-# @rdname berger-index
-bergerDominance <- function(n, ...) {
+#' Berger-Parker dominance index
+#'
+#' @param x A \code{\link{numeric}} vector giving the number of individuals for
+#'  each class.
+#' @param ... Currently not used.
+#' @return A length-one \code{\link{numeric}} vector.
+#' @references
+#'  Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
+#'  in Deep-Sea Sediments. \emph{Science}, 168(3937), 1345-1347.
+#'  DOI: \href{https://doi.org/10.1126/science.168.3937.1345}{10.1126/science.168.3937.1345}.
+#' @author N. Frerebeau
+#' @family diversity index
+#' @rdname berger-index
+#' @noRd
+bergerDominance <- function(x, ...) {
   # Validation
-  if (!is.numeric(n))
+  if (!is.numeric(x))
     stop("numeric values expected")
   # Remove zeros
-  n <- n[n > 0]
+  x <- x[x > 0]
 
-  Nmax <- max(n)
-  N <- sum(n)
+  Nmax <- max(x)
+  N <- sum(x)
   d <- Nmax / N
   return(d)
 }
 
 # Brillouin ====================================================================
-# Brillouin diversity index and evenness
-#
-# @param n A \code{\link{numeric}} vector giving the number of individuals for
-#  each class.
-# @param ... Currently not used.
-# @return A length-one \code{\link{numeric}} vector.
-# @author N. Frerebeau
-# @family diversity index
-# @rdname brillouin-index
-brillouinDiversity <- function(n, ...) {
+#' Brillouin diversity index and evenness
+#'
+#' @param x A \code{\link{numeric}} vector giving the number of individuals for
+#'  each class.
+#' @param ... Currently not used.
+#' @return A length-one \code{\link{numeric}} vector.
+#' @author N. Frerebeau
+#' @family diversity index
+#' @rdname brillouin-index
+#' @noRd
+brillouinDiversity <- function(x, ...) {
   # Validation
-  if (!is.numeric(n))
+  if (!is.numeric(x))
     stop("numeric values expected")
   # Remove zeros
-  n <- n[n > 0]
+  x <- x[x > 0]
 
-  N <- sum(n)
-  HB <- (lfactorial(N) - sum(lfactorial(n))) / N
+  N <- sum(x)
+  HB <- (lfactorial(N) - sum(lfactorial(x))) / N
   return(HB)
 }
-# Brillouin evenness -----------------------------------------------------------
-# @family evenness index
-# @rdname brillouin-index
-brillouinEvenness <- function(n, ...) {
+#' @family evenness index
+#' @rdname brillouin-index
+#' @noRd
+brillouinEvenness <- function(x, ...) {
   # Validation
-  if (!is.numeric(n))
+  if (!is.numeric(x))
     stop("numeric values expected")
   # Remove zeros
-  n <- n[n > 0]
+  x <- x[x > 0]
 
-  HB <- brillouinDiversity(n)
-  N <- sum(n)
-  S <- length(n) # richness = number of different species
+  HB <- brillouinDiversity(x)
+  N <- sum(x)
+  S <- length(x) # richness = number of different species
   a <- trunc(N / S)
   r <- N - S * a
   c <- (S - r) * lfactorial(a) + r * lfactorial(a + 1)
@@ -122,106 +124,108 @@ brillouinEvenness <- function(n, ...) {
 }
 
 # McIntosh =====================================================================
-# McIntosh dominance index and evenness
-#
-# @param n A \code{\link{numeric}} vector giving the number of individuals for
-#  each class.
-# @param ... Currently not used.
-# @return A length-one \code{\link{numeric}} vector.
-# @references
-#  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
-#  Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
-#  DOI: \href{https://doi.org/10.2307/1932674}{10.2307/1932674}.
-# @author N. Frerebeau
-# @family diversity index
-# @rdname mcintosh-index
-mcintoshDominance <- function(n, ...) {
+#' McIntosh dominance index and evenness
+#'
+#' @param x A \code{\link{numeric}} vector giving the number of individuals for
+#'  each class.
+#' @param ... Currently not used.
+#' @return A length-one \code{\link{numeric}} vector.
+#' @references
+#'  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
+#'  Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
+#'  DOI: \href{https://doi.org/10.2307/1932674}{10.2307/1932674}.
+#' @author N. Frerebeau
+#' @family diversity index
+#' @rdname mcintosh-index
+#' @noRd
+mcintoshDominance <- function(x, ...) {
   # Validation
-  if (!is.numeric(n))
+  if (!is.numeric(x))
     stop("numeric values expected")
   # Remove zeros
-  n <- n[n > 0]
+  x <- x[x > 0]
 
-  N <- sum(n)
-  U <- sqrt(sum(n^2))
+  N <- sum(x)
+  U <- sqrt(sum(x^2))
   D <- (N - U) / (N - sqrt(N))
   return(D)
 }
-# McIntosh evenness ------------------------------------------------------------
-# @family evenness index
-# @rdname mcintosh-index
-mcintoshEvenness <- function(n, ...) {
+#' @family evenness index
+#' @rdname mcintosh-index
+#' @noRd
+mcintoshEvenness <- function(x, ...) {
   # Validation
-  if (!is.numeric(n))
+  if (!is.numeric(x))
     stop("numeric values expected")
   # Remove zeros
-  n <- n[n > 0]
+  x <- x[x > 0]
 
-  N <- sum(n)
-  S <- length(n) # richness = number of different species
-  U <- sqrt(sum(n^2))
+  N <- sum(x)
+  S <- length(x) # richness = number of different species
+  U <- sqrt(sum(x^2))
   E <- (N - U) / (N - (N / sqrt(S)))
   return(E)
 }
 
 # Shannon ======================================================================
-# Shannon-Wiener diversity index, evenness and variance
-#
-# @param n A \code{\link{numeric}} vector giving the number of individuals for
-#  each class.
-# @param base A positive or complex number: the base with respect to which
-#  logarithms are computed (see \code{\link[base]{log}}). Change this only if
-#  you know what you are doing!
-# @param ... Currently not used.
-# @return A length-one \code{\link{numeric}} vector.
-# @references
-#  Shannon, C. E. (1948). A Mathematical Theory of Communication. \emph{The
-#  Bell System Technical Journal}, 27, 379-423.
-#  DOI: \href{https://doi.org/10.1002/j.1538-7305.1948.tb01338.x}{10.1002/j.1538-7305.1948.tb01338.x}.
-# @author N. Frerebeau
-# @family diversity index
-# @rdname shannon-index
-shannonDiversity <- function(n, base = exp(1), ...) {
+#' Shannon-Wiener diversity index, evenness and variance
+#'
+#' @param x A \code{\link{numeric}} vector giving the number of individuals for
+#'  each class.
+#' @param base A positive or complex number: the base with respect to which
+#'  logarithms are computed (see \code{\link[base]{log}}). Change this only if
+#'  you know what you are doing!
+#' @param ... Currently not used.
+#' @return A length-one \code{\link{numeric}} vector.
+#' @references
+#'  Shannon, C. E. (1948). A Mathematical Theory of Communication. \emph{The
+#'  Bell System Technical Journal}, 27, 379-423.
+#'  DOI: \href{https://doi.org/10.1002/j.1538-7305.1948.tb01338.x}{10.1002/j.1538-7305.1948.tb01338.x}.
+#' @author N. Frerebeau
+#' @family diversity index
+#' @rdname shannon-index
+#' @noRd
+shannonDiversity <- function(x, base = exp(1), ...) {
   # Validation
-  if (!is.numeric(n))
+  if (!is.numeric(x))
     stop("numeric values expected")
   # Remove zeros
-  n <- n[n > 0]
+  x <- x[x > 0]
 
-  N <- sum(n)
-  S <- length(n) # richness = number of different species
-  p <- n / N
+  N <- sum(x)
+  S <- length(x) # richness = number of different species
+  p <- x / N
   H <- -sum(p * log(p, base))
   # H <- H - (S - 1) / N +
   #   (1 - sum(p^-1)) / (12 * N^2) +
   #   (sum(p^-1 - p^-2)) / (12 * N^3)
   return(H)
 }
-# Shannon evenness -------------------------------------------------------------
-# @family evenness index
-# @rdname shannon-index
-shannonEvenness <- function(n, ...) {
+#' @family evenness index
+#' @rdname shannon-index
+#' @noRd
+shannonEvenness <- function(x, ...) {
   # Validation
-  if (!is.numeric(n))
+  if (!is.numeric(x))
     stop("numeric values expected")
   # Remove zeros
-  n <- n[n > 0]
+  x <- x[x > 0]
 
-  E <- shannonDiversity(n, base = length(n))
+  E <- shannonDiversity(x, base = length(x))
   return(E)
 }
-# Shannon variance -------------------------------------------------------------
-# @rdname shannon-index
-shannonVariance <- function(n, ...) {
+#' @rdname shannon-index
+#' @noRd
+shannonVariance <- function(x, ...) {
   # Validation
-  if (!is.numeric(n))
+  if (!is.numeric(x))
     stop("numeric values expected")
   # Remove zeros
-  n <- n[n > 0]
+  x <- x[x > 0]
 
-  N <- sum(n)
-  S <- length(n) # richness = number of different species
-  p <- n / N
+  N <- sum(x)
+  S <- length(x) # richness = number of different species
+  p <- x / N
   a <- sum(p * (log(p, base = exp(1)))^2)
   b <- sum(p * log(p, base = exp(1)))^2
   var <- ((a - b) / N) + ((S - 1) / (2 * N^2))
@@ -229,41 +233,42 @@ shannonVariance <- function(n, ...) {
 }
 
 # Simpson ======================================================================
-# Simpson dominance index and evenness
-#
-# @param n A \code{\link{numeric}} vector giving the number of individuals for
-#  each class.
-# @param ... Currently not used.
-# @return A length-one \code{\link{numeric}} vector.
-# @references
-#  Simpson, E. H. (1949). Measurement of Diversity. \emph{Nature}, 163(4148),
-#  688-688. DOI: \href{https://doi.org/10.1038/163688a0}{10.1038/163688a0}.
-# @author N. Frerebeau
-# @family diversity index
-# @rdname simpson-index
-simpsonDominance <- function(n, ...) {
+#' Simpson dominance index and evenness
+#'
+#' @param x A \code{\link{numeric}} vector giving the number of individuals for
+#'  each class.
+#' @param ... Currently not used.
+#' @return A length-one \code{\link{numeric}} vector.
+#' @references
+#'  Simpson, E. H. (1949). Measurement of Diversity. \emph{Nature}, 163(4148),
+#'  688-688. DOI: \href{https://doi.org/10.1038/163688a0}{10.1038/163688a0}.
+#' @author N. Frerebeau
+#' @family diversity index
+#' @rdname simpson-index
+#' @noRd
+simpsonDominance <- function(x, ...) {
   # Validation
-  if (!is.numeric(n))
+  if (!is.numeric(x))
     stop("numeric values expected")
   # Remove zeros
-  n <- n[n > 0]
+  x <- x[x > 0]
 
-  N <- sum(n)
-  D <- sum(n * (n - 1)) / (N* (N - 1))
+  N <- sum(x)
+  D <- sum(x * (x - 1)) / (N* (N - 1)) # For discrete data
   return(D)
 }
-# Simpson evenness -------------------------------------------------------------
-# @family evenness index
-# @rdname simpson-index
-simpsonEvenness <- function(n, ...) {
+#' @family evenness index
+#' @rdname simpson-index
+#' @noRd
+simpsonEvenness <- function(x, ...) {
   # Validation
-  if (!is.numeric(n))
+  if (!is.numeric(x))
     stop("numeric values expected")
   # Remove zeros
-  n <- n[n > 0]
+  x <- x[x > 0]
 
-  D <- 1 / simpsonDominance(n)
-  S <- length(n[n > 0]) # richness = number of different species
+  D <- 1 / simpsonDominance(x)
+  S <- length(x[x > 0]) # richness = number of different species
   E <- D / S
   return(E)
 }

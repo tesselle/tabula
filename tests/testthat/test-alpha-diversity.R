@@ -37,37 +37,3 @@ test_that("Rarefaction", {
   incid <- as(trap, "IncidenceMatrix")
   expect_error(rarefaction(incid, 13))
 })
-
-# Diversity index ==============================================================
-test_that("Diversity index - simplify = FALSE", {
-  count <- as(compiegne, "CountMatrix")
-  method <- c("berger", "brillouin", "mcintosh", "shannon", "simpson")
-  index <- diversity(count, method = method, simplify = FALSE)
-  expect_is(index, "list")
-  expect_identical(length(index), length(method))
-  expect_identical(unique(lengths(index)), nrow(count))
-})
-test_that("Diversity index - simplify = TRUE", {
-  count <- as(compiegne, "CountMatrix")
-  method <- c("berger", "brillouin", "mcintosh", "shannon", "simpson")
-  index <- diversity(count, method = method, simplify = TRUE)
-  expect_is(index, "matrix")
-  expect_identical(dim(index), c(nrow(count), length(method)))
-})
-
-# Evenness =====================================================================
-test_that("Evenness - simplify = FALSE", {
-  count <- as(compiegne, "CountMatrix")
-  method <- c("brillouin", "mcintosh", "shannon", "simpson")
-  index <- evenness(count, method = method, simplify = FALSE)
-  expect_is(index, "list")
-  expect_identical(length(index), length(method))
-  expect_identical(unique(lengths(index)), nrow(count))
-})
-test_that("Evenness - simplify = TRUE", {
-  count <- as(compiegne, "CountMatrix")
-  method <- c("brillouin", "mcintosh", "shannon", "simpson")
-  index <- evenness(count, method = method, simplify = TRUE)
-  expect_is(index, "matrix")
-  expect_identical(dim(index), c(nrow(count), length(method)))
-})
