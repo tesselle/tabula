@@ -75,15 +75,16 @@ setMethod(
 )
 
 # Qualitative index ============================================================
-# Jaccard ----------------------------------------------------------------------
-# Jaccard similarity index
-#
-# @param x A length-p \code{\link{numeric}} vector.
-# @param y A length-p \code{\link{numeric}} vector.
-# @return A length-one \code{\link{numeric}} vector.
-# @author N. Frerebeau
-# @family similarity index
-# @rdname jaccard-index
+#' Jaccard ----------------------------------------------------------------------
+#' Jaccard similarity index
+#'
+#' @param x A length-p \code{\link{numeric}} vector.
+#' @param y A length-p \code{\link{numeric}} vector.
+#' @return A length-one \code{\link{numeric}} vector.
+#' @author N. Frerebeau
+#' @family similarity index
+#' @rdname jaccard-index
+#' @noRd
 jaccardSimilarity <- function(x, y) {
   # Validation
   if (length(x) != length(y))
@@ -100,14 +101,15 @@ jaccardSimilarity <- function(x, y) {
 }
 
 # Sorenson ---------------------------------------------------------------------
-# Sorenson similarity index
-#
-# @param x A length-p \code{\link{numeric}} vector.
-# @param y A length-p \code{\link{numeric}} vector.
-# @return A length-one \code{\link{numeric}} vector.
-# @author N. Frerebeau
-# @family similarity index
-# @rdname sorenson-index
+#' Sorenson similarity index
+#'
+#' @param x A length-p \code{\link{numeric}} vector.
+#' @param y A length-p \code{\link{numeric}} vector.
+#' @return A length-one \code{\link{numeric}} vector.
+#' @author N. Frerebeau
+#' @family similarity index
+#' @rdname sorenson-index
+#' @noRd
 sorensonSimilarity <- function(x, y) {
   # Validation
   if (length(x) != length(y))
@@ -125,19 +127,20 @@ sorensonSimilarity <- function(x, y) {
 
 # Quantitative index ===========================================================
 # Sorenson ---------------------------------------------------------------------
-# Sorenson quantitative index
-#
-# Bray and Curtis modified version of the Sorenson index.
-# @param x A length-p \code{\link{numeric}} vector.
-# @param y A length-p \code{\link{numeric}} vector.
-# @return A length-one \code{\link{numeric}} vector.
-# @author N. Frerebeau
-# @family similarity index
-# @rdname bray-index
+#' Sorenson quantitative index
+#'
+#' Bray and Curtis modified version of the Sorenson index.
+#' @param x A length-p \code{\link{numeric}} vector.
+#' @param y A length-p \code{\link{numeric}} vector.
+#' @return A length-one \code{\link{numeric}} vector.
+#' @author N. Frerebeau
+#' @family similarity index
+#' @rdname bray-index
+#' @noRd
 braySimilarity <- function(x, y) {
   # Validation
   if (!is.numeric(x) | !is.numeric(y))
-    stop("numeric values are expected")
+    stop("Numeric values are expected")
   if (length(x) != length(y))
     stop("x and y should have the same length")
 
@@ -150,14 +153,15 @@ braySimilarity <- function(x, y) {
 }
 
 # Morisita-Horn ----------------------------------------------------------------
-# Morisita-Horn quantitative index
-#
-# @param x A length-p \code{\link{numeric}} vector.
-# @param y A length-p \code{\link{numeric}} vector.
-# @return A length-one \code{\link{numeric}} vector.
-# @author N. Frerebeau
-# @family similarity index
-# @rdname morisita-index
+#' Morisita-Horn quantitative index
+#'
+#' @param x A length-p \code{\link{numeric}} vector.
+#' @param y A length-p \code{\link{numeric}} vector.
+#' @return A length-one \code{\link{numeric}} vector.
+#' @author N. Frerebeau
+#' @family similarity index
+#' @rdname morisita-index
+#' @noRd
 morisitaSimilarity <- function(x, y) {
   # Validation
   if (!is.numeric(x) | !is.numeric(y))
@@ -175,14 +179,15 @@ morisitaSimilarity <- function(x, y) {
 }
 
 # Brainerd-Robinson ------------------------------------------------------------
-# Brainerd-Robinson quantitative index
-#
-# @param x A length-p \code{\link{numeric}} vector.
-# @param y A length-p \code{\link{numeric}} vector.
-# @return A length-one \code{\link{numeric}} vector.
-# @author N. Frerebeau
-# @family similarity index
-# @rdname brainerd-index
+#' Brainerd-Robinson quantitative index
+#'
+#' @param x A length-p \code{\link{numeric}} vector.
+#' @param y A length-p \code{\link{numeric}} vector.
+#' @return A length-one \code{\link{numeric}} vector.
+#' @author N. Frerebeau
+#' @family similarity index
+#' @rdname brainerd-index
+#' @noRd
 brainerdSimilarity <- function(x, y) {
   # Validation
   if (!is.numeric(x) | !is.numeric(y))
@@ -197,14 +202,15 @@ brainerdSimilarity <- function(x, y) {
 }
 
 # Binomial co-occurrence -------------------------------------------------------
-# Binomial co-occurrence of types assessment
-#
-# @param x A length-p \code{\link{numeric}} vector.
-# @param y A length-p \code{\link{numeric}} vector.
-# @return A length-one \code{\link{numeric}} vector.
-# @author N. Frerebeau
-# @family similarity index
-# @rdname binomial-index
+#' Binomial co-occurrence of types assessment
+#'
+#' @param x A length-p \code{\link{numeric}} vector.
+#' @param y A length-p \code{\link{numeric}} vector.
+#' @return A length-one \code{\link{numeric}} vector.
+#' @author N. Frerebeau
+#' @family similarity index
+#' @rdname binomial-index
+#' @noRd
 binomialSimilarity <- function(x, y) {
   # Validation
   if (!is.numeric(x) | !is.numeric(y))
