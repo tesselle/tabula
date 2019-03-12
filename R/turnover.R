@@ -42,12 +42,14 @@ setMethod(
   }
 )
 
-# Whittaker ====================================================================
-# @param x A \code{\link{logical}} or \code{\link{numeric}} matrix.
-# @return A length-one \code{\link{numeric}} vector.
-# @author N. Frerebeau
-# @family turnover index
-# @rdname whittaker-index
+#' Whittaker
+#'
+#' @param x A \code{\link{logical}} or \code{\link{numeric}} matrix.
+#' @return A length-one \code{\link{numeric}} vector.
+#' @author N. Frerebeau
+#' @family turnover index
+#' @rdname whittaker-index
+#' @noRd
 whittakerBeta <- function(x) {
   x <- x > 0 # presence/absence
 
@@ -60,13 +62,15 @@ whittakerBeta <- function(x) {
   return(W)
 }
 
-# Cody =========================================================================
-# @param x A \code{\link{logical}} or \code{\link{numeric}} matrix.
-# @details Begining of the transect in the first row
-# @return A length-one \code{\link{numeric}} vector.
-# @author N. Frerebeau
-# @family turnover index
-# @rdname cody-index
+#' Cody
+#'
+#' @param x A \code{\link{logical}} or \code{\link{numeric}} matrix.
+#' @details Begining of the transect in the first row
+#' @return A length-one \code{\link{numeric}} vector.
+#' @author N. Frerebeau
+#' @family turnover index
+#' @rdname cody-index
+#' @noRd
 codyBeta <- function(x) {
   x <- x > 0 # presence/absence
   m <- nrow(x)
@@ -83,13 +87,14 @@ codyBeta <- function(x) {
   return(beta)
 }
 
-# Routledge ====================================================================
-# Beta R -----------------------------------------------------------------------
-# @param x A \code{\link{logical}} or \code{\link{numeric}} matrix.
-# @return A length-one \code{\link{numeric}} vector.
-# @author N. Frerebeau
-# @family turnover index
-# @rdname routledge-index
+#' Routledge's Beta R
+#'
+#' @param x A \code{\link{logical}} or \code{\link{numeric}} matrix.
+#' @return A length-one \code{\link{numeric}} vector.
+#' @author N. Frerebeau
+#' @family turnover index
+#' @rdname routledge-index
+#' @noRd
 routledge1Beta <- function(x) {
   x <- x > 0 # presence/absence
   p <- ncol(x)
@@ -103,8 +108,9 @@ routledge1Beta <- function(x) {
   beta <- S^2 / (2 * r + S) - 1
   return(beta)
 }
-# Beta I -----------------------------------------------------------------------
-# @rdname routledge-index
+#' @family turnover index
+#' @rdname routledge-index
+#' @noRd
 routledge2Beta <- function(x) {
   x <- x > 0 # presence/absence
 
@@ -117,8 +123,10 @@ routledge2Beta <- function(x) {
   beta <- log(t) - (1 / t) * sum(e * log(e)) - (1 / t) * sum(alpha * log(alpha))
   return(beta)
 }
-# Beta E -----------------------------------------------------------------------
-# @rdname routledge-index
+# Beta E
+#' @family turnover index
+#' @rdname routledge-index
+#' @noRd
 routledge3Beta <- function(x) {
   x <- x > 0 # presence/absence
 
@@ -127,13 +135,15 @@ routledge3Beta <- function(x) {
   return(E)
 }
 
-# Wilson =======================================================================
-# @param x A \code{\link{logical}} or \code{\link{numeric}} matrix.
-# @details Begining of the transect in the first row
-# @return A length-one \code{\link{numeric}} vector.
-# @author N. Frerebeau
-# @family turnover index
-# @rdname wilson-index
+#' Wilson
+#'
+#' @param x A \code{\link{logical}} or \code{\link{numeric}} matrix.
+#' @details Begining of the transect in the first row
+#' @return A length-one \code{\link{numeric}} vector.
+#' @author N. Frerebeau
+#' @family turnover index
+#' @rdname wilson-index
+#' @noRd
 wilsonBeta <- function(x) {
   x <- x > 0 # presence/absence
   m <- nrow(x)
