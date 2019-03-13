@@ -14,5 +14,5 @@ test_that("Date model", {
                      jackknife = TRUE, bootstrap = TRUE)
   expect_s4_class(model, "DateModel")
   expect_is(plotDate(model, zuni, select = 1), "ggplot")
-  expect_is(plotDate(model, zuni, select = 1), "ggplot")
+  expect_is(plotDate(model, select = 1), "ggplot")
 })

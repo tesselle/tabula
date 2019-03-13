@@ -521,7 +521,7 @@ setMethod(
       dplyr::mutate(case = row_names) %>%
       tidyr::gather(key = "type", value = "occurrence",
                     -.data$case, factor_key = TRUE) %>%
-      dplyr::filter(occurrence == 1)
+      dplyr::filter(.data$occurrence == 1)
 
     # ggplot
     ggplot() +
