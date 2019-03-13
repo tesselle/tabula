@@ -18,24 +18,9 @@ test_that("BootCA", {
   expect_is(boot_ca["lengths", ], "data.frame")
   expect_error(boot_ca["X", ])
 })
-test_that("BootDate", {
-  boot_date <- new("BootDate")
-
-  expect_is(boot_date[["jackknife"]], "data.frame")
-  expect_is(boot_date[["bootstrap"]], "data.frame")
-  expect_error(boot_date[["X"]])
-
-  expect_is(boot_date["jackknife", ], "data.frame")
-  expect_is(boot_date["jackknife", NULL], "data.frame")
-  expect_is(boot_date["jackknife", 1], "data.frame")
-  expect_is(boot_date["jackknife", "a"], "data.frame")
-  expect_is(boot_date["bootstrap", ], "data.frame")
-  expect_error(boot_date["X", ])
-})
 test_that("DateModel", {
   date_model <- new("DateModel")
 
-  expect_is(date_model[["counts"]], "matrix")
   expect_is(date_model[["dates"]], "data.frame")
   expect_is(date_model[["level"]], "numeric")
   expect_is(date_model[["model"]], "lm")
@@ -43,6 +28,8 @@ test_that("DateModel", {
   expect_is(date_model[["rows"]], "data.frame")
   expect_is(date_model[["columns"]], "data.frame")
   expect_is(date_model[["accumulation"]], "data.frame")
+  expect_is(date_model[["jackknife"]], "data.frame")
+  expect_is(date_model[["bootstrap"]], "data.frame")
   expect_error(date_model[["X"]])
 
   expect_is(date_model["rows", ], "data.frame")
@@ -51,6 +38,11 @@ test_that("DateModel", {
   expect_is(date_model["rows", "a"], "data.frame")
   expect_is(date_model["columns", ], "data.frame")
   expect_is(date_model["accumulation", ], "data.frame")
+  expect_is(date_model["jackknife", ], "data.frame")
+  expect_is(date_model["jackknife", NULL], "data.frame")
+  expect_is(date_model["jackknife", 1], "data.frame")
+  expect_is(date_model["jackknife", "a"], "data.frame")
+  expect_is(date_model["bootstrap", ], "data.frame")
   expect_error(date_model["X", ])
 })
 test_that("NumericMatrix", {

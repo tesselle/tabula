@@ -4,15 +4,15 @@ NULL
 # Date plot ====================================================================
 #' @export
 #' @rdname plotDate-method
-#' @aliases plotDate,DateModel-method
+#' @aliases plotDate,DateModel,CountMatrix-method
 setMethod(
   f = "plotDate",
-  signature = c("DateModel"),
-  definition = function(object, type = c("event", "accumulation"),
+  signature = c(dates = "DateModel", counts = "CountMatrix"),
+  definition = function(dates, counts, type = c("event", "accumulation"),
                         select = 1, n = 500) {
     # Selection
     type <- match.arg(type, several.ok = TRUE)
-    cases <- object@rows$id
+    cases <- dates@rows$id
     index <- if (is.character(select)) {
       which(cases %in% select)
     } else {
@@ -23,12 +23,12 @@ setMethod(
       stop("wrong selection")
 
     # Get data
-    row_dates <- object@rows$estimation
-    row_lower <- object@rows$earliest
-    row_upper <- object@rows$latest
-    row_errors <- object@rows$error
-    col_dates <- object@columns$estimation
-    col_errors <- object@columns$error
+    row_dates <- dates@rows$estimation
+    row_lower <- dates@rows$earliest
+    row_upper <- dates@rows$latest
+    row_errors <- dates@rows$error
+    col_dates <- dates@columns$estimation
+    col_errors <- dates@columns$error
     date_range <- seq(from = min(row_lower), to = max(row_upper), length.out = n)
 
     plot_event <- plot_accumulation <- plot_facet <- NULL
@@ -50,7 +50,7 @@ setMethod(
     # Accumulation time
     if ("accumulation" %in% type) {
       # Weighted sum of the fabric dates
-      count <- object@counts[index, , drop = FALSE]
+      count <- counts[index, , drop = FALSE]
       freq <- count / rowSums(count)
 
       col_density <- mapply(function(mean, sd, x) { stats::dnorm(x, mean, sd) },
@@ -81,20 +81,15 @@ setMethod(
   }
 )
 
-# Bar plot =====================================================================
-#' @param sort A \code{\link{character}} string indicating whether the dates
-#'  should be sorted. It can be one of \code{asc} or \code{dsc} (default).
-#'  Any unambiguous substring can be given. If \code{NULL} no sorting is
-#'  performed.
 #' @export
 #' @rdname plotDate-method
-#' @aliases plotBar,DateModel-method
+#' @aliases plotDate,DateModel,missing-method
 setMethod(
-  f = "plotBar",
-  signature = signature(object = "DateModel"),
-  definition = function(object, select = 1, sort = "dsc") {
+  f = "plotDate",
+  signature = signature(dates = "DateModel", counts = "missing"),
+  definition = function(dates, select = 1, sort = "dsc") {
     # Selection
-    cases <- object@rows$id
+    cases <- dates@rows$id
     index <- if (is.character(select)) {
       which(cases %in% select)
     } else {
@@ -107,11 +102,11 @@ setMethod(
 
     date_data <- cbind.data.frame(
       id = as.factor(cases),
-      event = object@rows$estimation,
-      accumulation = object@accumulation$date,
+      event = dates@rows$estimation,
+      accumulation = dates@accumulation$date,
       y = as.numeric(as.factor(cases)),
-      xmin = object@rows$earliest,
-      xmax = object@rows$latest
+      xmin = dates@rows$earliest,
+      xmax = dates@rows$latest
     )[index, ]
 
     if (!is.null(sort)) {

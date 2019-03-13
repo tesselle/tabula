@@ -41,45 +41,6 @@ setMethod(
   }
 )
 
-# BootDate =====================================================================
-#' @export
-#' @describeIn BootDate Extracts informations from a slot selected by subscript
-#'  \code{i}.
-#' @aliases [[,BootDate-method
-setMethod(
-  f = "[[",
-  signature = "BootDate",
-  definition = function(x, i){
-    i <- match.arg(i, choices = methods::slotNames("BootDate"),
-                   several.ok = FALSE)
-    data <- methods::slot(x, i)
-    return(data)
-  }
-)
-
-#' @export
-#' @describeIn BootDate Allows to select a slot thru \code{j}.
-#' @aliases [,BootDate-method
-setMethod(
-  f = "[",
-  signature = "BootDate",
-  definition = function(x, i, j) {
-    i <- match.arg(i, choices = c("jackknife", "bootstrap"),
-                   several.ok = FALSE)
-    data <- methods::slot(x, i)
-
-    if (missing(j)) {
-      j <- 1:nrow(data)
-    } else {
-      if (is.null(j)) j <- 1:nrow(data)
-      if (is.character(j) | is.factor(j)) j <- which(data$id %in% j)
-      if (is.numeric(j)) j <- as.integer(j)
-    }
-    data <- data[j, ]
-    return(data)
-  }
-)
-
 # DateModel ====================================================================
 #' @export
 #' @describeIn DateModel Extracts informations from a slot selected by subscript
@@ -103,7 +64,8 @@ setMethod(
   f = "[",
   signature = "DateModel",
   definition = function(x, i, j) {
-    i <- match.arg(i, choices = c("rows", "columns", "accumulation"),
+    i <- match.arg(i, choices = c("rows", "columns", "accumulation",
+                                  "jackknife", "bootstrap"),
                    several.ok = FALSE)
     data <- methods::slot(x, i)
 

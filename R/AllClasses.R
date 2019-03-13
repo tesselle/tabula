@@ -7,9 +7,8 @@ NULL
 #' Date model
 #'
 #' An S4 class to store the event and accumulation times of archaeological
-#'  assemblages.
-#' @slot counts A \eqn{m \times p}{m x p} \code{\link{numeric}} matrix of count
-#'  data used for model fitting.
+#'  assemblages as well as the results of resampling methods for date model
+#'  checking.
 #' @slot dates A two columns \code{\link{data.frame}} giving the known dates
 #'  used for model fitting and an identifier to link each row to an assemblage.
 #' @slot level A length-one \code{\link{numeric}} vector giving the
@@ -30,6 +29,27 @@ NULL
 #' @slot accumulation A two columns \code{\link{data.frame}} giving the point
 #'  estimate of accumulation dates of archaeological assemblages and an
 #'  identifier to link each row to an assemblage.
+#' @slot jackknife A five columns \code{\link{data.frame}} giving the results of
+#'  the resamping procedure (jackknifing fabrics) for each assemblage (in rows)
+#'  with the following columns:
+#'  \describe{
+#'   \item{id}{An identifier.}
+#'   \item{estimation}{The jackknife event date estimate.}
+#'   \item{earliest}{The lower boundary of the associated prediction interval.}
+#'   \item{latest}{The upper boundary of the associated prediction interval.}
+#'   \item{error}{The standard error of predicted means.}
+#'  }
+#' @slot bootstrap A six columns \code{\link{data.frame}} giving the boostrap
+#'  distribution statistics for each replicated assemblage (in rows)
+#'  with the following columns:
+#'  \describe{
+#'   \item{id}{An identifier.}
+#'   \item{min}{Minimum value.}
+#'   \item{Q05}{Sample quantile to 0.05 probability.}
+#'   \item{mean}{Mean value (event date).}
+#'   \item{Q95}{Sample quantile to 0.95 probability.}
+#'   \item{max}{Maximum value.}
+#'  }
 #' @param x A \code{DateModel} object from which to extract element(s).
 #' @param i,j Indices specifying elements to extract.
 #'  \code{i} is a \code{\link{character}} string matching to the name of a slot.
@@ -44,14 +64,15 @@ NULL
 setClass(
   Class = "DateModel",
   slots = c(
-    counts = "matrix",
-    dates = "data.frame",
     level = "numeric",
     model = "lm",
     residual = "numeric",
+    dates = "data.frame",
     rows = "data.frame",
     columns = "data.frame",
-    accumulation = "data.frame"
+    accumulation = "data.frame",
+    jackknife = "data.frame",
+    bootstrap = "data.frame"
   )
 )
 
@@ -108,50 +129,6 @@ setClass(
             lengths = "data.frame",
             cutoff = "numeric",
             keep = "numeric")
-)
-
-## -----------------------------------------------------------------------------
-#' Date model checking
-#'
-#' An S4 class to store the results of resampling methods for date model
-#'  checking.
-#' @slot jackknife A six columns \code{\link{data.frame}} giving the results of
-#'  the resamping procedure (jackknifing) for each sample (in rows) with the
-#'  following columns:
-#'  \describe{
-#'   \item{id}{An identifier.}
-#'   \item{estimation}{The jackknife date estimate.}
-#'   \item{earliest}{The lower boundary of the associated prediction interval.}
-#'   \item{latest}{The upper boundary of the associated prediction interval.}
-#'   \item{error}{The standard error of predicted means.}
-#'   \item{bias}{The jackknife estimate of bias.}
-#'  }
-#' @slot bootstrap A six columns \code{\link{data.frame}} giving the boostrap
-#'  distribution statistics for each replicated sample (in rows) with the
-#'  following columns:
-#'  \describe{
-#'   \item{id}{An identifier.}
-#'   \item{min}{Minimum value.}
-#'   \item{Q05}{Sample quantile to 0.05 probability.}
-#'   \item{mean}{Mean value.}
-#'   \item{Q95}{Sample quantile to 0.95 probability.}
-#'   \item{max}{Maximum value.}
-#'  }
-#' @param x A \code{BootDate} object from which to extract element(s).
-#' @param i,j Indices specifying elements to extract.
-#'  \code{i} is a \code{\link{character}} string matching to the name of a slot.
-#'  \code{j} can be \code{\link{missing}} or \code{\link{NULL}},
-#'  a \code{\link{numeric}} or \code{\link{character}} vector.
-#'  Numeric values are coerced to \code{\link{integer}} as by
-#'  \code{\link{as.integer}} (and hence truncated towards zero).
-#'  Character vectors will be matched to the names of the object.
-#' @author N. Frerebeau
-#' @docType class
-#' @aliases BootDate-class
-setClass(
-  Class = "BootDate",
-  slots = c(jackknife = "data.frame",
-            bootstrap = "data.frame")
 )
 
 ## Numeric matrix --------------------------------------------------------------
@@ -278,27 +255,13 @@ setMethod(
     return(.Object)
   }
 )
-## BootDate ----------------------------------------------------------------------
-setMethod(
-  f = "initialize",
-  signature = "BootDate",
-  definition = function(.Object, jackknife, bootstrap) {
-    if (!missing(jackknife)) .Object@jackknife <- jackknife
-    if (!missing(bootstrap)) .Object@bootstrap <- bootstrap
-    methods::validObject(.Object)
-    if (getOption("verbose")) {
-      message(paste(class(.Object), "instance initialized.", sep = " "))
-    }
-    return(.Object)
-  }
-)
 ## DateModel -------------------------------------------------------------------
 setMethod(
   f = "initialize",
   signature = "DateModel",
-  definition = function(.Object, counts, dates, model, level, residual,
-                        rows, columns, accumulation) {
-    if (!missing(counts)) .Object@counts <- counts
+  definition = function(.Object, dates, model, level, residual,
+                        rows, columns, accumulation,
+                        jackknife, bootstrap) {
     if (!missing(dates)) .Object@dates <- dates
     # FIXME: workaround to initialize empty instance
     .Object@model <- if (!missing(model)) model else stats::lm(0 ~ 0)
@@ -307,6 +270,8 @@ setMethod(
     if (!missing(rows)) .Object@rows <- rows
     if (!missing(columns)) .Object@columns <- columns
     if (!missing(accumulation)) .Object@accumulation <- accumulation
+    if (!missing(jackknife)) .Object@jackknife <- jackknife
+    if (!missing(bootstrap)) .Object@bootstrap <- bootstrap
     methods::validObject(.Object)
     if (getOption("verbose")) {
       message(paste(class(.Object), "instance initialized.", sep = " "))

@@ -15,11 +15,24 @@ NULL
 #'  less than the \code{cutoff} value will be retained.
 #' @param level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
-#' @param verbose A \code{\link{logical}} scalar. Should extra summary
-#'  statistics be printed?
+#' @param jackknife A \code{\link{logical}} scalar: should the model be checked
+#'  by jackknife estimation (removing each fabric/type one at a time)?
+#' @param bootstrap A \code{\link{logical}} scalar: should the model be checked
+#'  by bootstrap resampling?
+#' @param n A non-negative \code{\link{integer}} giving the number of partial
+#'  bootstrap replications (see details).
 #' @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
 #' @details
-#'  ccc
+#'  TODO
+#'
+#' @section Model checking:
+#'  TODO
+#'
+#'  The use of re-sampling options (\code{jackknife} and \code{bootstrap}) can
+#'  lead to much longer execution times and larger output objects.
+#'  To monitor the execution of these re-sampling procedures, a progress bar
+#'  will automatically be displayed if the \code{\link{pbapply}} package is
+#'  installed on your machine.
 #' @note
 #'  The original authors of the method did not publish the data supporting their
 #'  demonstration and some elements are unclear. As such, no replication of
@@ -191,7 +204,8 @@ setGeneric(
 # Plot =========================================================================
 #' Date plot
 #'
-#' @param object An object of class \linkS4class{DateModel} to be plotted.
+#' @param dates An object of class \linkS4class{DateModel} to be plotted.
+#' @param counts An object of class \linkS4class{CountMatrix} to be plotted.
 #' @param type A \code{\link{character}} string or vector of character strings
 #'  indicating the modelled dates to be plotted. It must be one or both
 #'  (default) of \code{event} and \code{accumulation}. Any unambiguous substring
@@ -200,6 +214,10 @@ setGeneric(
 #'  giving the selection of the elements that are drawn.
 #' @param n A length-one non-negative \code{\link{numeric}} vector giving the
 #'  desired length of the vector of quantiles for density computation.
+#' @param sort A \code{\link{character}} string indicating whether the dates
+#'  should be sorted. It can be one of \code{asc} or \code{dsc} (default).
+#'  Any unambiguous substring can be given. If \code{NULL} no sorting is
+#'  performed.
 #' @param ... Further arguments passed to other methods.
 #' @references
 #'  Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
@@ -213,7 +231,7 @@ setGeneric(
 #' @aliases plotDate-method
 setGeneric(
   name = "plotDate",
-  def = function(object, ...) standardGeneric("plotDate")
+  def = function(dates, counts, ...) standardGeneric("plotDate")
 )
 # ------------------------------------------------------------------------------
 #' Bar plot

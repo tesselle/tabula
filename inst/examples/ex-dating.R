@@ -13,27 +13,32 @@ dates <- list(
 # Model the event and accumulation date for each assemblage.
 (model <- dateEvent(zuni, dates, cutoff = 90))
 
-# Print the modeled event and accumulation dates
-head(model[["rows"]])
-head(model[["accumulation"]])
-
-\dontrun{
-# Check variability
-resample <- refine(model)
-}
-
 # Plot results for the first five assemblages
 # Plot event date distribution
-plotDate(model, type = "event", select = 1:5) +
+plotDate(model, zuni, type = "event", select = 1:5) +
   ggplot2::theme_bw()
 # Plot accumulation date distribution
-plotDate(model, type = "acc", select = 1:5) +
+plotDate(model, zuni, type = "acc", select = 1:5) +
   ggplot2::theme_bw()
 # Plot both distributions
-plotDate(model, select = "LZ1105") +
+plotDate(model, zuni, select = "LZ1105") +
   ggplot2::theme_bw()
 
 # Plot estimated event date with confidence interval
 # and accumulation point estimate
-plotBar(model, select = 1:20) +
+plotDate(model, select = 1:20) +
   ggplot2::theme_bw()
+
+\donttest{
+# Check model variability
+checked <- dateEvent(zuni, dates, cutoff = 90,
+                     jackknife = TRUE, bootstrap = TRUE, n = 1000)
+
+# Extract results for the first 5 assemblages
+## Modeled event dates
+checked["rows", 1:5]
+## Jackknife fabrics
+checked["jackknife", 1:5]
+## Bootstrap of assemblages
+checked["bootstrap", 1:5]
+}

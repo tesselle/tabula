@@ -145,26 +145,3 @@ test_that("Initialize an empty DateModel object", {
 test_that("Initialize a DateModel object", {
   #TODO
 })
-test_that("Initialize an empty BootDate object", {
-  expect_s4_class(new("BootDate"), "BootDate")
-})
-test_that("Initialize a BootDate object", {
-  expect_s4_class(
-    new("BootDate",
-        jackknife = data.frame(1:10, 1:10, 1:10, 1:10, 1:10, 1:10),
-        bootstrap = data.frame(1:10, 1:10, 1:10, 1:10, 1:10, 1:10)),
-    "BootDate"
-  )
-
-  expect_error(new("BootDate", jackknife = data.frame(1:5)))
-  expect_error(new("BootDate", jackknife = data.frame(1:10, NA, 1:10, 1:10, 1:10, 1:10)))
-  expect_error(new("BootDate", jackknife = data.frame(1:26, LETTERS, 1:26, 1:26, 1:26, 1:26)))
-
-  expect_error(new("BootDate", bootstrap = data.frame(1:5)))
-  expect_error(new("BootDate", bootstrap = data.frame(1:10, NA, 1:10, 1:10, 1:10, 1:10)))
-  expect_error(new("BootDate", bootstrap = data.frame(1:26, LETTERS, 1:26, 1:26, 1:26, 1:26)))
-
-  expect_error(new("BootDate",
-                   jackknife = data.frame(1:10, 1:10, 1:10, 1:10, 1:10, 1:10),
-                   bootstrap = data.frame(1:5, 1:5, 1:5, 1:5, 1:5, 1:5)))
-})

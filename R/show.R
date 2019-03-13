@@ -2,16 +2,6 @@
 #' @include AllClasses.R
 NULL
 
-# BootDate =======================================================================
-setMethod(
-  f = "show",
-  signature = "BootDate",
-  definition = function(object) {
-    cat("Partial bootstrap date model refinement:", "\n",
-        sep = "")
-  }
-)
-
 # BootCA =======================================================================
 setMethod(
   f = "show",

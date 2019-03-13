@@ -4,10 +4,6 @@ test_that("BootCA", {
   A <- methods::new("BootCA")
   expect_output(show(A), "Partial bootstrap CA seriation refinement:")
 })
-test_that("BootDate", {
-  A <- methods::new("BootDate")
-  expect_output(show(A), "Partial bootstrap date model refinement:")
-})
 test_that("DateModel", {
   A <- methods::new("DateModel")
   expect_output(show(A), "Modelled event date")

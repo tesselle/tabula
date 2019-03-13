@@ -72,23 +72,70 @@ setValidity(
   }
 )
 
-# BootDate =====================================================================
+# DateModel ====================================================================
 setValidity(
-  Class = "BootDate",
+  Class = "DateModel",
   method = function(object) {
     errors <- c()
     # Get data
+    dates <- object@dates
+    level <- object@level
+    model <- object@model
+    residual <- object@residual
+    rows <- object@rows
+    columns <- object@columns
+    accumulation <- object@accumulation
     jackknife <- object@jackknife
     bootstrap <- object@bootstrap
 
+    if (length(level) != 0) {
+      if (!is.numeric(level) | length(level) != 1 | anyNA(level))
+        errors <- c(errors, paste(sQuote("level"), "must be a length-one numeric vector."))
+      if (level <= 0 | level >= 1)
+        errors <- c(errors, paste(sQuote("level"), "must be in the range of 0 to 1 (excluded)."))
+    }
+    if (length(residual) != 0) {
+      if (!is.numeric(residual) | anyNA(residual) | length(residual) != 1 | level < 0)
+        errors <- c(errors, paste(sQuote("residual"), "must be a strictly positive numeric value."))
+    }
+    if (length(rows) != 0) {
+      if (ncol(rows) != 5)
+        errors <- c(errors, paste(sQuote("rows"), "must be a five columns data frame."))
+      if (anyNA(rows))
+        errors <- c(errors, paste(sQuote("rows"), "must not contain missing values."))
+    }
+    if (length(columns) != 0) {
+      if (ncol(columns) != 5)
+        errors <- c(errors, paste(sQuote("columns"), "must be a five columns data frame."))
+      if (anyNA(columns))
+        errors <- c(errors, paste(sQuote("columns"), "must not contain missing values."))
+    }
+    if (length(accumulation) != 0) {
+      if (ncol(accumulation) != 2)
+        errors <- c(errors, paste(sQuote("accumulation"), "must be a two columns data frame."))
+      if (anyNA(accumulation))
+        errors <- c(errors, paste(sQuote("accumulation"), "must not contain missing values."))
+      if (length(rows) != 0) {
+        a <- nrow(rows)
+        b <- nrow(accumulation)
+        if (b != a)
+          errors <- c(errors, paste(sQuote("accumulation"), "must be a 5 x", a, "data frame."))
+      }
+    }
     if (length(jackknife) != 0) {
-      if (ncol(jackknife) != 6)
-        errors <- c(errors, paste(sQuote("jackknife"), "must be a six columns data frame."))
+      if (ncol(jackknife) != 5)
+        errors <- c(errors, paste(sQuote("jackknife"), "must be a five columns data frame."))
       if (anyNA(jackknife))
         errors <- c(errors, paste(sQuote("jackknife"), "must not contain missing values."))
       is_num <- apply(X = jackknife[, -1], MARGIN = 2, FUN = is.numeric)
       if (!any(is_num))
         errors <- c(errors, paste(sQuote("jackknife"), "must contain numeric values."))
+      if (length(rows) != 0) {
+        a <- nrow(rows)
+        b <- nrow(jackknife)
+        if (b != a)
+          errors <- c(errors, paste(sQuote("jackknife"), "must be a 5 x", a, "data frame."))
+      }
     }
     if (length(bootstrap) != 0) {
       if (ncol(bootstrap) != 6)
@@ -98,86 +145,16 @@ setValidity(
       is_num <- apply(X = bootstrap[, -1], MARGIN = 2, FUN = is.numeric)
       if (!any(is_num))
         errors <- c(errors, paste(sQuote("bootstrap"), "must contain numeric values."))
+      if (length(rows) != 0) {
+        a <- nrow(rows)
+        b <- nrow(bootstrap)
+        if (b != a)
+          errors <- c(errors, paste(sQuote("bootstrap"), "must be a 6 x", a, "data frame."))
+      }
     }
     if (length(jackknife) != 0 & length(bootstrap) != 0)
       if (nrow(jackknife) != nrow(bootstrap))
         errors <- c(errors, paste(sQuote("jackknife"), "and", sQuote("bootstrap"), "must have the same number of rows."))
-    # Return errors if any
-    if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
-    } else {
-      return(TRUE)
-    }
-  }
-)
-
-# DateModel ====================================================================
-setValidity(
-  Class = "DateModel",
-  method = function(object) {
-    errors <- c()
-    # Get data
-    counts <- object@counts
-    dates <- object@dates
-    level <- object@level
-    model <- object@model
-    residual <- object@residual
-    rows <- object@rows
-    columns <- object@columns
-    accumulation <- object@accumulation
-
-    if (length(counts) != 0) {
-      if (!is.numeric(counts))
-        errors <- c(errors, "'counts' must be a numeric matrix.")
-      if (any(is.na(counts)))
-        errors <- c(errors, "'counts' must not contain NA values.")
-    }
-    if (length(level) != 0) {
-      if (!is.numeric(level) | length(level) != 1 | anyNA(level))
-        errors <- c(errors, "'level' must be a length-one numeric vector.")
-      if (level <= 0 | level >= 1)
-        errors <- c(errors, "'level' must be in the range of 0 to 1 (excluded).")
-    }
-    if (length(residual) != 0) {
-      if (!is.numeric(residual) | anyNA(residual) | length(residual) != 1 | level < 0)
-        errors <- c(errors, "'residual' must be a strictly positive numeric value.")
-    }
-    if (length(rows) != 0) {
-      if (ncol(rows) != 5)
-        errors <- c(errors, "'rows' must be a five columns data frame.")
-      if (anyNA(rows))
-        errors <- c(errors, "'rows' must not contain NA values.")
-    }
-    if (length(columns) != 0) {
-      if (ncol(columns) != 5)
-        errors <- c(errors, "'columns' must be a five columns data frame.")
-      if (anyNA(columns))
-        errors <- c(errors, "'columns' must not contain NA values.")
-    }
-    if (length(accumulation) != 0) {
-      if (ncol(accumulation) != 2)
-        errors <- c(errors, "'accumulation' must be a two columns data frame.")
-      if (anyNA(accumulation))
-        errors <- c(errors, "'columns' must not contain NA values.")
-    }
-    if (length(counts) != 0 & length(rows) != 0) {
-      a <- nrow(counts)
-      b <- nrow(rows)
-      if (b != a)
-        errors <- c(errors, paste("'rows' must be a 5 x", a, "data frame."))
-    }
-    if (length(counts) != 0 & length(columns) != 0) {
-      a <- ncol(counts)
-      b <- nrow(columns)
-      if (b != a)
-        errors <- c(errors, paste("'columns' must be a 5 x", a, "data frame."))
-    }
-    if (length(counts) != 0 & length(accumulation) != 0) {
-      a <- nrow(counts)
-      b <- nrow(accumulation)
-      if (b != a)
-        errors <- c(errors, paste("'accumulation' must be a 2 x", a, "data frame."))
-    }
     # Return errors if any
     if (length(errors) != 0) {
       stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
