@@ -503,3 +503,42 @@ setMethod(
       coord_fixed()
   }
 )
+
+#' @export
+#' @rdname plotSpot-method
+#' @aliases plotSpot,OccurrenceMatrix-method
+setMethod(
+  f = "plotSpot",
+  signature = signature(object = "OccurrenceMatrix"),
+  definition = function(object) {
+    # Prepare data
+    # Get row names and coerce to factor (preserve original ordering)
+    row_names <- rownames(object) %>% factor(levels = unique(.))
+
+    # Build long tables from data
+    data <- object %>%
+      as.data.frame() %>%
+      dplyr::mutate(case = row_names) %>%
+      tidyr::gather(key = "type", value = "occurrence",
+                    -.data$case, factor_key = TRUE) %>%
+      dplyr::filter(occurrence == 1)
+
+    # ggplot
+    ggplot() +
+      geom_point(data = data, mapping = aes_string(x = "type", y = "case"),
+                 color = "black", size = 3) +
+      geom_line(data = data,
+                mapping = aes_string(x = "type", y = "case", group = "case")) +
+      scale_x_discrete(position = "top", limits = row_names) +
+      scale_y_discrete(limits = rev(row_names)) +
+      scale_size_area() +
+      theme(axis.text.x = element_text(angle = 90, hjust = 0),
+            axis.ticks = element_blank(),
+            axis.title.x = element_blank(),
+            axis.title.y = element_blank(),
+            legend.key = element_rect(fill = "white"),
+            panel.background = element_rect(fill = "white"),
+            panel.grid = element_blank()) +
+      coord_fixed()
+  }
+)
