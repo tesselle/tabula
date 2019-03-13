@@ -15,55 +15,93 @@ setValidity(
     keep <- object@keep
 
     if (length(rows) != 0) {
-      if (ncol(rows) != 3) {
-        errors <- c(errors, "'rows' must be a three columns data frame.")
-      } else {
-        if (!identical(colnames(rows), c("id", "x", "y"))) {
-          errors <- c(errors, "'rows' has wrong column names.")
-        } else {
-          if (!is.numeric(rows$x) | !is.numeric(rows$y))
-            errors <- c(errors, "'x' and 'y' columns of 'rows' must be of numeric type.")
-        }
-      }
-      if (any(is.na(rows)))
-        errors <- c(errors, "'rows' must not contain NA values.")
+      if (ncol(rows) != 3)
+        errors <- c(errors, paste(sQuote("rows"), "must be a three columns data frame."))
+      rows_names <- c("id", "x", "y")
+      if (!identical(colnames(rows), rows_names))
+        errors <- c(errors, paste(sQuote("rows"), "column names must be",
+                                  paste(dQuote(rows_names), collapse = ", ")))
+      rows_num <- apply(X = rows[, -1], MARGIN = 1, FUN = is.numeric)
+      if (!any(rows_num))
+        errors <- c(errors, paste(sQuote("rows"), "must be of numeric type."))
+      if (anyNA(rows))
+        errors <- c(errors, paste(sQuote("rows"), "must not contain missing values."))
     }
     if (length(columns) != 0) {
-      if (ncol(columns) != 3) {
-        errors <- c(errors, "'columns' must be a three columns data frame.")
-      } else {
-        if (!identical(colnames(columns), c("id", "x", "y"))) {
-          errors <- c(errors, "'columns' has wrong column names.")
-        } else {
-          if (!is.numeric(columns$x) | !is.numeric(columns$y))
-            errors <- c(errors, "'x' and 'y' columns of 'columns' must be of numeric type.")
-        }
-      }
-      if (any(is.na(columns)))
-        errors <- c(errors, "'columns' must not contain NA values.")
+      if (ncol(columns) != 3)
+        errors <- c(errors, paste(sQuote("columns"), "must be a three columns data frame."))
+      columns_names <- c("id", "x", "y")
+      if (!identical(colnames(columns), columns_names))
+        errors <- c(errors, paste(sQuote("columns"), "column names must be",
+                                  paste(dQuote(columns_names), collapse = ", ")))
+      columns_num <- apply(X = columns[, -1], MARGIN = 1, FUN = is.numeric)
+      if (!any(columns_num))
+        errors <- c(errors, paste(sQuote("columns"), "must be of numeric type."))
+      if (anyNA(columns))
+        errors <- c(errors, paste(sQuote("columns"), "must not contain missing values."))
     }
     if (length(lengths) != 0) {
-      if (ncol(lengths) != 2) {
-        errors <- c(errors, "'lengths' must be a two columns data frame.")
-      } else {
-        if (!identical(colnames(lengths), c("id", "d"))) {
-          errors <- c(errors, "'lengths' has wrong column names.")
-        } else {
-          if (!is.numeric(lengths$d))
-            errors <- c(errors, "'d' column of 'lengths' must be of numeric type.")
-        }
-      }
-      if (any(is.na(lengths)))
-        errors <- c(errors, "'lengths' must not contain NA values.")
+      if (ncol(lengths) != 2)
+        errors <- c(errors, paste(sQuote("lengths"), "must be a two columns data frame."))
+      lengths_names <- c("id", "d")
+      if (!identical(colnames(lengths), lengths_names))
+        errors <- c(errors, paste(sQuote("lengths"), "column names must be",
+                                  paste(dQuote(lengths_names), collapse = ", ")))
+      lengths_num <- apply(X = lengths[, -1, drop = FALSE], MARGIN = 1, FUN = is.numeric)
+      if (!any(lengths_num))
+        errors <- c(errors, paste(sQuote("lengths"), "must be of numeric type."))
+      if (anyNA(lengths))
+        errors <- c(errors, paste(sQuote("lengths"), "must not contain missing values."))
     }
     if (length(cutoff) != 0) {
-      if (length(cutoff) != 1 | !is.numeric(cutoff) | is.na(cutoff))
-        errors <- c(errors, "'cutoff' must be a length-one numeric vector")
+      if (length(cutoff) != 1 | !is.numeric(cutoff) | anyNA(cutoff))
+        errors <- c(errors, paste(dQuote("cutoff"), "must be a length-one numeric vector"))
     }
     if (length(keep) != 0) {
-      if (any(!is.numeric(keep)) | any(is.na(keep)))
-        errors <- c(errors, "'keep' must be a numeric vector")
+      if (!is.numeric(keep))
+        errors <- c(errors, paste(sQuote("keep"), "must be a numeric vector."))
+      if (anyNA(keep))
+        errors <- c(errors, paste(sQuote("keep"), "must not contain missing values."))
     }
+    # Return errors if any
+    if (length(errors) != 0) {
+      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
+    } else {
+      return(TRUE)
+    }
+  }
+)
+
+# BootDate =====================================================================
+setValidity(
+  Class = "BootDate",
+  method = function(object) {
+    errors <- c()
+    # Get data
+    jackknife <- object@jackknife
+    bootstrap <- object@bootstrap
+
+    if (length(jackknife) != 0) {
+      if (ncol(jackknife) != 6)
+        errors <- c(errors, paste(sQuote("jackknife"), "must be a six columns data frame."))
+      if (anyNA(jackknife))
+        errors <- c(errors, paste(sQuote("jackknife"), "must not contain missing values."))
+      is_num <- apply(X = jackknife[, -1], MARGIN = 2, FUN = is.numeric)
+      if (!any(is_num))
+        errors <- c(errors, paste(sQuote("jackknife"), "must contain numeric values."))
+    }
+    if (length(bootstrap) != 0) {
+      if (ncol(bootstrap) != 6)
+        errors <- c(errors, paste(sQuote("bootstrap"), "must be a six columns data frame."))
+      if (anyNA(bootstrap))
+        errors <- c(errors, paste(sQuote("bootstrap"), "must not contain missing values."))
+      is_num <- apply(X = bootstrap[, -1], MARGIN = 2, FUN = is.numeric)
+      if (!any(is_num))
+        errors <- c(errors, paste(sQuote("bootstrap"), "must contain numeric values."))
+    }
+    if (length(jackknife) != 0 & length(bootstrap) != 0)
+      if (nrow(jackknife) != nrow(bootstrap))
+        errors <- c(errors, paste(sQuote("jackknife"), "and", sQuote("bootstrap"), "must have the same number of rows."))
     # Return errors if any
     if (length(errors) != 0) {
       stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
@@ -95,31 +133,31 @@ setValidity(
         errors <- c(errors, "'counts' must not contain NA values.")
     }
     if (length(level) != 0) {
-      if (!is.numeric(level) | length(level) != 1 | any(is.na(level)))
+      if (!is.numeric(level) | length(level) != 1 | anyNA(level))
         errors <- c(errors, "'level' must be a length-one numeric vector.")
       if (level <= 0 | level >= 1)
         errors <- c(errors, "'level' must be in the range of 0 to 1 (excluded).")
     }
     if (length(residual) != 0) {
-      if (!is.numeric(residual) | any(is.na(residual)) | length(residual) != 1 | level < 0)
+      if (!is.numeric(residual) | anyNA(residual) | length(residual) != 1 | level < 0)
         errors <- c(errors, "'residual' must be a strictly positive numeric value.")
     }
     if (length(rows) != 0) {
       if (ncol(rows) != 5)
         errors <- c(errors, "'rows' must be a five columns data frame.")
-      if (any(is.na(rows)))
+      if (anyNA(rows))
         errors <- c(errors, "'rows' must not contain NA values.")
     }
     if (length(columns) != 0) {
       if (ncol(columns) != 5)
         errors <- c(errors, "'columns' must be a five columns data frame.")
-      if (any(is.na(columns)))
+      if (anyNA(columns))
         errors <- c(errors, "'columns' must not contain NA values.")
     }
     if (length(accumulation) != 0) {
       if (ncol(accumulation) != 2)
         errors <- c(errors, "'accumulation' must be a two columns data frame.")
-      if (any(is.na(accumulation)))
+      if (anyNA(accumulation))
         errors <- c(errors, "'columns' must not contain NA values.")
     }
     if (length(counts) != 0 & length(rows) != 0) {
@@ -160,17 +198,24 @@ setValidity(
     method <- object@method
 
     if (length(rows) != 0) {
-      if (!is.integer(rows) | any(is.na(rows)) | !isPositive(rows))
-        errors <- c(errors, "'rows' must be a vector of strictly positive integers.")
+      if (!is.integer(rows) | anyNA(rows) | !isPositive(rows, strict = TRUE))
+        errors <- c(errors, paste(sQuote("rows"), "must be a vector of strictly positive integers."))
+      if (length(columns) == 0)
+        errors <- c(errors, paste(sQuote("columns"), "is empty."))
     }
     if (length(columns) != 0) {
-      if (!is.integer(columns) | any(is.na(columns)) | !isPositive(columns))
-        errors <- c(errors, "'columns' must be a vector of strictly positive integers.")
+      if (!is.integer(columns) | anyNA(columns) | !isPositive(columns, strict = TRUE))
+        errors <- c(errors, paste(sQuote("columns"), "must be a vector of strictly positive integers."))
+      if (length(rows) == 0)
+        errors <- c(errors, paste(sQuote("columns"), "is empty."))
     }
     if (length(method) != 0) {
       if (length(method) != 1 | !is.character(method)) {
-        errors <- c(errors, "'method' must be a single character string.")
+        errors <- c(errors, paste(sQuote("method"), "must be a single character string."))
       }
+    }
+    if (length(rows) != 0 & length(columns) != 0 & length(method) == 0) {
+      errors <- c(errors, paste(sQuote("method"), "is missing."))
     }
     # Return errors if any
     if (length(errors) != 0) {
@@ -192,11 +237,11 @@ setValidity(
     # Check data
     if (length(data) != 0) {
       if (!is.numeric(data))
-        errors <- c(errors, "numeric values are expected.")
-      if (any(is.na(data)))
+        errors <- c(errors, "Numeric values are expected.")
+      if (anyNA(data))
         errors <- c(errors, "NA values were detected.")
       if (any(is.infinite(data)))
-        errors <- c(errors, "infinite numbers were detected.")
+        errors <- c(errors, "Infinite numbers were detected.")
     }
 
     # Return errors if any
@@ -219,11 +264,11 @@ setValidity(
     # Check data
     if (length(data) != 0) {
       if (sum(!isWholeNumber(data)) != 0)
-        errors <- c(errors, "whole numbers are expected.")
+        errors <- c(errors, "Whole numbers are expected.")
       if (isBinary(data))
-        errors <- c(errors, "you should consider using an incidence matrix.")
+        errors <- c(errors, "You should consider using an incidence matrix.")
       if (!isPositive(data))
-        errors <- c(errors, "positive values are expected.")
+        errors <- c(errors, "Positive values are expected.")
     }
 
     # Return errors, if any
@@ -247,13 +292,15 @@ setValidity(
     # Check data
     if (length(data) != 0) {
       if (!isEqual(rowSums(data, na.rm = TRUE)))
-        errors <- c(errors, "constant row sums are expected.")
+        errors <- c(errors, "Constant row sums are expected.")
       if (isBinary(data))
-        errors <- c(errors, "you should consider using an incidence matrix.")
-      if (length(totals) != nrow(data))
-        errors <- c(errors, paste("'totals' should be of length", nrow(data)))
+        errors <- c(errors, "You should consider using an incidence matrix.")
       if (!isPositive(data))
-        errors <- c(errors, "positive values are expected.")
+        errors <- c(errors, "Positive values are expected.")
+      k <- length(totals)
+      if (k != nrow(data))
+        errors <- c(errors, paste(sQuote("totals"), "should be of length",
+                                  nrow(data), "not", k))
     }
 
     # Return errors, if any
@@ -272,15 +319,18 @@ setValidity(
     errors <- c()
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
+    method <- object@method
 
     # Check data
     if (length(data) != 0) {
       if (!isSquare(data))
-        errors <- c(errors, "a square matrix is expected.")
+        errors <- c(errors, "A square matrix is expected.")
       if (!isSymmetric(data))
-        errors <- c(errors, "a symmetric matrix is expected.")
+        errors <- c(errors, "A symmetric matrix is expected.")
       if (!identical(rownames(data), colnames(data)))
-        errors <- c(errors, "rows and columns should have the same names.")
+        errors <- c(errors, "Rows and columns must have the same names.")
+      if (length(method) != 1)
+        errors <- c(errors, paste(sQuote("method"), "must be a single character string."))
     }
 
     # Return errors, if any
@@ -303,8 +353,8 @@ setValidity(
     # Check data
     if (length(data) != 0) {
       if (!is.logical(data))
-        errors <- c("logical values are expected.")
-      if (any(is.na(data)))
+        errors <- c("Logical values are expected.")
+      if (anyNA(data))
         errors <- c(errors, "NA values were detected.")
     }
 
@@ -328,9 +378,9 @@ setValidity(
     # Check data
     if (length(data) != 0) {
       if (!isSquare(data))
-        errors <- c(errors, "a square matrix is expected.")
+        errors <- c(errors, "A square matrix is expected.")
       if (!identical(rownames(data), colnames(data)))
-        errors <- c(errors, "rows and columns should have the same names.")
+        errors <- c(errors, "Rows and columns must have the same names.")
     }
 
     # Return errors, if any
