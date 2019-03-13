@@ -3,19 +3,20 @@
 \docType{package}
 \name{tabula-package}
 \alias{tabula-package}
+\alias{_PACKAGE}
 \alias{tabula}
-\title{Analysis, Seriation and Visualization of Archaeological Count Data}
+\title{tabula: Analysis, Seriation and Visualization of Archaeological Count Data}
 \description{
-An easy way to examine archaeological count data (artifacts, faunal
-remains, etc.). This package includes several measures of diversity: e.g.
-richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), diversity/dominance
-and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity
-(Brainerd-Robinson, ...). Most of these methods are described and discussed
-in Maguran (1988) <doi:10.1007/978-94-015-7358-0>. It also provides matrix
-seriation methods (reciprocal ranking, CA-based seriation, IDSS) for
-chronological modeling and dating. The package make it easy to visualize
-count data and statistical thresholds: rank/abundance plots, Ford (1972)
-<isbn:0913134082> and Bertin (1977) <isbn:2082111121> diagrams, etc.
+An easy way to examine archaeological count data (artifacts, faunal 
+    remains, etc.). This package includes several measures of diversity: e.g. 
+    richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), diversity/dominance 
+    and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity 
+    (Brainerd-Robinson, ...). Most of these methods are described and discussed 
+    in Maguran (1988) <doi:10.1007/978-94-015-7358-0>. It also provides matrix 
+    seriation methods (reciprocal ranking, CA-based seriation, IDSS) for 
+    chronological modeling and dating. The package make it easy to visualize 
+    count data and statistical thresholds: rank/abundance plots, Ford (1972) 
+    <isbn:0913134082> and Bertin (1977) <isbn:2082111121> diagrams, etc.
 }
 \details{
 \tabular{ll}{
@@ -27,20 +28,32 @@ count data and statistical thresholds: rank/abundance plots, Ford (1972)
  \strong{DOI:} \tab \href{https://doi.org/10.5281/zenodo.1489944}{10.5281/zenodo.1489944}
 }
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{http://github.com/nfrerebeau/tabula}
+  \item Report bugs at \url{http://github.com/nfrerebeau/tabula/issues}
+}
+
+}
 \author{
 \strong{Full list of authors and contributors} (alphabetic order)
- \tabular{ll}{
-  Nicolas Frerebeau \tab \emph{IRAMAT-CRP2A, Université Bordeaux Montaigne, France} \cr
-  Brice Lebrun \tab \emph{CEREGE, Aix-Marseille Université, France} \cr
-  Matthew Peeples \tab \emph{SNArchy, Arizona State University, USA}
- }
 
-\strong{Bug reporting}
-
-- \url{https://github.com/nfrerebeau/tabula/issues}
+\tabular{ll}{
+ Nicolas Frerebeau \tab \emph{IRAMAT-CRP2A, Université Bordeaux Montaigne, France} \cr
+ Brice Lebrun \tab \emph{CEREGE, Aix-Marseille Université, France} \cr
+ Matthew Peeples \tab \emph{SNArchy, Arizona State University, USA}
+}
 
 \strong{Package maintainer}
 
-Nicolas Frerebeau, IRAMAT-CRP2A, Maison de l'Archéologie, Universite Bordeaux Montaigne, 33607 Pessac cedex, France,\cr
+Nicolas Frerebeau\cr
 \email{nicolas.frerebeau@u-bordeaux-montaigne.fr}
+
+IRAMAT-CRP2A (UMR 5060)\cr
+Maison de l'Archéologie\cr
+Universite Bordeaux Montaigne\cr
+F-33607 Pessac cedex\cr
+France
 }
+\keyword{internal}

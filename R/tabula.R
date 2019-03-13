@@ -1,16 +1,4 @@
-#' Analysis, Seriation and Visualization of Archaeological Count Data
-#'
-#' An easy way to examine archaeological count data (artifacts, faunal
-#' remains, etc.). This package includes several measures of diversity: e.g.
-#' richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), diversity/dominance
-#' and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity
-#' (Brainerd-Robinson, ...). Most of these methods are described and discussed
-#' in Maguran (1988) <doi:10.1007/978-94-015-7358-0>. It also provides matrix
-#' seriation methods (reciprocal ranking, CA-based seriation, IDSS) for
-#' chronological modeling and dating. The package make it easy to visualize
-#' count data and statistical thresholds: rank/abundance plots, Ford (1972)
-#' <isbn:0913134082> and Bertin (1977) <isbn:2082111121> diagrams, etc.
-#'
+#' @details
 #' \tabular{ll}{
 #'  \strong{Package:} \tab tabula \cr
 #'  \strong{Type:} \tab Package \cr
@@ -19,26 +7,31 @@
 #'  \strong{License:} \tab GPL-3 \cr
 #'  \strong{DOI:} \tab \href{https://doi.org/10.5281/zenodo.1489944}{10.5281/zenodo.1489944}
 #' }
+#' @author
+#' \strong{Full list of authors and contributors} (alphabetic order)
 #'
-#' @name tabula-package
-#' @aliases tabula-package tabula
-#' @docType package
-#' @author \strong{Full list of authors and contributors} (alphabetic order)
-#'  \tabular{ll}{
-#'   Nicolas Frerebeau \tab \emph{IRAMAT-CRP2A, Université Bordeaux Montaigne, France} \cr
-#'   Brice Lebrun \tab \emph{CEREGE, Aix-Marseille Université, France} \cr
-#'   Matthew Peeples \tab \emph{SNArchy, Arizona State University, USA}
-#'  }
-#'
-#' \strong{Bug reporting}
-#'
-#' - \url{https://github.com/nfrerebeau/tabula/issues}
+#' \tabular{ll}{
+#'  Nicolas Frerebeau \tab \emph{IRAMAT-CRP2A, Université Bordeaux Montaigne, France} \cr
+#'  Brice Lebrun \tab \emph{CEREGE, Aix-Marseille Université, France} \cr
+#'  Matthew Peeples \tab \emph{SNArchy, Arizona State University, USA}
+#' }
 #'
 #' \strong{Package maintainer}
 #'
-#' Nicolas Frerebea, IRAMAT-CRP2A, Universite Bordeaux Montaigne, Pessac, France,\cr
+#' Nicolas Frerebeau\cr
 #' \email{nicolas.frerebeau@@u-bordeaux-montaigne.fr}
 #'
+#' IRAMAT-CRP2A (UMR 5060)\cr
+#' Maison de l'Archéologie\cr
+#' Universite Bordeaux Montaigne\cr
+#' F-33607 Pessac cedex\cr
+#' France
+#' @name tabula-package
+#' @aliases tabula-package tabula
+#' @docType package
+#' @keywords internal
+"_PACKAGE"
+
 #' @importFrom magrittr %<>%
 #' @importFrom magrittr %>%
 #' @importFrom rlang :=
