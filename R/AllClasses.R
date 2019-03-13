@@ -19,13 +19,24 @@ NULL
 #' @slot residual A length-one \code{\link{numeric}} vector giving the residual
 #'  standard deviation.
 #' @slot rows A five columns \code{\link{data.frame}} giving the predicted event
-#'  dates for each archaeological assemblage, the corresponding confidence
-#'  interval boundaries, standard error of the predicted dates and an
-#'  identifier to link each row to an assemblage.
+#'  dates for each archaeological assemblage, with the following columns:
+#'  \describe{
+#'   \item{id}{An identifier to link each row to an assemblage.}
+#'   \item{estimation}{The event date estimation.}
+#'   \item{earliest}{The lower boundary of the confidence interval.}
+#'   \item{latest}{The upper boundary of the confidence interval.}
+#'   \item{error}{The standard error of predicted dates.}
+#'  }
 #' @slot columns A five columns \code{\link{data.frame}} giving the predicted
-#'  event dates for each archaeological type or fabric, the corresponding
-#'  confidence interval boundaries, standard error of the predicted dates and an
-#'  identifier to link each row to a type or fabric.
+#'  event dates for each archaeological type or fabric, with the following
+#'  columns:
+#'  \describe{
+#'   \item{id}{An identifier to link each row to an assemblage.}
+#'   \item{estimation}{The event date estimation.}
+#'   \item{earliest}{The lower boundary of the confidence interval.}
+#'   \item{latest}{The upper boundary of the confidence interval.}
+#'   \item{error}{The standard error of predicted dates.}
+#'  }
 #' @slot accumulation A two columns \code{\link{data.frame}} giving the point
 #'  estimate of accumulation dates of archaeological assemblages and an
 #'  identifier to link each row to an assemblage.
@@ -33,7 +44,7 @@ NULL
 #'  the resamping procedure (jackknifing fabrics) for each assemblage (in rows)
 #'  with the following columns:
 #'  \describe{
-#'   \item{id}{An identifier.}
+#'   \item{id}{An identifier to link each row to an assemblage.}
 #'   \item{estimation}{The jackknife event date estimate.}
 #'   \item{earliest}{The lower boundary of the associated prediction interval.}
 #'   \item{latest}{The upper boundary of the associated prediction interval.}
@@ -43,7 +54,7 @@ NULL
 #'  distribution statistics for each replicated assemblage (in rows)
 #'  with the following columns:
 #'  \describe{
-#'   \item{id}{An identifier.}
+#'   \item{id}{An identifier to link each row to an assemblage.}
 #'   \item{min}{Minimum value.}
 #'   \item{Q05}{Sample quantile to 0.05 probability.}
 #'   \item{mean}{Mean value (event date).}

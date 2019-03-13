@@ -31,8 +31,8 @@ NULL
 #'  The use of re-sampling options (\code{jackknife} and \code{bootstrap}) can
 #'  lead to much longer execution times and larger output objects.
 #'  To monitor the execution of these re-sampling procedures, a progress bar
-#'  will automatically be displayed if the \code{\link{pbapply}} package is
-#'  installed on your machine.
+#'  will automatically be displayed if the \code{\link[pbapply]{pbapply}}
+#'  package is installed on your machine.
 #' @note
 #'  The original authors of the method did not publish the data supporting their
 #'  demonstration and some elements are unclear. As such, no replication of
@@ -493,46 +493,6 @@ setGeneric(
 )
 
 # ==============================================================================
-#' Refine models
-#'
-#' See references bellow for more details.
-#' @param object An object to refine.
-#' @param axes A \code{\link{numeric}} vector giving the subscripts of the CA
-#'  axes to use (see details).
-#' @param cutoff A function that takes a numeric vector as argument and returns
-#'  a single numeric value (see details).
-#' @param bootstrap A \code{\link{logical}} scalar: should the model be checked
-#'  by bootstrap resampling?
-#' @param jackknife A \code{\link{logical}} scalar: should the model be checked
-#'  by jackknife estimation (removing each fabric/type one at a time)?
-#' @param n A non-negative \code{\link{integer}} giving the number of partial
-#'  bootstrap replications (see details).
-#' @param ... Further arguments passed to other methods.
-#' @references
-#'  Bellanger, L., Husi, P. & Tomassone, R. (2006). Une approche statistique
-#'  pour la datation de contextes archéologiques. \emph{Revue de Statistique
-#'  Appliquée}, 54(2), 65-81.
-#'
-#'  Bellanger, L., Husi, P. & Tomassone, R. (2006). Statistical Aspects of
-#'  Pottery Quantification for the Dating of Some Archaeological Contexts.
-#'  \emph{Archaeometry}, 48(1), 169-183.
-#'  DOI: \href{https://doi.org/10.1111/j.1475-4754.2006.00249.x}{10.1111/j.1475-4754.2006.00249.x}.
-#'
-#'  Peeples, M. A., & Schachner, G. (2012). Refining correspondence
-#'  analysis-based ceramic seriation of regional data sets. \emph{Journal of
-#'  Archaeological Science}, 39(8), 2818-2827.
-#'  DOI: \href{https://doi.org/10.1016/j.jas.2012.04.040}{10.1016/j.jas.2012.04.040}.
-#' @seealso \link{dateEvent} \link{seriate}
-#' @author N. Frerebeau
-#' @docType methods
-#' @rdname refine
-#' @aliases refine-method
-setGeneric(
-  name = "refine",
-  def = function(object, ...) standardGeneric("refine")
-)
-
-# ==============================================================================
 #' Matrix seriation
 #'
 #' @description
@@ -543,20 +503,27 @@ setGeneric(
 #'  \code{refine} performs a partial bootstrap correspondance analysis
 #'  seriation refinement.
 #' @param object An \eqn{m \times p}{m x p} data matrix.
-#' @param constraint A constraining object (typically a \linkS4class{BootCA}
-#'  object).
-#' @param order An object giving the permutation order for rows and columns.
+#' @param subset A \linkS4class{BootCA} object giving the subset of
+#'  \code{object} to be used.
+#' @param order A \linkS4class{PermutationOrder} object giving the permutation
+#'  order for rows and columns.
+#' @param method A \code{\link{character}} string specifiying the method to be
+#'  used. This must be one of "\code{reciprocal}", "\code{correspondance}"
+#'  (see details). Any unambiguous substring can be given.
 #' @param EPPM A \code{\link{logical}} scalar: should the seriation be computed
 #'  on EPPM instead of raw data?
 #' @param margin A \code{\link{numeric}} vector giving the subscripts which the
 #'  rearrangement will be applied over: \code{1} indicates rows, \code{2}
 #'  indicates columns, \code{c(1, 2)} indicates rows then columns,
 #'  \code{c(2, 1)} indicates columns then rows.
-#' @param method A \code{\link{character}} string specifiying the method to be
-#'  used. This must be one of "\code{reciprocal}", "\code{correspondance}"
-#'  (see details). Any unambiguous substring can be given.
 #' @param stop A length-one \code{\link{numeric}} vector giving the stopping rule
 #'  (i.e. maximum number of iterations) to avoid infinite loop.
+#' @param cutoff A function that takes a numeric vector as argument and returns
+#'  a single numeric value (see details).
+#' @param n A non-negative \code{\link{integer}} giving the number of partial
+#'  bootstrap replications (see details).
+#' @param axes A \code{\link{numeric}} vector giving the subscripts of the CA
+#'  axes to use (see details).
 #' @param ... Further arguments passed to other methods.
 #' @section Seriation:
 #'  The matrix seriation problem in archaeology is based on three conditions
@@ -601,6 +568,7 @@ setGeneric(
 #'  \code{refine} allows to identify samples that are subject to sampling error
 #'  or samples that have underlying structural relationships and might be
 #'  influencing the ordering along the CA space.
+#'
 #'  This relies on a partial bootstrap approach to CA-based seriation where each
 #'  sample is replicated \code{n} times. The maximum dimension length of
 #'  the convex hull around the sample point cloud allows to remove samples for
@@ -617,6 +585,10 @@ setGeneric(
 #'  are projected onto the dimensions of the CA coordinate space using the row
 #'  transition formulae. Finally, row coordinates onto the first dimension
 #'  give the seriation order.
+#'
+#'  To monitor the execution of these re-sampling procedure, a progress bar
+#'  will automatically be displayed if the \code{\link[pbapply]{pbapply}}
+#'  package is installed on your machine.
 #' @return
 #'  \code{seriate} returns a \linkS4class{PermutationOrder} object.
 #'
@@ -658,7 +630,7 @@ NULL
 #' @aliases seriate-method
 setGeneric(
   name = "seriate",
-  def = function(object, constraint, ...) standardGeneric("seriate")
+  def = function(object, subset, ...) standardGeneric("seriate")
 )
 
 #' @rdname seriation
@@ -666,6 +638,12 @@ setGeneric(
 setGeneric(
   name = "permute",
   def = function(object, order, ...) standardGeneric("permute")
+)
+#' @rdname seriation
+#' @aliases refine-method
+setGeneric(
+  name = "refine",
+  def = function(object, ...) standardGeneric("refine")
 )
 
 # ==============================================================================

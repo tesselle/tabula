@@ -60,8 +60,8 @@ The original authors of the method did not publish the data supporting their
  The use of re-sampling options (\code{jackknife} and \code{bootstrap}) can
  lead to much longer execution times and larger output objects.
  To monitor the execution of these re-sampling procedures, a progress bar
- will automatically be displayed if the \code{\link{pbapply}} package is
- installed on your machine.
+ will automatically be displayed if the \code{\link[pbapply]{pbapply}}
+ package is installed on your machine.
 }
 
 \examples{

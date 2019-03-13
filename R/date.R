@@ -63,7 +63,7 @@ setMethod(
                                         range = date_range)
 
     # Check model with resampling methods
-    jack_event <- boot_event <- NULL
+    jack_event <- boot_event <- data.frame()
     ## Jackknife fabrics
     if (jackknife) {
       jack_event <- jackDate(counts, dates, fit, keep = keep_dim,

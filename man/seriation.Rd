@@ -7,17 +7,21 @@
 \alias{seriate-method}
 \alias{permute}
 \alias{permute-method}
+\alias{refine}
+\alias{refine-method}
 \alias{refine,CountMatrix-method}
 \alias{seriate,CountMatrix,missing-method}
-\alias{seriate,CountMatrix,BootCA-method}
 \alias{seriate,IncidenceMatrix,missing-method}
+\alias{seriate,CountMatrix,BootCA-method}
 \alias{permute,CountMatrix,PermutationOrder-method}
 \alias{permute,IncidenceMatrix,PermutationOrder-method}
 \title{Matrix seriation}
 \usage{
-seriate(object, constraint, ...)
+seriate(object, subset, ...)
 
 permute(object, order, ...)
+
+refine(object, ...)
 
 \S4method{refine}{CountMatrix}(object, cutoff, n = 1000, axes = c(1,
   2), ...)
@@ -26,12 +30,12 @@ permute(object, order, ...)
   method = c("correspondance", "reciprocal"), EPPM = FALSE,
   margin = c(1, 2), stop = 100, ...)
 
-\S4method{seriate}{CountMatrix,BootCA}(object, constraint, margin = c(1,
-  2), ...)
-
 \S4method{seriate}{IncidenceMatrix,missing}(object,
   method = c("correspondance", "reciprocal"), margin = c(1, 2),
   stop = 100, ...)
+
+\S4method{seriate}{CountMatrix,BootCA}(object, subset, margin = c(1, 2),
+  ...)
 
 \S4method{permute}{CountMatrix,PermutationOrder}(object, order)
 
@@ -40,12 +44,22 @@ permute(object, order, ...)
 \arguments{
 \item{object}{An \eqn{m \times p}{m x p} data matrix.}
 
-\item{constraint}{A constraining object (typically a \linkS4class{BootCA}
-object).}
+\item{subset}{A \linkS4class{BootCA} object giving the subset of
+\code{object} to be used.}
 
 \item{...}{Further arguments passed to other methods.}
 
-\item{order}{An object giving the permutation order for rows and columns.}
+\item{order}{A \linkS4class{PermutationOrder} object giving the permutation
+order for rows and columns.}
+
+\item{cutoff}{A function that takes a numeric vector as argument and returns
+a single numeric value (see details).}
+
+\item{n}{A non-negative \code{\link{integer}} giving the number of partial
+bootstrap replications (see details).}
+
+\item{axes}{A \code{\link{numeric}} vector giving the subscripts of the CA
+axes to use (see details).}
 
 \item{method}{A \code{\link{character}} string specifiying the method to be
 used. This must be one of "\code{reciprocal}", "\code{correspondance}"
@@ -128,6 +142,7 @@ indicates columns, \code{c(1, 2)} indicates rows then columns,
  \code{refine} allows to identify samples that are subject to sampling error
  or samples that have underlying structural relationships and might be
  influencing the ordering along the CA space.
+
  This relies on a partial bootstrap approach to CA-based seriation where each
  sample is replicated \code{n} times. The maximum dimension length of
  the convex hull around the sample point cloud allows to remove samples for
@@ -144,6 +159,10 @@ indicates columns, \code{c(1, 2)} indicates rows then columns,
  are projected onto the dimensions of the CA coordinate space using the row
  transition formulae. Finally, row coordinates onto the first dimension
  give the seriation order.
+
+ To monitor the execution of these re-sampling procedure, a progress bar
+ will automatically be displayed if the \code{\link[pbapply]{pbapply}}
+ package is installed on your machine.
 }
 
 \examples{
