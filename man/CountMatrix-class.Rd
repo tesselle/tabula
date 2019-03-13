@@ -39,7 +39,7 @@ This class extends the \code{base} \link[base]{matrix}.
 }
 \examples{
 # Create a count data matrix
-A1 <- CountMatrix(data = sample(0:10, 100, TRUE),
+A1 <- CountMatrix(data = sample(1:10, 100, TRUE),
                   nrow = 10, ncol = 10, byrow = TRUE)
 
 # Coerce counts to frequencies

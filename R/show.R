@@ -8,7 +8,7 @@ setMethod(
   signature = "BootCA",
   definition = function(object) {
     keep <- length(object@keep)
-    total <- length(object@lengths)
+    total <- nrow(object@lengths)
     cat("Partial bootstrap CA seriation refinement:", "\n",
         "  Cutoff: ", round(object@cutoff, digits = 2), "\n",
         "  Rows to keep: ", keep, " of ", total, " (", round(keep * 100 / total), "%)",

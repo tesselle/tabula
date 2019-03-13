@@ -10,7 +10,7 @@
 dateEvent(object, ...)
 
 \S4method{dateEvent}{CountMatrix}(object, dates, level = 0.95,
-  cutoff = 90, verbose = FALSE, ...)
+  cutoff = 90, jackknife = FALSE, bootstrap = FALSE, n = 1000, ...)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
@@ -28,8 +28,14 @@ variance used to select CA factorial components for linear model fitting
 (see details). All compounds with a cumulative percentage of variance of
 less than the \code{cutoff} value will be retained.}
 
-\item{verbose}{A \code{\link{logical}} scalar. Should extra summary
-statistics be printed?}
+\item{jackknife}{A \code{\link{logical}} scalar: should the model be checked
+by jackknife estimation (removing each fabric/type one at a time)?}
+
+\item{bootstrap}{A \code{\link{logical}} scalar: should the model be checked
+by bootstrap resampling?}
+
+\item{n}{A non-negative \code{\link{integer}} giving the number of partial
+bootstrap replications (see details).}
 }
 \value{
 An object of class \linkS4class{DateModel}.
@@ -38,7 +44,7 @@ An object of class \linkS4class{DateModel}.
 Experimental (see note).
 }
 \details{
-ccc
+TODO
 }
 \note{
 The original authors of the method did not publish the data supporting their
@@ -47,6 +53,17 @@ The original authors of the method did not publish the data supporting their
  \strong{EXPERIMENTAL}. It may be subject to major changes in a future
  release.
 }
+\section{Model checking}{
+
+ TODO
+
+ The use of re-sampling options (\code{jackknife} and \code{bootstrap}) can
+ lead to much longer execution times and larger output objects.
+ To monitor the execution of these re-sampling procedures, a progress bar
+ will automatically be displayed if the \code{\link{pbapply}} package is
+ installed on your machine.
+}
+
 \examples{
 # Coerce dataset to abundance (count) matrix
 zuni <- as(zuni, "CountMatrix")
@@ -63,30 +80,35 @@ dates <- list(
 # Model the event and accumulation date for each assemblage.
 (model <- dateEvent(zuni, dates, cutoff = 90))
 
-# Print the modeled event and accumulation dates
-head(model[["rows"]])
-head(model[["accumulation"]])
-
-\dontrun{
-# Check variability
-resample <- refine(model)
-}
-
 # Plot results for the first five assemblages
 # Plot event date distribution
-plotDate(model, type = "event", select = 1:5) +
+plotDate(model, zuni, type = "event", select = 1:5) +
   ggplot2::theme_bw()
 # Plot accumulation date distribution
-plotDate(model, type = "acc", select = 1:5) +
+plotDate(model, zuni, type = "acc", select = 1:5) +
   ggplot2::theme_bw()
 # Plot both distributions
-plotDate(model, select = "LZ1105") +
+plotDate(model, zuni, select = "LZ1105") +
   ggplot2::theme_bw()
 
 # Plot estimated event date with confidence interval
 # and accumulation point estimate
-plotBar(model, select = 1:20) +
+plotDate(model, select = 1:20) +
   ggplot2::theme_bw()
+
+\donttest{
+# Check model variability
+checked <- dateEvent(zuni, dates, cutoff = 90,
+                     jackknife = TRUE, bootstrap = TRUE, n = 1000)
+
+# Extract results for the first 5 assemblages
+## Modeled event dates
+checked["rows", 1:5]
+## Jackknife fabrics
+checked["jackknife", 1:5]
+## Bootstrap of assemblages
+checked["bootstrap", 1:5]
+}
 }
 \references{
 Bellanger, L. & Husi, P. (2013). Mesurer et modéliser le temps inscrit dans

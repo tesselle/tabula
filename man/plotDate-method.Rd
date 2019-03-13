@@ -4,19 +4,21 @@
 \name{plotDate}
 \alias{plotDate}
 \alias{plotDate-method}
-\alias{plotDate,DateModel-method}
-\alias{plotBar,DateModel-method}
+\alias{plotDate,DateModel,CountMatrix-method}
+\alias{plotDate,DateModel,missing-method}
 \title{Date plot}
 \usage{
-plotDate(object, ...)
+plotDate(dates, counts, ...)
 
-\S4method{plotDate}{DateModel}(object, type = c("event", "accumulation"),
-  select = 1, n = 500)
+\S4method{plotDate}{DateModel,CountMatrix}(dates, counts,
+  type = c("event", "accumulation"), select = 1, n = 500)
 
-\S4method{plotBar}{DateModel}(object, select = 1, sort = "dsc")
+\S4method{plotDate}{DateModel,missing}(dates, select = 1, sort = "dsc")
 }
 \arguments{
-\item{object}{An object of class \linkS4class{DateModel} to be plotted.}
+\item{dates}{An object of class \linkS4class{DateModel} to be plotted.}
+
+\item{counts}{An object of class \linkS4class{CountMatrix} to be plotted.}
 
 \item{...}{Further arguments passed to other methods.}
 

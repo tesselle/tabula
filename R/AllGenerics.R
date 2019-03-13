@@ -539,6 +539,9 @@ setGeneric(
 #'  \code{seriate} computes a permutation order for rows and/or columns.
 #'
 #'  \code{permute} rearranges a data matrix according to a permutation order.
+#'
+#'  \code{refine} performs a partial bootstrap correspondance analysis
+#'  seriation refinement.
 #' @param object An \eqn{m \times p}{m x p} data matrix.
 #' @param constraint A constraining object (typically a \linkS4class{BootCA}
 #'  object).
@@ -595,6 +598,19 @@ setGeneric(
 #'   stops with a warning.}
 #'  }
 #' @section CA seriation refining:
+#'  \code{refine} allows to identify samples that are subject to sampling error
+#'  or samples that have underlying structural relationships and might be
+#'  influencing the ordering along the CA space.
+#'  This relies on a partial bootstrap approach to CA-based seriation where each
+#'  sample is replicated \code{n} times. The maximum dimension length of
+#'  the convex hull around the sample point cloud allows to remove samples for
+#'  a given \code{cutoff} value.
+#'
+#'  According to Peebles and Schachner (2012), "[this] point removal procedure
+#'  [results in] a reduced dataset where the position of individuals within the
+#'  CA are highly stable and which produces an ordering consistend with the
+#'  assumptions of frequency seriation."
+#'
 #'  If the results of \code{\link{refine}} is used as an input argument in
 #'  \code{seriate}, a correspondance analysis is performed on the subset of
 #'  \code{object} which matches the samples to be kept. Then excluded samples
@@ -607,6 +623,10 @@ setGeneric(
 #'  \code{permute} returns either a
 #'  \linkS4class{CountMatrix}, \linkS4class{FrequencyMatrix} or
 #'  \linkS4class{IncidenceMatrix} (the same as \code{object}).
+#'
+#'  \code{refine} returns a \linkS4class{BootCA} object containing the subscript
+#'  of samples to be kept (i.e. samples with maximum dimension length of the
+#'  convex hull smaller than the cutoff value).
 #' @references
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
 #'  graphique pour tableaux de comptages. \emph{Revue archéologique de

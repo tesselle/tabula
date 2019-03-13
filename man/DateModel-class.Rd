@@ -24,7 +24,8 @@ Character vectors will be matched to the names of the object.}
 }
 \description{
 An S4 class to store the event and accumulation times of archaeological
- assemblages.
+ assemblages as well as the results of resampling methods for date model
+ checking.
 }
 \section{Methods (by generic)}{
 \itemize{
@@ -37,9 +38,6 @@ An S4 class to store the event and accumulation times of archaeological
 \section{Slots}{
 
 \describe{
-\item{\code{counts}}{A \eqn{m \times p}{m x p} \code{\link{numeric}} matrix of count
-data used for model fitting.}
-
 \item{\code{dates}}{A two columns \code{\link{data.frame}} giving the known dates
 used for model fitting and an identifier to link each row to an assemblage.}
 
@@ -66,6 +64,29 @@ identifier to link each row to a type or fabric.}
 \item{\code{accumulation}}{A two columns \code{\link{data.frame}} giving the point
 estimate of accumulation dates of archaeological assemblages and an
 identifier to link each row to an assemblage.}
+
+\item{\code{jackknife}}{A five columns \code{\link{data.frame}} giving the results of
+the resamping procedure (jackknifing fabrics) for each assemblage (in rows)
+with the following columns:
+\describe{
+ \item{id}{An identifier.}
+ \item{estimation}{The jackknife event date estimate.}
+ \item{earliest}{The lower boundary of the associated prediction interval.}
+ \item{latest}{The upper boundary of the associated prediction interval.}
+ \item{error}{The standard error of predicted means.}
+}}
+
+\item{\code{bootstrap}}{A six columns \code{\link{data.frame}} giving the boostrap
+distribution statistics for each replicated assemblage (in rows)
+with the following columns:
+\describe{
+ \item{id}{An identifier.}
+ \item{min}{Minimum value.}
+ \item{Q05}{Sample quantile to 0.05 probability.}
+ \item{mean}{Mean value (event date).}
+ \item{Q95}{Sample quantile to 0.95 probability.}
+ \item{max}{Maximum value.}
+}}
 }}
 
 \author{
