@@ -4,6 +4,7 @@ options("verbose" = TRUE)
 test_count <- as(compiegne, "CountMatrix")
 test_freq <- as(compiegne, "FrequencyMatrix")
 test_incid <- as(compiegne, "IncidenceMatrix")
+test_occ <- as(compiegne, "OccurrenceMatrix")
 test_sim <- similarity(test_count)
 
 test_that("Bar plot", {
@@ -53,4 +54,6 @@ test_that("Spot plot", {
   }
   # Similarity matrix
   expect_is(plotSpot(test_sim), "ggplot")
+  # Co-Occurrence matrix
+  expect_is(plotSpot(test_occ), "ggplot")
 })
