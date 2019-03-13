@@ -115,25 +115,25 @@ test_that("Initialize an empty BootCA object", {
 test_that("Initialize a BootCA object", {
   expect_s4_class(
     new("BootCA",
-        rows = data.frame("id" = LETTERS, "x" = 1:26, "y" = 1:26),
-        columns = data.frame("id" = LETTERS, "x" = 1:26, "y" = 1:26),
-        length = data.frame("id" = LETTERS, "d" = 1:26),
+        rows = data.frame(id = LETTERS, x = 1:26, y = 1:26),
+        columns = data.frame(id = LETTERS, x = 1:26, y = 1:26),
+        length = data.frame(id = LETTERS, d = 1:26),
         cutoff = 3,
         keep = 1:3),
     "BootCA"
   )
 
   expect_error(new("BootCA", rows = data.frame(1:5)))
-  expect_error(new("BootCA", rows = data.frame("id" = 1:26, "m" = 1:26, "n" = 1:26)))
-  expect_error(new("BootCA", rows = data.frame("id" = 1:26, "x" = LETTERS, "y" = 1:26)))
+  expect_error(new("BootCA", rows = data.frame(id = 1:26, m = 1:26, n = 1:26)))
+  expect_error(new("BootCA", rows = data.frame(id = 1:26, x = LETTERS, y = 1:26)))
 
   expect_error(new("BootCA", columns = data.frame(1:5)))
-  expect_error(new("BootCA", columns = data.frame("id" = 1:26, "m" = 1:26, "n" = 1:26)))
-  expect_error(new("BootCA", columns = data.frame("id" = 1:26, "x" = LETTERS, "y" = 1:26)))
+  expect_error(new("BootCA", columns = data.frame(id = 1:26, m = 1:26, n = 1:26)))
+  expect_error(new("BootCA", columns = data.frame(id = 1:26, x = LETTERS, y = 1:26)))
 
   expect_error(new("BootCA", lengths = LETTERS))
-  expect_error(new("BootCA", lengths = data.frame("id" = 1:26, "m" = 1:26)))
-  expect_error(new("BootCA", lengths = data.frame("id" = 1:26, "d" = LETTERS)))
+  expect_error(new("BootCA", lengths = data.frame(id = 1:26, m = 1:26)))
+  expect_error(new("BootCA", lengths = data.frame(id = 1:26, d = LETTERS)))
 
   expect_error(new("BootCA", cutoff = 1:2))
   expect_error(new("BootCA", keep = LETTERS))
@@ -143,5 +143,42 @@ test_that("Initialize an empty DateModel object", {
   expect_s4_class(new("DateModel"), "DateModel")
 })
 test_that("Initialize a DateModel object", {
-  #TODO
+  df1 <- data.frame(id = LETTERS, date = 1:26)
+  df2 <- data.frame(id = LETTERS, estimation = 1:26, earliest = 1:26,
+                    latest = 1:26, error = 1:26)
+  df3 <- data.frame(id = LETTERS, estimation = 1:26)
+  df4 <- data.frame(id = LETTERS, min = 1:26, Q05 = 1:26, mean = 1:26,
+                    Q95 = 1:26, max = 1:26)
+  expect_s4_class(
+    new("DateModel",
+        level = 0.5,
+        model = stats::lm(0 ~ 0),
+        residual = 10,
+        dates = df1,
+        rows = df2,
+        columns = df2,
+        accumulation = df3,
+        jackknife = df2,
+        bootstrap = df4),
+    "DateModel"
+  )
+
+  expect_error(new("DateModel", level = 10))
+  expect_error(new("DateModel", level = NA_real_))
+  expect_error(new("DateModel", level = 1:5))
+  expect_error(new("DateModel", residual = NA_real_))
+  expect_error(new("DateModel", residual = 1:5))
+  expect_error(new("DateModel", rows = data.frame(a = 1:5, b = 1:5)))
+  expect_error(new("DateModel", columns = data.frame(a = 1:5, b = 1:5)))
+  expect_error(new("DateModel", jackknife = data.frame(a = 1:5, b = 1:5)))
+  expect_error(new("DateModel", bootstrap = data.frame(a = 1:5, b = 1:5)))
+  expect_error(new("DateModel",
+                   rows = data.frame(a = 1:5, b = 1:5, c = 1:5, d = 1:5, e = 1:5),
+                   jackknife = data.frame(a = 1:2, b = 1:2, c = 1:2, d = 1:2, e = 1:2)))
+  expect_error(new("DateModel",
+                   rows = data.frame(a = 1:5, b = 1:5, c = 1:5, d = 1:5, e = 1:5),
+                   bootstrap = data.frame(a = 1:2, b = 1:2, c = 1:2, d = 1:2, e = 1:2)))
+  expect_error(new("DateModel",
+                   jackknife = data.frame(a = 1:5, b = 1:5, c = 1:5, d = 1:5, e = 1:5),
+                   bootstrap = data.frame(a = 1:2, b = 1:2, c = 1:2, d = 1:2, e = 1:2)))
 })

@@ -11,11 +11,11 @@
 \usage{
 plotBar(object, ...)
 
-\S4method{plotBar}{CountMatrix}(object, level = 0.05, EPPM = FALSE,
+\S4method{plotBar}{CountMatrix}(object, level = FALSE, EPPM = FALSE,
   center = TRUE, horizontal = FALSE)
 
-\S4method{plotBar}{FrequencyMatrix}(object, level = 0.05, EPPM = FALSE,
-  center = TRUE, horizontal = FALSE)
+\S4method{plotBar}{FrequencyMatrix}(object, level = FALSE,
+  EPPM = FALSE, center = TRUE, horizontal = FALSE)
 }
 \arguments{
 \item{object}{An object to be plotted.}
@@ -52,30 +52,23 @@ If \code{EPPM} is \code{TRUE} and if a relative abundance is greater than
  \code{\link[=seriate]{seriation}}.
 }
 \examples{
-\dontrun{
-
-# Coerce dataset to abundance matrix
-# Data from Desachy 2004
-count <- as(compiegne, "CountMatrix")
-freq <- as(boves, "FrequencyMatrix")
+\donttest{
 
 # Plot Ford diagram...
+count <- as(compiegne, "CountMatrix") # Data from Desachy 2004
 ## ...without threshold
 plotBar(count)
-plotBar(freq)
-
 ## ...with EPPM (i.e. Bruno Desachy's sériographe)
 plotBar(count, EPPM = TRUE)
-plotBar(freq, EPPM = TRUE)
 
 # Plot Bertin diagram...
+freq <- as(boves, "FrequencyMatrix") # Data from Desachy 2004
 ## ...without EPPM...
-plotBar(count, center = FALSE, horizontal = TRUE)
+plotBar(freq, center = FALSE, horizontal = TRUE)
 ## ...and confidence intervals
-plotBar(freq, level = FALSE, center = FALSE, horizontal = FALSE)
-
+plotBar(freq, level = 0.05, center = FALSE, horizontal = FALSE)
 ## ...with EPPM (i.e. Bruno Desachy's sériographe)
-plotBar(count, EPPM = TRUE, center = FALSE, horizontal = TRUE)
+plotBar(freq, EPPM = TRUE, center = FALSE, horizontal = TRUE)
 }
 }
 \references{

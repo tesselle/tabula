@@ -38,19 +38,20 @@ Adapted from Dan Gopstein's original
  Credit should be given to him.
 }
 \examples{
-# Coerce dataset to abundance matrix
-# Data from Desachy 2004
-count <- as(compiegne, "CountMatrix")
-
 # Plot spot diagram...
-## ...without threshod
+
+## ...of count data...
+count <- as(mississippi, "CountMatrix")
+### ...without threshod
 plotSpot(count)
-
-## ...with the  column means as threshold
+### ...with the  column means as threshold
 plotSpot(count, threshold = mean)
-
-## ...with the column medians as threshold
+### ...with the column medians as threshold
 plotSpot(count, threshold = median)
+
+## ...of a similarity matrix
+sim <- similarity(count, "brainerd")
+plotSpot(sim)
 }
 \seealso{
 Other plot: \code{\link{plotBar}}, \code{\link{plotDate}},

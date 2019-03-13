@@ -142,7 +142,7 @@ setMethod(
 setMethod(
   f = "plotBar",
   signature = signature(object = "CountMatrix"),
-  definition = function(object, level = 0.05, EPPM = FALSE,
+  definition = function(object, level = FALSE, EPPM = FALSE,
                         center = TRUE, horizontal = FALSE) {
     # Prepare data -------------------------------------------------------------
     # Get row names and coerce to factor (preserve original ordering)
@@ -234,7 +234,7 @@ setMethod(
 setMethod(
   f = "plotBar",
   signature = signature(object = "FrequencyMatrix"),
-  definition = function(object, level = 0.05, EPPM = FALSE,
+  definition = function(object, level = FALSE, EPPM = FALSE,
                         center = TRUE, horizontal = FALSE) {
     count <- methods::as(object, "CountMatrix")
     plotBar(count, level = level, EPPM = EPPM,
@@ -291,7 +291,8 @@ setMethod(
       scale_y_continuous(expand = c(0, 0), trans = "reverse",
                          breaks = unique(data$y),
                          labels = unique(data$case)) +
-      theme(axis.ticks = element_blank(),
+      theme(axis.text.x = element_text(angle = 90, hjust = 0),
+            axis.ticks = element_blank(),
             axis.title = element_blank(),
             panel.grid = element_blank()) +
       coord_fixed()
@@ -452,7 +453,8 @@ setMethod(
       scale_x_discrete(position = "top") +
       scale_y_discrete(limits = rev(levels(data$case))) +
       scale_size_area() +
-      theme(axis.ticks = element_blank(),
+      theme(axis.text.x = element_text(angle = 90, hjust = 0),
+            axis.ticks = element_blank(),
             axis.title.x = element_blank(),
             axis.title.y = element_blank(),
             legend.key = element_rect(fill = "white"),

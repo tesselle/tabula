@@ -89,13 +89,14 @@ setValidity(
     bootstrap <- object@bootstrap
 
     if (length(level) != 0) {
-      if (!is.numeric(level) | length(level) != 1 | anyNA(level))
+      if (length(level) != 1 | anyNA(level))
         errors <- c(errors, paste(sQuote("level"), "must be a length-one numeric vector."))
-      if (level <= 0 | level >= 1)
-        errors <- c(errors, paste(sQuote("level"), "must be in the range of 0 to 1 (excluded)."))
+      else
+        if (level <= 0 | level >= 1)
+          errors <- c(errors, paste(sQuote("level"), "must be in the range of 0 to 1 (excluded)."))
     }
     if (length(residual) != 0) {
-      if (!is.numeric(residual) | anyNA(residual) | length(residual) != 1 | level < 0)
+      if (length(residual) != 1 | anyNA(residual))
         errors <- c(errors, paste(sQuote("residual"), "must be a strictly positive numeric value."))
     }
     if (length(rows) != 0) {
