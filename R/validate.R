@@ -290,6 +290,33 @@ setValidity(
   }
 )
 
+## OccurrenceMatrix ------------------------------------------------------------
+setValidity(
+  Class = "OccurrenceMatrix",
+  method = function(object) {
+    errors <- c()
+    # Get data
+    data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
+
+    # Check data
+    if (length(data) != 0) {
+      if (!isSquare(data))
+        errors <- c(errors, "A square matrix is expected.")
+      if (!isSymmetric(data))
+        errors <- c(errors, "A symmetric matrix is expected.")
+      if (!identical(rownames(data), colnames(data)))
+        errors <- c(errors, "Rows and columns must have the same names.")
+    }
+
+    # Return errors, if any
+    if (length(errors) != 0) {
+      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
+    } else {
+      return(TRUE)
+    }
+  }
+)
+
 ## SimilarityMatrix ------------------------------------------------------------
 setValidity(
   Class = "SimilarityMatrix",
@@ -333,7 +360,7 @@ setValidity(
       if (!is.logical(data))
         errors <- c("Logical values are expected.")
       if (anyNA(data))
-        errors <- c(errors, "NA values were detected.")
+        errors <- c(errors, "Missing values were detected.")
     }
 
     # Return errors, if any
@@ -345,27 +372,3 @@ setValidity(
   }
 )
 
-## OccurrenceMatrix ------------------------------------------------------------
-setValidity(
-  Class = "OccurrenceMatrix",
-  method = function(object) {
-    errors <- c()
-    # Get data
-    data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
-
-    # Check data
-    if (length(data) != 0) {
-      if (!isSquare(data))
-        errors <- c(errors, "A square matrix is expected.")
-      if (!identical(rownames(data), colnames(data)))
-        errors <- c(errors, "Rows and columns must have the same names.")
-    }
-
-    # Return errors, if any
-    if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
-    } else {
-      return(TRUE)
-    }
-  }
-)

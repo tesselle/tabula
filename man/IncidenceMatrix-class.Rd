@@ -58,8 +58,6 @@ E <- as(C, "OccurrenceMatrix")
 }
 \seealso{
 \link[base]{matrix}
-
-Other logical matrix: \code{\link{OccurrenceMatrix-class}}
 }
 \author{
 N. Frerebeau

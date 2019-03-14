@@ -188,6 +188,25 @@ setClass(
   contains = "NumericMatrix"
 )
 
+#' Co-occurrence matrix
+#'
+#' An S4 class to represent a co-occurrence matrix.
+#' @details
+#'  A co-occurrence matrix is a symetric matrix with zeros on its main diagonal,
+#'  which works out how many times each pairs of taxa occur together in at least
+#'  one sample.
+#' @note This class extends the \code{base} \link[base]{matrix}.
+#' @seealso \link[base]{matrix}
+#' @family abundance matrix
+#' @example inst/examples/ex-abundance-class.R
+#' @author N. Frerebeau
+#' @docType class
+#' @aliases OccurrenceMatrix-class
+setClass(
+  Class = "OccurrenceMatrix",
+  contains = "NumericMatrix"
+)
+
 #' Similarity matrix
 #'
 #' An S4 class to represent a (dis)similarity matrix.
@@ -227,24 +246,6 @@ setClass(
 #' @aliases IncidenceMatrix-class
 setClass(
   Class = "IncidenceMatrix",
-  contains = "LogicalMatrix"
-)
-
-#' Co-occurrence matrix
-#'
-#' An S4 class to represent a co-occurrence matrix.
-#' @details
-#'  A co-occurrence matrix is a symetric matrix with zeros on its main diagonal,
-#'  which works out which pairs of taxa occur together in at least one sample
-#' @note This class extends the \code{base} \link[base]{matrix}.
-#' @seealso \link[base]{matrix}
-#' @family logical matrix
-#' @example inst/examples/ex-logical-class.R
-#' @author N. Frerebeau
-#' @docType class
-#' @aliases OccurrenceMatrix-class
-setClass(
-  Class = "OccurrenceMatrix",
   contains = "LogicalMatrix"
 )
 

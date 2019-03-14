@@ -91,17 +91,23 @@ setAs(from = "FrequencyMatrix", to = "IncidenceMatrix", def = matrix2incidence)
 
 ## To OccurrenceMatrix ---------------------------------------------------------
 matrix2occurrence <- function(from) {
-  data <- if (isS4(from)) methods::as(from, "matrix")
-  else data.matrix(from)
+  data <- if (isS4(from)) {
+    methods::as(from, "matrix")
+  } else {
+    data.matrix(from)
+  }
   data <- data > 0
   p <- ncol(data)
-  labels <- if (is.null(colnames(data))) paste("V", 1:p, sep = "")
-  else colnames(data)
+  labels <- if (is.null(colnames(data))) {
+    paste("V", 1:p, sep = "")
+  } else {
+    colnames(data)
+  }
 
   # @param indices A length-two numeric vector
   # @param data A numeric or logical matrix
   fun <- function(indices, data) {
-    any(data[, indices[1]] + data[, indices[2]] == 2)
+    sum(data[, indices[1]] + data[, indices[2]] == 2)
   }
   # Get all combinations of variables, taken 2 at a time
   combine <- utils::combn(1:p, 2, simplify = TRUE)

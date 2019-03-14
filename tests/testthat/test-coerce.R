@@ -104,7 +104,7 @@ test_that("*Matrix > CountMatrix", {
   expect_s4_class(as(count, "CountMatrix"), "CountMatrix")
   expect_error(as(freq, "CountMatrix"))
   expect_error(as(incid, "CountMatrix"))
-  expect_error(as(occ, "CountMatrix"))
+  # expect_error(as(occ, "CountMatrix"))
 })
 test_that("*Matrix > FrequencyMatrix", {
   expect_s4_class(as(count, "FrequencyMatrix"), "FrequencyMatrix")
