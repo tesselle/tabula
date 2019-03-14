@@ -40,8 +40,8 @@ Usage
     -   `FrequencyMatrix` represents relative frequency data.
 -   Logical matrix:
     -   `IncidenceMatrix` represents presence/absence data.
+-   Other numeric matrix:
     -   `OccurrenceMatrix` represents a co-occurence matrix.
--   Numeric matrix:
     -   `SimilarityMatrix` represents a (dis)similarity matrix.
 
 It assumes that you keep your data tidy: each variable (type/taxa) must be saved in its own column and each observation (sample/case) must be saved in its own row.
@@ -83,35 +83,88 @@ C <- as(A1, "IncidenceMatrix")
 D <- as(A1, "OccurrenceMatrix")
 ```
 
+Several types of graphs are available in `tabula` which uses `ggplot2` for plotting informations. This makes it easy to customize diagramms (e.g. using themes and scales).
+
+Spot matrix (easier to read than a heatmap [1]) allows direct examination of data (above/below some threshold):
+
+``` r
+# Plot frequencies with the column means as a threshold
+ceram_counts <- as(mississippi, "CountMatrix")
+plotSpot(ceram_counts, threshold = mean) +
+  ggplot2::labs(size = "Frequency", colour = "Mean") +
+  khroma::scale_colour_vibrant()
+```
+
+<img src="man/figures/README-plot-freq-1.png" style="display: block; margin: auto;" />
+
+``` r
+# Plot co-occurence of types
+# (i.e. how many times (percent) each pairs of taxa occur together 
+# in at least one sample.)
+ceram_occ <- as(mississippi, "OccurrenceMatrix")
+plotSpot(ceram_occ) +
+  ggplot2::labs(size = "", colour = "Co-occurrence") +
+  ggplot2::theme(legend.box = "horizontal") +
+  khroma::scale_colour_YlOrBr()
+```
+
+<img src="man/figures/README-plot-occ-1.png" style="display: block; margin: auto;" />
+
+Bertin of Ford (battleship curve) diagramms can be plotted, with statistic threshold (B. Desachy's [*sériographe*](https://doi.org/10.3406/pica.2004.2396)). The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence. EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
+
+``` r
+counts <- as(compiegne, "CountMatrix")
+plotBar(counts, EPPM = TRUE) +
+  khroma::scale_fill_bright()
+```
+
+<img src="man/figures/README-seriograph-1.png" style="display: block; margin: auto;" />
+
 ### Analysis
 
 *Diversity* can be measured according to several indices (sometimes refered to as indices of *heterogeneity*):
 
 ``` r
-counts <- as(compiegne, "CountMatrix")
-diversity(counts, method = c("shannon", "brillouin", "simpson", "mcintosh", "berger"), simplify = TRUE)
-#>    shannon brillouin   simpson  mcintosh    berger
-#> 5 1.311123  1.309565 0.3648338 0.3983970 0.5117318
-#> 4 1.838332  1.836827 0.2246218 0.5287042 0.3447486
-#> 3 2.037649  2.036142 0.1718061 0.5883879 0.3049316
-#> 2 2.468108  2.466236 0.1038536 0.6812886 0.1927510
-#> 1 2.297495  2.295707 0.1267866 0.6472862 0.1893524
+H <- diversity(ceram_counts, method = c("shannon", "brillouin", "simpson", 
+                                        "mcintosh", "berger"), simplify = TRUE)
+head(H)
+#>           shannon brillouin   simpson  mcintosh    berger
+#> 10-P-1  1.2027955 1.1572676 0.3166495 0.4714431 0.4052288
+#> 11-N-9  0.7646565 0.7541207 0.5537760 0.2650711 0.6965699
+#> 11-N-1  0.9293974 0.9192403 0.5047209 0.2975381 0.6638526
+#> 11-O-10 0.8228576 0.8085445 0.5072514 0.2990830 0.6332288
+#> 11-N-4  0.7901428 0.7823396 0.5018826 0.2997089 0.6034755
+#> 13-N-5  0.9998430 0.9442803 0.3823434 0.4229570 0.4430380
 ```
 
 Note that `berger`, `mcintosh` and `simpson` methods return a *dominance* index, not the reciprocal form usually adopted, so that an increase in the value of the index accompanies a decrease in diversity.
 
-*β*-diversity can be measured by addressing *similarity* between pairs of sites:
+Corresponding *evenness* (i.e. a measure of how evenly individuals are distributed across the sample) can also be computed.
+
+The several methods can be used to acertain the degree of *turnover* in taxa composition along a gradient (*β*-diversity) on qualitative (presence/absence) data. It assumes that the order of the matrix rows (from 1 to *n*) follows the progression along the gradient/transect.
+
+*β*-diversity can also be measured by addressing *similarity* between pairs of sites:
 
 ``` r
-similarity(counts, method = "brainerd")
-#> An object of class "SimilarityMatrix"
-#>           5        4        3         2         1
-#> 5 200.00000 147.0860 104.6193  95.83558  92.00659
-#> 4 147.08600 200.0000 152.4492 124.83757 109.87089
-#> 3 104.61927 152.4492 200.0000 131.20713 104.81193
-#> 2  95.83558 124.8376 131.2071 200.00000 162.68247
-#> 1  92.00659 109.8709 104.8119 162.68247 200.00000
+# Brainerd-Robinson index
+S <- similarity(ceram_counts, method = "brainerd")
+
+# Plot the similarity matrix
+plotSpot(S) +
+  ggplot2::labs(size = "Similarity", colour = "Similarity") +
+  khroma::scale_colour_YlOrBr()
 ```
+
+<img src="man/figures/README-similarity-brainerd-1.png" style="display: block; margin: auto;" />
+
+Ranks *vs* abundance plot can be used for abundance models (model fitting will be implemented in a futur release):
+
+``` r
+plotRank(counts, log = "xy") +
+  ggplot2::theme_bw()
+```
+
+<img src="man/figures/README-plot-rank-1.png" style="display: block; margin: auto;" />
 
 ### Seriation
 
@@ -135,30 +188,24 @@ incidence2 <- permute(incidence, indices)
 
 ``` r
 # Plot matrix
-library(ggplot2)
 plotMatrix(incidence) + 
-  labs(title = "Original matrix") +
-  scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
+  ggplot2::labs(title = "Original matrix") +
+  ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
 plotMatrix(incidence2) + 
-  labs(title = "Rearranged matrix") +
-  scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
+  ggplot2::labs(title = "Rearranged matrix") +
+  ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
 ```
 
-![](man/figures/README-permute-incidence-plots-1.png)
-
-### Visualization
-
-`tabula` makes an extensive use of `ggplot2` for plotting informations. This makes it easy to customize diagramms (e.g. using themes and scales).
-
-Bertin of Ford (battleship curve) diagramms can be plotted, with statistic threshold ([B. Desachy's *sériographe*](https://doi.org/10.3406/pica.2004.2396)). The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence. EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
-
-``` r
-plotBar(counts, EPPM = TRUE)
-```
-
-![](man/figures/README-seriograph-1.png)
+![](man/figures/README-permute-incidence-1.png)![](man/figures/README-permute-incidence-2.png)
 
 Contributing
 ------------
 
 Please note that the `tabula` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+
+Acknowledgement
+---------------
+
+This work received a state financial support managed by the Agence Nationale de la Recherche (France) throught the program *Investissements d'avenir* (ref. ANR-10-LABX-52).
+
+[1] Adapted from Dan Gopstein's original [spot matrix](https://dgopstein.github.io/articles/spot-matrix/).
