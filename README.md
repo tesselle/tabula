@@ -110,7 +110,7 @@ plotSpot(ceram_occ) +
 
 <img src="man/figures/README-plot-occ-1.png" style="display: block; margin: auto;" />
 
-Bertin of Ford (battleship curve) diagramms can be plotted, with statistic threshold (B. Desachy's [*sériographe*](https://doi.org/10.3406/pica.2004.2396)). The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence. EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
+Bertin or Ford (battleship curve) diagramms can be plotted, with statistic threshold (B. Desachy's [*sériographe*](https://doi.org/10.3406/pica.2004.2396)). The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence. EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
 
 ``` r
 counts <- as(compiegne, "CountMatrix")
@@ -119,6 +119,44 @@ plotBar(counts, EPPM = TRUE) +
 ```
 
 <img src="man/figures/README-seriograph-1.png" style="display: block; margin: auto;" />
+
+### Seriation
+
+``` r
+# Build an incidence matrix with random data
+set.seed(12345)
+incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
+                             nrow = 20)
+
+# Get seriation order on rows and columns
+# Correspondance analysis-based seriation
+(indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
+#> Permutation order for matrix seriation: 
+#>    Row order: 20 16 13 4 3 1 9 10 19 2 7 6 17 11 5 14 12 8 15 18 
+#>    Column order: 16 1 9 8 4 14 13 18 20 6 7 3 17 2 11 19 5 15 12 10 
+#>    Method: correspondance
+
+# Permute matrix rows and columns
+incidence2 <- permute(incidence, indices)
+```
+
+``` r
+# Plot matrix
+plotMatrix(incidence) + 
+  ggplot2::labs(title = "Original matrix") +
+  ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
+plotMatrix(incidence2) + 
+  ggplot2::labs(title = "Rearranged matrix") +
+  ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
+```
+
+![](man/figures/README-permute-incidence-1.png)![](man/figures/README-permute-incidence-2.png)
+
+### Dating
+
+This package provides an implementation of the chronological modeling method developed by Bellanger and Husi ([2012](https://doi.org/10.1016/j.jas.2011.06.031)). This allows the construction of two different probability estimate density curves of archaeological assembalge dates (the so-called *event* and *accumulation* dates). Note that this implementation is experimental (see `help(dateEvent)`).
+
+<img src="man/figures/README-date-1.png" style="display: block; margin: auto;" />
 
 ### Analysis
 
@@ -165,38 +203,6 @@ plotRank(counts, log = "xy") +
 ```
 
 <img src="man/figures/README-plot-rank-1.png" style="display: block; margin: auto;" />
-
-### Seriation
-
-``` r
-# Build an incidence matrix with random data
-set.seed(12345)
-incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
-                             nrow = 20)
-
-# Get seriation order on rows and columns
-# Correspondance analysis-based seriation
-(indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
-#> Permutation order for matrix seriation: 
-#>    Row order: 20 16 13 4 3 1 9 10 19 2 7 6 17 11 5 14 12 8 15 18 
-#>    Column order: 16 1 9 8 4 14 13 18 20 6 7 3 17 2 11 19 5 15 12 10 
-#>    Method: correspondance
-
-# Permute matrix rows and columns
-incidence2 <- permute(incidence, indices)
-```
-
-``` r
-# Plot matrix
-plotMatrix(incidence) + 
-  ggplot2::labs(title = "Original matrix") +
-  ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
-plotMatrix(incidence2) + 
-  ggplot2::labs(title = "Rearranged matrix") +
-  ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
-```
-
-![](man/figures/README-permute-incidence-1.png)![](man/figures/README-permute-incidence-2.png)
 
 Contributing
 ------------
