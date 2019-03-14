@@ -98,6 +98,7 @@ matrix2occurrence <- function(from) {
   }
   data <- data > 0
   p <- ncol(data)
+  m <- nrow(data)
   labels <- if (is.null(colnames(data))) {
     paste("V", 1:p, sep = "")
   } else {
@@ -111,7 +112,7 @@ matrix2occurrence <- function(from) {
   }
   # Get all combinations of variables, taken 2 at a time
   combine <- utils::combn(1:p, 2, simplify = TRUE)
-  occurrence <- apply(X = combine, MARGIN = 2, FUN = fun, data = data)
+  occurrence <- apply(X = combine, MARGIN = 2, FUN = fun, data = data) / m
 
   C <- matrix(data = FALSE, nrow = p, ncol = p, dimnames = list(labels, labels))
   C[lower.tri(C, diag = FALSE)] <- occurrence

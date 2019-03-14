@@ -55,6 +55,10 @@ plotSpot(count, threshold = median)
 ## ...of a similarity matrix
 sim <- similarity(count, "brainerd")
 plotSpot(sim)
+
+## ...of a co-occurence matrix
+occ <- as(mississippi, "OccurrenceMatrix")
+plotSpot(occ)
 }
 \seealso{
 Other plot: \code{\link{plotBar}}, \code{\link{plotDate}},

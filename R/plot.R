@@ -447,8 +447,8 @@ setMethod(
     # ggplot
     colour <- if (is.null(threshold)) NULL else function_name
     ggplot(data = data, aes_string(x = "type", y = "case")) +
-      geom_point(aes(size = 1), colour = "black") +
-      geom_point(aes(size = 0.8), colour = "white") +
+      geom_point(aes(size = 1), colour = "black", show.legend = FALSE) +
+      geom_point(aes(size = 0.8), colour = "white", show.legend = FALSE) +
       geom_point(aes_string(size = "frequency", colour = colour)) +
       scale_x_discrete(position = "top") +
       scale_y_discrete(limits = rev(levels(data$case))) +
@@ -474,21 +474,27 @@ setMethod(
     # Prepare data
     # Get row names and coerce to factor (preserve original ordering)
     row_names <- rownames(object) %>% factor(levels = unique(.))
+    max_value <- unique(diag(object))
 
     # Replace lower part and diagonal values with 0
     clean <- object
-    clean[lower.tri(clean, diag = TRUE)] <- NA
+    # clean[lower.tri(clean, diag = TRUE)] <- 0
 
     # Build long table from data
     data <- clean %>%
       as.data.frame() %>%
       dplyr::mutate(case = row_names) %>%
       tidyr::gather(key = "type", value = "similarity",
-                    -.data$case, factor_key = TRUE) %>%
+                    -.data$case, factor_key = TRUE)  %>%
+      dplyr::filter(.data$type != .data$case) %>%
+      dplyr::mutate(similarity = similarity * 0.8,
+                    max = max_value) %>%
       stats::na.omit()
 
     # ggplot
-    ggplot(data = data, aes_string(x = "type", y = "case")) +
+    ggplot(data = data, mapping = aes_string(x = "type", y = "case")) +
+      geom_point(aes_string(size = "max"), colour = "black", show.legend = FALSE) +
+      geom_point(aes_string(size = "max * 0.8"), colour = "white", show.legend = FALSE) +
       geom_point(aes_string(size = "similarity", color = "similarity")) +
       scale_x_discrete(position = "top") +
       scale_y_discrete(limits = rev(levels(data$case))) +
@@ -516,19 +522,18 @@ setMethod(
     row_names <- rownames(object) %>% factor(levels = unique(.))
 
     # Build long tables from data
-    data <- object %>%
+    data <- { object * 0.8 } %>%
       as.data.frame() %>%
       dplyr::mutate(case = row_names) %>%
       tidyr::gather(key = "type", value = "occurrence",
                     -.data$case, factor_key = TRUE) %>%
-      dplyr::filter(.data$occurrence == 1)
+      dplyr::filter(.data$type != .data$case)
 
     # ggplot
-    ggplot() +
-      geom_point(data = data, mapping = aes_string(x = "type", y = "case"),
-                 color = "black", size = 3) +
-      geom_line(data = data,
-                mapping = aes_string(x = "type", y = "case", group = "case")) +
+    ggplot(data = data, mapping = aes_string(x = "type", y = "case")) +
+      geom_point(aes(size = 1), colour = "black", show.legend = FALSE) +
+      geom_point(aes(size = 0.8), colour = "white", show.legend = FALSE) +
+      geom_point(aes_string(size = "occurrence", color = "occurrence")) +
       scale_x_discrete(position = "top", limits = row_names) +
       scale_y_discrete(limits = rev(row_names)) +
       scale_size_area() +
