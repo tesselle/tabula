@@ -63,7 +63,7 @@ setMethod(
 setMethod(
   f = "[",
   signature = "DateModel",
-  definition = function(x, i, j) {
+  definition = function(x, i, j, drop = TRUE) {
     i <- match.arg(i, choices = c("counts", "dates",
                                   "rows", "columns", "accumulation",
                                   "jackknife", "bootstrap"),
@@ -79,7 +79,7 @@ setMethod(
         if (is.character(j) | is.factor(j)) j <- which(data$id %in% j)
         if (is.numeric(j)) j <- as.integer(j)
       }
-      data <- data[j, ]
+      data <- data[j, , drop = drop]
     }
     return(data)
   }

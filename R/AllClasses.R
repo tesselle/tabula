@@ -71,6 +71,8 @@ NULL
 #'  Numeric values are coerced to \code{\link{integer}} as by
 #'  \code{\link{as.integer}} (and hence truncated towards zero).
 #'  Character vectors will be matched to the names of the object.
+#' @param drop A \code{\link{logical}} scalar: should the result be coerced to
+#'  the lowest possible dimension?
 #' @author N. Frerebeau
 #' @docType class
 #' @aliases DateModel-class

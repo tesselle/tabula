@@ -9,7 +9,7 @@
 \usage{
 \S4method{[[}{DateModel}(x, i)
 
-\S4method{[}{DateModel}(x, i, j)
+\S4method{[}{DateModel}(x, i, j, drop = TRUE)
 }
 \arguments{
 \item{x}{A \code{DateModel} object from which to extract element(s).}
@@ -21,6 +21,9 @@ a \code{\link{numeric}} or \code{\link{character}} vector.
 Numeric values are coerced to \code{\link{integer}} as by
 \code{\link{as.integer}} (and hence truncated towards zero).
 Character vectors will be matched to the names of the object.}
+
+\item{drop}{A \code{\link{logical}} scalar: should the result be coerced to
+the lowest possible dimension?}
 }
 \description{
 An S4 class to store the event and accumulation times of archaeological

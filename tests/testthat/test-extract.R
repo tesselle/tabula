@@ -19,7 +19,7 @@ test_that("BootCA", {
   expect_error(boot_ca["X", ])
 })
 test_that("DateModel", {
-  date_model <- new("DateModel")
+  date_model <- new("DateModel", counts = matrix(1, 3, 3))
 
   expect_is(date_model[["counts"]], "matrix")
   expect_is(date_model[["dates"]], "data.frame")
@@ -33,7 +33,9 @@ test_that("DateModel", {
   expect_is(date_model[["bootstrap"]], "data.frame")
   expect_error(date_model[["X"]])
 
-  expect_is(date_model["counts", ], "matrix")
+  expect_is(date_model["counts", , drop = FALSE], "matrix")
+  expect_is(date_model["counts", NULL, drop = FALSE], "matrix")
+  expect_is(date_model["counts", 1, drop = TRUE], "numeric")
   expect_is(date_model["dates", ], "data.frame")
   expect_is(date_model["rows", ], "data.frame")
   expect_is(date_model["rows", NULL], "data.frame")
