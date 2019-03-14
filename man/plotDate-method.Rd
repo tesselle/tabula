@@ -4,21 +4,16 @@
 \name{plotDate}
 \alias{plotDate}
 \alias{plotDate-method}
-\alias{plotDate,DateModel,CountMatrix-method}
-\alias{plotDate,DateModel,missing-method}
+\alias{plotDate,DateModel-method}
 \title{Date plot}
 \usage{
-plotDate(dates, counts, ...)
+plotDate(object, ...)
 
-\S4method{plotDate}{DateModel,CountMatrix}(dates, counts,
-  type = c("event", "accumulation"), select = 1, n = 500)
-
-\S4method{plotDate}{DateModel,missing}(dates, select = 1, sort = "dsc")
+\S4method{plotDate}{DateModel}(object, type = c("event", "accumulation"),
+  select = 1, n = 500)
 }
 \arguments{
-\item{dates}{An object of class \linkS4class{DateModel} to be plotted.}
-
-\item{counts}{An object of class \linkS4class{CountMatrix} to be plotted.}
+\item{object}{An object of class \linkS4class{DateModel} to be plotted.}
 
 \item{...}{Further arguments passed to other methods.}
 
@@ -32,11 +27,6 @@ giving the selection of the elements that are drawn.}
 
 \item{n}{A length-one non-negative \code{\link{numeric}} vector giving the
 desired length of the vector of quantiles for density computation.}
-
-\item{sort}{A \code{\link{character}} string indicating whether the dates
-should be sorted. It can be one of \code{asc} or \code{dsc} (default).
-Any unambiguous substring can be given. If \code{NULL} no sorting is
-performed.}
 }
 \description{
 Date plot

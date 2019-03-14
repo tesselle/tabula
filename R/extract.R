@@ -64,19 +64,23 @@ setMethod(
   f = "[",
   signature = "DateModel",
   definition = function(x, i, j) {
-    i <- match.arg(i, choices = c("rows", "columns", "accumulation",
+    i <- match.arg(i, choices = c("counts", "dates",
+                                  "rows", "columns", "accumulation",
                                   "jackknife", "bootstrap"),
                    several.ok = FALSE)
     data <- methods::slot(x, i)
 
-    if (missing(j)) {
-      j <- 1:nrow(data)
-    } else {
-      if (is.null(j)) j <- 1:nrow(data)
-      if (is.character(j) | is.factor(j)) j <- which(data$id %in% j)
-      if (is.numeric(j)) j <- as.integer(j)
+    m <- nrow(data)
+    if (m != 0) {
+      if (missing(j)) {
+        j <- seq_along(m)
+      } else {
+        if (is.null(j)) j <- seq_along(m)
+        if (is.character(j) | is.factor(j)) j <- which(data$id %in% j)
+        if (is.numeric(j)) j <- as.integer(j)
+      }
+      data <- data[j, ]
     }
-    data <- data[j, ]
     return(data)
   }
 )

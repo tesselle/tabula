@@ -124,8 +124,8 @@ setValidity(
       }
     }
     if (length(jackknife) != 0) {
-      if (ncol(jackknife) != 5)
-        errors <- c(errors, paste(sQuote("jackknife"), "must be a five columns data frame."))
+      if (ncol(jackknife) != 6)
+        errors <- c(errors, paste(sQuote("jackknife"), "must be a six columns data frame."))
       if (anyNA(jackknife))
         errors <- c(errors, paste(sQuote("jackknife"), "must not contain missing values."))
       is_num <- apply(X = jackknife[, -1], MARGIN = 2, FUN = is.numeric)
@@ -135,7 +135,7 @@ setValidity(
         a <- nrow(rows)
         b <- nrow(jackknife)
         if (b != a)
-          errors <- c(errors, paste(sQuote("jackknife"), "must be a 5 x", a, "data frame."))
+          errors <- c(errors, paste(sQuote("jackknife"), "must be a 6 x", a, "data frame."))
       }
     }
     if (length(bootstrap) != 0) {

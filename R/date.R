@@ -68,6 +68,11 @@ setMethod(
     if (jackknife) {
       jack_event <- jackDate(counts, dates, fit, keep = keep_dim,
                              level = level, ...)
+      # Compute jaccknife bias
+      jack_event %<>% dplyr::mutate(
+        bias = (ncol(counts) - 1) *
+          (.data$estimation - row_event$fit$estimation)
+      )
     }
     ## Bootstrap assemblages
     if (bootstrap) {
@@ -77,6 +82,7 @@ setMethod(
 
     methods::new(
       "DateModel",
+      counts = counts,
       dates = dates,
       level = level,
       model = fit,

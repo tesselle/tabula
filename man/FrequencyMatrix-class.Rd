@@ -12,7 +12,7 @@
 \item{x}{A \code{FrequencyMatrix} object from which to extract element.}
 }
 \description{
-An S4 class to represent a frequency matrix.
+An S4 class to represent a relative frequency matrix.
 }
 \details{
 To ensure data integrity, a \code{FrequencyMatrix} can only be created by

@@ -4,15 +4,15 @@ NULL
 # Date plot ====================================================================
 #' @export
 #' @rdname plotDate-method
-#' @aliases plotDate,DateModel,CountMatrix-method
+#' @aliases plotDate,DateModel-method
 setMethod(
   f = "plotDate",
-  signature = c(dates = "DateModel", counts = "CountMatrix"),
-  definition = function(dates, counts, type = c("event", "accumulation"),
+  signature = c(object = "DateModel"),
+  definition = function(object, type = c("event", "accumulation"),
                         select = 1, n = 500) {
     # Selection
     type <- match.arg(type, several.ok = TRUE)
-    cases <- dates@rows$id
+    cases <- object@rows$id
     index <- if (is.character(select)) {
       which(cases %in% select)
     } else {
@@ -23,12 +23,12 @@ setMethod(
       stop("wrong selection")
 
     # Get data
-    row_dates <- dates@rows$estimation
-    row_lower <- dates@rows$earliest
-    row_upper <- dates@rows$latest
-    row_errors <- dates@rows$error
-    col_dates <- dates@columns$estimation
-    col_errors <- dates@columns$error
+    row_dates <- object@rows$estimation
+    row_lower <- object@rows$earliest
+    row_upper <- object@rows$latest
+    row_errors <- object@rows$error
+    col_dates <- object@columns$estimation
+    col_errors <- object@columns$error
     date_range <- seq(from = min(row_lower), to = max(row_upper), length.out = n)
 
     plot_event <- plot_accumulation <- plot_facet <- NULL
@@ -50,8 +50,8 @@ setMethod(
     # Accumulation time
     if ("accumulation" %in% type) {
       # Weighted sum of the fabric dates
-      count <- counts[index, , drop = FALSE]
-      freq <- count / rowSums(count)
+      counts <- object@counts[index, , drop = FALSE]
+      freq <- counts / rowSums(counts)
 
       col_density <- mapply(function(mean, sd, x) { stats::dnorm(x, mean, sd) },
                             mean = col_dates, sd = col_errors,
@@ -81,60 +81,60 @@ setMethod(
   }
 )
 
-#' @export
-#' @rdname plotDate-method
-#' @aliases plotDate,DateModel,missing-method
-setMethod(
-  f = "plotDate",
-  signature = signature(dates = "DateModel", counts = "missing"),
-  definition = function(dates, select = 1, sort = "dsc") {
-    # Selection
-    cases <- dates@rows$id
-    index <- if (is.character(select)) {
-      which(cases %in% select)
-    } else {
-      as.numeric(select)
-    }
-
-    # Validation
-    if (length(index) == 0 | max(index) > length(cases))
-      stop("wrong selection")
-
-    date_data <- cbind.data.frame(
-      id = as.factor(cases),
-      event = dates@rows$estimation,
-      accumulation = dates@accumulation$date,
-      y = as.numeric(as.factor(cases)),
-      xmin = dates@rows$earliest,
-      xmax = dates@rows$latest
-    )[index, ]
-
-    if (!is.null(sort)) {
-      sort <- match.arg(sort, choices = c("asc", "dsc"), several.ok = FALSE)
-      date_data <- switch (
-        sort,
-        asc = dplyr::arrange(date_data, .data$event),
-        dsc = dplyr::arrange(date_data, dplyr::desc(.data$event))
-      )
-      date_data %<>% dplyr::mutate(y = 1:nrow(.))
-    }
-
-    date_data %<>% tidyr::gather(key = "model", value = "date",
-                                 -.data$id, -.data$y, -.data$xmin, -.data$xmax)
-
-    ggplot(mapping = aes_string(color = "model", fill = "model")) +
-      geom_errorbarh(data = subset(date_data, date_data$model == "event"),
-                     mapping = aes_string(xmin = "xmin", xmax = "xmax", y = "y"),
-                     height = 0.5) +
-      geom_point(data = date_data,
-                 mapping = aes_string(x = "date", y = "y", shape = "model"),
-                 size = 2) +
-      scale_y_continuous(breaks = date_data$y, labels = date_data$id) +
-      scale_shape_manual(values = c("event" = 21, "accumulation" = 23)) +
-      labs(x = "Date (years)", y = "",
-           color = "Model", fill = "Model", shape = "Model")
-  }
-)
+# @export
+# @rdname plotDate-method
+# @aliases plotDate,DateModel-method
+# setMethod(
+#   f = "plotDate",
+#   signature = signature(object = "DateModel"),
+#   definition = function(object, select = 1, sort = "dsc") {
+#     # Selection
+#     cases <- object@rows$id
+#     index <- if (is.character(select)) {
+#       which(cases %in% select)
+#     } else {
+#       as.numeric(select)
+#     }
+#
+#     # Validation
+#     if (length(index) == 0 | max(index) > length(cases))
+#       stop("wrong selection")
+#
+#     date_data <- cbind.data.frame(
+#       id = as.factor(cases),
+#       event = object@rows$estimation,
+#       accumulation = object@accumulation$date,
+#       y = as.numeric(as.factor(cases)),
+#       xmin = object@rows$earliest,
+#       xmax = object@rows$latest
+#     )[index, ]
+#
+#     if (!is.null(sort)) {
+#       sort <- match.arg(sort, choices = c("asc", "dsc"), several.ok = FALSE)
+#       date_data <- switch (
+#         sort,
+#         asc = dplyr::arrange(date_data, .data$event),
+#         dsc = dplyr::arrange(date_data, dplyr::desc(.data$event))
+#       )
+#       date_data %<>% dplyr::mutate(y = 1:nrow(.))
+#     }
+#
+#     date_data %<>% tidyr::gather(key = "model", value = "date",
+#                                  -.data$id, -.data$y, -.data$xmin, -.data$xmax)
+#
+#     ggplot(mapping = aes_string(color = "model", fill = "model")) +
+#       geom_errorbarh(data = subset(date_data, date_data$model == "event"),
+#                      mapping = aes_string(xmin = "xmin", xmax = "xmax", y = "y"),
+#                      height = 0.5) +
+#       geom_point(data = date_data,
+#                  mapping = aes_string(x = "date", y = "y", shape = "model"),
+#                  size = 2) +
+#       scale_y_continuous(breaks = date_data$y, labels = date_data$id) +
+#       scale_shape_manual(values = c("event" = 21, "accumulation" = 23)) +
+#       labs(x = "Date (years)", y = "",
+#            color = "Model", fill = "Model", shape = "Model")
+#   }
+# )
 
 #' @export
 #' @rdname plotBar-method

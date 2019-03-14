@@ -143,23 +143,27 @@ test_that("Initialize an empty DateModel object", {
   expect_s4_class(new("DateModel"), "DateModel")
 })
 test_that("Initialize a DateModel object", {
+  mtx <- matrix(data = 1, ncol = 26, nrow = 26)
   df1 <- data.frame(id = LETTERS, date = 1:26)
   df2 <- data.frame(id = LETTERS, estimation = 1:26, earliest = 1:26,
                     latest = 1:26, error = 1:26)
   df3 <- data.frame(id = LETTERS, estimation = 1:26)
-  df4 <- data.frame(id = LETTERS, min = 1:26, Q05 = 1:26, mean = 1:26,
+  df4 <- data.frame(id = LETTERS, estimation = 1:26, earliest = 1:26,
+                    latest = 1:26, error = 1:26, bias = 1:26)
+  df5 <- data.frame(id = LETTERS, min = 1:26, Q05 = 1:26, mean = 1:26,
                     Q95 = 1:26, max = 1:26)
   expect_s4_class(
     new("DateModel",
         level = 0.5,
         model = stats::lm(0 ~ 0),
         residual = 10,
+        counts = mtx,
         dates = df1,
         rows = df2,
         columns = df2,
         accumulation = df3,
-        jackknife = df2,
-        bootstrap = df4),
+        jackknife = df4,
+        bootstrap = df5),
     "DateModel"
   )
 

@@ -9,6 +9,7 @@ NULL
 #' An S4 class to store the event and accumulation times of archaeological
 #'  assemblages as well as the results of resampling methods for date model
 #'  checking.
+#' @slot counts A numeric matrix of count data.
 #' @slot dates A two columns \code{\link{data.frame}} giving the known dates
 #'  used for model fitting and an identifier to link each row to an assemblage.
 #' @slot level A length-one \code{\link{numeric}} vector giving the
@@ -40,7 +41,7 @@ NULL
 #' @slot accumulation A two columns \code{\link{data.frame}} giving the point
 #'  estimate of accumulation dates of archaeological assemblages and an
 #'  identifier to link each row to an assemblage.
-#' @slot jackknife A five columns \code{\link{data.frame}} giving the results of
+#' @slot jackknife A six columns \code{\link{data.frame}} giving the results of
 #'  the resamping procedure (jackknifing fabrics) for each assemblage (in rows)
 #'  with the following columns:
 #'  \describe{
@@ -49,6 +50,7 @@ NULL
 #'   \item{earliest}{The lower boundary of the associated prediction interval.}
 #'   \item{latest}{The upper boundary of the associated prediction interval.}
 #'   \item{error}{The standard error of predicted means.}
+#'   \item{bias}{The jackknife estimate of bias.}
 #'  }
 #' @slot bootstrap A six columns \code{\link{data.frame}} giving the boostrap
 #'  distribution statistics for each replicated assemblage (in rows)
@@ -78,6 +80,7 @@ setClass(
     level = "numeric",
     model = "lm",
     residual = "numeric",
+    counts = "matrix",
     dates = "data.frame",
     rows = "data.frame",
     columns = "data.frame",
@@ -169,7 +172,7 @@ setClass(
 
 #' Frequency matrix
 #'
-#' An S4 class to represent a frequency matrix.
+#' An S4 class to represent a relative frequency matrix.
 #' @param x A \code{FrequencyMatrix} object from which to extract element.
 #' @slot total A \code{\link{numeric}} vector.
 #' @details
@@ -193,8 +196,8 @@ setClass(
 #' An S4 class to represent a co-occurrence matrix.
 #' @details
 #'  A co-occurrence matrix is a symetric matrix with zeros on its main diagonal,
-#'  which works out how many times each pairs of taxa occur together in at least
-#'  one sample.
+#'  which works out how many times (percent) each pairs of taxa occur together
+#'  in at least one sample.
 #' @note This class extends the \code{base} \link[base]{matrix}.
 #' @seealso \link[base]{matrix}
 #' @family abundance matrix
@@ -271,9 +274,10 @@ setMethod(
 setMethod(
   f = "initialize",
   signature = "DateModel",
-  definition = function(.Object, dates, model, level, residual,
+  definition = function(.Object, counts, dates, model, level, residual,
                         rows, columns, accumulation,
                         jackknife, bootstrap) {
+    if (!missing(counts)) .Object@counts <- counts
     if (!missing(dates)) .Object@dates <- dates
     # FIXME: workaround to initialize empty instance
     .Object@model <- if (!missing(model)) model else stats::lm(0 ~ 0)

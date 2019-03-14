@@ -38,6 +38,8 @@ An S4 class to store the event and accumulation times of archaeological
 \section{Slots}{
 
 \describe{
+\item{\code{counts}}{A numeric matrix of count data.}
+
 \item{\code{dates}}{A two columns \code{\link{data.frame}} giving the known dates
 used for model fitting and an identifier to link each row to an assemblage.}
 
@@ -76,7 +78,7 @@ columns:
 estimate of accumulation dates of archaeological assemblages and an
 identifier to link each row to an assemblage.}
 
-\item{\code{jackknife}}{A five columns \code{\link{data.frame}} giving the results of
+\item{\code{jackknife}}{A six columns \code{\link{data.frame}} giving the results of
 the resamping procedure (jackknifing fabrics) for each assemblage (in rows)
 with the following columns:
 \describe{
@@ -85,6 +87,7 @@ with the following columns:
  \item{earliest}{The lower boundary of the associated prediction interval.}
  \item{latest}{The upper boundary of the associated prediction interval.}
  \item{error}{The standard error of predicted means.}
+ \item{bias}{The jackknife estimate of bias.}
 }}
 
 \item{\code{bootstrap}}{A six columns \code{\link{data.frame}} giving the boostrap

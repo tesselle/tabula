@@ -65,6 +65,7 @@ The original authors of the method did not publish the data supporting their
 }
 
 \examples{
+\donttest{
 # Coerce dataset to abundance (count) matrix
 zuni <- as(zuni, "CountMatrix")
 
@@ -82,21 +83,15 @@ dates <- list(
 
 # Plot results for the first five assemblages
 # Plot event date distribution
-plotDate(model, zuni, type = "event", select = 1:5) +
+plotDate(model, type = "event", select = 1:5) +
   ggplot2::theme_bw()
 # Plot accumulation date distribution
-plotDate(model, zuni, type = "acc", select = 1:5) +
+plotDate(model, type = "acc", select = 1:5) +
   ggplot2::theme_bw()
 # Plot both distributions
-plotDate(model, zuni, select = "LZ1105") +
+plotDate(model, select = "LZ1105") +
   ggplot2::theme_bw()
 
-# Plot estimated event date with confidence interval
-# and accumulation point estimate
-plotDate(model, select = 1:20) +
-  ggplot2::theme_bw()
-
-\donttest{
 # Check model variability
 checked <- dateEvent(zuni, dates, cutoff = 90,
                      jackknife = TRUE, bootstrap = TRUE, n = 1000)
