@@ -13,7 +13,7 @@ An easy way to examine archaeological count data (artifacts, faunal
     and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity 
     (Brainerd-Robinson, ...). Most of these methods are described and discussed 
     in Maguran (1988) <doi:10.1007/978-94-015-7358-0>. It also provides matrix 
-    seriation methods (reciprocal ranking, CA-based seriation, IDSS) for 
+    seriation methods (reciprocal ranking, CA-based seriation) for 
     chronological modeling and dating. The package make it easy to visualize 
     count data and statistical thresholds: rank/abundance plots, Ford (1972) 
     <isbn:0913134082> and Bertin (1977) <isbn:2082111121> diagrams, etc.
@@ -22,11 +22,16 @@ An easy way to examine archaeological count data (artifacts, faunal
 \tabular{ll}{
  \strong{Package:} \tab tabula \cr
  \strong{Type:} \tab Package \cr
- \strong{Version:} \tab 1.1.0.9000 \cr
- \strong{Date:} \tab 2018-12-30 \cr
+ \strong{Version:} \tab 1.2.0 \cr
+ \strong{Date:} \tab 2019-03-19 \cr
  \strong{License:} \tab GPL-3 \cr
  \strong{DOI:} \tab \href{https://doi.org/10.5281/zenodo.1489944}{10.5281/zenodo.1489944}
 }
+}
+\note{
+This work received a state financial support managed by the Agence Nationale
+de la Recherche (France) throught the program \emph{Investissements d'avenir}
+(ref. ANR-10-LABX-52).
 }
 \seealso{
 Useful links:

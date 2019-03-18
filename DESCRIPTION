@@ -1,7 +1,7 @@
 Package: tabula
 Title: Analysis, Seriation and Visualization of Archaeological Count Data
-Version: 1.1.0.9000
-Date: 2018-12-30
+Version: 1.2.0
+Date: 2019-03-19
 Authors@R: c(person("Nicolas", "Frerebeau",
                     email = "nicolas.frerebeau@u-bordeaux-montaigne.fr",
                     role = c("aut", "cre"),
@@ -22,7 +22,7 @@ Description: An easy way to examine archaeological count data (artifacts, faunal
     and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity 
     (Brainerd-Robinson, ...). Most of these methods are described and discussed 
     in Maguran (1988) <doi:10.1007/978-94-015-7358-0>. It also provides matrix 
-    seriation methods (reciprocal ranking, CA-based seriation, IDSS) for 
+    seriation methods (reciprocal ranking, CA-based seriation) for 
     chronological modeling and dating. The package make it easy to visualize 
     count data and statistical thresholds: rank/abundance plots, Ford (1972) 
     <isbn:0913134082> and Bertin (1977) <isbn:2082111121> diagrams, etc.

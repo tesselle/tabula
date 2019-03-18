@@ -2,8 +2,8 @@
 #' \tabular{ll}{
 #'  \strong{Package:} \tab tabula \cr
 #'  \strong{Type:} \tab Package \cr
-#'  \strong{Version:} \tab 1.1.0.9000 \cr
-#'  \strong{Date:} \tab 2018-12-30 \cr
+#'  \strong{Version:} \tab 1.2.0 \cr
+#'  \strong{Date:} \tab 2019-03-19 \cr
 #'  \strong{License:} \tab GPL-3 \cr
 #'  \strong{DOI:} \tab \href{https://doi.org/10.5281/zenodo.1489944}{10.5281/zenodo.1489944}
 #' }
@@ -26,6 +26,10 @@
 #' Universite Bordeaux Montaigne\cr
 #' F-33607 Pessac cedex\cr
 #' France
+#' @note
+#' This work received a state financial support managed by the Agence Nationale
+#' de la Recherche (France) throught the program \emph{Investissements d'avenir}
+#' (ref. ANR-10-LABX-52).
 #' @name tabula-package
 #' @aliases tabula-package tabula
 #' @docType package
