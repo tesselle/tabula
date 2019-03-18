@@ -34,4 +34,8 @@ test_that("Numeric matrix", {
 test_that("PermutationOrder", {
   A <- methods::new("PermutationOrder")
   expect_output(show(A), "Permutation order for matrix seriation:")
+
+  B <- methods::new("PermutationOrder",
+                    rows = 1:21, columns = 1:21, method = "XXX")
+  expect_output(show(B), "Permutation order for matrix seriation:")
 })

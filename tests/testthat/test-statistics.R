@@ -9,6 +9,9 @@ test_that("Binomial coefficient", {
   expect_is(combination(4, 3), "numeric")
   expect_is(combination(171, 3), "numeric") # Ramanujan factorial approximation
   expect_error(combination(3, "a"))
+
+  options("verbose" = TRUE)
+  expect_message(combination(171, 3), "Ramanujan approximation of x!")
 })
 test_that("Confidence interval for a proportion", {
   expect_is(confidence(1:10, level = 0.05, type = "norm"), "numeric")

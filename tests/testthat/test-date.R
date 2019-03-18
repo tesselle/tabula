@@ -14,4 +14,10 @@ test_that("Date model", {
                      jackknife = TRUE, bootstrap = TRUE)
   expect_s4_class(model, "DateModel")
   expect_is(plotDate(model, select = 1), "ggplot")
+
+  expect_error(dateEvent(zuni, dates, cutoff = 10), "below 50%")
+  expect_error(dateEvent(zuni, unlist(dates)), "list of dates is expected")
+
+  dates <- list(XXX = 1)
+  expect_error(dateEvent(zuni, dates), "do not match")
 })
