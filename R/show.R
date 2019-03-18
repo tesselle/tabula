@@ -21,7 +21,7 @@ setMethod(
   f = "show",
   signature = "DateModel",
   definition = function(object) {
-    cat("Modelled event date (calendar time):\n",
+    cat("Modelled event date:\n",
         "  R2:", stats::summary.lm(object@model)$r.squared, "\n",
         "  Residual standard deviation:", round(object@residual, digits = 0), "years\n",
         "  CI:", object@level * 100, "%\n",
@@ -96,9 +96,24 @@ setMethod(
   f = "show",
   signature = "PermutationOrder",
   definition = function(object) {
+    m <- length(object@rows)
+    p <- length(object@columns)
+    k <- 20
+    rows <- if (m > k) {
+      paste(paste(object@rows[1:k], collapse = " "),
+            "... (", m-k, " more)", sep ="")
+    } else {
+      object@rows
+    }
+    columns <- if (p > k) {
+      paste(paste(object@columns[1:k], collapse = " "),
+            "... (", p-k, " more)", sep ="")
+    } else {
+      object@columns
+    }
     cat("Permutation order for matrix seriation:", "\n",
-        "  Row order:", object@rows, "\n",
-        "  Column order:", object@columns, "\n",
+        "  Row order:", rows, "\n",
+        "  Column order:", columns, "\n",
         "  Method:", object@method,
         sep = " "
     )

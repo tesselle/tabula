@@ -35,14 +35,12 @@ setMethod(
     keep_dim <- which(results_CA$eig[, 3] <= cutoff)
     row_coord <- results_CA$row$coord[, keep_dim]
     col_coord <- results_CA$col$coord[, keep_dim]
-    if (getOption("verbose")) { FactoMineR::summary.CA(results_CA) }
 
     # Event date
     ## Gaussian multiple linear regression model
     contexts <- merge(dates, row_coord, by.x = "id", by.y = "row.names")
     contexts %<>% as.data.frame() %>% dplyr::select(-1)
     fit <- stats::lm(date ~ ., data = contexts)
-    if (getOption("verbose")) { print(stats::summary.lm(fit)) }
 
     ## Predict event date for each context
     row_event <- predictEvent(fit, row_coord, level = level)
