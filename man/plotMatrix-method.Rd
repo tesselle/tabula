@@ -34,7 +34,7 @@ If \code{PVI} is \code{FALSE}, it plots a heatmap of relative abundances
  (frequency), otherwise percentages of the independence value are drawn (in
  french, "pourcentages de valeur d'indépendance", PVI).
 
- \code{PVI} is calculated for Each cell as the percentage to the column
+ \code{PVI} is calculated for each cell as the percentage to the column
  theoretical independence value: \code{PVI} greater than \eqn{1} represent
  positive deviations from the independance, whereas \code{PVI} smaller than
  \eqn{1} represent negative deviations (Desachy 2004).

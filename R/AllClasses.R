@@ -148,6 +148,15 @@ setClass(
 )
 
 ## Numeric matrix --------------------------------------------------------------
+#' Numeric matrix
+#'
+#' An S4 class to represent a numeric matrix.
+#' @note This class extends the \code{base} \link[base]{matrix}.
+#' @seealso \link[base]{matrix}
+#' @docType class
+#' @aliases NumericMatrix-class
+#' @keywords internal
+#' @noRd
 setClass(
   Class = "NumericMatrix",
   contains = "matrix"
@@ -198,8 +207,8 @@ setClass(
 #' An S4 class to represent a co-occurrence matrix.
 #' @details
 #'  A co-occurrence matrix is a symetric matrix with zeros on its main diagonal,
-#'  which works out how many times (percent) each pairs of taxa occur together
-#'  in at least one sample.
+#'  which works out how many times (expressed in percent) each pairs of taxa
+#'  occur together in at least one sample.
 #' @note This class extends the \code{base} \link[base]{matrix}.
 #' @seealso \link[base]{matrix}
 #' @family abundance matrix
@@ -230,6 +239,15 @@ setClass(
 )
 
 ## Logical matrix --------------------------------------------------------------
+#' Logical matrix
+#'
+#' An S4 class to represent a logical matrix.
+#' @note This class extends the \code{base} \link[base]{matrix}.
+#' @seealso \link[base]{matrix}
+#' @docType class
+#' @aliases LogicalMatrix-class
+#' @keywords internal
+#' @noRd
 setClass(
   Class = "LogicalMatrix",
   contains = "matrix"

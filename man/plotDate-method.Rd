@@ -23,13 +23,25 @@ indicating the modelled dates to be plotted. It must be one or both
 can be given.}
 
 \item{select}{A \code{\link{numeric}} or \code{\link{character}} vector
-giving the selection of the elements that are drawn.}
+giving the selection of the assemblage that are drawn.}
 
 \item{n}{A length-one non-negative \code{\link{numeric}} vector giving the
 desired length of the vector of quantiles for density computation.}
 }
 \description{
-Date plot
+Plots date estimates.
+}
+\details{
+Plots the two probability estimate density curves of
+ archaeological assembalge dates (\emph{event} and
+ \emph{accumulation} dates; Bellanger and Husi 2012).
+
+ The estimated probability density of an event date is approached by a normal
+ distribution. The distribution of the accumulation time of each context is
+ approached by a Gaussian mixture.
+
+ The \emph{event date} is plotted as a line, while the \emph{accumulation
+ time} is shown as a grey filled area.
 }
 \references{
 Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
@@ -38,6 +50,8 @@ Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
  DOI: \href{https://doi.org/10.1016/j.jas.2011.06.031}{10.1016/j.jas.2011.06.031}.
 }
 \seealso{
+\link{dateEvent}
+
 Other plot: \code{\link{plotBar}},
   \code{\link{plotMatrix}}, \code{\link{plotRank}},
   \code{\link{plotSpot}}

@@ -23,12 +23,43 @@ NULL
 #'  bootstrap replications (see details).
 #' @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
 #' @details
-#'  TODO
+#'  This is an implementation of the chronological modeling method developed by
+#'  Bellanger and Husi (2012, 2013).
 #'
+#'  This method allows the estimation of two probability densities. The
+#'  first one (\emph{event date}) represents the \emph{terminus post-quem} of an
+#'  archaeological assemblage: an event dated in calendar time. The second
+#'  represents the "chronological profile" of the assemblage: the accumulation
+#'  rate (Bellanger and Husi 2012).
+#'
+#'  This method - somewhat similar to that described by Poblome and Groenen
+#'  2003 - is based on the adjustment of a Gaussian multiple linear regression
+#'  model on the factors resulting from a correspondence analysis. This model
+#'  results from the known dates of a selection of reliable contexts and allows
+#'  to predict the \emph{event} dates of the remaining assemblage with a 95%
+#'  confidence interval.
+#'
+#'  Since correspondence analysis allows the rows and columns of a contingency
+#'  table to be projected in the same space (through the transition formula),
+#'  it is possible to estimate the date of each fabric using the previous model.
+#'  Finally, the \emph{accumulation} date of each context is defined as the
+#'  mean of the fabric dates, weighted by their relative proportions in that
+#'  context (akin to the \emph{Mean Ceramic Date} proposed by South 1977).
+#'
+#'  This method relies on strong archaeological and statistical assumptions.
+#'  Use it if you know what you are doing (see references below).
 #' @section Model checking:
-#'  TODO
+#'  Resampling methods can be used to check the stability of the resulting
+#'  model. If \code{jackknife} is \code{TRUE}, one type/fabric is removed at a
+#'  time and all statistics are recalculated. In this way, one can assess
+#'  whether certain type/fabric has a substantial influence on the date
+#'  estimate. If \code{bootstrap} is \code{TRUE}, a large number of new
+#'  bootstrap assemblages is created, with the same sample size, by resampling
+#'  each of the original assemblage with replacement. Then, examination of the
+#'  bootstrap statistics makes it possible to pinpoint assemblages that require
+#'  further investigation.
 #'
-#'  The use of re-sampling options (\code{jackknife} and \code{bootstrap}) can
+#'  The use of resampling options (\code{jackknife} and \code{bootstrap}) can
 #'  lead to much longer execution times and larger output objects.
 #'  To monitor the execution of these re-sampling procedures, a progress bar
 #'  will automatically be displayed if the \code{\link[pbapply]{pbapply}}
@@ -63,6 +94,14 @@ NULL
 #'  Pottery Quantification for the Dating of Some Archaeological Contexts.
 #'  \emph{Archaeometry}, 48(1), 169-183.
 #'  DOI: \href{https://doi.org/10.1111/j.1475-4754.2006.00249.x}{10.1111/j.1475-4754.2006.00249.x}.
+#'
+#'  Poblome, J. & Groenen, P. J. F. (2003). Constrained Correspondence Analysis
+#'  for Seriation of Sagalassos Tablewares. In Doerr, M. & Apostolis, S. (eds.),
+#'  \emph{The Digital Heritage of Archaeology}. Athens: Hellenic Ministry of
+#'  Culture.
+#'
+#'  South, S. A. (1977). \emph{Method and Theory in Historical Archaeology}.
+#'  New York: Academic Press.
 #' @seealso \link{refine}
 #' @example inst/examples/ex-dating.R
 #' @author N. Frerebeau
@@ -204,13 +243,14 @@ setGeneric(
 # Plot =========================================================================
 #' Date plot
 #'
+#' Plots date estimates.
 #' @param object An object of class \linkS4class{DateModel} to be plotted.
 #' @param type A \code{\link{character}} string or vector of character strings
 #'  indicating the modelled dates to be plotted. It must be one or both
 #'  (default) of \code{event} and \code{accumulation}. Any unambiguous substring
 #'  can be given.
 #' @param select A \code{\link{numeric}} or \code{\link{character}} vector
-#'  giving the selection of the elements that are drawn.
+#'  giving the selection of the assemblage that are drawn.
 #' @param n A length-one non-negative \code{\link{numeric}} vector giving the
 #'  desired length of the vector of quantiles for density computation.
 # @param sort A \code{\link{character}} string indicating whether the dates
@@ -218,6 +258,17 @@ setGeneric(
 #  Any unambiguous substring can be given. If \code{NULL} no sorting is
 #  performed.
 #' @param ... Further arguments passed to other methods.
+#' @details
+#'  Plots the two probability estimate density curves of
+#'  archaeological assembalge dates (\emph{event} and
+#'  \emph{accumulation} dates; Bellanger and Husi 2012).
+#'
+#'  The estimated probability density of an event date is approached by a normal
+#'  distribution. The distribution of the accumulation time of each context is
+#'  approached by a Gaussian mixture.
+#'
+#'  The \emph{event date} is plotted as a line, while the \emph{accumulation
+#'  time} is shown as a grey filled area.
 #' @references
 #'  Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
 #'  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
@@ -225,6 +276,7 @@ setGeneric(
 #'  DOI: \href{https://doi.org/10.1016/j.jas.2011.06.031}{10.1016/j.jas.2011.06.031}.
 #' @author N. Frerebeau
 #' @family plot
+#' @seealso \link{dateEvent}
 #' @docType methods
 #' @rdname plotDate-method
 #' @aliases plotDate-method
@@ -293,7 +345,7 @@ setGeneric(
 #'  (frequency), otherwise percentages of the independence value are drawn (in
 #'  french, "pourcentages de valeur d'indépendance", PVI).
 #'
-#'  \code{PVI} is calculated for Each cell as the percentage to the column
+#'  \code{PVI} is calculated for each cell as the percentage to the column
 #'  theoretical independence value: \code{PVI} greater than \eqn{1} represent
 #'  positive deviations from the independance, whereas \code{PVI} smaller than
 #'  \eqn{1} represent negative deviations (Desachy 2004).

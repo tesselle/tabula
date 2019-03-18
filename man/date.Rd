@@ -44,7 +44,31 @@ An object of class \linkS4class{DateModel}.
 Experimental (see note).
 }
 \details{
-TODO
+This is an implementation of the chronological modeling method developed by
+ Bellanger and Husi (2012, 2013).
+
+ This method allows the estimation of two probability densities. The
+ first one (\emph{event date}) represents the \emph{terminus post-quem} of an
+ archaeological assemblage: an event dated in calendar time. The second
+ represents the "chronological profile" of the assemblage: the accumulation
+ rate (Bellanger and Husi 2012).
+
+ This method - somewhat similar to that described by Poblome and Groenen
+ 2003 - is based on the adjustment of a Gaussian multiple linear regression
+ model on the factors resulting from a correspondence analysis. This model
+ results from the known dates of a selection of reliable contexts and allows
+ to predict the \emph{event} dates of the remaining assemblage with a 95%
+ confidence interval.
+
+ Since correspondence analysis allows the rows and columns of a contingency
+ table to be projected in the same space (through the transition formula),
+ it is possible to estimate the date of each fabric using the previous model.
+ Finally, the \emph{accumulation} date of each context is defined as the
+ mean of the fabric dates, weighted by their relative proportions in that
+ context (akin to the \emph{Mean Ceramic Date} proposed by South 1977).
+
+ This method relies on strong archaeological and statistical assumptions.
+ Use it if you know what you are doing (see references below).
 }
 \note{
 The original authors of the method did not publish the data supporting their
@@ -55,9 +79,17 @@ The original authors of the method did not publish the data supporting their
 }
 \section{Model checking}{
 
- TODO
+ Resampling methods can be used to check the stability of the resulting
+ model. If \code{jackknife} is \code{TRUE}, one type/fabric is removed at a
+ time and all statistics are recalculated. In this way, one can assess
+ whether certain type/fabric has a substantial influence on the date
+ estimate. If \code{bootstrap} is \code{TRUE}, a large number of new
+ bootstrap assemblages is created, with the same sample size, by resampling
+ each of the original assemblage with replacement. Then, examination of the
+ bootstrap statistics makes it possible to pinpoint assemblages that require
+ further investigation.
 
- The use of re-sampling options (\code{jackknife} and \code{bootstrap}) can
+ The use of resampling options (\code{jackknife} and \code{bootstrap}) can
  lead to much longer execution times and larger output objects.
  To monitor the execution of these re-sampling procedures, a progress bar
  will automatically be displayed if the \code{\link[pbapply]{pbapply}}
@@ -127,6 +159,14 @@ Bellanger, L. & Husi, P. (2013). Mesurer et modéliser le temps inscrit dans
  Pottery Quantification for the Dating of Some Archaeological Contexts.
  \emph{Archaeometry}, 48(1), 169-183.
  DOI: \href{https://doi.org/10.1111/j.1475-4754.2006.00249.x}{10.1111/j.1475-4754.2006.00249.x}.
+
+ Poblome, J. & Groenen, P. J. F. (2003). Constrained Correspondence Analysis
+ for Seriation of Sagalassos Tablewares. In Doerr, M. & Apostolis, S. (eds.),
+ \emph{The Digital Heritage of Archaeology}. Athens: Hellenic Ministry of
+ Culture.
+
+ South, S. A. (1977). \emph{Method and Theory in Historical Archaeology}.
+ New York: Academic Press.
 }
 \seealso{
 \link{refine}

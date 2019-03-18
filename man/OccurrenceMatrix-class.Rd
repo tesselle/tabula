@@ -9,8 +9,8 @@ An S4 class to represent a co-occurrence matrix.
 }
 \details{
 A co-occurrence matrix is a symetric matrix with zeros on its main diagonal,
- which works out how many times (percent) each pairs of taxa occur together
- in at least one sample.
+ which works out how many times (expressed in percent) each pairs of taxa
+ occur together in at least one sample.
 }
 \note{
 This class extends the \code{base} \link[base]{matrix}.
