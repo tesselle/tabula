@@ -220,7 +220,7 @@ bootDate <- function(x, model, margin = 1, n = 1000, keep = ncol(x),
   svd <- if (margin == 1) results_CA$svd$V else results_CA$svd$U
 
   # Compute date event statistics for each replicated sample
-  computeStats <- function(x, n, svd, keep, model) {
+  computeStats <- function(x, n, svd, keep, model, level) {
     # n random replicates
     # replicated <- sample(x = n, size = sum(x), prob = x)
     replicated <- stats::rmultinom(n = n, size = sum(x), prob = x)
@@ -239,11 +239,13 @@ bootDate <- function(x, model, margin = 1, n = 1000, keep = ncol(x),
   boot <- if (requireNamespace("pbapply", quietly = TRUE)) {
     pbapply::pbapply(X = x, MARGIN = margin,
                      FUN = computeStats,
-                     n = n, svd = svd, keep = keep, model = model)
+                     n = n, svd = svd, keep = keep,
+                     model = model, level = level)
   } else {
     apply(X = x, MARGIN = margin,
           FUN = computeStats,
-          n = n, svd = svd, keep = keep, model = model)
+          n = n, svd = svd, keep = keep,
+          model = model, level = level)
   }
 
   boot_event <- data.frame(colnames(boot), t(boot), row.names = NULL)

@@ -45,12 +45,15 @@ setMethod(
     margin <- as.integer(margin)
 
     # Original sequences
-    i <- 1:nrow(object)
-    j <- 1:ncol(object)
+    m <- nrow(object)
+    p <- ncol(object)
+    i <- 1:m
+    j <- 1:p
 
     # Correspondance analysis
     index <- subset[["keep"]]
-    suppl <- i[-index]
+    suppl <- if (length(index) < m) i[-index] else NULL
+
     corresp <- FactoMineR::CA(object, row.sup = suppl, graph = FALSE, ...)
 
     # Bind and reorder coords
@@ -65,7 +68,7 @@ setMethod(
     methods::new("PermutationOrder",
                  rows = as.integer(row_coords),
                  columns = as.integer(col_coords),
-                 method = "correspondance")
+                 method = "refined correspondance")
   }
 )
 
