@@ -23,9 +23,11 @@ knitr::opts_chunk$set(
 Thereafter, we denote by:
 
 * $S$ the total number of taxa recorded,
-* $N$ the total number of individuals,
+* $i$ the rank of the taxon
 * $n_i$ the number of individuals in the $i$-th taxon,
+* $N = \sum n_i$ the total number of individuals,
 * $p_i$ the relative proportion of the $i$-th taxon in the population,
+* $s_n$ the number of species with $n$ individuals
 * $f_k$ the number of taxa with $k$ individuals,
 * $Q_i$ the incidence of the $i$-th taxon.
 
@@ -214,34 +216,41 @@ where $g(H)$ is the number of taxa gained along the transect, $l(H)$ the number 
 
 ### Similarity
 
-Similarity between two samples $a$ and $b$ can be measured as follow. These 
-indices provide a scale of similarity from $0$-$1$ where $1$ is perfect similarity and $0$ is no similarity (with the exception of the Brainerd-Robinson index which is scaled between $0$ and $200$)
+Similarity between two samples $a$ and $b$ or between two types $x$ and $y$ can be measured as follow.
 
-$a_i$ and $b_i$ denote the number of individuals in the $i$-th taxon, $i \in \left[ 1,n \right]$. $j$ denotes the number of taxa common to both samples: $j = \sum_{k = 1}^{n} a_k \cap b_k$.
+These indices provide a scale of similarity from $0$-$1$ where $1$ is perfect similarity and $0$ is no similarity, with the exception of the Brainerd-Robinson index which is scaled between $0$ and $200$.
+
+$a_j$ and $b_j$ denote the number of individuals in the $j$-th type/taxon, $j \in \left[ 1,n \right]$. $o_j$ denotes the number of type/taxon common to both sample/case: $o_j = \sum_{k = 1}^{n} a_k \cap b_k$.
+
+$x_i$ and $y_i$ denote the number of individuals in the $i$-th sample/case, $i \in \left[ 1,m \right]$. $o_i$ denotes the number of sample/case common to both type/taxon: $o_i = \sum_{k = 1}^{m} x_k \cap y_k$.
 
 #### Qualitative indices
 ##### Jaccard index
 
-$$ C_J = \frac{j}{S_a + S_b - j} $$
+$$ C_J = \frac{o_j}{S_a + S_b - o_j} $$
 
 ##### Sorenson index
 
-$$ C_S = \frac{2j}{S_a + S_b} $$
+$$ C_S = \frac{2 \times o_j}{S_a + S_b} $$
 
 #### Quantitative index
 
 ##### Brainerd-Robinson index [@brainerd1951, @robinson1951]
 
-$$ C_{BR} = 200 - \sum_{i = 1}^{S} \left| \frac{a_i \times 100}{\sum_{i = 1}^{S} a_i} - \frac{b_i \times 100}{\sum_{i = 1}^{S} b_i} \right|$$
+$$ C_{BR} = 200 - \sum_{j = 1}^{S} \left| \frac{a_j \times 100}{\sum_{j = 1}^{S} a_j} - \frac{b_j \times 100}{\sum_{j = 1}^{S} b_j} \right|$$
 
 ##### Sorenson index
 
 @bray1957 modified version of Sorenson's index:
 
-$$ C_N = \frac{2 \sum_{i = 1}^{S} \min(a_i, b_i)}{N_a + N_b} $$
+$$ C_N = \frac{2 \sum_{j = 1}^{S} \min(a_j, b_j)}{N_a + N_b} $$
 
 ##### Morisita-Horn index
 
-$$ C_{MH} = \frac{2 \sum_{i = 1}^{S} a_i \times b_i}{(\frac{\sum_{i = 1}^{S} a_i^2}{N_a^2} + \frac{\sum_{i = 1}^{S} b_i^2}{N_b^2}) \times N_a \times N_b} $$
+$$ C_{MH} = \frac{2 \sum_{j = 1}^{S} a_j \times b_j}{(\frac{\sum_{j = 1}^{S} a_j^2}{N_a^2} + \frac{\sum_{j = 1}^{S} b_j^2}{N_b^2}) \times N_a \times N_b} $$
+
+##### Binomial co-occurrence [@kintigh2006]
+
+$$ C_{Bi} = \frac{o_i - N \times p}{\sqrt{N \times p \times (1 - p)}} $$
 
 ## References

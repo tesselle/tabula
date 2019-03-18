@@ -1,0 +1,604 @@
+---
+title: "tabula"
+author: "N. Frerebeau"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    fig_caption: yes
+    toc: true
+header-includes:
+   - \usepackage{amsmath}
+   - \usepackage{amssymb}
+bibliography: bibliography.bib
+vignette: >
+  %\VignetteIndexEntry{tabula}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE, echo=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(tabula)
+```
+
+## Overview
+`tabula` provides an easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity: e.g. richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), diversity/dominance and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity (Brainerd-Robinson, ...). It also provides matrix seriation methods (reciprocal ranking, CA-based seriation) for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford and Bertin diagrams, etc.
+    
+## Data matrix
+
+`tabula` provides a set of S4 classes that extend the `matrix` data type from R `base`. These new classes represent different special types of matrix.
+
+* Abundance matrix:
+    * `CountMatrix` represents count data,
+    * `FrequencyMatrix` represents frequency data.
+* Logical matrix:
+    * `IncidenceMatrix` represents presence/absence data.
+* Numeric matrix:
+    * `OccurrenceMatrix` represents a co-occurence matrix.
+    * `SimilarityMatrix` represents a (dis)similarity matrix.
+    
+It assumes that you keep your data tidy: each variable (taxon/type) must be saved in its own column and each observation (sample/case) must be saved in its own row. Missing values are not allowed.
+
+### Definitions
+#### Abundance matix
+##### Count matrix
+
+We denote the $m \times p$ count matrix by $A = \left[ a_{ij} \right] ~\forall i \in \left[ 1,m \right], j \in \left[ 1,p \right]$ with row and column sums:
+
+\begin{align}
+ a_{i \cdot} = \sum_{j = 1}^{p} a_{ij} &&
+ a_{\cdot j} = \sum_{i = 1}^{m} a_{ij} &&
+ a_{\cdot \cdot} = \sum_{i = 1}^{m} \sum_{j = 1}^{p} a_{ij} &&
+ \forall a_{ij} \in \mathbb{N}
+\end{align}
+
+##### Frequency matrix
+
+A frequency matrix represents relative abundances.
+
+We denote the $m \times p$ frequency matrix by $B = \left[ b_{ij} \right] ~\forall i \in \left[ 1,m \right], j \in \left[ 1,p \right]$ with row and column sums:
+
+\begin{align}
+ b_{i \cdot} = \sum_{j = 1}^{p} b_{ij} = 1 &&
+ b_{\cdot j} = \sum_{i = 1}^{m} b_{ij} &&
+ b_{\cdot \cdot} = \sum_{i = 1}^{m} \sum_{j = 1}^{p} b_{ij} &&
+ \forall b_{ij} \in \left[ 0,1 \right]
+\end{align}
+
+#### Logical matrix
+##### Incidence matrix
+
+We denote the $m \times p$ incidence matrix by $C = \left[ c_{ij} \right] ~\forall i \in \left[ 1,m \right], j \in \left[ 1,p \right]$ with row and column sums:
+
+\begin{align}
+ c_{i \cdot} = \sum_{j = 1}^{p} c_{ij} &&
+ c_{\cdot j} = \sum_{i = 1}^{m} c_{ij} &&
+ c_{\cdot \cdot} = \sum_{i = 1}^{m} \sum_{j = 1}^{p} c_{ij} &&
+ \forall c_{ij} \in \lbrace 0,1 \rbrace
+\end{align}
+
+#### Numeric matrix
+##### Co-occurrence matrix
+
+A co-occurrence matrix is a symetric matrix with zeros on its main diagonal, which works out how many times (expressed in percent) each pairs of taxa occur together in at least one sample.
+
+The $p \times p$ co-occurrence matrix $D = \left[ d_{i,j} \right] ~\forall i,j \in \left[ 1,p \right]$ is defined over an $m \times p$ abundance matrix $A = \left[ a_{x,y} \right] ~\forall x \in \left[ 1,m \right], y \in \left[ 1,p \right]$ as:
+
+$$ d_{i,j} = \sum_{x = 1}^{m} \bigcap_{y = i}^{j} a_{xy} $$
+
+with row and column sums:
+
+\begin{align}
+  d_{i \cdot} = \sum_{j \geqslant i}^{p} d_{ij} &&
+  d_{\cdot j} = \sum_{i \leqslant j}^{p} d_{ij} &&
+  d_{\cdot \cdot} = \sum_{i = 1}^{p} \sum_{j \geqslant i}^{p} d_{ij} &&
+  \forall d_{ij} \in \mathbb{N}
+\end{align}
+
+### Usage
+#### Create
+
+These new classes are of simple use, on the same way as the base `matrix`:
+
+```{r create}
+# Create a count data matrix
+CountMatrix(data = sample(0:10, 100, TRUE),
+            nrow = 10, ncol = 10)
+
+# Create an incidence (presence/absence) matrix
+# Numeric values are coerced to logical as by as.logical
+IncidenceMatrix(data = sample(0:1, 100, TRUE),
+                nrow = 10, ncol = 10)
+```
+
+Note that a `FrequencyMatrix` can only be created by coercion from a `CountMatrix` to ensure data integrity (see below).
+
+#### Coerce
+
+`tabula` uses coercing mechanisms (with validation methods) for data type conversions:
+
+```{r coerce}
+# Create a count matrix
+#  Numeric values are coerced to integer and hence truncated towards zero
+A1 <- CountMatrix(data = sample(0:10, 100, TRUE),
+                  nrow = 10, ncol = 10)
+
+# Coerce counts to frequencies
+B <- as(A1, "FrequencyMatrix")
+
+# Row sums are internally stored before coercing to a frequency matrix
+totals(B)
+# This allows to restore the source data
+A2 <- as(B, "CountMatrix")
+all(A1 == A2)
+
+# Coerce to presence/absence
+C <- as(A1, "IncidenceMatrix")
+
+# Coerce to a co-occurrence matrix
+D <- as(A1, "OccurrenceMatrix")
+```
+
+### Visualization
+
+Several types of graphs are available in `tabula` which uses `ggplot2` for plotting informations. This makes it easy to customize diagramms (e.g. using themes and scales).
+
+#### Spot plot
+Spot matrix allows direct examination of data (above/below some threshold):
+
+```{r plot-freq, fig.width=4, fig.height=6, fig.align="center"}
+# Plot frequencies with the column means as a threshold
+mississippi_counts <- as(mississippi, "CountMatrix")
+
+plotSpot(mississippi_counts, threshold = mean) +
+  ggplot2::labs(size = "Frequency", colour = "Mean") +
+  khroma::scale_colour_vibrant()
+```
+
+```{r plot-occ, fig.width=6, fig.height=4, fig.align="center"}
+# Plot co-occurence of types
+# (i.e. how many times (percent) each pairs of taxa occur together 
+# in at least one sample.)
+mississippi_occ <- as(mississippi, "OccurrenceMatrix")
+plotSpot(mississippi_occ) +
+  ggplot2::labs(size = "", colour = "Co-occurrence") +
+  ggplot2::theme(legend.box = "horizontal") +
+  khroma::scale_colour_YlOrBr()
+```
+
+#### Matrix plot
+
+Abundance matrix can be displayed as a heatmap of relative abundances (frequency), or as percentages of the independence value (in french, "pourcentages de valeur d'indépendance", PVI).
+
+```{r plot-matrix, fig.width=7, fig.height=3.5, fig.align="center"}
+# Reproduce B. Desachy's matrigraphe
+boves_counts <- as(boves, "CountMatrix")
+
+plotMatrix(boves_counts) +
+  ggplot2::theme_light() +
+  khroma::scale_fill_YlOrBr()
+```
+
+PVI is calculated for each cell as the percentage to the column theoretical independence value: PVI greater than $1$ represent positive deviations from the independance, whereas PVI smaller than $1$ represent negative deviations [@desachy2004]. The PVI matrix allows to explore deviations from independence (an intuitive graphical approach to $\chi^2$), in such a way that a high-contrast matrix has quite significant deviations, with a low risk of being due to randomness [@desachy2004].
+
+```{r plot-matrigraphe, fig.width=7, fig.height=3.5, fig.align="center"}
+# Reproduce B. Desachy's matrigraphe
+plotMatrix(boves_counts, PVI = TRUE) +
+  ggplot2::scale_fill_gradient2(midpoint = 1) +
+  ggplot2::theme_bw()
+```
+
+#### Bar plot
+Bertin or Ford (battleship curve) diagramms can also be plotted, with statistic threshold.
+
+```{r plot-bertin, fig.width=7, fig.height=7, fig.align="center"}
+plotBar(boves_counts, center = FALSE, horizontal = FALSE) +
+  ggplot2::labs(title = "Ford diagram") +
+  ggplot2::theme_bw()
+```
+
+```{r plot-ford, fig.width=7, fig.height=3.5, fig.align="center"}
+plotBar(boves_counts, center = TRUE, horizontal = FALSE) +
+  ggplot2::labs(title = "Bertin diagram") +
+  ggplot2::theme_light()
+```
+
+The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence [@desachy2004]. As independence can be interpreted as the absence of relationships between types and the chronological order of the assemblages, EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation [@desachy2004].
+
+```{r plot-seriographe, fig.width=7, fig.height=3.5, fig.align="center"}
+# Reproduce B. Desachy's sériographe
+plotBar(boves_counts, EPPM = TRUE) +
+  khroma::scale_fill_bright()
+```
+
+## Seriation
+
+The matrix seriation problem in archaeology is based on three conditions and two assumptions, which @dunnell1970 summarizes as follows.
+
+The homogeneity conditions state that all the groups included in a seriation must:
+
+* Be of comparable duration,
+* Belong to the same cultural tradition,
+* Come from the same local area.
+
+The mathematical assumptions state that the distribution of any historical or temporal class:
+
+* Is continuous through time,
+* Exhibits the form of a unimodal curve.
+
+Theses assumptions create a distributional model and ordering is accomplished by arranging the matrix so that the class distributions approximate the required pattern. The resulting order is infered to be chronological.
+
+### Reciprocal ranking
+
+Reciprocal ranking iteratively rearrange rows and/or columns according to their weighted rank in the data matrix until convergence [@ihm2005].
+
+For a given incidence matrix $C$:
+
+* The rows of $C$ are rearranged in increasing order of:
+
+$$ x_{i} = \sum_{j = 1}^{p} j \frac{c_{ij}}{c_{i \cdot}} $$
+
+* The columns of $C$ are rearranged in a similar way:
+
+$$ y_{j} = \sum_{i = 1}^{m} i \frac{c_{ij}}{c_{\cdot j}} $$
+
+These two steps are repeated until convergence.
+Note that this procedure could enter into an infinite loop.
+
+```{r ranking, fig.show='hold'}
+# Build an incidence matrix with random data
+set.seed(12345)
+incidence1 <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
+                              nrow = 20)
+
+# Get seriation order on rows and columns
+# If no convergence is reached before the maximum number of iterations (100), 
+# it stops with a warning.
+(indices <- seriate(incidence1, method = "reciprocal", margin = c(1, 2),
+                    stop = 100))
+
+# Permute matrix rows and columns
+incidence2 <- permute(incidence1, indices)
+
+# Plot matrix
+plotMatrix(incidence1) + 
+  ggplot2::labs(title = "Original matrix") +
+  ggplot2::theme(legend.position = "bottom") +
+  ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
+plotMatrix(incidence2) + 
+  ggplot2::labs(title = "Rearranged matrix") +
+  ggplot2::theme(legend.position = "bottom") +
+  ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
+```
+
+### Reciprocal averaging
+
+```{r averaging, fig.width=7, fig.height=5, fig.show='hold'}
+# Reproduces Desachy 2004 results
+
+## Coerce dataset to an abundance matrix
+compiegne_counts <- as(compiegne, "CountMatrix")
+
+## Plot original data matrix
+plotBar(compiegne_counts, EPPM = TRUE) +
+  ggplot2::labs(title = "Original dataset") + 
+  ggplot2::theme_bw() + 
+  ggplot2::theme(panel.spacing = ggplot2::unit(0, "lines"),
+                 panel.border = ggplot2::element_rect(colour = NA),
+                 legend.position = "bottom")
+
+## Get seriation order for columns on EPPM using the reciprocal averaging method
+## Expected column order: N, A, C, K, P, L, B, E, I, M, D, G, O, J, F, H
+compiegne_indices <- seriate(compiegne_counts, method = "reciprocal", 
+                             EPPM = TRUE, margin = 2)
+
+## Permute columns
+compiegne_seriation <- permute(compiegne_counts, compiegne_indices)
+
+## Plot new matrix
+plotBar(compiegne_seriation, EPPM = TRUE) +
+  ggplot2::labs(title = "Reordered dataset") + 
+  ggplot2::theme_bw() + 
+  ggplot2::theme(panel.spacing = ggplot2::unit(0, "lines"),
+                 panel.border = ggplot2::element_rect(colour = NA),
+                 legend.position = "bottom")
+```
+
+### Correspondance analysis
+
+Correspondance Analysis (CA) is an effective method for the seriation of archaeological assemblages. The order of the rows and columns is given by the coordinates along one dimension of the CA space, assumed to account for temporal variation. The direction of temporal change within the correspondance analysis space is arbitrary: additional information is needed to determine the actual order in time.
+
+```{r ca}
+## Coerce dataset to an abundance matrix
+zuni_counts <- as(zuni, "CountMatrix")
+
+# Correspondance analysis of the whole dataset
+ca <- FactoMineR::CA(zuni_counts, graph = FALSE)
+
+# Plot CA results
+ggplot2::ggplot(mapping = ggplot2::aes(x = `Dim 1`, y = `Dim 2`)) +
+  ggplot2::geom_vline(xintercept = 0, linetype = 2) +
+  ggplot2::geom_hline(yintercept = 0, linetype = 2) +
+  ggplot2::geom_point(data = as.data.frame(ca$row$coord), color = "black") +
+  ggplot2::geom_point(data = as.data.frame(ca$col$coord), color = "red") +
+  ggplot2::coord_fixed() + 
+  ggplot2::theme_bw()
+```
+
+```{r ca-seriation, fig.width=7, fig.height=7}
+# Get row permutations from CA coordinates
+zuni_indices <- seriate(zuni_counts, method = "correspondance", margin = 1)
+
+# Permute data matrix
+zuni_seriation <- permute(zuni_counts, zuni_indices)
+
+# Plot Ford diagram
+# Warning: this may take a few seconds!
+plotBar(zuni_seriation, level = FALSE) +
+  ggplot2:: theme(axis.text = ggplot2::element_blank(),
+                  axis.ticks = ggplot2::element_blank(),
+                  axis.title = ggplot2::element_blank())
+```
+
+### Refine CA-based seriation
+
+@peeples2012 propose a procedure to identify samples that are subject to sampling error or samples that have underlying structural relationships and might be influencing the ordering along the CA space. This relies on a partial bootstrap approach to CA-based seriation where each sample is replicated `n` times. The maximum dimension length of the convex hull around the sample point cloud allows to remove samples for a given `cutoff` value.
+
+According to @peeples2012, "[this] point removal procedure [results in] a reduced dataset where the position of individuals within the CA are highly stable and which produces an ordering consistend with the assumptions of frequency seriation."
+
+```{r refine, fig.show='hold'}
+# Reproduces Peeples and Schachner 2012 results
+
+## Samples with convex hull maximum dimension length greater than the cutoff
+## value will be marked for removal.
+## Define cutoff as one standard deviation above the mean
+fun <- function(x) { mean(x) + sd(x) }
+
+## Get indices of samples to be kept
+## Warning: this may take a few seconds!
+set.seed(123)
+zuni_keep <- refine(zuni_counts, cutoff = fun, n = 1000)
+
+## Plot convex hull
+## blue: convex hull for samples; red: convex hull for types
+### All bootstrap samples
+ggplot2::ggplot(mapping = ggplot2::aes(x = x, y = y, group = id)) +
+  ggplot2::geom_vline(xintercept = 0, linetype = 2) +
+  ggplot2::geom_hline(yintercept = 0, linetype = 2) +
+  ggplot2::geom_polygon(data = zuni_keep[["rows"]], 
+                        fill = "blue", alpha = 0.05) +
+  ggplot2::geom_polygon(data = zuni_keep[["columns"]], 
+                        fill = "red", alpha = 0.5) +
+  ggplot2::coord_fixed() + 
+  ggplot2::theme_bw() + 
+  ggplot2::labs(title = "Whole dataset", x = "Dim. 1", y = "Dim. 2")
+### Only retained samples
+ggplot2::ggplot(mapping = ggplot2::aes(x = x, y = y, group = id)) +
+  ggplot2::geom_vline(xintercept = 0, linetype = 2) +
+  ggplot2::geom_hline(yintercept = 0, linetype = 2) +
+  ggplot2::geom_polygon(data = subset(zuni_keep[["rows"]], 
+                                      id %in% names(zuni_keep[["keep"]])),
+                        fill = "blue", alpha = 0.05) +
+  ggplot2::geom_polygon(data = zuni_keep[["columns"]], 
+                        fill = "red", alpha = 0.5) +
+  ggplot2::coord_fixed() + 
+  ggplot2::theme_bw() + 
+  ggplot2::labs(title = "Selected samples", x = "Dim. 1", y = "Dim. 2")
+```
+
+If the results of `refine` is used as an input argument in `seriate`, a correspondance analysis is performed on the subset of `object` which matches the samples to be kept. Then excluded samples are projected onto the dimensions of the CA coordinate space using the row transition formulae. Finally, row coordinates onto the first dimension give the seriation order.
+
+```{r refine-ca}
+## Get CA-based seriation order
+(zuni_refined <- seriate(zuni_counts, zuni_keep, margin = 1))
+```
+
+## Dating
+
+This package provides an implementation of the chronological modeling method developed by @bellanger2012. This allows the construction of two different probability estimate density curves of archaeological assembalge dates. The first one (*event date*) represents the *terminus post-quem* of an archaeological assemblage: an event dated in calendar time. The second represents the "chronological profile" of the assemblage: the *accumulation rate* [@bellanger2012].
+
+This method - somewhat similar to that described by @poblome2003 - is based on the adjustment of a Gaussian multiple linear regression model on the factors resulting from a correspondence analysis. This model results from the known dates of a selection of reliable contexts and allows to predict the *event* dates of the remaining assemblage with a 95% confidence interval.
+
+Since correspondence analysis allows the rows and columns of a contingency table to be projected in the same space (through the transition formula), it is possible to estimate the date of each fabric using the previous model. Finally, the *accumulation* date of each context is defined as the mean of the fabric dates, weighted by their relative proportions in that context (akin to the *Mean Ceramic Date* proposed by @south1977).
+
+This method relies on strong archaeological and statistical assumptions. Use it only if you know what you are doing. Note that this implementation is **experimental** (see `help(dateEvent)`).
+
+```{r date, fig.width=5, fig.height=3.5, fig.show='hold', fig.align="center"}
+# Coerce dataset to abundance (count) matrix
+zuni <- as(zuni, "CountMatrix")
+
+# Assume that some assemblages are reliably dated (this is NOT a real example).
+# The names of the vector entries must match the names of the assemblages.
+dates <- list(
+  LZ0569 = 1097, LZ0279 = 1119, CS16 = 1328, LZ0066 = 1111,
+  LZ0852 = 1216, LZ1209 = 1251, CS144 = 1262, LZ0563 = 1206,
+  LZ0329 = 1076, LZ0005Q = 859, LZ0322 = 1109, LZ0067 = 863,
+  LZ0578 = 1180, LZ0227 = 1104, LZ0610 = 1074
+)
+
+# Model the event and accumulation date for each assemblage.
+(model <- dateEvent(zuni, dates, cutoff = 90))
+```
+
+The estimated probability density of an event date is approached by a normal distribution. The distribution of the accumulation time of each context is approached by a Gaussian mixture.
+
+```{r plot-date, fig.width=7, fig.height=3.5, fig.align="center"}
+# Plot event (line) and accumulation (grey area) date distributions
+plotDate(model, select = "LZ1105") +
+  ggplot2::theme_bw()
+```
+
+Resampling methods can be used to check the stability of the resulting model. If `jackknife` is `TRUE`, one type/fabric is removed at a time and all statistics are recalculated. In this way, one can assess whether certain type/fabric has a substantial influence on the date estimate. If `bootstrap` is `TRUE`, a large number of new bootstrap assemblages is created, with the same sample size, by resampling the original assemblage with replacement. Then, examination of the bootstrap statistics makes it possible to pinpoint assemblages that require further investigation.
+
+```{r refine-date}
+# Check model variability
+checked <- dateEvent(zuni, dates, cutoff = 90,
+                     jackknife = TRUE, bootstrap = TRUE, n = 1000)
+
+# Extract results for the first 5 assemblages
+## Modeled event dates
+checked["rows", 1:5]
+## Jackknife fabrics
+checked["jackknife", 1:5]
+## Bootstrap of assemblages
+checked["bootstrap", 1:5]
+```
+
+## Analysis
+
+### $\alpha$-diversity
+
+#### Richness and rarefaction
+The number of different taxa, provides an instantly comprehensible expression of diversity. While the number of taxa within a sample is easy to ascertain, as a term, it makes little sense: some taxa may not have been seen, or there may not be a fixed number of taxa (e.g. in an open system; @peet1974). As an alternative, *richness* ($S$) can be used for the concept of taxa number [@mcintosh1967].
+
+It is not always possible to ensure that all sample sizes are equal and the number of different taxa increases with sample size and sampling effort (Magurran 1988). Then, *rarefaction* ($E(S)$) is the number of taxa expected if all samples were of a standard size (i.e. taxa per fixed number of individuals). Rarefaction assumes that imbalances between taxa are due to sampling and not to differences in actual abundances. For now, only the @hurlbert1971 unbiaised estimate of @sander1968 rarefaction is provided.
+
+The following richness measures are available for count data:
+
+`ace`
+: Abundance-based Coverage Estimator [@chao1992].
+
+`chao1`
+: Chao1 estimator [@chao1984].
+
+`chao1i`
+: Improved Chao1 estimator [@chiu2014].
+
+`margalef`
+: Margalef richness index [@margalef1958].
+
+`menhinick`
+: Menhinick richness index [@menhinick1964].
+
+`none`
+: Returns the number of observed taxa/types.
+
+
+The following richness measures are available for replicated incidence data:
+
+`ice`
+: Incidence-based Coverage Estimator [@chao2016].
+
+`chao2`
+: Chao2 estimator [@chao1987].
+
+`chao2i`
+: Improved Chao2 estimator [@chiu2014].
+
+#### Diversity and evenness
+
+*Diversity* can be measured according to several indices. Diversity measurement assumes that all individuals in a specific taxa are equivalent and that all types are equally different from each other [@peet1974]. A measure of diversity can be achieved by using indices built on the relative abundance of taxa. These indices (sometimes referred to as non-parametric indices) benefit from not making assumptions about the underlying distribution of taxa abundance: they only take relative abundances of the species that are present and species richness into account. @peet1974 refers to them as indices of *heterogeneity*. *Evenness* is a measure of how evenly individuals are distributed across the sample.
+
+The following heterogeneity index ($H$) and corresponding evenness ($E$) measures are available (see @magurran1988 for details):
+
+`berger`
+: Berger-Parker dominance index. The Berger-Parker index expresses the proportional importance of the most abundant type. This metric is highly biased by sample size and richness, moreover it does not make use of all the information available from sample.
+
+`brillouin`
+: Brillouin diversity index [@brillouin1956]. The Brillouin index describes a known collection: it does not assume random sampling in an infinite population. @pielou1975 and @laxton1978 argues for the use of the Brillouin index in all circumstances, especially in preference to the Shannon index.
+
+`mcintosh`
+: McIntosh dominance index [@mcintosh1967]. The McIntosh index expresses the heterogeneity of a sample in geometric terms. It describes the sample as a point of a $S$-dimensional hypervolume and uses the Euclidean distance of this point from the origin.
+
+`shannon`
+: Shannon-Wiener diversity index [@shannon1948]. The Shannon index assumes that individuals are randomly sampled from an infinite population and that all taxa are represented in the sample (it does not reflect the sample size). The main source of error arises from the failure to include all taxa in the sample: this error increases as the proportion of species discovered in the sample declines [@peet1974; @magurran1988]. The maximum likelihood estimator (MLE) is used for the relative abundance, this is known to be negatively biased by sample size.
+
+`simpson`
+: Simpson dominance index for finite sample [@simpson1949]. The Simpson index expresses the probability that two individuals randomly picked from a finite sample belong to two different types. It can be interpreted as the weighted mean of the proportional abundances. This metric is a true probability value, it ranges from $0$ (perfectly uneven) to $1$ (perfectly even).
+
+Diversity indices focus on one aspect of the taxa abundance and emphasize either richness (weighting towards uncommon taxa) or dominance (weighting towards abundant taxa; @magurran1988).
+
+```{r diversity}
+H <- diversity(
+  mississippi_counts, 
+  method = c("shannon", "brillouin", "simpson", "mcintosh", "berger"), 
+  simplify = TRUE
+)
+
+head(H)
+```
+
+Note that `berger`, `mcintosh` and `simpson` methods return a *dominance* index, not the reciprocal form usually adopted, so that an increase in the value of the index accompanies a decrease in diversity.
+
+Corresponding *evenness* can also be computed :
+
+```{r evenness}
+E <- evenness(
+  mississippi_counts,
+  method = c("brillouin", "mcintosh", "shannon", "simpson"),
+  simplify = TRUE
+)
+
+head(E)
+```
+
+### $\beta$-diversity
+
+#### Similarity
+
+$\beta$-diversity can be measured by addressing *similarity* between pairs of samples/cases (Brainerd-Robinson, Jaccard, Morisita-Horn and Sorenson indices). Similarity bewteen pairs of taxa/types can be measured by assessing the degree of co-occurrence (binomial co-occurrence).
+
+Jaccard, Morisita-Horn and Sorenson indices provide a scale of similarity from $0$-$1$ where $1$ is perfect similarity and $0$ is no similarity. 
+
+`binomial`
+: Binomial co-occurrence assessment. This assesses the degree of co-occurrence between taxa/types within a dataset. The strongest associations are shown by large positive numbers, the strongest segregations by large negative numbers. The Binomial co-occurrence assessment approximates a Z-score.
+
+`brainerd`
+: Brainerd-Robinson quantitative index [@brainerd1951, @robinson1951]. This is a city-block metric of similarity between pairs of samples/cases. The Brainerd-Robinson index is scaled between $0$ and $200$.
+
+`bray`
+: Sorenson quantitative index. @bray1957 modified version of the Sorenson index.
+
+`jaccard`
+: Jaccard qualitative (incidence data) index.
+
+`morisita`
+: Morisita-Horn quantitative index.
+
+`sorenson`
+: Sorenson qualitative (incidence data) index.
+
+```{r similarity, fig.width=6, fig.height=5, fig.align="center"}
+# Brainerd-Robinson index
+S <- similarity(mississippi_counts, method = "brainerd")
+
+# Plot the similarity matrix
+plotSpot(S) +
+  ggplot2::labs(size = "Similarity", colour = "Similarity") +
+  khroma::scale_colour_YlOrBr()
+```
+
+#### Turnover
+
+The several methods can be used to acertain the degree of *turnover* in taxa composition along a gradient ($\beta$-diversity) on qualitative (presence/absence) data. It assumes that the order of the matrix rows (from $1$ to $n$) follows the progression along the gradient/transect.
+
+The following measures are available (see @magurran1988 for details):
+
+`whittaker`
+: Whittaker measure.
+
+`cody`
+: Cody measure.
+
+`routledge2`
+: Routledge second measure.
+
+`routledge3`
+: Routledge third measure. This is the exponential form of the second measure.
+
+`wilson`
+: Wilson measure.
+
+### Abundance models
+
+Ranks *vs* abundance plot can be used for abundance models (model fitting will be implemented in a futur release):
+
+```{r plot-rank, fig.width=7, fig.height=3.5, fig.align="center"}
+plotRank(compiegne_counts, log = "xy") +
+  ggplot2::theme_bw()
+```
+
+## References
