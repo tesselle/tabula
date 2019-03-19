@@ -13,7 +13,7 @@ test_that("Richness", {
                      dimnames = list(c(1,2), method))
 
   index <- richness(trap, method, simplify = TRUE)
-  expect_identical(round(index, digits = 2), expected)
+  expect_equal(round(index, digits = 2), expected)
 
   # Frequency data
   freq <- as(trap, "FrequencyMatrix")

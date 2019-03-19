@@ -9,7 +9,7 @@ test_that("Rarefaction", {
   expected <- c(`1` = 6.56, `2` = NA)
   index <- rarefaction(trap, 13)
 
-  expect_identical(round(index, digits = 2), expected)
+  expect_equal(round(index, digits = 2), expected)
 
   freq <- as(trap, "FrequencyMatrix")
   expect_error(rarefaction(freq, 13))
