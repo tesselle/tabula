@@ -10,4 +10,11 @@
 
 * The maintainer's email address has been updated.
 
----
+## Reverse dependencies
+
+There are no reverse dependencies.
+
+## Resubmission
+This is a resubmission. A first submission was made on 2019-01-09 13:59.
+
+* Last released version's additional issues are now fixed.
