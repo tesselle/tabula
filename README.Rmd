@@ -25,7 +25,7 @@ library(tabula)
 [![GitHub Release](https://img.shields.io/github/release/nfrerebeau/tabula.svg)](https://github.com/nfrerebeau/tabula/releases)
 [![CRAN Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula)
 [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/tabula)](https://cran.r-project.org/package=tabula)
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
 
 ## Overview
@@ -192,7 +192,7 @@ Note that `berger`, `mcintosh` and `simpson` methods return a *dominance* index,
 
 Corresponding *evenness* (i.e. a measure of how evenly individuals are distributed across the sample) can also be computed.
 
-The several methods can be used to acertain the degree of *turnover* in taxa composition along a gradient ($\beta$-diversity) on qualitative (presence/absence) data. It assumes that the order of the matrix rows (from $1$ to $n$) follows the progression along the gradient/transect.
+Several methods can be used to acertain the degree of *turnover* in taxa composition along a gradient ($\beta$-diversity) on qualitative (presence/absence) data. It assumes that the order of the matrix rows (from $1$ to $n$) follows the progression along the gradient/transect.
 
 $\beta$-diversity can also be measured by addressing *similarity* between pairs of sites:
 
@@ -215,8 +215,5 @@ plotRank(counts, log = "xy") +
 
 ## Contributing
 Please note that the `tabula` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
-
-## Acknowledgement
-This work received a state financial support managed by the Agence Nationale de la Recherche (France) throught the program *Investissements d'avenir* (ref. ANR-10-LABX-52).
 
 [^1]: Adapted from Dan Gopstein's original [spot matrix](https://dgopstein.github.io/articles/spot-matrix/).

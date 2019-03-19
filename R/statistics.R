@@ -90,7 +90,7 @@ combination <- function(n, k) {
 #' @return A \code{\link{numeric}} vector giving the margin of errors.
 #' @author N. Frerebeau
 #' @noRd
-confidence <- function(x, level = 0.05, type = c("normal", "student")) {
+confidence <- function(x, level = 0.95, type = c("normal", "student")) {
   # Validation
   if (!is.vector(x) | !is.numeric(x))
     stop("A numeric vector is expected.")
