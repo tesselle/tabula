@@ -39,7 +39,9 @@
 #' @importFrom magrittr %<>%
 #' @importFrom magrittr %>%
 #' @importFrom rlang :=
+#' @import dplyr
 #' @import ggplot2
+#' @import tidyr
 NULL
 
 # Quiets concerns of R CMD check: the .'s that appear in pipelines
