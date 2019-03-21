@@ -800,9 +800,9 @@ setGeneric(
 #'  Cody, M. L. (1975). Towards a theory of continental species diversity: Bird
 #'  distributions over Mediterranean habitat gradients. \emph{In} M. L. Cody &
 #'  J. M. Diamond (Eds.), \emph{Ecology and Evolution of Communities}.
-#'  Cambridge, MA: Harvard University Press, p. 214–257.
+#'  Cambridge, MA: Harvard University Press, p. 214-257.
 #'
-#'  Routledge, R. D. (1977). On Whittaker’s Components of Diversity.
+#'  Routledge, R. D. (1977). On Whittaker's Components of Diversity.
 #'  \emph{Ecology}, 58(5), 1120-1127.
 #'  DOI: \href{https://doi.org/10.2307/1936932}{10.2307/1936932}.
 #'
