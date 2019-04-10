@@ -36,24 +36,24 @@ License: GPL-3
 URL: http://github.com/nfrerebeau/tabula
 BugReports: http://github.com/nfrerebeau/tabula/issues
 Depends: 
-    R (>= 3.1)
+    R (>= 3.2)
 Imports:
-    dplyr (>= 0.7),
-    FactoMineR,
+    dplyr (>= 0.8.0.1),
+    FactoMineR (>= 1.41),
     ggplot2 (>= 3.0.0),
     grDevices,
-    magrittr,
+    magrittr (>= 1.5),
     methods,
-    plyr,
-    rlang,
+    plyr (>= 1.8.4),
+    rlang (>= 0.3.1),
     stats,
-    tidyr,
+    tidyr (>= 0.8.3),
     utils
 Suggests:
     covr,
-    khroma,
+    khroma (>= 1.1.0),
     knitr,
-    pbapply,
+    pbapply (>= 1.4-0),
     rmarkdown,
     testthat
 VignetteBuilder: 
