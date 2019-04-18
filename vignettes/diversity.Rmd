@@ -4,11 +4,12 @@ author: "N. Frerebeau"
 date: "`r Sys.Date()`"
 output:
   rmarkdown::html_vignette:
+    number_sections: yes
     fig_caption: yes
     toc: true
 bibliography: bibliography.bib
 vignette: >
-  %\VignetteIndexEntry{Diversity measures}
+  %\VignetteIndexEntry{Diversity}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,6 +19,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+library(tabula)
 ```
 
 Thereafter, we denote by:
@@ -27,46 +29,46 @@ Thereafter, we denote by:
 * $n_i$ the number of individuals in the $i$-th taxon,
 * $N = \sum n_i$ the total number of individuals,
 * $p_i$ the relative proportion of the $i$-th taxon in the population,
-* $s_n$ the number of species with $n$ individuals
-* $f_k$ the number of taxa with $k$ individuals,
-* $Q_i$ the incidence of the $i$-th taxon.
+* $s_k$ the number of taxa with $k$ individuals,
+* $q_i$ the incidence of the $i$-th taxon.
 
-## $\alpha$-diversity
-
-### Richness
+# $\alpha$-diversity
+## Richness
+### Definitions
+The number of different taxa, provides an instantly comprehensible expression of diversity. While the number of taxa within a sample is easy to ascertain, as a term, it makes little sense: some taxa may not have been seen, or there may not be a fixed number of taxa [e.g. in an open system; @peet1974]. As an alternative, *richness* ($S$) can be used for the concept of taxa number [@mcintosh1967].
 
 #### Margalef index [@margalef1958]
 
-$$ D_{Mg} = \frac{S - 1}{\ln N} $$
+$$ S_{Mg} = \frac{S - 1}{\ln N} $$
 
 #### Menhinick index [@menhinick1964]
 
-$$ D_{Mn} = \frac{S}{\sqrt{N}} $$
+$$ S_{Mn} = \frac{S}{\sqrt{N}} $$
 
 #### Chao1 estimator [@chao1984]
 
 $$ \hat{S}_{Chao1} = 
 \begin{cases}
-  S + \frac{N - 1}{N} \frac{f_1^2}{2 f_2} & f_2 > 0 \\
-  S + \frac{N - 1}{N} \frac{f_1 (f_1 - 1)}{2} & f_2 = 0
+  S + \frac{N - 1}{N} \frac{s_1^2}{2 s_2} & s_2 > 0 \\
+  S + \frac{N - 1}{N} \frac{s_1 (s_1 - 1)}{2} & s_2 = 0
 \end{cases}
 $$
 
 In the special case of homogeneous case, a bias-corrected estimator is:
 
-$$ \hat{S}_{Chao1-bc} = S + \frac{N - 1}{N} \frac{f_1 (f_1 - 1)}{2 f_2 + 1}$$
+$$ \hat{S}_{Chao1-bc} = S + \frac{N - 1}{N} \frac{s_1 (s_1 - 1)}{2 s_2 + 1}$$
 
-Improved Chao1 estimator (makes use of the additional information of tripletons and quadrupletons; @chiu2014) :
+Improved Chao1 estimator [makes use of the additional information of tripletons and quadrupletons; @chiu2014] :
 
-$$ \hat{S}_{iChao1} = \hat{S}_{Chao1} + \frac{N - 3}{4 N} \frac{f_3}{f_4} \times \max\left(f_1 - \frac{N - 3}{N - 1} \frac{f_2 f_3}{2 f_4} , 0\right)$$
+$$ \hat{S}_{iChao1} = \hat{S}_{Chao1} + \frac{N - 3}{4 N} \frac{s_3}{s_4} \times \max\left(s_1 - \frac{N - 3}{N - 1} \frac{s_2 s_3}{2 s_4} , 0\right)$$
 
 #### Abundance-based Coverage Estimator [@chao1992]
 
-$$ \hat{S}_{ACE} = \hat{S}_{abun} + \frac{\hat{S}_{rare}}{\hat{C}_{rare}} + \frac{f_1}{\hat{C}_{rare}} \times \hat{\gamma}^2_{rare} $$
+$$ \hat{S}_{ACE} = \hat{S}_{abun} + \frac{\hat{S}_{rare}}{\hat{C}_{rare}} + \frac{s_1}{\hat{C}_{rare}} \times \hat{\gamma}^2_{rare} $$
 
-Where $\hat{S}_{rare} = \sum_{i = 1}^{k} f_i$ is the number of rare taxa, $\hat{S}_{abun} = \sum_{i > k}^{N} f_i$ is the number of abundant taxa (for a given cut-off value $k$), $\hat{C}_{rare} = 1 - \frac{f_1}{N_{rare}}$ is the Turing's coverage estimate and:
+Where $\hat{S}_{rare} = \sum_{i = 1}^{k} s_i$ is the number of rare taxa, $\hat{S}_{abun} = \sum_{i > k}^{N} s_i$ is the number of abundant taxa (for a given cut-off value $k$), $\hat{C}_{rare} = 1 - \frac{s_1}{N_{rare}}$ is the Turing's coverage estimate and:
 
-$$ \hat{\gamma}^2_{rare} = \max\left[\frac{\hat{S}_{rare}}{\hat{C}_{rare}} \frac{\sum_{i = 1}^{k} i(i - 1)f_i}{\left(\sum_{i = 1}^{k} if_i\right)\left(\sum_{i = 1}^{k} if_i - 1\right)} - 1, 0\right]  $$
+$$ \hat{\gamma}^2_{rare} = \max\left[\frac{\hat{S}_{rare}}{\hat{C}_{rare}} \frac{\sum_{i = 1}^{k} i(i - 1)s_i}{\left(\sum_{i = 1}^{k} is_i\right)\left(\sum_{i = 1}^{k} is_i - 1\right)} - 1, 0\right]  $$
 
 #### Chao2 estimator [@chao1987]
 
@@ -74,36 +76,44 @@ For replicated incidence data (i.e. a $m \times p$ logical matrix), the Chao2 es
 
 $$ \hat{S}_{Chao2} = 
 \begin{cases}
-  S + \frac{m - 1}{m} \frac{Q_1^2}{2 Q_2} & Q_2 > 0 \\
-  S + \frac{m - 1}{m} \frac{Q_1 (Q_1 - 1)}{2} & Q_2 = 0
+  S + \frac{m - 1}{m} \frac{q_1^2}{2 q_2} & q_2 > 0 \\
+  S + \frac{m - 1}{m} \frac{q_1 (q_1 - 1)}{2} & q_2 = 0
 \end{cases}
 $$
 
 Improved Chao2 estimator [@chiu2014]:
 
-$$ \hat{S}_{iChao2} = \hat{S}_{Chao2} + \frac{m - 3}{4 m} \frac{Q_3}{Q_4} \times \max\left(Q_1 - \frac{m - 3}{m - 1} \frac{Q_2 Q_3}{2 Q_4} , 0\right)$$
+$$ \hat{S}_{iChao2} = \hat{S}_{Chao2} + \frac{m - 3}{4 m} \frac{q_3}{q_4} \times \max\left(q_1 - \frac{m - 3}{m - 1} \frac{q_2 q_3}{2 q_4} , 0\right)$$
 
 #### Incidence-based Coverage Estimator [@chao2016]
 
-$$ \hat{S}_{ICE} = \hat{S}_{freq} + \frac{\hat{S}_{infreq}}{\hat{C}_{infreq}} + \frac{Q_1}{\hat{C}_{infreq}} \times \hat{\gamma}^2_{infreq} $$
+$$ \hat{S}_{ICE} = \hat{S}_{freq} + \frac{\hat{S}_{infreq}}{\hat{C}_{infreq}} + \frac{q_1}{\hat{C}_{infreq}} \times \hat{\gamma}^2_{infreq} $$
 
-Where $\hat{S}_{infreq} = \sum_{i = 1}^{k} Q_i$ is the number of infrequent taxa, $\hat{S}_{freq} = \sum_{i > k}^{N} Q_i$ is the number of frequent taxa (for a given cut-off value $k$), $\hat{C}_{infreq} = 1 - \frac{Q_1}{\sum_{i = 1}^{k} iQ_i}$ is the Turing's coverage estimate and:
+Where $\hat{S}_{infreq} = \sum_{i = 1}^{k} q_i$ is the number of infrequent taxa, $\hat{S}_{freq} = \sum_{i > k}^{N} q_i$ is the number of frequent taxa (for a given cut-off value $k$), $\hat{C}_{infreq} = 1 - \frac{Q_1}{\sum_{i = 1}^{k} iq_i}$ is the Turing's coverage estimate and:
 
-$$ \hat{\gamma}^2_{infreq} = \max\left[\frac{\hat{S}_{infreq}}{\hat{C}_{infreq}} \frac{m_{infreq}}{m_{infreq} - 1} \frac{\sum_{i = 1}^{k} i(i - 1)Q_i}{\left(\sum_{i = 1}^{k} iQ_i\right)\left(\sum_{i = 1}^{k} iQ_i - 1\right)} - 1, 0\right]  $$
+$$ \hat{\gamma}^2_{infreq} = \max\left[\frac{\hat{S}_{infreq}}{\hat{C}_{infreq}} \frac{m_{infreq}}{m_{infreq} - 1} \frac{\sum_{i = 1}^{k} i(i - 1)q_i}{\left(\sum_{i = 1}^{k} iq_i\right)\left(\sum_{i = 1}^{k} iq_i - 1\right)} - 1, 0\right]  $$
 
 Where $m_{infreq}$ is the number of sampling units that include at least one infrequent species.
 
-### Rarefaction
+## Rarefaction
+It is not always possible to ensure that all sample sizes are equal and the number of different taxa increases with sample size and sampling effort [@magurran1988]. Then, *rarefaction* ($E(S)$) is the number of taxa expected if all samples were of a standard size $n$ (i.e. taxa per fixed number of individuals). Rarefaction assumes that imbalances between taxa are due to sampling and not to differences in actual abundances.
 
 @hurlbert1971 unbiaised estimate of @sander1968 rarefaction:
 
 $$ E(S) = \sum_{i = 1}^{S} 1 - \frac{{N - N_i} \choose n}{N \choose n} $$
+Where $n$ is the sub-sample size.
 
-### Diversity and evenness
+## Diversity and evenness
+### Definitions
+*Diversity* measurement assumes that all individuals in a specific taxa are equivalent and that all types are equally different from each other [@peet1974]. A measure of diversity can be achieved by using indices built on the relative abundance of taxa. These indices (sometimes referred to as non-parametric indices) benefit from not making assumptions about the underlying distribution of taxa abundance: they only take relative abundances of the species that are present and species richness into account. @peet1974 refers to them as indices of *heterogeneity* ($H$).
+
+Diversity indices focus on one aspect of the taxa abundance and emphasize either *richness* (weighting towards uncommon taxa) or dominance [weighting towards abundant taxa; @magurran1988].
+
+*Evenness* ($E$) is a measure of how evenly individuals are distributed across the sample.
 
 #### Information theory index
-
-##### Shannon-Wiener diversity index [@shannon1948]
+##### Shannon-Wiener diversity index
+The Shannon-Wiener index [@shannon1948] assumes that individuals are randomly sampled from an infinite population and that all taxa are represented in the sample (it does not reflect the sample size). The main source of error arises from the failure to include all taxa in the sample: this error increases as the proportion of species discovered in the sample declines [@peet1974; @magurran1988]. The maximum likelihood estimator (MLE) is used for the relative abundance, this is known to be negatively biased by sample size.
 
 Diversity:
 
@@ -119,7 +129,8 @@ $$ \hat{H}' = - \sum_{i = 1}^{S} \hat{p}_i \ln \hat{p}_i - \frac{S - 1}{N} + \fr
 
 This error is rarely significant [@peet1974], so the unbiaised form is not implemented here (for now).
 
-##### Brillouin diversity index [@brillouin1956]
+##### Brillouin diversity index
+The Brillouin index [@brillouin1956] describes a known collection: it does not assume random sampling in an infinite population. @pielou1975 and @laxton1978 argues for the use of the Brillouin index in all circumstances, especially in preference to the Shannon index.
 
 Diversity:
 
@@ -138,7 +149,8 @@ where: $r = N - S \lfloor \frac{N}{S} \rfloor$.
 #### Dominance index
 The following methods return a *dominance* index, not the reciprocal or inverse form usually adopted, so that an increase in the value of the index accompanies a decrease in diversity.
 
-##### Simpson index [@simpson1949]
+##### Simpson index
+The Simpson index [@simpson1949] expresses the probability that two individuals randomly picked from a finite sample belong to two different types. It can be interpreted as the weighted mean of the proportional abundances. This metric is a true probability value, it ranges from $0$ (perfectly uneven) to $1$ (perfectly even).
 
 Dominance for an infinite sample:
 
@@ -148,7 +160,8 @@ Dominance for a finite sample:
 
 $$ \lambda = \sum_{i = 1}^{S} \frac{n_i \left( n_i - 1 \right)}{N \left( N - 1 \right)} $$
 
-##### McIntosh index [@mcintosh1967]
+##### McIntosh index
+The McIntosh index [@mcintosh1967] expresses the heterogeneity of a sample in geometric terms. It describes the sample as a point of a $S$-dimensional hypervolume and uses the Euclidean distance of this point from the origin.
 
 Dominance:
 
@@ -162,16 +175,45 @@ where $U$ is the distance of the sample from the origin in an $S$ dimensional hy
 
 $$U = \sqrt{\sum_{i = 1}^{S} n_i^2}$$
 
-##### Berger-Parker index [@berger1970]
+##### Berger-Parker index
+The Berger-Parker index [@berger1970] expresses the proportional importance of the most abundant type. This metric is highly biased by sample size and richness, moreover it does not make use of all the information available from sample.
 
 Dominance:
 
 $$ d = \frac{n_{max}}{N} $$
 
-## $\beta$-diversity
+### Usage
 
-### Turnover
+```{r diversity}
+mississippi <- as(mississippi, "CountMatrix")
 
+H <- diversity(
+  mississippi, 
+  method = c("shannon", "brillouin", "simpson", "mcintosh", "berger"), 
+  simplify = TRUE
+)
+
+head(H)
+```
+
+Note that `berger`, `mcintosh` and `simpson` methods return a *dominance* index, not the reciprocal form usually adopted, so that an increase in the value of the index accompanies a decrease in diversity.
+
+Corresponding *evenness* can also be computed :
+
+```{r evenness}
+E <- evenness(
+  mississippi,
+  method = c("brillouin", "mcintosh", "shannon", "simpson"),
+  simplify = TRUE
+)
+
+head(E)
+```
+
+# $\beta$-diversity
+
+## Turnover
+### Definitions
 The following methods can be used to acertain the degree of turnover in taxa composition along a gradient on qualitative (presence/absence) data. This assumes that the order of the matrix rows (from 1 to $m$) follows the progression along the gradient/transect.
 
 We denote the $m \times p$ incidence matrix by $X = \left[ x_{ij} \right] ~\forall i \in \left[ 1,m \right], j \in \left[ 1,p \right]$ and the $p \times p$ corresponding co-occurrence matrix by $Y = \left[ y_{ij} \right] ~\forall i,j \in \left[ 1,p \right]$, with row and column sums:
@@ -214,8 +256,8 @@ $$ \beta_T = \frac{g(H) + l(H)}{2\alpha} $$
 
 where $g(H)$ is the number of taxa gained along the transect, $l(H)$ the number of taxa lost and $\alpha$ the mean sample diversity, $\alpha = \frac{x_{\cdot \cdot}}{m}$.
 
-### Similarity
-
+## Similarity
+### Definitions
 Similarity between two samples $a$ and $b$ or between two types $x$ and $y$ can be measured as follow.
 
 These indices provide a scale of similarity from $0$-$1$ where $1$ is perfect similarity and $0$ is no similarity, with the exception of the Brainerd-Robinson index which is scaled between $0$ and $200$.
@@ -234,8 +276,7 @@ $$ C_J = \frac{o_j}{S_a + S_b - o_j} $$
 $$ C_S = \frac{2 \times o_j}{S_a + S_b} $$
 
 #### Quantitative index
-
-##### Brainerd-Robinson index [@brainerd1951, @robinson1951]
+##### Brainerd-Robinson index [@brainerd1951; @robinson1951]
 
 $$ C_{BR} = 200 - \sum_{j = 1}^{S} \left| \frac{a_j \times 100}{\sum_{j = 1}^{S} a_j} - \frac{b_j \times 100}{\sum_{j = 1}^{S} b_j} \right|$$
 
@@ -253,4 +294,26 @@ $$ C_{MH} = \frac{2 \sum_{j = 1}^{S} a_j \times b_j}{(\frac{\sum_{j = 1}^{S} a_j
 
 $$ C_{Bi} = \frac{o_i - N \times p}{\sqrt{N \times p \times (1 - p)}} $$
 
-## References
+### Usage
+
+```{r similarity, fig.width=7, fig.height=5, fig.align="center"}
+# Brainerd-Robinson index
+S <- similarity(mississippi, method = "brainerd")
+
+# Plot the similarity matrix
+plotSpot(S) +
+  ggplot2::labs(size = "Similarity", colour = "Similarity") +
+  khroma::scale_colour_YlOrBr()
+```
+
+# Abundance models
+
+Ranks *vs* abundance plot can be used for abundance models (model fitting will be implemented in a futur release):
+
+```{r plot-rank, fig.width=7, fig.height=5, fig.align="center"}
+plotRank(mississippi, log = "xy", facet = FALSE) +
+  ggplot2::theme_bw() +
+  khroma::scale_color_rainbow()
+```
+
+# References
