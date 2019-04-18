@@ -40,7 +40,7 @@ Depends:
 Imports:
     dplyr (>= 0.8.0.1),
     FactoMineR (>= 1.41),
-    ggplot2 (>= 3.0.0),
+    ggplot2 (>= 3.1.0),
     grDevices,
     magrittr (>= 1.5),
     methods,
