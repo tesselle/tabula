@@ -6,6 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>tabula • tabula</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
@@ -206,16 +212,16 @@
 <a class="sourceLine" id="cb1-3" data-line-number="3">            <span class="dt">nrow =</span> <span class="dv">10</span>, <span class="dt">ncol =</span> <span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; 10 x 10 count data matrix: </span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt;    V1 V2 V3 V4 V5 V6 V7 V8 V9 V10</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; 1   2  5  7  6 10  9  1  7 10   3</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; 2   5 10 10  8  5  8  1  9  6   3</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; 3   5  0  3  0  8  3  0  2  1   5</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; 4   9  0  0  7  6  4  1  1  5   3</span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; 5   8  1  0  3  9  9  6  9  5   4</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; 6   4  6 10  6  4  9  2  0  7  10</span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; 7   1  0 10  4  8  5  4  7  7   0</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; 8   8  5  0  5  1 10  1  2 10   2</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; 9   3 10  1  4  5 10  8  2  7   0</span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; 10  6  8  6  9  7  0  2  4  7   8</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#&gt; 1  10  8  0  8  2  8  2  2 10   0</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#&gt; 2   5  4  1  8  0  5  9 10  5   2</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#&gt; 3   8  1  0  1  1  5  6  0  5   5</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#&gt; 4   7  4  0  3  8  9  2  6  8   4</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#&gt; 5   1  5  6  2  3  6  9  1  3   9</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt; 6   4  7 10  5  5  8 10 10  4   0</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">#&gt; 7  10 10  4  8  0  1 10  9  2   3</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; 8  10  8  9  3  0 10 10  8  6   3</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; 9   0  7  3  5  5 10  5  6  6   5</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; 10  9  1  3  2 10 10  7  7  3   1</span></a>
 <a class="sourceLine" id="cb1-16" data-line-number="16"></a>
 <a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co"># Create an incidence (presence/absence) matrix</span></a>
 <a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co"># Numeric values are coerced to logical as by as.logical</span></a>
@@ -223,16 +229,16 @@
 <a class="sourceLine" id="cb1-20" data-line-number="20">                <span class="dt">nrow =</span> <span class="dv">10</span>, <span class="dt">ncol =</span> <span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb1-21" data-line-number="21"><span class="co">#&gt; 10 x 10 presence/absence data matrix: </span></a>
 <a class="sourceLine" id="cb1-22" data-line-number="22"><span class="co">#&gt;       V1    V2    V3    V4    V5    V6    V7    V8    V9   V10</span></a>
-<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="co">#&gt; 1   TRUE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE</span></a>
-<a class="sourceLine" id="cb1-24" data-line-number="24"><span class="co">#&gt; 2  FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE</span></a>
-<a class="sourceLine" id="cb1-25" data-line-number="25"><span class="co">#&gt; 3   TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE</span></a>
-<a class="sourceLine" id="cb1-26" data-line-number="26"><span class="co">#&gt; 4   TRUE FALSE FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE FALSE</span></a>
-<a class="sourceLine" id="cb1-27" data-line-number="27"><span class="co">#&gt; 5   TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE</span></a>
-<a class="sourceLine" id="cb1-28" data-line-number="28"><span class="co">#&gt; 6  FALSE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE</span></a>
-<a class="sourceLine" id="cb1-29" data-line-number="29"><span class="co">#&gt; 7  FALSE FALSE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE</span></a>
-<a class="sourceLine" id="cb1-30" data-line-number="30"><span class="co">#&gt; 8  FALSE FALSE FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE FALSE</span></a>
-<a class="sourceLine" id="cb1-31" data-line-number="31"><span class="co">#&gt; 9   TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE  TRUE FALSE</span></a>
-<a class="sourceLine" id="cb1-32" data-line-number="32"><span class="co">#&gt; 10  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE FALSE FALSE  TRUE</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="co">#&gt; 1  FALSE FALSE  TRUE  TRUE FALSE FALSE  TRUE FALSE  TRUE  TRUE</span></a>
+<a class="sourceLine" id="cb1-24" data-line-number="24"><span class="co">#&gt; 2  FALSE FALSE  TRUE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE</span></a>
+<a class="sourceLine" id="cb1-25" data-line-number="25"><span class="co">#&gt; 3  FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE</span></a>
+<a class="sourceLine" id="cb1-26" data-line-number="26"><span class="co">#&gt; 4   TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE</span></a>
+<a class="sourceLine" id="cb1-27" data-line-number="27"><span class="co">#&gt; 5  FALSE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE  TRUE</span></a>
+<a class="sourceLine" id="cb1-28" data-line-number="28"><span class="co">#&gt; 6   TRUE  TRUE FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE  TRUE</span></a>
+<a class="sourceLine" id="cb1-29" data-line-number="29"><span class="co">#&gt; 7   TRUE  TRUE  TRUE  TRUE FALSE FALSE  TRUE  TRUE  TRUE  TRUE</span></a>
+<a class="sourceLine" id="cb1-30" data-line-number="30"><span class="co">#&gt; 8   TRUE FALSE  TRUE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE</span></a>
+<a class="sourceLine" id="cb1-31" data-line-number="31"><span class="co">#&gt; 9   TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE</span></a>
+<a class="sourceLine" id="cb1-32" data-line-number="32"><span class="co">#&gt; 10 FALSE  TRUE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE</span></a></code></pre></div>
 <p>Note that a <code>FrequencyMatrix</code> can only be created by coercion from a <code>CountMatrix</code> to ensure data integrity (see below).</p>
 </div>
 <div id="coerce" class="section level4">
@@ -250,7 +256,7 @@
 <a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co"># Row sums are internally stored before coercing to a frequency matrix</span></a>
 <a class="sourceLine" id="cb2-10" data-line-number="10"><span class="kw"><a href="../reference/accessors.html">totals</a></span>(B)</a>
 <a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;  1  2  3  4  5  6  7  8  9 10 </span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; 51 46 52 43 50 58 59 57 54 74</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; 47 69 53 42 41 39 43 63 69 48</span></a>
 <a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co"># This allows to restore the source data</span></a>
 <a class="sourceLine" id="cb2-14" data-line-number="14">A2 &lt;-<span class="st"> </span><span class="kw">as</span>(B, <span class="st">"CountMatrix"</span>)</a>
 <a class="sourceLine" id="cb2-15" data-line-number="15"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all">all</a></span>(A1 <span class="op">==</span><span class="st"> </span>A2)</a>
