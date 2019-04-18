@@ -33,7 +33,7 @@ Description: An easy way to examine archaeological count data
     and statistical thresholds: rank/abundance plots, Ford (1972)
     <isbn:0913134082> and Bertin (1977) <isbn:2082111121> diagrams, etc.
 License: GPL-3
-URL: http://github.com/nfrerebeau/tabula
+URL: http://tabula.archaeo.science, http://github.com/nfrerebeau/tabula, https://cran.r-project.org/package=tabula
 BugReports: http://github.com/nfrerebeau/tabula/issues
 Depends: 
     R (>= 3.3)

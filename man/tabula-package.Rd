@@ -38,7 +38,9 @@ de la Recherche (France) throught the program \emph{Investissements d'avenir}
 \seealso{
 Useful links:
 \itemize{
+  \item \url{http://tabula.archaeo.science}
   \item \url{http://github.com/nfrerebeau/tabula}
+  \item \url{https://cran.r-project.org/package=tabula}
   \item Report bugs at \url{http://github.com/nfrerebeau/tabula/issues}
 }
 
