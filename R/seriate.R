@@ -83,7 +83,7 @@ setMethod(
     # Rearrange matrix
     new_matrix <- object[order@rows, order@columns]
     # New CountMatrix object
-    methods::new("CountMatrix", new_matrix)
+    methods::new("CountMatrix", data = new_matrix)
   }
 )
 
@@ -97,6 +97,6 @@ setMethod(
     # Rearrange matrix
     new_matrix <- object[order@rows, order@columns]
     # New CountMatrix object
-    methods::new("IncidenceMatrix", new_matrix)
+    methods::new("IncidenceMatrix", data = new_matrix)
   }
 )

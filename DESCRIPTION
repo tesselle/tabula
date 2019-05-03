@@ -66,6 +66,7 @@ Collate:
     'AllClasses.R'
     'coerce.R'
     'AllGenerics.R'
+    'check.R'
     'data.R'
     'date.R'
     'diversity.R'

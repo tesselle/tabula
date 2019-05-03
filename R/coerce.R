@@ -9,9 +9,13 @@ setAs(from = "NumericMatrix", to = "data.frame", def = function(from)
 ## To CountMatrix --------------------------------------------------------------
 matrix2count <- function(from) {
   data <- data.matrix(from)
-  integer <- apply(X = data, MARGIN = 2, FUN = as.integer)
+  integer <- apply(
+    X = data,
+    MARGIN = 2,
+    FUN = function(x) as.integer(round(x, digits = 0))
+  )
   dimnames(integer) <- dimnames(data)
-  object <- methods::new("CountMatrix", integer)
+  object <- methods::new("CountMatrix", data = integer)
   methods::validObject(object)
   return(object)
 }
@@ -24,7 +28,7 @@ matrix2frequency <- function(from) {
   totals <- rowSums(data)
   freq <- data / totals
   dimnames(freq) <- dimnames(data)
-  object <- methods::new("FrequencyMatrix", freq, totals = totals)
+  object <- methods::new("FrequencyMatrix", data = freq, totals = totals)
   methods::validObject(object)
   return(object)
 }
@@ -50,7 +54,8 @@ setAs(
     counts <- methods::S3Part(from, strictS3 = TRUE, "matrix")
     totals <- rowSums(counts)
     freq <- counts / totals
-    object <- methods::new("FrequencyMatrix", freq, totals = totals)
+    object <- methods::new("FrequencyMatrix", data = freq, totals = totals)
+    object@uuid <- from@uuid
     methods::validObject(object)
     return(object)
   }
@@ -62,9 +67,14 @@ setAs(
     freq <- methods::S3Part(from, strictS3 = TRUE, "matrix")
     totals <- from@totals
     count <- round(freq * totals, digits = 0)
-    integer <- apply(X = count, MARGIN = 2, FUN = as.integer)
+    integer <- apply(
+      X = count,
+      MARGIN = 2,
+      FUN = function(x) as.integer(round(x, digits = 0))
+    )
     dimnames(integer) <- dimnames(freq)
-    object <- methods::new("CountMatrix", integer)
+    object <- methods::new("CountMatrix", data = integer)
+    object@uuid <- from@uuid
     methods::validObject(object)
     return(object)
   }
@@ -79,7 +89,7 @@ matrix2incidence <- function(from) {
   data <- if (isS4(from)) methods::as(from, "matrix")
   else data.matrix(from)
   data <- data > 0
-  object <- methods::new("IncidenceMatrix", data)
+  object <- methods::new("IncidenceMatrix", data = data)
   methods::validObject(object)
   return(object)
 }
@@ -119,7 +129,7 @@ matrix2occurrence <- function(from) {
   C <- t(C)
   C[lower.tri(C, diag = FALSE)] <- occurrence
 
-  object <- methods::new("OccurrenceMatrix", C)
+  object <- methods::new("OccurrenceMatrix", data = C)
   methods::validObject(object)
   return(object)
 }

@@ -29,9 +29,6 @@ To ensure data integrity, a \code{FrequencyMatrix} can only be created by
 \item{\code{total}}{A \code{\link{numeric}} vector.}
 }}
 
-\note{
-This class extends the \code{base} \link[base]{matrix}.
-}
 \examples{
 # Create a count data matrix
 A1 <- CountMatrix(data = sample(0:10, 100, TRUE),
@@ -51,7 +48,7 @@ all(A1 == A2)
 C <- as(B, "OccurrenceMatrix")
 }
 \seealso{
-\link[base]{matrix}
+\linkS4class{NumericMatrix}, \linkS4class{SpaceTime}
 
 Other abundance matrix: \code{\link{CountMatrix-class}},
   \code{\link{OccurrenceMatrix-class}}

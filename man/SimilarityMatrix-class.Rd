@@ -10,11 +10,8 @@
 \description{
 An S4 class to represent a (dis)similarity matrix.
 }
-\note{
-This class extends the \code{base} \link[base]{matrix}.
-}
 \seealso{
-\link[base]{matrix}
+\linkS4class{NumericMatrix}
 }
 \author{
 N. Frerebeau

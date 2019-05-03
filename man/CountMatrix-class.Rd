@@ -34,9 +34,6 @@ An S4 class to represent a count matrix.
 Numeric values are coerced to \code{\link{integer}} as by
  \code{\link[base]{as.integer}} (and hence truncated towards zero).
 }
-\note{
-This class extends the \code{base} \link[base]{matrix}.
-}
 \examples{
 # Create a count data matrix
 A1 <- CountMatrix(data = sample(0:10, 100, TRUE),
@@ -56,7 +53,7 @@ all(A1 == A2)
 C <- as(B, "OccurrenceMatrix")
 }
 \seealso{
-\link[base]{matrix}
+\linkS4class{NumericMatrix}, \linkS4class{SpaceTime}
 
 Other abundance matrix: \code{\link{FrequencyMatrix-class}},
   \code{\link{OccurrenceMatrix-class}}

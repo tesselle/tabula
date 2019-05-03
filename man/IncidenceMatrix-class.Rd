@@ -34,9 +34,6 @@ An S4 class to represent an incidence (presence/absence) matrix.
 Numeric values are coerced to \code{\link{logical}} as by
  \code{\link[base]{as.logical}}.
 }
-\note{
-This class extends the \code{base} \link[base]{matrix}.
-}
 \examples{
 # Create an incidence (presence/absence) matrix
 # Data will be coerced with as.logical()
@@ -57,7 +54,7 @@ D <- as(C, "IncidenceMatrix")
 E <- as(C, "OccurrenceMatrix")
 }
 \seealso{
-\link[base]{matrix}
+\linkS4class{LogicalMatrix}, \linkS4class{SpaceTime}
 }
 \author{
 N. Frerebeau

@@ -12,9 +12,6 @@ A co-occurrence matrix is a symetric matrix with zeros on its main diagonal,
  which works out how many times (expressed in percent) each pairs of taxa
  occur together in at least one sample.
 }
-\note{
-This class extends the \code{base} \link[base]{matrix}.
-}
 \examples{
 # Create a count data matrix
 A1 <- CountMatrix(data = sample(0:10, 100, TRUE),
@@ -34,7 +31,7 @@ all(A1 == A2)
 C <- as(B, "OccurrenceMatrix")
 }
 \seealso{
-\link[base]{matrix}
+\linkS4class{NumericMatrix}
 
 Other abundance matrix: \code{\link{CountMatrix-class}},
   \code{\link{FrequencyMatrix-class}}

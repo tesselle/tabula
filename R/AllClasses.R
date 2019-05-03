@@ -147,19 +147,67 @@ setClass(
             keep = "numeric")
 )
 
+## -----------------------------------------------------------------------------
+#' Space and Time
+#'
+#' An S4 class to reprensent space-time informations.
+#' @slot dates A list of two \code{\link{numeric}} vectors giving
+#'  the mean date and error, respectively.
+#' @slot coordinates A list of three \code{\link{numeric}} vectors
+#'  giving the geographic coordinates (longitude, latitude and elevation,
+#'  respectively).
+#' @slot epsg An \code{\link{integer}} giving the EPSG code of the spatial
+#'  reference system used. Numeric values are coerced to \code{\link{integer}}
+#'  as by \code{\link{as.integer}} (and hence truncated towards zero).
+#' @author N. Frerebeau
+#' @docType class
+#' @aliases SpaceTime-class
+#' @keywords internal
+setClass(
+  Class = "SpaceTime",
+  slots = c(
+    dates = "list",
+    coordinates = "list",
+    epsg = "integer"
+  )
+)
+
+## Matrix ----------------------------------------------------------------------
+#' Matrix
+#'
+#' An S4 class to represent a matrix.
+#' @slot uuid A \code{\link{character}} string specifying the unique
+#'  identifier of the object.
+#' @slot cases A \code{\link{character}} vector specifying the row names.
+#' @slot types A \code{\link{character}} vector specifying the column names.
+#' @note This class extends the \code{base} \link[base]{matrix}.
+#' @seealso \link[base]{matrix}
+#' @author N. Frerebeau
+#' @docType class
+#' @aliases Matrix-class
+#' @keywords internal
+setClass(
+  Class = "Matrix",
+  slots = c(
+    uuid = "character",
+    cases = "character",
+    types = "character"
+  ),
+  contains = "matrix"
+)
+
 ## Numeric matrix --------------------------------------------------------------
 #' Numeric matrix
 #'
 #' An S4 class to represent a numeric matrix.
-#' @note This class extends the \code{base} \link[base]{matrix}.
-#' @seealso \link[base]{matrix}
+#' @seealso \linkS4class{Matrix}
+#' @author N. Frerebeau
 #' @docType class
 #' @aliases NumericMatrix-class
 #' @keywords internal
-#' @noRd
 setClass(
   Class = "NumericMatrix",
-  contains = "matrix"
+  contains = "Matrix"
 )
 
 #' Count matrix
@@ -169,8 +217,7 @@ setClass(
 #' @details
 #'  Numeric values are coerced to \code{\link{integer}} as by
 #'  \code{\link[base]{as.integer}} (and hence truncated towards zero).
-#' @note This class extends the \code{base} \link[base]{matrix}.
-#' @seealso \link[base]{matrix}
+#' @seealso \linkS4class{NumericMatrix}, \linkS4class{SpaceTime}
 #' @family abundance matrix
 #' @example inst/examples/ex-abundance-class.R
 #' @author N. Frerebeau
@@ -178,7 +225,7 @@ setClass(
 #' @aliases CountMatrix-class
 setClass(
   Class = "CountMatrix",
-  contains = "NumericMatrix"
+  contains = c("NumericMatrix", "SpaceTime")
 )
 
 #' Frequency matrix
@@ -189,8 +236,7 @@ setClass(
 #' @details
 #'  To ensure data integrity, a \code{FrequencyMatrix} can only be created by
 #'  coercion from a \linkS4class{CountMatrix} (see examples).
-#' @note This class extends the \code{base} \link[base]{matrix}.
-#' @seealso \link[base]{matrix}
+#' @seealso \linkS4class{NumericMatrix}, \linkS4class{SpaceTime}
 #' @family abundance matrix
 #' @example inst/examples/ex-abundance-class.R
 #' @author N. Frerebeau
@@ -199,7 +245,7 @@ setClass(
 setClass(
   Class = "FrequencyMatrix",
   slots = c(totals = "numeric"),
-  contains = "NumericMatrix"
+  contains = c("NumericMatrix", "SpaceTime")
 )
 
 #' Co-occurrence matrix
@@ -209,8 +255,7 @@ setClass(
 #'  A co-occurrence matrix is a symetric matrix with zeros on its main diagonal,
 #'  which works out how many times (expressed in percent) each pairs of taxa
 #'  occur together in at least one sample.
-#' @note This class extends the \code{base} \link[base]{matrix}.
-#' @seealso \link[base]{matrix}
+#' @seealso \linkS4class{NumericMatrix}
 #' @family abundance matrix
 #' @example inst/examples/ex-abundance-class.R
 #' @author N. Frerebeau
@@ -225,8 +270,7 @@ setClass(
 #'
 #' An S4 class to represent a (dis)similarity matrix.
 #' @param x A \code{SimilarityMatrix} object from which to extract element.
-#' @note This class extends the \code{base} \link[base]{matrix}.
-#' @seealso \link[base]{matrix}
+#' @seealso \linkS4class{NumericMatrix}
 # @family
 # @example
 #' @author N. Frerebeau
@@ -242,15 +286,14 @@ setClass(
 #' Logical matrix
 #'
 #' An S4 class to represent a logical matrix.
-#' @note This class extends the \code{base} \link[base]{matrix}.
-#' @seealso \link[base]{matrix}
+#' @seealso \linkS4class{Matrix}
+#' @author N. Frerebeau
 #' @docType class
 #' @aliases LogicalMatrix-class
 #' @keywords internal
-#' @noRd
 setClass(
   Class = "LogicalMatrix",
-  contains = "matrix"
+  contains = "Matrix"
 )
 
 #' Incidence matrix
@@ -260,8 +303,7 @@ setClass(
 #' @details
 #'  Numeric values are coerced to \code{\link{logical}} as by
 #'  \code{\link[base]{as.logical}}.
-#' @note This class extends the \code{base} \link[base]{matrix}.
-#' @seealso \link[base]{matrix}
+#' @seealso \linkS4class{LogicalMatrix}, \linkS4class{SpaceTime}
 #' @family logical matrix
 #' @example inst/examples/ex-logical-class.R
 #' @author N. Frerebeau
@@ -269,7 +311,7 @@ setClass(
 #' @aliases IncidenceMatrix-class
 setClass(
   Class = "IncidenceMatrix",
-  contains = "LogicalMatrix"
+  contains = c("LogicalMatrix", "SpaceTime")
 )
 
 # INITIALIZATION ===============================================================
@@ -285,7 +327,7 @@ setMethod(
     if (!missing(keep)) .Object@keep <- keep
     methods::validObject(.Object)
     if (getOption("verbose")) {
-      message(paste(class(.Object), "instance initialized.", sep = " "))
+      message(sprintf("%s instance initialized.", sQuote(class(.Object))))
     }
     return(.Object)
   }
@@ -310,7 +352,7 @@ setMethod(
     if (!missing(bootstrap)) .Object@bootstrap <- bootstrap
     methods::validObject(.Object)
     if (getOption("verbose")) {
-      message(paste(class(.Object), "instance initialized.", sep = " "))
+      message(sprintf("%s instance initialized.", sQuote(class(.Object))))
     }
     return(.Object)
   }
@@ -325,26 +367,88 @@ setMethod(
     if (!missing(method)) .Object@method <- method
     methods::validObject(.Object)
     if (getOption("verbose")) {
-      message(paste(class(.Object), "instance initialized.", sep = " "))
+      message(sprintf("%s instance initialized.", sQuote(class(.Object))))
     }
     return(.Object)
   }
 )
-
+## SpaceTime -------------------------------------------------------------------
+setMethod(
+  f = "initialize",
+  signature = "SpaceTime",
+  definition = function(.Object, dates, coordinates, epsg) {
+    if (!missing(dates)) .Object@dates <- dates
+    if (!missing(coordinates)) .Object@coordinates <- coordinates
+    if (!missing(epsg)) .Object@epsg <- as.integer(epsg)
+    methods::validObject(.Object)
+    if (getOption("verbose")) {
+      message(sprintf("%s instance initialized.", dQuote(class(.Object))))
+    }
+    return(.Object)
+  }
+)
 ## *Matrix ---------------------------------------------------------------------
-initialize_matrix <- function(.Object, ...) {
+setMethod(
+  f = "initialize",
+  signature = "Matrix",
+  definition = function(.Object, data, cases, types) {
+    data <- if(!missing(data)) data else matrix(ncol = 0, nrow = 0)
+    cases <- if (!missing(cases)) cases else rownames(data)
+    types <- if (!missing(types)) types else colnames(data)
+
+    .Object@uuid <- generateUUID(seed = NULL)
+    .Object@cases <- as.character(cases)
+    .Object@types <- as.character(types)
+    methods::as(.Object,"matrix") <- data
+
+    methods::validObject(.Object)
+    rownames(.Object@.Data) <- cases
+    colnames(.Object@.Data) <- types
+
+    if (getOption("verbose")) {
+      message(sprintf("%s instance initialized.", dQuote(class(.Object))))
+    }
+    return(.Object)
+  }
+)
+init_matrix <- function(.Object, ...) {
   .Object <- methods::callNextMethod(.Object, ...)
   methods::validObject(.Object)
   if (getOption("verbose")) {
-    message(paste(class(.Object), "instance initialized.", sep = " "))
+    message(sprintf("%s instance initialized.", dQuote(class(.Object))))
   }
   return(.Object)
 }
-setMethod("initialize", "CountMatrix", initialize_matrix)
-setMethod("initialize", "FrequencyMatrix", initialize_matrix)
-setMethod("initialize", "SimilarityMatrix", initialize_matrix)
-setMethod("initialize", "IncidenceMatrix", initialize_matrix)
-setMethod("initialize", "OccurrenceMatrix", initialize_matrix)
+setMethod("initialize", "NumericMatrix", init_matrix)
+setMethod("initialize", "LogicalMatrix", init_matrix)
+setMethod("initialize", "OccurrenceMatrix", init_matrix)
+
+setMethod("initialize", "SimilarityMatrix", function(.Object, method, ...) {
+  if (!missing(method)) .Object@method <- method
+  .Object <- methods::callNextMethod(.Object, ...)
+  methods::validObject(.Object)
+  if (getOption("verbose")) {
+    message(sprintf("%s instance initialized.", dQuote(class(.Object))))
+  }
+  return(.Object)
+})
+
+init_space_time_matrix <- function(.Object, dates, coordinates, epsg,
+                                   totals, ...) {
+  if (!missing(dates)) .Object@dates <- dates
+  if (!missing(coordinates)) .Object@coordinates <- coordinates
+  if (!missing(epsg)) .Object@epsg <- epsg
+  if (!missing(totals)) .Object@totals <- totals
+  .Object <- methods::callNextMethod(.Object, ...)
+  methods::validObject(.Object)
+  if (getOption("verbose")) {
+    message(sprintf("%s instance initialized.", dQuote(class(.Object))))
+  }
+  return(.Object)
+}
+setMethod("initialize", "CountMatrix", init_space_time_matrix)
+setMethod("initialize", "FrequencyMatrix", init_space_time_matrix)
+setMethod("initialize", "IncidenceMatrix", init_space_time_matrix)
 
 # CREATE =======================================================================
 #' Matrix constructor
@@ -377,7 +481,7 @@ CountMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
                         dimnames = NULL) {
   M <- buildMatrix(as.integer(data), nrow, ncol, byrow, dimnames,
                    missing(nrow), missing(ncol))
-  methods::new("CountMatrix", M)
+  methods::new("CountMatrix", data = M)
 }
 
 # @export
@@ -398,5 +502,5 @@ IncidenceMatrix <- function(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
   data <- as.logical(data)
   M <- buildMatrix(data, nrow, ncol, byrow, dimnames,
                    missing(nrow), missing(ncol))
-  methods::new("IncidenceMatrix", M)
+  methods::new("IncidenceMatrix", data = M)
 }

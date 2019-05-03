@@ -204,6 +204,97 @@ setValidity(
   }
 )
 
+# SpaceTime ====================================================================
+setValidity(
+  Class = "SpaceTime",
+  method = function(object) {
+    # Get data
+    dates <- object@dates
+    coordinates <- object@coordinates
+    epsg <- object@epsg
+
+    errors <- c(
+      # Check dates
+      checkList(dates, mode = "numeric", names = c("value", "error"),
+                length = 2, lengths = NULL, na = TRUE, nan = FALSE,
+                inf = FALSE),
+      # Check coordinates
+      checkList(coordinates, mode = "numeric", names = c("x", "y", "z"),
+                length = 3, lengths = NULL, na = TRUE, nan = FALSE,
+                inf = FALSE),
+      # Check EPSG
+      checkVector(epsg, mode = "integer", names = NULL, length = 1,
+                  na = FALSE, required = FALSE)
+    )
+    # Check lengths
+    if (length(dates) != 0 | length(coordinates) != 0) {
+      i <- lengths(dates)
+      j <- lengths(coordinates)
+      if (!isEqual(c(i, j))) {
+        errors <- c(
+          errors,
+          sprintf("all elements of %s and %s should have the same length",
+                  sQuote("dates"), sQuote("coordinates"))
+        )
+      }
+    }
+
+    # Return errors if any
+    if (length(errors) != 0) {
+      stop(sprintf(
+        "%s\n  %s.",
+        dQuote(class(object)),
+        paste(errors, sep = " ", collapse = ";\n  ")
+      ),
+      call. = FALSE)
+    } else {
+      return(TRUE)
+    }
+  }
+)
+# Matrix =======================================================================
+setValidity(
+  Class = "Matrix",
+  method = function(object) {
+    # Get data
+    data <- S3Part(object, strictS3 = TRUE, "matrix")
+    uuid <- object@uuid
+    cases <- object@cases
+    types <- object@types
+
+    n <- nrow(data)
+    m <- ncol(data)
+    errors <- c(
+      # Check uuid
+      checkVector(uuid, mode = "character", names = NULL, length = 1,
+                  na = FALSE, required = TRUE),
+      # Check cases
+      checkVector(cases, mode = "character", names = NULL, length = n,
+                  na = FALSE, required = FALSE),
+      # Check types
+      checkVector(types, mode = "character", names = NULL, length = m,
+                  na = FALSE, required = FALSE)
+    )
+    # Check UUID
+    if (length(uuid) == 1) {
+      if(nchar(uuid) != 36) {
+        errors <- c(
+          errors,
+          sprintf("%s should be a 36 characters long string (UUIDv4)",
+                  sQuote("uuid"))
+        )
+      }
+    }
+
+    # Return errors if any
+    if (length(errors) != 0) {
+      printErrors(object, errors, call = FALSE)
+    } else {
+      return(TRUE)
+    }
+  }
+)
+
 # NumericMatrix ================================================================
 setValidity(
   Class = "NumericMatrix",
@@ -215,16 +306,14 @@ setValidity(
     # Check data
     if (length(data) != 0) {
       if (!is.numeric(data))
-        errors <- c(errors, "Numeric values are expected.")
-      if (anyNA(data))
-        errors <- c(errors, "NA values were detected.")
-      if (any(is.infinite(data)))
-        errors <- c(errors, "Infinite numbers were detected.")
+        errors <- c(errors, "Numeric values are expected")
+      if (!all(is.finite(data)))
+        errors <- c(errors, "Missing or infinite values were detected")
     }
 
     # Return errors if any
     if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
+      printErrors(object, errors, call = FALSE)
     } else {
       return(TRUE)
     }
@@ -242,16 +331,16 @@ setValidity(
     # Check data
     if (length(data) != 0) {
       if (sum(!isWholeNumber(data)) != 0)
-        errors <- c(errors, "Whole numbers are expected.")
+        errors <- c(errors, "Whole numbers are expected")
       if (isBinary(data))
-        errors <- c(errors, "You should consider using an incidence matrix.")
+        errors <- c(errors, "You should consider using an incidence matrix")
       if (!isPositive(data))
-        errors <- c(errors, "Positive values are expected.")
+        errors <- c(errors, "Positive values are expected")
     }
 
     # Return errors, if any
     if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
+      printErrors(object, errors, call = FALSE)
     } else {
       return(TRUE)
     }
@@ -270,20 +359,22 @@ setValidity(
     # Check data
     if (length(data) != 0) {
       if (!isEqual(rowSums(data, na.rm = TRUE)))
-        errors <- c(errors, "Constant row sums are expected.")
+        errors <- c(errors, "Constant row sums are expected")
       if (isBinary(data))
-        errors <- c(errors, "You should consider using an incidence matrix.")
+        errors <- c(errors, "You should consider using an incidence matrix")
       if (!isPositive(data))
-        errors <- c(errors, "Positive values are expected.")
+        errors <- c(errors, "Positive values are expected")
+
       k <- length(totals)
-      if (k != nrow(data))
-        errors <- c(errors, paste(sQuote("totals"), "should be of length",
-                                  nrow(data), "not", k))
+      n <- nrow(data)
+      if (k != n)
+        errors <- c(errors, sprintf("%s should be of length %d, not %d.",
+                                    sQuote("totals"), n, k))
     }
 
     # Return errors, if any
     if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
+      printErrors(object, errors, call = FALSE)
     } else {
       return(TRUE)
     }
@@ -297,20 +388,22 @@ setValidity(
     errors <- c()
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
+    cases <- object@cases
+    types <- object@types
 
     # Check data
     if (length(data) != 0) {
       if (!isSquare(data))
-        errors <- c(errors, "A square matrix is expected.")
+        errors <- c(errors, "A square matrix is expected")
       if (!isSymmetric(data))
-        errors <- c(errors, "A symmetric matrix is expected.")
-      if (!identical(rownames(data), colnames(data)))
-        errors <- c(errors, "Rows and columns must have the same names.")
+        errors <- c(errors, "A symmetric matrix is expected")
+      if (!identical(rownames(data), colnames(data)) | !identical(cases, types))
+        errors <- c(errors, "Rows and columns must have the same names")
     }
 
     # Return errors, if any
     if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
+      printErrors(object, errors, call = FALSE)
     } else {
       return(TRUE)
     }
@@ -324,18 +417,21 @@ setValidity(
     errors <- c()
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
+    cases <- object@cases
+    types <- object@types
     method <- object@method
 
     # Check data
     if (length(data) != 0) {
       if (!isSquare(data))
-        errors <- c(errors, "A square matrix is expected.")
+        errors <- c(errors, "A square matrix is expected")
       if (!isSymmetric(data))
-        errors <- c(errors, "A symmetric matrix is expected.")
-      if (!identical(rownames(data), colnames(data)))
-        errors <- c(errors, "Rows and columns must have the same names.")
+        errors <- c(errors, "A symmetric matrix is expected")
+      if (!identical(rownames(data), colnames(data)) | !identical(cases, types))
+        errors <- c(errors, "Rows and columns must have the same names")
       if (length(method) != 1)
-        errors <- c(errors, paste(sQuote("method"), "must be a single character string."))
+        errors <- c(errors, sprintf("%s must be a single character string",
+                                    sQuote("method")))
     }
 
     # Return errors, if any
@@ -358,9 +454,9 @@ setValidity(
     # Check data
     if (length(data) != 0) {
       if (!is.logical(data))
-        errors <- c("Logical values are expected.")
-      if (anyNA(data))
-        errors <- c(errors, "Missing values were detected.")
+        errors <- c("Logical values are expected")
+      if (any(!is.finite(data)))
+        errors <- c(errors, "Missing or infinite values were detected")
     }
 
     # Return errors, if any
