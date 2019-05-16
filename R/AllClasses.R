@@ -198,6 +198,20 @@ setClass(
 #' @slot epsg An \code{\link{integer}} giving the EPSG code of the spatial
 #'  reference system used. Numeric values are coerced to \code{\link{integer}}
 #'  as by \code{\link{as.integer}} (and hence truncated towards zero).
+#' @section Get and set:
+#'  In the code snippets below, \code{x} is a \code{SpaceTime} object.
+#'  \describe{
+#'   \item{\code{getDates(x)}, \code{setDates(x) <- value}}{Get or set the dates
+#'   of \code{x} according to \code{value}
+#'   (see \code{\link[=setDates<-]{setDate}} for details).}
+#'   \item{\code{getCoordinates(x)}, \code{setCoordinates(x) <- value}}{Get or
+#'   set the geographical coordinates of \code{x} according to \code{value}
+#'   (see \code{\link[=setCoordinates<-]{setCoordinates}} for details).}
+#'   \item{\code{getEPSG(x)}, \code{setEPSG(x) <- value}}{Get or
+#'   set the EPSG of \code{x} according to \code{value}. Numeric values are
+#'   coerced to \code{\link{integer}} as by \code{\link{as.integer}} (and hence
+#'   truncated towards zero).}
+#'  }
 #' @author N. Frerebeau
 #' @docType class
 #' @aliases SpaceTime-class
@@ -230,15 +244,23 @@ setClass(
 #'  the same ID. This makes it possible to identify objects representing the
 #'  same initial data and associate them with the results of specific
 #'  computations (e. g. \link[=seriate]{seriation}).
+#' @section Get and set:
+#'  In the code snippets below, \code{x} is a \code{*Matrix} object.
+#'  \describe{
+#'   \item{\code{getID(x)}}{Get the ID of \code{x}.}
+#'  }
 #' @section Access:
 #'  In the code snippets below, \code{x} is a \code{*Matrix} object.
 #'  \describe{
-#'   \item{\code{dim(x)}}{Get the dimension of \code{x}.}
-#'   \item{\code{colnames(x)}, \code{colnames(x) <- value}}{Get or set the
-#'   column names of \code{x} according to \code{value}.}
-#'   \item{\code{rownames(x)}, \code{rownames(x) <- value}}{Get or set the
-#'   row names of \code{x} according to \code{value}.}
-#'   \item{\code{getID(x)}}{Get the ID of \code{x}.}
+#'   \item{\code{dim(x)}}{Returns the dimension of \code{x}.}
+#'   \item{\code{nrow(x)}}{Returns the number of rows present in \code{x}.}
+#'   \item{\code{ncol(x)}}{Returns the number of columns present in \code{x}.}
+#'   \item{\code{dimnames(x)}, \code{dimnames(x) <- value}}{Retrieves or sets
+#'   the row dimnames of \code{x} according to \code{value}.}
+#'   \item{\code{rownames(x)}, \code{rownames(x) <- value}}{Retrieves or sets
+#'   the row names of \code{x} according to \code{value}.}
+#'   \item{\code{colnames(x)}, \code{colnames(x) <- value}}{Retrieves or sets
+#'   the column names of \code{x} according to \code{value}.}
 #'  }
 #' @section Subset:
 #'  In the code snippets below, \code{x} is a \code{*Matrix} object.
@@ -277,6 +299,7 @@ setClass(
 #'
 #' An S4 class to represent a numeric matrix.
 #' @inheritSection Matrix-class Matrix ID
+#' @inheritSection Matrix-class Get and set
 #' @inheritSection Matrix-class Access
 #' @inheritSection Matrix-class Subset
 #' @seealso \linkS4class{Matrix}
@@ -294,11 +317,13 @@ setClass(
 #' An S4 class to represent a count matrix.
 #' @inheritParams base::matrix
 #' @inheritSection Matrix-class Matrix ID
+#' @inheritSection Matrix-class Get and set
 #' @inheritSection Matrix-class Access
 #' @inheritSection Matrix-class Subset
 #' @note
-#'  Numeric values are coerced to \code{\link{integer}} as by
-#'  \code{\link[base]{as.integer}} (and hence truncated towards zero).
+#'  Numeric values are \code{\link[base:round]{rounded}} to zero decimal places
+#'  and then coerced to \code{\link{integer}} as by
+#'  \code{\link[base]{as.integer}}.
 #' @seealso \linkS4class{NumericMatrix}, \linkS4class{SpaceTime}
 #' @family abundance matrix
 #' @example inst/examples/ex-abundance-class.R
@@ -318,17 +343,13 @@ setClass(
 #'  To ensure data integrity, a \code{FrequencyMatrix} can only be created by
 #'  coercion from a \linkS4class{CountMatrix} (see examples).
 #' @inheritSection Matrix-class Matrix ID
-#' @section Access:
+#' @section Get and set:
 #'  In the code snippets below, \code{x} is a \code{FrequencyMatrix} object.
 #'  \describe{
-#'   \item{\code{dim(x)}}{Get the dimension of \code{x}.}
-#'   \item{\code{colnames(x)}, \code{colnames(x) <- value}}{Get or set the
-#'   column names of \code{x} according to \code{value}.}
-#'   \item{\code{rownames(x)}, \code{rownames(x) <- value}}{Get or set the
-#'   row names of \code{x} according to \code{value}.}
 #'   \item{\code{getID(x)}}{Get the unique ID of \code{x}.}
 #'   \item{\code{getTotals(x)}}{Get the row sums (counts) of \code{x}.}
 #'  }
+#' @inheritSection Matrix-class Access
 #' @inheritSection Matrix-class Subset
 #' @seealso \linkS4class{NumericMatrix}, \linkS4class{SpaceTime}
 #' @family abundance matrix
@@ -356,6 +377,7 @@ setClass(
 #'  which works out how many times (expressed in percent) each pairs of
 #'  taxa/types occur together in at least one sample.
 #' @inheritSection Matrix-class Matrix ID
+#' @inheritSection Matrix-class Get and set
 #' @inheritSection Matrix-class Access
 #' @inheritSection Matrix-class Subset
 #' @seealso \linkS4class{NumericMatrix}
@@ -375,6 +397,7 @@ setClass(
 #' @slot method A \code{\link{character}} string specifying the distance
 #'  method used.
 #' @inheritSection Matrix-class Matrix ID
+#' @inheritSection Matrix-class Get and set
 #' @inheritSection Matrix-class Access
 #' @inheritSection Matrix-class Subset
 #' @seealso \linkS4class{NumericMatrix}
@@ -400,6 +423,7 @@ setClass(
 #'
 #' An S4 class to represent a logical matrix.
 #' @inheritSection Matrix-class Matrix ID
+#' @inheritSection Matrix-class Get and set
 #' @inheritSection Matrix-class Access
 #' @inheritSection Matrix-class Subset
 #' @seealso \linkS4class{Matrix}
@@ -420,6 +444,7 @@ setClass(
 #'  Numeric values are coerced to \code{\link{logical}} as by
 #'  \code{\link[base]{as.logical}}.
 #' @inheritSection Matrix-class Matrix ID
+#' @inheritSection Matrix-class Get and set
 #' @inheritSection Matrix-class Access
 #' @inheritSection Matrix-class Subset
 #' @seealso \linkS4class{LogicalMatrix}, \linkS4class{SpaceTime}

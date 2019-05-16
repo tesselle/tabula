@@ -23,6 +23,23 @@ reference system used. Numeric values are coerced to \code{\link{integer}}
 as by \code{\link{as.integer}} (and hence truncated towards zero).}
 }}
 
+\section{Get and set}{
+
+ In the code snippets below, \code{x} is a \code{SpaceTime} object.
+ \describe{
+  \item{\code{getDates(x)}, \code{setDates(x) <- value}}{Get or set the dates
+  of \code{x} according to \code{value}
+  (see \code{\link[=setDates<-]{setDate}} for details).}
+  \item{\code{getCoordinates(x)}, \code{setCoordinates(x) <- value}}{Get or
+  set the geographical coordinates of \code{x} according to \code{value}
+  (see \code{\link[=setCoordinates<-]{setCoordinates}} for details).}
+  \item{\code{getEPSG(x)}, \code{setEPSG(x) <- value}}{Get or
+  set the EPSG of \code{x} according to \code{value}. Numeric values are
+  coerced to \code{\link{integer}} as by \code{\link{as.integer}} (and hence
+  truncated towards zero).}
+ }
+}
+
 \author{
 N. Frerebeau
 }

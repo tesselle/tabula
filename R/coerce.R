@@ -106,7 +106,6 @@ setAs(from = "FrequencyMatrix", to = "IncidenceMatrix", def = matrix2incidence)
 ## To OccurrenceMatrix ---------------------------------------------------------
 matrix2occurrence <- function(from) {
   data <- if (isS4(from)) {
-    print("ok")
     methods::S3Part(from, strictS3 = TRUE, "matrix")
   } else {
     data.matrix(from)

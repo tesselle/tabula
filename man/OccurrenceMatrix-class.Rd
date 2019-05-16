@@ -23,16 +23,27 @@ A co-occurrence matrix is a symetric matrix with zeros on its main diagonal,
  computations (e. g. \link[=seriate]{seriation}).
 }
 
+\section{Get and set}{
+
+ In the code snippets below, \code{x} is a \code{*Matrix} object.
+ \describe{
+  \item{\code{getID(x)}}{Get the ID of \code{x}.}
+ }
+}
+
 \section{Access}{
 
  In the code snippets below, \code{x} is a \code{*Matrix} object.
  \describe{
-  \item{\code{dim(x)}}{Get the dimension of \code{x}.}
-  \item{\code{colnames(x)}, \code{colnames(x) <- value}}{Get or set the
-  column names of \code{x} according to \code{value}.}
-  \item{\code{rownames(x)}, \code{rownames(x) <- value}}{Get or set the
-  row names of \code{x} according to \code{value}.}
-  \item{\code{getID(x)}}{Get the ID of \code{x}.}
+  \item{\code{dim(x)}}{Returns the dimension of \code{x}.}
+  \item{\code{nrow(x)}}{Returns the number of rows present in \code{x}.}
+  \item{\code{ncol(x)}}{Returns the number of columns present in \code{x}.}
+  \item{\code{dimnames(x)}, \code{dimnames(x) <- value}}{Retrieves or sets
+  the row dimnames of \code{x} according to \code{value}.}
+  \item{\code{rownames(x)}, \code{rownames(x) <- value}}{Retrieves or sets
+  the row names of \code{x} according to \code{value}.}
+  \item{\code{colnames(x)}, \code{colnames(x) <- value}}{Retrieves or sets
+  the column names of \code{x} according to \code{value}.}
  }
 }
 
@@ -76,16 +87,19 @@ A1[, 1, drop = FALSE] # Get the first column
 
 # Coerce counts to frequencies
 B <- as(A1, "FrequencyMatrix")
-
 # Row sums are internally stored before coercing to a frequency matrix
 getTotals(B) # Get row sums
-
 # This allows to restore the source data
 A2 <- as(B, "CountMatrix")
 all(A1 == A2)
-
 # Coerce to a co-occurrence matrix
 C <- as(B, "OccurrenceMatrix")
+
+# Set space-time information
+## Geographic coordinates
+setCoordinates(A1) <- list(x = sample(0:10, 10, TRUE),
+                           y = sample(0:10, 10, TRUE))
+getCoordinates(A1)
 }
 \seealso{
 \linkS4class{NumericMatrix}

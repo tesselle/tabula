@@ -3,39 +3,115 @@
 \docType{methods}
 \name{access}
 \alias{access}
-\alias{access-method}
+\alias{get-method}
+\alias{set-method}
 \alias{getID}
 \alias{getTotals}
 \alias{getDates}
-\alias{setDates}
+\alias{setDates<-}
 \alias{getCoordinates}
-\alias{setCoordinates}
+\alias{setCoordinates<-}
+\alias{getEPSG}
+\alias{setEPSG<-}
+\alias{getCoordinates,SpaceTime-method}
+\alias{getDates,SpaceTime-method}
+\alias{getEPSG,SpaceTime-method}
 \alias{getID,ANY-method}
 \alias{getTotals,FrequencyMatrix-method}
+\alias{setDates<-,SpaceTime-method}
+\alias{setDates,SpaceTime-method}
+\alias{setCoordinates<-,SpaceTime-method}
+\alias{setCoordinates,SpaceTime-method}
+\alias{setEPSG<-,SpaceTime-method}
+\alias{setEPSG,SpaceTime-method}
 \title{Extract or Replace Parts of an Object}
 \usage{
-getID(x)
+getID(object)
 
-getTotals(x)
+getTotals(object)
 
-getDates(x)
+getDates(object)
 
-setDates(x)
+setDates(object) <- value
 
-getCoordinates(x)
+getCoordinates(object)
 
-setCoordinates(x)
+setCoordinates(object) <- value
 
-\S4method{getID}{ANY}(x)
+getEPSG(object)
 
-\S4method{getTotals}{FrequencyMatrix}(x)
+setEPSG(object) <- value
+
+\S4method{getCoordinates}{SpaceTime}(object)
+
+\S4method{getDates}{SpaceTime}(object)
+
+\S4method{getEPSG}{SpaceTime}(object)
+
+\S4method{getID}{ANY}(object)
+
+\S4method{getTotals}{FrequencyMatrix}(object)
+
+\S4method{setDates}{SpaceTime}(object) <- value
+
+\S4method{setCoordinates}{SpaceTime}(object) <- value
+
+\S4method{setEPSG}{SpaceTime}(object) <- value
 }
 \arguments{
-\item{x}{An object from which to extract element(s).}
+\item{object}{An object from which to get or set element(s).}
+
+\item{value}{A possible value for the element(s) of \code{object} (see
+below).}
 }
 \description{
 Getters and setters to extract or replace parts of an object.
 }
+\section{Set dates}{
+
+ An attempt is made to interpret the argument \code{value} in a suitable way.
+ \emph{Note} that errors are assumed to be given at \code{1} sigma.
+ If \code{value} is a:
+ \describe{
+  \item{\code{numeric} or \code{integer} \code{vector}}{these values are
+  assumed to represent dates without known errors.}
+  \item{\code{list}}{containing components "\code{value}" and "\code{error}",
+  these are used to define dates and corresponding errors.}
+  \item{\code{matrix} or \code{data.frame} with two or more columns}{the
+  first is assumed to contain the dates and the second the error values.
+  \emph{Note} that if \code{value} has columns named "\code{value}" and
+  "\code{error}", these columns will be used.}
+ }
+ For abundance matrix classes (\linkS4class{CountMatrix},
+ \linkS4class{FrequencyMatrix} and \linkS4class{IncidenceMatrix}), an
+ alternative approach may be considered. As each date should be linked to a
+ specific row (sample/assemblage) of the abundance matrix, \code{value}
+ can be a list of length-two numeric vectors (where each element of the
+ list is a date-error pair). If the list is named, all the elements are
+ matched by name to the rows of the matrix (this allows to provide dates for
+ only a limited number of contexts). Otherwise, all the elements are matched
+ by position.
+}
+
+\section{Set coordinates}{
+
+ An attempt is made to interpret the argument \code{value} in a way suitable
+ for geographic coordinates. If \code{value} is a:
+ \describe{
+  \item{\code{list}}{containing components "\code{x}", "\code{y}" and
+  "\code{z}", these are used to define coordinates (longitude, latitude and
+  elevation, respectively). If "\code{z}" is missing, the vertical
+  coordinates will be ignored (and \code{NA} will be generated).}
+  \item{\code{matrix} or \code{data.frame} with two or more columns}{the
+  first is assumed to contain the \code{x} values, the second the \code{y}
+  and the third the \code{z} values. \emph{Note} that if \code{value} has
+  columns named "\code{x}", "\code{y}" and "\code{z}", these columns will be
+  used. If \code{value} has only two columns or has columns named "\code{x}"
+  and "\code{y}" but not "\code{z}", the vertical coordinates will be ignored
+  (and \code{NA} will be generated).}
+ }
+}
+
 \author{
 N. Frerebeau
 }

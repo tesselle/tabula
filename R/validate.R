@@ -278,6 +278,8 @@ setValidity(
   method = function(object) {
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
+    dates <- object@dates
+    coordinates <- object@coordinates
 
     errors <- list(
       # Check data
@@ -285,6 +287,14 @@ setValidity(
         checkIfPositive(data, strict = FALSE, na.rm = TRUE),
         checkIfWholeNumber(data),
         checkIfBinaryMatrix(data)
+      ),
+      # Check dates
+      dates = c(
+        checkLengths(dates, expected = nrow(data))
+      ),
+      # Check coordinates
+      coordinates = c(
+        checkLengths(coordinates, expected = nrow(data))
       )
     )
 
@@ -300,6 +310,8 @@ setValidity(
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     totals <- object@totals
+    dates <- object@dates
+    coordinates <- object@coordinates
 
     errors <- list(
       # Check data
@@ -310,6 +322,14 @@ setValidity(
       # Check totals
       totals = c(
         checkLength(totals, expected = nrow(data))
+      ),
+      # Check dates
+      dates = c(
+        checkLengths(dates, expected = nrow(data))
+      ),
+      # Check coordinates
+      coordinates = c(
+        checkLengths(coordinates, expected = nrow(data))
       )
     )
 
@@ -371,6 +391,31 @@ setValidity(
     errors <- list(
       # Check data
       data = checkType(data, expected = "logical")
+    )
+
+    # Return errors if any
+    returnSlotErrors(object, errors)
+  }
+)
+
+## IncidenceMatrix -------------------------------------------------------------
+setValidity(
+  Class = "IncidenceMatrix",
+  method = function(object) {
+    # Get data
+    data <- S3Part(object, strictS3 = TRUE, "matrix")
+    dates <- object@dates
+    coordinates <- object@coordinates
+
+    errors <- list(
+      # Check dates
+      dates = c(
+        checkLengths(dates, expected = nrow(data))
+      ),
+      # Check coordinates
+      coordinates = c(
+        checkLengths(coordinates, expected = nrow(data))
+      )
     )
 
     # Return errors if any

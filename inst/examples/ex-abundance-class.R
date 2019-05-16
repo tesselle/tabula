@@ -19,13 +19,16 @@ A1[, 1, drop = FALSE] # Get the first column
 
 # Coerce counts to frequencies
 B <- as(A1, "FrequencyMatrix")
-
 # Row sums are internally stored before coercing to a frequency matrix
 getTotals(B) # Get row sums
-
 # This allows to restore the source data
 A2 <- as(B, "CountMatrix")
 all(A1 == A2)
-
 # Coerce to a co-occurrence matrix
 C <- as(B, "OccurrenceMatrix")
+
+# Set space-time information
+## Geographic coordinates
+setCoordinates(A1) <- list(x = sample(0:10, 10, TRUE),
+                           y = sample(0:10, 10, TRUE))
+getCoordinates(A1)

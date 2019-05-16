@@ -18,16 +18,27 @@ An S4 class to represent a logical matrix.
  computations (e. g. \link[=seriate]{seriation}).
 }
 
+\section{Get and set}{
+
+ In the code snippets below, \code{x} is a \code{*Matrix} object.
+ \describe{
+  \item{\code{getID(x)}}{Get the ID of \code{x}.}
+ }
+}
+
 \section{Access}{
 
  In the code snippets below, \code{x} is a \code{*Matrix} object.
  \describe{
-  \item{\code{dim(x)}}{Get the dimension of \code{x}.}
-  \item{\code{colnames(x)}, \code{colnames(x) <- value}}{Get or set the
-  column names of \code{x} according to \code{value}.}
-  \item{\code{rownames(x)}, \code{rownames(x) <- value}}{Get or set the
-  row names of \code{x} according to \code{value}.}
-  \item{\code{getID(x)}}{Get the ID of \code{x}.}
+  \item{\code{dim(x)}}{Returns the dimension of \code{x}.}
+  \item{\code{nrow(x)}}{Returns the number of rows present in \code{x}.}
+  \item{\code{ncol(x)}}{Returns the number of columns present in \code{x}.}
+  \item{\code{dimnames(x)}, \code{dimnames(x) <- value}}{Retrieves or sets
+  the row dimnames of \code{x} according to \code{value}.}
+  \item{\code{rownames(x)}, \code{rownames(x) <- value}}{Retrieves or sets
+  the row names of \code{x} according to \code{value}.}
+  \item{\code{colnames(x)}, \code{colnames(x) <- value}}{Retrieves or sets
+  the column names of \code{x} according to \code{value}.}
  }
 }
 

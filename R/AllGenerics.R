@@ -6,37 +6,94 @@ NULL
 #' Extract or Replace Parts of an Object
 #'
 #' Getters and setters to extract or replace parts of an object.
-#' @param x An object from which to extract element(s).
+#' @param object An object from which to get or set element(s).
+#' @param value A possible value for the element(s) of \code{object} (see
+#'  below).
+#' @section Set dates:
+#'  An attempt is made to interpret the argument \code{value} in a suitable way.
+#'  \emph{Note} that errors are assumed to be given at \code{1} sigma.
+#'  If \code{value} is a:
+#'  \describe{
+#'   \item{\code{numeric} or \code{integer} \code{vector}}{these values are
+#'   assumed to represent dates without known errors.}
+#'   \item{\code{list}}{containing components "\code{value}" and "\code{error}",
+#'   these are used to define dates and corresponding errors.}
+#'   \item{\code{matrix} or \code{data.frame} with two or more columns}{the
+#'   first is assumed to contain the dates and the second the error values.
+#'   \emph{Note} that if \code{value} has columns named "\code{value}" and
+#'   "\code{error}", these columns will be used.}
+#'  }
+#'  For abundance matrix classes (\linkS4class{CountMatrix},
+#'  \linkS4class{FrequencyMatrix} and \linkS4class{IncidenceMatrix}), an
+#'  alternative approach may be considered. As each date should be linked to a
+#'  specific row (sample/assemblage) of the abundance matrix, \code{value}
+#'  can be a list of length-two numeric vectors (where each element of the
+#'  list is a date-error pair). If the list is named, all the elements are
+#'  matched by name to the rows of the matrix (this allows to provide dates for
+#'  only a limited number of contexts). Otherwise, all the elements are matched
+#'  by position.
+#' @section Set coordinates:
+#'  An attempt is made to interpret the argument \code{value} in a way suitable
+#'  for geographic coordinates. If \code{value} is a:
+#'  \describe{
+#'   \item{\code{list}}{containing components "\code{x}", "\code{y}" and
+#'   "\code{z}", these are used to define coordinates (longitude, latitude and
+#'   elevation, respectively). If "\code{z}" is missing, the vertical
+#'   coordinates will be ignored (and \code{NA} will be generated).}
+#'   \item{\code{matrix} or \code{data.frame} with two or more columns}{the
+#'   first is assumed to contain the \code{x} values, the second the \code{y}
+#'   and the third the \code{z} values. \emph{Note} that if \code{value} has
+#'   columns named "\code{x}", "\code{y}" and "\code{z}", these columns will be
+#'   used. If \code{value} has only two columns or has columns named "\code{x}"
+#'   and "\code{y}" but not "\code{z}", the vertical coordinates will be ignored
+#'   (and \code{NA} will be generated).}
+#'  }
 #' @author N. Frerebeau
 #' @docType methods
 #' @name access
 #' @rdname access-method
-#' @aliases access-method
+#' @aliases get-method set-method
 NULL
 
 #' @export
 #' @rdname access-method
-setGeneric("getID", function(x) standardGeneric("getID"))
+setGeneric(name = "getID",
+           def = function(object) standardGeneric("getID"))
 
 #' @export
 #' @rdname access-method
-setGeneric("getTotals", function(x) standardGeneric("getTotals"))
+setGeneric(name = "getTotals",
+           def = function(object) standardGeneric("getTotals"))
 
 #' @export
 #' @rdname access-method
-setGeneric("getDates", function(x) standardGeneric("getDates"))
+setGeneric(name = "getDates",
+           def = function(object) standardGeneric("getDates"))
 
 #' @export
 #' @rdname access-method
-setGeneric("setDates", function(x) standardGeneric("setDates"))
+setGeneric(name = "setDates<-",
+           def = function(object, value) standardGeneric("setDates<-"))
 
 #' @export
 #' @rdname access-method
-setGeneric("getCoordinates", function(x) standardGeneric("getCoordinates"))
+setGeneric(name = "getCoordinates",
+           def = function(object) standardGeneric("getCoordinates"))
 
 #' @export
 #' @rdname access-method
-setGeneric("setCoordinates", function(x) standardGeneric("setCoordinates"))
+setGeneric(name = "setCoordinates<-",
+           def = function(object, value) standardGeneric("setCoordinates<-"))
+
+#' @export
+#' @rdname access-method
+setGeneric(name = "getEPSG",
+           def = function(object) standardGeneric("getEPSG"))
+
+#' @export
+#' @rdname access-method
+setGeneric(name = "setEPSG<-",
+           def = function(object, value) standardGeneric("setEPSG<-"))
 
 # ------------------------------------------------------------------------------
 #' Extract or Replace Parts of an Object
@@ -56,9 +113,9 @@ setGeneric("setCoordinates", function(x) standardGeneric("setCoordinates"))
 #'  not for the replacement.
 #' @author N. Frerebeau
 #' @docType methods
-#' @name extract
-#' @rdname extract-method
-#' @aliases extract-method
+#' @name subset
+#' @rdname subset-method
+#' @aliases extract-method, replace-method
 NULL
 
 # Date =========================================================================

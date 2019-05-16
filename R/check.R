@@ -48,17 +48,20 @@ checkLength <- function(x, expected) {
   }
 }
 checkLengths <- function(x, expected) {
-  n <- lengths(x)
-  m <- paste(n, collapse = ", ")
-  if(missing(expected)) {
-    if(!isEqual(n)) {
-      sprintf("elements should have the same length (%s)", m)
+  if (length(x) != 0) {
+    n <- lengths(x)
+    m <- paste(n, collapse = ", ")
+    if(missing(expected)) {
+      if(!isEqual(n)) {
+        sprintf("elements should have the same length (%s)", m)
+      } else {
+        NULL
+      }
+    } else if(any(n != expected) & !all(n == 0)) {
+      sprintf("elements should be of length %d (not %s)", expected, m)
     } else {
       NULL
     }
-  } else if(!identical(n, expected)) {
-    expected <- if(length(expected) == 1) rep(expected, n) else expected
-    sprintf("elements should be of length %d (not %s)", expected, m)
   } else {
     NULL
   }
