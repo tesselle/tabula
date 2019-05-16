@@ -7,9 +7,9 @@ seriation <- function(object, method = c("correspondance", "reciprocal"),
                       EPPM = FALSE, axes = 1, margin = c(1, 2), stop = 100,
                       ...) {
 
-  data <- if (EPPM) independance(object, method = "EPPM") else object
+  data <- if(EPPM) independance(object, method = "EPPM") else object
 
-  index <- switch (
+  index <- switch(
     method,
     reciprocal = reciprocalSeriation(data, margin = margin, stop = stop),
     correspondance = correspondanceSeriation(data, margin = margin,
@@ -19,8 +19,12 @@ seriation <- function(object, method = c("correspondance", "reciprocal"),
   # Coerce indices to integer
   index <- lapply(X = index, FUN = as.integer)
   # New PermutationOrder object
-  methods::new("PermutationOrder",
-               rows = index[[1]], columns = index[[2]], method = method)
+  PermutationOrder(
+    id = object[["id"]],
+    rows = index[[1]],
+    columns = index[[2]],
+    method = method
+  )
 }
 
 # Probabilistic methods ========================================================
@@ -48,7 +52,8 @@ reciprocalSeriation <- function(x, margin = 1, stop = 100) {
   reorder <- function(x, margin) {
     i <- 1:nrow(x)
     j <- 1:ncol(x)
-    k <- switch (margin,
+    k <- switch(
+      margin,
       `1` = colSums(t(x) * j) / rowSums(x),
       `2` = colSums(x * i) / colSums(x),
       stop("'margin' subscript out of bounds")

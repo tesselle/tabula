@@ -62,6 +62,7 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 Collate:
+    'utilities.R'
     'tabula.R'
     'AllClasses.R'
     'coerce.R'
@@ -81,6 +82,5 @@ Collate:
     'show.R'
     'similarity.R'
     'turnover.R'
-    'utilities.R'
     'validate.R'
     'zzz.R'

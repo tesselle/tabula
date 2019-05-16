@@ -6,47 +6,47 @@ NULL
 setAs(from = "NumericMatrix", to = "data.frame", def = function(from)
   as.data.frame(methods::S3Part(from, strictS3 = TRUE, "matrix")))
 
-## To CountMatrix --------------------------------------------------------------
+## To CountMatrix ==============================================================
 matrix2count <- function(from) {
   data <- data.matrix(from)
-  integer <- apply(
+  whole_numbers <- apply(
     X = data,
     MARGIN = 2,
     FUN = function(x) as.integer(round(x, digits = 0))
   )
-  dimnames(integer) <- dimnames(data)
-  object <- methods::new("CountMatrix", data = integer)
+  dimnames(whole_numbers) <- dimnames(data)
+  object <- .CountMatrix(whole_numbers)
   methods::validObject(object)
   return(object)
 }
 setAs(from = "matrix", to = "CountMatrix", def = matrix2count)
 setAs(from = "data.frame", to = "CountMatrix", def = matrix2count)
 
-## To FrequencyMatrix ----------------------------------------------------------
+## To FrequencyMatrix ==========================================================
 matrix2frequency <- function(from) {
   data <- data.matrix(from)
   totals <- rowSums(data)
   freq <- data / totals
   dimnames(freq) <- dimnames(data)
-  object <- methods::new("FrequencyMatrix", data = freq, totals = totals)
+  object <- .FrequencyMatrix(freq, totals = totals)
   methods::validObject(object)
   return(object)
 }
 setAs(from = "matrix", to = "FrequencyMatrix", def = matrix2frequency)
 setAs(from = "data.frame", to = "FrequencyMatrix", def = matrix2frequency)
 
-## To SimilarityMatrix ----------------------------------------------------------
+## To SimilarityMatrix =========================================================
 matrix2similarity <- function(from) {
   data <- data.matrix(from)
   rownames(data) <- colnames(from)
-  object <- methods::new("SimilarityMatrix", data, method = "unknown")
+  object <- .SimilarityMatrix(data, method = "unknown")
   methods::validObject(object)
   return(object)
 }
 setAs(from = "matrix", to = "SimilarityMatrix", def = matrix2similarity)
 setAs(from = "data.frame", to = "SimilarityMatrix", def = matrix2similarity)
 
-## CountMatrix <> FrequencyMatrix ----------------------------------------------
+## CountMatrix <> FrequencyMatrix ==============================================
 setAs(
   from = "CountMatrix",
   to = "FrequencyMatrix",
@@ -54,8 +54,8 @@ setAs(
     counts <- methods::S3Part(from, strictS3 = TRUE, "matrix")
     totals <- rowSums(counts)
     freq <- counts / totals
-    object <- methods::new("FrequencyMatrix", data = freq, totals = totals)
-    object@uuid <- from@uuid
+    object <- .FrequencyMatrix(freq, totals = totals)
+    object@id <- from@id
     methods::validObject(object)
     return(object)
   }
@@ -73,8 +73,8 @@ setAs(
       FUN = function(x) as.integer(round(x, digits = 0))
     )
     dimnames(integer) <- dimnames(freq)
-    object <- methods::new("CountMatrix", data = integer)
-    object@uuid <- from@uuid
+    object <- .CountMatrix(integer)
+    object@id <- from@id
     methods::validObject(object)
     return(object)
   }
@@ -84,12 +84,16 @@ setAs(
 setAs(from = "LogicalMatrix", to = "data.frame", def = function(from)
   as.data.frame(methods::S3Part(from, strictS3 = TRUE, "matrix")))
 
-## To IncidenceMatrix ----------------------------------------------------------
+## To IncidenceMatrix ==========================================================
 matrix2incidence <- function(from) {
-  data <- if (isS4(from)) methods::as(from, "matrix")
-  else data.matrix(from)
+  data <- if (isS4(from)) {
+    methods::S3Part(from, strictS3 = TRUE, "matrix")
+  } else {
+    data.matrix(from)
+  }
   data <- data > 0
-  object <- methods::new("IncidenceMatrix", data = data)
+  object <- .IncidenceMatrix(data)
+  if (isS4(from)) object@id <- from@id
   methods::validObject(object)
   return(object)
 }
@@ -102,7 +106,8 @@ setAs(from = "FrequencyMatrix", to = "IncidenceMatrix", def = matrix2incidence)
 ## To OccurrenceMatrix ---------------------------------------------------------
 matrix2occurrence <- function(from) {
   data <- if (isS4(from)) {
-    methods::as(from, "matrix")
+    print("ok")
+    methods::S3Part(from, strictS3 = TRUE, "matrix")
   } else {
     data.matrix(from)
   }
@@ -129,7 +134,8 @@ matrix2occurrence <- function(from) {
   C <- t(C)
   C[lower.tri(C, diag = FALSE)] <- occurrence
 
-  object <- methods::new("OccurrenceMatrix", data = C)
+  object <- .OccurrenceMatrix(C)
+  if (isS4(from)) object@id <- from@id
   methods::validObject(object)
   return(object)
 }

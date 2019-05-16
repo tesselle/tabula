@@ -7,11 +7,15 @@ setMethod(
   f = "show",
   signature = "BootCA",
   definition = function(object) {
-    keep <- length(object@keep)
-    total <- nrow(object@lengths)
+    cut <- paste(round(object@cutoff, digits = 2), c("(rows)", "(columns)"),
+                 collapse = " - ", sep = " ")
+    keep <- lengths(object@keep)
+    total <- lengths(object@lengths)
+    pc <- round(keep * 100 / total)
     cat("Partial bootstrap CA seriation refinement:", "\n",
-        "  Cutoff: ", round(object@cutoff, digits = 2), "\n",
-        "  Rows to keep: ", keep, " of ", total, " (", round(keep * 100 / total), "%)",
+        "  Cutoff values: ", cut, "\n",
+        "  Rows to keep: ", keep[1], " of ", total[1], " (", pc[1], "%)", "\n",
+        "  Columns to keep: ", keep[2], " of ", total[2], " (", pc[2], "%)",
         sep = "")
   }
 )
@@ -112,6 +116,7 @@ setMethod(
       object@columns
     }
     cat("Permutation order for matrix seriation:", "\n",
+        "  Matrix ID:", object@id, "\n",
         "  Row order:", rows, "\n",
         "  Column order:", columns, "\n",
         "  Method:", object@method,

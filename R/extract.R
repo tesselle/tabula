@@ -4,30 +4,14 @@ NULL
 
 # BootCA =======================================================================
 #' @export
-#' @describeIn BootCA Extracts informations from a slot selected by subscript
-#'  \code{i}.
-#' @aliases [[,BootCA-method
-setMethod(
-  f = "[[",
-  signature = "BootCA",
-  definition = function(x, i) {
-    i <- match.arg(i, choices = methods::slotNames("BootCA"),
-                   several.ok = FALSE)
-    data <- methods::slot(x, i)
-    return(data)
-  }
-)
-
-#' @export
-#' @describeIn BootCA Allows to select a slot thru \code{j}.
+#' @rdname extract-method
 #' @aliases [,BootCA-method
 setMethod(
   f = "[",
   signature = "BootCA",
-  definition = function(x, i, j) {
-    i <- match.arg(i, choices = c("rows", "columns", "lengths"),
-                   several.ok = FALSE)
-    data <- methods::slot(x, i)
+  definition = function(x, i, j, drop = TRUE) {
+    i <- match.arg(i, choices = c("rows", "columns"), several.ok = FALSE)
+    data <- as.data.frame(methods::slot(x, i))
 
     if (missing(j)) {
       j <- 1:nrow(data)
@@ -36,29 +20,12 @@ setMethod(
       if (is.character(j) | is.factor(j)) j <- which(data$id %in% j)
       if (is.numeric(j)) j <- as.integer(j)
     }
-    data <- data[j, ]
+    data <- data[j, , drop = drop]
     return(data)
   }
 )
-
-# DateModel ====================================================================
 #' @export
-#' @describeIn DateModel Extracts informations from a slot selected by subscript
-#'  \code{i}.
-#' @aliases [[,DateModel-method
-setMethod(
-  f = "[[",
-  signature = "DateModel",
-  definition = function(x, i){
-    i <- match.arg(i, choices = methods::slotNames("DateModel"),
-                   several.ok = FALSE)
-    data <- methods::slot(x, i)
-    return(data)
-  }
-)
-
-#' @export
-#' @describeIn DateModel Allows to select a slot thru \code{j}.
+#' @rdname extract-method
 #' @aliases [,DateModel-method
 setMethod(
   f = "[",
@@ -85,41 +52,100 @@ setMethod(
   }
 )
 
-# PermutationOrder =============================================================
+# ------------------------------------------------------------------------------
+#' Helper to Extract Parts of an Object
+#'
+#' @inheritParams extract
+#' @author N. Frerebeau
+#' @keywords internal
+#' @noRd
+extractSlot <- function(x, i) {
+  class_name <- class(x)
+  i <- match.arg(i, choices = methods::slotNames(class_name),
+                 several.ok = FALSE)
+  data <- methods::slot(x, i)
+  return(data)
+}
+
 #' @export
-#' @param x A \code{PermutationOrder} object from which to extract element(s).
-#' @param i A \code{\link{character}} string specifying the element to extract.
-#'  Character vectors will be matched to the name of the slots.
-#' @describeIn PermutationOrder Extracts informations from a slot selected by
-#'  subscript \code{i}.
+#' @rdname extract-method
+#' @aliases [[,DateModel-method
+setMethod(
+  f = "[[",
+  signature = "DateModel",
+  definition = extractSlot
+)
+#' @export
+#' @rdname extract-method
+#' @aliases [[,BootCA-method
+setMethod(
+  f = "[[",
+  signature = "BootCA",
+  definition = function(x, i) {
+    data <- extractSlot(x, i)
+
+    if(i %in% c("rows", "columns")) {
+      data <- as.data.frame(data)
+    }
+    return(data)
+  }
+)
+#' @export
+#' @rdname extract-method
 #' @aliases [[,PermutationOrder-method
 setMethod(
   f = "[[",
   signature = "PermutationOrder",
-  definition = function(x, i){
-    i <- match.arg(i, choices = methods::slotNames("PermutationOrder"),
-                   several.ok = FALSE)
-    data <- methods::slot(x, i)
-    return(data)
-  }
+  definition = extractSlot
+)
+#' @export
+#' @rdname extract-method
+#' @aliases [[,CountMatrix-method
+setMethod(
+  f = "[[",
+  signature = "CountMatrix",
+  definition = extractSlot
+)
+#' @export
+#' @rdname extract-method
+#' @aliases [[,FrequencyMatrix-method
+setMethod(
+  f = "[[",
+  signature = "FrequencyMatrix",
+  definition = extractSlot
+)
+#' @export
+#' @rdname extract-method
+#' @aliases [[,IncidenceMatrix-method
+setMethod(
+  f = "[[",
+  signature = "IncidenceMatrix",
+  definition = extractSlot
+)
+#' @export
+#' @rdname extract-method
+#' @aliases [[,OccurrenceMatrix-method
+setMethod(
+  f = "[[",
+  signature = "OccurrenceMatrix",
+  definition = extractSlot
+)
+#' @export
+#' @rdname extract-method
+#' @aliases [[,SimilarityMatrix-method
+setMethod(
+  f = "[[",
+  signature = "SimilarityMatrix",
+  definition = extractSlot
 )
 
-# ==============================================================================
-#' Accessors
-#'
-#' @param x An object from which to extract element(s).
-#' @author N. Frerebeau
-#' @docType methods
-#' @name accessors
-#' @rdname accessors
-NULL
-
-#' @aliases totals
-#' @rdname accessors
+# Access =======================================================================
 #' @export
-setGeneric("totals", function(x) standardGeneric("totals"))
+#' @rdname access-method
+#' @aliases getID,ANY-method
+setMethod("getID", "ANY", function(x) x@id)
 
 #' @export
-#' @describeIn FrequencyMatrix Returns the row sums (counts).
-#' @aliases totals,FrequencyMatrix-method
-setMethod("totals", "FrequencyMatrix", function(x) x@totals)
+#' @rdname access-method
+#' @aliases getTotals,FrequencyMatrix-method
+setMethod("getTotals", "FrequencyMatrix", function(x) x@totals)

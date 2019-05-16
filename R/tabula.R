@@ -36,6 +36,7 @@
 #' @keywords internal
 "_PACKAGE"
 
+#' @importFrom methods new
 #' @importFrom magrittr %<>%
 #' @importFrom magrittr %>%
 #' @importFrom rlang :=

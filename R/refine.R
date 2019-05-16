@@ -13,22 +13,29 @@ setMethod(
     hull_rows <- bootHull(object, n = n, margin = 1, axes = axes, ...)
     hull_columns <- bootHull(object, n = n, margin = 2, axes = axes, ...)
     # Get convex hull maximal dimension length for each sample
-    hull_length <- sapply(X = hull_rows, function(x) {
+    length_rows <- sapply(X = hull_rows, function(x) {
       max(stats::dist(x, method = "euclidean"))
     })
-    lengths <- data.frame(id = names(hull_length), d = hull_length,
-                          row.names = seq_along(hull_length))
-    # Get cutoff value
-    limit <- cutoff(hull_length)
+    length_columns <- sapply(X = hull_columns, function(x) {
+      max(stats::dist(x, method = "euclidean"))
+    })
+    # Get cutoff values
+    limit_rows <- cutoff(length_rows)
+    limit_columns <- cutoff(length_columns)
     # Samples to be kept
-    keep <- which(hull_length < limit)
+    keep_rows <- which(length_rows < limit_rows)
+    keep_columns <- which(length_columns < limit_columns)
     # Bind hull vertices in a data.frame
     rows <- dplyr::bind_rows(hull_rows, .id = "id")
     cols <- dplyr::bind_rows(hull_columns, .id = "id")
 
-    methods::new("BootCA",
-                 rows = rows, columns = cols, cutoff = limit,
-                 lengths = lengths, keep = keep)
+    BootCA(
+      id = object[["id"]],
+      rows = as.list(rows), columns = as.list(cols),
+      lengths = list(length_rows, length_columns),
+      cutoff = c(limit_rows, limit_columns),
+      keep = list(keep_rows, keep_columns)
+    )
   }
 )
 

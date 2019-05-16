@@ -51,24 +51,37 @@ setMethod(
     j <- 1:p
 
     # Correspondance analysis
-    index <- subset[["keep"]]
-    suppl <- if (length(index) < m) i[-index] else NULL
+    index_rows <- subset[["keep"]][[1]]
+    index_columns <- subset[["keep"]][[2]]
 
-    corresp <- FactoMineR::CA(object, row.sup = suppl, graph = FALSE, ...)
+    supp_rows <- supp_columns <- NULL
+    if (length(index_rows) < m & 1 %in% margin) {
+      supp_rows <- i[-index_rows]
+    }
+    if (length(index_columns) < p & 2 %in% margin) {
+      supp_columns <- j[-index_columns]
+    }
+
+    corresp <- FactoMineR::CA(object, row.sup = supp_rows,
+                              col.sup = supp_columns, graph = FALSE, ...)
 
     # Bind and reorder coords
-    all_coords <- rbind(corresp$row$coord, corresp$row.sup$coord)
-    ordered_coords <- all_coords[order(c(index, suppl)), ]
+    all_rows <- rbind(corresp$row$coord, corresp$row.sup$coord)
+    ordered_rows <- all_rows[order(c(index_rows, supp_rows)), ]
+    all_columns <- rbind(corresp$col$coord, corresp$col.sup$coord)
+    ordered_columns <- all_columns[order(c(index_columns, supp_columns)), ]
 
     # Sequence of the first axis as best seriation order
-    row_coords <- if (1 %in% margin) order(ordered_coords[, 1]) else i
-    col_coords <- if (2 %in% margin) order(corresp$col$coord[, 1]) else j
+    row_coords <- if (1 %in% margin) order(ordered_rows[, 1]) else i
+    col_coords <- if (2 %in% margin) order(ordered_columns[, 1]) else j
 
     # New PermutationOrder object
-    methods::new("PermutationOrder",
-                 rows = as.integer(row_coords),
-                 columns = as.integer(col_coords),
-                 method = "refined correspondance")
+    PermutationOrder(
+      id = object[["id"]],
+      rows = row_coords,
+      columns = col_coords,
+      method = "refined correspondance"
+    )
   }
 )
 
@@ -80,10 +93,13 @@ setMethod(
   f = "permute",
   signature = signature(object = "CountMatrix", order = "PermutationOrder"),
   definition = function(object, order) {
+    # Validation
+    if(object[["id"]] != order[["id"]])
+      stop("Matrix and permutation order do not match.")
     # Rearrange matrix
     new_matrix <- object[order@rows, order@columns]
     # New CountMatrix object
-    methods::new("CountMatrix", data = new_matrix)
+    .CountMatrix(new_matrix)
   }
 )
 
@@ -94,9 +110,12 @@ setMethod(
   f = "permute",
   signature = signature(object = "IncidenceMatrix", order = "PermutationOrder"),
   definition = function(object, order) {
+    # Validation
+    if(object[["id"]] != order[["id"]])
+      stop("Matrix and permutation order do not match.")
     # Rearrange matrix
     new_matrix <- object[order@rows, order@columns]
     # New CountMatrix object
-    methods::new("IncidenceMatrix", data = new_matrix)
+    .IncidenceMatrix(new_matrix)
   }
 )

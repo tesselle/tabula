@@ -6,7 +6,6 @@ NULL
 setValidity(
   Class = "BootCA",
   method = function(object) {
-    errors <- c()
     # Get data
     rows <- object@rows
     columns <- object@columns
@@ -14,61 +13,54 @@ setValidity(
     cutoff <- object@cutoff
     keep <- object@keep
 
-    if (length(rows) != 0) {
-      if (ncol(rows) != 3)
-        errors <- c(errors, paste(sQuote("rows"), "must be a three columns data frame."))
-      rows_names <- c("id", "x", "y")
-      if (!identical(colnames(rows), rows_names))
-        errors <- c(errors, paste(sQuote("rows"), "column names must be",
-                                  paste(dQuote(rows_names), collapse = ", ")))
-      rows_num <- apply(X = rows[, -1], MARGIN = 1, FUN = is.numeric)
-      if (!any(rows_num))
-        errors <- c(errors, paste(sQuote("rows"), "must be of numeric type."))
-      if (anyNA(rows))
-        errors <- c(errors, paste(sQuote("rows"), "must not contain missing values."))
-    }
-    if (length(columns) != 0) {
-      if (ncol(columns) != 3)
-        errors <- c(errors, paste(sQuote("columns"), "must be a three columns data frame."))
-      columns_names <- c("id", "x", "y")
-      if (!identical(colnames(columns), columns_names))
-        errors <- c(errors, paste(sQuote("columns"), "column names must be",
-                                  paste(dQuote(columns_names), collapse = ", ")))
-      columns_num <- apply(X = columns[, -1], MARGIN = 1, FUN = is.numeric)
-      if (!any(columns_num))
-        errors <- c(errors, paste(sQuote("columns"), "must be of numeric type."))
-      if (anyNA(columns))
-        errors <- c(errors, paste(sQuote("columns"), "must not contain missing values."))
-    }
-    if (length(lengths) != 0) {
-      if (ncol(lengths) != 2)
-        errors <- c(errors, paste(sQuote("lengths"), "must be a two columns data frame."))
-      lengths_names <- c("id", "d")
-      if (!identical(colnames(lengths), lengths_names))
-        errors <- c(errors, paste(sQuote("lengths"), "column names must be",
-                                  paste(dQuote(lengths_names), collapse = ", ")))
-      lengths_num <- apply(X = lengths[, -1, drop = FALSE], MARGIN = 1, FUN = is.numeric)
-      if (!any(lengths_num))
-        errors <- c(errors, paste(sQuote("lengths"), "must be of numeric type."))
-      if (anyNA(lengths))
-        errors <- c(errors, paste(sQuote("lengths"), "must not contain missing values."))
-    }
-    if (length(cutoff) != 0) {
-      if (length(cutoff) != 1 | !is.numeric(cutoff) | anyNA(cutoff))
-        errors <- c(errors, paste(dQuote("cutoff"), "must be a length-one numeric vector"))
-    }
-    if (length(keep) != 0) {
-      if (!is.numeric(keep))
-        errors <- c(errors, paste(sQuote("keep"), "must be a numeric vector."))
-      if (anyNA(keep))
-        errors <- c(errors, paste(sQuote("keep"), "must not contain missing values."))
-    }
+    errors <- list(
+      rows = c(
+        unlist(mapply(
+          FUN = checkClass, rows, list("factor", "numeric", "numeric")
+        )),
+        unlist(sapply(X = rows, FUN = checkIfNA)),
+        unlist(sapply(X = rows[c(2, 3)], FUN = checkIfNaN)),
+        unlist(sapply(X = rows[c(2, 3)], FUN = checkIfInf)),
+        checkLength(rows, expected = 3),
+        checkLengths(rows),
+        checkNames(rows, expected = c("id", "x", "y"))
+      ),
+      columns = c(
+        unlist(mapply(
+          FUN = checkClass, columns, list("factor", "numeric", "numeric")
+        )),
+        unlist(sapply(X = columns, FUN = checkIfNA)),
+        unlist(sapply(X = columns[c(2, 3)], FUN = checkIfNaN)),
+        unlist(sapply(X = columns[c(2, 3)], FUN = checkIfInf)),
+        checkLength(columns, expected = 3),
+        checkLengths(columns),
+        checkNames(columns, expected = c("id", "x", "y"))
+      ),
+      lengths = c(
+        unlist(sapply(X = lengths, FUN = checkClass, expected = "numeric")),
+        unlist(sapply(X = lengths, FUN = checkIfNA)),
+        unlist(sapply(X = lengths, FUN = checkIfNaN)),
+        unlist(sapply(X = lengths, FUN = checkIfInf)),
+        checkLength(lengths, expected = 2),
+        checkNames(lengths[[1]]),
+        checkNames(lengths[[2]])
+      ),
+      cutoff = c(
+        checkLength(cutoff, expected = 2),
+        checkIfNA(cutoff),
+        checkIfNaN(cutoff),
+        checkIfInf(cutoff)
+      ),
+      keep = c(
+        unlist(sapply(X = keep, FUN = checkClass, expected = "integer")),
+        unlist(sapply(X = keep, FUN = checkIfNA)),
+        unlist(sapply(X = keep, FUN = checkIfNaN)),
+        unlist(sapply(X = keep, FUN = checkIfInf)),
+        checkLength(keep, expected = 2)
+      )
+    )
     # Return errors if any
-    if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
-    } else {
-      return(TRUE)
-    }
+    returnSlotErrors(object, errors)
   }
 )
 
@@ -158,7 +150,7 @@ setValidity(
         errors <- c(errors, paste(sQuote("jackknife"), "and", sQuote("bootstrap"), "must have the same number of rows."))
     # Return errors if any
     if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
+      printErrors(object, errors, call = FALSE)
     } else {
       return(TRUE)
     }
@@ -169,38 +161,35 @@ setValidity(
 setValidity(
   Class = "PermutationOrder",
   method = function(object) {
-    errors <- c()
     # Get data
+    id <- object@id
     rows <- object@rows
     columns <- object@columns
     method <- object@method
 
-    if (length(rows) != 0) {
-      if (!is.integer(rows) | anyNA(rows) | !isPositive(rows, strict = TRUE))
-        errors <- c(errors, paste(sQuote("rows"), "must be a vector of strictly positive integers."))
-      if (length(columns) == 0)
-        errors <- c(errors, paste(sQuote("columns"), "is empty."))
-    }
-    if (length(columns) != 0) {
-      if (!is.integer(columns) | anyNA(columns) | !isPositive(columns, strict = TRUE))
-        errors <- c(errors, paste(sQuote("columns"), "must be a vector of strictly positive integers."))
-      if (length(rows) == 0)
-        errors <- c(errors, paste(sQuote("columns"), "is empty."))
-    }
-    if (length(method) != 0) {
-      if (length(method) != 1 | !is.character(method)) {
-        errors <- c(errors, paste(sQuote("method"), "must be a single character string."))
-      }
-    }
-    if (length(rows) != 0 & length(columns) != 0 & length(method) == 0) {
-      errors <- c(errors, paste(sQuote("method"), "is missing."))
-    }
+    errors <- list(
+      # Check id
+      id = c(
+        checkLength(id, expected = 1),
+        checkIfNA(id),
+        checkIfUUID(id)
+      ),
+      rows = c(
+        checkIfNA(rows),
+        checkIfPositive(rows, strict = TRUE, na.rm = TRUE)
+      ),
+      columns = c(
+        checkIfNA(columns),
+        checkIfPositive(columns, strict = TRUE, na.rm = TRUE)
+      ),
+      method = c(
+        checkIfNA(method),
+        checkLength(method, expected = 1)
+      )
+    )
+
     # Return errors if any
-    if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
-    } else {
-      return(TRUE)
-    }
+    returnSlotErrors(object, errors)
   }
 )
 
@@ -213,43 +202,30 @@ setValidity(
     coordinates <- object@coordinates
     epsg <- object@epsg
 
-    errors <- c(
-      # Check dates
-      checkList(dates, mode = "numeric", names = c("value", "error"),
-                length = 2, lengths = NULL, na = TRUE, nan = FALSE,
-                inf = FALSE),
-      # Check coordinates
-      checkList(coordinates, mode = "numeric", names = c("x", "y", "z"),
-                length = 3, lengths = NULL, na = TRUE, nan = FALSE,
-                inf = FALSE),
-      # Check EPSG
-      checkVector(epsg, mode = "integer", names = NULL, length = 1,
-                  na = FALSE, required = FALSE)
+    # Check dates
+    errors <- list(
+      dates = c(
+        unlist(sapply(X = dates, FUN = checkType, expected = "numeric")),
+        unlist(sapply(X = dates, FUN = checkIfInf)),
+        checkLength(dates, expected = 2),
+        checkLengths(dates),
+        checkNames(dates, expected = c("value", "error"))
+      ),
+      coordinates = c(
+        unlist(sapply(X = coordinates, FUN = checkType, expected = "numeric")),
+        unlist(sapply(X = coordinates, FUN = checkIfInf)),
+        checkLength(coordinates, expected = 3),
+        checkLengths(coordinates),
+        checkNames(coordinates, expected = c("x", "y", "z"))
+      ),
+      epsg = c(
+        checkLength(epsg, expected = 1),
+        checkIfNA(epsg)
+      )
     )
-    # Check lengths
-    if (length(dates) != 0 | length(coordinates) != 0) {
-      i <- lengths(dates)
-      j <- lengths(coordinates)
-      if (!isEqual(c(i, j))) {
-        errors <- c(
-          errors,
-          sprintf("all elements of %s and %s should have the same length",
-                  sQuote("dates"), sQuote("coordinates"))
-        )
-      }
-    }
 
     # Return errors if any
-    if (length(errors) != 0) {
-      stop(sprintf(
-        "%s\n  %s.",
-        dQuote(class(object)),
-        paste(errors, sep = " ", collapse = ";\n  ")
-      ),
-      call. = FALSE)
-    } else {
-      return(TRUE)
-    }
+    returnSlotErrors(object, errors)
   }
 )
 # Matrix =======================================================================
@@ -258,40 +234,24 @@ setValidity(
   method = function(object) {
     # Get data
     data <- S3Part(object, strictS3 = TRUE, "matrix")
-    uuid <- object@uuid
-    cases <- object@cases
-    types <- object@types
+    id <- object@id
 
-    n <- nrow(data)
-    m <- ncol(data)
-    errors <- c(
-      # Check uuid
-      checkVector(uuid, mode = "character", names = NULL, length = 1,
-                  na = FALSE, required = TRUE),
-      # Check cases
-      checkVector(cases, mode = "character", names = NULL, length = n,
-                  na = FALSE, required = FALSE),
-      # Check types
-      checkVector(types, mode = "character", names = NULL, length = m,
-                  na = FALSE, required = FALSE)
+    errors <- list(
+      # Check data
+      data = c(
+        checkIfInf(data),
+        checkIfNA(data),
+        checkIfNaN(data)
+      ),
+      # Check id
+      id = c(
+        checkLength(id, expected = 1),
+        checkIfNA(id),
+        checkIfUUID(id)
+      )
     )
-    # Check UUID
-    if (length(uuid) == 1) {
-      if(nchar(uuid) != 36) {
-        errors <- c(
-          errors,
-          sprintf("%s should be a 36 characters long string (UUIDv4)",
-                  sQuote("uuid"))
-        )
-      }
-    }
-
     # Return errors if any
-    if (length(errors) != 0) {
-      printErrors(object, errors, call = FALSE)
-    } else {
-      return(TRUE)
-    }
+    returnSlotErrors(object, errors)
   }
 )
 
@@ -299,24 +259,16 @@ setValidity(
 setValidity(
   Class = "NumericMatrix",
   method = function(object) {
-    errors <- c()
     # Get data
     data <- S3Part(object, strictS3 = TRUE, "matrix")
 
-    # Check data
-    if (length(data) != 0) {
-      if (!is.numeric(data))
-        errors <- c(errors, "Numeric values are expected")
-      if (!all(is.finite(data)))
-        errors <- c(errors, "Missing or infinite values were detected")
-    }
+    errors <- list(
+      # Check data
+      data = checkType(data, expected = "numeric")
+    )
 
     # Return errors if any
-    if (length(errors) != 0) {
-      printErrors(object, errors, call = FALSE)
-    } else {
-      return(TRUE)
-    }
+    returnSlotErrors(object, errors)
   }
 )
 
@@ -324,26 +276,20 @@ setValidity(
 setValidity(
   Class = "CountMatrix",
   method = function(object) {
-    errors <- c()
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
 
-    # Check data
-    if (length(data) != 0) {
-      if (sum(!isWholeNumber(data)) != 0)
-        errors <- c(errors, "Whole numbers are expected")
-      if (isBinary(data))
-        errors <- c(errors, "You should consider using an incidence matrix")
-      if (!isPositive(data))
-        errors <- c(errors, "Positive values are expected")
-    }
+    errors <- list(
+      # Check data
+      data = c(
+        checkIfPositive(data, strict = FALSE, na.rm = TRUE),
+        checkIfWholeNumber(data),
+        checkIfBinaryMatrix(data)
+      )
+    )
 
     # Return errors, if any
-    if (length(errors) != 0) {
-      printErrors(object, errors, call = FALSE)
-    } else {
-      return(TRUE)
-    }
+    returnSlotErrors(object, errors)
   }
 )
 
@@ -351,33 +297,24 @@ setValidity(
 setValidity(
   Class = "FrequencyMatrix",
   method = function(object) {
-    errors <- c()
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     totals <- object@totals
 
-    # Check data
-    if (length(data) != 0) {
-      if (!isEqual(rowSums(data, na.rm = TRUE)))
-        errors <- c(errors, "Constant row sums are expected")
-      if (isBinary(data))
-        errors <- c(errors, "You should consider using an incidence matrix")
-      if (!isPositive(data))
-        errors <- c(errors, "Positive values are expected")
-
-      k <- length(totals)
-      n <- nrow(data)
-      if (k != n)
-        errors <- c(errors, sprintf("%s should be of length %d, not %d.",
-                                    sQuote("totals"), n, k))
-    }
+    errors <- list(
+      # Check data
+      data = c(
+        checkIfPositive(data, strict = FALSE, na.rm = TRUE),
+        checkIfConstantSum(data)
+      ),
+      # Check totals
+      totals = c(
+        checkLength(totals, expected = nrow(data))
+      )
+    )
 
     # Return errors, if any
-    if (length(errors) != 0) {
-      printErrors(object, errors, call = FALSE)
-    } else {
-      return(TRUE)
-    }
+    returnSlotErrors(object, errors)
   }
 )
 
@@ -385,28 +322,18 @@ setValidity(
 setValidity(
   Class = "OccurrenceMatrix",
   method = function(object) {
-    errors <- c()
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
-    cases <- object@cases
-    types <- object@types
 
-    # Check data
-    if (length(data) != 0) {
-      if (!isSquare(data))
-        errors <- c(errors, "A square matrix is expected")
-      if (!isSymmetric(data))
-        errors <- c(errors, "A symmetric matrix is expected")
-      if (!identical(rownames(data), colnames(data)) | !identical(cases, types))
-        errors <- c(errors, "Rows and columns must have the same names")
-    }
+    errors <- list(
+      # Check data
+      data = c(
+        checkIfSymmetric(data)
+      )
+    )
 
     # Return errors, if any
-    if (length(errors) != 0) {
-      printErrors(object, errors, call = FALSE)
-    } else {
-      return(TRUE)
-    }
+    returnSlotErrors(object, errors)
   }
 )
 
@@ -414,32 +341,23 @@ setValidity(
 setValidity(
   Class = "SimilarityMatrix",
   method = function(object) {
-    errors <- c()
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
-    cases <- object@cases
-    types <- object@types
     method <- object@method
 
-    # Check data
-    if (length(data) != 0) {
-      if (!isSquare(data))
-        errors <- c(errors, "A square matrix is expected")
-      if (!isSymmetric(data))
-        errors <- c(errors, "A symmetric matrix is expected")
-      if (!identical(rownames(data), colnames(data)) | !identical(cases, types))
-        errors <- c(errors, "Rows and columns must have the same names")
-      if (length(method) != 1)
-        errors <- c(errors, sprintf("%s must be a single character string",
-                                    sQuote("method")))
-    }
+    errors <- list(
+      # Check data
+      data = c(
+        checkIfSymmetric(data)
+      ),
+      # Check method
+      method = c(
+        checkLength(method, expected = 1)
+      )
+    )
 
     # Return errors, if any
-    if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
-    } else {
-      return(TRUE)
-    }
+    returnSlotErrors(object, errors)
   }
 )
 
@@ -447,24 +365,15 @@ setValidity(
 setValidity(
   Class = "LogicalMatrix",
   method = function(object) {
-    errors <- c()
     # Get data
-    data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
+    data <- S3Part(object, strictS3 = TRUE, "matrix")
 
-    # Check data
-    if (length(data) != 0) {
-      if (!is.logical(data))
-        errors <- c("Logical values are expected")
-      if (any(!is.finite(data)))
-        errors <- c(errors, "Missing or infinite values were detected")
-    }
+    errors <- list(
+      # Check data
+      data = checkType(data, expected = "logical")
+    )
 
-    # Return errors, if any
-    if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
-    } else {
-      return(TRUE)
-    }
+    # Return errors if any
+    returnSlotErrors(object, errors)
   }
 )
-

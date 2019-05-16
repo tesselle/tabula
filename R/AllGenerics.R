@@ -2,6 +2,65 @@
 #' @include AllClasses.R coerce.R
 NULL
 
+# ==============================================================================
+#' Extract or Replace Parts of an Object
+#'
+#' Getters and setters to extract or replace parts of an object.
+#' @param x An object from which to extract element(s).
+#' @author N. Frerebeau
+#' @docType methods
+#' @name access
+#' @rdname access-method
+#' @aliases access-method
+NULL
+
+#' @export
+#' @rdname access-method
+setGeneric("getID", function(x) standardGeneric("getID"))
+
+#' @export
+#' @rdname access-method
+setGeneric("getTotals", function(x) standardGeneric("getTotals"))
+
+#' @export
+#' @rdname access-method
+setGeneric("getDates", function(x) standardGeneric("getDates"))
+
+#' @export
+#' @rdname access-method
+setGeneric("setDates", function(x) standardGeneric("setDates"))
+
+#' @export
+#' @rdname access-method
+setGeneric("getCoordinates", function(x) standardGeneric("getCoordinates"))
+
+#' @export
+#' @rdname access-method
+setGeneric("setCoordinates", function(x) standardGeneric("setCoordinates"))
+
+# ------------------------------------------------------------------------------
+#' Extract or Replace Parts of an Object
+#'
+#' Operators acting on objects to extract or replace parts.
+#' @param x An object from which to extract element(s) or in which to replace
+#'  element(s).
+#' @param i,j Indices specifying elements to extract or replace. Indices are
+#'  \code{\link{numeric}}, \code{\link{integer}} or \code{\link{character}}
+#'  vectors or empty (missing) or \code{NULL}. Numeric values are coerced to
+#'  \code{\link{integer}} as by \code{\link{as.integer}} (and hence truncated
+#'  towards zero). Character vectors will be matched to the name of the
+#'  elements. An empty index (a comma separated blank) indicates that all
+#'  entries in that dimension are selected.
+#' @param drop A \code{\link{logical}} scalar: should the result be coerced to
+#'  the lowest possible dimension? This only works for extracting elements,
+#'  not for the replacement.
+#' @author N. Frerebeau
+#' @docType methods
+#' @name extract
+#' @rdname extract-method
+#' @aliases extract-method
+NULL
+
 # Date =========================================================================
 #' Date archaeological assemblages
 #'
