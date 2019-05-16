@@ -3,6 +3,7 @@
 \docType{class}
 \name{SpaceTime-class}
 \alias{SpaceTime-class}
+\alias{.SpaceTime}
 \title{Space and Time}
 \description{
 An S4 class to reprensent space-time informations.
@@ -11,11 +12,11 @@ An S4 class to reprensent space-time informations.
 
 \describe{
 \item{\code{dates}}{A list of two \code{\link{numeric}} vectors giving
-the mean date and error, respectively.}
+the date \code{value} and \code{error}, respectively.}
 
 \item{\code{coordinates}}{A list of three \code{\link{numeric}} vectors
-giving the geographic coordinates (longitude, latitude and elevation,
-respectively).}
+(\code{x}, \code{y} and \code{z}) giving the geographic coordinates
+(longitude, latitude and elevation, respectively).}
 
 \item{\code{epsg}}{An \code{\link{integer}} giving the EPSG code of the spatial
 reference system used. Numeric values are coerced to \code{\link{integer}}

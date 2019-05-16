@@ -3,11 +3,12 @@
 \docType{class}
 \name{IncidenceMatrix-class}
 \alias{IncidenceMatrix-class}
+\alias{.IncidenceMatrix}
 \alias{IncidenceMatrix}
 \title{Incidence matrix}
 \usage{
-IncidenceMatrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
-  dimnames = NULL)
+IncidenceMatrix(data = FALSE, nrow = 1, ncol = 1, byrow = FALSE,
+  dimnames = NULL, ...)
 }
 \arguments{
 \item{data}{an optional data vector (including a list or
@@ -26,6 +27,8 @@ IncidenceMatrix(data = NA, nrow = 1, ncol = 1, byrow = FALSE,
     names respectively.  An empty list is treated as \code{NULL}, and a
     list of length one as row names.  The list can be named, and the
     list names will be used as names for the dimensions.}
+
+\item{...}{additional arguments to be passed to or from methods.}
 }
 \description{
 An S4 class to represent an incidence (presence/absence) matrix.
@@ -34,6 +37,47 @@ An S4 class to represent an incidence (presence/absence) matrix.
 Numeric values are coerced to \code{\link{logical}} as by
  \code{\link[base]{as.logical}}.
 }
+\section{Matrix ID}{
+
+ When a matrix is first created, an identifier is generated (UUID v4).
+ This ID is preserved when coercing to another class. Thus, the object ID is
+ unique within the same class, but two objects of different classes can have
+ the same ID. This makes it possible to identify objects representing the
+ same initial data and associate them with the results of specific
+ computations (e. g. \link[=seriate]{seriation}).
+}
+
+\section{Access}{
+
+ In the code snippets below, \code{x} is a \code{*Matrix} object.
+ \describe{
+  \item{\code{dim(x)}}{Get the dimension of \code{x}.}
+  \item{\code{colnames(x)}, \code{colnames(x) <- value}}{Get or set the
+  column names of \code{x} according to \code{value}.}
+  \item{\code{rownames(x)}, \code{rownames(x) <- value}}{Get or set the
+  row names of \code{x} according to \code{value}.}
+  \item{\code{getID(x)}}{Get the ID of \code{x}.}
+ }
+}
+
+\section{Subset}{
+
+ In the code snippets below, \code{x} is a \code{*Matrix} object.
+ \describe{
+  \item{\code{x[i, j]}}{Extracts elements selected by subscripts \code{i}
+  and \code{j}. Indices are \code{\link{numeric}}, \code{\link{integer}} or
+  \code{\link{character}} vectors or empty (missing) or \code{NULL}.
+  Numeric values are coerced to \code{\link{integer}} as by
+  \code{\link{as.integer}} (and hence truncated towards zero).
+  Character vectors will be matched to the name of the elements.
+  An empty index (a comma separated blank) indicates that all
+  entries in that dimension are selected.
+  Returns an object of the same class as \code{x}.}
+  \item{\code{x[[i]]}}{Extracts informations from a slot selected by
+  subscript \code{i}. \code{i} should be one of "\code{id}" or \code{NULL}.}
+ }
+}
+
 \examples{
 # Create an incidence (presence/absence) matrix
 # Data will be coerced with as.logical()

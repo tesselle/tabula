@@ -128,7 +128,7 @@ A1 <- CountMatrix(data = sample(0:10, 100, TRUE),
 B <- as(A1, "FrequencyMatrix")
 
 # Row sums are internally stored before coercing to a frequency matrix
-totals(B)
+getTotals(B)
 # This allows to restore the source data
 A2 <- as(B, "CountMatrix")
 all(A1 == A2)
