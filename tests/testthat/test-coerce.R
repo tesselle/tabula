@@ -61,7 +61,7 @@ test_that("data.frame <> CountMatrix", {
 test_that("data.frame <> FrequencyMatrix", {
   B <- as(df_freq, "FrequencyMatrix")
   expect_s4_class(B, "FrequencyMatrix")
-  # expect_identical(as(B, "data.frame"), df_freq)
+  expect_equal(as(B, "data.frame"), df_freq)
 
   expect_s4_class(as(df_count, "FrequencyMatrix"), "FrequencyMatrix")
   expect_s4_class(as(df_incid, "FrequencyMatrix"), "FrequencyMatrix")

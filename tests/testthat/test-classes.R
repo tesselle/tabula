@@ -1,60 +1,65 @@
-context("Classes initialization")
+context("Classes")
 options("verbose" = TRUE)
 
 # Seriation ====================================================================
-test_that("Initialize an empty PermutationOrder object", {
-  expect_s4_class(new("PermutationOrder"), "PermutationOrder")
-})
 test_that("Initialize a PermutationOrder object", {
-  expect_s4_class(
-    new("PermutationOrder", rows = 1:10, columns = 1:10, method = "X"),
-    "PermutationOrder"
-  )
+  expect_s4_class(.PermutationOrder(), "PermutationOrder")
+  expect_message(PermutationOrder())
 
-  expect_error(new("PermutationOrder", rows = 1:10))
-  expect_error(new("PermutationOrder", columns = 1:10, rows = LETTERS))
-  expect_error(new("PermutationOrder", columns = 1:10, rows = 0:10))
-  expect_error(new("PermutationOrder", columns = 1:10, rows = -5:-1))
-  expect_error(new("PermutationOrder", columns = 1:10, rows = c(1,2,NA)))
+  expect_s4_class(PermutationOrder(rows = 1:10, columns = 1:10, method = "X"),
+                  "PermutationOrder")
 
-  expect_error(new("PermutationOrder", columns = 1:10))
-  expect_error(new("PermutationOrder", rows = 1:10, columns = LETTERS))
-  expect_error(new("PermutationOrder", rows = 1:10, columns = 0:10))
-  expect_error(new("PermutationOrder", rows = 1:10, columns = -5:-1))
-  expect_error(new("PermutationOrder", rows = 1:10, columns = c(1,2,NA)))
-
-  expect_error(new("PermutationOrder", rows = 1:10, columns = 1:10))
-  expect_error(new("PermutationOrder", method = NA))
-  expect_error(new("PermutationOrder", method = 1))
-  expect_error(new("PermutationOrder", method = LETTERS))
-})
-test_that("Initialize an empty BootCA object", {
-  expect_s4_class(new("BootCA"), "BootCA")
+  expect_error(PermutationOrder(id = NA_character_),
+               "a missing value was detected")
+  expect_error(PermutationOrder(id = LETTERS),
+               "should be of length 1, not 26")
+  expect_error(PermutationOrder(id = "a"),
+               "should be 36 characters long string, not 1")
+  expect_error(PermutationOrder(columns = 1:10, rows = 0:10),
+               "positive values are expected")
+  expect_error(PermutationOrder(columns = 1:10, rows = -5:-1),
+               "positive values are expected")
+  expect_error(PermutationOrder(columns = 1:10, rows = c(1, 2, NA)),
+               "a missing value was detected")
+  expect_error(PermutationOrder(rows = 1:10, columns = 0:10),
+               "positive values are expected")
+  expect_error(PermutationOrder(rows = 1:10, columns = -5:-1),
+               "positive values are expected")
+  expect_error(PermutationOrder(rows = 1:10, columns = c(1, 2, NA)),
+               "a missing value was detected")
+  expect_error(PermutationOrder(method = NA_character_),
+               "a missing value was detected")
+  expect_error(PermutationOrder(method = LETTERS),
+               "should be of length 1, not 26")
 })
 test_that("Initialize a BootCA object", {
+  expect_s4_class(.BootCA(), "BootCA")
+  expect_s4_class(BootCA(), "BootCA")
+
   expect_s4_class(
-    new("BootCA",
-        rows = data.frame(id = LETTERS, x = 1:26, y = 1:26),
-        columns = data.frame(id = LETTERS, x = 1:26, y = 1:26),
-        length = data.frame(id = LETTERS, d = 1:26),
-        cutoff = 3,
-        keep = 1:3),
+    BootCA(
+      rows = list(id = LETTERS, x = 1:26, y = 1:26),
+      columns = list(id = letters, x = 1:26, y = 1:26),
+      lengths = list(1:26, 1:26),
+      cutoff = c(3, 2),
+      keep = list(1:3, 1:3)
+    ),
     "BootCA"
   )
 
-  expect_error(new("BootCA", rows = data.frame(1:5)))
-  expect_error(new("BootCA", rows = data.frame(id = 1:26, m = 1:26, n = 1:26)))
-  expect_error(new("BootCA", rows = data.frame(id = 1:26, x = LETTERS, y = 1:26)))
+  expect_error(new("BootCA", rows = list(1:5)))
+  expect_error(new("BootCA", rows = list(id = 1:26, m = 1:26, n = 1:26)))
+  expect_error(new("BootCA", rows = list(id = 1:26, x = LETTERS, y = 1:26)))
 
-  expect_error(new("BootCA", columns = data.frame(1:5)))
-  expect_error(new("BootCA", columns = data.frame(id = 1:26, m = 1:26, n = 1:26)))
-  expect_error(new("BootCA", columns = data.frame(id = 1:26, x = LETTERS, y = 1:26)))
+  expect_error(new("BootCA", columns = list(1:5)))
+  expect_error(new("BootCA", columns = list(id = 1:26, m = 1:26, n = 1:26)))
+  expect_error(new("BootCA", columns = list(id = 1:26, x = LETTERS, y = 1:26)))
 
   expect_error(new("BootCA", lengths = LETTERS))
-  expect_error(new("BootCA", lengths = data.frame(id = 1:26, m = 1:26)))
-  expect_error(new("BootCA", lengths = data.frame(id = 1:26, d = LETTERS)))
+  expect_error(new("BootCA", lengths = list(id = 1:26, m = 1:26)))
+  expect_error(new("BootCA", lengths = list(id = 1:26, d = LETTERS)))
 
-  expect_error(new("BootCA", cutoff = 1:2))
+  expect_error(new("BootCA", cutoff = 1:3))
   expect_error(new("BootCA", keep = LETTERS))
 })
 # Dating =======================================================================

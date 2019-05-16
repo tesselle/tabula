@@ -5,17 +5,16 @@ test_that("BootCA", {
 
   expect_is(boot_ca[["rows"]], "data.frame")
   expect_is(boot_ca[["columns"]], "data.frame")
-  expect_is(boot_ca[["lengths"]], "data.frame")
+  expect_is(boot_ca[["lengths"]], "list")
   expect_is(boot_ca[["cutoff"]], "numeric")
-  expect_is(boot_ca[["keep"]], "numeric")
+  expect_is(boot_ca[["keep"]], "list")
   expect_error(boot_ca[["X"]])
 
-  expect_is(boot_ca["rows", ], "data.frame")
-  expect_is(boot_ca["rows", NULL], "data.frame")
-  expect_is(boot_ca["rows", 1], "data.frame")
-  expect_is(boot_ca["rows", "a"], "data.frame")
-  expect_is(boot_ca["columns", ], "data.frame")
-  expect_is(boot_ca["lengths", ], "data.frame")
+  expect_is(boot_ca["rows", , drop = FALSE], "data.frame")
+  expect_is(boot_ca["rows", NULL , drop = FALSE], "data.frame")
+  expect_is(boot_ca["rows", 1 , drop = FALSE], "data.frame")
+  expect_is(boot_ca["rows", "a" , drop = FALSE], "data.frame")
+  expect_is(boot_ca["columns",  , drop = FALSE], "data.frame")
   expect_error(boot_ca["X", ])
 })
 test_that("DateModel", {
@@ -52,7 +51,7 @@ test_that("DateModel", {
 })
 test_that("NumericMatrix", {
   freq <- new("FrequencyMatrix")
-  expect_is(totals(freq), "numeric")
+  expect_is(getTotals(freq), "numeric")
 })
 test_that("PermutationOrder", {
   perm_order <- new("PermutationOrder")
