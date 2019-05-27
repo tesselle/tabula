@@ -40,30 +40,31 @@ test_that("Initialize a SpaceTime instance", {
   dates[[1]][1] <- NA_real_
   coord[[1]][1] <- NA_real_
   expect_s4_class(SpaceTime(dates = dates, coordinates = coord), "SpaceTime")
-  expect_error(SpaceTime(epsg = NA), "a missing value was detected")
+  expect_error(SpaceTime(epsg = NA),
+               "`epsg` must not contain missing values")
 
   # Try Inf
   dates[[1]][1] <- Inf
   coord[[1]][1] <- Inf
   expect_error(SpaceTime(dates = dates, coordinates = coord),
-               "an infinite value was detected")
+               "`x` must not contain infinite values")
   # Try character
   dates[[1]][1] <- "A"
   coord[[1]][1] <- "A"
   expect_error(SpaceTime(dates = dates, coordinates = coord),
-               "should be of numeric type")
+               "`x` must be numeric; not character.")
   # Check length
   dates[[1]] <- 1:5
   coord[[1]] <- 1:7
   expect_error(SpaceTime(dates = dates, coordinates = coord),
-               "should have the same length")
+               "must have equal lengths")
   expect_error(SpaceTime(epsg = 1:2),
-               "should be of length 1, not 2")
+               "`epsg` must be a scalar")
   # Check names
   names(dates) <- NULL
   names(coord) <- NULL
   expect_error(SpaceTime(dates = dates, coordinates = coord),
-               "should have the following names")
+               "must have the following names")
 })
 # Matrix =======================================================================
 test_that("Initialize a Matrix instance", {
@@ -76,17 +77,17 @@ test_that("Initialize a Matrix instance", {
   expect_identical(dimnames(MTX1), list(LETTERS[1:10], LETTERS[26:17]))
 
   expect_error(.Matrix(matrix(NA, 1, 1)),
-               "a missing value was detected")
+               "`data` must not contain missing values")
   expect_error(.Matrix(matrix(NaN, 1, 1)),
-               "a non-number value was detected")
+               "`data` must not contain missing values")
   expect_error(.Matrix(matrix(Inf, 1, 1)),
-               "an infinite value was detected")
+               "`data` must not contain infinite values")
   expect_error(.Matrix(id = NA_character_),
-               "a missing value was detected")
+               "`id` must be a character string.")
   expect_error(.Matrix(id = LETTERS),
-               "should be of length 1, not 26")
+               "`id` must be a character string.")
   expect_error(.Matrix(id = "a"),
-               "should be 36 characters long string, not 1")
+               "must be a 36 characters long string")
 })
 # Numeric matrix ===============================================================
 test_that("Initialize a NumericMatrix instance", {
@@ -99,19 +100,19 @@ test_that("Initialize a NumericMatrix instance", {
 
   # Try logical
   expect_error(NumericMatrix(mtx_incid),
-               "should be of numeric type")
+               "`data` must be numeric; not logical.")
   # Try character
   expect_error(NumericMatrix(mtx_character),
-               "should be of numeric type")
+               "`data` must be numeric; not character.")
   # Try NA
   expect_error(NumericMatrix(mtx_num_na),
-               "10 missing values were detected")
+               "`data` must not contain missing values")
   # Try NaN
   expect_error(NumericMatrix(mtx_num_nan),
-               "10 non-number values were detected")
+               "`data` must not contain missing values")
   # Try Inf
   expect_error(NumericMatrix(mtx_num_inf),
-               "10 infinite values were detected")
+               "`data` must not contain infinite values")
 })
 ## Count matrix ----------------------------------------------------------------
 test_that("Initialize a CountMatrix instance", {
@@ -119,27 +120,30 @@ test_that("Initialize a CountMatrix instance", {
   expect_s4_class(.CountMatrix(), "CountMatrix")
   expect_s4_class(.CountMatrix(mtx_count), "CountMatrix")
 
+  # Try 0s and 1s
+  expect_message(CountMatrix(as.numeric(mtx_incid), nrow = 10),
+                 "You should consider using an incidence matrix instead.")
   # Try negative values
   expect_error(.CountMatrix(-mtx_count),
-               "positive values are expected")
+               "`data` must contain positive numbers")
   # Try relative frequencies
   expect_error(.CountMatrix(mtx_freq),
-               "whole numbers are expected")
+               "`data` must contain whole numbers")
   # Try logical
   expect_error(.CountMatrix(mtx_incid),
-               "should be of numeric type")
+               "`data` must be numeric; not logical.")
   # Try character
   expect_error(.CountMatrix(mtx_character),
-               "should be of numeric type")
+               "`data` must be numeric; not character.")
   # Try NA
   expect_error(.CountMatrix(mtx_num_na),
-               "10 missing values were detected")
+               "`data` must not contain missing values")
   # Try NaN
   expect_error(.CountMatrix(mtx_num_nan),
-               "10 non-number values were detected")
+               "`data` must not contain missing values")
   # Try Inf
   expect_error(.CountMatrix(mtx_num_inf),
-               "10 infinite values were detected")
+               "`data` must not contain infinite values")
 })
 test_that("CountMatrix constructor", {
   expect_message(CountMatrix())
@@ -168,16 +172,16 @@ test_that("Initialize a FrequencyMatrix instance", {
 
   # Try wrong total
   expect_error(.FrequencyMatrix(mtx_freq, totals = 1),
-               "should be of length 10, not 1")
+               "`totals` must be of length 10; not 1.")
   # Try missing total
   expect_error(.FrequencyMatrix(mtx_freq),
-               "should be of length 10, not 0")
+               "`totals` must be of length 10; not 0.")
   # Try count data
   expect_error(.FrequencyMatrix(mtx_count),
-               "should have constant row sums")
+               "`data` must have constant row sums")
   # Try logical
   expect_error(.FrequencyMatrix(mtx_incid),
-               "should be of numeric type")
+               "`data` must be numeric; not logical.")
 })
 
 # Logical matrix ===============================================================
@@ -188,22 +192,22 @@ test_that("Initialize a LogicalMatrix instance", {
 
   # Try count data
   expect_error(LogicalMatrix(data = mtx_count),
-               "should be of logical type")
+               "`data` must be logical; not integer.")
   # Try frequency data
   expect_error(LogicalMatrix(data = mtx_freq),
-               "should be of logical type")
+               "`data` must be logical; not double.")
   # Try character
   expect_error(LogicalMatrix(data = mtx_character),
-               "should be of logical type")
+               "`data` must be logical; not character.")
   # Try NA
   expect_error(LogicalMatrix(mtx_logic_na),
-               "10 missing values were detected")
+               "`data` must not contain missing values")
   # Try NaN
   expect_error(LogicalMatrix(mtx_logic_nan),
-               "10 non-number values were detected")
+               "`data` must not contain missing values")
   # Try Inf
   expect_error(LogicalMatrix(mtx_logic_inf),
-               "10 infinite values were detected")
+               "`data` must not contain infinite values")
 })
 test_that("Initialize a IncidenceMatrix instance", {
   expect_s4_class(.IncidenceMatrix(), "IncidenceMatrix")
@@ -211,22 +215,22 @@ test_that("Initialize a IncidenceMatrix instance", {
 
   # Try count data
   expect_error(.IncidenceMatrix(mtx_count),
-               "should be of logical type")
+               "`data` must be logical; not integer.")
   # Try frequency data
   expect_error(.IncidenceMatrix(mtx_freq),
-               "should be of logical type")
+               "`data` must be logical; not double.")
   # Try character
   expect_error(.IncidenceMatrix(mtx_character),
-               "should be of logical type")
+               "`data` must be logical; not character.")
   # Try NA
   expect_error(.IncidenceMatrix(mtx_logic_na),
-               "10 missing values were detected")
+               "`data` must not contain missing values")
   # Try NaN
   expect_error(.IncidenceMatrix(mtx_logic_nan),
-               "10 non-number values were detected")
+               "`data` must not contain missing values")
   # Try Inf
   expect_error(.IncidenceMatrix(mtx_logic_inf),
-               "10 infinite values were detected")
+               "`data` must not contain infinite values")
 })
 test_that("IncidenceMatrix constructor", {
   incid_matrix1 <- IncidenceMatrix(

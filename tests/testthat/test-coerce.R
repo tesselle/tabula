@@ -11,8 +11,8 @@ test_that("matrix <> CountMatrix", {
   expect_s4_class(A, "CountMatrix")
   expect_equal(as(A, "matrix"), mtx_count)
 
-  expect_error(as(mtx_freq, "CountMatrix"))
-  expect_error(as(mtx_incid, "CountMatrix"))
+  expect_message(as(mtx_freq, "CountMatrix"))
+  expect_message(as(mtx_incid, "CountMatrix"))
 })
 test_that("matrix <> FrequencyMatrix", {
   B <- as(mtx_freq, "FrequencyMatrix")
@@ -55,8 +55,8 @@ test_that("data.frame <> CountMatrix", {
   expect_s4_class(A, "CountMatrix")
   expect_identical(as(A, "data.frame"), df_count)
 
-  expect_error(as(df_freq, "CountMatrix"))
-  expect_error(as(df_incid, "CountMatrix"))
+  expect_message(as(df_freq, "CountMatrix"))
+  expect_message(as(df_incid, "CountMatrix"))
 })
 test_that("data.frame <> FrequencyMatrix", {
   B <- as(df_freq, "FrequencyMatrix")
@@ -102,8 +102,8 @@ test_that("CountMatrix <> FrequencyMatrix", {
 })
 test_that("*Matrix > CountMatrix", {
   expect_s4_class(as(count, "CountMatrix"), "CountMatrix")
-  expect_error(as(freq, "CountMatrix"))
-  expect_error(as(incid, "CountMatrix"))
+  expect_message(as(freq, "CountMatrix"))
+  expect_message(as(incid, "CountMatrix"))
   # expect_error(as(occ, "CountMatrix"))
 })
 test_that("*Matrix > FrequencyMatrix", {

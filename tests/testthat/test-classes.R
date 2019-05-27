@@ -10,27 +10,27 @@ test_that("Initialize a PermutationOrder object", {
                   "PermutationOrder")
 
   expect_error(PermutationOrder(id = NA_character_),
-               "a missing value was detected")
+               "`id` must be a character string.")
   expect_error(PermutationOrder(id = LETTERS),
-               "should be of length 1, not 26")
+               "`id` must be a character string.")
   expect_error(PermutationOrder(id = "a"),
-               "should be 36 characters long string, not 1")
+               "must be a 36 characters long string")
   expect_error(PermutationOrder(columns = 1:10, rows = 0:10),
-               "positive values are expected")
+               "`rows` must contain positive numbers.")
   expect_error(PermutationOrder(columns = 1:10, rows = -5:-1),
-               "positive values are expected")
+               "`rows` must contain positive numbers.")
   expect_error(PermutationOrder(columns = 1:10, rows = c(1, 2, NA)),
-               "a missing value was detected")
+               "must not contain missing values")
   expect_error(PermutationOrder(rows = 1:10, columns = 0:10),
-               "positive values are expected")
+               "`columns` must contain positive numbers.")
   expect_error(PermutationOrder(rows = 1:10, columns = -5:-1),
-               "positive values are expected")
+               "`columns` must contain positive numbers.")
   expect_error(PermutationOrder(rows = 1:10, columns = c(1, 2, NA)),
-               "a missing value was detected")
+               "must not contain missing values")
   expect_error(PermutationOrder(method = NA_character_),
-               "a missing value was detected")
+               "must not contain missing values", class = "error")
   expect_error(PermutationOrder(method = LETTERS),
-               "should be of length 1, not 26")
+               "`method` must be a scalar", class = "error")
 })
 test_that("Initialize a BootCA object", {
   expect_s4_class(.BootCA(), "BootCA")
@@ -47,20 +47,19 @@ test_that("Initialize a BootCA object", {
     "BootCA"
   )
 
-  expect_error(new("BootCA", rows = list(1:5)))
-  expect_error(new("BootCA", rows = list(id = 1:26, m = 1:26, n = 1:26)))
-  expect_error(new("BootCA", rows = list(id = 1:26, x = LETTERS, y = 1:26)))
+  expect_error(.BootCA(rows = list(1:5)))
+  expect_error(.BootCA(rows = list(id = 1:26, m = 1:26, n = 1:26)))
+  expect_error(.BootCA(rows = list(id = 1:26, x = LETTERS, y = 1:26)))
 
-  expect_error(new("BootCA", columns = list(1:5)))
-  expect_error(new("BootCA", columns = list(id = 1:26, m = 1:26, n = 1:26)))
-  expect_error(new("BootCA", columns = list(id = 1:26, x = LETTERS, y = 1:26)))
+  expect_error(.BootCA(columns = list(1:5)))
+  expect_error(.BootCA(columns = list(id = 1:26, m = 1:26, n = 1:26)))
+  expect_error(.BootCA(columns = list(id = 1:26, x = LETTERS, y = 1:26)))
 
-  expect_error(new("BootCA", lengths = LETTERS))
-  expect_error(new("BootCA", lengths = list(id = 1:26, m = 1:26)))
-  expect_error(new("BootCA", lengths = list(id = 1:26, d = LETTERS)))
+  expect_error(.BootCA(lengths = list(id = 1:26, m = 1:26)))
+  expect_error(.BootCA(lengths = list(id = 1:26, d = LETTERS)))
 
-  expect_error(new("BootCA", cutoff = 1:3))
-  expect_error(new("BootCA", keep = LETTERS))
+  expect_error(.BootCA(cutoff = 1:3),
+               "`cutoff` must be of length 2; not 3.")
 })
 # Dating =======================================================================
 test_that("Initialize an empty DateModel object", {
