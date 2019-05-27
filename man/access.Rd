@@ -3,8 +3,8 @@
 \docType{methods}
 \name{access}
 \alias{access}
-\alias{get-method}
-\alias{set-method}
+\alias{get}
+\alias{set}
 \alias{getID}
 \alias{getTotals}
 \alias{getDates}
@@ -82,15 +82,6 @@ Getters and setters to extract or replace parts of an object.
   \emph{Note} that if \code{value} has columns named "\code{value}" and
   "\code{error}", these columns will be used.}
  }
- For abundance matrix classes (\linkS4class{CountMatrix},
- \linkS4class{FrequencyMatrix} and \linkS4class{IncidenceMatrix}), an
- alternative approach may be considered. As each date should be linked to a
- specific row (sample/assemblage) of the abundance matrix, \code{value}
- can be a list of length-two numeric vectors (where each element of the
- list is a date-error pair). If the list is named, all the elements are
- matched by name to the rows of the matrix (this allows to provide dates for
- only a limited number of contexts). Otherwise, all the elements are matched
- by position.
 }
 
 \section{Set coordinates}{

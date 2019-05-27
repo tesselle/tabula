@@ -3,13 +3,12 @@
 \docType{methods}
 \name{subset}
 \alias{subset}
-\alias{extract-method,}
-\alias{replace-method}
 \alias{[,BootCA-method}
 \alias{[,DateModel-method}
 \alias{[[,DateModel-method}
 \alias{[[,BootCA-method}
 \alias{[[,PermutationOrder-method}
+\alias{[[,SpaceTime-method}
 \alias{[[,CountMatrix-method}
 \alias{[[,FrequencyMatrix-method}
 \alias{[[,IncidenceMatrix-method}
@@ -26,6 +25,8 @@
 \S4method{[[}{BootCA}(x, i)
 
 \S4method{[[}{PermutationOrder}(x, i)
+
+\S4method{[[}{SpaceTime}(x, i)
 
 \S4method{[[}{CountMatrix}(x, i)
 
