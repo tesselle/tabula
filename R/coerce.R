@@ -66,6 +66,9 @@ setAs(
   def = function(from) {
     freq <- methods::S3Part(from, strictS3 = TRUE, "matrix")
     totals <- from@totals
+    if (isEmpty(totals))
+      stop("Cannot calculate absolute frequencies (`totals` is empty).",
+           call. = FALSE)
     count <- round(freq * totals, digits = 0)
     integer <- apply(
       X = count,

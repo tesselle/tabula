@@ -41,8 +41,7 @@ setMethod(
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     m <- nrow(data)
     p <- ncol(data)
-    cat(paste(m, "x", p, "presence/absence data matrix:", sep = " "), "\n",
-        sep = " ")
+    cat(sprintf("%d x %d presence/absence data matrix:\n", m, p))
     print(data)
   }
 )
@@ -53,8 +52,7 @@ setMethod(
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     m <- nrow(data)
     p <- ncol(data)
-    cat(paste(m, "x", p, "co-occurrence matrix:", sep = " "), "\n",
-        sep = " ")
+    cat(sprintf("%d x %d co-occurrence matrix:\n", m, p))
     print(data)
   }
 )
@@ -67,7 +65,7 @@ setMethod(
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     m <- nrow(data)
     p <- ncol(data)
-    cat(paste(m, "x", p, "count data matrix:", sep = " "), "\n", sep = " ")
+    cat(sprintf("%d x %d count data matrix:\n", m, p))
     print(data)
   }
 )
@@ -78,7 +76,7 @@ setMethod(
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     m <- nrow(data)
     p <- ncol(data)
-    cat(paste(m, "x", p, "frequency data matrix:", sep = " "), "\n", sep = " ")
+    cat(sprintf("%d x %d frequency data matrix:\n", m, p))
     print(data)
   }
 )
@@ -89,8 +87,7 @@ setMethod(
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     m <- nrow(data)
     p <- ncol(data)
-    cat(paste(m, "x", p, "(dis)similarity matrix:", sep = " "), "\n",
-        "  Method:", object@method, "\n", sep = " ")
+    cat(sprintf("%d x %d (dis)similarity matrix (%s):\n", m, p, object@method))
     print(data)
   }
 )
@@ -104,14 +101,14 @@ setMethod(
     p <- length(object@columns)
     k <- 20
     rows <- if (m > k) {
-      paste(paste(object@rows[1:k], collapse = " "),
-            "... (", m-k, " more)", sep ="")
+      paste0(paste0(object@rows[1:k], collapse = " "),
+             "... (", m-k, " more)")
     } else {
       object@rows
     }
     columns <- if (p > k) {
-      paste(paste(object@columns[1:k], collapse = " "),
-            "... (", p-k, " more)", sep ="")
+      paste0(paste0(object@columns[1:k], collapse = " "),
+             "... (", p-k, " more)")
     } else {
       object@columns
     }

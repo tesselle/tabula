@@ -610,12 +610,13 @@ IncidenceMatrix <- function(data = FALSE, nrow = 1, ncol = 1, byrow = FALSE,
 #' Matrix constructor
 #'
 #' @inheritParams base::matrix
-#' @param rows A \code{\link{logical}} scalar indicating if the number of rows
-#'  is unspecified.
-#' @param cols A \code{\link{logical}} scalar indicating if the number of
-#'  columns is unspecified.
+#' @param rows A \code{\link{logical}} scalar: is the number of rows
+#'  unspecified?
+#' @param cols A \code{\link{logical}} scalar: is the number of columns
+#'  unspecified?
 #' @return A \link{\code{matrix}}.
 #' @author N. Frerebeau
+#' @name matrix-constructors
 #' @keywords internal
 #' @noRd
 buildMatrix <- function(data, nrow, ncol, byrow, dimnames,

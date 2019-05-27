@@ -23,15 +23,6 @@ NULL
 #'   \emph{Note} that if \code{value} has columns named "\code{value}" and
 #'   "\code{error}", these columns will be used.}
 #'  }
-#'  For abundance matrix classes (\linkS4class{CountMatrix},
-#'  \linkS4class{FrequencyMatrix} and \linkS4class{IncidenceMatrix}), an
-#'  alternative approach may be considered. As each date should be linked to a
-#'  specific row (sample/assemblage) of the abundance matrix, \code{value}
-#'  can be a list of length-two numeric vectors (where each element of the
-#'  list is a date-error pair). If the list is named, all the elements are
-#'  matched by name to the rows of the matrix (this allows to provide dates for
-#'  only a limited number of contexts). Otherwise, all the elements are matched
-#'  by position.
 #' @section Set coordinates:
 #'  An attempt is made to interpret the argument \code{value} in a way suitable
 #'  for geographic coordinates. If \code{value} is a:
@@ -51,47 +42,47 @@ NULL
 #' @author N. Frerebeau
 #' @docType methods
 #' @name access
-#' @rdname access-method
-#' @aliases get-method set-method
+#' @rdname access
+#' @aliases get set
 NULL
 
 #' @export
-#' @rdname access-method
+#' @rdname access
 setGeneric(name = "getID",
            def = function(object) standardGeneric("getID"))
 
 #' @export
-#' @rdname access-method
+#' @rdname access
 setGeneric(name = "getTotals",
            def = function(object) standardGeneric("getTotals"))
 
 #' @export
-#' @rdname access-method
+#' @rdname access
 setGeneric(name = "getDates",
            def = function(object) standardGeneric("getDates"))
 
 #' @export
-#' @rdname access-method
+#' @rdname access
 setGeneric(name = "setDates<-",
            def = function(object, value) standardGeneric("setDates<-"))
 
 #' @export
-#' @rdname access-method
+#' @rdname access
 setGeneric(name = "getCoordinates",
            def = function(object) standardGeneric("getCoordinates"))
 
 #' @export
-#' @rdname access-method
+#' @rdname access
 setGeneric(name = "setCoordinates<-",
            def = function(object, value) standardGeneric("setCoordinates<-"))
 
 #' @export
-#' @rdname access-method
+#' @rdname access
 setGeneric(name = "getEPSG",
            def = function(object) standardGeneric("getEPSG"))
 
 #' @export
-#' @rdname access-method
+#' @rdname access
 setGeneric(name = "setEPSG<-",
            def = function(object, value) standardGeneric("setEPSG<-"))
 
@@ -114,8 +105,7 @@ setGeneric(name = "setEPSG<-",
 #' @author N. Frerebeau
 #' @docType methods
 #' @name subset
-#' @rdname subset-method
-#' @aliases extract-method, replace-method
+#' @rdname subset
 NULL
 
 # Date =========================================================================
@@ -547,6 +537,8 @@ setGeneric(
 #' @param unbiased A \code{\link{logical}} scalar. Should the bias-corrected
 #'  estimator be used? Only used with "\code{chao1}" or "\code{chao2}"
 #'  (improved) estimator.
+#' @param improved A \code{\link{logical}} scalar. Should the improved
+#'  estimator be used? Only used with "\code{chao1}" or "\code{chao2}".
 #' @param sample A length-one \code{\link{numeric}} vector giving the sub-sample
 #'  size.
 #' @param k A length-one \code{\link{numeric}} vector giving the threshold
@@ -574,8 +566,7 @@ setGeneric(
 #'  The following richness measures are available for count data:
 #'  \describe{
 #'   \item{ace}{Abundance-based Coverage Estimator.}
-#'   \item{chao1}{Chao1 estimator.}
-#'   \item{chao1i}{Improved Chao1 estimator.}
+#'   \item{chao1}{(improved) Chao1 estimator.}
 #'   \item{margalef}{Margalef richness index.}
 #'   \item{menhinick}{Menhinick richness index.}
 #'   \item{none}{Returns the number of observed taxa/types.}
@@ -584,15 +575,12 @@ setGeneric(
 #'  The following richness measures are available for replicated incidence data:
 #'  \describe{
 #'   \item{ice}{Incidence-based Coverage Estimator.}
-#'   \item{chao2}{Chao2 estimator.}
-#'   \item{chao2i}{Improved Chao2 estimator.}
+#'   \item{chao2}{(improved) Chao2 estimator.}
 #'  }
 #' @return
-#'  \code{rarefaction} returns a numeric vector.
-#'
-#'  If \code{simplify} is \code{FALSE}, then \code{richness} method returns a
-#'  list (default), else returns a matrix (for \code{CountMatrix}) or a
-#'  a numeric vector (for \code{IncidenceMatrix}).
+#'  If \code{simplify} is \code{FALSE}, then \code{rarefaction} and
+#'  \code{richness} return a list (default), else return a matrix
+#'  (for \code{CountMatrix}) or a a numeric vector (for \code{IncidenceMatrix}).
 #' @references
 #'  Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
 #'  Population. \emph{Scandinavian Journal of Statistics}, 11(4), 265-270.
