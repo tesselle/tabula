@@ -7,16 +7,35 @@ NULL
 setMethod(
   f = "rarefaction",
   signature = signature(object = "CountMatrix"),
-  definition = function(object, sample) {
-    E <- apply(X = object, MARGIN = 1, FUN = hurlbertRarefaction, sample)
+  definition = function(object, sample, method = c("hurlbert"),
+                        simplify = FALSE, ...) {
+    # Validation
+    method <- match.arg(method, several.ok = TRUE)
+    E <- lapply(
+      X = method,
+      FUN = function(x, data, sample) {
+        index <- switch (
+          x,
+          hurlbert = rarefactionHurlbert,
+          stop(sprintf("There is no such method: %s.", method), call. = FALSE)
+        )
+        apply(X = object, MARGIN = 1, FUN = index, sample)
+      },
+      data = object,
+      sample = sample
+    )
+    names(E) <- method
+    if (simplify)
+      E <- simplify2array(E, higher = FALSE)
     return(E)
   }
 )
 
-# Rarefaction ==================================================================
-#' Hurlbert rarefaction
+# ==============================================================================
+#' Rarefaction index
 #'
-#' Hurlbert's unbiaised estimate of Sander's rarefaction.
+#' \code{rarefactionHurlbert} returns Hurlbert's unbiaised estimate of Sander's
+#' rarefaction.
 #' @param n A \code{\link{numeric}} vector giving the number of individuals for
 #'  each type.
 #' @param ... Currently not used.
@@ -29,23 +48,24 @@ setMethod(
 #'  Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
 #'  \emph{The American Naturalist}, 102(925), 243-282.
 #' @author N. Frerebeau
-#' @family rarefaction index
-#' @rdname hurlbert-index
-#' @noRd
-hurlbertRarefaction <- function(x, sample) {
+#' @family diversity measures
+#' @name index-rarefaction
+#' @keywords internal
+rarefactionHurlbert <- function(x, sample) {
   # Validation
-  if (!is.numeric(x))
-    stop("A numeric vector is expected.")
+  checkType(x, expected = "numeric")
+  checkScalar(sample, expected = "numeric")
   # Strictly positive whole numbers
   x <- trunc(x, digits = 0)[x > 0]
   sample <- trunc(sample, digits = 0)
 
   N <- sum(x)
   E <- sapply(X = x, FUN = function(x, N, sample) {
-    if (N - x > sample)
+    if (N - x > sample) {
       1 - combination(N - x, sample) / combination(N, sample)
-    else
+    } else {
       NA
+    }
   }, N, sample)
   E <- sum(E)
   return(E)

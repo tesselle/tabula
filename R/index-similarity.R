@@ -4,13 +4,13 @@ NULL
 similarityIndex <- function(object, method, ...) {
   index <- switch (
     method,
-    binomial = binomialSimilarity,
-    brainerd = brainerdSimilarity,
-    bray = braySimilarity,
-    jaccard = jaccardSimilarity,
-    morisita = morisitaSimilarity,
-    sorenson = sorensonSimilarity,
-    stop(paste("there is no such method:", method, sep = " "))
+    binomial = similarityBinomial,
+    brainerd = similarityBrainerd,
+    bray = similarityBray,
+    jaccard = similarityJaccard,
+    morisita = similarityMorisita,
+    sorenson = similaritySorenson,
+    stop(sprintf("There is no such method: %s.", method), call. = FALSE)
   )
 
   # Pairwise comparison
@@ -43,7 +43,7 @@ similarityIndex <- function(object, method, ...) {
   C <- t(C)
   C[lower.tri(C, diag = FALSE)] <- beta
 
-  return(C)
+  C
 }
 
 #' @export
@@ -57,7 +57,7 @@ setMethod(
                         ...) {
     method <- match.arg(method, several.ok = FALSE)
     C <- similarityIndex(object, method)
-    methods::new("SimilarityMatrix", C, method = method)
+    SimilarityMatrix(C, method = method)
   }
 )
 
@@ -70,25 +70,39 @@ setMethod(
   definition = function(object, method = c("jaccard", "sorenson"), ...) {
     method <- match.arg(method, several.ok = FALSE)
     C <- similarityIndex(object, method)
-    methods::new("SimilarityMatrix", C, method = method)
+    SimilarityMatrix(C, method = method)
   }
 )
 
-# Qualitative index ============================================================
-#' Jaccard ----------------------------------------------------------------------
-#' Jaccard similarity index
+# ==============================================================================
+#' Similarity index
 #'
+#' @description
+#' Qualitative index:
+#' \code{similarityJaccard} returns Jaccard similarity index.
+#' \code{similaritySorenson} returns Sorenson similarity index.
+#'
+#' Quantitative index:
+#' \code{similarityBray} returns Bray and Curtis modified version of the
+#' Sorenson index.
+#' \code{similarityMorisita} returns Morisita-Horn quantitative index.
+#' \code{similarityBrainerd} returns Brainerd-Robinson quantitative index.
+#' \code{similarityBinomial} retunrs binomial co-occurrence of types assessment.
 #' @param x A length-p \code{\link{numeric}} vector.
 #' @param y A length-p \code{\link{numeric}} vector.
 #' @return A length-one \code{\link{numeric}} vector.
 #' @author N. Frerebeau
-#' @family similarity index
-#' @rdname jaccard-index
-#' @noRd
-jaccardSimilarity <- function(x, y) {
+#' @family diversity measures
+#' @name index-similarity
+#' @keywords internal
+NULL
+
+# Qualitative index ------------------------------------------------------------
+#' @rdname index-similarity
+similarityJaccard <- function(x, y) {
   # Validation
   if (length(x) != length(y))
-    stop("a and b should have the same length")
+    stop("`x` and `y` must have the same length.", call. = FALSE)
   # presence/absence
   x <- x > 0
   y <- y > 0
@@ -100,20 +114,11 @@ jaccardSimilarity <- function(x, y) {
   return(Cj)
 }
 
-# Sorenson ---------------------------------------------------------------------
-#' Sorenson similarity index
-#'
-#' @param x A length-p \code{\link{numeric}} vector.
-#' @param y A length-p \code{\link{numeric}} vector.
-#' @return A length-one \code{\link{numeric}} vector.
-#' @author N. Frerebeau
-#' @family similarity index
-#' @rdname sorenson-index
-#' @noRd
-sorensonSimilarity <- function(x, y) {
+#' @rdname index-similarity
+similaritySorenson <- function(x, y) {
   # Validation
   if (length(x) != length(y))
-    stop("a and b should have the same length")
+    stop("`x` and `y` must have the same length.", call. = FALSE)
   # presence/absence
   x <- x > 0
   y <- y > 0
@@ -125,24 +130,14 @@ sorensonSimilarity <- function(x, y) {
   return(Cs)
 }
 
-# Quantitative index ===========================================================
-# Sorenson ---------------------------------------------------------------------
-#' Sorenson quantitative index
-#'
-#' Bray and Curtis modified version of the Sorenson index.
-#' @param x A length-p \code{\link{numeric}} vector.
-#' @param y A length-p \code{\link{numeric}} vector.
-#' @return A length-one \code{\link{numeric}} vector.
-#' @author N. Frerebeau
-#' @family similarity index
-#' @rdname bray-index
-#' @noRd
-braySimilarity <- function(x, y) {
+# Quantitative index -----------------------------------------------------------
+#' @rdname index-similarity
+similarityBray <- function(x, y) {
   # Validation
-  if (!is.numeric(x) | !is.numeric(y))
-    stop("Numeric values are expected")
+  checkType(x, expected = "numeric")
+  checkType(y, expected = "numeric")
   if (length(x) != length(y))
-    stop("x and y should have the same length")
+    stop("`x` and `y` must have the same length.", call. = FALSE)
 
   a <- sum(x)
   b <- sum(y)
@@ -152,22 +147,13 @@ braySimilarity <- function(x, y) {
   return(Cs)
 }
 
-# Morisita-Horn ----------------------------------------------------------------
-#' Morisita-Horn quantitative index
-#'
-#' @param x A length-p \code{\link{numeric}} vector.
-#' @param y A length-p \code{\link{numeric}} vector.
-#' @return A length-one \code{\link{numeric}} vector.
-#' @author N. Frerebeau
-#' @family similarity index
-#' @rdname morisita-index
-#' @noRd
-morisitaSimilarity <- function(x, y) {
+#' @rdname index-similarity
+similarityMorisita <- function(x, y) {
   # Validation
-  if (!is.numeric(x) | !is.numeric(y))
-    stop("numeric values are expected")
+  checkType(x, expected = "numeric")
+  checkType(y, expected = "numeric")
   if (length(x) != length(y))
-    stop("x and y should have the same length")
+    stop("`x` and `y` must have the same length.", call. = FALSE)
 
   a <- sum(x) # Number of individuals in site A
   b <- sum(y) # Number of individuals in site B
@@ -178,22 +164,13 @@ morisitaSimilarity <- function(x, y) {
   return(Cm)
 }
 
-# Brainerd-Robinson ------------------------------------------------------------
-#' Brainerd-Robinson quantitative index
-#'
-#' @param x A length-p \code{\link{numeric}} vector.
-#' @param y A length-p \code{\link{numeric}} vector.
-#' @return A length-one \code{\link{numeric}} vector.
-#' @author N. Frerebeau
-#' @family similarity index
-#' @rdname brainerd-index
-#' @noRd
-brainerdSimilarity <- function(x, y) {
+#' @rdname index-similarity
+similarityBrainerd <- function(x, y) {
   # Validation
-  if (!is.numeric(x) | !is.numeric(y))
-    stop("numeric values are expected")
+  checkType(x, expected = "numeric")
+  checkType(y, expected = "numeric")
   if (length(x) != length(y))
-    stop("x and y should have the same length")
+    stop("`x` and `y` must have the same length.", call. = FALSE)
 
   a <- x / sum(x)
   b <- y / sum(y)
@@ -202,21 +179,13 @@ brainerdSimilarity <- function(x, y) {
 }
 
 # Binomial co-occurrence -------------------------------------------------------
-#' Binomial co-occurrence of types assessment
-#'
-#' @param x A length-p \code{\link{numeric}} vector.
-#' @param y A length-p \code{\link{numeric}} vector.
-#' @return A length-one \code{\link{numeric}} vector.
-#' @author N. Frerebeau
-#' @family similarity index
-#' @rdname binomial-index
-#' @noRd
-binomialSimilarity <- function(x, y) {
+#' @rdname index-similarity
+similarityBinomial <- function(x, y) {
   # Validation
-  if (!is.numeric(x) | !is.numeric(y))
-    stop("numeric values are expected")
+  checkType(x, expected = "numeric")
+  checkType(y, expected = "numeric")
   if (length(x) != length(y))
-    stop("x and y should have the same length")
+    stop("`x` and `y` must have the same length.", call. = FALSE)
 
   # Total number of assemblages
   N <- length(x)

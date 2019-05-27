@@ -11,8 +11,7 @@ setMethod(
                                            "routledge2", "routledge3",
                                            "wilson"), simplify = FALSE, ...) {
     object <- methods::as(object, "IncidenceMatrix")
-    B <- turnover(object, method, simplify, ...)
-    return(B)
+    turnover(object, method, simplify, ...)
   }
 )
 
@@ -26,32 +25,44 @@ setMethod(
                                            "routledge2", "routledge3",
                                            "wilson"), simplify = FALSE, ...) {
     method <- match.arg(method, several.ok = TRUE)
-    B <- sapply(X = method, FUN = function(x, data) {
-      index <- switch (
-        x,
-        whittaker = whittakerBeta,
-        cody = codyBeta,
-        routledge1 = routledge1Beta,
-        routledge2 = routledge2Beta,
-        routledge3 = routledge3Beta,
-        wilson = wilsonBeta
-      )
-      index(object)
-    }, data = object, simplify = simplify)
+    B <- lapply(
+      X = method,
+      FUN = function(x, data) {
+        index <- switch (
+          x,
+          whittaker = turnoverWhittaker,
+          cody = turnoverCody,
+          routledge1 = turnoverRoutledge1,
+          routledge2 = turnoverRoutledge2,
+          routledge3 = turnoverRoutledge3,
+          wilson = turnoverWilson
+        )
+        index(object)
+      },
+      data = object
+    )
+    names(B) <- method
+    if (simplify)
+      B <- simplify2array(B, higher = FALSE)
     return(B)
   }
 )
 
-#' Whittaker
+# ==============================================================================
+#' Turnover index
 #'
 #' @param x A \code{\link{logical}} or \code{\link{numeric}} matrix.
 #' @return A length-one \code{\link{numeric}} vector.
 #' @author N. Frerebeau
-#' @family turnover index
-#' @rdname whittaker-index
-#' @noRd
-whittakerBeta <- function(x) {
+#' @family diversity measures
+#' @name index-turnover
+#' @keywords internal
+NULL
+
+#' @rdname index-turnover
+turnoverWhittaker <- function(x) {
   x <- x > 0 # presence/absence
+  #' @name index-turnover
 
   # Total number of taxa recorded in the system
   S <- sum(colSums(x) > 0)
@@ -62,16 +73,8 @@ whittakerBeta <- function(x) {
   return(W)
 }
 
-#' Cody
-#'
-#' @param x A \code{\link{logical}} or \code{\link{numeric}} matrix.
-#' @details Begining of the transect in the first row
-#' @return A length-one \code{\link{numeric}} vector.
-#' @author N. Frerebeau
-#' @family turnover index
-#' @rdname cody-index
-#' @noRd
-codyBeta <- function(x) {
+#' @rdname index-turnover
+turnoverCody <- function(x) {
   x <- x > 0 # presence/absence
   m <- nrow(x)
   first_transect <- x[1, ]
@@ -87,15 +90,9 @@ codyBeta <- function(x) {
   return(beta)
 }
 
-#' Routledge's Beta R
-#'
-#' @param x A \code{\link{logical}} or \code{\link{numeric}} matrix.
-#' @return A length-one \code{\link{numeric}} vector.
-#' @author N. Frerebeau
-#' @family turnover index
-#' @rdname routledge-index
-#' @noRd
-routledge1Beta <- function(x) {
+#' @rdname index-turnover
+turnoverRoutledge1 <- function(x) {
+  # Beta R
   x <- x > 0 # presence/absence
   p <- ncol(x)
 
@@ -108,10 +105,9 @@ routledge1Beta <- function(x) {
   beta <- S^2 / (2 * r + S) - 1
   return(beta)
 }
-#' @family turnover index
-#' @rdname routledge-index
-#' @noRd
-routledge2Beta <- function(x) {
+#' @rdname index-turnover
+turnoverRoutledge2 <- function(x) {
+  # Beta I
   x <- x > 0 # presence/absence
 
   # Number of samples in which each taxa is present
@@ -123,28 +119,16 @@ routledge2Beta <- function(x) {
   beta <- log(t) - (1 / t) * sum(e * log(e)) - (1 / t) * sum(alpha * log(alpha))
   return(beta)
 }
-# Beta E
-#' @family turnover index
-#' @rdname routledge-index
-#' @noRd
-routledge3Beta <- function(x) {
-  x <- x > 0 # presence/absence
-
-  I <- routledge2Beta(x)
+#' @rdname index-turnover
+turnoverRoutledge3 <- function(x) {
+  # Beta E
+  I <- turnoverRoutledge2(x)
   E <- exp(I)
   return(E)
 }
 
-#' Wilson
-#'
-#' @param x A \code{\link{logical}} or \code{\link{numeric}} matrix.
-#' @details Begining of the transect in the first row
-#' @return A length-one \code{\link{numeric}} vector.
-#' @author N. Frerebeau
-#' @family turnover index
-#' @rdname wilson-index
-#' @noRd
-wilsonBeta <- function(x) {
+#' @rdname index-turnover
+turnoverWilson <- function(x) {
   x <- x > 0 # presence/absence
   m <- nrow(x)
   first_transect <- x[1, ]
