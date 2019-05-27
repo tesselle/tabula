@@ -10,9 +10,6 @@ setMethod(
   signature = signature(object = "CountMatrix", subset = "missing"),
   definition = function(object, method = c("correspondance", "reciprocal"),
                         EPPM = FALSE, margin = c(1, 2), stop = 100, ...) {
-    # Validation
-    method <- match.arg(method, several.ok = FALSE)
-    # Seriation
     seriation(object, method = method, EPPM = EPPM, margin = margin,
               stop = stop, ...)
   }
@@ -26,9 +23,6 @@ setMethod(
   signature = signature(object = "IncidenceMatrix", subset = "missing"),
   definition = function(object, method = c("correspondance", "reciprocal"),
                         margin = c(1, 2), stop = 100, ...) {
-    # Validation
-    method <- match.arg(method, several.ok = FALSE)
-    # Seriation
     seriation(object * 1, method = method, EPPM = FALSE, margin = margin,
               stop = stop, ...)
   }
@@ -94,8 +88,8 @@ setMethod(
   signature = signature(object = "CountMatrix", order = "PermutationOrder"),
   definition = function(object, order) {
     # Validation
-    if(object[["id"]] != order[["id"]])
-      stop("Matrix and permutation order do not match.")
+    compareUUID(object[["id"]], order[["id"]])
+
     # Rearrange matrix
     new_matrix <- object[order@rows, order@columns]
     # New CountMatrix object
@@ -111,8 +105,8 @@ setMethod(
   signature = signature(object = "IncidenceMatrix", order = "PermutationOrder"),
   definition = function(object, order) {
     # Validation
-    if(object[["id"]] != order[["id"]])
-      stop("Matrix and permutation order do not match.")
+    compareUUID(object[["id"]], order[["id"]])
+
     # Rearrange matrix
     new_matrix <- object[order@rows, order@columns]
     # New CountMatrix object

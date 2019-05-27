@@ -4,7 +4,7 @@ NULL
 
 # BootCA =======================================================================
 #' @export
-#' @rdname subset-method
+#' @rdname subset
 #' @aliases [,BootCA-method
 setMethod(
   f = "[",
@@ -24,8 +24,29 @@ setMethod(
     data
   }
 )
+# @export
+# @rdname subset
+# @aliases [,SpaceTime-method
+# setMethod(
+#   f = "[",
+#   signature = "SpaceTime",
+#   definition = function(x, i, j, drop = TRUE) {
+#     i <- match.arg(i, choices = c("dates", "coordinates"), several.ok = FALSE)
+#     data <- as.data.frame(methods::slot(x, i))
+#
+#     if (missing(j)) {
+#       j <- 1:nrow(data)
+#     } else {
+#       if (is.null(j)) j <- 1:nrow(data)
+#       if (is.character(j) | is.factor(j)) j <- which(data$id %in% j)
+#       if (is.numeric(j)) j <- as.integer(j)
+#     }
+#     data <- data[j, , drop = drop]
+#     data
+#   }
+# )
 #' @export
-#' @rdname subset-method
+#' @rdname subset
 #' @aliases [,DateModel-method
 setMethod(
   f = "[",
@@ -68,7 +89,7 @@ extractSlot <- function(x, i) {
 }
 
 #' @export
-#' @rdname subset-method
+#' @rdname subset
 #' @aliases [[,DateModel-method
 setMethod(
   f = "[[",
@@ -76,22 +97,20 @@ setMethod(
   definition = extractSlot
 )
 #' @export
-#' @rdname subset-method
+#' @rdname subset
 #' @aliases [[,BootCA-method
 setMethod(
   f = "[[",
   signature = "BootCA",
   definition = function(x, i) {
     data <- extractSlot(x, i)
-
-    if(i %in% c("rows", "columns")) {
+    if (i %in% c("rows", "columns"))
       data <- as.data.frame(data)
-    }
     data
   }
 )
 #' @export
-#' @rdname subset-method
+#' @rdname subset
 #' @aliases [[,PermutationOrder-method
 setMethod(
   f = "[[",
@@ -99,7 +118,20 @@ setMethod(
   definition = extractSlot
 )
 #' @export
-#' @rdname subset-method
+#' @rdname subset
+#' @aliases [[,SpaceTime-method
+setMethod(
+  f = "[[",
+  signature = "SpaceTime",
+  definition = function(x, i) {
+    data <- extractSlot(x, i)
+    if (i %in% c("dates", "coordinates"))
+      data <- as.data.frame(data)
+    data
+  }
+)
+#' @export
+#' @rdname subset
 #' @aliases [[,CountMatrix-method
 setMethod(
   f = "[[",
@@ -107,7 +139,7 @@ setMethod(
   definition = extractSlot
 )
 #' @export
-#' @rdname subset-method
+#' @rdname subset
 #' @aliases [[,FrequencyMatrix-method
 setMethod(
   f = "[[",
@@ -115,7 +147,7 @@ setMethod(
   definition = extractSlot
 )
 #' @export
-#' @rdname subset-method
+#' @rdname subset
 #' @aliases [[,IncidenceMatrix-method
 setMethod(
   f = "[[",
@@ -123,7 +155,7 @@ setMethod(
   definition = extractSlot
 )
 #' @export
-#' @rdname subset-method
+#' @rdname subset
 #' @aliases [[,OccurrenceMatrix-method
 setMethod(
   f = "[[",
@@ -131,7 +163,7 @@ setMethod(
   definition = extractSlot
 )
 #' @export
-#' @rdname subset-method
+#' @rdname subset
 #' @aliases [[,SimilarityMatrix-method
 setMethod(
   f = "[[",
@@ -141,7 +173,7 @@ setMethod(
 
 # Getters ======================================================================
 #' @export
-#' @rdname access-method
+#' @rdname access
 #' @aliases getCoordinates,SpaceTime-method
 setMethod(
   f = "getCoordinates",
@@ -159,7 +191,7 @@ setMethod(
 )
 
 #' @export
-#' @rdname access-method
+#' @rdname access
 #' @aliases getDates,SpaceTime-method
 setMethod(
   f = "getDates",
@@ -175,23 +207,23 @@ setMethod(
 )
 
 #' @export
-#' @rdname access-method
+#' @rdname access
 #' @aliases getEPSG,SpaceTime-method
 setMethod("getEPSG", "SpaceTime", function(object) object@epsg)
 
 #' @export
-#' @rdname access-method
+#' @rdname access
 #' @aliases getID,ANY-method
 setMethod("getID", "ANY", function(object) object@id)
 
 #' @export
-#' @rdname access-method
+#' @rdname access
 #' @aliases getTotals,FrequencyMatrix-method
 setMethod("getTotals", "FrequencyMatrix", function(object) object@totals)
 
 # Setters ======================================================================
 #' @export
-#' @rdname access-method
+#' @rdname access
 #' @aliases setDates,SpaceTime-method
 setMethod(
   f = "setDates<-",
@@ -208,21 +240,24 @@ setMethod(
           y <- value[, 2]
         }
       } else {
-        stop("'value' should have at least 2 columns")
+        stop("`value` should have at least 2 columns.", call. = FALSE)
       }
     } else if(is.list(value)) {
       if (all(c("value", "error") %in% names(value))) {
         x <- value[["value"]]
         y <- value[["error"]]
       } else {
-        stop("'value' is a list, but does not have components 'value' and 'error'")
+        stop("`value` is a list, ",
+             "but does not have components 'value' and 'error'.",
+             call. = FALSE)
       }
     } else if (is.numeric(value) | is.integer(value)) {
       x <- value
       y <- rep_len(NA_real_, length.out = length(x))
-      if (getOption("verbose")) message("errors are missing, NA generated")
+      if (getOption("verbose")) message("errors are missing, NA generated.")
     } else {
-      stop("'value' should be a numeric of integer vector, a list, a matrix or a data frame")
+      stop("`value` should be a numeric of integer vector, ",
+           "a list, a matrix or a data frame.", call. = FALSE)
     }
 
     object@dates <- list(value = x, error = y)
@@ -232,7 +267,7 @@ setMethod(
 )
 
 #' @export
-#' @rdname access-method
+#' @rdname access
 #' @aliases setCoordinates,SpaceTime-method
 setMethod(
   f = "setCoordinates<-",
@@ -249,7 +284,7 @@ setMethod(
           y <- value[, 2]
         }
       } else {
-        stop("'value' should have at least 2 columns")
+        stop("`value` should have at least 2 columns.", call. = FALSE)
       }
       if (ncol(value) >= 3) {
         if ("z" %in% colnames(value)) {
@@ -259,29 +294,31 @@ setMethod(
         }
       } else {
         z <- rep_len(x = NA_real_, length.out = nrow(value))
-        if (getOption("verbose")) message("'z' is missing, NA generated")
+        if (getOption("verbose")) message("'z' is missing, NA generated.")
       }
     } else if(is.list(value)) {
       if (all(c("x", "y") %in% names(value))) {
         x <- value[["x"]]
         y <- value[["y"]]
       } else {
-        stop("'value' is a list, but does not have components 'x' and 'y'")
+        stop("`value` is a list, but does not have components 'x' and 'y'.",
+             call. = FALSE)
       }
       if ("z" %in% names(value)) {
         z <- value[["z"]]
       } else {
         z <- rep_len(x = NA_real_, length.out = length(x))
-        if (getOption("verbose")) message("'z' is missing, NA generated")
+        if (getOption("verbose")) message("'z' is missing, NA generated.")
       }
     } else {
-      stop("'value' should be a list, a matrix or a data frame")
+      stop("`value` should be a list, a matrix or a data frame.",
+           call. = FALSE)
     }
     coords <- list(x = x, y = y, z = z)
     n_coords <- unique(lengths(coords))
     if (length(n_coords) != 1) {
-      stop(sprintf("'x', 'y' and 'z' lengths differ (%s)",
-                   paste(n_coords, collapse = ", ")))
+      stop(sprintf("'x', 'y' and 'z' lengths differ (%s).",
+                   paste(n_coords, collapse = ", ")), call. = FALSE)
     }
     object@coordinates <- coords
     methods::validObject(object)
@@ -290,14 +327,15 @@ setMethod(
 )
 
 #' @export
-#' @rdname access-method
+#' @rdname access
 #' @aliases setEPSG,SpaceTime-method
 setMethod(
   f = "setEPSG<-",
   signature = "SpaceTime",
   definition = function(object, value) {
     if (!is.numeric(object) | !is.integer(object) | length(object) != 1)
-      stop("'object' should be a length-one numeric or integer vector")
+      stop("`object` should be a length-one numeric or integer vector.",
+           call. = FALSE)
     object@epsg <- as.integer(value[1L])
     methods::validObject(object)
     object

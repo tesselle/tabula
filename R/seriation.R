@@ -1,35 +1,40 @@
 # SERIATION METHODS
 
 # Seriation methods
-#' @keywords internal
-#' @noRd
 seriation <- function(object, method = c("correspondance", "reciprocal"),
                       EPPM = FALSE, axes = 1, margin = c(1, 2), stop = 100,
                       ...) {
-
+  # Validation
+  checkType(object, expected = "numeric")
+  checkScalar(EPPM, expected = "logical")
+  checkScalar(axes, expected = "numeric")
+  checkType(margin, expected = "numeric")
+  checkScalar(stop, expected = "numeric")
+  method <- match.arg(method, several.ok = FALSE)
   data <- if(EPPM) independance(object, method = "EPPM") else object
 
   index <- switch(
     method,
-    reciprocal = reciprocalSeriation(data, margin = margin, stop = stop),
-    correspondance = correspondanceSeriation(data, margin = margin,
+    reciprocal = seriationReciprocal(data, margin = margin, stop = stop),
+    correspondance = seriationCorrespondance(data, margin = margin,
                                              axes = axes, ...),
-    stop(paste("there is no such method:", method, sep = " "))
+    stop(sprintf("There is no such method: %s.", method), call. = FALSE)
   )
-  # Coerce indices to integer
-  index <- lapply(X = index, FUN = as.integer)
+
   # New PermutationOrder object
   PermutationOrder(
     id = object[["id"]],
-    rows = index[[1]],
-    columns = index[[2]],
+    rows = as.integer(index[[1]]),
+    columns = as.integer(index[[2]]),
     method = method
   )
 }
 
-# Probabilistic methods ========================================================
-#' Reciprocal ranking/averaging
+# ==============================================================================
+#' Probabilistic seriation methods
 #'
+#' \code{seriationReciprocal} computes reciprocal ranking/averaging.
+#' \code{seriationCorrespondance} computes CA-based seriation.
 #' @param x A \code{\link{numeric}} matrix.
 #' @param stop A length-one \code{\link{numeric}} vector giving the stopping rule
 #'  (i.e. maximum number of iterations) to avoid infinite loop.
@@ -37,11 +42,16 @@ seriation <- function(object, method = c("correspondance", "reciprocal"),
 #'  rearrangement will be applied over. E.g., for a matrix \code{1} indicates
 #'  rows, \code{2} indicates columns, \code{c(1, 2)} indicates rows then columns,
 #'  \code{c(2, 1)} indicates columns then rows.
+#' @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
 #' @return A list of two \code{\link{numeric}} vectors.
 #' @author N. Frerebeau
+#' @family seriation methods
+#' @name seriation-probabilistic
 #' @keywords internal
-#' @noRd
-reciprocalSeriation <- function(x, margin = 1, stop = 100) {
+NULL
+
+#' @rdname seriation-probabilistic
+seriationReciprocal <- function(x, margin = 1, stop = 100) {
   # Validation
   margin <- as.integer(margin)
   stop <- as.integer(stop)
@@ -56,7 +66,7 @@ reciprocalSeriation <- function(x, margin = 1, stop = 100) {
       margin,
       `1` = colSums(t(x) * j) / rowSums(x),
       `2` = colSums(x * i) / colSums(x),
-      stop("'margin' subscript out of bounds")
+      stop("`margin` subscript out of bounds.", call. = FALSE)
     )
     order(k)
   }
@@ -74,23 +84,17 @@ reciprocalSeriation <- function(x, margin = 1, stop = 100) {
     convergence <- identical(index, old_index)
     start <- start + 1
     if (start >= stop) {
-      warning("convergence not reached (possible infinite cycle)")
+      warning("Convergence not reached (possible infinite cycle).",
+              call. = FALSE)
       break
     }
   }
 
-  return(index)
+  index
 }
 
-#' CA-based seriation
-#'
-#' @param x A \code{\link{numeric}} matrix.
-#' @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
-#' @return A list of two \code{\link{numeric}} vectors.
-#' @author N. Frerebeau
-#' @keywords internal
-#' @noRd
-correspondanceSeriation <- function(x, margin, axes, ...) {
+#' @rdname seriation-probabilistic
+seriationCorrespondance <- function(x, margin, axes, ...) {
   # Validation
   margin <- as.integer(margin)
   axes <- as.integer(axes)
@@ -104,5 +108,5 @@ correspondanceSeriation <- function(x, margin, axes, ...) {
   row_coords <- if (1 %in% margin) order(corresp$row$coord[, axes]) else i
   col_coords <- if (2 %in% margin) order(corresp$col$coord[, axes]) else j
 
-  return(list(rows = row_coords, columns = col_coords))
+  list(rows = row_coords, columns = col_coords)
 }

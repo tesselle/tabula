@@ -17,12 +17,12 @@ NULL
 #'  }
 #' @return A \eqn{m \times p}{m x p} \link{\code{numeric}} matrix.
 #' @author N. Frerebeau
-#' @noRd
+#' @keywords internal
 independance <- function(x, method = c("EPPM", "PVI")) {
   # Validation
   method <- match.arg(method, several.ok = FALSE)
-  if (!is.matrix(x) | !is.numeric(x))
-    stop("A numeric matrix is expected.")
+  if (!is.matrix(x) || !is.numeric(x))
+    stop("A numeric matrix is expected.", call. = FALSE)
 
   # Independance
   values <- apply(
@@ -58,11 +58,12 @@ independance <- function(x, method = c("EPPM", "PVI")) {
 #'  Ramanujan Aiyangar, S. (1988). \emph{The lost notebook and other unpublished
 #'  papers}. Berlin: Springer-Verlag.
 #' @author N. Frerebeau
-#' @noRd
+#' @keywords internal
 combination <- function(n, k) {
   # Validation
-  if (!is.numeric(n) | !is.numeric(k))
-    stop("Numeric values are expected.")
+  checkType(n, expected = "numeric")
+  checkType(k, expected = "numeric")
+
   # Ramanujan factorial approximation
   ramanujan <- function(x){
     x * log(x) - x + log(x * (1 + 4 * x * (1 + 2 * x))) / 6 + log(pi) / 2
@@ -74,7 +75,7 @@ combination <- function(n, k) {
   } else {
     c <- factorial(n) / (factorial(k) * factorial(n - k))
   }
-  return(c)
+  c
 }
 
 #' Confidence interval for a proportion
@@ -89,11 +90,10 @@ combination <- function(n, k) {
 #'  \code{student}. Any unambiguous substring can be given.
 #' @return A \code{\link{numeric}} vector giving the margin of errors.
 #' @author N. Frerebeau
-#' @noRd
+#' @keywords internal
 confidence <- function(x, level = 0.95, type = c("normal", "student")) {
   # Validation
-  if (!is.vector(x) | !is.numeric(x))
-    stop("A numeric vector is expected.")
+  checkType(x, expected = "numeric")
   type <- match.arg(type, several.ok = FALSE)
 
   n <- sum(x)
@@ -101,12 +101,13 @@ confidence <- function(x, level = 0.95, type = c("normal", "student")) {
   z <- switch(
     type,
     "normal" = stats::qnorm(1 - level / 2),
-    "student" = stats::qt(1 - level / 2, n - 1)
+    "student" = stats::qt(1 - level / 2, n - 1),
+    stop(sprintf("There is no such type: %s", type), call. = FALSE)
   )
   stardard_error <- sqrt(p * (1 - p) / n)
 
   margin <- z * stardard_error
-  return(margin)
+  margin
 }
 
 #' Jackknife estimation
@@ -117,12 +118,11 @@ confidence <- function(x, level = 0.95, type = c("normal", "student")) {
 #' @param ... Extra arguments passed to \code{do}.
 #' @return A list with the following elements:
 #'  \describe{
-#'   \item{values}{The \code{n} leave-one-out values.}
+#'   \item{values}{The \eqn{n} leave-one-out values.}
 #'   \item{bias}{The jackknife estimate of bias.}
 #'   \item{error}{he jackknife estimate of standard error.}
 #'  }
-#' @author N. Frerebeau
-#' @noRd
+#' @keywords internal
 jackknife <- function(x, do, ...) {
   n <- length(x)
   hat <- do(x, ...)
@@ -132,6 +132,5 @@ jackknife <- function(x, do, ...) {
   jack_bias <- (n - 1) * (mean(jack_values) - hat)
   jack_error <- sqrt(((n - 1) / n) * sum((jack_values - mean(jack_values))^2))
 
-  results <- list(values = jack_values, bias = jack_bias, error = jack_error)
-  return(results)
+  list(values = jack_values, bias = jack_bias, error = jack_error)
 }

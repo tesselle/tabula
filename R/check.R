@@ -1,231 +1,263 @@
-# HELPERS TO CHECK DATA INPUT
+# CHECK DATA INPUT
+#' @include predicates.R
+NULL
 
-checkIfInf <- function(x) {
-  n <- sum(is.infinite(x))
-  if(n == 1) {
-    "an infinite value was detected"
-  } else if(n > 1) {
-    sprintf("%d infinite values were detected", n)
-  } else {
-    NULL
-  }
-}
-checkIfNA <- function(x) {
-  n <- sum(is.na(x))
-  if(n == 1) {
-    "a missing value was detected"
-  } else if(n > 1) {
-    sprintf("%d missing values were detected", n)
-  } else {
-    NULL
-  }
-}
-checkIfNaN <- function(x) {
-  n <- sum(is.nan(x))
-  if(n == 1) {
-    "a non-number value was detected"
-  } else if(n > 1) {
-    sprintf("%d non-number values were detected", n)
-  } else {
-    NULL
-  }
-}
-
-checkDim <- function(x, expected) {
-  n <- dim(x)
-  if(!identical(n, expected)) {
-    sprintf("should be %d", paste(expected, collapse = " x "))
-  } else {
-    NULL
-  }
-}
-checkLength <- function(x, expected) {
-  n <- length(x)
-  if(n != expected) {
-    sprintf("should be of length %d, not %d", expected, n)
-  } else {
-    NULL
-  }
-}
-checkLengths <- function(x, expected) {
-  if (length(x) != 0) {
-    n <- lengths(x)
-    m <- paste(n, collapse = ", ")
-    if(missing(expected)) {
-      if(!isEqual(n)) {
-        sprintf("elements should have the same length (%s)", m)
-      } else {
-        NULL
-      }
-    } else if(any(n != expected) & !all(n == 0)) {
-      sprintf("elements should be of length %d (not %s)", expected, m)
-    } else {
-      NULL
-    }
-  } else {
-    NULL
-  }
-}
-checkNames <- function(x, expected) {
-  if(length(x) != 0) {
-    n <- names(x)
-    if(missing(expected)) {
-      if(length(n) == 0) {
-        "should be named"
-      } else {
-        NULL
-      }
-    } else {
-      m <- paste(sQuote(expected), collapse = ", ")
-      if(!identical(n, expected)) {
-        sprintf("should have the following names: %s", m)
-      } else {
-        NULL
-      }
-    }
-  } else {
-    NULL
-  }
-}
-checkColumns <- function(x, j, names) {
-  n <- ncol(x)
-  if(n != j) {
-    sprintf("should have %d columns, not %d", j, n)
-  } else if(!identical(colnames(x), names)) {
-    sprintf("should have the following column names: %s",
-            paste(sQuote(names), collapse = ", "))
-  } else {
-    NULL
-  }
-}
-checkRows <- function(x, i, names) {
-  n <- nrow(x)
-  if(n != i) {
-    sprintf("should have %d rows, not %d", i, n)
-  } else if(!identical(rownames(x), names)) {
-    sprintf("should have the following row names: %s",
-            paste(sQuote(names), collapse = ", "))
-  } else {
-    NULL
-  }
-}
-checkClass <- function(x, expected = c("character", "factor", "integer",
-                                       "logical", "numeric")) {
-  expected <- match.arg(expected, several.ok = FALSE)
-  # Ignore this test if length(x) == 0
-  if(length(x) != 0 & class(x) != expected) {
-    sprintf("should be of %s class", expected)
-  } else {
-    NULL
-  }
-}
-checkType <- function(x, expected = c("character", "integer",
-                                      "logical", "numeric")) {
-  expected <- match.arg(expected, several.ok = FALSE)
-  # Ignore this test if length(x) == 0
-  if(length(x) != 0 & mode(x) != expected) {
-    sprintf("should be of %s type", expected)
-  } else {
-    NULL
-  }
-}
-
-checkIfPositive <- function(x, strict = FALSE, na.rm = TRUE) {
-  if (!isPositive(x, strict = strict, na.rm = na.rm)) {
-    "positive values are expected"
-  } else {
-    NULL
-  }
-}
-checkIfWholeNumber <- function(x) {
-  if (sum(!isWholeNumber(x)) != 0) {
-    "whole numbers are expected"
-  } else {
-    NULL
-  }
-}
-checkIfConstantSum <- function(x) {
-  if (!isEqual(rowSums(x, na.rm = TRUE))) {
-    "should have constant row sums"
-  } else {
-    NULL
-  }
-}
-
-checkIfBinaryMatrix <- function(x) {
-  # Check only if matrix dimensions > 1 x 1
-  if (!identical(dim(x), as.integer(c(1, 1)))) {
-    if (isBinary(x)) {
-      "You should consider using an incidence matrix."
-    } else {
-      NULL
-    }
-  } else {
-   NULL
-  }
-}
-checkIfSquare <- function(x) {
-  if (!isSquare(x)) {
-    "should be a square matrix"
-  } else {
-    NULL
-  }
-}
-checkIfSymmetric <- function(x) {
-  if (!isSymmetric(x)) {
-    "should be a symmetric matrix"
-  } else if(!identical(rownames(x), colnames(x))) {
-    "should have the same row and column names"
-  } else {
-    NULL
-  }
-}
-checkIfUUID <- function(x) {
-  if(!is.character(x))
-    stop("x should be a character vector.")
-
-  if(!anyNA(x)) {
-    n <- nchar(x)
-    if(any(n != 36)) {
-      sprintf("should be 36 characters long string, not %d", n)
-    } else {
-      NULL
-    }
-  } else {
-    NULL
-  }
-}
-
-#' Error
+#' Check data inputs
 #'
-#' Raises errors.
+#' @param x An object to be checked.
+#' @param expected An appropriate expected value.
+#' @return
+#'  Throw an error if any.
+#' @author N. Frerebeau
+#' @examples
+#' \dontrun{
+#' object <- 1:3
+#' checkType(object, "character")
+#' checkScalar(object, "numeric")
+#' checkLength(object, 2)
+#' checkNames(object)
+#' checkNames(object, c("a", "b", "c"))
+#'
+#' object <- c(1:3, NA, Inf)
+#' checkMissing(object)
+#' checkInfinite(object)
+#'
+#' object <- list(1:3, NULL, LETTERS)
+#' checkLength(object, 2)
+#' checkLengths(object)
+#' checkLengths(object, c(3, 1, 26))
+#'
+#' object <- matrix(-0.1, nrow = 3, ncol = 2)
+#' checkDim(object, c(2, 3))
+#' checkMatrix(object, "square")
+#' checkMatrix(object, "symmetric")
+#' checkNumbers(object, "positive", strict = TRUE)
+#' checkNumbers(object, "whole")
+#' }
+#' @name check
+#' @keywords internal
+NULL
+
+#' @rdname check
+checkType <- function(x, expected) {
+  arg <- deparse(substitute(x))
+  predicate <- switch(
+    expected,
+    list = isList,
+    atomic = isAtomic,
+    vector = isVector,
+    numeric = isNumeric,
+    integer = isInteger,
+    double = isDouble,
+    character = isCharacter,
+    logical = isLogical,
+    stop("Can't find a predicate for this type: ", expected, call. = FALSE)
+  )
+  if (!predicate(x))
+    throwError(arg, must = sprintf("be %s", expected), not = typeof(x))
+}
+#' @rdname check
+checkScalar <- function(x, expected) {
+  arg <- deparse(substitute(x))
+  predicate <- switch(
+    expected,
+    list = isScalarList,
+    atomic = isScalarAtomic,
+    vector = isScalarVector,
+    numeric = isScalarNumeric,
+    integer = isScalarInteger,
+    double = isScalarDouble,
+    character = isScalarCharacter,
+    logical = isScalarLogical,
+    stop("Can't find a predicate for this scalar: ", expected, call. = FALSE)
+  )
+  if (!predicate(x))
+    throwError(arg, must = sprintf("be a scalar (%s).", expected))
+}
+#' @rdname check
+checkLength <- function(x, expected) {
+  arg <- deparse(substitute(x))
+  n <- length(x)
+  if (n != expected)
+    throwError(arg, must = sprintf("be of length %d", expected), not = n)
+}
+#' @rdname check
+checkLengths <- function(x, expected) {
+  arg <- deparse(substitute(x))
+  n <- lengths(x)
+  m <- paste0(n, collapse = ", ")
+  if (missing(expected)) {
+    if (!isEqual(n)) {
+      throwError(arg, must = "have equal lengths", not = m)
+    }
+  } else if (isEmpty(n) || any(n != expected)) {
+    ex <- paste0(expected, collapse = ", ")
+    throwError(arg, must = sprintf("have the following lengths: %s", ex),
+                    not = m)
+  }
+}
+#' @rdname check
+checkDim <- function(x, expected) {
+  arg <- deparse(substitute(x))
+  n <- dim(x)
+  if (any(n != expected)) {
+    m <-  paste0(expected, collapse = " x ")
+    throwError(arg, must = sprintf("be of dimension %s", m),
+                    not = paste0(n, collapse = " x "))
+  }
+}
+#' @rdname check
+checkNames <- function(x, expected) {
+  arg <- deparse(substitute(x))
+  n <- names(x)
+  if (missing(expected)) {
+    if (isEmpty(n)) {
+      throwError(arg, must = "be named.")
+    }
+  } else if (isEmpty(n) || any(n != expected)) {
+    throwError(
+      arg, must = sprintf("have the following names: %s.",
+                          paste0(sQuote(expected), collapse = ", "))
+    )
+  }
+}
+#' @rdname check
+checkMissing <- function(x) {
+  arg <- deparse(substitute(x))
+  n <- sum(is.na(x))
+  if (n > 0)
+    throwError(
+      arg, must = sprintf("not contain missing values (%d detected).", n)
+    )
+}
+#' @rdname check
+checkInfinite <- function(x) {
+  arg <- deparse(substitute(x))
+  n <- sum(is.infinite(x))
+  if (n > 0)
+    throwError(
+      arg, must = sprintf("not contain infinite values (%d detected).", n)
+    )
+}
+#' @rdname check
+checkNumbers <- function(x, expected, ...) {
+  arg <- deparse(substitute(x))
+  predicate <- switch(
+    expected,
+    positive = isPositive,
+    whole = isWholeNumber,
+    stop("Can't find a predicate for this: ", expected, call. = FALSE)
+  )
+  if (!all(predicate(x, ...)))
+    throwError(arg, must = sprintf("contain %s numbers.", expected))
+}
+#' @rdname check
+checkConstant <- function(x, expected, na.rm = TRUE) {
+  arg <- deparse(substitute(x))
+  # Check rowSums for array
+  if (is.matrix(x) || is.data.frame(x)) {
+    x <- rowSums(x)
+    if (!isEqual(x))
+      throwError(arg, must = "have constant row sums")
+  } else {
+    if (!isEqual(x))
+      throwError(arg, must = "be constant")
+  }
+}
+#' @rdname check
+checkMatrix <- function(x, expected) {
+  arg <- deparse(substitute(x))
+  predicate <- switch(
+    expected,
+    square = isSquare,
+    symmetric = isSymmetric,
+    stop("Can't find a predicate for this matrix: ", expected, call. = FALSE)
+  )
+  if (!predicate(x))
+    throwError(arg, must = sprintf("be a %s matrix.", expected))
+}
+
+#' Conditions
+#'
+#' @param expr An expression.
+#' @param arg A \code{\link{character}} string specifying the argument name.
+#' @param must,not A \code{\link{character}} string specifying the error
+#'  message.
+#' @param call The call.
 #' @param object An object to which error messages are related.
 #' @param errors A \code{\link{character}} vector giving the error messages.
+#' @param ... Extra arguments.
 #' @return
-#'  Raises an error if \code{errors} is of non-zero length, returns \code{TRUE}
+#'  Throw an error if \code{errors} is of non-zero length, returns \code{TRUE}
 #'  if not.
 #' @author N. Frerebeau
+#' @name conditions
 #' @keywords internal
-#' @noRd
-returnSlotErrors <- function(object, errors) {
-  if(!is.list(errors))
-    stop("A list of error messages is expected.")
+NULL
 
-  errors <- errors[which(lengths(errors) > 0)]
-  if (length(errors) != 0) {
-    messages <- lapply(X = names(errors), FUN = function(slot, errors) {
-      paste(sQuote(slot), errors[[slot]])
-    }, errors = errors)
+#' @rdname conditions
+catchConditions <- function(expr) {
+  conditions <- list()
+  add_mess <- function(cnd) {
+    conditions <<- append(conditions, list(cnd))
+    suppressMessages(cnd)
+  }
+  add_warn <- function(cnd) {
+    conditions <<- append(conditions, list(cnd))
+    suppressWarnings(cnd)
+  }
+  add_err <- function(cnd) {
+    conditions <<- append(conditions, list(cnd))
+  }
+
+  tryCatch(
+    error = add_err,
+    withCallingHandlers(
+      message = add_mess,
+      warning = add_warn,
+      expr
+    )
+  )
+  conditions
+}
+#' @rdname conditions
+throwError <- function(arg, must, not = NULL, call = NULL, ...) {
+  msg <- sprintf("`%s` must %s", arg, must)
+  if (!is.null(not)) {
+    msg <- sprintf("%s; not %s.", msg, as.character(not))
+  }
+
+  err <- structure(
+    list(
+      message = msg,
+      call = call,
+      ...
+    ),
+    class = c("error", "condition")
+  )
+  stop(err)
+}
+#' @rdname conditions
+formatErrors <- function(object, errors) {
+  errors <- compact(isEmpty, errors)
+  if (!isEmpty(errors)) {
+    messages <- lapply(
+      X = names(errors),
+      FUN = function(slot, errors) {
+        vapply(X = errors[[slot]], FUN = `[[`, FUN.VALUE = "character", 1)
+      },
+      errors = errors
+    )
 
     stop(
       sprintf(
-        "%s\n  %s",
+        "%s object initialization:\n*  %s",
         dQuote(class(object)),
-        paste(unlist(messages), sep = " ", collapse = "\n  ")
+        paste0(unlist(messages), collapse = "\n*  ")
       ),
       call. = FALSE
     )
   } else {
-    return(TRUE)
+    TRUE
   }
 }

@@ -1,5 +1,5 @@
 # CLASSES VALIDATION
-#' @include AllClasses.R utilities.R
+#' @include AllClasses.R utilities.R check.R
 NULL
 
 # BootCA =======================================================================
@@ -7,6 +7,7 @@ setValidity(
   Class = "BootCA",
   method = function(object) {
     # Get data
+    id <- object@id
     rows <- object@rows
     columns <- object@columns
     lengths <- object@lengths
@@ -14,53 +15,71 @@ setValidity(
     keep <- object@keep
 
     errors <- list(
+      id = c(
+        catchConditions(checkUUID(id))
+      ),
       rows = c(
         unlist(mapply(
-          FUN = checkClass, rows, list("factor", "numeric", "numeric")
+          FUN = function(x, expected) catchConditions(checkType(x, expected)),
+          rows, list("integer", "numeric", "numeric")
         )),
-        unlist(sapply(X = rows, FUN = checkIfNA)),
-        unlist(sapply(X = rows[c(2, 3)], FUN = checkIfNaN)),
-        unlist(sapply(X = rows[c(2, 3)], FUN = checkIfInf)),
-        checkLength(rows, expected = 3),
-        checkLengths(rows),
-        checkNames(rows, expected = c("id", "x", "y"))
+        unlist(lapply(
+          X = rows,
+          FUN = function(x) {
+            c(catchConditions(checkMissing(x)),
+              catchConditions(checkInfinite(x)))
+          }
+        )),
+        catchConditions(checkLength(rows, expected = 3)),
+        catchConditions(checkLengths(rows)),
+        catchConditions(checkNames(rows, expected = c("id", "x", "y")))
       ),
       columns = c(
         unlist(mapply(
-          FUN = checkClass, columns, list("factor", "numeric", "numeric")
+          FUN = function(x, expected) catchConditions(checkType(x, expected)),
+          columns, list("integer", "numeric", "numeric")
         )),
-        unlist(sapply(X = columns, FUN = checkIfNA)),
-        unlist(sapply(X = columns[c(2, 3)], FUN = checkIfNaN)),
-        unlist(sapply(X = columns[c(2, 3)], FUN = checkIfInf)),
-        checkLength(columns, expected = 3),
-        checkLengths(columns),
-        checkNames(columns, expected = c("id", "x", "y"))
+        unlist(lapply(
+          X = columns,
+          FUN = function(x) {
+            c(catchConditions(checkMissing(x)),
+              catchConditions(checkInfinite(x)))
+          }
+        )),
+        catchConditions(checkLength(columns, expected = 3)),
+        catchConditions(checkLengths(columns)),
+        catchConditions(checkNames(columns, expected = c("id", "x", "y")))
       ),
       lengths = c(
-        unlist(sapply(X = lengths, FUN = checkClass, expected = "numeric")),
-        unlist(sapply(X = lengths, FUN = checkIfNA)),
-        unlist(sapply(X = lengths, FUN = checkIfNaN)),
-        unlist(sapply(X = lengths, FUN = checkIfInf)),
-        checkLength(lengths, expected = 2),
-        checkNames(lengths[[1]]),
-        checkNames(lengths[[2]])
+        unlist(lapply(
+          X = lengths,
+          FUN = function(x) {
+            c(catchConditions(checkType(x, expected = "numeric")),
+              # catchConditions(checkNames(x)),
+              catchConditions(checkMissing(x)),
+              catchConditions(checkInfinite(x)))
+          }
+        )),
+        catchConditions(checkLength(lengths, expected = 2))
       ),
       cutoff = c(
-        checkLength(cutoff, expected = 2),
-        checkIfNA(cutoff),
-        checkIfNaN(cutoff),
-        checkIfInf(cutoff)
+        catchConditions(checkLength(cutoff, expected = 2)),
+        catchConditions(checkMissing(cutoff)),
+        catchConditions(checkInfinite(cutoff))
       ),
       keep = c(
-        unlist(sapply(X = keep, FUN = checkClass, expected = "integer")),
-        unlist(sapply(X = keep, FUN = checkIfNA)),
-        unlist(sapply(X = keep, FUN = checkIfNaN)),
-        unlist(sapply(X = keep, FUN = checkIfInf)),
-        checkLength(keep, expected = 2)
+        unlist(lapply(
+          X = keep,
+          FUN = function(x) {
+            c(catchConditions(checkType(x, expected = "integer")),
+              catchConditions(checkMissing(x)))
+          }
+        )),
+        catchConditions(checkLength(keep, expected = 2))
       )
     )
     # Return errors if any
-    returnSlotErrors(object, errors)
+    formatErrors(object, errors)
   }
 )
 
@@ -168,28 +187,27 @@ setValidity(
     method <- object@method
 
     errors <- list(
-      # Check id
       id = c(
-        checkLength(id, expected = 1),
-        checkIfNA(id),
-        checkIfUUID(id)
+        catchConditions(checkUUID(id))
       ),
       rows = c(
-        checkIfNA(rows),
-        checkIfPositive(rows, strict = TRUE, na.rm = TRUE)
+        catchConditions(checkMissing(rows)),
+        catchConditions(checkNumbers(rows, "positive",
+                                     strict = TRUE, na.rm = TRUE))
       ),
       columns = c(
-        checkIfNA(columns),
-        checkIfPositive(columns, strict = TRUE, na.rm = TRUE)
+        catchConditions(checkMissing(columns)),
+        catchConditions(checkNumbers(columns, "positive",
+                                     strict = TRUE, na.rm = TRUE))
       ),
       method = c(
-        checkIfNA(method),
-        checkLength(method, expected = 1)
+        checkScalar(method, expected = "character"),
+        checkMissing(method)
       )
     )
 
     # Return errors if any
-    returnSlotErrors(object, errors)
+    formatErrors(object, errors)
   }
 )
 
@@ -205,27 +223,37 @@ setValidity(
     # Check dates
     errors <- list(
       dates = c(
-        unlist(sapply(X = dates, FUN = checkType, expected = "numeric")),
-        unlist(sapply(X = dates, FUN = checkIfInf)),
-        checkLength(dates, expected = 2),
-        checkLengths(dates),
-        checkNames(dates, expected = c("value", "error"))
+        unlist(lapply(
+          X = dates,
+          FUN = function(x) {
+            c(catchConditions(checkType(x, expected = "numeric")),
+              catchConditions(checkInfinite(x)))
+          }
+        )),
+        catchConditions(checkLength(dates, expected = 2)),
+        catchConditions(checkLengths(dates)),
+        catchConditions(checkNames(dates, expected = c("value", "error")))
       ),
       coordinates = c(
-        unlist(sapply(X = coordinates, FUN = checkType, expected = "numeric")),
-        unlist(sapply(X = coordinates, FUN = checkIfInf)),
-        checkLength(coordinates, expected = 3),
-        checkLengths(coordinates),
-        checkNames(coordinates, expected = c("x", "y", "z"))
+        unlist(lapply(
+          X = coordinates,
+          FUN = function(x) {
+            c(catchConditions(checkType(x, expected = "numeric")),
+              catchConditions(checkInfinite(x)))
+          }
+        )),
+        catchConditions(checkLength(coordinates, expected = 3)),
+        catchConditions(checkLengths(coordinates)),
+        catchConditions(checkNames(coordinates, expected = c("x", "y", "z")))
       ),
       epsg = c(
-        checkLength(epsg, expected = 1),
-        checkIfNA(epsg)
+        catchConditions(checkScalar(epsg, expected = "integer")),
+        catchConditions(checkMissing(epsg))
       )
     )
 
     # Return errors if any
-    returnSlotErrors(object, errors)
+    formatErrors(object, errors)
   }
 )
 # Matrix =======================================================================
@@ -239,19 +267,17 @@ setValidity(
     errors <- list(
       # Check data
       data = c(
-        checkIfInf(data),
-        checkIfNA(data),
-        checkIfNaN(data)
+        catchConditions(checkMissing(data)),
+        catchConditions(checkInfinite(data))
       ),
       # Check id
       id = c(
-        checkLength(id, expected = 1),
-        checkIfNA(id),
-        checkIfUUID(id)
+        catchConditions(checkUUID(id))
       )
     )
+
     # Return errors if any
-    returnSlotErrors(object, errors)
+    formatErrors(object, errors)
   }
 )
 
@@ -264,11 +290,11 @@ setValidity(
 
     errors <- list(
       # Check data
-      data = checkType(data, expected = "numeric")
+      data = catchConditions(checkType(data, "numeric"))
     )
 
     # Return errors if any
-    returnSlotErrors(object, errors)
+    formatErrors(object, errors)
   }
 )
 
@@ -280,26 +306,36 @@ setValidity(
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     dates <- object@dates
     coordinates <- object@coordinates
+    n <- nrow(data)
 
     errors <- list(
       # Check data
       data = c(
-        checkIfPositive(data, strict = FALSE, na.rm = TRUE),
-        checkIfWholeNumber(data),
-        checkIfBinaryMatrix(data)
-      ),
-      # Check dates
-      dates = c(
-        checkLengths(dates, expected = nrow(data))
-      ),
-      # Check coordinates
-      coordinates = c(
-        checkLengths(coordinates, expected = nrow(data))
+        catchConditions(checkNumbers(data, "positive", strict = FALSE,
+                                     na.rm = TRUE)),
+        catchConditions(checkNumbers(data, "whole"))
       )
     )
+    if (!all(lengths(dates) == 0)) {
+      # Check dates
+      errors[["dates"]] <- c(
+        catchConditions(checkLengths(dates, expected = n))
+      )
+    }
+    if (!all(lengths(coordinates) == 0)) {
+      # Check coordinates
+      errors["coordinates"] <- c(
+        catchConditions(checkLengths(coordinates, expected = n))
+      )
+    }
+    # Messages
+    # TODO: warning instead of message?
+    if (isBinary(data))
+      message("Your matrix contains only 0s and 1s.\n",
+              "You should consider using an incidence matrix instead.")
 
     # Return errors, if any
-    returnSlotErrors(object, errors)
+    formatErrors(object, errors)
   }
 )
 
@@ -312,29 +348,35 @@ setValidity(
     totals <- object@totals
     dates <- object@dates
     coordinates <- object@coordinates
+    n <- nrow(data)
 
     errors <- list(
       # Check data
       data = c(
-        checkIfPositive(data, strict = FALSE, na.rm = TRUE),
-        checkIfConstantSum(data)
+        catchConditions(checkNumbers(data, "positive", strict = FALSE,
+                                     na.rm = TRUE)),
+        catchConditions(checkConstant(data))
       ),
       # Check totals
       totals = c(
-        checkLength(totals, expected = nrow(data))
-      ),
-      # Check dates
-      dates = c(
-        checkLengths(dates, expected = nrow(data))
-      ),
-      # Check coordinates
-      coordinates = c(
-        checkLengths(coordinates, expected = nrow(data))
+        catchConditions(checkLength(totals, expected = n))
       )
     )
+    if (!all(lengths(dates) == 0)) {
+      # Check dates
+      errors[["dates"]] <- c(
+        catchConditions(checkLengths(dates, expected = n))
+      )
+    }
+    if (!all(lengths(coordinates) == 0)) {
+      # Check coordinates
+      errors["coordinates"] <- c(
+        catchConditions(checkLengths(coordinates, expected = n))
+      )
+    }
 
     # Return errors, if any
-    returnSlotErrors(object, errors)
+    formatErrors(object, errors)
   }
 )
 
@@ -348,12 +390,12 @@ setValidity(
     errors <- list(
       # Check data
       data = c(
-        checkIfSymmetric(data)
+        catchConditions(checkMatrix(data, expected = "symmetric"))
       )
     )
 
     # Return errors, if any
-    returnSlotErrors(object, errors)
+    formatErrors(object, errors)
   }
 )
 
@@ -368,16 +410,17 @@ setValidity(
     errors <- list(
       # Check data
       data = c(
-        checkIfSymmetric(data)
+        catchConditions(checkMatrix(data, expected = "symmetric"))
       ),
       # Check method
       method = c(
-        checkLength(method, expected = 1)
+        catchConditions(checkScalar(method, expected = "character")),
+        catchConditions(checkMissing(method))
       )
     )
 
     # Return errors, if any
-    returnSlotErrors(object, errors)
+    formatErrors(object, errors)
   }
 )
 
@@ -390,11 +433,11 @@ setValidity(
 
     errors <- list(
       # Check data
-      data = checkType(data, expected = "logical")
+      data = catchConditions(checkType(data, expected = "logical"))
     )
 
     # Return errors if any
-    returnSlotErrors(object, errors)
+    formatErrors(object, errors)
   }
 )
 
@@ -406,19 +449,23 @@ setValidity(
     data <- S3Part(object, strictS3 = TRUE, "matrix")
     dates <- object@dates
     coordinates <- object@coordinates
+    n <- nrow(data)
 
-    errors <- list(
+    errors <- list()
+    if (!all(lengths(dates) == 0)) {
       # Check dates
-      dates = c(
-        checkLengths(dates, expected = nrow(data))
-      ),
-      # Check coordinates
-      coordinates = c(
-        checkLengths(coordinates, expected = nrow(data))
+      errors[["dates"]] <- c(
+        catchConditions(checkLengths(dates, expected = n))
       )
-    )
+    }
+    if (!all(lengths(coordinates) == 0)) {
+      # Check coordinates
+      errors["coordinates"] <- c(
+        catchConditions(checkLengths(coordinates, expected = n))
+      )
+    }
 
     # Return errors if any
-    returnSlotErrors(object, errors)
+    formatErrors(object, errors)
   }
 )
