@@ -31,9 +31,6 @@ count(f, x)
 
 \item{x}{An object.}
 }
-\value{
-Returns \code{lhs} if not \code{NULL}, else returns \code{rhs}.
-}
 \description{
 \code{compact} removes elements from a list or vector.
 \code{detect} xxx.
@@ -42,19 +39,21 @@ Returns \code{lhs} if not \code{NULL}, else returns \code{rhs}.
 %o% allows for function composition.
 
 %||% xxx.
-}
-\note{
-Adapted from H. Wickham's \emph{Avanced R}.
+
+
+ Adapted from H. Wickham's \emph{Avanced R}.
 }
 \examples{
- compact(is.null, list("A", NULL, "B"))
- detect(is.na, c(1, 2, NA, 4, 5, NA))
- count(is.na, c(1, 2, NA, 4, 5, NA))
+\dontrun{
+compact(is.null, list("A", NULL, "B"))
+detect(is.na, c(1, 2, NA, 4, 5, NA))
+count(is.na, c(1, 2, NA, 4, 5, NA))
 
- (mean \%o\% range)(1:5)
+(mean \%o\% range)(1:5)
 
- NULL \%||\% 1
- 0 \%||\% 1
+NULL \%||\% 1
+0 \%||\% 1
+}
 }
 \references{
 Wickham, H. (2014). \emph{Advanced R}. London: Chapman & Hall. The R Series.

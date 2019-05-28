@@ -141,7 +141,7 @@ isScalarLogical <- function(x) {
 #' \code{isWholeNumber} checks if an object only contains integer (whole)
 #' numbers.
 #' @param x,y A \code{\link{numeric}} object to be tested.
-#' @param tolerance A \link{\code{numeric}} scalar giving the
+#' @param tolerance A \code{\link{numeric}} scalar giving the
 #'  tolerance to check within.
 #' @param na.rm A \code{\link{logical}} scalar: should missing values
 #'  (including \code{NaN}) be omitted?

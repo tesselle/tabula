@@ -7,14 +7,14 @@
 independance(x, method = c("EPPM", "PVI"))
 }
 \arguments{
-\item{x}{A \eqn{m \times p}{m x p} \link{\code{numeric}} matrix.}
+\item{x}{A \eqn{m \times p}{m x p} \code{\link{numeric}} matrix.}
 
-\item{method}{A \link{\code{character}} string giving the method to be used.
+\item{method}{A \code{\link{character}} string giving the method to be used.
 This must be one of "\code{EPPM}" or "\code{PVI}" (see details). Any
 unambiguous substring can be given.}
 }
 \value{
-A \eqn{m \times p}{m x p} \link{\code{numeric}} matrix.
+A \eqn{m \times p}{m x p} \code{\link{numeric}} matrix.
 }
 \description{
 Independance

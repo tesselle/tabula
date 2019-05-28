@@ -1,7 +1,7 @@
 .onAttach <- function(libname, pkgname){
   options("pboptions" = list(
     type = if (interactive()) "timer" else "none",
-    char = "-",
+    char = "=",
     txt.width = 50,
     gui.width = 300,
     style = 3,

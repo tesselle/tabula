@@ -3,8 +3,8 @@ NULL
 
 #' Independance
 #'
-#' @param x A \eqn{m \times p}{m x p} \link{\code{numeric}} matrix.
-#' @param method A \link{\code{character}} string giving the method to be used.
+#' @param x A \eqn{m \times p}{m x p} \code{\link{numeric}} matrix.
+#' @param method A \code{\link{character}} string giving the method to be used.
 #'  This must be one of "\code{EPPM}" or "\code{PVI}" (see details). Any
 #'  unambiguous substring can be given.
 #' @details
@@ -15,7 +15,7 @@ NULL
 #'   \item{PVI}{The percentage of independence value (in french,
 #'   "pourcentage de valeur d'indépendance", PVI).}
 #'  }
-#' @return A \eqn{m \times p}{m x p} \link{\code{numeric}} matrix.
+#' @return A \eqn{m \times p}{m x p} \code{\link{numeric}} matrix.
 #' @author N. Frerebeau
 #' @keywords internal
 independance <- function(x, method = c("EPPM", "PVI")) {

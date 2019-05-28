@@ -14,20 +14,21 @@
 #' @param g A \code{\link{function}}.
 #' @param lhs An object.
 #' @param rhs An object.
-#' @return Returns \code{lhs} if not \code{NULL}, else returns \code{rhs}.
-#' @note
+#' @details
 #'  Adapted from H. Wickham's \emph{Avanced R}.
 #' @references
 #'  Wickham, H. (2014). \emph{Advanced R}. London: Chapman & Hall. The R Series.
 #' @examples
-#'  compact(is.null, list("A", NULL, "B"))
-#'  detect(is.na, c(1, 2, NA, 4, 5, NA))
-#'  count(is.na, c(1, 2, NA, 4, 5, NA))
+#' \dontrun{
+#' compact(is.null, list("A", NULL, "B"))
+#' detect(is.na, c(1, 2, NA, 4, 5, NA))
+#' count(is.na, c(1, 2, NA, 4, 5, NA))
 #'
-#'  (mean %o% range)(1:5)
+#' (mean %o% range)(1:5)
 #'
-#'  NULL %||% 1
-#'  0 %||% 1
+#' NULL %||% 1
+#' 0 %||% 1
+#' }
 #' @name helpers
 #' @keywords internal
 NULL

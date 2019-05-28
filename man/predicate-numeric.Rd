@@ -28,7 +28,7 @@ isWholeNumber(x, tolerance = .Machine$double.eps^0.5)
 \arguments{
 \item{x, y}{A \code{\link{numeric}} object to be tested.}
 
-\item{tolerance}{A \link{\code{numeric}} scalar giving the
+\item{tolerance}{A \code{\link{numeric}} scalar giving the
 tolerance to check within.}
 
 \item{na.rm}{A \code{\link{logical}} scalar: should missing values
