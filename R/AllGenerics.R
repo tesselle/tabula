@@ -113,20 +113,12 @@ NULL
 #'
 #' Experimental (see note).
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
-#' @param dates A list of \code{\link{numeric}} dates.
-#'  Dates will be matched with assemblage by names.
+#' @param level A length-one \code{\link{numeric}} vector giving the
+#'  confidence level.
 #' @param cutoff An \code{\link{integer}} giving the cumulative percentage of
 #'  variance used to select CA factorial components for linear model fitting
 #'  (see details). All compounds with a cumulative percentage of variance of
 #'  less than the \code{cutoff} value will be retained.
-#' @param level A length-one \code{\link{numeric}} vector giving the
-#'  confidence level.
-#' @param jackknife A \code{\link{logical}} scalar: should the model be checked
-#'  by jackknife estimation (removing each fabric/type one at a time)?
-#' @param bootstrap A \code{\link{logical}} scalar: should the model be checked
-#'  by bootstrap resampling?
-#' @param n A non-negative \code{\link{integer}} giving the number of partial
-#'  bootstrap replications (see details).
 #' @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
 #' @details
 #'  This is an implementation of the chronological modeling method developed by
@@ -154,22 +146,6 @@ NULL
 #'
 #'  This method relies on strong archaeological and statistical assumptions.
 #'  Use it if you know what you are doing (see references below).
-#' @section Model checking:
-#'  Resampling methods can be used to check the stability of the resulting
-#'  model. If \code{jackknife} is \code{TRUE}, one type/fabric is removed at a
-#'  time and all statistics are recalculated. In this way, one can assess
-#'  whether certain type/fabric has a substantial influence on the date
-#'  estimate. If \code{bootstrap} is \code{TRUE}, a large number of new
-#'  bootstrap assemblages is created, with the same sample size, by resampling
-#'  each of the original assemblage with replacement. Then, examination of the
-#'  bootstrap statistics makes it possible to pinpoint assemblages that require
-#'  further investigation.
-#'
-#'  The use of resampling options (\code{jackknife} and \code{bootstrap}) can
-#'  lead to much longer execution times and larger output objects.
-#'  To monitor the execution of these re-sampling procedures, a progress bar
-#'  will automatically be displayed if the \code{\link[pbapply]{pbapply}}
-#'  package is installed on your machine.
 #' @note
 #'  The original authors of the method did not publish the data supporting their
 #'  demonstration and some elements are unclear. As such, no replication of
@@ -353,16 +329,18 @@ setGeneric(
 #' @param object An object of class \linkS4class{DateModel} to be plotted.
 #' @param type A \code{\link{character}} string or vector of character strings
 #'  indicating the modelled dates to be plotted. It must be one or both
-#'  (default) of \code{event} and \code{accumulation}. Any unambiguous substring
-#'  can be given.
+#'  (default) of "\code{event}" and "\code{accumulation}". Any unambiguous
+#'  substring can be given.
 #' @param select A \code{\link{numeric}} or \code{\link{character}} vector
 #'  giving the selection of the assemblage that are drawn.
 #' @param n A length-one non-negative \code{\link{numeric}} vector giving the
 #'  desired length of the vector of quantiles for density computation.
-# @param sort A \code{\link{character}} string indicating whether the dates
-#  should be sorted. It can be one of \code{asc} or \code{dsc} (default).
-#  Any unambiguous substring can be given. If \code{NULL} no sorting is
-#  performed.
+#' @param sort A \code{\link{character}} string indicating whether the dates
+#'  should be sorted. It can be one of "\code{asc}" or "\code{dsc}" (default).
+#'  Any unambiguous substring can be given. If \code{NULL} no sorting is
+#'  performed.
+#' @param tempo A \code{\link{logical}} scalar: should a tempo-plot be displayed
+#'  instead of activity? Only used if type contains "\code{accumulation}".
 #' @param ... Further arguments passed to other methods.
 #' @details
 #'  Plots the two probability estimate density curves of
@@ -648,15 +626,101 @@ setGeneric(
 )
 
 # ==============================================================================
+#' Model refining
+#'
+#' @param object An \eqn{m \times p}{m x p} data matrix.
+#' @param method A \code{\link{character}} string specifiying the resampling
+#'  method to be used. This must be one of "\code{jackknife}",
+#'  "\code{bootstrap}" (see details). Any unambiguous substring can be given.
+#' @param cutoff A function that takes a numeric vector as argument and returns
+#'  a single numeric value (see details).
+#' @param n A non-negative \code{\link{integer}} giving the number of partial
+#'  bootstrap replications (see details).
+#' @param axes A \code{\link{numeric}} vector giving the subscripts of the CA
+#'  axes to use (see details).
+#' @param ... Further arguments passed to other methods.
+#' @section CA seriation refining:
+#'  \code{refine} allows to identify samples that are subject to sampling error
+#'  or samples that have underlying structural relationships and might be
+#'  influencing the ordering along the CA space.
+#'
+#'  This relies on a partial bootstrap approach to CA-based seriation where each
+#'  sample is replicated \code{n} times. The maximum dimension length of
+#'  the convex hull around the sample point cloud allows to remove samples for
+#'  a given \code{cutoff} value.
+#'
+#'  According to Peebles and Schachner (2012), "[this] point removal procedure
+#'  [results in] a reduced dataset where the position of individuals within the
+#'  CA are highly stable and which produces an ordering consistend with the
+#'  assumptions of frequency seriation."
+#'
+#'  If the results of \code{\link{refine}} is used as an input argument in
+#'  \code{seriate}, a correspondance analysis is performed on the subset of
+#'  \code{object} which matches the samples to be kept. Then excluded samples
+#'  are projected onto the dimensions of the CA coordinate space using the row
+#'  transition formulae. Finally, row coordinates onto the first dimension
+#'  give the seriation order.
+#' @section Date model checking:
+#'  Resampling methods can be used to check the stability of the resulting
+#'  \linkS4class{DateModel}.
+#'
+#'  If \code{jackknife} is used, one type/fabric is removed at a
+#'  time and all statistics are recalculated. In this way, one can assess
+#'  whether certain type/fabric has a substantial influence on the date
+#'  estimate.
+#'  A six columns \code{\link{data.frame}} is returned, giving the results of
+#'  the resamping procedure (jackknifing fabrics) for each assemblage (in rows)
+#'  with the following columns:
+#'  \describe{
+#'   \item{id}{An identifier to link each row to an assemblage.}
+#'   \item{date}{The jackknife event date estimate.}
+#'   \item{lower}{The lower boundary of the associated prediction interval.}
+#'   \item{upper}{The upper boundary of the associated prediction interval.}
+#'   \item{error}{The standard error of predicted means.}
+#'   \item{bias}{The jackknife estimate of bias.}
+#'  }
+#'
+#'  If \code{bootstrap} is used, a large number of new
+#'  bootstrap assemblages is created, with the same sample size, by resampling
+#'  each of the original assemblage with replacement. Then, examination of the
+#'  bootstrap statistics makes it possible to pinpoint assemblages that require
+#'  further investigation.
+#'  A six columns \code{\link{data.frame}} is returned, giving the boostrap
+#'  distribution statistics for each replicated assemblage (in rows)
+#'  with the following columns:
+#'  \describe{
+#'   \item{id}{An identifier to link each row to an assemblage.}
+#'   \item{min}{Minimum value.}
+#'   \item{Q05}{Sample quantile to 0.05 probability.}
+#'   \item{mean}{Mean value (event date).}
+#'   \item{Q95}{Sample quantile to 0.95 probability.}
+#'   \item{max}{Maximum value.}
+#'  }
+#' @note
+#'  These methods can lead to much longer execution times and larger output
+#'  objects. To monitor the execution of these re-sampling procedures, a
+#'  progress bar will automatically be displayed if the
+#'  \code{\link[pbapply]{pbapply}} package is installed on your machine.
+#' @references
+#'  Peeples, M. A., & Schachner, G. (2012). Refining correspondence
+#'  analysis-based ceramic seriation of regional data sets. \emph{Journal of
+#'  Archaeological Science}, 39(8), 2818-2827.
+#'  DOI: \href{https://doi.org/10.1016/j.jas.2012.04.040}{10.1016/j.jas.2012.04.040}.
+#' @seealso \link{seriate}, \link{date}
+#' @rdname refine
+#' @aliases refine-method
+setGeneric(
+  name = "refine",
+  def = function(object, ...) standardGeneric("refine")
+)
+
+# ==============================================================================
 #' Matrix seriation
 #'
 #' @description
 #'  \code{seriate} computes a permutation order for rows and/or columns.
 #'
 #'  \code{permute} rearranges a data matrix according to a permutation order.
-#'
-#'  \code{refine} performs a partial bootstrap correspondance analysis
-#'  seriation refinement.
 #' @param object An \eqn{m \times p}{m x p} data matrix.
 #' @param subset A \linkS4class{BootCA} object giving the subset of
 #'  \code{object} to be used.
@@ -673,12 +737,6 @@ setGeneric(
 #'  \code{c(2, 1)} indicates columns then rows.
 #' @param stop A length-one \code{\link{numeric}} vector giving the stopping rule
 #'  (i.e. maximum number of iterations) to avoid infinite loop.
-#' @param cutoff A function that takes a numeric vector as argument and returns
-#'  a single numeric value (see details).
-#' @param n A non-negative \code{\link{integer}} giving the number of partial
-#'  bootstrap replications (see details).
-#' @param axes A \code{\link{numeric}} vector giving the subscripts of the CA
-#'  axes to use (see details).
 #' @param ... Further arguments passed to other methods.
 #' @section Seriation:
 #'  The matrix seriation problem in archaeology is based on three conditions
@@ -719,41 +777,12 @@ setGeneric(
 #'   If no convergence is reached before the maximum number of iterations, it
 #'   stops with a warning.}
 #'  }
-#' @section CA seriation refining:
-#'  \code{refine} allows to identify samples that are subject to sampling error
-#'  or samples that have underlying structural relationships and might be
-#'  influencing the ordering along the CA space.
-#'
-#'  This relies on a partial bootstrap approach to CA-based seriation where each
-#'  sample is replicated \code{n} times. The maximum dimension length of
-#'  the convex hull around the sample point cloud allows to remove samples for
-#'  a given \code{cutoff} value.
-#'
-#'  According to Peebles and Schachner (2012), "[this] point removal procedure
-#'  [results in] a reduced dataset where the position of individuals within the
-#'  CA are highly stable and which produces an ordering consistend with the
-#'  assumptions of frequency seriation."
-#'
-#'  If the results of \code{\link{refine}} is used as an input argument in
-#'  \code{seriate}, a correspondance analysis is performed on the subset of
-#'  \code{object} which matches the samples to be kept. Then excluded samples
-#'  are projected onto the dimensions of the CA coordinate space using the row
-#'  transition formulae. Finally, row coordinates onto the first dimension
-#'  give the seriation order.
-#'
-#'  To monitor the execution of these re-sampling procedure, a progress bar
-#'  will automatically be displayed if the \code{\link[pbapply]{pbapply}}
-#'  package is installed on your machine.
 #' @return
 #'  \code{seriate} returns a \linkS4class{PermutationOrder} object.
 #'
 #'  \code{permute} returns either a
 #'  \linkS4class{CountMatrix}, \linkS4class{FrequencyMatrix} or
 #'  \linkS4class{IncidenceMatrix} (the same as \code{object}).
-#'
-#'  \code{refine} returns a \linkS4class{BootCA} object containing the subscript
-#'  of samples to be kept (i.e. samples with maximum dimension length of the
-#'  convex hull smaller than the cutoff value).
 #' @references
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
 #'  graphique pour tableaux de comptages. \emph{Revue archéologique de
@@ -768,37 +797,26 @@ setGeneric(
 #'  In C. Weihs & W. Gaul (Eds.), \emph{Classification: The Ubiquitous Challenge}
 #'  (p. 307-316). Berlin Heidelberg: Springer.
 #'  DOI: \href{https://doi.org/10.1007/3-540-28084-7_34}{10.1007/3-540-28084-7_34}.
-#'
-#'  Peeples, M. A., & Schachner, G. (2012). Refining correspondence
-#'  analysis-based ceramic seriation of regional data sets. \emph{Journal of
-#'  Archaeological Science}, 39(8), 2818-2827.
-#'  DOI: \href{https://doi.org/10.1016/j.jas.2012.04.040}{10.1016/j.jas.2012.04.040}.
-#' @seealso \link{refine} \link[FactoMineR]{CA}
+#' @seealso \link{refine}, \link[FactoMineR]{CA}
 #' @example inst/examples/ex-seriation.R
 #' @author N. Frerebeau
 #' @docType methods
-#' @name seriation
-#' @rdname seriation
+#' @name seriate
+#' @rdname seriate
 NULL
 
-#' @rdname seriation
+#' @rdname seriate
 #' @aliases seriate-method
 setGeneric(
   name = "seriate",
   def = function(object, subset, ...) standardGeneric("seriate")
 )
 
-#' @rdname seriation
+#' @rdname seriate
 #' @aliases permute-method
 setGeneric(
   name = "permute",
   def = function(object, order, ...) standardGeneric("permute")
-)
-#' @rdname seriation
-#' @aliases refine-method
-setGeneric(
-  name = "refine",
-  def = function(object, ...) standardGeneric("refine")
 )
 
 # ==============================================================================

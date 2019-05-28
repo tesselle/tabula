@@ -122,6 +122,21 @@ checkNames <- function(x, expected) {
   }
 }
 #' @rdname check
+checkColnames <- function(x, expected) {
+  arg <- deparse(substitute(x))
+  n <- colnames(x)
+  if (missing(expected)) {
+    if (isEmpty(n)) {
+      throwError(arg, must = "have column names.")
+    }
+  } else if (isEmpty(n) || any(n != expected)) {
+    throwError(
+      arg, must = sprintf("have the following column names: %s.",
+                          paste0(sQuote(expected), collapse = ", "))
+    )
+  }
+}
+#' @rdname check
 checkMissing <- function(x) {
   arg <- deparse(substitute(x))
   n <- sum(is.na(x))

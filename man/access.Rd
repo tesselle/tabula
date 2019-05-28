@@ -13,17 +13,17 @@
 \alias{setCoordinates<-}
 \alias{getEPSG}
 \alias{setEPSG<-}
-\alias{getCoordinates,SpaceTime-method}
-\alias{getDates,SpaceTime-method}
-\alias{getEPSG,SpaceTime-method}
+\alias{getCoordinates,AbundanceMatrix-method}
+\alias{getDates,AbundanceMatrix-method}
+\alias{getEPSG,AbundanceMatrix-method}
 \alias{getID,ANY-method}
 \alias{getTotals,FrequencyMatrix-method}
-\alias{setDates<-,SpaceTime-method}
-\alias{setDates,SpaceTime-method}
-\alias{setCoordinates<-,SpaceTime-method}
-\alias{setCoordinates,SpaceTime-method}
-\alias{setEPSG<-,SpaceTime-method}
-\alias{setEPSG,SpaceTime-method}
+\alias{setDates<-,AbundanceMatrix-method}
+\alias{setDates,AbundanceMatrix-method}
+\alias{setCoordinates<-,AbundanceMatrix-method}
+\alias{setCoordinates,AbundanceMatrix-method}
+\alias{setEPSG<-,AbundanceMatrix-method}
+\alias{setEPSG,AbundanceMatrix-method}
 \title{Extract or Replace Parts of an Object}
 \usage{
 getID(object)
@@ -42,21 +42,21 @@ getEPSG(object)
 
 setEPSG(object) <- value
 
-\S4method{getCoordinates}{SpaceTime}(object)
+\S4method{getCoordinates}{AbundanceMatrix}(object)
 
-\S4method{getDates}{SpaceTime}(object)
+\S4method{getDates}{AbundanceMatrix}(object)
 
-\S4method{getEPSG}{SpaceTime}(object)
+\S4method{getEPSG}{AbundanceMatrix}(object)
 
 \S4method{getID}{ANY}(object)
 
 \S4method{getTotals}{FrequencyMatrix}(object)
 
-\S4method{setDates}{SpaceTime}(object) <- value
+\S4method{setDates}{AbundanceMatrix}(object) <- value
 
-\S4method{setCoordinates}{SpaceTime}(object) <- value
+\S4method{setCoordinates}{AbundanceMatrix}(object) <- value
 
-\S4method{setEPSG}{SpaceTime}(object) <- value
+\S4method{setEPSG}{AbundanceMatrix}(object) <- value
 }
 \arguments{
 \item{object}{An object from which to get or set element(s).}

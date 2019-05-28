@@ -1,9 +1,10 @@
-# REFINE MATRIX SERIATION
+# REFINE MODELS (MATRIX SERIATION AND DATING)
 #' @include AllGenerics.R AllClasses.R
 NULL
 
 #' @export
-#' @rdname seriation
+#' @describeIn refine Performs a partial bootstrap correspondance analysis
+#'  seriation refinement and returns a \linkS4class{BootCA} object.
 #' @aliases refine,CountMatrix-method
 setMethod(
   f = "refine",
@@ -13,12 +14,16 @@ setMethod(
     hull_rows <- bootHull(object, n = n, margin = 1, axes = axes, ...)
     hull_columns <- bootHull(object, n = n, margin = 2, axes = axes, ...)
     # Get convex hull maximal dimension length for each sample
-    length_rows <- sapply(X = hull_rows, function(x) {
-      max(stats::dist(x, method = "euclidean"))
-    })
-    length_columns <- sapply(X = hull_columns, function(x) {
-      max(stats::dist(x, method = "euclidean"))
-    })
+    length_rows <- vapply(
+      X = hull_rows,
+      FUN = function(x) max(stats::dist(x, method = "euclidean")),
+      FUN.VALUE = double(1)
+    )
+    length_columns <- vapply(
+      X = hull_columns,
+      FUN = function(x) max(stats::dist(x, method = "euclidean")),
+      FUN.VALUE = double(1)
+    )
     # Get cutoff values
     limit_rows <- cutoff(length_rows)
     limit_columns <- cutoff(length_columns)
@@ -31,7 +36,8 @@ setMethod(
 
     BootCA(
       id = object[["id"]],
-      rows = as.list(rows), columns = as.list(cols),
+      rows = as.list(rows),
+      columns = as.list(cols),
       lengths = list(length_rows, length_columns),
       cutoff = c(limit_rows, limit_columns),
       keep = list(keep_rows, keep_columns)
@@ -80,13 +86,213 @@ bootHull <- function(x, margin = 1, n = 1000, axes = c(1, 2), ...) {
     return(as.data.frame(hull))
   }
 
-  hull <- if (requireNamespace("pbapply", quietly = TRUE)) {
-    pbapply::pbapply(X = x, MARGIN = margin,
-                     FUN = computeHull, n = n, svd = svd, axes = axes)
+  loop_fun <- if (requireNamespace("pbapply", quietly = TRUE)) {
+    pbapply::pbapply
   } else {
-    apply(X = x, MARGIN = margin,
-          FUN = computeHull, n = n, svd = svd, axes = axes)
+    apply
+  }
+  loop_args <- list(X = x, MARGIN = margin, FUN = computeHull,
+                    n = n, svd = svd, axes = axes)
+  hull <- do.call(loop_fun, loop_args)
+
+  hull
+}
+
+# DateModel ====================================================================
+#' @export
+#' @describeIn refine Checks the stability of a date model with resampling
+#'  methods.
+#' @aliases refine,DateModel-method
+setMethod(
+  f = "refine",
+  signature = signature(object = "DateModel"),
+  definition = function(object, method = c("jackknife", "bootstrap"),
+                        n = 1000, ...) {
+    # Validation
+    method <- match.arg(method, several.ok = FALSE)
+
+    # Get data
+    counts <- object@counts
+    fit <- object@model
+    keep_dim <- seq_len(ncol(fit$model) - 1)
+    level <- object@level
+    row_event <- object@rows
+
+    # Check model with resampling methods
+    ## Jackknife fabrics
+    if ("jackknife" %in% method) {
+      jack_event <- jackDate(counts, fit, keep = keep_dim, level = level, ...)
+      # Compute jaccknife bias
+      results <- jack_event %>%
+        as.data.frame() %>%
+        dplyr::transmute(
+          id = factor(rownames(.), levels = rownames(.)),
+          date = .data$date,
+          lower = .data$lower,
+          upper = .data$upper,
+          error = .data$error,
+          bias = (ncol(counts) - 1) * (.data$date - row_event[, "date"])
+        )
+    }
+    ## Bootstrap assemblages
+    if ("bootstrap" %in% method) {
+      results <- bootDate(counts, fit, margin = 1, n = n,
+                          keep = keep_dim, level = level, ...)
+    }
+    results
+  }
+)
+
+#' Bootstrap resampling of assemblages
+#'
+#' @param x An \eqn{m \times p}{m x p} \code{\link{numeric}} matrix of count data.
+#' @param model An object of class \code{\link[stats]{lm}}.
+#' @param margin A non-negative \code{\link{integer}} giving the subscripts
+#'  which the rearrangement will be applied over: \code{1} indicates rows,
+#'  \code{2} indicates columns.
+#' @param n A non-negative \code{\link{integer}} giving the number of partial
+#'  bootstrap replications.
+#' @param keep An \code{\link{integer}} giving the number of CA factors to keep
+#'  for new data prediction.
+#' @param level A length-one \code{\link{numeric}} vector giving the
+#'  confidence level.
+#' @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
+#' @return A six columns \code{\link{data.frame}} giving the boostrap
+#'  distribution statistics for each replicated assemblage (in rows)
+#'  with the following columns:
+#'  \describe{
+#'   \item{id}{An identifier to link each row to an assemblage.}
+#'   \item{min}{Minimum value.}
+#'   \item{Q05}{Sample quantile to 0.05 probability.}
+#'   \item{mean}{Mean value (event date).}
+#'   \item{Q95}{Sample quantile to 0.95 probability.}
+#'   \item{max}{Maximum value.}
+#'  }
+#' @author N. Frerebeau
+#' @keywords internal
+#' @noRd
+bootDate <- function(x, model, margin = 1, n = 1000, keep = ncol(x),
+                     level = 0.95, ...) {
+  # Validation
+  margin <- as.integer(margin)
+  n <- as.integer(n)
+  keep <- as.integer(keep)
+  level <- as.numeric(level)
+
+  # CA on the whole dataset
+  axes <- min(dim(x))
+  results_CA <- FactoMineR::CA(x, ncp = axes, graph = FALSE, ...)
+  svd <- if (margin == 1) results_CA$svd$V else results_CA$svd$U
+
+  # Compute date event statistics for each replicated sample
+  computeStats <- function(x, n, svd, keep, model, level) {
+    # n random replicates
+    # replicated <- sample(x = n, size = sum(x), prob = x)
+    replicated <- stats::rmultinom(n = n, size = sum(x), prob = x)
+    # Compute new CA coordinates
+    coords <- crossprod(replicated / colSums(replicated), svd)
+    coords <- coords[, keep]
+    # Workaround: same colnames as FactoMineR results used to build the model
+    colnames(coords) <- paste("Dim", keep, sep = " ")
+    # Gaussian multiple linear regression model
+    event <- predictEvent(model, coords, level)[, "date"]
+    Q <- stats::quantile(event, probs = c(0.05, 0.95), names = FALSE)
+    distrib <- cbind(min(event), Q[1], mean(event), Q[2], max(event))
+    return(distrib)
   }
 
-  return(hull)
+  loop_fun <- if (requireNamespace("pbapply", quietly = TRUE)) {
+    pbapply::pbapply
+  } else {
+    apply
+  }
+  loop_args <- list(X = x, MARGIN = margin, FUN = computeStats,
+                    n = n, svd = svd, keep = keep, model = model, level = level)
+  boot <- do.call(loop_fun, loop_args)
+
+  boot_event <- data.frame(colnames(boot), t(boot), row.names = NULL,
+                           stringsAsFactors = FALSE)
+  colnames(boot_event) <- c("id", "min", "Q05", "mean", "Q95", "max")
+  boot_event
+}
+
+#' Jackknife fabrics
+#'
+#' @param x An \eqn{m \times p}{m x p} \code{\link{numeric}} matrix of count
+#'  data.
+#' @param date A list of \code{\link{numeric}} values giving the known dates used
+#'  for the linear model fitting.
+#' @param model A \code{\link[stats:lm]{linear model}} in which coefficients will
+#'  be replaced by the jackknife estimates.
+#' @param keep An \code{\link{integer}} giving the number of CA factors to keep
+#'  for new data prediction.
+#' @param level A length-one \code{\link{numeric}} vector giving the
+#'  confidence level.
+#' @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
+#' @return A six columns \code{\link{data.frame}} giving the results of
+#'  the resamping procedure (jackknifing fabrics) for each assemblage (in rows)
+#'  with the following columns:
+#'  \describe{
+#'   \item{id}{An identifier to link each row to an assemblage.}
+#'   \item{date}{The jackknife event date estimate.}
+#'   \item{lower}{The lower boundary of the associated prediction interval.}
+#'   \item{upper}{The upper boundary of the associated prediction interval.}
+#'   \item{error}{The standard error of predicted means.}
+#'   \item{bias}{The jackknife estimate of bias.}
+#'  }
+#' @author N. Frerebeau
+#' @keywords internal
+#' @noRd
+jackDate <- function(x, model, keep = ncol(x), level = 0.95, ...) {
+  # Validation
+  keep <- as.integer(keep)
+  level <- as.numeric(level)
+
+  # Get data
+  dates <- model$model %>%
+    as.data.frame() %>%
+    dplyr::transmute(
+      id = factor(rownames(.), levels = rownames(.)),
+      date = .data$date
+    )
+
+  # CA on the whole dataset
+  axes <- min(dim(x))
+  results_CA <- FactoMineR::CA(x, ncp = axes, graph = FALSE, ...)
+
+  computeCoef <- function(i, data, dates, keep, level) {
+    # Removing a column may lead to rows filled only with zeros
+    # We need to remove such rows to compute CA
+    zero <- which(rowSums(data[, -i]) == 0)
+    sampled <- if (length(zero) != 0) data[-zero, -i] else data[, -i]
+    # Compute CA
+    axes <- min(dim(sampled))
+    results_CA <- FactoMineR::CA(sampled, ncp = axes, graph = FALSE, ...)
+    row_coord <- as.data.frame(results_CA$row$coord)
+    # Gaussian multiple linear regression model
+    contexts <- merge(dates, row_coord[, keep], by.x = "id", by.y = "row.names")
+    ## Remove column 'id' before fitting
+    contexts %<>%
+      as.data.frame() %>%
+      dplyr::select(-id)
+    fit <- stats::lm(date ~ ., data = contexts)
+    # Return model coefficients
+    return(stats::coef(fit))
+  }
+
+  loop_fun <- if (requireNamespace("pbapply", quietly = TRUE)) {
+    pbapply::pblapply
+  } else {
+    lapply
+  }
+  loop_args <- list(X = 1:ncol(x), FUN = computeCoef, data = x, dates = dates,
+                    keep = keep, level = level)
+  jack <- do.call(loop_fun, loop_args)
+
+  # Predict event date for each context
+  jack_mean <- apply(X = do.call(rbind, jack), MARGIN = 2, FUN = mean)
+  jack_fit <- model
+  jack_fit$coefficients <- jack_mean
+  jack_event <- predictEvent(jack_fit, results_CA$row$coord, level)
+  jack_event
 }

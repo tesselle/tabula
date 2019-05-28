@@ -11,10 +11,10 @@ An S4 class to reprensent space-time informations.
 \section{Slots}{
 
 \describe{
-\item{\code{dates}}{A list of two \code{\link{numeric}} vectors giving
+\item{\code{dates}}{A two column \code{\link{numeric}} matrix giving
 the date \code{value} and \code{error}, respectively.}
 
-\item{\code{coordinates}}{A list of three \code{\link{numeric}} vectors
+\item{\code{coordinates}}{A three columns \code{\link{numeric}} matrix
 (\code{x}, \code{y} and \code{z}) giving the geographic coordinates
 (longitude, latitude and elevation, respectively).}
 

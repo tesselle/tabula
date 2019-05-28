@@ -223,7 +223,7 @@ zuni <- as(zuni, "CountMatrix")
 
 # Assume that some assemblages are reliably dated (this is NOT a real example).
 # The names of the vector entries must match the names of the assemblages.
-dates <- list(
+setDates(zuni) <- c(
   LZ0569 = 1097, LZ0279 = 1119, CS16 = 1328, LZ0066 = 1111,
   LZ0852 = 1216, LZ1209 = 1251, CS144 = 1262, LZ0563 = 1206,
   LZ0329 = 1076, LZ0005Q = 859, LZ0322 = 1109, LZ0067 = 863,
@@ -231,7 +231,7 @@ dates <- list(
 )
 
 # Model the event and accumulation date for each assemblage.
-(model <- dateEvent(zuni, dates, cutoff = 90))
+(model <- dateEvent(zuni, cutoff = 90))
 ```
 
 The estimated probability density of an event date is approached by a normal distribution. The distribution of the accumulation time of each context is approached by a Gaussian mixture.
@@ -246,16 +246,13 @@ Resampling methods can be used to check the stability of the resulting model. If
 
 ```{r refine-date}
 # Check model variability
-checked <- dateEvent(zuni, dates, cutoff = 90,
-                     jackknife = TRUE, bootstrap = TRUE, n = 1000)
-
-# Extract results for the first 5 assemblages
-## Modeled event dates
-checked["rows", 1:5]
 ## Jackknife fabrics
-checked["jackknife", 1:5]
+refined_jack <- refine(model, method = "jackknife", n = 1000)
+head(refined_jack)
+
 ## Bootstrap of assemblages
-checked["bootstrap", 1:5]
+refined_boot <- refine(model, method = "bootstrap", n = 1000)
+head(refined_boot)
 ```
 
 # References

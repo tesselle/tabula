@@ -89,90 +89,54 @@ setValidity(
   method = function(object) {
     errors <- c()
     # Get data
-    dates <- object@dates
+    id <- object@id
+    counts <- object@counts
     level <- object@level
-    model <- object@model
-    residual <- object@residual
+    # model <- object@model
     rows <- object@rows
     columns <- object@columns
     accumulation <- object@accumulation
-    jackknife <- object@jackknife
-    bootstrap <- object@bootstrap
 
-    if (length(level) != 0) {
-      if (length(level) != 1 | anyNA(level))
-        errors <- c(errors, paste(sQuote("level"), "must be a length-one numeric vector."))
-      else
-        if (level <= 0 | level >= 1)
-          errors <- c(errors, paste(sQuote("level"), "must be in the range of 0 to 1 (excluded)."))
-    }
-    if (length(residual) != 0) {
-      if (length(residual) != 1 | anyNA(residual))
-        errors <- c(errors, paste(sQuote("residual"), "must be a strictly positive numeric value."))
-    }
-    if (length(rows) != 0) {
-      if (ncol(rows) != 5)
-        errors <- c(errors, paste(sQuote("rows"), "must be a five columns data frame."))
-      if (anyNA(rows))
-        errors <- c(errors, paste(sQuote("rows"), "must not contain missing values."))
-    }
-    if (length(columns) != 0) {
-      if (ncol(columns) != 5)
-        errors <- c(errors, paste(sQuote("columns"), "must be a five columns data frame."))
-      if (anyNA(columns))
-        errors <- c(errors, paste(sQuote("columns"), "must not contain missing values."))
-    }
-    if (length(accumulation) != 0) {
-      if (ncol(accumulation) != 2)
-        errors <- c(errors, paste(sQuote("accumulation"), "must be a two columns data frame."))
-      if (anyNA(accumulation))
-        errors <- c(errors, paste(sQuote("accumulation"), "must not contain missing values."))
-      if (length(rows) != 0) {
-        a <- nrow(rows)
-        b <- nrow(accumulation)
-        if (b != a)
-          errors <- c(errors, paste(sQuote("accumulation"), "must be a 5 x", a, "data frame."))
-      }
-    }
-    if (length(jackknife) != 0) {
-      if (ncol(jackknife) != 6)
-        errors <- c(errors, paste(sQuote("jackknife"), "must be a six columns data frame."))
-      if (anyNA(jackknife))
-        errors <- c(errors, paste(sQuote("jackknife"), "must not contain missing values."))
-      is_num <- apply(X = jackknife[, -1], MARGIN = 2, FUN = is.numeric)
-      if (!any(is_num))
-        errors <- c(errors, paste(sQuote("jackknife"), "must contain numeric values."))
-      if (length(rows) != 0) {
-        a <- nrow(rows)
-        b <- nrow(jackknife)
-        if (b != a)
-          errors <- c(errors, paste(sQuote("jackknife"), "must be a 6 x", a, "data frame."))
-      }
-    }
-    if (length(bootstrap) != 0) {
-      if (ncol(bootstrap) != 6)
-        errors <- c(errors, paste(sQuote("bootstrap"), "must be a six columns data frame."))
-      if (anyNA(bootstrap))
-        errors <- c(errors, paste(sQuote("bootstrap"), "must not contain missing values."))
-      is_num <- apply(X = bootstrap[, -1], MARGIN = 2, FUN = is.numeric)
-      if (!any(is_num))
-        errors <- c(errors, paste(sQuote("bootstrap"), "must contain numeric values."))
-      if (length(rows) != 0) {
-        a <- nrow(rows)
-        b <- nrow(bootstrap)
-        if (b != a)
-          errors <- c(errors, paste(sQuote("bootstrap"), "must be a 6 x", a, "data frame."))
-      }
-    }
-    if (length(jackknife) != 0 & length(bootstrap) != 0)
-      if (nrow(jackknife) != nrow(bootstrap))
-        errors <- c(errors, paste(sQuote("jackknife"), "and", sQuote("bootstrap"), "must have the same number of rows."))
+    errors <- list(
+      # Check id
+      id = c(
+        catchConditions(checkUUID(id))
+      ),
+      counts = c(
+        catchConditions(checkType(counts, expected = "numeric")),
+        catchConditions(checkMissing(counts)),
+        catchConditions(checkInfinite(counts))
+      ),
+      level = c(
+        catchConditions(checkScalar(level, expected = "numeric")),
+        catchConditions(checkMissing(level)),
+        catchConditions(checkInfinite(level))
+      ),
+      rows = c(
+        catchConditions(checkType(rows, expected = "numeric")),
+        catchConditions(checkMissing(rows)),
+        catchConditions(checkInfinite(rows)),
+        catchConditions(checkColnames(rows, expected = c("date", "lower",
+                                                         "upper", "error")))
+      ),
+      columns = c(
+        catchConditions(checkType(columns, expected = "numeric")),
+        catchConditions(checkMissing(columns)),
+        catchConditions(checkInfinite(columns)),
+        catchConditions(checkColnames(columns, expected = c("date", "lower",
+                                                            "upper", "error")))
+      ),
+      accumulation = c(
+        catchConditions(checkType(accumulation, expected = "numeric")),
+        catchConditions(checkMissing(accumulation)),
+        catchConditions(checkInfinite(accumulation)),
+        catchConditions(checkColnames(accumulation,
+                                      expected = c("date", "error")))
+      )
+    )
+
     # Return errors if any
-    if (length(errors) != 0) {
-      printErrors(object, errors, call = FALSE)
-    } else {
-      return(TRUE)
-    }
+    formatErrors(object, errors)
   }
 )
 
@@ -223,28 +187,14 @@ setValidity(
     # Check dates
     errors <- list(
       dates = c(
-        unlist(lapply(
-          X = dates,
-          FUN = function(x) {
-            c(catchConditions(checkType(x, expected = "numeric")),
-              catchConditions(checkInfinite(x)))
-          }
-        )),
-        catchConditions(checkLength(dates, expected = 2)),
-        catchConditions(checkLengths(dates)),
-        catchConditions(checkNames(dates, expected = c("value", "error")))
+        catchConditions(checkType(dates, expected = "numeric")),
+        catchConditions(checkInfinite(dates)),
+        catchConditions(checkColnames(dates, expected = c("value", "error")))
       ),
       coordinates = c(
-        unlist(lapply(
-          X = coordinates,
-          FUN = function(x) {
-            c(catchConditions(checkType(x, expected = "numeric")),
-              catchConditions(checkInfinite(x)))
-          }
-        )),
-        catchConditions(checkLength(coordinates, expected = 3)),
-        catchConditions(checkLengths(coordinates)),
-        catchConditions(checkNames(coordinates, expected = c("x", "y", "z")))
+        catchConditions(checkType(coordinates, expected = "numeric")),
+        catchConditions(checkInfinite(coordinates)),
+        catchConditions(checkColnames(coordinates, expected = c("x", "y", "z")))
       ),
       epsg = c(
         catchConditions(checkScalar(epsg, expected = "integer")),
@@ -316,16 +266,16 @@ setValidity(
         catchConditions(checkNumbers(data, "whole"))
       )
     )
-    if (!all(lengths(dates) == 0)) {
+    if (length(dates) != 0 && nrow(dates) > 0) {
       # Check dates
       errors[["dates"]] <- c(
-        catchConditions(checkLengths(dates, expected = n))
+        catchConditions(checkLength(dates, expected = n * 2))
       )
     }
-    if (!all(lengths(coordinates) == 0)) {
+    if (length(coordinates) != 0 && nrow(coordinates) > 0) {
       # Check coordinates
-      errors["coordinates"] <- c(
-        catchConditions(checkLengths(coordinates, expected = n))
+      errors[["coordinates"]] <- c(
+        catchConditions(checkLength(coordinates, expected = n * 3))
       )
     }
     # Messages

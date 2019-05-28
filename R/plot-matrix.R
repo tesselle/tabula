@@ -1,0 +1,102 @@
+# PLOT MATRIX
+#' @include AllGenerics.R AllClasses.R
+NULL
+
+#' @export
+#' @rdname plotMatrix-method
+#' @aliases plotMatrix,CountMatrix-method
+setMethod(
+  f = "plotMatrix",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, PVI = FALSE) {
+    # Prepare data
+    # Get row names and coerce to factor (preserve original ordering)
+    row_names <- rownames(object) %>% factor(levels = unique(.))
+
+    if (PVI) {
+      # Coerce to count data for PVI computation
+      object <- methods::as(object, "CountMatrix")
+
+      # Build long table from threshold
+      data <- independance(object, method = "PVI") %>%
+        as.data.frame() %>%
+        dplyr::mutate(case = row_names) %>%
+        tidyr::gather(key = "type", value = "PVI",
+                      -.data$case, factor_key = TRUE)
+    } else {
+      # Build long table from data
+      data <- object %>%
+        { . / rowSums(.) } %>%
+        as.data.frame() %>%
+        dplyr::mutate(case = row_names) %>%
+        tidyr::gather(key = "type", value = "frequency",
+                      -.data$case, factor_key = TRUE)
+    }
+
+    # Tile centers
+    data %<>% dplyr::mutate(
+      x = as.numeric(.data$type),
+      y = as.numeric(.data$case)
+    )
+
+    # ggplot
+    fill <- ifelse(PVI, "PVI", "frequency")
+    ggplot(data = data) +
+      geom_tile(aes_string(x = "x", y = "y", fill = fill)) +
+      scale_x_continuous(position = "top", expand = c(0, 0),
+                         limits = range(data$x) + c(-0.5, 0.5),
+                         breaks = unique(data$x),
+                         labels = unique(data$type)) +
+      scale_y_continuous(expand = c(0, 0), trans = "reverse",
+                         breaks = unique(data$y),
+                         labels = unique(data$case)) +
+      theme(axis.text.x = element_text(angle = 90, hjust = 0),
+            axis.ticks = element_blank(),
+            axis.title = element_blank(),
+            panel.grid = element_blank()) +
+      coord_fixed()
+  }
+)
+
+#' @export
+#' @rdname plotMatrix-method
+#' @aliases plotMatrix,FrequencyMatrix-method
+setMethod(
+  f = "plotMatrix",
+  signature = signature(object = "FrequencyMatrix"),
+  definition = function(object, PVI = FALSE) {
+    count <- methods::as(object, "CountMatrix")
+    plotMatrix(count, PVI = PVI)
+  }
+)
+
+#' @export
+#' @rdname plotMatrix-method
+#' @aliases plotMatrix,IncidenceMatrix-method
+setMethod(
+  f = "plotMatrix",
+  signature = signature(object = "IncidenceMatrix"),
+  definition = function(object) {
+    # Prepare data
+    # Get row names and coerce to factor (preserve original ordering)
+    row_names <- rownames(object) %>% factor(levels = unique(.))
+
+    # Build long table from data and join with threshold
+    data <- object %>%
+      as.data.frame() %>%
+      dplyr::mutate(case = row_names) %>%
+      tidyr::gather(key = "type", value = "value",
+                    -.data$case, factor_key = TRUE)
+
+    # ggplot
+    ggplot(data = data, aes_string(x = "type", y = "case", fill = "value")) +
+      geom_tile(color = "black") +
+      scale_x_discrete(position = "top") +
+      scale_y_discrete(limits = rev(levels(data$case))) +
+      theme(axis.ticks = element_blank(),
+            axis.text.x = element_text(angle = 90, hjust = 0),
+            panel.background = element_rect(fill = "white"),
+            panel.grid = element_blank()) +
+      coord_fixed()
+  }
+)

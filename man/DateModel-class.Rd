@@ -3,6 +3,7 @@
 \docType{class}
 \name{DateModel-class}
 \alias{DateModel-class}
+\alias{.DateModel}
 \title{Date model}
 \description{
 An S4 class to store the event and accumulation times of archaeological
@@ -14,9 +15,6 @@ An S4 class to store the event and accumulation times of archaeological
 \describe{
 \item{\code{counts}}{A numeric matrix of count data.}
 
-\item{\code{dates}}{A two columns \code{\link{data.frame}} giving the known dates
-used for model fitting and an identifier to link each row to an assemblage.}
-
 \item{\code{level}}{A length-one \code{\link{numeric}} vector giving the
 confidence level.}
 
@@ -24,57 +22,27 @@ confidence level.}
 multiple linear regression model fitted for event date estimation and
 prediction.}
 
-\item{\code{residual}}{A length-one \code{\link{numeric}} vector giving the residual
-standard deviation.}
-
-\item{\code{rows}}{A five columns \code{\link{data.frame}} giving the predicted event
-dates for each archaeological assemblage, with the following columns:
+\item{\code{rows}}{A four columns \code{\link{numeric}} matrix giving the predicted
+event dates for each archaeological assemblage, with the following columns:
 \describe{
- \item{id}{An identifier to link each row to an assemblage.}
- \item{estimation}{The event date estimation.}
- \item{earliest}{The lower boundary of the confidence interval.}
- \item{latest}{The upper boundary of the confidence interval.}
+ \item{date}{The event date estimation.}
+ \item{lower}{The lower boundary of the confidence interval.}
+ \item{upper}{The upper boundary of the confidence interval.}
  \item{error}{The standard error of predicted dates.}
 }}
 
-\item{\code{columns}}{A five columns \code{\link{data.frame}} giving the predicted
-event dates for each archaeological type or fabric, with the following
-columns:
+\item{\code{columns}}{A four columns \code{\link{numeric}} matrix giving the
+predicted event dates for each archaeological type or fabric, with the
+following columns:
 \describe{
- \item{id}{An identifier to link each row to an assemblage.}
- \item{estimation}{The event date estimation.}
- \item{earliest}{The lower boundary of the confidence interval.}
- \item{latest}{The upper boundary of the confidence interval.}
+ \item{date}{The event date estimation.}
+ \item{lower}{The lower boundary of the confidence interval.}
+ \item{upper}{The upper boundary of the confidence interval.}
  \item{error}{The standard error of predicted dates.}
 }}
 
-\item{\code{accumulation}}{A two columns \code{\link{data.frame}} giving the point
-estimate of accumulation dates of archaeological assemblages and an
-identifier to link each row to an assemblage.}
-
-\item{\code{jackknife}}{A six columns \code{\link{data.frame}} giving the results of
-the resamping procedure (jackknifing fabrics) for each assemblage (in rows)
-with the following columns:
-\describe{
- \item{id}{An identifier to link each row to an assemblage.}
- \item{estimation}{The jackknife event date estimate.}
- \item{earliest}{The lower boundary of the associated prediction interval.}
- \item{latest}{The upper boundary of the associated prediction interval.}
- \item{error}{The standard error of predicted means.}
- \item{bias}{The jackknife estimate of bias.}
-}}
-
-\item{\code{bootstrap}}{A six columns \code{\link{data.frame}} giving the boostrap
-distribution statistics for each replicated assemblage (in rows)
-with the following columns:
-\describe{
- \item{id}{An identifier to link each row to an assemblage.}
- \item{min}{Minimum value.}
- \item{Q05}{Sample quantile to 0.05 probability.}
- \item{mean}{Mean value (event date).}
- \item{Q95}{Sample quantile to 0.95 probability.}
- \item{max}{Maximum value.}
-}}
+\item{\code{accumulation}}{A two columns \code{\link{numeric}} matrix giving the
+point estimate of the accumulation dates and the corresponding error.}
 }}
 
 \section{Subset}{

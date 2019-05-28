@@ -10,59 +10,30 @@ NULL
 #'  assemblages as well as the results of resampling methods for date model
 #'  checking.
 #' @slot counts A numeric matrix of count data.
-#' @slot dates A two columns \code{\link{data.frame}} giving the known dates
-#'  used for model fitting and an identifier to link each row to an assemblage.
 #' @slot level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
 #' @slot model A \code{\link[stats:lm]{multiple linear model}}: the Gaussian
 #'  multiple linear regression model fitted for event date estimation and
 #'  prediction.
-#' @slot residual A length-one \code{\link{numeric}} vector giving the residual
-#'  standard deviation.
-#' @slot rows A five columns \code{\link{data.frame}} giving the predicted event
-#'  dates for each archaeological assemblage, with the following columns:
+#' @slot rows A four columns \code{\link{numeric}} matrix giving the predicted
+#'  event dates for each archaeological assemblage, with the following columns:
 #'  \describe{
-#'   \item{id}{An identifier to link each row to an assemblage.}
-#'   \item{estimation}{The event date estimation.}
-#'   \item{earliest}{The lower boundary of the confidence interval.}
-#'   \item{latest}{The upper boundary of the confidence interval.}
+#'   \item{date}{The event date estimation.}
+#'   \item{lower}{The lower boundary of the confidence interval.}
+#'   \item{upper}{The upper boundary of the confidence interval.}
 #'   \item{error}{The standard error of predicted dates.}
 #'  }
-#' @slot columns A five columns \code{\link{data.frame}} giving the predicted
-#'  event dates for each archaeological type or fabric, with the following
-#'  columns:
+#' @slot columns A four columns \code{\link{numeric}} matrix giving the
+#'  predicted event dates for each archaeological type or fabric, with the
+#'  following columns:
 #'  \describe{
-#'   \item{id}{An identifier to link each row to an assemblage.}
-#'   \item{estimation}{The event date estimation.}
-#'   \item{earliest}{The lower boundary of the confidence interval.}
-#'   \item{latest}{The upper boundary of the confidence interval.}
+#'   \item{date}{The event date estimation.}
+#'   \item{lower}{The lower boundary of the confidence interval.}
+#'   \item{upper}{The upper boundary of the confidence interval.}
 #'   \item{error}{The standard error of predicted dates.}
 #'  }
-#' @slot accumulation A two columns \code{\link{data.frame}} giving the point
-#'  estimate of accumulation dates of archaeological assemblages and an
-#'  identifier to link each row to an assemblage.
-#' @slot jackknife A six columns \code{\link{data.frame}} giving the results of
-#'  the resamping procedure (jackknifing fabrics) for each assemblage (in rows)
-#'  with the following columns:
-#'  \describe{
-#'   \item{id}{An identifier to link each row to an assemblage.}
-#'   \item{estimation}{The jackknife event date estimate.}
-#'   \item{earliest}{The lower boundary of the associated prediction interval.}
-#'   \item{latest}{The upper boundary of the associated prediction interval.}
-#'   \item{error}{The standard error of predicted means.}
-#'   \item{bias}{The jackknife estimate of bias.}
-#'  }
-#' @slot bootstrap A six columns \code{\link{data.frame}} giving the boostrap
-#'  distribution statistics for each replicated assemblage (in rows)
-#'  with the following columns:
-#'  \describe{
-#'   \item{id}{An identifier to link each row to an assemblage.}
-#'   \item{min}{Minimum value.}
-#'   \item{Q05}{Sample quantile to 0.05 probability.}
-#'   \item{mean}{Mean value (event date).}
-#'   \item{Q95}{Sample quantile to 0.95 probability.}
-#'   \item{max}{Maximum value.}
-#'  }
+#' @slot accumulation A two columns \code{\link{numeric}} matrix giving the
+#'  point estimate of the accumulation dates and the corresponding error.
 #' @section Subset:
 #'  \describe{
 #'   \item{\code{x[[i]]}}{Extracts informations from a slot selected by
@@ -72,19 +43,25 @@ NULL
 #' @author N. Frerebeau
 #' @docType class
 #' @aliases DateModel-class
-setClass(
+.DateModel <- setClass(
   Class = "DateModel",
   slots = c(
+    id = "character",
+    counts = "matrix",
     level = "numeric",
     model = "lm",
-    residual = "numeric",
-    counts = "matrix",
-    dates = "data.frame",
-    rows = "data.frame",
-    columns = "data.frame",
-    accumulation = "data.frame",
-    jackknife = "data.frame",
-    bootstrap = "data.frame"
+    rows = "matrix",
+    columns = "matrix",
+    accumulation = "matrix"
+  ),
+  prototype = list(
+    id = "00000000-0000-0000-0000-000000000000",
+    counts = matrix(0, 0, 0),
+    level = numeric(1),
+    model = stats::lm(0 ~ 0),
+    rows = matrix(0, 0, 4, dimnames = list(NULL, c("date", "lower", "upper", "error"))),
+    columns = matrix(0, 0, 4, dimnames = list(NULL, c("date", "lower", "upper", "error"))),
+    accumulation = matrix(0, 0, 2, dimnames = list(NULL, c("date", "error")))
   )
 )
 
@@ -190,9 +167,9 @@ setClass(
 #' Space and Time
 #'
 #' An S4 class to reprensent space-time informations.
-#' @slot dates A list of two \code{\link{numeric}} vectors giving
+#' @slot dates A two column \code{\link{numeric}} matrix giving
 #'  the date \code{value} and \code{error}, respectively.
-#' @slot coordinates A list of three \code{\link{numeric}} vectors
+#' @slot coordinates A three columns \code{\link{numeric}} matrix
 #'  (\code{x}, \code{y} and \code{z}) giving the geographic coordinates
 #'  (longitude, latitude and elevation, respectively).
 #' @slot epsg An \code{\link{integer}} giving the EPSG code of the spatial
@@ -219,13 +196,13 @@ setClass(
 .SpaceTime <- setClass(
   Class = "SpaceTime",
   slots = c(
-    dates = "list",
-    coordinates = "list",
+    dates = "matrix",
+    coordinates = "matrix",
     epsg = "integer"
   ),
   prototype = list(
-    dates = list(value = numeric(0), error = numeric(0)),
-    coordinates = list(x = numeric(0), y = numeric(0), z = numeric(0)),
+    dates = matrix(0, 0, 2, dimnames = list(NULL, c("value", "error"))),
+    coordinates = matrix(0, 0, 3, dimnames = list(NULL, c("x", "y", "z"))),
     epsg = as.integer(0)
   )
 )
@@ -458,32 +435,32 @@ setClass(
   contains = c("LogicalMatrix", "SpaceTime")
 )
 
+## Abundance matrix ------------------------------------------------------------
+setClassUnion(
+  name = "AbundanceMatrix",
+  members = c("CountMatrix", "FrequencyMatrix", "IncidenceMatrix")
+)
+
 # INITIALIZATION ===============================================================
 ## DateModel -------------------------------------------------------------------
-setMethod(
-  f = "initialize",
-  signature = "DateModel",
-  definition = function(.Object, counts, dates, model, level, residual,
-                        rows, columns, accumulation,
-                        jackknife, bootstrap) {
-    if (!missing(counts)) .Object@counts <- counts
-    if (!missing(dates)) .Object@dates <- dates
-    # FIXME: workaround to initialize empty instance
-    .Object@model <- if (!missing(model)) model else stats::lm(0 ~ 0)
-    if (!missing(level)) .Object@level <- level
-    if (!missing(residual)) .Object@residual <- residual
-    if (!missing(rows)) .Object@rows <- rows
-    if (!missing(columns)) .Object@columns <- columns
-    if (!missing(accumulation)) .Object@accumulation <- accumulation
-    if (!missing(jackknife)) .Object@jackknife <- jackknife
-    if (!missing(bootstrap)) .Object@bootstrap <- bootstrap
-    methods::validObject(.Object)
-    if (getOption("verbose")) {
-      message(sprintf("%s instance initialized.", sQuote(class(.Object))))
-    }
-    return(.Object)
+DateModel <- function(id = generateUUID(), counts = matrix(0, 0, 0),
+                      level = numeric(1), model = stats::lm(0 ~ 0),
+                      rows = matrix(0, 0, 4, dimnames = list(NULL, c("date", "lower", "upper", "error"))),
+                      columns = matrix(0, 0, 4, dimnames = list(NULL, c("date", "lower", "upper", "error"))),
+                      accumulation = matrix(0, 0, 2, dimnames = list(NULL, c("date", "error")))) {
+  if (getOption("verbose")) {
+    message(sprintf("%s instance initialization...", dQuote("BootCA")))
   }
-)
+  .DateModel(
+    id = id,
+    counts = counts,
+    level = level,
+    model = model,
+    rows = rows,
+    columns = columns,
+    accumulation = accumulation
+  )
+}
 ## BootCA ----------------------------------------------------------------------
 BootCA <- function(id = generateUUID(),
                    rows = list(id = factor(), x = numeric(0), y = numeric(0)),
@@ -533,9 +510,9 @@ PermutationOrder <- function(id = generateUUID(), rows = integer(0),
   )
 }
 ## SpaceTime -------------------------------------------------------------------
-SpaceTime <- function(dates = list(value = numeric(0), error = numeric(0)),
-                      coordinates = list(x = numeric(0), y = numeric(0),
-                                         z = numeric(0)), epsg = 0, ...) {
+SpaceTime <- function(dates = matrix(0, 0, 2, dimnames = list(NULL, c("value", "error"))),
+                      coordinates = matrix(0, 0, 3, dimnames = list(NULL, c("x", "y", "z"))),
+                      epsg = 0, ...) {
   if (getOption("verbose")) {
     message(sprintf("%s instance initialization...", dQuote("SpaceTime")))
   }

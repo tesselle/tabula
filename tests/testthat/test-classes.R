@@ -63,49 +63,27 @@ test_that("Initialize a BootCA object", {
 })
 # Dating =======================================================================
 test_that("Initialize an empty DateModel object", {
-  expect_s4_class(new("DateModel"), "DateModel")
+  expect_s4_class(.DateModel(), "DateModel")
+  expect_message(DateModel())
 })
 test_that("Initialize a DateModel object", {
-  mtx <- matrix(data = 1, ncol = 26, nrow = 26)
-  df1 <- data.frame(id = LETTERS, date = 1:26)
-  df2 <- data.frame(id = LETTERS, estimation = 1:26, earliest = 1:26,
-                    latest = 1:26, error = 1:26)
-  df3 <- data.frame(id = LETTERS, estimation = 1:26)
-  df4 <- data.frame(id = LETTERS, estimation = 1:26, earliest = 1:26,
-                    latest = 1:26, error = 1:26, bias = 1:26)
-  df5 <- data.frame(id = LETTERS, min = 1:26, Q05 = 1:26, mean = 1:26,
-                    Q95 = 1:26, max = 1:26)
-  expect_s4_class(
-    new("DateModel",
-        level = 0.5,
-        model = stats::lm(0 ~ 0),
-        residual = 10,
-        counts = mtx,
-        dates = df1,
-        rows = df2,
-        columns = df2,
-        accumulation = df3,
-        jackknife = df4,
-        bootstrap = df5),
-    "DateModel"
-  )
+  mtx <- cbind(a = 1:5, b = 1:5)
+  mtx[1, 1] <- NA
 
-  expect_error(new("DateModel", level = 10))
-  expect_error(new("DateModel", level = NA_real_))
-  expect_error(new("DateModel", level = 1:5))
-  expect_error(new("DateModel", residual = NA_real_))
-  expect_error(new("DateModel", residual = 1:5))
-  expect_error(new("DateModel", rows = data.frame(a = 1:5, b = 1:5)))
-  expect_error(new("DateModel", columns = data.frame(a = 1:5, b = 1:5)))
-  expect_error(new("DateModel", jackknife = data.frame(a = 1:5, b = 1:5)))
-  expect_error(new("DateModel", bootstrap = data.frame(a = 1:5, b = 1:5)))
-  expect_error(new("DateModel",
-                   rows = data.frame(a = 1:5, b = 1:5, c = 1:5, d = 1:5, e = 1:5),
-                   jackknife = data.frame(a = 1:2, b = 1:2, c = 1:2, d = 1:2, e = 1:2)))
-  expect_error(new("DateModel",
-                   rows = data.frame(a = 1:5, b = 1:5, c = 1:5, d = 1:5, e = 1:5),
-                   bootstrap = data.frame(a = 1:2, b = 1:2, c = 1:2, d = 1:2, e = 1:2)))
-  expect_error(new("DateModel",
-                   jackknife = data.frame(a = 1:5, b = 1:5, c = 1:5, d = 1:5, e = 1:5),
-                   bootstrap = data.frame(a = 1:2, b = 1:2, c = 1:2, d = 1:2, e = 1:2)))
+  expect_error(DateModel(id = "X"),
+               "`id` must be a 36 characters long string; not 1.")
+  expect_error(DateModel(level = 1:2),
+               "`level` must be a scalar")
+  expect_error(DateModel(level = NA_real_),
+               "`level` must not contain missing values")
+  expect_error(DateModel(level = Inf),
+               "`level` must not contain infinite values")
+  expect_error(DateModel(rows = mtx),
+               "`rows` must not contain missing values")
+  expect_error(DateModel(rows = mtx),
+               "`rows` must have the following column names")
+  expect_error(DateModel(columns = mtx),
+               "`columns` must not contain missing values")
+  expect_error(DateModel(columns = mtx),
+               "`columns` must have the following column names")
 })

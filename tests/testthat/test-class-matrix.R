@@ -29,42 +29,38 @@ test_that("Initialize a SpaceTime instance", {
   # Empty instence
   expect_s4_class(.SpaceTime(), "SpaceTime")
 
-  dates <- list(value = 1:10, error = 1:10)
-  coord <- list(x = 1:10, y = 1:10, z = 1:10)
+  dates <- cbind(value = 1:10, error = 1:10)
+  coord <- cbind(x = 1:10, y = 1:10, z = 1:10)
   expect_s4_class(SpaceTime(dates = dates, coordinates = coord, epsg = 4326),
                   "SpaceTime")
   expect_message(SpaceTime(dates = dates, coordinates = coord, epsg = 4326),
                  "SpaceTime")
 
   # Try NA
-  dates[[1]][1] <- NA_real_
-  coord[[1]][1] <- NA_real_
+  dates[1, 1] <- NA_real_
+  coord[1, 1] <- NA_real_
   expect_s4_class(SpaceTime(dates = dates, coordinates = coord), "SpaceTime")
   expect_error(SpaceTime(epsg = NA),
                "`epsg` must not contain missing values")
 
   # Try Inf
-  dates[[1]][1] <- Inf
-  coord[[1]][1] <- Inf
+  dates[1, 1] <- Inf
+  coord[1, 1] <- Inf
   expect_error(SpaceTime(dates = dates, coordinates = coord),
-               "`x` must not contain infinite values")
+               "`coordinates` must not contain infinite values")
   # Try character
-  dates[[1]][1] <- "A"
-  coord[[1]][1] <- "A"
+  dates[1, 1] <- "A"
+  coord[1, 1] <- "A"
   expect_error(SpaceTime(dates = dates, coordinates = coord),
-               "`x` must be numeric; not character.")
+               "`coordinates` must be numeric; not character.")
   # Check length
-  dates[[1]] <- 1:5
-  coord[[1]] <- 1:7
-  expect_error(SpaceTime(dates = dates, coordinates = coord),
-               "must have equal lengths")
   expect_error(SpaceTime(epsg = 1:2),
                "`epsg` must be a scalar")
   # Check names
-  names(dates) <- NULL
-  names(coord) <- NULL
+  colnames(dates) <- NULL
+  colnames(coord) <- NULL
   expect_error(SpaceTime(dates = dates, coordinates = coord),
-               "must have the following names")
+               "must have the following column names")
 })
 # Matrix =======================================================================
 test_that("Initialize a Matrix instance", {

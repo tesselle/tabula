@@ -174,42 +174,33 @@ setMethod(
 # Getters ======================================================================
 #' @export
 #' @rdname access
-#' @aliases getCoordinates,SpaceTime-method
+#' @aliases getCoordinates,AbundanceMatrix-method
 setMethod(
   f = "getCoordinates",
-  signature = "SpaceTime",
+  signature = "AbundanceMatrix",
   definition = function(object) {
     coords <- object@coordinates
-    if(!all(lengths(coords) == c(0, 0, 0))) {
-      coords <- as.data.frame(coords)
-      attr(coords, "epsg") <- object@epsg
-      coords
-    } else {
-      NULL
-    }
+    attr(coords, "epsg") <- object@epsg
+    coords
   }
 )
 
 #' @export
 #' @rdname access
-#' @aliases getDates,SpaceTime-method
+#' @aliases getDates,AbundanceMatrix-method
 setMethod(
   f = "getDates",
-  signature = "SpaceTime",
+  signature = "AbundanceMatrix",
   definition = function(object) {
     dates <- object@dates
-    if(!all(lengths(dates) == c(0, 0))) {
-      as.data.frame(dates)
-    } else {
-      NULL
-    }
+    dates
   }
 )
 
 #' @export
 #' @rdname access
-#' @aliases getEPSG,SpaceTime-method
-setMethod("getEPSG", "SpaceTime", function(object) object@epsg)
+#' @aliases getEPSG,AbundanceMatrix-method
+setMethod("getEPSG", "AbundanceMatrix", function(object) object@epsg)
 
 #' @export
 #' @rdname access
@@ -222,105 +213,143 @@ setMethod("getID", "ANY", function(object) object@id)
 setMethod("getTotals", "FrequencyMatrix", function(object) object@totals)
 
 # Setters ======================================================================
-#' @export
-#' @rdname access
-#' @aliases setDates,SpaceTime-method
-setMethod(
-  f = "setDates<-",
-  signature = "SpaceTime",
-  definition = function(object, value) {
-    if (is.matrix(value) | is.data.frame(value)) {
-      value <- data.matrix(value)
-      if (ncol(value) >= 2) {
-        if (all(c("value", "error") %in% colnames(value))) {
-          x <- value[, "value"]
-          y <- value[, "error"]
-        } else {
-          x <- value[, 1]
-          y <- value[, 2]
-        }
+# Dates ------------------------------------------------------------------------
+makeDates <- function(value) {
+  if (is.matrix(value) | is.data.frame(value)) {
+    value <- data.matrix(value)
+    if (ncol(value) >= 2) {
+      if (all(c("value", "error") %in% colnames(value))) {
+        x <- value[, "value"]
+        y <- value[, "error"]
       } else {
-        stop("`value` should have at least 2 columns.", call. = FALSE)
+        x <- value[, 1]
+        y <- value[, 2]
       }
-    } else if(is.list(value)) {
-      if (all(c("value", "error") %in% names(value))) {
-        x <- value[["value"]]
-        y <- value[["error"]]
-      } else {
-        stop("`value` is a list, ",
-             "but does not have components 'value' and 'error'.",
-             call. = FALSE)
-      }
-    } else if (is.numeric(value) | is.integer(value)) {
-      x <- value
-      y <- rep_len(NA_real_, length.out = length(x))
-      if (getOption("verbose")) message("errors are missing, NA generated.")
     } else {
-      stop("`value` should be a numeric of integer vector, ",
-           "a list, a matrix or a data frame.", call. = FALSE)
+      stop("`value` should have at least 2 columns.", call. = FALSE)
     }
-
-    object@dates <- list(value = x, error = y)
-    methods::validObject(object)
-    object
-  }
-)
-
-#' @export
-#' @rdname access
-#' @aliases setCoordinates,SpaceTime-method
-setMethod(
-  f = "setCoordinates<-",
-  signature = "SpaceTime",
-  definition = function(object, value) {
-    if (is.matrix(value) | is.data.frame(value)) {
-      value <- data.matrix(value)
-      if (ncol(value) >= 2) {
-        if (all(c("x", "y") %in% colnames(value))) {
-          x <- value[, "x"]
-          y <- value[, "y"]
-        } else {
-          x <- value[, 1]
-          y <- value[, 2]
-        }
-      } else {
-        stop("`value` should have at least 2 columns.", call. = FALSE)
-      }
-      if (ncol(value) >= 3) {
-        if ("z" %in% colnames(value)) {
-          z <- value[, "z"]
-        } else {
-          z <- value[, 3]
-        }
-      } else {
-        z <- rep_len(x = NA_real_, length.out = nrow(value))
-        if (getOption("verbose")) message("'z' is missing, NA generated.")
-      }
-    } else if(is.list(value)) {
-      if (all(c("x", "y") %in% names(value))) {
-        x <- value[["x"]]
-        y <- value[["y"]]
-      } else {
-        stop("`value` is a list, but does not have components 'x' and 'y'.",
-             call. = FALSE)
-      }
-      if ("z" %in% names(value)) {
-        z <- value[["z"]]
-      } else {
-        z <- rep_len(x = NA_real_, length.out = length(x))
-        if (getOption("verbose")) message("'z' is missing, NA generated.")
-      }
+  } else if(is.list(value)) {
+    if (all(c("value", "error") %in% names(value))) {
+      x <- value[["value"]]
+      y <- value[["error"]]
     } else {
-      stop("`value` should be a list, a matrix or a data frame.",
+      stop("`value` is a list, ",
+           "but does not have components 'value' and 'error'.",
            call. = FALSE)
     }
-    coords <- list(x = x, y = y, z = z)
-    n_coords <- unique(lengths(coords))
-    if (length(n_coords) != 1) {
-      stop(sprintf("'x', 'y' and 'z' lengths differ (%s).",
-                   paste(n_coords, collapse = ", ")), call. = FALSE)
+  } else if (is.numeric(value) | is.integer(value)) {
+    x <- value
+    y <- rep_len(0, length.out = length(x))
+    if (getOption("verbose")) message("errors are missing, NA generated.")
+  } else if (is.null(value)) {
+    x <- y <- numeric(0)
+  } else {
+    stop("`value` should be a numeric of integer vector, ",
+         "a list, a matrix, a data frame or NULL.", call. = FALSE)
+  }
+  # Replace NA with zeros
+  y[is.na(y)] <- 0
+  cbind(value = x, error = y)
+}
+
+#' @export
+#' @rdname access
+#' @aliases setDates,AbundanceMatrix-method
+setMethod(
+  f = "setDates<-",
+  signature = "AbundanceMatrix",
+  definition = function(object, value) {
+    value <- makeDates(value)
+    rows_value <- rownames(value)
+    rows_object <- rownames(object)
+    i <- nrow(object)
+    if (all(dim(value) == c(i, 2)) || nrow(value) == 0) {
+      # Same dimensions or unset
+      B <- value
+      k <- nrow(B)
+    } else if (!is.null(rows_value) && !is.null(rows_object)) {
+      # Match by names
+      index <- match(rows_value, rows_object)
+      no_match <- detect(f = is.na, x = index)
+      if (any(no_match)) {
+        warning(ngettext(sum(no_match),
+                         "The following date do not match and was skiped:\n",
+                         "The following dates do not match and were skiped:\n"),
+                paste0("* ", rows_value[no_match], collapse = "\n"),
+                call. = FALSE)
+      }
+      index_clean <- compact(f = is.na, x = index)
+      B <- matrix(NA_real_, nrow = i, ncol = 2,
+                  dimnames = list(rows_object, c("value", "error")))
+      B[index_clean, ] <- value[!no_match]
+      k <- sum(!no_match)
+    } else {
+      stop("Cannot interpret `value` in a suitable way.", call. = FALSE)
     }
-    object@coordinates <- coords
+
+    object@dates <- B
+    methods::validObject(object)
+    if (getOption("verbose")) {
+      message(sprintf(ngettext(k, "%d date was set.", "%d dates were set."), k))
+    }
+    object
+  }
+)
+
+# Coordinates ------------------------------------------------------------------
+makeXYZ <- function(value) {
+  if (is.matrix(value) | is.data.frame(value)) {
+    value <- data.matrix(value)
+    if (ncol(value) >= 2) {
+      if (all(c("x", "y") %in% colnames(value))) {
+        x <- value[, "x"]
+        y <- value[, "y"]
+      } else {
+        x <- value[, 1]
+        y <- value[, 2]
+      }
+    } else {
+      stop("`value` should have at least 2 columns.", call. = FALSE)
+    }
+    if (ncol(value) >= 3) {
+      if ("z" %in% colnames(value)) {
+        z <- value[, "z"]
+      } else {
+        z <- value[, 3]
+      }
+    } else {
+      z <- rep_len(x = NA_real_, length.out = nrow(value))
+      if (getOption("verbose")) message("'z' is missing, NA generated.")
+    }
+  } else if(is.list(value)) {
+    if (all(c("x", "y") %in% names(value))) {
+      x <- value[["x"]]
+      y <- value[["y"]]
+    } else {
+      stop("`value` is a list, but does not have components 'x' and 'y'.",
+           call. = FALSE)
+    }
+    if ("z" %in% names(value)) {
+      z <- value[["z"]]
+    } else {
+      z <- rep_len(x = NA_real_, length.out = length(x))
+      if (getOption("verbose")) message("'z' is missing, NA generated.")
+    }
+  } else {
+    stop("`value` should be a list, a matrix or a data frame.",
+         call. = FALSE)
+  }
+  cbind(x = x, y = y, z = z)
+}
+
+#' @export
+#' @rdname access
+#' @aliases setCoordinates,AbundanceMatrix-method
+setMethod(
+  f = "setCoordinates<-",
+  signature = "AbundanceMatrix",
+  definition = function(object, value) {
+    object@coordinates <- makeXYZ(value)
     methods::validObject(object)
     object
   }
@@ -328,10 +357,10 @@ setMethod(
 
 #' @export
 #' @rdname access
-#' @aliases setEPSG,SpaceTime-method
+#' @aliases setEPSG,AbundanceMatrix-method
 setMethod(
   f = "setEPSG<-",
-  signature = "SpaceTime",
+  signature = "AbundanceMatrix",
   definition = function(object, value) {
     if (!is.numeric(object) | !is.integer(object) | length(object) != 1)
       stop("`object` should be a length-one numeric or integer vector.",

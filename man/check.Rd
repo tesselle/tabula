@@ -8,6 +8,7 @@
 \alias{checkLengths}
 \alias{checkDim}
 \alias{checkNames}
+\alias{checkColnames}
 \alias{checkMissing}
 \alias{checkInfinite}
 \alias{checkNumbers}
@@ -26,6 +27,8 @@ checkLengths(x, expected)
 checkDim(x, expected)
 
 checkNames(x, expected)
+
+checkColnames(x, expected)
 
 checkMissing(x)
 

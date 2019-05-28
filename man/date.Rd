@@ -9,16 +9,13 @@
 \usage{
 dateEvent(object, ...)
 
-\S4method{dateEvent}{CountMatrix}(object, dates, level = 0.95,
-  cutoff = 90, jackknife = FALSE, bootstrap = FALSE, n = 1000, ...)
+\S4method{dateEvent}{CountMatrix}(object, level = 0.95, cutoff = 90,
+  ...)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
 
 \item{...}{Further arguments to be passed to \code{\link[FactoMineR]{CA}}.}
-
-\item{dates}{A list of \code{\link{numeric}} dates.
-Dates will be matched with assemblage by names.}
 
 \item{level}{A length-one \code{\link{numeric}} vector giving the
 confidence level.}
@@ -27,15 +24,6 @@ confidence level.}
 variance used to select CA factorial components for linear model fitting
 (see details). All compounds with a cumulative percentage of variance of
 less than the \code{cutoff} value will be retained.}
-
-\item{jackknife}{A \code{\link{logical}} scalar: should the model be checked
-by jackknife estimation (removing each fabric/type one at a time)?}
-
-\item{bootstrap}{A \code{\link{logical}} scalar: should the model be checked
-by bootstrap resampling?}
-
-\item{n}{A non-negative \code{\link{integer}} giving the number of partial
-bootstrap replications (see details).}
 }
 \value{
 An object of class \linkS4class{DateModel}.
@@ -77,33 +65,13 @@ The original authors of the method did not publish the data supporting their
  \strong{EXPERIMENTAL}. It may be subject to major changes in a future
  release.
 }
-\section{Model checking}{
-
- Resampling methods can be used to check the stability of the resulting
- model. If \code{jackknife} is \code{TRUE}, one type/fabric is removed at a
- time and all statistics are recalculated. In this way, one can assess
- whether certain type/fabric has a substantial influence on the date
- estimate. If \code{bootstrap} is \code{TRUE}, a large number of new
- bootstrap assemblages is created, with the same sample size, by resampling
- each of the original assemblage with replacement. Then, examination of the
- bootstrap statistics makes it possible to pinpoint assemblages that require
- further investigation.
-
- The use of resampling options (\code{jackknife} and \code{bootstrap}) can
- lead to much longer execution times and larger output objects.
- To monitor the execution of these re-sampling procedures, a progress bar
- will automatically be displayed if the \code{\link[pbapply]{pbapply}}
- package is installed on your machine.
-}
-
 \examples{
-\donttest{
 # Coerce dataset to abundance (count) matrix
 zuni <- as(zuni, "CountMatrix")
 
 # Assume that some assemblages are reliably dated (this is NOT a real example).
-# The names of the vector entries must match the names of the assemblages.
-dates <- list(
+# The name of the vector elements must match the names of the assemblages.
+setDates(zuni) <- c(
   LZ0569 = 1097, LZ0279 = 1119, CS16 = 1328, LZ0066 = 1111,
   LZ0852 = 1216, LZ1209 = 1251, CS144 = 1262, LZ0563 = 1206,
   LZ0329 = 1076, LZ0005Q = 859, LZ0322 = 1109, LZ0067 = 863,
@@ -111,30 +79,32 @@ dates <- list(
 )
 
 # Model the event and accumulation date for each assemblage.
-(model <- dateEvent(zuni, dates, cutoff = 90))
+(model <- dateEvent(zuni, cutoff = 90))
 
+\donttest{
 # Plot results for the first five assemblages
 # Plot event date distribution
 plotDate(model, type = "event", select = 1:5) +
   ggplot2::theme_bw()
-# Plot accumulation date distribution
+# Plot accumulation date distribution (activity plot)
 plotDate(model, type = "acc", select = 1:5) +
   ggplot2::theme_bw()
+
 # Plot both distributions
 plotDate(model, select = "LZ1105") +
   ggplot2::theme_bw()
+# Tempo plot
+plotDate(model, type = "accumulation", tempo = TRUE) +
+  ggplot2::theme_bw()
 
 # Check model variability
-checked <- dateEvent(zuni, dates, cutoff = 90,
-                     jackknife = TRUE, bootstrap = TRUE, n = 1000)
-
-# Extract results for the first 5 assemblages
-## Modeled event dates
-checked["rows", 1:5]
 ## Jackknife fabrics
-checked["jackknife", 1:5]
+refined_jack <- refine(model, method = "jackknife", n = 1000)
+head(refined_jack)
+
 ## Bootstrap of assemblages
-checked["bootstrap", 1:5]
+refined_boot <- refine(model, method = "bootstrap", n = 1000)
+head(refined_boot)
 }
 }
 \references{

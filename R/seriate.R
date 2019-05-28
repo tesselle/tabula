@@ -3,7 +3,7 @@ NULL
 
 # Matrix seriation order =======================================================
 #' @export
-#' @rdname seriation
+#' @rdname seriate
 #' @aliases seriate,CountMatrix,missing-method
 setMethod(
   f = "seriate",
@@ -16,7 +16,7 @@ setMethod(
 )
 
 #' @export
-#' @rdname seriation
+#' @rdname seriate
 #' @aliases seriate,IncidenceMatrix,missing-method
 setMethod(
   f = "seriate",
@@ -29,7 +29,7 @@ setMethod(
 )
 
 #' @export
-#' @rdname seriation
+#' @rdname seriate
 #' @aliases seriate,CountMatrix,BootCA-method
 setMethod(
   f = "seriate",
@@ -81,7 +81,7 @@ setMethod(
 
 # Permute matrix ===============================================================
 #' @export
-#' @rdname seriation
+#' @rdname seriate
 #' @aliases permute,CountMatrix,PermutationOrder-method
 setMethod(
   f = "permute",
@@ -98,7 +98,7 @@ setMethod(
 )
 
 #' @export
-#' @rdname seriation
+#' @rdname seriate
 #' @aliases permute,IncidenceMatrix,PermutationOrder-method
 setMethod(
   f = "permute",

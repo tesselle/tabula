@@ -12,10 +12,10 @@ setMethod(
     keep <- lengths(object@keep)
     total <- lengths(object@lengths)
     pc <- round(keep * 100 / total)
-    cat("Partial bootstrap CA seriation refinement:", "\n",
-        "  Cutoff values: ", cut, "\n",
-        "  Rows to keep: ", keep[1], " of ", total[1], " (", pc[1], "%)", "\n",
-        "  Columns to keep: ", keep[2], " of ", total[2], " (", pc[2], "%)",
+    cat("Partial bootstrap CA seriation refinement:",
+        "\n- Cutoff values: ", cut,
+        "\n- Rows to keep: ", keep[1], " of ", total[1], " (", pc[1], "%)",
+        "\n- Columns to keep: ", keep[2], " of ", total[2], " (", pc[2], "%)",
         sep = "")
   }
 )
@@ -25,11 +25,13 @@ setMethod(
   f = "show",
   signature = "DateModel",
   definition = function(object) {
-    cat("Modelled event date:\n",
-        "  R2:", stats::summary.lm(object@model)$r.squared, "\n",
-        "  Residual standard deviation:", round(object@residual, digits = 0), "years\n",
-        "  CI:", object@level * 100, "%\n",
-        sep = " ")
+    fit <- object@model
+    sum_up <- stats::summary.lm(fit)
+    cat("Modelled event date:",
+        "\n- Residual standard error: ", round(sum_up$sigma, digits = 2),
+        "\n- Multiple R-squared: ", round(sum_up$r.squared, 5),
+        "\n- Adjusted R-squared: ", round(sum_up$adj.r.squared, 5),
+        sep = "")
   }
 )
 
