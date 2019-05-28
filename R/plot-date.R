@@ -106,9 +106,12 @@ setMethod(
 
       row_data <- cbind.data.frame(date = date_range, date_event) %>%
         tidyr::gather(key = "assemblage", value = "density", -date)
-
-      plot_event <- geom_line(data = row_data,
-                              mapping = aes_string(color = "assemblage"))
+      if (tempo) {
+        plot_event <- NULL
+      } else {
+        plot_event <- geom_line(data = row_data,
+                                mapping = aes_string(color = "assemblage"))
+      }
     }
 
     # Accumulation time
@@ -116,6 +119,7 @@ setMethod(
       # Weighted sum of the fabric dates
       counts <- object@counts[index, , drop = FALSE]
       freq <- counts / rowSums(counts)
+      # Tempo vs activity plot
       fun <- if (tempo) stats::pnorm else stats::dnorm
       col_density <- mapply(
         FUN = fun,
