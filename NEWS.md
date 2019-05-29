@@ -31,6 +31,11 @@
   - Reduce required R version to 3.3.
   - Error handling has been revised and error messages have been
     harmonized.
+  - When a `Matrix` object is first created, an identifier (UUID v4) is
+    generated with `generateUUID()`. This ID is preserved when coercing
+    to another class. This makes it possible to identify objects
+    representing the same initial data and associate them with the
+    results of specific computations.
 
 ## tabula v1.2.0 (release date: 2019-03-20)
 
