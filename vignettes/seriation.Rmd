@@ -238,7 +238,7 @@ The estimated probability density of an event date is approached by a normal dis
 
 ```{r plot-date, fig.width=7, fig.height=3.5, fig.align="center"}
 # Plot event (line) and accumulation (grey area) date distributions
-plotDate(model, select = "LZ1105") +
+plotDate(model, select = "LZ1105", event = TRUE) +
   ggplot2::theme_bw()
 ```
 

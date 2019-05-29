@@ -12,8 +12,8 @@ plotDate(object, ...)
 
 \S4method{plotDate}{AbundanceMatrix}(object, select = 1, sort = "dsc")
 
-\S4method{plotDate}{DateModel}(object, type = c("event", "accumulation"),
-  tempo = FALSE, select = 1, n = 500)
+\S4method{plotDate}{DateModel}(object, type = c("activity", "tempo"),
+  event = FALSE, select = 1, n = 500)
 }
 \arguments{
 \item{object}{An object of class \linkS4class{DateModel} to be plotted.}
@@ -28,13 +28,12 @@ should be sorted. It can be one of "\code{asc}" or "\code{dsc}" (default).
 Any unambiguous substring can be given. If \code{NULL} no sorting is
 performed.}
 
-\item{type}{A \code{\link{character}} string or vector of character strings
-indicating the modelled dates to be plotted. It must be one or both
-(default) of "\code{event}" and "\code{accumulation}". Any unambiguous
-substring can be given.}
+\item{type}{A \code{\link{character}} string indicating the type of plot.
+It must be one of "\code{activity}" (default) or "\code{tempo}".
+Any unambiguous substring can be given.}
 
-\item{tempo}{A \code{\link{logical}} scalar: should a tempo-plot be displayed
-instead of activity? Only used if type contains "\code{accumulation}".}
+\item{event}{A \code{\link{logical}} scalar: should the distribution of the
+event date be displayed? Only used if type is "\code{activity}".}
 
 \item{n}{A length-one non-negative \code{\link{numeric}} vector giving the
 desired length of the vector of quantiles for density computation.}
@@ -59,6 +58,10 @@ Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
  Archaeological Science}, 39(4), 777-790.
  DOI: \href{https://doi.org/10.1016/j.jas.2011.06.031}{10.1016/j.jas.2011.06.031}.
+
+ Dye, T. S. (2016). Long-Term Rhythms in the Development of Hawaiian
+ Social Stratification. \emph{Journal of Archaeological Science}, 71, 1-9.
+ DOI: \href{https://doi.org/10.1016/j.jas.2016.05.006}{10.1016/j.jas.2016.05.006}.
 }
 \seealso{
 \link{dateEvent}

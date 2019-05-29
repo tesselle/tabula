@@ -62,11 +62,11 @@ setMethod(
 setMethod(
   f = "plotDate",
   signature = c(object = "DateModel"),
-  definition = function(object, type = c("event", "accumulation"),
-                        tempo = FALSE, select = 1, n = 500) {
+  definition = function(object, type = c("activity", "tempo"),
+                        event = FALSE, select = 1, n = 500) {
     # Validation
-    type <- match.arg(type, several.ok = TRUE)
-    checkScalar(tempo, expected = "logical")
+    type <- match.arg(type, several.ok = FALSE)
+    checkScalar(event, expected = "logical")
     checkScalar(n, expected = "numeric")
     n <- as.integer(n)
 
@@ -77,7 +77,8 @@ setMethod(
     } else {
       as.numeric(select)
     }
-    if (length(index) == 0)
+    k <- length(index)
+    if (k == 0)
       stop("Wrong selection.", call. = FALSE)
 
     # Get data
@@ -92,9 +93,9 @@ setMethod(
     date_range <- seq(from = min(row_lower), to = max(row_upper),
                       length.out = n)
 
-    plot_event <- plot_accumulation <- plot_facet <- NULL
-    # Event time
-    if ("event" %in% type) {
+    # Event date
+    plot_event <- NULL
+    if (type == "activity" && event) {
       date_event <- mapply(
         FUN = stats::dnorm,
         mean = row_dates[index],
@@ -106,62 +107,54 @@ setMethod(
 
       row_data <- cbind.data.frame(date = date_range, date_event) %>%
         tidyr::gather(key = "assemblage", value = "density", -date)
-      if (tempo) {
-        plot_event <- NULL
-      } else {
-        plot_event <- geom_line(data = row_data,
-                                mapping = aes_string(color = "assemblage"))
-      }
+      plot_event <- geom_line(data = row_data, color = "black")
     }
 
     # Accumulation time
-    if ("accumulation" %in% type) {
-      # Weighted sum of the fabric dates
-      counts <- object@counts[index, , drop = FALSE]
-      freq <- counts / rowSums(counts)
-      # Tempo vs activity plot
-      fun <- if (tempo) stats::pnorm else stats::dnorm
-      col_density <- mapply(
-        FUN = fun,
-        mean = col_dates,
-        sd = col_errors,
-        MoreArgs = list(date_range),
-        SIMPLIFY = TRUE
-      )
+    # Weighted sum of the fabric dates
+    counts <- object@counts[index, , drop = FALSE]
+    freq <- counts / rowSums(counts)
+    # Tempo vs activity plot
+    fun <- switch(
+      type,
+      activity = stats::dnorm,
+      tempo = stats::pnorm
+    )
+    col_density <- mapply(
+      FUN = fun,
+      mean = col_dates,
+      sd = col_errors,
+      MoreArgs = list(date_range),
+      SIMPLIFY = TRUE
+    )
+    date_acc <- apply(
+      X = freq,
+      MARGIN = 1,
+      FUN = function(x, density) {
+        colSums(t(density) * as.numeric(x))
+      },
+      density = col_density
+    )
 
-      date_acc <- apply(
-        X = freq,
-        MARGIN = 1,
-        FUN = function(x, density) {
-          colSums(t(density) * as.numeric(x))
-        },
-        density = col_density
-      )
+    col_data <- cbind.data.frame(date = date_range, date_acc) %>%
+      tidyr::gather(key = "assemblage", value = "density", -date)
 
-      col_data <- cbind.data.frame(date = date_range, date_acc) %>%
-        tidyr::gather(key = "assemblage", value = "density", -date)
+    plot_accumulation <- switch(
+      type,
+      activity = geom_area(data = col_data, fill = "darkgrey",
+                           color = "darkgrey", alpha = 0.7),
+      tempo = geom_line(data = col_data, color = "black"),
+      NULL
+    )
 
-      if (tempo) {
-        plot_accumulation <- geom_line(
-          data = col_data,
-          mapping = aes_string(color = "assemblage")
-        )
-      } else {
-        plot_accumulation <- geom_area(
-          data = col_data,
-          # mapping = aes(fill = assemblage, color = assemblage),
-          fill = "darkgrey", color = "darkgrey", alpha = 0.7
-        )
-      }
-    }
-
-    if (length(index) > 1) {
-      plot_facet <- facet_wrap(. ~ assemblage, nrow = length(index),
-                               scales = "free_y")
+    # Facet if more than one assemblage is selected
+    plot_facet <- NULL
+    if (k > 1) {
+      plot_facet <- facet_wrap(. ~ assemblage, nrow = k, scales = "free_y")
     }
 
     ggplot(mapping = aes_string(x = "date", y = "density")) +
       plot_accumulation + plot_event + plot_facet +
-      labs(x = "Date", y = "Density", fill = "Assemblage", color = "Assemblage")
+      labs(x = "Date", y = "Density")
   }
 )

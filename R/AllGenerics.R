@@ -327,10 +327,9 @@ setGeneric(
 #'
 #' Plots date estimates.
 #' @param object An object of class \linkS4class{DateModel} to be plotted.
-#' @param type A \code{\link{character}} string or vector of character strings
-#'  indicating the modelled dates to be plotted. It must be one or both
-#'  (default) of "\code{event}" and "\code{accumulation}". Any unambiguous
-#'  substring can be given.
+#' @param type A \code{\link{character}} string indicating the type of plot.
+#'  It must be one of "\code{activity}" (default) or "\code{tempo}".
+#'  Any unambiguous substring can be given.
 #' @param select A \code{\link{numeric}} or \code{\link{character}} vector
 #'  giving the selection of the assemblage that are drawn.
 #' @param n A length-one non-negative \code{\link{numeric}} vector giving the
@@ -339,8 +338,8 @@ setGeneric(
 #'  should be sorted. It can be one of "\code{asc}" or "\code{dsc}" (default).
 #'  Any unambiguous substring can be given. If \code{NULL} no sorting is
 #'  performed.
-#' @param tempo A \code{\link{logical}} scalar: should a tempo-plot be displayed
-#'  instead of activity? Only used if type contains "\code{accumulation}".
+#' @param event A \code{\link{logical}} scalar: should the distribution of the
+#'  event date be displayed? Only used if type is "\code{activity}".
 #' @param ... Further arguments passed to other methods.
 #' @details
 #'  Plots the two probability estimate density curves of
@@ -358,6 +357,10 @@ setGeneric(
 #'  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
 #'  Archaeological Science}, 39(4), 777-790.
 #'  DOI: \href{https://doi.org/10.1016/j.jas.2011.06.031}{10.1016/j.jas.2011.06.031}.
+#'
+#'  Dye, T. S. (2016). Long-Term Rhythms in the Development of Hawaiian
+#'  Social Stratification. \emph{Journal of Archaeological Science}, 71, 1-9.
+#'  DOI: \href{https://doi.org/10.1016/j.jas.2016.05.006}{10.1016/j.jas.2016.05.006}.
 #' @author N. Frerebeau
 #' @family plot
 #' @seealso \link{dateEvent}

@@ -175,11 +175,11 @@ setDates(zuni) <- c(
 # Model the event and accumulation date for each assemblage.
 model <- dateEvent(zuni, cutoff = 90)
 # Plot event and accumulation date distributions
-plotDate(model, select = "LZ1105") +
+plotDate(model, type = "activity", select = "LZ1105") +
   ggplot2::labs(title = "Activity plot") +
   ggplot2::theme_bw() +
   ggplot2::theme(legend.position = "bottom")
-plotDate(model, select = "LZ1105", tempo = TRUE) +
+plotDate(model, type = "tempo", select = "LZ1105") +
   ggplot2::labs(title = "Tempo plot") +
   ggplot2::theme_bw() +
   ggplot2::theme(legend.position = "bottom")

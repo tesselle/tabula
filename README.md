@@ -164,7 +164,7 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Matrix ID: 5c6cc539-462b-4ed1-be82-b4c03cc215c3 
+#>    Matrix ID: a4264682-4997-4cf4-892e-2880431c5edf 
 #>    Row order: 20 16 13 4 3 1 9 10 19 2 7 6 17 11 5 14 12 8 15 18 
 #>    Column order: 16 1 9 8 4 14 13 18 20 6 7 3 17 2 11 19 5 15 12 10 
 #>    Method: correspondance
@@ -209,11 +209,11 @@ setDates(zuni) <- c(
 # Model the event and accumulation date for each assemblage.
 model <- dateEvent(zuni, cutoff = 90)
 # Plot event and accumulation date distributions
-plotDate(model, select = "LZ1105") +
+plotDate(model, type = "activity", select = "LZ1105") +
   ggplot2::labs(title = "Activity plot") +
   ggplot2::theme_bw() +
   ggplot2::theme(legend.position = "bottom")
-plotDate(model, select = "LZ1105", tempo = TRUE) +
+plotDate(model, type = "tempo", select = "LZ1105") +
   ggplot2::labs(title = "Tempo plot") +
   ggplot2::theme_bw() +
   ggplot2::theme(legend.position = "bottom")
