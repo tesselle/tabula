@@ -11,7 +11,7 @@
 \alias{seriate,CountMatrix,BootCA-method}
 \alias{permute,CountMatrix,PermutationOrder-method}
 \alias{permute,IncidenceMatrix,PermutationOrder-method}
-\title{Matrix seriation}
+\title{Matrix Seriation}
 \usage{
 seriate(object, subset, ...)
 

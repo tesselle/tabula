@@ -77,6 +77,11 @@ Plots the two probability estimate density curves of
  The \emph{event date} is plotted as a line, while the \emph{accumulation
  time} is shown as a grey filled area.
 }
+\section{Detection of selective processes}{
+
+TODO
+}
+
 \references{
 Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
@@ -88,10 +93,11 @@ Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
  DOI: \href{https://doi.org/10.1016/j.jas.2016.05.006}{10.1016/j.jas.2016.05.006}.
 }
 \seealso{
-\link{dateEvent}
+\link{dateEvent}, \link{test}
 
-Other plot: \code{\link{plotBar}}, \code{\link{plotLine}},
-  \code{\link{plotMatrix}}, \code{\link{plotSpot}}
+Other plot: \code{\link{plotBar-method}},
+  \code{\link{plotLine}}, \code{\link{plotMatrix}},
+  \code{\link{plotSpot}}
 }
 \author{
 N. Frerebeau

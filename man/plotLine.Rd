@@ -7,7 +7,7 @@
 \alias{plotRank-method}
 \alias{plotRank,CountMatrix-method}
 \alias{plotRank,FrequencyMatrix-method}
-\title{Line plot}
+\title{Line Plot}
 \usage{
 plotRank(object, ...)
 
@@ -31,7 +31,7 @@ defined by case/sample be drawn?}
 \code{plotRank} plots a rank \emph{vs} relative abundance diagram.
 }
 \details{
-Note that data are scaled to \eqn{0}-\eqn{1} (relative frequencies).
+TODO
 }
 \examples{
 ## Coerce datasets to abundance matrix
@@ -44,8 +44,9 @@ plotRank(count_compiegne)
 plotRank(count_compiegne, facet = FALSE)
 }
 \seealso{
-Other plot: \code{\link{plotBar}}, \code{\link{plotDate}},
-  \code{\link{plotMatrix}}, \code{\link{plotSpot}}
+Other plot: \code{\link{plotBar-method}},
+  \code{\link{plotDate}}, \code{\link{plotMatrix}},
+  \code{\link{plotSpot}}
 }
 \author{
 N. Frerebeau

@@ -6,7 +6,7 @@
 \alias{refine-method}
 \alias{refine,CountMatrix-method}
 \alias{refine,DateModel-method}
-\title{Model refining}
+\title{Model Refining}
 \usage{
 refine(object, ...)
 
@@ -35,7 +35,7 @@ method to be used. This must be one of "\code{jackknife}",
 "\code{bootstrap}" (see details). Any unambiguous substring can be given.}
 }
 \description{
-Model refining
+Model Refining
 }
 \section{Methods (by class)}{
 \itemize{

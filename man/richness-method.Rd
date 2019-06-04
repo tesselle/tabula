@@ -10,7 +10,7 @@
 \alias{rarefaction,CountMatrix-method}
 \alias{richness,CountMatrix-method}
 \alias{richness,IncidenceMatrix-method}
-\title{Richness and rarefaction}
+\title{Richness and Rarefaction}
 \usage{
 richness(object, ...)
 

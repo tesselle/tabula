@@ -8,7 +8,7 @@
 \alias{plotSpot,FrequencyMatrix-method}
 \alias{plotSpot,SimilarityMatrix-method}
 \alias{plotSpot,OccurrenceMatrix-method}
-\title{Spot plot}
+\title{Spot Plot}
 \usage{
 plotSpot(object, ...)
 
@@ -23,21 +23,24 @@ plotSpot(object, ...)
 \arguments{
 \item{object}{An object to be plotted.}
 
-\item{...}{Further arguments passed to other methods.}
+\item{...}{Currently not used.}
 
 \item{threshold}{A \code{\link{function}} that takes a numeric vector as
-argument and returns a single numeric value (see details).
-If \code{NULL}, no threshold is computed.}
+argument and returns a numeric threshold value.
+If \code{NULL} (the default), no threshold is computed.}
 }
 \description{
 Plots a spot matrix.
 }
 \details{
-Note that rows are scaled to 0-1 (frequencies).
+TODO
+ The spot matrix can be considered as a variant of the
+ \link[=plotBertin]{Bertin diagram} where the data are first transformed to
+ relative frequencies.
 }
 \note{
 Adapted from Dan Gopstein's original
- \href{https://dgopstein.github.io/articles/spot-matrix/}{spot matrix}.
+ \href{https://dgopstein.github.io/articles/spot-matrix/}{idea}.
  Credit should be given to him.
 }
 \examples{
@@ -61,8 +64,9 @@ occ <- as(mississippi, "OccurrenceMatrix")
 plotSpot(occ)
 }
 \seealso{
-Other plot: \code{\link{plotBar}}, \code{\link{plotDate}},
-  \code{\link{plotLine}}, \code{\link{plotMatrix}}
+Other plot: \code{\link{plotBar-method}},
+  \code{\link{plotDate}}, \code{\link{plotLine}},
+  \code{\link{plotMatrix}}
 }
 \author{
 N. Frerebeau

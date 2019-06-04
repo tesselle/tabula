@@ -8,7 +8,7 @@
 \alias{evenness-method}
 \alias{diversity,CountMatrix-method}
 \alias{evenness,CountMatrix-method}
-\title{Heterogeneity and evenness}
+\title{Heterogeneity and Evenness}
 \usage{
 diversity(object, ...)
 

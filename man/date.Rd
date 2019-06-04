@@ -5,7 +5,7 @@
 \alias{dateEvent}
 \alias{dateEvent-method}
 \alias{dateEvent,CountMatrix-method}
-\title{Date archaeological assemblages}
+\title{Date Archaeological Assemblages}
 \usage{
 dateEvent(object, ...)
 

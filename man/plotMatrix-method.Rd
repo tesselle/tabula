@@ -8,7 +8,7 @@
 \alias{plotMatrix,CountMatrix-method}
 \alias{plotMatrix,FrequencyMatrix-method}
 \alias{plotMatrix,IncidenceMatrix-method}
-\title{Matrix plot}
+\title{Matrix Plot}
 \usage{
 plotMatrix(object, ...)
 
@@ -73,8 +73,9 @@ Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
  DOI: \href{https://doi.org/10.3406/pica.2004.2396}{10.3406/pica.2004.2396}.
 }
 \seealso{
-Other plot: \code{\link{plotBar}}, \code{\link{plotDate}},
-  \code{\link{plotLine}}, \code{\link{plotSpot}}
+Other plot: \code{\link{plotBar-method}},
+  \code{\link{plotDate}}, \code{\link{plotLine}},
+  \code{\link{plotSpot}}
 }
 \author{
 N. Frerebeau
