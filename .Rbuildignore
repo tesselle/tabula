@@ -2,6 +2,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
+^\.zenodo\.json$
 ^\man\figures\README-.*\.png$
 ^\vignettes\figures\.png$
 ^data-raw$

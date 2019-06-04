@@ -1,0 +1,36 @@
+{
+    "description": "<p>An easy way to examine archaeological count data (artifacts, faunal remains, etc.). This package includes several measures of diversity: e.g.&nbsp; richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), diversity/dominance and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity (Brainerd-Robinson, ...). Most of these methods are described and discussed in Maguran (1988) &lt;doi:10.1007/978-94-015-7358-0&gt;. It also provides matrix seriation methods (reciprocal ranking, CA-based seriation) for chronological modeling and dating. The package make it easy to visualize count data and statistical thresholds: rank/abundance plots, Ford (1972) &lt;isbn:0913134082&gt; and Bertin (1977) &lt;isbn:2082111121&gt; diagrams, etc.</p>",
+    "creators": [
+        {
+            "orcid": "0000-0001-5759-4944",
+            "affiliation": "Universit\u00e9 Bordeaux Montaigne",
+            "name": "Frerebeau, Nicolas"
+        }
+    ],
+    "contributors": [
+        {
+            "orcid": "0000-0001-7503-8685",
+            "affiliation": "CEREGE",
+            "type": "Other",
+            "name": "Lebrun, Brice"
+        },
+        {
+            "orcid": "0000-0003-4496-623X",
+            "affiliation": "Arizona State University",
+            "type": "Other",
+            "name": "Peeples, Matthew"
+        }
+    ],
+    "license": "GPL-3.0",
+    "language": "eng",
+    "keywords": [
+        "matrix seriation",
+        "data visualization",
+        "archaeology"
+    ],
+    "communities": [
+        {
+            "identifier": "archaeo"
+        }
+    ]
+}
