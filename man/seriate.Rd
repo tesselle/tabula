@@ -159,8 +159,8 @@ Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
  DOI: \href{https://doi.org/10.2307/278341}{10.2307/278341}.
 
  Ihm, P. (2005). A Contribution to the History of Seriation in Archaeology.
- In C. Weihs & W. Gaul (Eds.), \emph{Classification: The Ubiquitous Challenge}
- (p. 307-316). Berlin Heidelberg: Springer.
+ In C. Weihs & W. Gaul (Eds.), \emph{Classification: The Ubiquitous
+ Challenge}. Berlin Heidelberg: Springer, p. 307-316.
  DOI: \href{https://doi.org/10.1007/3-540-28084-7_34}{10.1007/3-540-28084-7_34}.
 }
 \seealso{

@@ -21,7 +21,7 @@ turnover(object, ...)
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
 
-\item{...}{Further arguments passed to other methods.}
+\item{...}{Further arguments passed to internal methods.}
 
 \item{method}{A \code{\link{character}} string specifiying the method to be
 used (see details). Any unambiguous substring can be given.}

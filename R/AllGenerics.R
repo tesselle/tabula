@@ -824,7 +824,7 @@ setGeneric(
 #'
 #'  Ihm, P. (2005). A Contribution to the History of Seriation in Archaeology.
 #'  In C. Weihs & W. Gaul (Eds.), \emph{Classification: The Ubiquitous
-#'  Challenge} (p. 307-316). Berlin Heidelberg: Springer.
+#'  Challenge}. Berlin Heidelberg: Springer, p. 307-316.
 #'  DOI: \href{https://doi.org/10.1007/3-540-28084-7_34}{10.1007/3-540-28084-7_34}.
 #' @seealso \link{refine}, \link[FactoMineR]{CA}
 #' @example inst/examples/ex-seriation.R
