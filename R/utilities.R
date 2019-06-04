@@ -54,6 +54,38 @@ count <- function(f, x) {
   sum(detect(f, x))
 }
 
+#' Indices of a rolling window
+#'
+#' @param x An object.
+#' @param window A \code{\link{integer}} scalar giving the window size.
+#' @return A \code{\link{list}} with the following components:
+#'  \describe{
+#'   \item{i}{A \code{\link{integer}} vector of indices.}
+#'   \item{w}{A \code{\link{integer}} vector of indices giving the window
+#'   number.}
+#'   \item{m}{A \code{\link{integer}} vector of indices giving the indice of
+#'   the window mid-point.}
+#'  }
+#' @keywords internal
+roll <- function(x, window = 3, simplify = FALSE) {
+  # Validation
+  if (!isOdd(window))
+    stop("`window` must be an odd integer.", call. = FALSE)
+
+  if (is.matrix(x) || is.data.frame(x)) {
+    n <- nrow(x)
+  } else {
+    n <- length(x)
+  }
+  i <- seq_len(n) # Indices of the rows
+  # Matrix of rolling-window indices of length w
+  w <- stats::embed(i, window)[, window:1]
+  inds <- i[c(t(w))] # Flatten indices
+  # Window mid-point
+  m <- w[, ceiling(window / 2)]
+  list(i = inds, w = rep(m, each = window))
+}
+
 #' UUID v4
 #'
 #' Generates a universally unique identifier (UUID v4).

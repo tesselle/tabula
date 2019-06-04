@@ -56,6 +56,9 @@ setAs(
     freq <- counts / totals
     object <- .FrequencyMatrix(freq, totals = totals)
     object@id <- from@id
+    object@dates <- from@dates
+    object@coordinates <- from@coordinates
+    object@epsg <- from@epsg
     methods::validObject(object)
     return(object)
   }
@@ -78,6 +81,9 @@ setAs(
     dimnames(integer) <- dimnames(freq)
     object <- .CountMatrix(integer)
     object@id <- from@id
+    object@dates <- from@dates
+    object@coordinates <- from@coordinates
+    object@epsg <- from@epsg
     methods::validObject(object)
     return(object)
   }
@@ -96,7 +102,12 @@ matrix2incidence <- function(from) {
   }
   data <- data > 0
   object <- .IncidenceMatrix(data)
-  if (isS4(from)) object@id <- from@id
+  if (isS4(from)) {
+    object@id <- from@id
+    object@dates <- from@dates
+    object@coordinates <- from@coordinates
+    object@epsg <- from@epsg
+  }
   methods::validObject(object)
   return(object)
 }

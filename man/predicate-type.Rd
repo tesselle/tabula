@@ -10,6 +10,7 @@
 \alias{isDouble}
 \alias{isCharacter}
 \alias{isLogical}
+\alias{isError}
 \title{Type predicates}
 \usage{
 isList(x)
@@ -27,6 +28,8 @@ isDouble(x)
 isCharacter(x)
 
 isLogical(x)
+
+isError(x)
 }
 \arguments{
 \item{x}{An object to be tested.}

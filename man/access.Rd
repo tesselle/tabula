@@ -70,7 +70,8 @@ Getters and setters to extract or replace parts of an object.
 \section{Set dates}{
 
  An attempt is made to interpret the argument \code{value} in a suitable way.
- \emph{Note} that errors are assumed to be given at \code{1} sigma.
+ If \code{value} is a character vector, it is assumed to contain Roman
+ numerals. \emph{Note} that errors are assumed to be given at \code{1} sigma.
  If \code{value} is a:
  \describe{
   \item{\code{numeric} or \code{integer} \code{vector}}{these values are

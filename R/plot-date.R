@@ -24,7 +24,7 @@ setMethod(
       as.data.frame() %>%
       dplyr::mutate(
         y = dplyr::row_number(),
-        id = factor(rownames(.), levels = rownames(.)),
+        id = factor(rownames(.), levels = unique(rownames(.))),
         min = .data$value - .data$error,
         max = .data$value + .data$error
       ) %>%

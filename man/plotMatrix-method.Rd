@@ -74,7 +74,7 @@ Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
 }
 \seealso{
 Other plot: \code{\link{plotBar}}, \code{\link{plotDate}},
-  \code{\link{plotRank}}, \code{\link{plotSpot}}
+  \code{\link{plotLine}}, \code{\link{plotSpot}}
 }
 \author{
 N. Frerebeau

@@ -237,15 +237,22 @@ makeDates <- function(value) {
            "but does not have components 'value' and 'error'.",
            call. = FALSE)
     }
-  } else if (is.numeric(value) | is.integer(value)) {
+  } else if (is.numeric(value) || is.integer(value) || is.character(value)) {
     x <- value
     y <- rep_len(0, length.out = length(x))
-    if (getOption("verbose")) message("errors are missing, NA generated.")
+    if (getOption("verbose")) message("Errors are missing, NA generated.")
   } else if (is.null(value)) {
     x <- y <- numeric(0)
   } else {
-    stop("`value` should be a numeric of integer vector, ",
+    stop("`value` must be a numeric, integer or character vector, ",
          "a list, a matrix, a data frame or NULL.", call. = FALSE)
+  }
+  # If `x` is a character vector, try to convert from roman numbers
+  if (is.character(x)) {
+   x <- as.numeric(utils::as.roman(x))
+   if (anyNA(x))
+     stop("`value` is a character vector, ",
+          "but does not only contain roman numerals.", call. = FALSE)
   }
   # Replace NA with zeros
   y[is.na(y)] <- 0

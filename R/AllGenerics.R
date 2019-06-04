@@ -11,7 +11,8 @@ NULL
 #'  below).
 #' @section Set dates:
 #'  An attempt is made to interpret the argument \code{value} in a suitable way.
-#'  \emph{Note} that errors are assumed to be given at \code{1} sigma.
+#'  If \code{value} is a character vector, it is assumed to contain Roman
+#'  numerals. \emph{Note} that errors are assumed to be given at \code{1} sigma.
 #'  If \code{value} is a:
 #'  \describe{
 #'   \item{\code{numeric} or \code{integer} \code{vector}}{these values are
@@ -323,9 +324,10 @@ setGeneric(
 )
 
 # Plot =========================================================================
-#' Date plot
+#' Date and Time Plot
 #'
-#' Plots date estimates.
+#' \code{plotDate} produces an activity or tempo plot.
+#' \code{plotTime} produces a time \emph{vs} abundance diagram.
 #' @param object An object of class \linkS4class{DateModel} to be plotted.
 #' @param type A \code{\link{character}} string indicating the type of plot.
 #'  It must be one of "\code{activity}" (default) or "\code{tempo}".
@@ -340,6 +342,16 @@ setGeneric(
 #'  performed.
 #' @param event A \code{\link{logical}} scalar: should the distribution of the
 #'  event date be displayed? Only used if type is "\code{activity}".
+#' @param highlight A \code{\link{character}} string indicating the type of
+#'  plot. It must be one of "\code{FIT}" or \code{NULL} (default).
+#'  Any unambiguous substring can be given.
+#' @param level A single \code{\link{numeric}} value giving the XXX.
+#' @param roll A \code{\link{logical}} scalar: should XXX?
+#'  Only used if \code{type} is "\code{FIT}" (see details).
+#' @param window An odd \code{\link{integer}} giving the size of the rolling
+#'  window. Only used if \code{roll} is \code{TRUE}.
+#' @param facet A \code{\link{logical}} scalar: should a matrix of panels
+#'  defined by type/taxon be drawn? Only used if XXX.
 #' @param ... Further arguments passed to other methods.
 #' @details
 #'  Plots the two probability estimate density curves of
@@ -370,6 +382,13 @@ setGeneric(
 setGeneric(
   name = "plotDate",
   def = function(object, ...) standardGeneric("plotDate")
+)
+
+#' @rdname plotDate-method
+#' @aliases plotTime-method
+setGeneric(
+  name = "plotTime",
+  def = function(object, ...) standardGeneric("plotTime")
 )
 # ------------------------------------------------------------------------------
 #' Bar plot
@@ -457,28 +476,32 @@ setGeneric(
   def = function(object, ...) standardGeneric("plotMatrix")
 )
 # ------------------------------------------------------------------------------
-#' Rank vs abundance plot
+#' Line plot
 #'
-#' Plots a rank \emph{vs} relative abundance diagram.
+#' \code{plotRank} plots a rank \emph{vs} relative abundance diagram.
 #' @param object An object to be plotted.
-#' @param facet A \code{\link{logical}} scalar: should a matrix of panels
-#'  defined by case/sample be drawn?
 #' @param log A \code{\link{character}} string which contains "\code{x}" if the
 #' x axis is to be logarithmic, "\code{y}" if the y axis is to be logarithmic
 #' and "\code{xy}" or "\code{yx}" if both axes are to be logarithmic (base 10).
+#' @param facet A \code{\link{logical}} scalar: should a matrix of panels
+#'  defined by case/sample be drawn?
 #' @param ... Further arguments passed to other methods.
 #' @details
-#'  Note that rows are scaled to 0-1 (frequencies).
+#'  Note that data are scaled to \eqn{0}-\eqn{1} (relative frequencies).
 #' @example inst/examples/ex-plotRank.R
 #' @author N. Frerebeau
 #' @family plot
 #' @docType methods
-#' @rdname plotRank-method
+#' @name plotLine
+NULL
+
+#' @rdname plotLine
 #' @aliases plotRank-method
 setGeneric(
   name = "plotRank",
   def = function(object, ...) standardGeneric("plotRank")
 )
+
 # ------------------------------------------------------------------------------
 #' Spot plot
 #'
@@ -504,7 +527,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("plotSpot")
 )
 
-# ==============================================================================
+# ===================================================================== Richness
 #' Richness and rarefaction
 #'
 #' @description
@@ -548,7 +571,10 @@ setGeneric(
 #'  \describe{
 #'   \item{ace}{Abundance-based Coverage Estimator.}
 #'   \item{chao1}{(improved) Chao1 estimator.}
-#'   \item{margalef}{Margalef richness index.}
+#'   \item{margalef}{Margalef richnes
+#'
+#'
+#'   s index.}
 #'   \item{menhinick}{Menhinick richness index.}
 #'   \item{none}{Returns the number of observed taxa/types.}
 #'  }
@@ -628,7 +654,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("rarefaction")
 )
 
-# ==============================================================================
+# ======================================================================= Refine
 #' Model refining
 #'
 #' @param object An \eqn{m \times p}{m x p} data matrix.
@@ -717,7 +743,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("refine")
 )
 
-# ==============================================================================
+# ====================================================================== Seriate
 #' Matrix seriation
 #'
 #' @description
@@ -797,8 +823,8 @@ setGeneric(
 #'  DOI: \href{https://doi.org/10.2307/278341}{10.2307/278341}.
 #'
 #'  Ihm, P. (2005). A Contribution to the History of Seriation in Archaeology.
-#'  In C. Weihs & W. Gaul (Eds.), \emph{Classification: The Ubiquitous Challenge}
-#'  (p. 307-316). Berlin Heidelberg: Springer.
+#'  In C. Weihs & W. Gaul (Eds.), \emph{Classification: The Ubiquitous
+#'  Challenge} (p. 307-316). Berlin Heidelberg: Springer.
 #'  DOI: \href{https://doi.org/10.1007/3-540-28084-7_34}{10.1007/3-540-28084-7_34}.
 #' @seealso \link{refine}, \link[FactoMineR]{CA}
 #' @example inst/examples/ex-seriation.R
@@ -822,10 +848,9 @@ setGeneric(
   def = function(object, order, ...) standardGeneric("permute")
 )
 
-# ==============================================================================
+# =================================================================== Similarity
 #' Similarity
 #'
-#' \code{similarity} returns a similarity matrix.
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
 #' @param method A \code{\link{character}} string specifiying the method to be
 #'  used (see details). Any unambiguous substring can be given.
@@ -854,7 +879,8 @@ setGeneric(
 #'   \item{sorenson}{Sorenson qualitative index.}
 #'  }
 #' @return
-#'  \code{similarity} returns a \eqn{m \times m}{m x m} symetric matrix.
+#'  \code{similarity} returns a symetric matrix of class
+#'  \linkS4class{SimilarityMatrix}.
 #' @references
 #'  Brainerd, G. W. (1951). The Place of Chronological Ordering in
 #'  Archaeological Analysis. \emph{American Antiquity}, 16(04), 301-313.
@@ -892,7 +918,37 @@ setGeneric(
   def = function(object, ...) standardGeneric("similarity")
 )
 
-# ==============================================================================
+# ========================================================================= Test
+#' Test
+#'
+#' @param object A \eqn{m \times p}{m x p} matrix of count data.
+#' @param method A \code{\link{character}} string specifiying the method to be
+#'  used (see details). Any unambiguous substring can be given.
+#' @param simplify A \code{\link{logical}} scalar: should the result be
+#'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
+#' @param ... Further parameters passed to internal methods.
+#' @details
+#'  The following methods are available:
+#'  \describe{
+#'   \item{FIT}{The Frequency Increment Test (Feder et al. 2014). This
+#'   test rejects neutrality if the distribution of normalized variant frequency
+#'   increments exhibits a mean that deviates significantly from zero.}
+#'  }
+#' @example inst/examples/ex-test.R
+#' @author N. Frerebeau
+#' @references
+#'  Feder, A. F., Kryazhimskiy, S. & Plotkin, J. B. (2014). Identifying
+#'  Signatures of Selection in Genetic Time Series. \emph{Genetics}, 196(2),
+#'  509-522.
+#'  DOI: \href{https://doi.org/10.1534/genetics.113.158220}{10.1534/genetics.113.158220}.
+#' @name test
+#' @aliases test-method
+setGeneric(
+  name = "test",
+  def = function(object, ...) standardGeneric("test")
+)
+
+# ===================================================================== Turnover
 #' Turnover
 #'
 #' Returns the degree of turnover in taxa composition along a grandient or
@@ -902,7 +958,7 @@ setGeneric(
 #'  used (see details). Any unambiguous substring can be given.
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
-#' @param ... Further arguments passed to other methods.
+#' @param ... Further arguments passed to internal methods.
 #' @details
 #'  The following methods can be used to acertain the degree of \emph{turnover}
 #'  in taxa composition along a gradient (\eqn{\beta}-diversity) on qualitative
@@ -953,3 +1009,13 @@ setGeneric(
   name = "turnover",
   def = function(object, ...) standardGeneric("turnover")
 )
+
+# =================================================================== Deprecated
+#' Deprecated methods
+#'
+#' @docType methods
+#' @name deprecated-method
+#' @aliases deprecated-method
+#' @noRd
+NULL
+

@@ -312,16 +312,16 @@ setValidity(
         catchConditions(checkLength(totals, expected = n))
       )
     )
-    if (!all(lengths(dates) == 0)) {
+    if (length(dates) != 0 && nrow(dates) > 0) {
       # Check dates
       errors[["dates"]] <- c(
-        catchConditions(checkLengths(dates, expected = n))
+        catchConditions(checkLength(dates, expected = n * 2))
       )
     }
-    if (!all(lengths(coordinates) == 0)) {
+    if (length(coordinates) != 0 && nrow(coordinates) > 0) {
       # Check coordinates
-      errors["coordinates"] <- c(
-        catchConditions(checkLengths(coordinates, expected = n))
+      errors[["coordinates"]] <- c(
+        catchConditions(checkLength(coordinates, expected = n * 3))
       )
     }
 
@@ -402,16 +402,16 @@ setValidity(
     n <- nrow(data)
 
     errors <- list()
-    if (!all(lengths(dates) == 0)) {
+    if (length(dates) != 0 && nrow(dates) > 0) {
       # Check dates
       errors[["dates"]] <- c(
-        catchConditions(checkLengths(dates, expected = n))
+        catchConditions(checkLength(dates, expected = n * 2))
       )
     }
-    if (!all(lengths(coordinates) == 0)) {
+    if (length(coordinates) != 0 && nrow(coordinates) > 0) {
       # Check coordinates
-      errors["coordinates"] <- c(
-        catchConditions(checkLengths(coordinates, expected = n))
+      errors[["coordinates"]] <- c(
+        catchConditions(checkLength(coordinates, expected = n * 3))
       )
     }
 

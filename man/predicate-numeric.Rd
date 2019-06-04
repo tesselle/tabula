@@ -2,6 +2,7 @@
 % Please edit documentation in R/predicates.R
 \name{predicate-numeric}
 \alias{predicate-numeric}
+\alias{isOdd}
 \alias{isBinary}
 \alias{isEqual}
 \alias{isIncreasing}
@@ -11,6 +12,8 @@
 \alias{isWholeNumber}
 \title{Numeric predicates}
 \usage{
+isOdd(x)
+
 isBinary(x)
 
 isEqual(x, tolerance = .Machine$double.eps^0.5, na.rm = TRUE)
@@ -41,6 +44,8 @@ A \code{\link{logical}} scalar.
 Check numeric objects:
 }
 \details{
+\code{isOdd} checks if a number is odd.
+
 \code{isBinary} checks if an object contains only 0s and 1s.
 
 \code{isEqual} checks for equality among all elements of a vector.

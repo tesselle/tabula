@@ -62,7 +62,7 @@ plotSpot(occ)
 }
 \seealso{
 Other plot: \code{\link{plotBar}}, \code{\link{plotDate}},
-  \code{\link{plotMatrix}}, \code{\link{plotRank}}
+  \code{\link{plotLine}}, \code{\link{plotMatrix}}
 }
 \author{
 N. Frerebeau

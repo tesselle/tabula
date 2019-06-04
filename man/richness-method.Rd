@@ -82,7 +82,10 @@ The number of different taxa, provides an instantly comprehensible
  \describe{
   \item{ace}{Abundance-based Coverage Estimator.}
   \item{chao1}{(improved) Chao1 estimator.}
-  \item{margalef}{Margalef richness index.}
+  \item{margalef}{Margalef richnes
+
+
+  s index.}
   \item{menhinick}{Menhinick richness index.}
   \item{none}{Returns the number of observed taxa/types.}
  }

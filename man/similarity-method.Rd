@@ -25,10 +25,11 @@ similarity(object, ...)
 used (see details). Any unambiguous substring can be given.}
 }
 \value{
-\code{similarity} returns a \eqn{m \times m}{m x m} symetric matrix.
+\code{similarity} returns a symetric matrix of class
+ \linkS4class{SimilarityMatrix}.
 }
 \description{
-\code{similarity} returns a similarity matrix.
+Similarity
 }
 \details{
 \eqn{\beta}-diversity can be measured by addressing \emph{similarity}

@@ -3,7 +3,7 @@
 NULL
 
 #' @export
-#' @rdname plotRank-method
+#' @rdname plotLine
 #' @aliases plotRank,CountMatrix-method
 setMethod(
   f = "plotRank",
@@ -15,12 +15,13 @@ setMethod(
 )
 
 #' @export
-#' @rdname plotRank-method
+#' @rdname plotLine
 #' @aliases plotRank,FrequencyMatrix-method
 setMethod(
   f = "plotRank",
   signature = signature(object = "FrequencyMatrix"),
   definition = function(object, log = NULL, facet = TRUE) {
+
     # Prepare data
     # Get row names and coerce to factor (preserve original ordering)
     row_names <- rownames(object) %>% factor(levels = unique(.))

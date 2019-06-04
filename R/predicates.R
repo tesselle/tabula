@@ -79,6 +79,10 @@ isCharacter <- function(x) {
 isLogical <- function(x) {
   typeof(x) == "logical"
 }
+#' @rdname predicate-type
+isError <- function(x) {
+  inherits(x, "try-error")
+}
 
 # ==============================================================================
 #' Scalar type predicates
@@ -127,6 +131,8 @@ isScalarLogical <- function(x) {
 #'
 #' Check numeric objects:
 #'
+#' \code{isOdd} checks if a number is odd.
+#'
 #' \code{isBinary} checks if an object contains only 0s and 1s.
 #'
 #' \code{isEqual} checks for equality among all elements of a vector.
@@ -150,6 +156,10 @@ isScalarLogical <- function(x) {
 #' @keywords internal
 NULL
 
+#' @rdname predicate-numeric
+isOdd <- function(x) {
+  as.logical(x %% 2)
+}
 #' @rdname predicate-numeric
 isBinary <- function(x) {
   if (!isNumeric(x))
