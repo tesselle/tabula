@@ -8,20 +8,9 @@ test_occ <- as(compiegne, "OccurrenceMatrix")
 test_sim <- similarity(test_count)
 
 test_that("Bar plot", {
-  for (i in TRUE:FALSE) {
-    for (j in TRUE:FALSE) {
-      for (k in TRUE:FALSE) {
-        # Count data
-        gg_count <- plotBar(test_count, EPPM = i, center = j, horizontal = k)
-        expect_is(gg_count, "ggplot")
-        # Frequency data
-        gg_freq <- plotBar(test_freq, EPPM = i, center = j, horizontal = k)
-        expect_is(gg_freq, "ggplot")
-      }
-    }
-  }
-  # Count data with confidence interval
-  expect_is(plotBar(test_count, level = 0.05), "ggplot")
+  # Deprecated
+  expect_warning(plotBar(test_count), "deprecated")
+  expect_warning(plotBar(test_freq), "deprecated")
 })
 test_that("Matrix plot", {
   for (i in TRUE:FALSE) {

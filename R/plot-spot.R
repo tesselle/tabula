@@ -25,28 +25,24 @@ setMethod(
     # Get row names and coerce to factor (preserve original ordering)
     row_names <- rownames(object) %>% factor(levels = unique(.))
 
-    # Build long table from data
-    data <- { object * 0.8 } %>%
+    # Build a long table from data
+    data <- object %>% #{ object * 0.8 } %>%
       as.data.frame() %>%
       dplyr::mutate(case = row_names) %>%
       tidyr::gather(key = "type", value = "frequency",
                     -.data$case, factor_key = TRUE)
 
     if (is.function(threshold)) {
-      function_name <- as.character(substitute(threshold))
-      function_name <- ifelse(length(function_name) > 1,
-                              function_name[[3]], function_name)
-
-      data %<>% dplyr::group_by(.data$type) %>%
+      data %<>%
+        dplyr::group_by(.data$type) %>%
         dplyr::mutate(thresh = threshold(.data$frequency)) %>%
         dplyr::ungroup() %>%
-        dplyr::mutate(
-          !!function_name := dplyr::if_else(.data$frequency > .data$thresh,
-                                            "above", "below"))
+        dplyr::mutate(threshold = dplyr::if_else(.data$frequency > .data$thresh,
+                                                 "above", "below"))
     }
 
     # ggplot
-    colour <- if (is.null(threshold)) NULL else function_name
+    colour <- if (is.null(threshold)) NULL else "threshold"
     ggplot(data = data, aes_string(x = "type", y = "case")) +
       geom_point(aes(size = 1), colour = "black", show.legend = FALSE) +
       geom_point(aes(size = 0.8), colour = "white", show.legend = FALSE) +

@@ -2,7 +2,7 @@
 #' @include AllClasses.R coerce.R
 NULL
 
-# ==============================================================================
+# ====================================================================== Extract
 #' Extract or Replace Parts of an Object
 #'
 #' Getters and setters to extract or replace parts of an object.
@@ -109,8 +109,8 @@ setGeneric(name = "setEPSG<-",
 #' @rdname subset
 NULL
 
-# Date =========================================================================
-#' Date archaeological assemblages
+# ========================================================================= Date
+#' Date Archaeological Assemblages
 #'
 #' Experimental (see note).
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
@@ -198,8 +198,8 @@ setGeneric(
   def = function(object, ...) standardGeneric("dateEvent")
 )
 
-# ==============================================================================
-#' Heterogeneity and evenness
+# ==================================================================== Diversity
+#' Heterogeneity and Evenness
 #'
 #' @description
 #'  \code{diversity} returns a diversity or dominance index.
@@ -323,7 +323,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("evenness")
 )
 
-# Plot =========================================================================
+# ========================================================================= Plot
 #' Date and Time Plot
 #'
 #' \code{plotDate} produces an activity or tempo plot.
@@ -364,6 +364,8 @@ setGeneric(
 #'
 #'  The \emph{event date} is plotted as a line, while the \emph{accumulation
 #'  time} is shown as a grey filled area.
+#' @section Detection of selective processes:
+#' TODO
 #' @references
 #'  Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
 #'  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
@@ -375,7 +377,7 @@ setGeneric(
 #'  DOI: \href{https://doi.org/10.1016/j.jas.2016.05.006}{10.1016/j.jas.2016.05.006}.
 #' @author N. Frerebeau
 #' @family plot
-#' @seealso \link{dateEvent}
+#' @seealso \link{dateEvent}, \link{test}
 #' @docType methods
 #' @rdname plotDate-method
 #' @aliases plotDate-method
@@ -391,23 +393,30 @@ setGeneric(
   def = function(object, ...) standardGeneric("plotTime")
 )
 # ------------------------------------------------------------------------------
-#' Bar plot
+#' Bar Plot
 #'
 #' Plots a Bertin or a Ford (battleship curve) diagram.
 #' @param object An object to be plotted.
+#' @param threshold A \code{\link{function}} that takes a numeric vector as
+#'  argument and returns a numeric threshold value (see below).
+#'  If \code{NULL} (the default), no threshold is computed.
+#' @param scale A \code{\link{function}} used to scale each variable,
+#'  that takes a numeric vector as argument and returns a numeric vector.
+#'  If \code{NULL} (the default), no scaling is performed.
 #' @param level A length-one \code{\link{numeric}} vector giving the
-#'  confidence level to be drawn.
+#'  confidence level to be drawn. If \code{NULL} (the default), no confidence
+#'  interval is plotted.
 #' @param EPPM A \code{\link{logical}} scalar: should the EPPM be drawn (see
 #'  details)?
-#' @param center A \code{\link{logical}} scalar: should the bar plot
-#'  be centered? The default, \code{TRUE}, produces a Ford diagram, otherwise it
-#'  produces a Bertin diagram.
-#' @param horizontal A \code{\link{logical}} scalar: should the bar plot
-#'  be horizontal? The default, \code{FALSE}, means variables in rows and
-#'  cases in columns (i.e. Bertin diagram). Only used if \code{center} is
-#'  \code{FALSE}.
-#' @param ... Further arguments passed to other methods.
-#' @details
+#' @param ... Currently not used.
+#' @section Bertin Matrix:
+#'  As de Falguerolles \emph{et al.} (1997) points out:
+#'  "In abstract terms, a Bertin matrix is a matrix
+#'  of  displays. [...] To fix ideas, think of a data matrix, variable bycase,
+#'  with real valued variables. For each variable, draw a bar chart of variable
+#'  value by case. High-light all bars representing a value above some sample
+#'  threshold for that variable."
+#' @section Ford Diagram:
 #'  If \code{EPPM} is \code{TRUE} and if a relative abundance is greater than
 #'  the mean percentage of the type, the exceeding part is highlighted.
 #'  This positive difference from the column mean percentage (in french "écart
@@ -416,10 +425,15 @@ setGeneric(
 #'  the absence of relationships between types and the chronological order of
 #'  the assemblages, \code{EPPM} is a usefull graphical tool to explore
 #'  significance of relationship between rows and columns related to
-#'  \code{\link[=seriate]{seriation}}.
+#'  \code{\link[=seriate]{seriation}} (Desachy 2004).
 #' @references
 #'  Bertin, J. (1977). \emph{La graphique et le traitement graphique de
 #'  l'information}. Paris: Flammarion. Nouvelle Bibliothèque Scientifique.
+#'
+#'  de Falguerolles, A., Friedrich, F. & Sawitzki, G. (1997). A Tribute to J.
+#'  Bertin's Graphical Data Analysis. In W. Badilla & F. Faulbaum (eds.),
+#'  \emph{SoftStat '97: Advances in Statistical Software 6}. Stuttgart: Lucius
+#'  & Lucius, p. 11-20.
 #'
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
 #'  graphique pour tableaux de comptages. \emph{Revue archéologique de
@@ -432,14 +446,26 @@ setGeneric(
 #' @author N. Frerebeau
 #' @family plot
 #' @docType methods
+#' @name plotBar-method
 #' @rdname plotBar-method
-#' @aliases plotBar-method seriographe
+#' @aliases seriographe Bertin Ford
+NULL
+
+#' @rdname plotBar-method
+#' @aliases plotBertin-method
 setGeneric(
-  name = "plotBar",
-  def = function(object, ...) standardGeneric("plotBar")
+  name = "plotBertin",
+  def = function(object, ...) standardGeneric("plotBertin")
+)
+
+#' @rdname plotBar-method
+#' @aliases plotFord-method
+setGeneric(
+  name = "plotFord",
+  def = function(object, ...) standardGeneric("plotFord")
 )
 # ------------------------------------------------------------------------------
-#' Matrix plot
+#' Matrix Plot
 #'
 #' Plots a heatmap.
 #' @param object An object to be plotted.
@@ -476,7 +502,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("plotMatrix")
 )
 # ------------------------------------------------------------------------------
-#' Line plot
+#' Line Plot
 #'
 #' \code{plotRank} plots a rank \emph{vs} relative abundance diagram.
 #' @param object An object to be plotted.
@@ -487,7 +513,7 @@ setGeneric(
 #'  defined by case/sample be drawn?
 #' @param ... Further arguments passed to other methods.
 #' @details
-#'  Note that data are scaled to \eqn{0}-\eqn{1} (relative frequencies).
+#'  TODO
 #' @example inst/examples/ex-plotRank.R
 #' @author N. Frerebeau
 #' @family plot
@@ -503,18 +529,22 @@ setGeneric(
 )
 
 # ------------------------------------------------------------------------------
-#' Spot plot
+#' Spot Plot
 #'
 #' Plots a spot matrix.
 #' @param object An object to be plotted.
 #' @param threshold A \code{\link{function}} that takes a numeric vector as
-#'  argument and returns a single numeric value (see details).
-#'  If \code{NULL}, no threshold is computed.
-#' @param ... Further arguments passed to other methods.
+#'  argument and returns a numeric threshold value.
+#'  If \code{NULL} (the default), no threshold is computed.
+#' @param ... Currently not used.
 #' @details
-#'  Note that rows are scaled to 0-1 (frequencies).
-#' @note Adapted from Dan Gopstein's original
-#'  \href{https://dgopstein.github.io/articles/spot-matrix/}{spot matrix}.
+#' TODO
+#'  The spot matrix can be considered as a variant of the
+#'  \link[=plotBertin]{Bertin diagram} where the data are first transformed to
+#'  relative frequencies.
+#' @note
+#'  Adapted from Dan Gopstein's original
+#'  \href{https://dgopstein.github.io/articles/spot-matrix/}{idea}.
 #'  Credit should be given to him.
 #' @example inst/examples/ex-plotSpot.R
 #' @author N. Frerebeau
@@ -528,7 +558,7 @@ setGeneric(
 )
 
 # ===================================================================== Richness
-#' Richness and rarefaction
+#' Richness and Rarefaction
 #'
 #' @description
 #'  \code{richness} returns sample richness.
@@ -655,7 +685,7 @@ setGeneric(
 )
 
 # ======================================================================= Refine
-#' Model refining
+#' Model Refining
 #'
 #' @param object An \eqn{m \times p}{m x p} data matrix.
 #' @param method A \code{\link{character}} string specifiying the resampling
@@ -744,7 +774,7 @@ setGeneric(
 )
 
 # ====================================================================== Seriate
-#' Matrix seriation
+#' Matrix Seriation
 #'
 #' @description
 #'  \code{seriate} computes a permutation order for rows and/or columns.
@@ -1011,11 +1041,30 @@ setGeneric(
 )
 
 # =================================================================== Deprecated
-#' Deprecated methods
+#' Deprecated Methods
 #'
+#' \code{plotBar} produces a Bertin or a Ford (battleship curve) diagram.
+#' @param object An object to be plotted.
+#' @param level A length-one \code{\link{numeric}} vector giving the
+#'  confidence level to be drawn.
+#' @param EPPM A \code{\link{logical}} scalar: should the EPPM be drawn (see
+#'  details)?
+#' @param center A \code{\link{logical}} scalar: should the bar plot
+#'  be centered? The default, \code{TRUE}, produces a Ford diagram, otherwise it
+#'  produces a Bertin diagram.
+#' @param horizontal A \code{\link{logical}} scalar: should the bar plot
+#'  be horizontal? The default, \code{FALSE}, means variables in rows and
+#'  cases in columns (i.e. Bertin diagram). Only used if \code{center} is
+#'  \code{FALSE}.
+#' @param ... Further arguments passed to other methods.
 #' @docType methods
-#' @name deprecated-method
-#' @aliases deprecated-method
-#' @noRd
+#' @name deprecated
+#' @rdname deprecated
+#' @keywords internal
 NULL
 
+#' @rdname deprecated
+setGeneric(
+  name = "plotBar",
+  def = function(object, ...) standardGeneric("plotBar")
+)
