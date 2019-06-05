@@ -60,8 +60,8 @@ seriationReciprocal <- function(x, margin = 1, stop = 100) {
   # margin = 1 : on rows
   # margin = 2 : on columns
   reorder <- function(x, margin) {
-    i <- 1:nrow(x)
-    j <- 1:ncol(x)
+    i <- seq_len(nrow(x))
+    j <- seq_len(ncol(x))
     k <- switch(
       margin,
       `1` = colSums(t(x) * j) / rowSums(x),
@@ -72,7 +72,7 @@ seriationReciprocal <- function(x, margin = 1, stop = 100) {
   }
 
   start <- 0
-  index <- list(rows = 1:nrow(x), columns = 1:ncol(x))
+  index <- list(rows = seq_len(nrow(x)), columns = seq_len(ncol(x)))
   convergence <- FALSE
   while (!convergence) {
     old_index <- index
@@ -100,8 +100,8 @@ seriationCorrespondance <- function(x, margin, axes, ...) {
   axes <- as.integer(axes)
 
   # Original sequences
-  i <- 1:nrow(x)
-  j <- 1:ncol(x)
+  i <- seq_len(nrow(x))
+  j <- seq_len(ncol(x))
   # Correspondance analysis
   corresp <- FactoMineR::CA(x, ..., graph = FALSE)
   # Sequence of the first axis as best seriation order

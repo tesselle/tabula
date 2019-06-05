@@ -49,7 +49,7 @@ testFIT <- function(x, time, roll = FALSE, window = 3, ...) {
   # Prepare data
   # Compute frequency as ratio of count of type of interest to all other types
   count_others <- lapply(
-    X = 1:ncol(x),
+    X = seq_len(ncol(x)),
     FUN = function(i, data) { rowSums(data[, -i]) },
     data = x
   )

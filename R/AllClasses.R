@@ -602,10 +602,10 @@ buildMatrix <- function(data, nrow, ncol, byrow, dimnames,
   if (rows) nrow <- k / ncol
   if (cols) ncol <- k / nrow
   if (is.null(dimnames)) {
-    dimnames <- list(1:nrow, paste("V", 1:ncol, sep = ""))
+    dimnames <- list(seq_len(nrow), paste("V", seq_len(ncol), sep = ""))
   } else {
-    if (is.null(dimnames[[1]])) dimnames[[1]] <- 1:nrow
-    if (is.null(dimnames[[2]])) dimnames[[2]] <- paste0("V", 1:ncol)
+    if (is.null(dimnames[[1]])) dimnames[[1]] <- seq_len(nrow)
+    if (is.null(dimnames[[2]])) dimnames[[2]] <- paste0("V", seq_len(ncol))
   }
   M <- matrix(data, nrow, ncol, byrow, dimnames)
   return(M)

@@ -115,7 +115,7 @@ generateUUID <- function(seed = NULL) {
   set.seed(seed = seed)
 
   # Generate 32 pseudo random hex digits
-  hex_digits <- c(as.character(0:9), letters[1:6])
+  hex_digits <- c(as.character(0:9), letters[seq_len(6)])
   hex_32 <- sample(hex_digits, size = 32, replace = TRUE)
   # Set version (4) and variant (1)
   hex_32[13] <- 4

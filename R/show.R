@@ -103,13 +103,13 @@ setMethod(
     p <- length(object@columns)
     k <- 20
     rows <- if (m > k) {
-      paste0(paste0(object@rows[1:k], collapse = " "),
+      paste0(paste0(object@rows[seq_len(k)], collapse = " "),
              "... (", m-k, " more)")
     } else {
       object@rows
     }
     columns <- if (p > k) {
-      paste0(paste0(object@columns[1:k], collapse = " "),
+      paste0(paste0(object@columns[seq_len(k)], collapse = " "),
              "... (", p-k, " more)")
     } else {
       object@columns

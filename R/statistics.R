@@ -126,9 +126,14 @@ confidence <- function(x, level = 0.95, type = c("normal", "student")) {
 jackknife <- function(x, do, ...) {
   n <- length(x)
   hat <- do(x, ...)
-  jack_values <- sapply(X = 1:n, FUN = function(i, x, do, ...) {
-    do(x[-i], ...)
-  }, x, do, ..., simplify = TRUE)
+  jack_values <- vapply(
+    X = seq_len(n),
+    FUN = function(i, x, do, ...) {
+      do(x[-i], ...)
+    },
+    FUN.VALUE = double(1),
+    x, do, ...
+  )
   jack_bias <- (n - 1) * (mean(jack_values) - hat)
   jack_error <- sqrt(((n - 1) / n) * sum((jack_values - mean(jack_values))^2))
 

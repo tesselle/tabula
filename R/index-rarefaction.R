@@ -60,13 +60,18 @@ rarefactionHurlbert <- function(x, sample) {
   sample <- trunc(sample, digits = 0)
 
   N <- sum(x)
-  E <- sapply(X = x, FUN = function(x, N, sample) {
-    if (N - x > sample) {
-      1 - combination(N - x, sample) / combination(N, sample)
-    } else {
-      NA
-    }
-  }, N, sample)
+  E <- vapply(
+    X = x,
+    FUN = function(x, N, sample) {
+      if (N - x > sample) {
+        1 - combination(N - x, sample) / combination(N, sample)
+      } else {
+        NA
+      }
+    },
+    FUN.VALUE = double(1),
+    N, sample
+  )
   E <- sum(E)
   return(E)
 }

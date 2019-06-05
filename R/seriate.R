@@ -41,8 +41,8 @@ setMethod(
     # Original sequences
     m <- nrow(object)
     p <- ncol(object)
-    i <- 1:m
-    j <- 1:p
+    i <- seq_len(m)
+    j <- seq_len(p)
 
     # Correspondance analysis
     index_rows <- subset[["keep"]][[1]]

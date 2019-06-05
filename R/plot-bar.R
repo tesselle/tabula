@@ -101,7 +101,11 @@ setMethod(
     # ggplot
     # A function that given the scale limits returns a vector of breaks
     scale_breaks <- function(x) {
-      if (max(x) >= 0.2) c(-4:4) * 0.10 else c(-1:1) * 0.05
+      if (max(x) >= 0.2) {
+        seq(-4, 4, by = 1) * 0.10
+      } else {
+        seq(-1, 1, by = 1) * 0.05
+      }
     }
     # A function that takes the breaks as input and returns labels as output
     scale_labels <- function(x) {

@@ -285,8 +285,8 @@ jackDate <- function(x, model, keep = ncol(x), level = 0.95, ...) {
   } else {
     lapply
   }
-  loop_args <- list(X = 1:ncol(x), FUN = computeCoef, data = x, dates = dates,
-                    keep = keep, level = level)
+  loop_args <- list(X = seq_len(ncol(x)), FUN = computeCoef,
+                    data = x, dates = dates, keep = keep, level = level)
   jack <- do.call(loop_fun, loop_args)
 
   # Predict event date for each context

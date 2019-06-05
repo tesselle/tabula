@@ -14,9 +14,9 @@ setMethod(
     data <- as.data.frame(methods::slot(x, i))
 
     if (missing(j)) {
-      j <- 1:nrow(data)
+      j <- seq_len(nrow(data))
     } else {
-      if (is.null(j)) j <- 1:nrow(data)
+      if (is.null(j)) j <- seq_len(nrow(data))
       if (is.character(j) | is.factor(j)) j <- which(data$id %in% j)
       if (is.numeric(j)) j <- as.integer(j)
     }

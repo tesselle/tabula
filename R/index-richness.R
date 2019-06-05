@@ -150,12 +150,21 @@ richnessACE <- function(x, k = 10, ...) {
   # ie. proportion of all individuals in rare species that are not singletons
 
   # Coefficient of variation
-  a <- sum(vapply(X = 1:k, FUN = function(i, x) { i * (i - 1) * sum(x == i) },
-                  FUN.VALUE = double(1), x = x))
-  b <- sum(vapply(X = 1:k, FUN = function(i, x) { i * sum(x == i) },
-                  FUN.VALUE = double(1), x = x))
-  c <- sum(vapply(X = 1:k, FUN = function(i, x) { i * sum(x == i) - 1 },
-                  FUN.VALUE = double(1), x = x))
+  a <- sum(vapply(
+    X = seq_len(k),
+    FUN = function(i, x) { i * (i - 1) * sum(x == i) },
+    FUN.VALUE = double(1), x = x)
+  )
+  b <- sum(vapply(
+    X = seq_len(k),
+    FUN = function(i, x) { i * sum(x == i) },
+    FUN.VALUE = double(1), x = x)
+  )
+  c <- sum(vapply(
+    X = seq_len(k),
+    FUN = function(i, x) { i * sum(x == i) - 1 },
+    FUN.VALUE = double(1), x = x)
+  )
   g2 <- max((S_rare / C_rare) * (a / (b * c)) - 1, 0)
 
   D <- S_abun + S_rare / C_rare + f1 * g2 / C_rare
@@ -247,12 +256,21 @@ richnessICE <- function(x, k = 10, ...) {
   # ie. proportion of all incidences of infrequent species that are not uniques
 
   # Coefficient of variation
-  a <- sum(vapply(X = 1:k, FUN = function(x, q) { x * (x - 1) * sum(q == x) },
-                  FUN.VALUE = double(1), q = q))
-  b <- sum(vapply(X = 1:k, FUN = function(x, q) { x * sum(q == x) },
-                  FUN.VALUE = double(1), q = q))
-  c <- sum(vapply(X = 1:k, FUN = function(x, q) { x * sum(q == x) - 1 },
-                  FUN.VALUE = double(1), q = q))
+  a <- sum(vapply(
+    X = seq_len(k),
+    FUN = function(x, q) { x * (x - 1) * sum(q == x) },
+    FUN.VALUE = double(1), q = q)
+  )
+  b <- sum(vapply(
+    X = seq_len(k),
+    FUN = function(x, q) { x * sum(q == x) },
+    FUN.VALUE = double(1), q = q)
+  )
+  c <- sum(vapply(
+    X = seq_len(k),
+    FUN = function(x, q) { x * sum(q == x) - 1 },
+    FUN.VALUE = double(1), q = q)
+  )
   g2 <- max((S_infr / C_infr) * (t / (t - 1)) * (a / (b * c)) - 1, 0)
 
   D <- S_freq + S_infr / C_infr + q1 * g2 / C_infr

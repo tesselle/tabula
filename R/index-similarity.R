@@ -26,14 +26,22 @@ similarityIndex <- function(object, method, ...) {
 
   if (by_row) {
     # Sample/case comparisons
-    beta <- apply(X = utils::combn(1:m, 2), MARGIN = 2, FUN = function(x) {
-      index(object[x[1], ], object[x[2], ])
-    })
+    beta <- apply(
+      X = utils::combn(seq_len(m), 2),
+      MARGIN = 2,
+      FUN = function(x) {
+        index(object[x[1], ], object[x[2], ])
+      }
+    )
   } else {
     # Taxa/type comparisons
-    beta <- apply(X = utils::combn(1:m, 2), MARGIN = 2, FUN = function(x) {
-      index(object[, x[1]], object[, x[2]])
-    })
+    beta <- apply(
+      X = utils::combn(seq_len(m), 2),
+      MARGIN = 2,
+      FUN = function(x) {
+        index(object[, x[1]], object[, x[2]])
+      }
+    )
   }
 
   # Matrix of results

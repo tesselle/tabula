@@ -31,7 +31,7 @@ isSubset <- function(subset, set) {
       set2 <- c(set[-n_set], set[-1])
       k <- length(set2) %% n_sub
 
-      m <- matrix(c(set2, set2[1:(n_sub - k)]), ncol = n_sub, byrow = TRUE)
+      m <- matrix(c(set2, set2[seq_len(n_sub - k)]), ncol = n_sub, byrow = TRUE)
       any(apply(X = m, MARGIN = 1, FUN = identical, y = subset))
     }
   }
