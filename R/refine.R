@@ -274,7 +274,7 @@ jackDate <- function(x, model, keep = ncol(x), level = 0.95, ...) {
     ## Remove column 'id' before fitting
     contexts %<>%
       as.data.frame() %>%
-      dplyr::select(-id)
+      dplyr::select(-.data$id)
     fit <- stats::lm(date ~ ., data = contexts)
     # Return model coefficients
     return(stats::coef(fit))

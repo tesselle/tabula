@@ -21,7 +21,6 @@ setMethod(
 
     # Scale variables
     if (is.function(scale)) {
-      print("ok")
       data %<>%
         dplyr::group_by(.data$type) %>%
         dplyr::mutate(frequency = scale(.data$frequency)) %>%
@@ -39,21 +38,25 @@ setMethod(
     }
 
     # ggplot
-    colour <- if (is.null(threshold)) NULL else "threshold"
+    aes_plot <- ggplot2::aes(x = .data$case, y = .data$frequency)
+    aes_col <- if (is.null(threshold)) NULL else ggplot2::aes(fill = .data$threshold)
 
-    ggplot(data = data, aes_string(x = "case", y = "frequency")) +
-      geom_col(aes_string(fill = colour), colour = "black") +
-      scale_x_discrete(position = "top") +
-      facet_grid(type ~ ., scales = "free_y") +
-      theme(axis.text.x = element_text(angle = 90, hjust = 0),
-            axis.text.y = element_blank(),
-            axis.title = element_blank(),
-            axis.ticks = element_blank(),
-            legend.key = element_rect(fill = "white"),
-            panel.background = element_rect(fill = "white"),
-            panel.grid = element_blank(),
-            strip.text.y = element_text(angle = 0, hjust = 0),
-            strip.background = element_rect(fill = "white"))
+    ggplot2::ggplot(data = data, mapping = aes_plot) +
+      ggplot2::geom_col(mapping = aes_col, colour = "black") +
+      ggplot2::scale_x_discrete(position = "top") +
+      ggplot2::facet_grid(rows = ggplot2::vars(.data$type), scales = "free_y") +
+      ggplot2::theme(
+        axis.text.x = ggplot2::element_text(angle = 90, hjust = 0),
+        axis.text.y = ggplot2::element_blank(),
+        axis.title = ggplot2::element_blank(),
+        axis.ticks = ggplot2::element_blank(),
+        legend.key = ggplot2::element_rect(fill = "white"),
+        panel.background = ggplot2::element_rect(fill = "white"),
+        panel.grid = ggplot2::element_blank(),
+        strip.text.y = ggplot2::element_text(angle = 0, hjust = 0),
+        strip.background = ggplot2::element_rect(fill = "white")
+      ) +
+      ggplot2::labs(fill = "Threshold")
   }
 )
 
@@ -96,14 +99,9 @@ setMethod(
       dplyr::mutate(data = .data$data * z)
 
     # ggplot
-    colour <- if (EPPM) "threshold" else NULL
     # A function that given the scale limits returns a vector of breaks
     scale_breaks <- function(x) {
-      if (max(x) >= 0.2) {
-        c(-4:4) * 0.10
-      } else {
-        c(-1:1) * 0.05
-      }
+      if (max(x) >= 0.2) c(-4:4) * 0.10 else c(-1:1) * 0.05
     }
     # A function that takes the breaks as input and returns labels as output
     scale_labels <- function(x) {
@@ -112,20 +110,24 @@ setMethod(
       labs
     }
 
-    ggplot(data = data, aes_string(x = "case", y = "data")) +
-      geom_col(aes_string(fill = colour), width = 1,
-               position = position_stack(reverse = FALSE)) +
-      facet_grid(. ~ type, scales = "free_x", space = "free_x") +
-      scale_y_continuous(breaks = scale_breaks, labels = scale_labels,
-                         expand = c(0, 0.025)) +
-      theme(axis.title = element_blank(),
-            axis.ticks.y = element_blank(),
-            legend.key = element_rect(fill = "white"),
-            panel.background = element_rect(fill = "white"),
-            panel.grid = element_blank(),
-            strip.text.x = element_text(angle = 90, hjust = 0, vjust = 0.5),
-            strip.background = element_rect(fill = "white")) +
-      coord_flip()
+    aes_plot <- ggplot2::aes(x = .data$case, y = .data$data)
+    aes_col <- if (EPPM) ggplot2::aes(fill = .data$threshold) else NULL
+    ggplot2::ggplot(data = data, mapping = aes_plot) +
+      ggplot2::geom_col(mapping = aes_col, width = 1,
+                        position = ggplot2::position_stack(reverse = FALSE)) +
+      ggplot2::facet_grid(. ~ type, scales = "free_x", space = "free_x") +
+      ggplot2::scale_y_continuous(breaks = scale_breaks, labels = scale_labels,
+                                  expand = c(0, 0.025)) +
+      ggplot2::theme(
+        axis.title = ggplot2::element_blank(),
+        axis.ticks.y = ggplot2::element_blank(),
+        legend.key = ggplot2::element_rect(fill = "white"),
+        panel.background = ggplot2::element_rect(fill = "white"),
+        panel.grid = ggplot2::element_blank(),
+        strip.text.x = ggplot2::element_text(angle = 90, hjust = 0, vjust = 0.5),
+        strip.background = ggplot2::element_rect(fill = "white")) +
+      ggplot2::labs(fill = "Value") +
+      ggplot2::coord_flip()
   }
 )
 
@@ -193,32 +195,37 @@ setMethod(
     fill <- if (EPPM) "threshold" else NULL
     bertin <- center | horizontal
     facets <- if (bertin) ".~type" else "type~."
-    coord <- if (bertin) coord_flip() else NULL
+    coord <- if (bertin) ggplot2::coord_flip() else NULL
     axis <- if (bertin) {
       list(
-        theme(axis.title.y = element_blank(),
-              axis.ticks.y = element_blank()),
-        scale_y_continuous(breaks = scale_breaks, labels = abs(scale_breaks))
+        ggplot2::theme(axis.title.y = ggplot2::element_blank(),
+                       axis.ticks.y = ggplot2::element_blank()),
+        ggplot2::scale_y_continuous(breaks = scale_breaks,
+                                    labels = abs(scale_breaks))
       )
     } else {
       list(
-        theme(axis.title.x = element_blank(),
-              axis.ticks.x = element_blank()),
-        scale_x_discrete(expand = c(0, 0), position = "top"),
-        scale_y_continuous(breaks = scale_breaks, labels = abs(scale_breaks))
+        ggplot2::theme(axis.title.x = ggplot2::element_blank(),
+                       axis.ticks.x = ggplot2::element_blank()),
+        ggplot2::scale_x_discrete(expand = c(0, 0), position = "top"),
+        ggplot2::scale_y_continuous(breaks = scale_breaks,
+                                    labels = abs(scale_breaks))
       )
     }
 
-    ggplot(data = data) +
-      facet_grid(stats::as.formula(facets), scales = "free", space = "free_x") +
-      geom_col(aes_string(x = "case", y = "frequency", fill = fill), width = 1,
-               position = position_stack(reverse = !center)) +
-      geom_errorbar(aes_string(x = "case", ymin = "conf_center-ci",
-                               ymax = "conf_center+ci"),
-                    width = 0, size = 3) +
+    ggplot2::ggplot(data = data) +
+      ggplot2::facet_grid(stats::as.formula(facets),
+                          scales = "free", space = "free_x") +
+      ggplot2::geom_col(ggplot2::aes_string(x = "case", y = "frequency",
+                                            fill = fill), width = 1,
+               position = ggplot2::position_stack(reverse = !center)) +
+      ggplot2::geom_errorbar(ggplot2::aes_string(x = "case",
+                                                 ymin = "conf_center-ci",
+                                                 ymax = "conf_center+ci"),
+                             width = 0, size = 3) +
       coord + axis +
-      theme(legend.position = "bottom",
-            panel.spacing = unit(0, "lines"))
+      ggplot2::theme(legend.position = "bottom",
+                     panel.spacing = ggplot2::unit(0, "lines"))
   }
 )
 

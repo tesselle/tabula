@@ -13,6 +13,6 @@ plotSpot(count, threshold = median)
 sim <- similarity(count, "brainerd")
 plotSpot(sim)
 
-## ...of a co-occurence matrix
+## ...of a co-occurrence matrix
 occ <- as(mississippi, "OccurrenceMatrix")
 plotSpot(occ)

@@ -23,7 +23,7 @@
 #'
 #' IRAMAT-CRP2A (UMR 5060)\cr
 #' Maison de l'Archéologie\cr
-#' Universite Bordeaux Montaigne\cr
+#' Université Bordeaux Montaigne\cr
 #' F-33607 Pessac cedex\cr
 #' France
 #' @note
@@ -31,20 +31,23 @@
 #' de la Recherche (France) throught the program \emph{Investissements d'avenir}
 #' (ref. ANR-10-LABX-52).
 #' @name tabula-package
-#' @aliases tabula-package tabula
+#' @aliases tabula
 #' @docType package
 #' @keywords internal
 "_PACKAGE"
 
-#' @importFrom methods new
-#' @importFrom magrittr %<>%
-#' @importFrom magrittr %>%
-#' @importFrom rlang :=
-#' @import dplyr
-#' @import ggplot2
-#' @import tidyr
-NULL
-
 # Quiets concerns of R CMD check: the .'s that appear in pipelines
 # See https://github.com/tidyverse/magrittr/issues/29
 if(getRversion() >= "2.15.1") utils::globalVariables(c("."))
+
+#' @importFrom methods new
+#' @importFrom magrittr %<>%
+#' @importFrom magrittr %>%
+#' @importFrom rlang .data
+NULL
+
+# The following block is used by usethis to automatically manage
+# roxygen namespace tags. Modify with care!
+## usethis namespace: start
+## usethis namespace: end
+NULL

@@ -90,25 +90,29 @@ setMethod(
           dplyr::ungroup()
 
         gg_roll <- data %>%
-          filter(.data$sub_signature == "selection") %>%
-          geom_line(mapping = aes_string(group = "type"), size = 5,
-                    colour = "grey80", lineend = "round")
+          dplyr::filter(.data$sub_signature == "selection") %>%
+          ggplot2::geom_line(mapping = ggplot2::aes(group = .data$type),
+                             size = 5, colour = "grey80", lineend = "round")
       }
     }
 
     data %<>% dplyr::arrange(.data$type, .data$time)
 
     # ggplot
+    colour <- ifelse(highlight == "FIT", "signature", "type")
+    aes_plot <- ggplot2::aes(x = .data$time, y = .data$frequency,
+                             colour = .data[[colour]])
     if (facet) {
-      facet <- facet_wrap(. ~ type, scales = "free_y")
-      colour <- if (highlight == "FIT") "signature" else NULL
+      facet <- ggplot2::facet_wrap(ggplot2::vars(.data$type), scales = "free_y")
+      if (highlight != "FIT") {
+        aes_plot <- ggplot2::aes(x = .data$time, y = .data$frequency)
+      }
     } else {
-      colour <- "type"
       facet <- NULL
     }
 
-    ggplot(data = data,
-           mapping = aes_string(x = "time", y = "frequency", colour = colour)) +
-      gg_roll + geom_point() + geom_line() + facet
+    ggplot2::ggplot(data = data, mapping = aes_plot) +
+      gg_roll + ggplot2::geom_point() + ggplot2::geom_line() + facet +
+      ggplot2::labs(x = "Time", y = "Frequency", colour = colour)
   }
 )

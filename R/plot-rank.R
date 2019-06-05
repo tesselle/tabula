@@ -43,19 +43,23 @@ setMethod(
     # ggplot
     log_x <- log_y <- NULL
     if (!is.null(log)) {
-      if (log == "x" | log == "xy" | log == "yx") log_x <- scale_x_log10()
-      if (log == "y" | log == "xy" | log == "yx") log_y <- scale_y_log10()
+      if (log == "x" || log == "xy" || log == "yx")
+        log_x <- ggplot2::scale_x_log10()
+      if (log == "y" || log == "xy" || log == "yx")
+        log_y <- ggplot2::scale_y_log10()
     }
     if (facet) {
-      colour <- NULL
-      facet <- facet_wrap(.~case, ncol = n)
+      facet <- ggplot2::facet_wrap(ggplot2::vars(.data$case), ncol = n)
+      aes_plot <- ggplot2::aes(x = .data$rank, y = .data$frequency)
     } else {
-      colour <- "case"
       facet <- NULL
+      aes_plot <- ggplot2::aes(x = .data$rank, y = .data$frequency,
+                               colour = .data$case)
     }
-    ggplot(data = data, aes_string(x = "rank", y = "frequency",
-                                   colour = colour)) +
-      geom_point() + geom_line() +
+    ggplot2::ggplot(data = data, mapping = aes_plot) +
+      ggplot2::geom_point() + ggplot2::geom_line() +
+      ggplot2::labs(x = "Rank", y = "Frequency",
+                    colour = "Assemblage", fill = "Assemblage") +
       log_x + log_y + facet
   }
 )

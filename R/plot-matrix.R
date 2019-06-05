@@ -41,20 +41,27 @@ setMethod(
 
     # ggplot
     fill <- ifelse(PVI, "PVI", "frequency")
-    ggplot(data = data) +
-      geom_tile(aes_string(x = "x", y = "y", fill = fill)) +
-      scale_x_continuous(position = "top", expand = c(0, 0),
-                         limits = range(data$x) + c(-0.5, 0.5),
-                         breaks = unique(data$x),
-                         labels = unique(data$type)) +
-      scale_y_continuous(expand = c(0, 0), trans = "reverse",
-                         breaks = unique(data$y),
-                         labels = unique(data$case)) +
-      theme(axis.text.x = element_text(angle = 90, hjust = 0),
-            axis.ticks = element_blank(),
-            axis.title = element_blank(),
-            panel.grid = element_blank()) +
-      coord_fixed()
+    aes_plot <- ggplot2::aes(x = .data$x, y = .data$y, fill = .data[[fill]])
+    ggplot2::ggplot(data = data, mapping = aes_plot) +
+      ggplot2::geom_tile() +
+      ggplot2::scale_x_continuous(
+        position = "top",
+        expand = c(0, 0),
+        limits = range(data$x) + c(-0.5, 0.5),
+        breaks = unique(data$x),
+        labels = unique(data$type)) +
+      ggplot2::scale_y_continuous(
+        expand = c(0, 0),
+        trans = "reverse",
+        breaks = unique(data$y),
+        labels = unique(data$case)) +
+      ggplot2::theme(
+        axis.text.x = ggplot2::element_text(angle = 90, hjust = 0),
+        axis.ticks = ggplot2::element_blank(),
+        axis.title = ggplot2::element_blank(),
+        panel.grid = ggplot2::element_blank()) +
+      ggplot2::labs(fill = fill) +
+      ggplot2::coord_fixed()
   }
 )
 
@@ -89,14 +96,18 @@ setMethod(
                     -.data$case, factor_key = TRUE)
 
     # ggplot
-    ggplot(data = data, aes_string(x = "type", y = "case", fill = "value")) +
-      geom_tile(color = "black") +
-      scale_x_discrete(position = "top") +
-      scale_y_discrete(limits = rev(levels(data$case))) +
-      theme(axis.ticks = element_blank(),
-            axis.text.x = element_text(angle = 90, hjust = 0),
-            panel.background = element_rect(fill = "white"),
-            panel.grid = element_blank()) +
-      coord_fixed()
+    aes_plot <- ggplot2::aes(x = .data$type, y = .data$case, fill = .data$value)
+    ggplot2::ggplot(data = data, mapping = aes_plot) +
+      ggplot2::geom_tile(color = "black") +
+      ggplot2::scale_x_discrete(position = "top") +
+      ggplot2::scale_y_discrete(limits = rev(levels(data$case))) +
+      ggplot2::theme(
+        axis.text.x = ggplot2::element_text(angle = 90, hjust = 0),
+        axis.ticks = ggplot2::element_blank(),
+        axis.title = ggplot2::element_blank(),
+        panel.background = ggplot2::element_rect(fill = "white"),
+        panel.grid = ggplot2::element_blank()) +
+      ggplot2::labs(fill = "Value") +
+      ggplot2::coord_fixed()
   }
 )

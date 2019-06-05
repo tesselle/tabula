@@ -15,7 +15,8 @@ plotDate(object, ...)
 
 plotTime(object, ...)
 
-\S4method{plotDate}{AbundanceMatrix}(object, select = 1, sort = "dsc")
+\S4method{plotDate}{AbundanceMatrix}(object, select = NULL,
+  sort = "dsc")
 
 \S4method{plotDate}{DateModel}(object, type = c("activity", "tempo"),
   event = FALSE, select = 1, n = 500)

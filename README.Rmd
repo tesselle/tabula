@@ -165,8 +165,8 @@ This package provides an implementation of the chronological modeling method dev
 ```{r date, fig.width=3.5, fig.height=3.5, fig.show="hold"}
 # Coerce dataset to abundance (count) matrix
 zuni_counts <- as(zuni, "CountMatrix")
-# Assume that some assemblages are reliably dated (this is NOT a real example).
-# The names of the vector entries must match the names of the assemblages.
+# Assume that some assemblages are reliably dated (this is NOT a real example)
+# The names of the vector entries must match the names of the assemblages
 setDates(zuni_counts) <- c(
   LZ0569 = 1097, LZ0279 = 1119, CS16 = 1328, LZ0066 = 1111,
   LZ0852 = 1216, LZ1209 = 1251, CS144 = 1262, LZ0563 = 1206,
@@ -174,17 +174,15 @@ setDates(zuni_counts) <- c(
   LZ0578 = 1180, LZ0227 = 1104, LZ0610 = 1074
 )
 
-# Model the event and accumulation date for each assemblage.
+# Model the event date for each assemblage
 model <- dateEvent(zuni_counts, cutoff = 90)
-# Plot event and accumulation date distributions
+# Plot activity and tempo distributions
 plotDate(model, type = "activity", select = "LZ1105") +
   ggplot2::labs(title = "Activity plot") +
-  ggplot2::theme_bw() +
-  ggplot2::theme(legend.position = "bottom")
+  ggplot2::theme_bw()
 plotDate(model, type = "tempo", select = "LZ1105") +
   ggplot2::labs(title = "Tempo plot") +
-  ggplot2::theme_bw() +
-  ggplot2::theme(legend.position = "bottom")
+  ggplot2::theme_bw()
 ```
 
 ### Analysis

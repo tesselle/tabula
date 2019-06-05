@@ -1,5 +1,5 @@
 # CLASSES DEFINITION AND INITIALIZATION
-#' @include tabula.R utilities.R
+#' @include utilities.R
 NULL
 
 # DEFINITION ===================================================================

@@ -78,6 +78,9 @@ setDates(zuni) <- c(
   LZ0578 = 1180, LZ0227 = 1104, LZ0610 = 1074
 )
 
+## Plot dates
+plotDate(zuni)
+
 ## Model the event and accumulation date for each assemblage
 (model <- dateEvent(zuni, cutoff = 90))
 

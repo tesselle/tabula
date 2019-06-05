@@ -42,22 +42,31 @@ setMethod(
     }
 
     # ggplot
-    colour <- if (is.null(threshold)) NULL else "threshold"
-    ggplot(data = data, aes_string(x = "type", y = "case")) +
-      geom_point(aes(size = 1), colour = "black", show.legend = FALSE) +
-      geom_point(aes(size = 0.8), colour = "white", show.legend = FALSE) +
-      geom_point(aes_string(size = "frequency", colour = colour)) +
-      scale_x_discrete(position = "top") +
-      scale_y_discrete(limits = rev(levels(data$case))) +
-      scale_size_area() +
-      theme(axis.text.x = element_text(angle = 90, hjust = 0),
-            axis.ticks = element_blank(),
-            axis.title.x = element_blank(),
-            axis.title.y = element_blank(),
-            legend.key = element_rect(fill = "white"),
-            panel.background = element_rect(fill = "white"),
-            panel.grid = element_blank()) +
-      coord_fixed()
+    aes_plot <- ggplot2::aes(x = .data$type, y = .data$case)
+    aes_point <- if (is.null(threshold)) {
+      ggplot2::aes(size = .data$frequency)
+    } else {
+      ggplot2::aes(size = .data$frequency, colour = .data$threshold)
+    }
+
+    ggplot2::ggplot(data = data, mapping = aes_plot) +
+      ggplot2::geom_point(mapping = ggplot2::aes(size = 1), colour = "black",
+                          show.legend = FALSE) +
+      ggplot2::geom_point(mapping = ggplot2::aes(size = 0.8), colour = "white",
+                          show.legend = FALSE) +
+      ggplot2::geom_point(mapping = aes_point) +
+      ggplot2::scale_x_discrete(position = "top") +
+      ggplot2::scale_y_discrete(limits = rev(levels(data$case))) +
+      ggplot2::scale_size_area() +
+      ggplot2::theme(
+        axis.text.x = ggplot2::element_text(angle = 90, hjust = 0),
+        axis.ticks = ggplot2::element_blank(),
+        axis.title = ggplot2::element_blank(),
+        legend.key = ggplot2::element_rect(fill = "white"),
+        panel.background = ggplot2::element_rect(fill = "white"),
+        panel.grid = ggplot2::element_blank()) +
+      ggplot2::labs(colour = "Threshold", size = "Frequency") +
+      ggplot2::coord_fixed()
   }
 )
 
@@ -72,6 +81,7 @@ setMethod(
     # Get row names and coerce to factor (preserve original ordering)
     row_names <- rownames(object) %>% factor(levels = unique(.))
     max_value <- unique(diag(object))
+    index_name <- object[["method"]]
 
     # Replace lower part and diagonal values with 0
     clean <- object
@@ -89,21 +99,28 @@ setMethod(
       stats::na.omit()
 
     # ggplot
-    ggplot(data = data, mapping = aes_string(x = "type", y = "case")) +
-      geom_point(aes_string(size = "max"), colour = "black", show.legend = FALSE) +
-      geom_point(aes_string(size = "max * 0.8"), colour = "white", show.legend = FALSE) +
-      geom_point(aes_string(size = "similarity", color = "similarity")) +
-      scale_x_discrete(position = "top") +
-      scale_y_discrete(limits = rev(levels(data$case))) +
-      scale_size_area() +
-      theme(axis.text.x = element_text(angle = 90, hjust = 0),
-            axis.ticks = element_blank(),
-            axis.title.x = element_blank(),
-            axis.title.y = element_blank(),
-            legend.key = element_rect(fill = "white"),
-            panel.background = element_rect(fill = "white"),
-            panel.grid = element_blank()) +
-      coord_fixed()
+    aes_plot <- ggplot2::aes(x = .data$type, y = .data$case)
+    aes_point <- ggplot2::aes(size = .data$similarity,
+                              colour = .data$similarity)
+
+    ggplot2::ggplot(data = data, mapping = aes_plot) +
+      ggplot2::geom_point(mapping = ggplot2::aes(size = .data$max),
+                          colour = "black", show.legend = FALSE) +
+      ggplot2::geom_point(mapping = ggplot2::aes(size = .data$max * 0.8),
+                          colour = "white", show.legend = FALSE) +
+      ggplot2::geom_point(mapping = aes_point) +
+      ggplot2::scale_x_discrete(position = "top") +
+      ggplot2::scale_y_discrete(limits = rev(levels(data$case))) +
+      ggplot2::scale_size_area() +
+      ggplot2::theme(
+        axis.text.x = ggplot2::element_text(angle = 90, hjust = 0),
+        axis.ticks = ggplot2::element_blank(),
+        axis.title = ggplot2::element_blank(),
+        legend.key = ggplot2::element_rect(fill = "white"),
+        panel.background = ggplot2::element_rect(fill = "white"),
+        panel.grid = ggplot2::element_blank()) +
+      ggplot2::labs(colour = index_name, size = index_name) +
+      ggplot2::coord_fixed()
   }
 )
 
@@ -127,20 +144,27 @@ setMethod(
       dplyr::filter(.data$type != .data$case)
 
     # ggplot
-    ggplot(data = data, mapping = aes_string(x = "type", y = "case")) +
-      geom_point(aes(size = 1), colour = "black", show.legend = FALSE) +
-      geom_point(aes(size = 0.8), colour = "white", show.legend = FALSE) +
-      geom_point(aes_string(size = "occurrence", color = "occurrence")) +
-      scale_x_discrete(position = "top", limits = row_names) +
-      scale_y_discrete(limits = rev(row_names)) +
-      scale_size_area() +
-      theme(axis.text.x = element_text(angle = 90, hjust = 0),
-            axis.ticks = element_blank(),
-            axis.title.x = element_blank(),
-            axis.title.y = element_blank(),
-            legend.key = element_rect(fill = "white"),
-            panel.background = element_rect(fill = "white"),
-            panel.grid = element_blank()) +
-      coord_fixed()
+    aes_plot <- ggplot2::aes(x = .data$type, y = .data$case)
+    aes_point <- ggplot2::aes(size = .data$occurrence,
+                              colour = .data$occurrence)
+
+    ggplot2::ggplot(data = data, mapping = aes_plot) +
+      ggplot2::geom_point(ggplot2::aes(size = 1), colour = "black",
+                          show.legend = FALSE) +
+      ggplot2::geom_point(ggplot2::aes(size = 0.8), colour = "white",
+                          show.legend = FALSE) +
+      ggplot2::geom_point(mapping = aes_point) +
+      ggplot2::scale_x_discrete(position = "top", limits = row_names) +
+      ggplot2::scale_y_discrete(limits = rev(row_names)) +
+      ggplot2::scale_size_area() +
+      ggplot2::theme(
+        axis.text.x = ggplot2::element_text(angle = 90, hjust = 0),
+        axis.ticks = ggplot2::element_blank(),
+        axis.title = ggplot2::element_blank(),
+        legend.key = ggplot2::element_rect(fill = "white"),
+        panel.background = ggplot2::element_rect(fill = "white"),
+        panel.grid = ggplot2::element_blank()) +
+      ggplot2::labs(colour = "Co-occurrence", size = "Co-occurrence") +
+      ggplot2::coord_fixed()
   }
 )

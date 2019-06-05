@@ -8,12 +8,14 @@ NULL
 setMethod(
   f = "plotDate",
   signature = signature(object = "AbundanceMatrix"),
-  definition = function(object, select = 1, sort = "dsc") {
+  definition = function(object, select = NULL, sort = "dsc") {
     # Validation
     checkScalar(sort, expected = "character")
     # Selection
     cases <- rownames(object)
-    index <- if (is.character(select)) {
+    index <- if (is.null(select)) {
+      seq_along(cases)
+    } else if (is.character(select)) {
       which(cases %in% select)
     } else {
       as.numeric(select)
@@ -46,13 +48,16 @@ setMethod(
     # Set error bar height
     error_height <- ifelse(dates$error == 0, 0, 0.5)
 
-    ggplot(data = dates, mapping = aes_string(color = "id", fill = "id")) +
-      geom_errorbarh(mapping = aes_string(xmin = "min", xmax = "max", y = "y"),
-                     height = error_height) +
-      geom_point(mapping = aes_string(x = "value", y = "y"),
-                 shape = 21, size = 2) +
-      scale_y_continuous(breaks = dates$y, labels = dates$id) +
-      labs(x = "Date", y = "", fill = "Assemblage", color = "Assemblage")
+    aes_plot <- ggplot2::aes(color = .data$id, fill = .data$id)
+    aes_point <- ggplot2::aes(x = .data$value, y = .data$y)
+    aes_err <- ggplot2::aes(xmin = .data$min, xmax = .data$max, y = .data$y)
+    ggplot2::ggplot(data = dates, mapping = aes_plot) +
+      ggplot2::geom_errorbarh(mapping = aes_err, height = error_height) +
+      ggplot2::geom_point(mapping = aes_point, shape = 21, size = 2) +
+      ggplot2::scale_y_continuous(breaks = dates$y, labels = dates$id) +
+      ggplot2::theme(axis.title.y = ggplot2::element_blank()) +
+      ggplot2::labs(x = "Date", y = "",
+                    fill = "Assemblage", color = "Assemblage")
   }
 )
 
@@ -72,7 +77,9 @@ setMethod(
 
     # Selection
     cases <- rownames(object@rows)
-    index <- if (is.character(select)) {
+    index <- if (is.null(select)) {
+      seq_along(cases)
+    } else if (is.character(select)) {
       which(cases %in% select)
     } else {
       as.numeric(select)
@@ -107,7 +114,7 @@ setMethod(
 
       row_data <- cbind.data.frame(date = date_range, date_event) %>%
         tidyr::gather(key = "assemblage", value = "density", -date)
-      plot_event <- geom_line(data = row_data, color = "black")
+      plot_event <- ggplot2::geom_line(data = row_data, color = "black")
     }
 
     # Accumulation time
@@ -139,22 +146,25 @@ setMethod(
     col_data <- cbind.data.frame(date = date_range, date_acc) %>%
       tidyr::gather(key = "assemblage", value = "density", -date)
 
+    # ggplot
     plot_accumulation <- switch(
       type,
-      activity = geom_area(data = col_data, fill = "darkgrey",
-                           color = "darkgrey", alpha = 0.7),
-      tempo = geom_line(data = col_data, color = "black"),
+      activity = ggplot2::geom_area(fill = "darkgrey", color = "darkgrey",
+                                    alpha = 0.7),
+      tempo = ggplot2::geom_line(color = "black"),
       NULL
     )
 
     # Facet if more than one assemblage is selected
     plot_facet <- NULL
     if (k > 1) {
-      plot_facet <- facet_wrap(. ~ assemblage, nrow = k, scales = "free_y")
+      plot_facet <- ggplot2::facet_wrap(ggplot2::vars(.data$assemblage),
+                                        nrow = k, scales = "free_y")
     }
 
-    ggplot(mapping = aes_string(x = "date", y = "density")) +
+    aes_plot <- ggplot2::aes(x = .data$date, y = .data$density)
+    ggplot2::ggplot(data = col_data, mapping = aes_plot) +
       plot_accumulation + plot_event + plot_facet +
-      labs(x = "Date", y = "Density")
+      ggplot2::labs(x = "Date", y = "Density")
   }
 )
