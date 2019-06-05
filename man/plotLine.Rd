@@ -27,6 +27,9 @@ and "\code{xy}" or "\code{yx}" if both axes are to be logarithmic (base 10).}
 \item{facet}{A \code{\link{logical}} scalar: should a matrix of panels
 defined by case/sample be drawn?}
 }
+\value{
+TODO
+}
 \description{
 \code{plotRank} plots a rank \emph{vs} relative abundance diagram.
 }

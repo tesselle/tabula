@@ -29,6 +29,9 @@ plotSpot(object, ...)
 argument and returns a numeric threshold value.
 If \code{NULL} (the default), no threshold is computed.}
 }
+\value{
+TODO
+}
 \description{
 Plots a spot matrix.
 }

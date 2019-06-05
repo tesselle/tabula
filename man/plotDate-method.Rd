@@ -62,6 +62,9 @@ window. Only used if \code{roll} is \code{TRUE}.}
 \item{facet}{A \code{\link{logical}} scalar: should a matrix of panels
 defined by type/taxon be drawn? Only used if XXX.}
 }
+\value{
+TODO
+}
 \description{
 \code{plotDate} produces an activity or tempo plot.
 \code{plotTime} produces a time \emph{vs} abundance diagram.
@@ -80,7 +83,7 @@ Plots the two probability estimate density curves of
 }
 \section{Detection of selective processes}{
 
-TODO
+ TODO
 }
 
 \references{

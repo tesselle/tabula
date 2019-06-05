@@ -34,6 +34,9 @@ axes to use (see details).}
 method to be used. This must be one of "\code{jackknife}",
 "\code{bootstrap}" (see details). Any unambiguous substring can be given.}
 }
+\value{
+TODO
+}
 \description{
 Model Refining
 }

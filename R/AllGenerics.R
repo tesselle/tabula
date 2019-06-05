@@ -40,6 +40,8 @@ NULL
 #'   and "\code{y}" but not "\code{z}", the vertical coordinates will be ignored
 #'   (and \code{NA} will be generated).}
 #'  }
+#' @return
+#'  TODO
 #' @author N. Frerebeau
 #' @docType methods
 #' @name access
@@ -103,6 +105,8 @@ setGeneric(name = "setEPSG<-",
 #' @param drop A \code{\link{logical}} scalar: should the result be coerced to
 #'  the lowest possible dimension? This only works for extracting elements,
 #'  not for the replacement.
+#' @return
+#'  TODO
 #' @author N. Frerebeau
 #' @docType methods
 #' @name subset
@@ -217,9 +221,9 @@ setGeneric(
 #'  other (Peet 1974). A measure of diversity can be achieved by using indices
 #'  built on the relative abundance of taxa. These indices (sometimes referred
 #'  to as non-parametric indices) benefit from not making assumptions about the
-#'  underlying distribution of taxa abundance: they only take relative abundances
-#'  of the species that are present and species richness into account.
-#'  Peet (1974) refers to them as indices of \emph{heterogeneity}.
+#'  underlying distribution of taxa abundance: they only take relative
+#'  abundances of the species that are present and species richness into
+#'  account. Peet (1974) refers to them as indices of \emph{heterogeneity}.
 #'
 #'  Diversity indices focus on one aspect of the taxa abundance and emphasize
 #'  either \emph{richness} (weighting towards uncommon taxa)
@@ -365,7 +369,9 @@ setGeneric(
 #'  The \emph{event date} is plotted as a line, while the \emph{accumulation
 #'  time} is shown as a grey filled area.
 #' @section Detection of selective processes:
-#' TODO
+#'  TODO
+#' @return
+#'  TODO
 #' @references
 #'  Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
 #'  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
@@ -426,6 +432,8 @@ setGeneric(
 #'  the assemblages, \code{EPPM} is a usefull graphical tool to explore
 #'  significance of relationship between rows and columns related to
 #'  \code{\link[=seriate]{seriation}} (Desachy 2004).
+#' @return
+#'  TODO
 #' @references
 #'  Bertin, J. (1977). \emph{La graphique et le traitement graphique de
 #'  l'information}. Paris: Flammarion. Nouvelle Bibliothèque Scientifique.
@@ -486,6 +494,8 @@ setGeneric(
 #'  (an intuitive graphical approach to \eqn{\chi^2}{Chi-squared}),
 #'  in such a way that a high-contrast matrix has quite significant deviations,
 #'  with a low risk of being due to randomness (Desachy 2004).
+#' @return
+#'  TODO
 #' @references
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
 #'  graphique pour tableaux de comptages. \emph{Revue archéologique de
@@ -514,6 +524,8 @@ setGeneric(
 #' @param ... Further arguments passed to other methods.
 #' @details
 #'  TODO
+#' @return
+#'  TODO
 #' @example inst/examples/ex-plotRank.R
 #' @author N. Frerebeau
 #' @family plot
@@ -538,10 +550,12 @@ setGeneric(
 #'  If \code{NULL} (the default), no threshold is computed.
 #' @param ... Currently not used.
 #' @details
-#' TODO
+#'  TODO
 #'  The spot matrix can be considered as a variant of the
 #'  \link[=plotBertin]{Bertin diagram} where the data are first transformed to
 #'  relative frequencies.
+#' @return
+#'  TODO
 #' @note
 #'  Adapted from Dan Gopstein's original
 #'  \href{https://dgopstein.github.io/articles/spot-matrix/}{idea}.
@@ -601,10 +615,7 @@ setGeneric(
 #'  \describe{
 #'   \item{ace}{Abundance-based Coverage Estimator.}
 #'   \item{chao1}{(improved) Chao1 estimator.}
-#'   \item{margalef}{Margalef richnes
-#'
-#'
-#'   s index.}
+#'   \item{margalef}{Margalef richness index.}
 #'   \item{menhinick}{Menhinick richness index.}
 #'   \item{none}{Returns the number of observed taxa/types.}
 #'  }
@@ -755,6 +766,8 @@ setGeneric(
 #'   \item{Q95}{Sample quantile to 0.95 probability.}
 #'   \item{max}{Maximum value.}
 #'  }
+#' @return
+#'  TODO
 #' @note
 #'  These methods can lead to much longer execution times and larger output
 #'  objects. To monitor the execution of these re-sampling procedures, a
@@ -964,6 +977,8 @@ setGeneric(
 #'   test rejects neutrality if the distribution of normalized variant frequency
 #'   increments exhibits a mean that deviates significantly from zero.}
 #'  }
+#' @return
+#'  TODO
 #' @example inst/examples/ex-test.R
 #' @author N. Frerebeau
 #' @references
@@ -1057,6 +1072,8 @@ setGeneric(
 #'  cases in columns (i.e. Bertin diagram). Only used if \code{center} is
 #'  \code{FALSE}.
 #' @param ... Further arguments passed to other methods.
+#' @return
+#'  TODO
 #' @docType methods
 #' @name deprecated
 #' @rdname deprecated

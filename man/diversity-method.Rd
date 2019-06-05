@@ -46,9 +46,9 @@ If \code{simplify} is \code{FALSE}, then \code{diversity} and
  other (Peet 1974). A measure of diversity can be achieved by using indices
  built on the relative abundance of taxa. These indices (sometimes referred
  to as non-parametric indices) benefit from not making assumptions about the
- underlying distribution of taxa abundance: they only take relative abundances
- of the species that are present and species richness into account.
- Peet (1974) refers to them as indices of \emph{heterogeneity}.
+ underlying distribution of taxa abundance: they only take relative
+ abundances of the species that are present and species richness into
+ account. Peet (1974) refers to them as indices of \emph{heterogeneity}.
 
  Diversity indices focus on one aspect of the taxa abundance and emphasize
  either \emph{richness} (weighting towards uncommon taxa)

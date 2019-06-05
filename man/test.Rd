@@ -23,6 +23,9 @@ used (see details). Any unambiguous substring can be given.}
 \item{simplify}{A \code{\link{logical}} scalar: should the result be
 simplified to a matrix? The default value, \code{FALSE}, returns a list.}
 }
+\value{
+TODO
+}
 \description{
 Test
 }

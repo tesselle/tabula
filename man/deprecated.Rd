@@ -36,6 +36,9 @@ be horizontal? The default, \code{FALSE}, means variables in rows and
 cases in columns (i.e. Bertin diagram). Only used if \code{center} is
 \code{FALSE}.}
 }
+\value{
+TODO
+}
 \description{
 \code{plotBar} produces a Bertin or a Ford (battleship curve) diagram.
 }

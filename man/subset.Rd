@@ -54,6 +54,9 @@ entries in that dimension are selected.}
 the lowest possible dimension? This only works for extracting elements,
 not for the replacement.}
 }
+\value{
+TODO
+}
 \description{
 Operators acting on objects to extract or replace parts.
 }

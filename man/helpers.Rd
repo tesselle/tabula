@@ -31,6 +31,9 @@ count(f, x)
 
 \item{x}{An object.}
 }
+\value{
+TODO
+}
 \description{
 \code{compact} removes elements from a list or vector.
 \code{detect} xxx.
@@ -42,18 +45,6 @@ count(f, x)
 
 
  Adapted from H. Wickham's \emph{Avanced R}.
-}
-\examples{
-\dontrun{
-compact(is.null, list("A", NULL, "B"))
-detect(is.na, c(1, 2, NA, 4, 5, NA))
-count(is.na, c(1, 2, NA, 4, 5, NA))
-
-(mean \%o\% range)(1:5)
-
-NULL \%||\% 1
-0 \%||\% 1
-}
 }
 \references{
 Wickham, H. (2014). \emph{Advanced R}. London: Chapman & Hall. The R Series.

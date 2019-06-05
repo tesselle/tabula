@@ -59,8 +59,14 @@ NULL
     counts = matrix(0, 0, 0),
     level = numeric(1),
     model = stats::lm(0 ~ 0),
-    rows = matrix(0, 0, 4, dimnames = list(NULL, c("date", "lower", "upper", "error"))),
-    columns = matrix(0, 0, 4, dimnames = list(NULL, c("date", "lower", "upper", "error"))),
+    rows = matrix(
+      0, 0, 4,
+      dimnames = list(NULL, c("date", "lower", "upper", "error"))
+    ),
+    columns = matrix(
+      0, 0, 4,
+      dimnames = list(NULL, c("date", "lower", "upper", "error"))
+    ),
     accumulation = matrix(0, 0, 2, dimnames = list(NULL, c("date", "error")))
   )
 )
@@ -297,6 +303,8 @@ NULL
 #' @inheritSection Matrix-class Get and set
 #' @inheritSection Matrix-class Access
 #' @inheritSection Matrix-class Subset
+#' @return
+#'  TODO
 #' @note
 #'  Numeric values are \code{\link[base:round]{rounded}} to zero decimal places
 #'  and then coerced to \code{\link{integer}} as by
@@ -424,6 +432,8 @@ NULL
 #' @inheritSection Matrix-class Get and set
 #' @inheritSection Matrix-class Access
 #' @inheritSection Matrix-class Subset
+#' @return
+#'  TODO
 #' @seealso \linkS4class{LogicalMatrix}, \linkS4class{SpaceTime}
 #' @family logical matrix
 #' @example inst/examples/ex-logical-class.R
@@ -443,11 +453,16 @@ setClassUnion(
 
 # INITIALIZATION ===============================================================
 ## DateModel -------------------------------------------------------------------
-DateModel <- function(id = generateUUID(), counts = matrix(0, 0, 0),
-                      level = numeric(1), model = stats::lm(0 ~ 0),
-                      rows = matrix(0, 0, 4, dimnames = list(NULL, c("date", "lower", "upper", "error"))),
-                      columns = matrix(0, 0, 4, dimnames = list(NULL, c("date", "lower", "upper", "error"))),
-                      accumulation = matrix(0, 0, 2, dimnames = list(NULL, c("date", "error")))) {
+DateModel <- function(
+  id = generateUUID(), counts = matrix(0, 0, 0),
+  level = numeric(1), model = stats::lm(0 ~ 0),
+  rows = matrix(0, 0, 4,
+                dimnames = list(NULL, c("date", "lower", "upper", "error"))),
+  columns = matrix(0, 0, 4,
+                   dimnames = list(NULL, c("date", "lower", "upper", "error"))),
+  accumulation = matrix(0, 0, 2, dimnames = list(NULL, c("date", "error")))
+) {
+
   if (getOption("verbose")) {
     message(sprintf("%s instance initialization...", dQuote("BootCA")))
   }
@@ -462,11 +477,13 @@ DateModel <- function(id = generateUUID(), counts = matrix(0, 0, 0),
   )
 }
 ## BootCA ----------------------------------------------------------------------
-BootCA <- function(id = generateUUID(),
-                   rows = list(id = factor(), x = numeric(0), y = numeric(0)),
-                   columns = list(id = factor(), x = numeric(0), y = numeric(0)),
-                   lengths = list(numeric(0), numeric(0)),
-                   cutoff = c(0, 0), keep = list(integer(0), integer(0))) {
+BootCA <- function(
+  id = generateUUID(),
+  rows = list(id = factor(), x = numeric(0), y = numeric(0)),
+  columns = list(id = factor(), x = numeric(0), y = numeric(0)),
+  lengths = list(numeric(0), numeric(0)),
+  cutoff = c(0, 0), keep = list(integer(0), integer(0))
+) {
   if (getOption("verbose")) {
     message(sprintf("%s instance initialization...", dQuote("BootCA")))
   }
@@ -510,9 +527,11 @@ PermutationOrder <- function(id = generateUUID(), rows = integer(0),
   )
 }
 ## SpaceTime -------------------------------------------------------------------
-SpaceTime <- function(dates = matrix(0, 0, 2, dimnames = list(NULL, c("value", "error"))),
-                      coordinates = matrix(0, 0, 3, dimnames = list(NULL, c("x", "y", "z"))),
-                      epsg = 0, ...) {
+SpaceTime <- function(
+  dates = matrix(0, 0, 2, dimnames = list(NULL, c("value", "error"))),
+  coordinates = matrix(0, 0, 3, dimnames = list(NULL, c("x", "y", "z"))),
+  epsg = 0, ...
+) {
   if (getOption("verbose")) {
     message(sprintf("%s instance initialization...", dQuote("SpaceTime")))
   }

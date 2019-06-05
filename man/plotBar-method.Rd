@@ -43,6 +43,9 @@ interval is plotted.}
 \item{EPPM}{A \code{\link{logical}} scalar: should the EPPM be drawn (see
 details)?}
 }
+\value{
+TODO
+}
 \description{
 Plots a Bertin or a Ford (battleship curve) diagram.
 }

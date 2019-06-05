@@ -16,19 +16,10 @@
 #' @param rhs An object.
 #' @details
 #'  Adapted from H. Wickham's \emph{Avanced R}.
+#' @return
+#'  TODO
 #' @references
 #'  Wickham, H. (2014). \emph{Advanced R}. London: Chapman & Hall. The R Series.
-#' @examples
-#' \dontrun{
-#' compact(is.null, list("A", NULL, "B"))
-#' detect(is.na, c(1, 2, NA, 4, 5, NA))
-#' count(is.na, c(1, 2, NA, 4, 5, NA))
-#'
-#' (mean %o% range)(1:5)
-#'
-#' NULL %||% 1
-#' 0 %||% 1
-#' }
 #' @name helpers
 #' @keywords internal
 NULL

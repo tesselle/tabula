@@ -26,6 +26,9 @@ plotMatrix(object, ...)
 \item{PVI}{A \code{\link{logical}} scalar: should the PVI be drawn instead of
 frequencies (see details)?}
 }
+\value{
+TODO
+}
 \description{
 Plots a heatmap.
 }

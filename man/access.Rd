@@ -64,6 +64,9 @@ setEPSG(object) <- value
 \item{value}{A possible value for the element(s) of \code{object} (see
 below).}
 }
+\value{
+TODO
+}
 \description{
 Getters and setters to extract or replace parts of an object.
 }
