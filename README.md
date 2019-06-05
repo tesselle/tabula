@@ -7,6 +7,8 @@
 
 # tabula <img width=120px src="man/figures/logo.svg" align="right" />
 
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/nfrerebeau/tabula?branch=master&svg=true)](https://ci.appveyor.com/project/nfrerebeau/tabula)
 [![Build
 Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula)
 [![codecov](https://codecov.io/gh/nfrerebeau/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/nfrerebeau/tabula)
@@ -120,6 +122,11 @@ plotSpot(ceram_occ) +
   ggplot2::labs(size = "", colour = "Co-occurrence") +
   ggplot2::theme(legend.box = "horizontal") +
   khroma::scale_colour_YlOrBr()
+#> Registered S3 methods overwritten by 'ggplot2':
+#>   method         from 
+#>   [.quosures     rlang
+#>   c.quosures     rlang
+#>   print.quosures rlang
 ```
 
 <img src="man/figures/README-plot-occ-1.png" style="display: block; margin: auto;" />
@@ -163,7 +170,7 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Matrix ID: 75270a94-277f-414b-b270-8da095c355cb 
+#>    Matrix ID: 2f807bcb-8af5-44e6-a9ac-97c6ee597bf1 
 #>    Row order: 20 16 13 4 3 1 9 10 19 2 7 6 17 11 5 14 12 8 15 18 
 #>    Column order: 16 1 9 8 4 14 13 18 20 6 7 3 17 2 11 19 5 15 12 10 
 #>    Method: correspondance
@@ -197,8 +204,8 @@ probability density curves of archaeological assembalge dates (*event*,
 ``` r
 # Coerce dataset to abundance (count) matrix
 zuni_counts <- as(zuni, "CountMatrix")
-# Assume that some assemblages are reliably dated (this is NOT a real example).
-# The names of the vector entries must match the names of the assemblages.
+# Assume that some assemblages are reliably dated (this is NOT a real example)
+# The names of the vector entries must match the names of the assemblages
 setDates(zuni_counts) <- c(
   LZ0569 = 1097, LZ0279 = 1119, CS16 = 1328, LZ0066 = 1111,
   LZ0852 = 1216, LZ1209 = 1251, CS144 = 1262, LZ0563 = 1206,
@@ -206,17 +213,15 @@ setDates(zuni_counts) <- c(
   LZ0578 = 1180, LZ0227 = 1104, LZ0610 = 1074
 )
 
-# Model the event and accumulation date for each assemblage.
+# Model the event date for each assemblage
 model <- dateEvent(zuni_counts, cutoff = 90)
-# Plot event and accumulation date distributions
+# Plot activity and tempo distributions
 plotDate(model, type = "activity", select = "LZ1105") +
   ggplot2::labs(title = "Activity plot") +
-  ggplot2::theme_bw() +
-  ggplot2::theme(legend.position = "bottom")
+  ggplot2::theme_bw()
 plotDate(model, type = "tempo", select = "LZ1105") +
   ggplot2::labs(title = "Tempo plot") +
-  ggplot2::theme_bw() +
-  ggplot2::theme(legend.position = "bottom")
+  ggplot2::theme_bw()
 ```
 
 ![](man/figures/README-date-1.png)![](man/figures/README-date-2.png)

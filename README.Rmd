@@ -21,6 +21,7 @@ library(tabula)
 
 # tabula <img width=120px src="man/figures/logo.svg" align="right" />
 
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/nfrerebeau/tabula?branch=master&svg=true)](https://ci.appveyor.com/project/nfrerebeau/tabula)
 [![Build Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula)
 [![codecov](https://codecov.io/gh/nfrerebeau/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/nfrerebeau/tabula)
 [![GitHub Release](https://img.shields.io/github/release/nfrerebeau/tabula.svg)](https://github.com/nfrerebeau/tabula/releases)

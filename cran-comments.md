@@ -1,7 +1,7 @@
 ## Test environments
 * local Ubuntu 18.04 install: R 3.5.2
-* r-hub: release and devel
-* travis-ci: oldrel, release and devel
+* travis-ci: 3.3, 3.4, oldrel, release and devel
+* appveyor: oldrel, release and devel
 * win-builder: oldrel, release and devel
 
 ## R CMD check results

@@ -1,6 +1,5 @@
 ^codecov\.yml$
-^.*\.Rproj$
-^\.Rproj\.user$
+^appveyor\.yml$
 ^\.travis\.yml$
 ^\.zenodo\.json$
 ^\man\figures\README-.*\.png$
@@ -13,3 +12,5 @@
 ^LICENSE\.md$
 ^NEWS\.Rmd$
 ^README\.Rmd$
+^.*\.Rproj$
+^\.Rproj\.user$
