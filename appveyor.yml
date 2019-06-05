@@ -18,6 +18,7 @@ environment:
   global:
     WARNINGS_ARE_ERRORS: true
     NOT_CRAN: true
+    R_ARCH: x64
 
   matrix:
   - R_VERSION: oldrel
