@@ -16,15 +16,8 @@ cache:
 # Adapt as necessary starting from here
 environment:
   global:
-    WARNINGS_ARE_ERRORS: true
     USE_RTOOLS: true
-
-  matrix:
-  - R_VERSION: oldrel
-
-  - R_VERSION: release
-
-  - R_VERSION: devel
+    WARNINGS_ARE_ERRORS: true
 
 build_script:
   - travis-tool.sh install_deps
