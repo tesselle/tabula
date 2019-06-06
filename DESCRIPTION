@@ -18,7 +18,16 @@ Authors@R:
              family = "Peeples",
              role = "ctb",
              email = "matthew.peeples@asu.edu",
-             comment = c(ORCID = "https://orcid.org/0000-0003-4496-623X")))
+             comment = c(ORCID = "https://orcid.org/0000-0003-4496-623X")),
+      person(given = "Ben",
+             family = "Marwick",
+             role = "ctb",
+             email = "bmarwick@uw.edu",
+             comment = c(ORCID = "https://orcid.org/0000-0001-7879-4531")),
+      person(given = "Anne",
+             family = "Philippe",
+             role = "ctb",
+             email = "anne.philippe@univ-nantes.fr"))
 Maintainer: Nicolas Frerebeau
     <nicolas.frerebeau@u-bordeaux-montaigne.fr>
 Description: An easy way to examine archaeological count data
@@ -46,7 +55,6 @@ Imports:
     grDevices,
     magrittr (>= 1.5),
     methods,
-    plyr (>= 1.8.4),
     rlang (>= 0.3.1),
     stats,
     tidyr (>= 0.8.3),

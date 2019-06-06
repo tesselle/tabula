@@ -10,7 +10,7 @@
     "contributors": [
         {
             "orcid": "0000-0001-7503-8685",
-            "affiliation": "CEREGE",
+            "affiliation": "Aix-Marseille Universit\u00e9",
             "type": "Other",
             "name": "Lebrun, Brice"
         },
@@ -19,6 +19,17 @@
             "affiliation": "Arizona State University",
             "type": "Other",
             "name": "Peeples, Matthew"
+        },
+        {
+            "orcid": "0000-0001-7879-4531",
+            "affiliation": "University of Washington",
+            "type": "Other",
+            "name": "Marwick, Ben"
+        },
+        {
+            "affiliation": "Universit\u00e9 de Nantes",
+            "type": "Other",
+            "name": "Philippe, Anne"
         }
     ],
     "license": "GPL-3.0",
