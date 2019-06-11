@@ -21,7 +21,7 @@ rows, \code{2} indicates columns, \code{c(1, 2)} indicates rows then columns,
 \item{stop}{A length-one \code{\link{numeric}} vector giving the stopping rule
 (i.e. maximum number of iterations) to avoid infinite loop.}
 
-\item{...}{Further arguments to be passed to \code{\link[FactoMineR]{CA}}.}
+\item{...}{Further arguments to be passed to \code{\link[ca]{ca}}.}
 }
 \value{
 A list of two \code{\link{numeric}} vectors.

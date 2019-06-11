@@ -159,7 +159,7 @@ setMethod(
 #'  for new data prediction.
 #' @param level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
-#' @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
+#' @param ... Further arguments to be passed to \code{\link[ca]{ca}}.
 #' @return A six columns \code{\link{data.frame}} giving the boostrap
 #'  distribution statistics for each replicated assemblage (in rows)
 #'  with the following columns:
@@ -232,7 +232,7 @@ bootDate <- function(x, model, margin = 1, n = 1000, keep = ncol(x),
 #'  for new data prediction.
 #' @param level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
-#' @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
+#' @param ... Further arguments to be passed to \code{\link[ca]{ca}}.
 #' @return A six columns \code{\link{data.frame}} giving the results of
 #'  the resamping procedure (jackknifing fabrics) for each assemblage (in rows)
 #'  with the following columns:

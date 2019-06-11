@@ -42,7 +42,7 @@ seriation <- function(object, method = c("correspondance", "reciprocal"),
 #'  rearrangement will be applied over. E.g., for a matrix \code{1} indicates
 #'  rows, \code{2} indicates columns, \code{c(1, 2)} indicates rows then columns,
 #'  \code{c(2, 1)} indicates columns then rows.
-#' @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
+#' @param ... Further arguments to be passed to \code{\link[ca]{ca}}.
 #' @return A list of two \code{\link{numeric}} vectors.
 #' @author N. Frerebeau
 #' @family seriation methods
