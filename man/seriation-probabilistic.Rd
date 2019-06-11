@@ -8,7 +8,7 @@
 \usage{
 seriationReciprocal(x, margin = 1, stop = 100)
 
-seriationCorrespondance(x, margin, axes, ...)
+seriationCorrespondance(x, margin, axes = 1, ...)
 }
 \arguments{
 \item{x}{A \code{\link{numeric}} matrix.}

@@ -38,7 +38,7 @@ permute(object, order, ...)
 \item{subset}{A \linkS4class{BootCA} object giving the subset of
 \code{object} to be used.}
 
-\item{...}{Further arguments passed to other methods.}
+\item{...}{Further arguments to be passed to internal methods.}
 
 \item{order}{A \linkS4class{PermutationOrder} object giving the permutation
 order for rows and columns.}
@@ -164,7 +164,7 @@ Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
  DOI: \href{https://doi.org/10.1007/3-540-28084-7_34}{10.1007/3-540-28084-7_34}.
 }
 \seealso{
-\link{refine}, \link[FactoMineR]{CA}
+\link{refine}, \link[ca]{ca}
 }
 \author{
 N. Frerebeau

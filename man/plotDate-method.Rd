@@ -27,7 +27,7 @@ plotTime(object, ...)
 \arguments{
 \item{object}{An object of class \linkS4class{DateModel} to be plotted.}
 
-\item{...}{Further arguments passed to other methods.}
+\item{...}{Further arguments to be passed to internal methods.}
 
 \item{select}{A \code{\link{numeric}} or \code{\link{character}} vector
 giving the selection of the assemblage that are drawn.}

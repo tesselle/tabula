@@ -29,7 +29,7 @@ rarefaction(object, ...)
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
 
-\item{...}{Further arguments passed to other methods.}
+\item{...}{Further arguments to be passed to internal methods.}
 
 \item{sample}{A length-one \code{\link{numeric}} vector giving the sub-sample
 size.}

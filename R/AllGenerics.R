@@ -124,7 +124,7 @@ NULL
 #'  variance used to select CA factorial components for linear model fitting
 #'  (see details). All compounds with a cumulative percentage of variance of
 #'  less than the \code{cutoff} value will be retained.
-#' @param ... Further arguments to be passed to \code{\link[FactoMineR]{CA}}.
+#' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  This is an implementation of the chronological modeling method developed by
 #'  Bellanger and Husi (2012, 2013).
@@ -214,7 +214,7 @@ setGeneric(
 #'  Any unambiguous substring can be given.
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
-#' @param ... Further arguments passed to other methods.
+#' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  \emph{Diversity} measurement assumes that all individuals in a specific
 #'  taxa are equivalent and that all types are equally different from each
@@ -356,7 +356,7 @@ setGeneric(
 #'  window. Only used if \code{roll} is \code{TRUE}.
 #' @param facet A \code{\link{logical}} scalar: should a matrix of panels
 #'  defined by type/taxon be drawn? Only used if XXX.
-#' @param ... Further arguments passed to other methods.
+#' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  Plots the two probability estimate density curves of
 #'  archaeological assembalge dates (\emph{event} and
@@ -479,7 +479,7 @@ setGeneric(
 #' @param object An object to be plotted.
 #' @param PVI A \code{\link{logical}} scalar: should the PVI be drawn instead of
 #'  frequencies (see details)?
-#' @param ... Further arguments passed to other methods.
+#' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  If \code{PVI} is \code{FALSE}, it plots a heatmap of relative abundances
 #'  (frequency), otherwise percentages of the independence value are drawn (in
@@ -521,7 +521,7 @@ setGeneric(
 #' and "\code{xy}" or "\code{yx}" if both axes are to be logarithmic (base 10).
 #' @param facet A \code{\link{logical}} scalar: should a matrix of panels
 #'  defined by case/sample be drawn?
-#' @param ... Further arguments passed to other methods.
+#' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  TODO
 #' @return
@@ -594,7 +594,7 @@ setGeneric(
 #'  \code{method} is "\code{ace}" or "\code{ice}".
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
-#' @param ... Further arguments passed to other methods.
+#' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  The number of different taxa, provides an instantly comprehensible
 #'  expression of diversity. While the number of taxa within a sample
@@ -708,7 +708,7 @@ setGeneric(
 #'  bootstrap replications (see details).
 #' @param axes A \code{\link{numeric}} vector giving the subscripts of the CA
 #'  axes to use (see details).
-#' @param ... Further arguments passed to other methods.
+#' @param ... Further arguments to be passed to internal methods.
 #' @section CA seriation refining:
 #'  \code{refine} allows to identify samples that are subject to sampling error
 #'  or samples that have underlying structural relationships and might be
@@ -809,7 +809,7 @@ setGeneric(
 #'  \code{c(2, 1)} indicates columns then rows.
 #' @param stop A length-one \code{\link{numeric}} vector giving the stopping rule
 #'  (i.e. maximum number of iterations) to avoid infinite loop.
-#' @param ... Further arguments passed to other methods.
+#' @param ... Further arguments to be passed to internal methods.
 #' @section Seriation:
 #'  The matrix seriation problem in archaeology is based on three conditions
 #'  and two assumptions, which Dunell (1970) summarizes as follows.
@@ -869,7 +869,7 @@ setGeneric(
 #'  In C. Weihs & W. Gaul (Eds.), \emph{Classification: The Ubiquitous
 #'  Challenge}. Berlin Heidelberg: Springer, p. 307-316.
 #'  DOI: \href{https://doi.org/10.1007/3-540-28084-7_34}{10.1007/3-540-28084-7_34}.
-#' @seealso \link{refine}, \link[FactoMineR]{CA}
+#' @seealso \link{refine}, \link[ca]{ca}
 #' @example inst/examples/ex-seriation.R
 #' @author N. Frerebeau
 #' @docType methods
@@ -897,7 +897,7 @@ setGeneric(
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
 #' @param method A \code{\link{character}} string specifiying the method to be
 #'  used (see details). Any unambiguous substring can be given.
-#' @param ... Further arguments passed to other methods.
+#' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  \eqn{\beta}-diversity can be measured by addressing \emph{similarity}
 #'  between pairs of samples/cases (Brainerd-Robinson, Jaccard, Morisita-Horn
@@ -969,7 +969,7 @@ setGeneric(
 #'  used (see details). Any unambiguous substring can be given.
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
-#' @param ... Further parameters passed to internal methods.
+#' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  The following methods are available:
 #'  \describe{
@@ -1003,7 +1003,7 @@ setGeneric(
 #'  used (see details). Any unambiguous substring can be given.
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
-#' @param ... Further arguments passed to internal methods.
+#' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  The following methods can be used to acertain the degree of \emph{turnover}
 #'  in taxa composition along a gradient (\eqn{\beta}-diversity) on qualitative
@@ -1071,7 +1071,7 @@ setGeneric(
 #'  be horizontal? The default, \code{FALSE}, means variables in rows and
 #'  cases in columns (i.e. Bertin diagram). Only used if \code{center} is
 #'  \code{FALSE}.
-#' @param ... Further arguments passed to other methods.
+#' @param ... Further arguments to be passed to internal methods.
 #' @return
 #'  TODO
 #' @docType methods

@@ -1,4 +1,4 @@
-citHeader("To cite tabula in publications please use:")
+citHeader("To cite tabula in publications use:")
 
 citEntry(entry = "Manual",
   title        = "{tabula}: Analysis, Seriation and Visualization of Archaeological Count Data",

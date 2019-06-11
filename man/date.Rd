@@ -15,7 +15,7 @@ dateEvent(object, ...)
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
 
-\item{...}{Further arguments to be passed to \code{\link[FactoMineR]{CA}}.}
+\item{...}{Further arguments to be passed to internal methods.}
 
 \item{level}{A length-one \code{\link{numeric}} vector giving the
 confidence level.}

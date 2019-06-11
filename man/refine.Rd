@@ -19,7 +19,7 @@ refine(object, ...)
 \arguments{
 \item{object}{An \eqn{m \times p}{m x p} data matrix.}
 
-\item{...}{Further arguments passed to other methods.}
+\item{...}{Further arguments to be passed to internal methods.}
 
 \item{cutoff}{A function that takes a numeric vector as argument and returns
 a single numeric value (see details).}

@@ -21,7 +21,7 @@ plotMatrix(object, ...)
 \arguments{
 \item{object}{An object to be plotted.}
 
-\item{...}{Further arguments passed to other methods.}
+\item{...}{Further arguments to be passed to internal methods.}
 
 \item{PVI}{A \code{\link{logical}} scalar: should the PVI be drawn instead of
 frequencies (see details)?}

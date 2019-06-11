@@ -18,7 +18,7 @@ plotRank(object, ...)
 \arguments{
 \item{object}{An object to be plotted.}
 
-\item{...}{Further arguments passed to other methods.}
+\item{...}{Further arguments to be passed to internal methods.}
 
 \item{log}{A \code{\link{character}} string which contains "\code{x}" if the
 x axis is to be logarithmic, "\code{y}" if the y axis is to be logarithmic
