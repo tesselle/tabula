@@ -28,3 +28,6 @@ vignettes/figures/
 rsconnect/
 .Rproj.user
 inst/doc
+
+# Temporary files created by devtools
+CRAN-RELEASE
