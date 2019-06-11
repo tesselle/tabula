@@ -91,9 +91,9 @@ setMethod(
     compareUUID(object[["id"]], order[["id"]])
 
     # Rearrange matrix
-    new_matrix <- object[order@rows, order@columns]
+    new_matrix <- object[order[["rows"]], order[["columns"]]]
     # New CountMatrix object
-    .CountMatrix(new_matrix)
+    .CountMatrix(new_matrix, id = order[["id"]])
   }
 )
 
@@ -108,8 +108,8 @@ setMethod(
     compareUUID(object[["id"]], order[["id"]])
 
     # Rearrange matrix
-    new_matrix <- object[order@rows, order@columns]
+    new_matrix <- object[order[["rows"]], order[["columns"]]]
     # New CountMatrix object
-    .IncidenceMatrix(new_matrix)
+    .IncidenceMatrix(new_matrix, id = order[["id"]])
   }
 )

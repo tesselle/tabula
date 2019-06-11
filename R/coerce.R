@@ -15,9 +15,7 @@ matrix2count <- function(from) {
     FUN = function(x) as.integer(round(x, digits = 0))
   )
   dimnames(whole_numbers) <- dimnames(data)
-  object <- .CountMatrix(whole_numbers)
-  methods::validObject(object)
-  return(object)
+  .CountMatrix(whole_numbers, id = generateUUID())
 }
 setAs(from = "matrix", to = "CountMatrix", def = matrix2count)
 setAs(from = "data.frame", to = "CountMatrix", def = matrix2count)
@@ -28,9 +26,7 @@ matrix2frequency <- function(from) {
   totals <- rowSums(data)
   freq <- data / totals
   dimnames(freq) <- dimnames(data)
-  object <- .FrequencyMatrix(freq, totals = totals)
-  methods::validObject(object)
-  return(object)
+  .FrequencyMatrix(freq, totals = totals, id = generateUUID())
 }
 setAs(from = "matrix", to = "FrequencyMatrix", def = matrix2frequency)
 setAs(from = "data.frame", to = "FrequencyMatrix", def = matrix2frequency)
@@ -39,9 +35,7 @@ setAs(from = "data.frame", to = "FrequencyMatrix", def = matrix2frequency)
 matrix2similarity <- function(from) {
   data <- data.matrix(from)
   rownames(data) <- colnames(from)
-  object <- .SimilarityMatrix(data, method = "unknown")
-  methods::validObject(object)
-  return(object)
+  .SimilarityMatrix(data, method = "unknown", id = generateUUID())
 }
 setAs(from = "matrix", to = "SimilarityMatrix", def = matrix2similarity)
 setAs(from = "data.frame", to = "SimilarityMatrix", def = matrix2similarity)
@@ -54,13 +48,14 @@ setAs(
     counts <- methods::S3Part(from, strictS3 = TRUE, "matrix")
     totals <- rowSums(counts)
     freq <- counts / totals
-    object <- .FrequencyMatrix(freq, totals = totals)
-    object@id <- from@id
-    object@dates <- from@dates
-    object@coordinates <- from@coordinates
-    object@epsg <- from@epsg
-    methods::validObject(object)
-    return(object)
+    .FrequencyMatrix(
+      freq,
+      totals = totals,
+      id = from@id,
+      dates = from@dates,
+      coordinates = from@coordinates,
+      epsg = from@epsg
+    )
   }
 )
 setAs(
@@ -79,13 +74,13 @@ setAs(
       FUN = function(x) as.integer(round(x, digits = 0))
     )
     dimnames(integer) <- dimnames(freq)
-    object <- .CountMatrix(integer)
-    object@id <- from@id
-    object@dates <- from@dates
-    object@coordinates <- from@coordinates
-    object@epsg <- from@epsg
-    methods::validObject(object)
-    return(object)
+    .CountMatrix(
+      integer,
+      id = from@id,
+      dates = from@dates,
+      coordinates = from@coordinates,
+      epsg = from@epsg
+    )
   }
 )
 
@@ -101,15 +96,24 @@ matrix2incidence <- function(from) {
     data.matrix(from)
   }
   data <- data > 0
-  object <- .IncidenceMatrix(data)
   if (isS4(from)) {
-    object@id <- from@id
-    object@dates <- from@dates
-    object@coordinates <- from@coordinates
-    object@epsg <- from@epsg
+    id <- from@id
+    dates <- from@dates
+    coordinates <- from@coordinates
+    epsg <- from@epsg
+  } else {
+    id <- generateUUID()
+    dates <- matrix(0, 0, 2, dimnames = list(NULL, c("value", "error")))
+    coordinates <- matrix(0, 0, 3, dimnames = list(NULL, c("x", "y", "z")))
+    epsg <- 0L
   }
-  methods::validObject(object)
-  return(object)
+  .IncidenceMatrix(
+    data,
+    id = id,
+    dates = dates,
+    coordinates = coordinates,
+    epsg = epsg
+  )
 }
 setAs(from = "matrix", to = "IncidenceMatrix", def = matrix2incidence)
 setAs(from = "data.frame", to = "IncidenceMatrix", def = matrix2incidence)
@@ -147,10 +151,8 @@ matrix2occurrence <- function(from) {
   C <- t(C)
   C[lower.tri(C, diag = FALSE)] <- occurrence
 
-  object <- .OccurrenceMatrix(C)
-  if (isS4(from)) object@id <- from@id
-  methods::validObject(object)
-  return(object)
+  id <- ifelse(isS4(from), from@id, generateUUID())
+  .OccurrenceMatrix(C, id = id)
 }
 
 setAs(from = "matrix", to = "OccurrenceMatrix", def = matrix2occurrence)
