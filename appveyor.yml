@@ -14,10 +14,12 @@ cache:
   - C:\RLibrary
 
 # Adapt as necessary starting from here
+# Turn off vdiffr
 environment:
   global:
     USE_RTOOLS: true
     WARNINGS_ARE_ERRORS: true
+    VDIFFR_RUN_TESTS: true
 
 build_script:
   - travis-tool.sh install_deps
