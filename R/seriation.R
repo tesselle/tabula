@@ -94,19 +94,20 @@ seriationReciprocal <- function(x, margin = 1, stop = 100) {
 }
 
 #' @rdname seriation-probabilistic
-seriationCorrespondance <- function(x, margin, axes, ...) {
+seriationCorrespondance <- function(x, margin, axes = 1, ...) {
   # Validation
   margin <- as.integer(margin)
-  axes <- as.integer(axes)
+  axes <- as.integer(axes)[[1L]]
 
   # Original sequences
   i <- seq_len(nrow(x))
   j <- seq_len(ncol(x))
   # Correspondance analysis
-  corresp <- FactoMineR::CA(x, ..., graph = FALSE)
+  corresp <- ca::ca(x)
   # Sequence of the first axis as best seriation order
-  row_coords <- if (1 %in% margin) order(corresp$row$coord[, axes]) else i
-  col_coords <- if (2 %in% margin) order(corresp$col$coord[, axes]) else j
+  coords <- ca::cacoord(corresp, type = "principal")
+  row_coords <- if (1 %in% margin) order(coords$rows[, axes]) else i
+  col_coords <- if (2 %in% margin) order(coords$columns[, axes]) else j
 
   list(rows = row_coords, columns = col_coords)
 }

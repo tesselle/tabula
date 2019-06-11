@@ -48,7 +48,7 @@ setMethod(
     index_rows <- subset[["keep"]][[1]]
     index_columns <- subset[["keep"]][[2]]
 
-    supp_rows <- supp_columns <- NULL
+    supp_rows <- supp_columns <- NA
     if (length(index_rows) < m & 1 %in% margin) {
       supp_rows <- i[-index_rows]
     }
@@ -56,18 +56,12 @@ setMethod(
       supp_columns <- j[-index_columns]
     }
 
-    corresp <- FactoMineR::CA(object, row.sup = supp_rows,
-                              col.sup = supp_columns, graph = FALSE, ...)
-
-    # Bind and reorder coords
-    all_rows <- rbind(corresp$row$coord, corresp$row.sup$coord)
-    ordered_rows <- all_rows[order(c(index_rows, supp_rows)), ]
-    all_columns <- rbind(corresp$col$coord, corresp$col.sup$coord)
-    ordered_columns <- all_columns[order(c(index_columns, supp_columns)), ]
-
+    # Correspondance analysis
+    corresp <- ca::ca(object, suprow = supp_rows, supcol = supp_columns, ...)
     # Sequence of the first axis as best seriation order
-    row_coords <- if (1 %in% margin) order(ordered_rows[, 1]) else i
-    col_coords <- if (2 %in% margin) order(ordered_columns[, 1]) else j
+    coords <- ca::cacoord(corresp, type = "principal")
+    row_coords <- if (1 %in% margin) order(coords$rows[, 1]) else i
+    col_coords <- if (2 %in% margin) order(coords$columns[, 2]) else j
 
     # New PermutationOrder object
     PermutationOrder(

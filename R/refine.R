@@ -67,8 +67,11 @@ bootHull <- function(x, margin = 1, n = 1000, axes = c(1, 2), ...) {
   axes <- as.integer(axes)
 
   # CA on the whole dataset
-  results_CA <- FactoMineR::CA(x, graph = FALSE, ...)
-  svd <- if (margin == 1) results_CA$svd$V else results_CA$svd$U
+  ## Compute correspondance analysis
+  results_CA <- ca::ca(x, ...)
+  ## Get standard coordinates
+  std <- ca::cacoord(results_CA, type = "standard")
+  svd <- if (margin == 1) std$columns else std$rows
 
   # Compute convex hull area for each replicated sample
   computeHull <- function(x, n, svd, axes) {
@@ -181,8 +184,11 @@ bootDate <- function(x, model, margin = 1, n = 1000, keep = ncol(x),
 
   # CA on the whole dataset
   axes <- min(dim(x))
-  results_CA <- FactoMineR::CA(x, ncp = axes, graph = FALSE, ...)
-  svd <- if (margin == 1) results_CA$svd$V else results_CA$svd$U
+  ## Compute correspondance analysis
+  results_CA <- ca::ca(x, nd = axes, ...)
+  ## Get standard coordinates
+  std <- ca::cacoord(results_CA, type = "standard")
+  svd <- if (margin == 1) std$columns else std$rows
 
   # Compute date event statistics for each replicated sample
   computeStats <- function(x, n, svd, keep, model, level) {
@@ -192,8 +198,6 @@ bootDate <- function(x, model, margin = 1, n = 1000, keep = ncol(x),
     # Compute new CA coordinates
     coords <- crossprod(replicated / colSums(replicated), svd)
     coords <- coords[, keep]
-    # Workaround: same colnames as FactoMineR results used to build the model
-    colnames(coords) <- paste("Dim", keep, sep = " ")
     # Gaussian multiple linear regression model
     event <- predictEvent(model, coords, level)[, "date"]
     Q <- stats::quantile(event, probs = c(0.05, 0.95), names = FALSE)
@@ -258,7 +262,9 @@ jackDate <- function(x, model, keep = ncol(x), level = 0.95, ...) {
 
   # CA on the whole dataset
   axes <- min(dim(x))
-  results_CA <- FactoMineR::CA(x, ncp = axes, graph = FALSE, ...)
+  results_CA <- ca::ca(x, nd = axes, ...)
+  coords_CA <- ca::cacoord(results_CA, type = "principal",
+                           rows = TRUE, cols = FALSE)
 
   computeCoef <- function(i, data, dates, keep, level) {
     # Removing a column may lead to rows filled only with zeros
@@ -267,8 +273,10 @@ jackDate <- function(x, model, keep = ncol(x), level = 0.95, ...) {
     sampled <- if (length(zero) != 0) data[-zero, -i] else data[, -i]
     # Compute CA
     axes <- min(dim(sampled))
-    results_CA <- FactoMineR::CA(sampled, ncp = axes, graph = FALSE, ...)
-    row_coord <- as.data.frame(results_CA$row$coord)
+    results_CA <- ca::ca(sampled, nd = axes, ...)
+    row_coord <- as.data.frame(ca::cacoord(results_CA, type = "principal",
+                                           rows = TRUE, cols = FALSE))
+
     # Gaussian multiple linear regression model
     contexts <- merge(dates, row_coord[, keep], by.x = "id", by.y = "row.names")
     ## Remove column 'id' before fitting
@@ -293,6 +301,6 @@ jackDate <- function(x, model, keep = ncol(x), level = 0.95, ...) {
   jack_mean <- apply(X = do.call(rbind, jack), MARGIN = 2, FUN = mean)
   jack_fit <- model
   jack_fit$coefficients <- jack_mean
-  jack_event <- predictEvent(jack_fit, results_CA$row$coord, level)
+  jack_event <- predictEvent(jack_fit, coords_CA, level)
   jack_event
 }

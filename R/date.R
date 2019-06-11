@@ -28,10 +28,14 @@ setMethod(
 
     # Correspondance analysis
     axes <- min(dim(counts))
-    results_CA <- FactoMineR::CA(counts, ncp = axes, graph = FALSE, ...)
-    keep_dim <- which(results_CA$eig[, 3] <= cutoff)
-    row_coord <- results_CA$row$coord[, keep_dim]
-    col_coord <- results_CA$col$coord[, keep_dim]
+    results_CA <- ca::ca(counts, nd = axes, ...)
+    eig <- results_CA$sv^2 # Eigenvalue
+    var_CA <- cumsum(eig / sum(eig)) * 100 # Cumulative percentage of variance
+    keep_dim <- which(var_CA <= cutoff)
+
+    coords_CA <- ca::cacoord(results_CA, type = "principal")
+    row_coord <- coords_CA$rows[, keep_dim]
+    col_coord <- coords_CA$columns[, keep_dim]
 
     # Event date
     ## Gaussian multiple linear regression model
@@ -50,12 +54,6 @@ setMethod(
     row_event <- predictEvent(fit, row_coord, level = level)
     ## Predict event dates for each fabric
     col_event <- predictEvent(fit, col_coord, level = level)
-    # Pour mémoire:
-    # col_event <- apply(X = row_event$fit, MARGIN = 2, FUN = function(x, counts) {
-    #   # CA transition formulae
-    #   diag(1 / colSums(counts)) %*% t(counts) %*% matrix(x, ncol = 1)
-    # }, counts)
-    # rownames(col_event) <- colnames(counts)
 
     # FIXME: error propagation
     # TODO: check predicted dates consistency

@@ -127,14 +127,15 @@ Correspondance Analysis (CA) is an effective method for the seriation of archaeo
 zuni_counts <- as(zuni, "CountMatrix")
 
 # Correspondance analysis of the whole dataset
-ca <- FactoMineR::CA(zuni_counts, graph = FALSE)
+corresp <- ca::ca(zuni_counts)
+coords <- ca::cacoord(corresp, type = "principal")
 
 # Plot CA results
-ggplot2::ggplot(mapping = ggplot2::aes(x = `Dim 1`, y = `Dim 2`)) +
+ggplot2::ggplot(mapping = ggplot2::aes(x = Dim1, y = Dim2)) +
   ggplot2::geom_vline(xintercept = 0, linetype = 2) +
   ggplot2::geom_hline(yintercept = 0, linetype = 2) +
-  ggplot2::geom_point(data = as.data.frame(ca$row$coord), color = "black") +
-  ggplot2::geom_point(data = as.data.frame(ca$col$coord), color = "red") +
+  ggplot2::geom_point(data = as.data.frame(coords$rows), color = "black") +
+  ggplot2::geom_point(data = as.data.frame(coords$columns), color = "red") +
   ggplot2::coord_fixed() + 
   ggplot2::theme_bw()
 ```
