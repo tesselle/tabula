@@ -7,9 +7,9 @@
 
 # tabula <img width=120px src="man/figures/logo.svg" align="right" />
 
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/nfrerebeau/tabula?branch=master&svg=true)](https://ci.appveyor.com/project/nfrerebeau/tabula)
-[![Build
+[![Appveyor build
+status](https://ci.appveyor.com/api/projects/status/t1qmnis4ekqwslgs/branch/master?svg=true)](https://ci.appveyor.com/project/nfrerebeau/tabula/branch/master)
+[![Travis build
 Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula)
 [![codecov](https://codecov.io/gh/nfrerebeau/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/nfrerebeau/tabula)
 [![GitHub
@@ -170,7 +170,7 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Matrix ID: 2f807bcb-8af5-44e6-a9ac-97c6ee597bf1 
+#>    Matrix ID: ca60566d-b36d-4ede-8836-725f14b8b1ec 
 #>    Row order: 20 16 13 4 3 1 9 10 19 2 7 6 17 11 5 14 12 8 15 18 
 #>    Column order: 16 1 9 8 4 14 13 18 20 6 7 3 17 2 11 19 5 15 12 10 
 #>    Method: correspondance
