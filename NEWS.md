@@ -5,7 +5,9 @@
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
 
-## tabula 1.2.0.9000 (2019-05-29)
+## tabula 1.2.0.9000 (2019-06-12)
+
+<!-- TODO: refine, plotDate, plotTime, test -->
 
 ### New classes and methods
 
@@ -13,11 +15,12 @@
     classes.
   - `AbundanceMatrix` this virtual S4 class is defined as the superclass
     of `CountMatrix`, `FrequencyMatrix` and `IncidenceMatrix`.
-  - `SpaceTime` this S4 class reprensents space-time informations.
+  - `SpaceTime` this S4 class represents space-time informations.
   - `plotDate()` gained a method for `AbundanceMatrix` objects.
   - The functions `getDates()`, `setDates<-`, `getCoordinates()` and
     `setCoordinates<-` allow to extract and replace chronological and
     spatial informations in `AbundanceMatrix` objects.
+  - The functions `plotBertin()` and `plotFord()` replace `plotBar()`.
 
 ### Bugfixes & changes
 
@@ -25,10 +28,11 @@
     contain the `SpaceTime` class.
   - The `plotDate()` method for `DateModel` objects now allows to
     display an activity or tempo plot.
+  - Deprecate `plotBar()`.
 
 ### Internals
 
-  - Reduce required R version to 3.3.
+  - Reduce required R version to 3.2.
   - Error handling has been revised and error messages have been
     harmonized.
   - When a `Matrix` object is first created, an identifier (UUID v4) is
@@ -36,6 +40,13 @@
     to another class. This makes it possible to identify objects
     representing the same initial data and associate them with the
     results of specific computations.
+  - Refer to {ggplot2} functions using `::` (stop importing the entire
+    package).
+  - Replace `FactoMinerR::CA()` with `ca::ca()` (this avoids having to
+    install all {FactoMineR} dependencies when only one function is
+    used).
+  - Use `vapply()` instead of `sapply()`.
+  - Use `seq_len()` instead of `1:...`.
 
 ## tabula v1.2.0 (release date: 2019-03-20)
 
@@ -57,7 +68,7 @@
     occurs together in at least one sample.
   - `similarity()` now returns an object of class `SimilarityMatrix`.
   - `plotBar()` no longer add confidence interval by default.
-  - Deprecate useless accessors.
+  - Remove useless accessors.
 
 ### Enhancements
 
@@ -68,7 +79,7 @@
 
 ### Internals
 
-  - Add an optional progress bars with `{pbapply}` in long running
+  - Add an optional progress bars with {pbapply} in long running
     functions.
 
 ## tabula v1.1.0 (release date: 2018-12-30)
