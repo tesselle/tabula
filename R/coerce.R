@@ -159,5 +159,7 @@ setAs(from = "matrix", to = "OccurrenceMatrix", def = matrix2occurrence)
 setAs(from = "data.frame", to = "OccurrenceMatrix", def = matrix2occurrence)
 
 setAs(from = "CountMatrix", to = "OccurrenceMatrix", def = matrix2occurrence)
-setAs(from = "FrequencyMatrix", to = "OccurrenceMatrix", def = matrix2occurrence)
-setAs(from = "IncidenceMatrix", to = "OccurrenceMatrix", def = matrix2occurrence)
+setAs(from = "FrequencyMatrix", to = "OccurrenceMatrix",
+      def = matrix2occurrence)
+setAs(from = "IncidenceMatrix", to = "OccurrenceMatrix",
+      def = matrix2occurrence)

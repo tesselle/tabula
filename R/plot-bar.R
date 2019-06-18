@@ -39,7 +39,11 @@ setMethod(
 
     # ggplot
     aes_plot <- ggplot2::aes(x = .data$case, y = .data$frequency)
-    aes_col <- if (is.null(threshold)) NULL else ggplot2::aes(fill = .data$threshold)
+    aes_col <- if (is.null(threshold)) {
+      NULL
+    } else {
+      ggplot2::aes(fill = .data$threshold)
+    }
 
     ggplot2::ggplot(data = data, mapping = aes_plot) +
       ggplot2::geom_col(mapping = aes_col, colour = "black") +
@@ -128,7 +132,8 @@ setMethod(
         legend.key = ggplot2::element_rect(fill = "white"),
         panel.background = ggplot2::element_rect(fill = "white"),
         panel.grid = ggplot2::element_blank(),
-        strip.text.x = ggplot2::element_text(angle = 90, hjust = 0, vjust = 0.5),
+        strip.text.x = ggplot2::element_text(angle = 90, hjust = 0,
+                                             vjust = 0.5),
         strip.background = ggplot2::element_rect(fill = "white")) +
       ggplot2::labs(fill = "Value") +
       ggplot2::coord_flip()
@@ -144,7 +149,9 @@ setMethod(
   signature = signature(object = "CountMatrix"),
   definition = function(object, level = FALSE, EPPM = FALSE,
                         center = TRUE, horizontal = FALSE) {
-    .Deprecated(msg = "plotBar is deprecated. Use plotBertin or plotFord instead.")
+    .Deprecated(
+      msg = "plotBar is deprecated. Use plotBertin or plotFord instead."
+    )
     # Get row names and coerce to factor (preserve original ordering)
     row_names <- rownames(object) %>% factor(levels = rev(unique(.)))
 
