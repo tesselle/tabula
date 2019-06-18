@@ -54,8 +54,8 @@ test_that("Refined correspondance Analysis", {
 
   # Define cutoff as one standard deviation above the mean
   fun <- function(x) { mean(x) + sd(x) }
-  set.seed(12345)
-  subset <- refine(count, cutoff = fun)
+  subset <- with_seed(12345, refine(count, cutoff = fun))
+
   expect_s4_class(subset, "BootCA")
   expect_equal(subset@cutoff, c(0.04560049, 0.13080163))
   expect_equal(subset@keep[[1]], c(1, 2, 3, 4))
