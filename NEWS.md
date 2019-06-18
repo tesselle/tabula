@@ -5,7 +5,7 @@
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
 
-## tabula 1.2.0.9000 (2019-06-12)
+## tabula 1.2.0.9000 (2019-06-18)
 
 <!-- TODO: refine, plotDate, plotTime, test -->
 
