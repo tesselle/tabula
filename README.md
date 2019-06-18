@@ -171,7 +171,7 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Matrix ID: f0d5f847-cb19-4aba-83ca-40a03ac1b9b7 
+#>    Matrix ID: 1600d27f-0ab7-4ad9-9181-95f04e50ab9c 
 #>    Row order: 20 16 13 4 3 1 9 10 19 2 7 6 17 11 5 14 12 8 15 18 
 #>    Column order: 16 1 9 8 4 14 13 18 20 6 7 3 17 2 11 19 5 15 12 10 
 #>    Method: correspondance
