@@ -1,12 +1,8 @@
-# Coerce dataset to abundance matrix
-# Data from Desachy 2004
-count <- as(compiegne, "CountMatrix")
-freq <- as(boves, "FrequencyMatrix")
+## Coerce datasets to abundance matrix
+## Data from Desachy 2004
+data("compiegne")
+count_compiegne <- as(compiegne, "CountMatrix")
 
-# Plot rank vs abundance
-plotRank(count)
-plotRank(count, log = "xy")
-
-# Plot rank vs abundance
-plotRank(freq, facet = FALSE)
-plotRank(freq, facet = FALSE, log = "xy")
+## Plot rank vs abundance
+plotRank(count_compiegne)
+plotRank(count_compiegne, facet = FALSE)

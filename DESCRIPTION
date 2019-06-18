@@ -1,77 +1,103 @@
 Package: tabula
-Title: Analysis, Seriation and Visualization of Archaeological Count Data
-Version: 1.2.0
-Date: 2019-03-19
-Authors@R: c(person("Nicolas", "Frerebeau",
-                    email = "nicolas.frerebeau@u-bordeaux-montaigne.fr",
-                    role = c("aut", "cre"),
-                    comment = c(ORCID = "https://orcid.org/0000-0001-5759-4944")),
-             person("Brice", "Lebrun",
-                    email = "brice.lebrun@u-bordeaux-montaigne.fr",
-                    role = c("ctb"),
-                    comment = c(ORCID = "https://orcid.org/0000-0001-7503-8685")),
-             person("Matthew", "Peeples",
-                    email = "matthew.peeples@asu.edu",
-                    role = c("ctb"),
-                    comment = c(ORCID = "https://orcid.org/0000-0003-4496-623X"))
-            )
-Maintainer: Nicolas Frerebeau <nicolas.frerebeau@u-bordeaux-montaigne.fr>
-Description: An easy way to examine archaeological count data (artifacts, faunal 
-    remains, etc.). This package includes several measures of diversity: e.g. 
-    richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), diversity/dominance 
-    and evenness (Brillouin, Shannon, Simpson, etc.), turnover and similarity 
-    (Brainerd-Robinson, ...). Most of these methods are described and discussed 
-    in Maguran (1988) <doi:10.1007/978-94-015-7358-0>. It also provides matrix 
-    seriation methods (reciprocal ranking, CA-based seriation) for 
-    chronological modeling and dating. The package make it easy to visualize 
-    count data and statistical thresholds: rank/abundance plots, Ford (1972) 
+Title: Analysis, Seriation and Visualization of Archaeological
+    Count Data
+Version: 1.2.0.9000
+Authors@R: 
+    c(person(given = "Nicolas",
+             family = "Frerebeau",
+             role = c("aut", "cre"),
+             email = "nicolas.frerebeau@u-bordeaux-montaigne.fr",
+             comment = c(ORCID = "https://orcid.org/0000-0001-5759-4944")),
+      person(given = "Brice",
+             family = "Lebrun",
+             role = "ctb",
+             email = "brice.lebrun@u-bordeaux-montaigne.fr",
+             comment = c(ORCID = "https://orcid.org/0000-0001-7503-8685")),
+      person(given = "Matthew",
+             family = "Peeples",
+             role = "ctb",
+             email = "matthew.peeples@asu.edu",
+             comment = c(ORCID = "https://orcid.org/0000-0003-4496-623X")),
+      person(given = "Ben",
+             family = "Marwick",
+             role = "ctb",
+             email = "bmarwick@uw.edu",
+             comment = c(ORCID = "https://orcid.org/0000-0001-7879-4531")),
+      person(given = "Anne",
+             family = "Philippe",
+             role = "ctb",
+             email = "anne.philippe@univ-nantes.fr"))
+Maintainer: Nicolas Frerebeau
+    <nicolas.frerebeau@u-bordeaux-montaigne.fr>
+Description: An easy way to examine archaeological count data
+    (artifacts, faunal remains, etc.). This package includes several
+    measures of diversity: e.g.  richness and rarefaction (Chao1, Chao2,
+    ACE, ICE, etc.), diversity/dominance and evenness (Brillouin, Shannon,
+    Simpson, etc.), turnover and similarity (Brainerd-Robinson, ...). Most
+    of these methods are described and discussed in Maguran (1988)
+    <doi:10.1007/978-94-015-7358-0>. It also provides matrix seriation
+    methods (reciprocal ranking, CA-based seriation) for chronological
+    modeling and dating. The package make it easy to visualize count data
+    and statistical thresholds: rank/abundance plots, Ford (1972)
     <isbn:0913134082> and Bertin (1977) <isbn:2082111121> diagrams, etc.
-URL: http://github.com/nfrerebeau/tabula
-BugReports: http://github.com/nfrerebeau/tabula/issues
-Depends: R (>= 3.4)
 License: GPL-3
+URL: http://tabula.archaeo.science,
+    http://github.com/nfrerebeau/tabula,
+    https://cran.r-project.org/package=tabula
+BugReports: http://github.com/nfrerebeau/tabula/issues
+Depends: 
+    R (>= 3.2)
+Imports:
+    dplyr (>= 0.8.0.1),
+    ca (>= 0.71),
+    ggplot2 (>= 3.1.0),
+    grDevices,
+    magrittr (>= 1.5),
+    methods,
+    rlang (>= 0.3.1),
+    stats,
+    tidyr (>= 0.8.3),
+    utils
+Suggests:
+    covr,
+    khroma (>= 1.1.0),
+    knitr,
+    pbapply (>= 1.4-0),
+    rmarkdown,
+    testthat (>= 2.1.1),
+    vdiffr (>= 0.3.0)
+VignetteBuilder: 
+    knitr
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 6.1.1
 Collate:
-    'tabula.R'
+    'utilities.R'
     'AllClasses.R'
     'coerce.R'
     'AllGenerics.R'
+    'predicates.R'
+    'check.R'
     'data.R'
     'date.R'
-    'diversity.R'
     'extract.R'
-    'statistics.R'
-    'plot.R'
-    'rarefaction.R'
+    'index-diversity.R'
+    'index-rarefaction.R'
+    'index-richness.R'
+    'index-similarity.R'
+    'index-turnover.R'
+    'plot-bar.R'
+    'plot-date.R'
+    'plot-matrix.R'
+    'plot-rank.R'
+    'plot-spot.R'
+    'plot-time.R'
     'refine.R'
-    'richness.R'
     'seriation.R'
     'seriate.R'
     'show.R'
-    'similarity.R'
-    'turnover.R'
-    'utilities.R'
+    'statistics.R'
+    'tabula-package.R'
+    'test.R'
     'validate.R'
     'zzz.R'
-RoxygenNote: 6.1.1
-Suggests:
-    covr,
-    khroma,
-    knitr,
-    pbapply,
-    rmarkdown,
-    testthat
-Imports:
-    dplyr (>= 0.7),
-    FactoMineR,
-    ggplot2 (>= 3.0.0),
-    grDevices,
-    magrittr,
-    methods,
-    plyr,
-    rlang,
-    stats,
-    tidyr,
-    utils
-VignetteBuilder: knitr

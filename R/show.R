@@ -7,11 +7,15 @@ setMethod(
   f = "show",
   signature = "BootCA",
   definition = function(object) {
-    keep <- length(object@keep)
-    total <- nrow(object@lengths)
-    cat("Partial bootstrap CA seriation refinement:", "\n",
-        "  Cutoff: ", round(object@cutoff, digits = 2), "\n",
-        "  Rows to keep: ", keep, " of ", total, " (", round(keep * 100 / total), "%)",
+    cut <- paste(round(object@cutoff, digits = 2), c("(rows)", "(columns)"),
+                 collapse = " - ", sep = " ")
+    keep <- lengths(object@keep)
+    total <- lengths(object@lengths)
+    pc <- round(keep * 100 / total)
+    cat("Partial bootstrap CA seriation refinement:",
+        "\n- Cutoff values: ", cut,
+        "\n- Rows to keep: ", keep[1], " of ", total[1], " (", pc[1], "%)",
+        "\n- Columns to keep: ", keep[2], " of ", total[2], " (", pc[2], "%)",
         sep = "")
   }
 )
@@ -21,11 +25,13 @@ setMethod(
   f = "show",
   signature = "DateModel",
   definition = function(object) {
-    cat("Modelled event date:\n",
-        "  R2:", stats::summary.lm(object@model)$r.squared, "\n",
-        "  Residual standard deviation:", round(object@residual, digits = 0), "years\n",
-        "  CI:", object@level * 100, "%\n",
-        sep = " ")
+    fit <- object@model
+    sum_up <- stats::summary.lm(fit)
+    cat("Modelled event date:",
+        "\n- Residual standard error: ", round(sum_up$sigma, digits = 2),
+        "\n- Multiple R-squared: ", round(sum_up$r.squared, 5),
+        "\n- Adjusted R-squared: ", round(sum_up$adj.r.squared, 5),
+        sep = "")
   }
 )
 
@@ -37,8 +43,7 @@ setMethod(
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     m <- nrow(data)
     p <- ncol(data)
-    cat(paste(m, "x", p, "presence/absence data matrix:", sep = " "), "\n",
-        sep = " ")
+    cat(sprintf("%d x %d presence/absence data matrix:\n", m, p))
     print(data)
   }
 )
@@ -49,8 +54,7 @@ setMethod(
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     m <- nrow(data)
     p <- ncol(data)
-    cat(paste(m, "x", p, "co-occurrence matrix:", sep = " "), "\n",
-        sep = " ")
+    cat(sprintf("%d x %d co-occurrence matrix:\n", m, p))
     print(data)
   }
 )
@@ -63,7 +67,7 @@ setMethod(
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     m <- nrow(data)
     p <- ncol(data)
-    cat(paste(m, "x", p, "count data matrix:", sep = " "), "\n", sep = " ")
+    cat(sprintf("%d x %d count data matrix:\n", m, p))
     print(data)
   }
 )
@@ -74,7 +78,7 @@ setMethod(
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     m <- nrow(data)
     p <- ncol(data)
-    cat(paste(m, "x", p, "frequency data matrix:", sep = " "), "\n", sep = " ")
+    cat(sprintf("%d x %d frequency data matrix:\n", m, p))
     print(data)
   }
 )
@@ -85,8 +89,7 @@ setMethod(
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     m <- nrow(data)
     p <- ncol(data)
-    cat(paste(m, "x", p, "(dis)similarity matrix:", sep = " "), "\n",
-        "  Method:", object@method, "\n", sep = " ")
+    cat(sprintf("%d x %d (dis)similarity matrix (%s):\n", m, p, object@method))
     print(data)
   }
 )
@@ -100,18 +103,19 @@ setMethod(
     p <- length(object@columns)
     k <- 20
     rows <- if (m > k) {
-      paste(paste(object@rows[1:k], collapse = " "),
-            "... (", m-k, " more)", sep ="")
+      paste0(paste0(object@rows[seq_len(k)], collapse = " "),
+             "... (", m-k, " more)")
     } else {
       object@rows
     }
     columns <- if (p > k) {
-      paste(paste(object@columns[1:k], collapse = " "),
-            "... (", p-k, " more)", sep ="")
+      paste0(paste0(object@columns[seq_len(k)], collapse = " "),
+             "... (", p-k, " more)")
     } else {
       object@columns
     }
     cat("Permutation order for matrix seriation:", "\n",
+        "  Matrix ID:", object@id, "\n",
         "  Row order:", rows, "\n",
         "  Column order:", columns, "\n",
         "  Method:", object@method,

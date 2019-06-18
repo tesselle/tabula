@@ -40,25 +40,25 @@ test_that("Turnover measure (presence/absence data)", {
 # Indices ======================================================================
 test_that("Whittaker index", {
   # Magurran 1988, p. 162
-  expect_equal(whittakerBeta(trees), 1)
+  expect_equal(turnoverWhittaker(trees), 1)
 })
 test_that("Cody index", {
   # Magurran 1988, p. 162
-  expect_equal(codyBeta(trees), 3)
+  expect_equal(turnoverCody(trees), 3)
 })
 test_that("Routledge 'R' index", {
   # Magurran 1988, p. 163
-  expect_equal(round(routledge1Beta(trees), 4), 0.2857)
+  expect_equal(round(turnoverRoutledge1(trees), 4), 0.2857)
 })
 test_that("Routledge 'I' index", {
   # Magurran 1988, p. 163
-  expect_equal(round(routledge2Beta(trees), 4), 0.5595)
+  expect_equal(round(turnoverRoutledge2(trees), 4), 0.5595)
 })
 test_that("Routledge 'E' index", {
   # Magurran 1988, p. 164
-  expect_equal(round(routledge3Beta(trees), 3), 1.750)
+  expect_equal(round(turnoverRoutledge3(trees), 3), 1.750)
 })
 test_that("Wilson index", {
   # Magurran 1988, p. 164
-  expect_equal(wilsonBeta(trees), 1)
+  expect_equal(turnoverWilson(trees), 1)
 })

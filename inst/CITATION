@@ -1,2 +1,19 @@
-citHeader("To cite tabula in publications please use:")
-citation(auto = meta)
+citHeader("To cite tabula in publications use:")
+
+citEntry(entry = "Manual",
+  title        = "{tabula}: Analysis, Seriation and Visualization of Archaeological Count Data",
+  author       = c(person("Nicolas", "Frerebeau", role = "aut")),
+  year         = "2019",
+  organization = "Université Bordeaux Montaigne",
+  address      = "Pessac, France",
+  note         = paste("R package version", packageVersion("tabula")),
+  url          = "https://doi.org/10.5281/zenodo.1489944",
+
+  textVersion  =
+  paste("Frerebeau, Nicolas (2019).",
+        "tabula: Analysis, Seriation and Visualization of Archaeological Count Data.",
+        "R package version", paste0(packageVersion("tabula"), "."),
+        "Université Bordeaux Montaigne, Pessac, France.",
+        "DOI 10.5281/zenodo.1489944.",
+        "URL https://cran.r-project.org/package=tabula.")
+)

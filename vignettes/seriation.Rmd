@@ -1,0 +1,259 @@
+---
+title: "Seriation and dating methods"
+author: "N. Frerebeau"
+date: "`r Sys.Date()`"
+output:
+  rmarkdown::html_vignette:
+    number_sections: yes
+    fig_caption: yes
+    toc: true
+header-includes:
+   - \usepackage{amsmath}
+   - \usepackage{amssymb}
+bibliography: bibliography.bib
+vignette: >
+  %\VignetteIndexEntry{Seriation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE, echo=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(tabula)
+```
+
+# Seriation
+
+The matrix seriation problem in archaeology is based on three conditions and two assumptions, which @dunnell1970 summarizes as follows.
+
+The homogeneity conditions state that all the groups included in a seriation must:
+
+* Be of comparable duration,
+* Belong to the same cultural tradition,
+* Come from the same local area.
+
+The mathematical assumptions state that the distribution of any historical or temporal class:
+
+* Is continuous through time,
+* Exhibits the form of a unimodal curve.
+
+Theses assumptions create a distributional model and ordering is accomplished by arranging the matrix so that the class distributions approximate the required pattern. The resulting order is infered to be chronological.
+
+## Reciprocal ranking
+
+Reciprocal ranking iteratively rearrange rows and/or columns according to their weighted rank in the data matrix until convergence [@ihm2005].
+
+For a given incidence matrix $C$:
+
+* The rows of $C$ are rearranged in increasing order of:
+
+$$ x_{i} = \sum_{j = 1}^{p} j \frac{c_{ij}}{c_{i \cdot}} $$
+
+* The columns of $C$ are rearranged in a similar way:
+
+$$ y_{j} = \sum_{i = 1}^{m} i \frac{c_{ij}}{c_{\cdot j}} $$
+
+These two steps are repeated until convergence.
+Note that this procedure could enter into an infinite loop.
+
+```{r ranking, fig.show='hold'}
+# Build an incidence matrix with random data
+set.seed(12345)
+incidence1 <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
+                              nrow = 20)
+
+# Get seriation order on rows and columns
+# If no convergence is reached before the maximum number of iterations (100), 
+# it stops with a warning.
+(indices <- seriate(incidence1, method = "reciprocal", margin = c(1, 2),
+                    stop = 100))
+
+# Permute matrix rows and columns
+incidence2 <- permute(incidence1, indices)
+
+# Plot matrix
+plotMatrix(incidence1) + 
+  ggplot2::labs(title = "Original matrix") +
+  ggplot2::theme(legend.position = "bottom") +
+  ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
+plotMatrix(incidence2) + 
+  ggplot2::labs(title = "Rearranged matrix") +
+  ggplot2::theme(legend.position = "bottom") +
+  ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
+```
+
+## Reciprocal averaging
+
+```{r averaging, fig.width=7, fig.height=5, fig.show='hold'}
+# Reproduces Desachy 2004 results
+
+## Coerce dataset to an abundance matrix
+compiegne_counts <- as(compiegne, "CountMatrix")
+
+## Plot original data matrix
+plotBar(compiegne_counts, EPPM = TRUE) +
+  ggplot2::labs(title = "Original dataset") + 
+  ggplot2::theme_bw() + 
+  ggplot2::theme(panel.spacing = ggplot2::unit(0, "lines"),
+                 panel.border = ggplot2::element_rect(colour = NA),
+                 legend.position = "bottom")
+
+## Get seriation order for columns on EPPM using the reciprocal averaging method
+## Expected column order: N, A, C, K, P, L, B, E, I, M, D, G, O, J, F, H
+compiegne_indices <- seriate(compiegne_counts, method = "reciprocal", 
+                             EPPM = TRUE, margin = 2)
+
+## Permute columns
+compiegne_seriation <- permute(compiegne_counts, compiegne_indices)
+
+## Plot new matrix
+plotBar(compiegne_seriation, EPPM = TRUE) +
+  ggplot2::labs(title = "Reordered dataset") + 
+  ggplot2::theme_bw() + 
+  ggplot2::theme(panel.spacing = ggplot2::unit(0, "lines"),
+                 panel.border = ggplot2::element_rect(colour = NA),
+                 legend.position = "bottom")
+```
+
+## Correspondance analysis
+
+Correspondance Analysis (CA) is an effective method for the seriation of archaeological assemblages. The order of the rows and columns is given by the coordinates along one dimension of the CA space, assumed to account for temporal variation. The direction of temporal change within the correspondance analysis space is arbitrary: additional information is needed to determine the actual order in time.
+
+```{r ca}
+## Coerce dataset to an abundance matrix
+zuni_counts <- as(zuni, "CountMatrix")
+
+# Correspondance analysis of the whole dataset
+corresp <- ca::ca(zuni_counts)
+coords <- ca::cacoord(corresp, type = "principal")
+
+# Plot CA results
+ggplot2::ggplot(mapping = ggplot2::aes(x = Dim1, y = Dim2)) +
+  ggplot2::geom_vline(xintercept = 0, linetype = 2) +
+  ggplot2::geom_hline(yintercept = 0, linetype = 2) +
+  ggplot2::geom_point(data = as.data.frame(coords$rows), color = "black") +
+  ggplot2::geom_point(data = as.data.frame(coords$columns), color = "red") +
+  ggplot2::coord_fixed() + 
+  ggplot2::theme_bw()
+```
+
+```{r ca-seriation, fig.width=7, fig.height=7}
+# Get row permutations from CA coordinates
+zuni_indices <- seriate(zuni_counts, method = "correspondance", margin = 1)
+
+# Permute data matrix
+zuni_seriation <- permute(zuni_counts, zuni_indices)
+
+# Plot Ford diagram
+# Warning: this may take a few seconds!
+plotBar(zuni_seriation, level = FALSE) +
+  ggplot2:: theme(axis.text = ggplot2::element_blank(),
+                  axis.ticks = ggplot2::element_blank(),
+                  axis.title = ggplot2::element_blank())
+```
+
+## Refine CA-based seriation
+
+@peeples2012 propose a procedure to identify samples that are subject to sampling error or samples that have underlying structural relationships and might be influencing the ordering along the CA space. This relies on a partial bootstrap approach to CA-based seriation where each sample is replicated `n` times. The maximum dimension length of the convex hull around the sample point cloud allows to remove samples for a given `cutoff` value.
+
+According to @peeples2012, "[this] point removal procedure [results in] a reduced dataset where the position of individuals within the CA are highly stable and which produces an ordering consistend with the assumptions of frequency seriation."
+
+```{r refine, fig.show='hold'}
+# Reproduces Peeples and Schachner 2012 results
+
+## Samples with convex hull maximum dimension length greater than the cutoff
+## value will be marked for removal.
+## Define cutoff as one standard deviation above the mean
+fun <- function(x) { mean(x) + sd(x) }
+
+## Get indices of samples to be kept
+## Warning: this may take a few seconds!
+set.seed(123)
+zuni_keep <- refine(zuni_counts, cutoff = fun, n = 1000)
+
+## Plot convex hull
+## blue: convex hull for samples; red: convex hull for types
+### All bootstrap samples
+ggplot2::ggplot(mapping = ggplot2::aes(x = x, y = y, group = id)) +
+  ggplot2::geom_vline(xintercept = 0, linetype = 2) +
+  ggplot2::geom_hline(yintercept = 0, linetype = 2) +
+  ggplot2::geom_polygon(data = zuni_keep[["rows"]], 
+                        fill = "blue", alpha = 0.05) +
+  ggplot2::geom_polygon(data = zuni_keep[["columns"]], 
+                        fill = "red", alpha = 0.5) +
+  ggplot2::coord_fixed() + 
+  ggplot2::theme_bw() + 
+  ggplot2::labs(title = "Whole dataset", x = "Dim. 1", y = "Dim. 2")
+### Only retained samples
+ggplot2::ggplot(mapping = ggplot2::aes(x = x, y = y, group = id)) +
+  ggplot2::geom_vline(xintercept = 0, linetype = 2) +
+  ggplot2::geom_hline(yintercept = 0, linetype = 2) +
+  ggplot2::geom_polygon(data = subset(zuni_keep[["rows"]], 
+                                      id %in% names(zuni_keep[["keep"]])),
+                        fill = "blue", alpha = 0.05) +
+  ggplot2::geom_polygon(data = zuni_keep[["columns"]], 
+                        fill = "red", alpha = 0.5) +
+  ggplot2::coord_fixed() + 
+  ggplot2::theme_bw() + 
+  ggplot2::labs(title = "Selected samples", x = "Dim. 1", y = "Dim. 2")
+```
+
+If the results of `refine` is used as an input argument in `seriate`, a correspondance analysis is performed on the subset of `object` which matches the samples to be kept. Then excluded samples are projected onto the dimensions of the CA coordinate space using the row transition formulae. Finally, row coordinates onto the first dimension give the seriation order.
+
+```{r refine-ca}
+## Get CA-based seriation order
+(zuni_refined <- seriate(zuni_counts, zuni_keep, margin = 1))
+```
+
+# Dating
+
+This package provides an implementation of the chronological modeling method developed by @bellanger2012. This allows the construction of two different probability estimate density curves of archaeological assembalge dates. The first one (*event date*) represents the *terminus post-quem* of an archaeological assemblage: an event dated in calendar time. The second represents the "chronological profile" of the assemblage: the *accumulation rate* [@bellanger2012].
+
+This method - somewhat similar to that described by @poblome2003 - is based on the adjustment of a Gaussian multiple linear regression model on the factors resulting from a correspondence analysis. This model results from the known dates of a selection of reliable contexts and allows to predict the *event* dates of the remaining assemblage with a 95% confidence interval.
+
+Since correspondence analysis allows the rows and columns of a contingency table to be projected in the same space (through the transition formula), it is possible to estimate the date of each fabric using the previous model. Finally, the *accumulation* date of each context is defined as the mean of the fabric dates, weighted by their relative proportions in that context [akin to the *Mean Ceramic Date* proposed by @south1977].
+
+This method relies on strong archaeological and statistical assumptions. Use it only if you know what you are doing. Note that this implementation is **experimental** (see `help(dateEvent)`).
+
+```{r date, fig.width=5, fig.height=3.5, fig.show='hold', fig.align="center"}
+# Coerce dataset to abundance (count) matrix
+zuni <- as(zuni, "CountMatrix")
+
+# Assume that some assemblages are reliably dated (this is NOT a real example).
+# The names of the vector entries must match the names of the assemblages.
+setDates(zuni) <- c(
+  LZ0569 = 1097, LZ0279 = 1119, CS16 = 1328, LZ0066 = 1111,
+  LZ0852 = 1216, LZ1209 = 1251, CS144 = 1262, LZ0563 = 1206,
+  LZ0329 = 1076, LZ0005Q = 859, LZ0322 = 1109, LZ0067 = 863,
+  LZ0578 = 1180, LZ0227 = 1104, LZ0610 = 1074
+)
+
+# Model the event and accumulation date for each assemblage.
+(model <- dateEvent(zuni, cutoff = 90))
+```
+
+The estimated probability density of an event date is approached by a normal distribution. The distribution of the accumulation time of each context is approached by a Gaussian mixture.
+
+```{r plot-date, fig.width=7, fig.height=3.5, fig.align="center"}
+# Plot event (line) and accumulation (grey area) date distributions
+plotDate(model, select = "LZ1105", event = TRUE) +
+  ggplot2::theme_bw()
+```
+
+Resampling methods can be used to check the stability of the resulting model. If `jackknife` is `TRUE`, one type/fabric is removed at a time and all statistics are recalculated. In this way, one can assess whether certain type/fabric has a substantial influence on the date estimate. If `bootstrap` is `TRUE`, a large number of new bootstrap assemblages is created, with the same sample size, by resampling the original assemblage with replacement. Then, examination of the bootstrap statistics makes it possible to pinpoint assemblages that require further investigation.
+
+```{r refine-date}
+# Check model variability
+## Jackknife fabrics
+refined_jack <- refine(model, method = "jackknife", n = 1000)
+head(refined_jack)
+
+## Bootstrap of assemblages
+refined_boot <- refine(model, method = "bootstrap", n = 1000)
+head(refined_boot)
+```
+
+# References

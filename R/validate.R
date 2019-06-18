@@ -1,74 +1,85 @@
 # CLASSES VALIDATION
-#' @include AllClasses.R utilities.R
+#' @include AllClasses.R utilities.R check.R
 NULL
 
 # BootCA =======================================================================
 setValidity(
   Class = "BootCA",
   method = function(object) {
-    errors <- c()
     # Get data
+    id <- object@id
     rows <- object@rows
     columns <- object@columns
     lengths <- object@lengths
     cutoff <- object@cutoff
     keep <- object@keep
 
-    if (length(rows) != 0) {
-      if (ncol(rows) != 3)
-        errors <- c(errors, paste(sQuote("rows"), "must be a three columns data frame."))
-      rows_names <- c("id", "x", "y")
-      if (!identical(colnames(rows), rows_names))
-        errors <- c(errors, paste(sQuote("rows"), "column names must be",
-                                  paste(dQuote(rows_names), collapse = ", ")))
-      rows_num <- apply(X = rows[, -1], MARGIN = 1, FUN = is.numeric)
-      if (!any(rows_num))
-        errors <- c(errors, paste(sQuote("rows"), "must be of numeric type."))
-      if (anyNA(rows))
-        errors <- c(errors, paste(sQuote("rows"), "must not contain missing values."))
-    }
-    if (length(columns) != 0) {
-      if (ncol(columns) != 3)
-        errors <- c(errors, paste(sQuote("columns"), "must be a three columns data frame."))
-      columns_names <- c("id", "x", "y")
-      if (!identical(colnames(columns), columns_names))
-        errors <- c(errors, paste(sQuote("columns"), "column names must be",
-                                  paste(dQuote(columns_names), collapse = ", ")))
-      columns_num <- apply(X = columns[, -1], MARGIN = 1, FUN = is.numeric)
-      if (!any(columns_num))
-        errors <- c(errors, paste(sQuote("columns"), "must be of numeric type."))
-      if (anyNA(columns))
-        errors <- c(errors, paste(sQuote("columns"), "must not contain missing values."))
-    }
-    if (length(lengths) != 0) {
-      if (ncol(lengths) != 2)
-        errors <- c(errors, paste(sQuote("lengths"), "must be a two columns data frame."))
-      lengths_names <- c("id", "d")
-      if (!identical(colnames(lengths), lengths_names))
-        errors <- c(errors, paste(sQuote("lengths"), "column names must be",
-                                  paste(dQuote(lengths_names), collapse = ", ")))
-      lengths_num <- apply(X = lengths[, -1, drop = FALSE], MARGIN = 1, FUN = is.numeric)
-      if (!any(lengths_num))
-        errors <- c(errors, paste(sQuote("lengths"), "must be of numeric type."))
-      if (anyNA(lengths))
-        errors <- c(errors, paste(sQuote("lengths"), "must not contain missing values."))
-    }
-    if (length(cutoff) != 0) {
-      if (length(cutoff) != 1 | !is.numeric(cutoff) | anyNA(cutoff))
-        errors <- c(errors, paste(dQuote("cutoff"), "must be a length-one numeric vector"))
-    }
-    if (length(keep) != 0) {
-      if (!is.numeric(keep))
-        errors <- c(errors, paste(sQuote("keep"), "must be a numeric vector."))
-      if (anyNA(keep))
-        errors <- c(errors, paste(sQuote("keep"), "must not contain missing values."))
-    }
+    errors <- list(
+      id = c(
+        catchConditions(checkUUID(id))
+      ),
+      rows = c(
+        unlist(mapply(
+          FUN = function(x, expected) catchConditions(checkType(x, expected)),
+          rows, list("integer", "numeric", "numeric")
+        )),
+        unlist(lapply(
+          X = rows,
+          FUN = function(x) {
+            c(catchConditions(checkMissing(x)),
+              catchConditions(checkInfinite(x)))
+          }
+        )),
+        catchConditions(checkLength(rows, expected = 3)),
+        catchConditions(checkLengths(rows)),
+        catchConditions(checkNames(rows, expected = c("id", "x", "y")))
+      ),
+      columns = c(
+        unlist(mapply(
+          FUN = function(x, expected) catchConditions(checkType(x, expected)),
+          columns, list("integer", "numeric", "numeric")
+        )),
+        unlist(lapply(
+          X = columns,
+          FUN = function(x) {
+            c(catchConditions(checkMissing(x)),
+              catchConditions(checkInfinite(x)))
+          }
+        )),
+        catchConditions(checkLength(columns, expected = 3)),
+        catchConditions(checkLengths(columns)),
+        catchConditions(checkNames(columns, expected = c("id", "x", "y")))
+      ),
+      lengths = c(
+        unlist(lapply(
+          X = lengths,
+          FUN = function(x) {
+            c(catchConditions(checkType(x, expected = "numeric")),
+              # catchConditions(checkNames(x)),
+              catchConditions(checkMissing(x)),
+              catchConditions(checkInfinite(x)))
+          }
+        )),
+        catchConditions(checkLength(lengths, expected = 2))
+      ),
+      cutoff = c(
+        catchConditions(checkLength(cutoff, expected = 2)),
+        catchConditions(checkMissing(cutoff)),
+        catchConditions(checkInfinite(cutoff))
+      ),
+      keep = c(
+        unlist(lapply(
+          X = keep,
+          FUN = function(x) {
+            c(catchConditions(checkType(x, expected = "integer")),
+              catchConditions(checkMissing(x)))
+          }
+        )),
+        catchConditions(checkLength(keep, expected = 2))
+      )
+    )
     # Return errors if any
-    if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
-    } else {
-      return(TRUE)
-    }
+    formatErrors(object, errors)
   }
 )
 
@@ -78,90 +89,54 @@ setValidity(
   method = function(object) {
     errors <- c()
     # Get data
-    dates <- object@dates
+    id <- object@id
+    counts <- object@counts
     level <- object@level
-    model <- object@model
-    residual <- object@residual
+    # model <- object@model
     rows <- object@rows
     columns <- object@columns
     accumulation <- object@accumulation
-    jackknife <- object@jackknife
-    bootstrap <- object@bootstrap
 
-    if (length(level) != 0) {
-      if (length(level) != 1 | anyNA(level))
-        errors <- c(errors, paste(sQuote("level"), "must be a length-one numeric vector."))
-      else
-        if (level <= 0 | level >= 1)
-          errors <- c(errors, paste(sQuote("level"), "must be in the range of 0 to 1 (excluded)."))
-    }
-    if (length(residual) != 0) {
-      if (length(residual) != 1 | anyNA(residual))
-        errors <- c(errors, paste(sQuote("residual"), "must be a strictly positive numeric value."))
-    }
-    if (length(rows) != 0) {
-      if (ncol(rows) != 5)
-        errors <- c(errors, paste(sQuote("rows"), "must be a five columns data frame."))
-      if (anyNA(rows))
-        errors <- c(errors, paste(sQuote("rows"), "must not contain missing values."))
-    }
-    if (length(columns) != 0) {
-      if (ncol(columns) != 5)
-        errors <- c(errors, paste(sQuote("columns"), "must be a five columns data frame."))
-      if (anyNA(columns))
-        errors <- c(errors, paste(sQuote("columns"), "must not contain missing values."))
-    }
-    if (length(accumulation) != 0) {
-      if (ncol(accumulation) != 2)
-        errors <- c(errors, paste(sQuote("accumulation"), "must be a two columns data frame."))
-      if (anyNA(accumulation))
-        errors <- c(errors, paste(sQuote("accumulation"), "must not contain missing values."))
-      if (length(rows) != 0) {
-        a <- nrow(rows)
-        b <- nrow(accumulation)
-        if (b != a)
-          errors <- c(errors, paste(sQuote("accumulation"), "must be a 5 x", a, "data frame."))
-      }
-    }
-    if (length(jackknife) != 0) {
-      if (ncol(jackknife) != 6)
-        errors <- c(errors, paste(sQuote("jackknife"), "must be a six columns data frame."))
-      if (anyNA(jackknife))
-        errors <- c(errors, paste(sQuote("jackknife"), "must not contain missing values."))
-      is_num <- apply(X = jackknife[, -1], MARGIN = 2, FUN = is.numeric)
-      if (!any(is_num))
-        errors <- c(errors, paste(sQuote("jackknife"), "must contain numeric values."))
-      if (length(rows) != 0) {
-        a <- nrow(rows)
-        b <- nrow(jackknife)
-        if (b != a)
-          errors <- c(errors, paste(sQuote("jackknife"), "must be a 6 x", a, "data frame."))
-      }
-    }
-    if (length(bootstrap) != 0) {
-      if (ncol(bootstrap) != 6)
-        errors <- c(errors, paste(sQuote("bootstrap"), "must be a six columns data frame."))
-      if (anyNA(bootstrap))
-        errors <- c(errors, paste(sQuote("bootstrap"), "must not contain missing values."))
-      is_num <- apply(X = bootstrap[, -1], MARGIN = 2, FUN = is.numeric)
-      if (!any(is_num))
-        errors <- c(errors, paste(sQuote("bootstrap"), "must contain numeric values."))
-      if (length(rows) != 0) {
-        a <- nrow(rows)
-        b <- nrow(bootstrap)
-        if (b != a)
-          errors <- c(errors, paste(sQuote("bootstrap"), "must be a 6 x", a, "data frame."))
-      }
-    }
-    if (length(jackknife) != 0 & length(bootstrap) != 0)
-      if (nrow(jackknife) != nrow(bootstrap))
-        errors <- c(errors, paste(sQuote("jackknife"), "and", sQuote("bootstrap"), "must have the same number of rows."))
+    errors <- list(
+      # Check id
+      id = c(
+        catchConditions(checkUUID(id))
+      ),
+      counts = c(
+        catchConditions(checkType(counts, expected = "numeric")),
+        catchConditions(checkMissing(counts)),
+        catchConditions(checkInfinite(counts))
+      ),
+      level = c(
+        catchConditions(checkScalar(level, expected = "numeric")),
+        catchConditions(checkMissing(level)),
+        catchConditions(checkInfinite(level))
+      ),
+      rows = c(
+        catchConditions(checkType(rows, expected = "numeric")),
+        catchConditions(checkMissing(rows)),
+        catchConditions(checkInfinite(rows)),
+        catchConditions(checkColnames(rows, expected = c("date", "lower",
+                                                         "upper", "error")))
+      ),
+      columns = c(
+        catchConditions(checkType(columns, expected = "numeric")),
+        catchConditions(checkMissing(columns)),
+        catchConditions(checkInfinite(columns)),
+        catchConditions(checkColnames(columns, expected = c("date", "lower",
+                                                            "upper", "error")))
+      ),
+      accumulation = c(
+        catchConditions(checkType(accumulation, expected = "numeric")),
+        catchConditions(checkMissing(accumulation)),
+        catchConditions(checkInfinite(accumulation)),
+        catchConditions(checkColnames(accumulation,
+                                      expected = c("date", "error")))
+      )
+    )
+
     # Return errors if any
-    if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
-    } else {
-      return(TRUE)
-    }
+    formatErrors(object, errors)
   }
 )
 
@@ -169,38 +144,90 @@ setValidity(
 setValidity(
   Class = "PermutationOrder",
   method = function(object) {
-    errors <- c()
     # Get data
+    id <- object@id
     rows <- object@rows
     columns <- object@columns
     method <- object@method
 
-    if (length(rows) != 0) {
-      if (!is.integer(rows) | anyNA(rows) | !isPositive(rows, strict = TRUE))
-        errors <- c(errors, paste(sQuote("rows"), "must be a vector of strictly positive integers."))
-      if (length(columns) == 0)
-        errors <- c(errors, paste(sQuote("columns"), "is empty."))
-    }
-    if (length(columns) != 0) {
-      if (!is.integer(columns) | anyNA(columns) | !isPositive(columns, strict = TRUE))
-        errors <- c(errors, paste(sQuote("columns"), "must be a vector of strictly positive integers."))
-      if (length(rows) == 0)
-        errors <- c(errors, paste(sQuote("columns"), "is empty."))
-    }
-    if (length(method) != 0) {
-      if (length(method) != 1 | !is.character(method)) {
-        errors <- c(errors, paste(sQuote("method"), "must be a single character string."))
-      }
-    }
-    if (length(rows) != 0 & length(columns) != 0 & length(method) == 0) {
-      errors <- c(errors, paste(sQuote("method"), "is missing."))
-    }
+    errors <- list(
+      id = c(
+        catchConditions(checkUUID(id))
+      ),
+      rows = c(
+        catchConditions(checkMissing(rows)),
+        catchConditions(checkNumbers(rows, "positive",
+                                     strict = TRUE, na.rm = TRUE))
+      ),
+      columns = c(
+        catchConditions(checkMissing(columns)),
+        catchConditions(checkNumbers(columns, "positive",
+                                     strict = TRUE, na.rm = TRUE))
+      ),
+      method = c(
+        checkScalar(method, expected = "character"),
+        checkMissing(method)
+      )
+    )
+
     # Return errors if any
-    if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
-    } else {
-      return(TRUE)
-    }
+    formatErrors(object, errors)
+  }
+)
+
+# SpaceTime ====================================================================
+setValidity(
+  Class = "SpaceTime",
+  method = function(object) {
+    # Get data
+    dates <- object@dates
+    coordinates <- object@coordinates
+    epsg <- object@epsg
+
+    # Check dates
+    errors <- list(
+      dates = c(
+        catchConditions(checkType(dates, expected = "numeric")),
+        catchConditions(checkInfinite(dates)),
+        catchConditions(checkColnames(dates, expected = c("value", "error")))
+      ),
+      coordinates = c(
+        catchConditions(checkType(coordinates, expected = "numeric")),
+        catchConditions(checkInfinite(coordinates)),
+        catchConditions(checkColnames(coordinates, expected = c("x", "y", "z")))
+      ),
+      epsg = c(
+        catchConditions(checkScalar(epsg, expected = "integer")),
+        catchConditions(checkMissing(epsg))
+      )
+    )
+
+    # Return errors if any
+    formatErrors(object, errors)
+  }
+)
+# Matrix =======================================================================
+setValidity(
+  Class = "Matrix",
+  method = function(object) {
+    # Get data
+    data <- S3Part(object, strictS3 = TRUE, "matrix")
+    id <- object@id
+
+    errors <- list(
+      # Check data
+      data = c(
+        catchConditions(checkMissing(data)),
+        catchConditions(checkInfinite(data))
+      ),
+      # Check id
+      id = c(
+        catchConditions(checkUUID(id))
+      )
+    )
+
+    # Return errors if any
+    formatErrors(object, errors)
   }
 )
 
@@ -208,26 +235,16 @@ setValidity(
 setValidity(
   Class = "NumericMatrix",
   method = function(object) {
-    errors <- c()
     # Get data
     data <- S3Part(object, strictS3 = TRUE, "matrix")
 
-    # Check data
-    if (length(data) != 0) {
-      if (!is.numeric(data))
-        errors <- c(errors, "Numeric values are expected.")
-      if (anyNA(data))
-        errors <- c(errors, "NA values were detected.")
-      if (any(is.infinite(data)))
-        errors <- c(errors, "Infinite numbers were detected.")
-    }
+    errors <- list(
+      # Check data
+      data = catchConditions(checkType(data, "numeric"))
+    )
 
     # Return errors if any
-    if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
-    } else {
-      return(TRUE)
-    }
+    formatErrors(object, errors)
   }
 )
 
@@ -235,26 +252,40 @@ setValidity(
 setValidity(
   Class = "CountMatrix",
   method = function(object) {
-    errors <- c()
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
+    dates <- object@dates
+    coordinates <- object@coordinates
+    n <- nrow(data)
 
-    # Check data
-    if (length(data) != 0) {
-      if (sum(!isWholeNumber(data)) != 0)
-        errors <- c(errors, "Whole numbers are expected.")
-      if (isBinary(data))
-        errors <- c(errors, "You should consider using an incidence matrix.")
-      if (!isPositive(data))
-        errors <- c(errors, "Positive values are expected.")
+    errors <- list(
+      # Check data
+      data = c(
+        catchConditions(checkNumbers(data, "positive", strict = FALSE,
+                                     na.rm = TRUE)),
+        catchConditions(checkNumbers(data, "whole"))
+      )
+    )
+    if (length(dates) != 0 && nrow(dates) > 0) {
+      # Check dates
+      errors[["dates"]] <- c(
+        catchConditions(checkLength(dates, expected = n * 2))
+      )
     }
+    if (length(coordinates) != 0 && nrow(coordinates) > 0) {
+      # Check coordinates
+      errors[["coordinates"]] <- c(
+        catchConditions(checkLength(coordinates, expected = n * 3))
+      )
+    }
+    # Messages
+    # TODO: warning instead of message?
+    if (isBinary(data))
+      message("Your matrix contains only 0s and 1s.\n",
+              "You should consider using an incidence matrix instead.")
 
     # Return errors, if any
-    if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
-    } else {
-      return(TRUE)
-    }
+    formatErrors(object, errors)
   }
 )
 
@@ -262,31 +293,40 @@ setValidity(
 setValidity(
   Class = "FrequencyMatrix",
   method = function(object) {
-    errors <- c()
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     totals <- object@totals
+    dates <- object@dates
+    coordinates <- object@coordinates
+    n <- nrow(data)
 
-    # Check data
-    if (length(data) != 0) {
-      if (!isEqual(rowSums(data, na.rm = TRUE)))
-        errors <- c(errors, "Constant row sums are expected.")
-      if (isBinary(data))
-        errors <- c(errors, "You should consider using an incidence matrix.")
-      if (!isPositive(data))
-        errors <- c(errors, "Positive values are expected.")
-      k <- length(totals)
-      if (k != nrow(data))
-        errors <- c(errors, paste(sQuote("totals"), "should be of length",
-                                  nrow(data), "not", k))
+    errors <- list(
+      # Check data
+      data = c(
+        catchConditions(checkNumbers(data, "positive", strict = FALSE,
+                                     na.rm = TRUE)),
+        catchConditions(checkConstant(data))
+      ),
+      # Check totals
+      totals = c(
+        catchConditions(checkLength(totals, expected = n))
+      )
+    )
+    if (length(dates) != 0 && nrow(dates) > 0) {
+      # Check dates
+      errors[["dates"]] <- c(
+        catchConditions(checkLength(dates, expected = n * 2))
+      )
+    }
+    if (length(coordinates) != 0 && nrow(coordinates) > 0) {
+      # Check coordinates
+      errors[["coordinates"]] <- c(
+        catchConditions(checkLength(coordinates, expected = n * 3))
+      )
     }
 
     # Return errors, if any
-    if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
-    } else {
-      return(TRUE)
-    }
+    formatErrors(object, errors)
   }
 )
 
@@ -294,26 +334,18 @@ setValidity(
 setValidity(
   Class = "OccurrenceMatrix",
   method = function(object) {
-    errors <- c()
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
 
-    # Check data
-    if (length(data) != 0) {
-      if (!isSquare(data))
-        errors <- c(errors, "A square matrix is expected.")
-      if (!isSymmetric(data))
-        errors <- c(errors, "A symmetric matrix is expected.")
-      if (!identical(rownames(data), colnames(data)))
-        errors <- c(errors, "Rows and columns must have the same names.")
-    }
+    errors <- list(
+      # Check data
+      data = c(
+        catchConditions(checkMatrix(data, expected = "symmetric"))
+      )
+    )
 
     # Return errors, if any
-    if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
-    } else {
-      return(TRUE)
-    }
+    formatErrors(object, errors)
   }
 )
 
@@ -321,29 +353,24 @@ setValidity(
 setValidity(
   Class = "SimilarityMatrix",
   method = function(object) {
-    errors <- c()
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
     method <- object@method
 
-    # Check data
-    if (length(data) != 0) {
-      if (!isSquare(data))
-        errors <- c(errors, "A square matrix is expected.")
-      if (!isSymmetric(data))
-        errors <- c(errors, "A symmetric matrix is expected.")
-      if (!identical(rownames(data), colnames(data)))
-        errors <- c(errors, "Rows and columns must have the same names.")
-      if (length(method) != 1)
-        errors <- c(errors, paste(sQuote("method"), "must be a single character string."))
-    }
+    errors <- list(
+      # Check data
+      data = c(
+        catchConditions(checkMatrix(data, expected = "symmetric"))
+      ),
+      # Check method
+      method = c(
+        catchConditions(checkScalar(method, expected = "character")),
+        catchConditions(checkMissing(method))
+      )
+    )
 
     # Return errors, if any
-    if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
-    } else {
-      return(TRUE)
-    }
+    formatErrors(object, errors)
   }
 )
 
@@ -351,24 +378,44 @@ setValidity(
 setValidity(
   Class = "LogicalMatrix",
   method = function(object) {
-    errors <- c()
     # Get data
-    data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
+    data <- S3Part(object, strictS3 = TRUE, "matrix")
 
-    # Check data
-    if (length(data) != 0) {
-      if (!is.logical(data))
-        errors <- c("Logical values are expected.")
-      if (anyNA(data))
-        errors <- c(errors, "Missing values were detected.")
-    }
+    errors <- list(
+      # Check data
+      data = catchConditions(checkType(data, expected = "logical"))
+    )
 
-    # Return errors, if any
-    if (length(errors) != 0) {
-      stop(paste(class(object), errors, sep = ": ", collapse = "\n  "))
-    } else {
-      return(TRUE)
-    }
+    # Return errors if any
+    formatErrors(object, errors)
   }
 )
 
+## IncidenceMatrix -------------------------------------------------------------
+setValidity(
+  Class = "IncidenceMatrix",
+  method = function(object) {
+    # Get data
+    data <- S3Part(object, strictS3 = TRUE, "matrix")
+    dates <- object@dates
+    coordinates <- object@coordinates
+    n <- nrow(data)
+
+    errors <- list()
+    if (length(dates) != 0 && nrow(dates) > 0) {
+      # Check dates
+      errors[["dates"]] <- c(
+        catchConditions(checkLength(dates, expected = n * 2))
+      )
+    }
+    if (length(coordinates) != 0 && nrow(coordinates) > 0) {
+      # Check coordinates
+      errors[["coordinates"]] <- c(
+        catchConditions(checkLength(coordinates, expected = n * 3))
+      )
+    }
+
+    # Return errors if any
+    formatErrors(object, errors)
+  }
+)

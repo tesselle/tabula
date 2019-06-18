@@ -9,23 +9,29 @@ editor_options:
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, echo = FALSE}
+```{r, echo=FALSE, message=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/README-"
+  fig.path = "man/figures/README-",
+  out.width = NULL
 )
 library(tabula)
 ```
 
 # tabula <img width=120px src="man/figures/logo.svg" align="right" />
 
-[![Build Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula)
+[![Appveyor build status](https://ci.appveyor.com/api/projects/status/t1qmnis4ekqwslgs/branch/master?svg=true)](https://ci.appveyor.com/project/nfrerebeau/tabula/branch/master)
+[![Travis build Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula)
 [![codecov](https://codecov.io/gh/nfrerebeau/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/nfrerebeau/tabula)
+
 [![GitHub Release](https://img.shields.io/github/release/nfrerebeau/tabula.svg)](https://github.com/nfrerebeau/tabula/releases)
 [![CRAN Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula)
 [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/tabula)](https://cran.r-project.org/package=tabula)
+
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
 
 ## Overview
@@ -100,15 +106,7 @@ D <- as(A1, "OccurrenceMatrix")
 
 Several types of graphs are available in `tabula` which uses `ggplot2` for plotting informations. This makes it easy to customize diagramms (e.g. using themes and scales).
 
-Spot matrix (easier to read than a heatmap [^1]) allows direct examination of data (above/below some threshold):
-
-```{r plot-freq, fig.width=4, fig.height=6, fig.align="center"}
-# Plot frequencies with the column means as a threshold
-ceram_counts <- as(mississippi, "CountMatrix")
-plotSpot(ceram_counts, threshold = mean) +
-  ggplot2::labs(size = "Frequency", colour = "Mean") +
-  khroma::scale_colour_vibrant()
-```
+Spot matrix [^1] allows direct examination of data:
 
 ```{r plot-occ, fig.width=6, fig.height=4, fig.align="center"}
 # Plot co-occurence of types
@@ -121,13 +119,23 @@ plotSpot(ceram_occ) +
   khroma::scale_colour_YlOrBr()
 ```
 
-Bertin or Ford (battleship curve) diagramms can be plotted, with statistic threshold (B. Desachy's [*sériographe*](https://doi.org/10.3406/pica.2004.2396)). The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence. EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
+Bertin or Ford (battleship curve) diagramms can be plotted, with statistic threshold. 
 
-```{r seriograph, fig.width=7, fig.height=3.5, fig.align="center"}
-counts <- as(compiegne, "CountMatrix")
-plotBar(counts, EPPM = TRUE) +
+```{r bertin, fig.width=7, fig.height=5, fig.align="center", fig.show="hold"}
+mississippi_counts <- as(mississippi, "CountMatrix")
+plotBertin(mississippi_counts, threshold = mean) +
+  khroma::scale_fill_vibrant()
+```
+
+
+```{r ford, fig.width=7, fig.height=3.5, fig.align="center", fig.show="hold"}
+compiegne_counts <- as(compiegne, "CountMatrix")
+plotFord(compiegne_counts, EPPM = TRUE) +
+  ggplot2::theme(legend.position = "bottom") +
   khroma::scale_fill_bright()
 ```
+
+The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence (B. Desachy's [sériographe](https://doi.org/10.3406/pica.2004.2396)). EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
 
 ### Seriation
 
@@ -157,24 +165,28 @@ plotMatrix(incidence2) +
 
 ### Dating
 
-This package provides an implementation of the chronological modeling method developed by Bellanger and Husi ([2012](https://doi.org/10.1016/j.jas.2011.06.031)). This allows the construction of two different probability estimate
-density curves of archaeological assembalge dates (the so-called *event* and *accumulation* dates). Note that this implementation is experimental (see `help(dateEvent)`).
+This package provides an implementation of the chronological modeling method developed by Bellanger and Husi ([2012](https://doi.org/10.1016/j.jas.2011.06.031)). This method is slightly modified here and allows the construction of different probability density curves of archaeological assembalge dates (*event*, *activity* and *tempo*). Note that this implementation is experimental (see `help(dateEvent)`).
 
-```{r date, echo=FALSE, fig.width=5, fig.height=3.5, fig.align="center"}
+```{r date, fig.width=3.5, fig.height=3.5, fig.show="hold"}
 # Coerce dataset to abundance (count) matrix
-zuni <- as(zuni, "CountMatrix")
-# Assume that some assemblages are reliably dated (this is NOT a real example).
-# The names of the vector entries must match the names of the assemblages.
-dates <- list(
+zuni_counts <- as(zuni, "CountMatrix")
+# Assume that some assemblages are reliably dated (this is NOT a real example)
+# The names of the vector entries must match the names of the assemblages
+setDates(zuni_counts) <- c(
   LZ0569 = 1097, LZ0279 = 1119, CS16 = 1328, LZ0066 = 1111,
   LZ0852 = 1216, LZ1209 = 1251, CS144 = 1262, LZ0563 = 1206,
   LZ0329 = 1076, LZ0005Q = 859, LZ0322 = 1109, LZ0067 = 863,
   LZ0578 = 1180, LZ0227 = 1104, LZ0610 = 1074
 )
-# Model the event and accumulation date for each assemblage.
-model <- dateEvent(zuni, dates, cutoff = 90)
-# Plot event and accumulation date distributions
-plotDate(model, select = "LZ1105") +
+
+# Model the event date for each assemblage
+model <- dateEvent(zuni_counts, cutoff = 90)
+# Plot activity and tempo distributions
+plotDate(model, type = "activity", select = "LZ1105") +
+  ggplot2::labs(title = "Activity plot") +
+  ggplot2::theme_bw()
+plotDate(model, type = "tempo", select = "LZ1105") +
+  ggplot2::labs(title = "Tempo plot") +
   ggplot2::theme_bw()
 ```
 
@@ -183,8 +195,11 @@ plotDate(model, select = "LZ1105") +
 *Diversity* can be measured according to several indices (sometimes refered to as indices of *heterogeneity*):
 
 ```{r diversity}
-H <- diversity(ceram_counts, method = c("shannon", "brillouin", "simpson", 
-                                        "mcintosh", "berger"), simplify = TRUE)
+H <- diversity(
+  mississippi_counts, 
+  method = c("shannon", "brillouin", "simpson", "mcintosh", "berger"),
+  simplify = TRUE
+)
 head(H)
 ```
 
@@ -192,28 +207,44 @@ Note that `berger`, `mcintosh` and `simpson` methods return a *dominance* index,
 
 Corresponding *evenness* (i.e. a measure of how evenly individuals are distributed across the sample) can also be computed.
 
-Several methods can be used to acertain the degree of *turnover* in taxa composition along a gradient ($\beta$-diversity) on qualitative (presence/absence) data. It assumes that the order of the matrix rows (from $1$ to $n$) follows the progression along the gradient/transect.
+Several methods can be used to acertain the degree of *turnover* in taxa composition along a gradient on qualitative (presence/absence) data. It assumes that the order of the matrix rows (from $1$ to $n$) follows the progression along the gradient/transect.
 
-$\beta$-diversity can also be measured by addressing *similarity* between pairs of sites:
+Diversity can also be measured by addressing *similarity* between pairs of sites:
 
 ```{r similarity-brainerd, fig.width=6, fig.height=5, fig.align="center"}
 # Brainerd-Robinson index
-S <- similarity(ceram_counts, method = "brainerd")
+S <- similarity(mississippi_counts, method = "brainerd")
 
 # Plot the similarity matrix
 plotSpot(S) +
   ggplot2::labs(size = "Similarity", colour = "Similarity") +
-  khroma::scale_colour_YlOrBr()
+  khroma::scale_colour_iridescent()
 ```
 
 Ranks *vs* abundance plot can be used for abundance models (model fitting will be implemented in a futur release):
 
 ```{r plot-rank, fig.width=7, fig.height=3.5, fig.align="center"}
-plotRank(counts, log = "xy") +
+count_merzbach1 <- as(merzbach, "CountMatrix")
+plotRank(count_merzbach1, log = "xy", facet = FALSE) +
+  khroma::scale_colour_discreterainbow() +
   ggplot2::theme_bw()
+```
+
+```{r plot-time, fig.width=7, fig.height=3.5, fig.align="center"}
+## Keep only decoration types that have a maximum frequency of at least 50
+keep <- apply(X = merzbach, MARGIN = 2, FUN = function(x) max(x) >= 50)
+count_merzbach2 <- as(merzbach[, keep], "CountMatrix")
+
+## The data are grouped by phase
+## We use the row names as time coordinates (roman numerals)
+setDates(count_merzbach2) <- rownames(merzbach)
+## Plot time vs abundance and highlight selection
+plotTime(count_merzbach2, highlight = "FIT", roll = TRUE) +
+  ggplot2::theme_bw() +
+  khroma::scale_color_vibrant()
 ```
 
 ## Contributing
 Please note that the `tabula` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
-[^1]: Adapted from Dan Gopstein's original [spot matrix](https://dgopstein.github.io/articles/spot-matrix/).
+[^1]: Adapted from Dan Gopstein's original [idea](https://dgopstein.github.io/articles/spot-matrix/).
