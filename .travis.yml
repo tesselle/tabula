@@ -12,6 +12,8 @@ matrix:
   - r: devel
   - r: release
     env: VDIFFR_RUN_TESTS=true
+    after_success:
+    - Rscript -e 'covr::codecov()'
     before_deploy:
     - Rscript -e 'remotes::install_cran("pkgdown")'
     deploy:
@@ -33,6 +35,3 @@ env:
   - _R_CHECK_FORCE_SUGGESTS_=false
   # Switch off vdiffr by default
   - VDIFFR_RUN_TESTS=false
-
-after_success:
-  - Rscript -e 'covr::codecov()'
