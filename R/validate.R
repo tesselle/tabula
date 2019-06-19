@@ -228,6 +228,33 @@ setValidity(
     formatErrors(object, errors)
   }
 )
+setValidity(
+  Class = "AbundanceMatrix",
+  method = function(object) {
+    # Get data
+    data <- S3Part(object, strictS3 = TRUE, "matrix")
+    dates <- object@dates
+    coordinates <- object@coordinates
+    n <- nrow(data)
+
+    errors <- list()
+    if (length(dates) != 0 && nrow(dates) > 0) {
+      # Check dates
+      errors[["dates"]] <- c(
+        catchConditions(checkLength(dates, expected = n * 2))
+      )
+    }
+    if (length(coordinates) != 0 && nrow(coordinates) > 0) {
+      # Check coordinates
+      errors[["coordinates"]] <- c(
+        catchConditions(checkLength(coordinates, expected = n * 3))
+      )
+    }
+
+    # Return errors if any
+    formatErrors(object, errors)
+  }
+)
 
 # NumericMatrix ================================================================
 setValidity(
@@ -252,9 +279,6 @@ setValidity(
   method = function(object) {
     # Get data
     data <- methods::S3Part(object, strictS3 = TRUE, "matrix")
-    dates <- object@dates
-    coordinates <- object@coordinates
-    n <- nrow(data)
 
     errors <- list(
       # Check data
@@ -263,18 +287,6 @@ setValidity(
         catchConditions(checkNumbers(data, "whole"))
       )
     )
-    if (length(dates) != 0 && nrow(dates) > 0) {
-      # Check dates
-      errors[["dates"]] <- c(
-        catchConditions(checkLength(dates, expected = n * 2))
-      )
-    }
-    if (length(coordinates) != 0 && nrow(coordinates) > 0) {
-      # Check coordinates
-      errors[["coordinates"]] <- c(
-        catchConditions(checkLength(coordinates, expected = n * 3))
-      )
-    }
     # Messages
     # TODO: warning instead of message?
     if (all(isBinary(data)))
@@ -308,18 +320,6 @@ setValidity(
         catchConditions(checkLength(totals, expected = n))
       )
     )
-    if (length(dates) != 0 && nrow(dates) > 0) {
-      # Check dates
-      errors[["dates"]] <- c(
-        catchConditions(checkLength(dates, expected = n * 2))
-      )
-    }
-    if (length(coordinates) != 0 && nrow(coordinates) > 0) {
-      # Check coordinates
-      errors[["coordinates"]] <- c(
-        catchConditions(checkLength(coordinates, expected = n * 3))
-      )
-    }
 
     # Return errors, if any
     formatErrors(object, errors)
@@ -388,30 +388,9 @@ setValidity(
 )
 
 ## IncidenceMatrix -------------------------------------------------------------
-setValidity(
-  Class = "IncidenceMatrix",
-  method = function(object) {
-    # Get data
-    data <- S3Part(object, strictS3 = TRUE, "matrix")
-    dates <- object@dates
-    coordinates <- object@coordinates
-    n <- nrow(data)
-
-    errors <- list()
-    if (length(dates) != 0 && nrow(dates) > 0) {
-      # Check dates
-      errors[["dates"]] <- c(
-        catchConditions(checkLength(dates, expected = n * 2))
-      )
-    }
-    if (length(coordinates) != 0 && nrow(coordinates) > 0) {
-      # Check coordinates
-      errors[["coordinates"]] <- c(
-        catchConditions(checkLength(coordinates, expected = n * 3))
-      )
-    }
-
-    # Return errors if any
-    formatErrors(object, errors)
-  }
-)
+# setValidity(
+#   Class = "IncidenceMatrix",
+#   method = function(object) {
+#
+#   }
+# )
