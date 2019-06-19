@@ -88,7 +88,7 @@ setMethod(
     # Get row names and coerce to factor (preserve original ordering)
     row_names <- rownames(object) %>% factor(levels = unique(.))
 
-    # Build long table from data and join with threshold
+    # Build long table from data
     data <- object %>%
       as.data.frame() %>%
       dplyr::mutate(case = row_names) %>%

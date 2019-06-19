@@ -21,7 +21,7 @@ plotFord(object, ...)
 \S4method{plotBertin}{CountMatrix}(object, threshold = NULL,
   scale = NULL)
 
-\S4method{plotFord}{CountMatrix}(object, level = FALSE, EPPM = FALSE)
+\S4method{plotFord}{CountMatrix}(object, EPPM = FALSE)
 }
 \arguments{
 \item{object}{An object to be plotted.}
@@ -36,10 +36,6 @@ If \code{NULL} (the default), no threshold is computed.}
 that takes a numeric vector as argument and returns a numeric vector.
 If \code{NULL} (the default), no scaling is performed.}
 
-\item{level}{A length-one \code{\link{numeric}} vector giving the
-confidence level to be drawn. If \code{NULL} (the default), no confidence
-interval is plotted.}
-
 \item{EPPM}{A \code{\link{logical}} scalar: should the EPPM be drawn (see
 details)?}
 }
@@ -47,7 +43,7 @@ details)?}
 TODO
 }
 \description{
-Plots a Bertin or a Ford (battleship curve) diagram.
+Plots a Bertin, Ford (battleship curve) or Dice-Leraas diagram.
 }
 \section{Bertin Matrix}{
 

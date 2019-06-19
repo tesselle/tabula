@@ -9,8 +9,6 @@ setMethod(
   f = "plotDate",
   signature = signature(object = "AbundanceMatrix"),
   definition = function(object, select = NULL, sort = "dsc") {
-    # Validation
-    checkScalar(sort, expected = "character")
     # Selection
     cases <- rownames(object)
     index <- if (is.null(select)) {

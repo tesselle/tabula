@@ -11,11 +11,9 @@ setMethod(
   definition = function(object, highlight = NULL, level = 0.95,
                         roll = FALSE, window = 5, facet = TRUE, ...) {
     # Validation
-    if (!is.null(highlight)) {
-      highlight <- match.arg(highlight, choices = c("FIT"), several.ok = FALSE)
-    } else {
-      highlight <- "none"
-    }
+    highlight <- highlight %||% "none"
+    highlight <- match.arg(highlight, choices = c("none", "FIT"),
+                           several.ok = FALSE)
     if (highlight == "FIT") facet <- TRUE # Override default
     alpha <- 1 - level
 

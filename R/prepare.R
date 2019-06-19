@@ -2,7 +2,7 @@
 # All these functions must return a data.frame
 
 # Prepare data for Bertin plot
-.prepareBertin <- function(object, threshold = NULL, scale = NULL) {
+prepareBertin <- function(object, threshold = NULL, scale = NULL) {
   # Get row names and coerce to factor (preserve original ordering)
   row_names <- rownames(object) %>% factor(levels = rev(unique(.)))
 
@@ -35,7 +35,7 @@
 }
 
 # Prepare data for Ford plot
-.prepareFord <- function(object, EPPM = FALSE) {
+prepareFord <- function(object, EPPM = FALSE) {
   # Get row names and coerce to factor (preserve original ordering)
   row_names <- rownames(object) %>% factor(levels = rev(unique(.)))
 

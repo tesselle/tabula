@@ -401,7 +401,7 @@ setGeneric(
 # ------------------------------------------------------------------------------
 #' Bar Plot
 #'
-#' Plots a Bertin or a Ford (battleship curve) diagram.
+#' Plots a Bertin, Ford (battleship curve) or Dice-Leraas diagram.
 #' @param object An object to be plotted.
 #' @param threshold A \code{\link{function}} that takes a numeric vector as
 #'  argument and returns a numeric threshold value (see below).
@@ -409,9 +409,6 @@ setGeneric(
 #' @param scale A \code{\link{function}} used to scale each variable,
 #'  that takes a numeric vector as argument and returns a numeric vector.
 #'  If \code{NULL} (the default), no scaling is performed.
-#' @param level A length-one \code{\link{numeric}} vector giving the
-#'  confidence level to be drawn. If \code{NULL} (the default), no confidence
-#'  interval is plotted.
 #' @param EPPM A \code{\link{logical}} scalar: should the EPPM be drawn (see
 #'  details)?
 #' @param ... Currently not used.
@@ -472,6 +469,7 @@ setGeneric(
   name = "plotFord",
   def = function(object, ...) standardGeneric("plotFord")
 )
+
 # ------------------------------------------------------------------------------
 #' Matrix Plot
 #'

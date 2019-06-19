@@ -1,5 +1,5 @@
 # PLOT BAR
-#' @include AllGenerics.R AllClasses.R
+#' @include AllGenerics.R AllClasses.R prepare.R
 NULL
 
 #' @export
@@ -9,33 +9,8 @@ setMethod(
   f = "plotBertin",
   signature = signature(object = "CountMatrix"),
   definition = function(object, threshold = NULL, scale = NULL) {
-    # Get row names and coerce to factor (preserve original ordering)
-    row_names <- rownames(object) %>% factor(levels = rev(unique(.)))
-
-    # Build a long table from data
-    data <- object %>%
-      as.data.frame() %>%
-      dplyr::mutate(case = row_names) %>%
-      tidyr::gather(key = "type", value = "frequency",
-                    -.data$case, factor_key = TRUE)
-
-    # Scale variables
-    if (is.function(scale)) {
-      data %<>%
-        dplyr::group_by(.data$type) %>%
-        dplyr::mutate(frequency = scale(.data$frequency)) %>%
-        dplyr::ungroup()
-    }
-
-    # Compute threshold, if any
-    if (is.function(threshold)) {
-      data %<>%
-        dplyr::group_by(.data$type) %>%
-        dplyr::mutate(thresh = threshold(.data$frequency)) %>%
-        dplyr::ungroup() %>%
-        dplyr::mutate(threshold = dplyr::if_else(.data$frequency > .data$thresh,
-                                                 "above", "below"))
-    }
+    # Prepare data
+    data <- prepareBertin(object, threshold = threshold, scale = scale)
 
     # ggplot
     aes_plot <- ggplot2::aes(x = .data$case, y = .data$frequency)
@@ -70,37 +45,9 @@ setMethod(
 setMethod(
   f = "plotFord",
   signature = signature(object = "CountMatrix"),
-  definition = function(object, level = FALSE, EPPM = FALSE) {
-    # Get row names and coerce to factor (preserve original ordering)
-    row_names <- rownames(object) %>% factor(levels = rev(unique(.)))
-
-    # Build a long table from data
-    data <- object %>%
-      { . / rowSums(.) } %>%
-      as.data.frame() %>%
-      dplyr::mutate(case = row_names) %>%
-      tidyr::gather(key = "type", value = "data",
-                    -.data$case, factor_key = TRUE)
-
-    if (EPPM) {
-      # Build long table from threshold
-      threshold <- independance(object, method = "EPPM") %>%
-        as.data.frame() %>%
-        dplyr::mutate(case = row_names) %>%
-        tidyr::gather(key = "type", value = "EPPM",
-                      -.data$case, factor_key = TRUE)
-
-      # Join data and threshold
-      data %<>% dplyr::inner_join(threshold, by = c("case", "type")) %>%
-        dplyr::mutate(data = .data$data - .data$EPPM) %>%
-        tidyr::gather(key = "threshold", value = "data",
-                      -.data$case, -.data$type)
-    }
-
-    k <- nrow(data)
-    z <- c(rep(1, k), rep(-1, k)) / 2
-    data %<>% rbind.data.frame(., .) %>%
-      dplyr::mutate(data = .data$data * z)
+  definition = function(object, EPPM = FALSE) {
+    # Prepare data
+    data <- prepareFord(object, EPPM = EPPM)
 
     # ggplot
     # A function that given the scale limits returns a vector of breaks
@@ -140,7 +87,7 @@ setMethod(
   }
 )
 
-
+# =================================================================== Deprecated
 #' @export
 #' @rdname deprecated
 #' @aliases plotBar,CountMatrix-method
