@@ -8,6 +8,8 @@
 \title{tabula: Analysis, Seriation and Visualization of Archaeological
     Count Data}
 \description{
+\if{html}{\figure{logo.png}{options: align='right'}}
+
 An easy way to examine archaeological count data
     (artifacts, faunal remains, etc.). This package includes several
     measures of diversity: e.g.  richness and rarefaction (Chao1, Chao2,

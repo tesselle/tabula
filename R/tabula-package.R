@@ -42,14 +42,9 @@
 # See https://github.com/tidyverse/magrittr/issues/29
 if(getRversion() >= "2.15.1") utils::globalVariables(c("."))
 
-#' @importFrom methods new
+#' @importFrom ca ca
+#' @importFrom methods new setClass setClassUnion setGeneric setMethod
 #' @importFrom magrittr %<>%
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
-NULL
-
-# The following block is used by usethis to automatically manage
-# roxygen namespace tags. Modify with care!
-## usethis namespace: start
-## usethis namespace: end
 NULL
