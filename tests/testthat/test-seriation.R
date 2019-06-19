@@ -50,16 +50,20 @@ test_that("Correspondance Analysis", {
   expect_equal(permute(count, indices)@id, count@id)
 })
 test_that("Refined correspondance Analysis", {
-  count <- as(compiegne, "CountMatrix")
+  count <- with_seed(
+    12345,
+    CountMatrix(sample(1:100, 100, TRUE), ncol = 10,
+                dimnames = list(LETTERS[1:10], LETTERS[26:17]))
+  )
 
   # Define cutoff as one standard deviation above the mean
   fun <- function(x) { mean(x) + sd(x) }
   subset <- with_seed(12345, refine(count, cutoff = fun))
 
   expect_s4_class(subset, "BootCA")
-  expect_equal(subset@cutoff, c(0.04560049, 0.13080163))
-  expect_equal(subset@keep[[1]], c(1, 2, 3, 4))
-  expect_equal(subset@keep[[2]], c(1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14))
+  expect_equal(subset@cutoff, c(0.3537187, 0.3231214), tolerance = 1e-7)
+  expect_equal(subset@keep[[1]], c(2, 3, 4, 6, 7, 8, 9, 10))
+  expect_equal(subset@keep[[2]], c(1, 2, 4, 5, 6, 8, 10))
   expect_equal(subset@id, count@id)
 
   indices <- seriate(count, subset)
