@@ -1,5 +1,5 @@
 # PLOT BAR
-#' @include AllGenerics.R AllClasses.R prepare.R
+#' @include AllGenerics.R AllClasses.R plot-prepare.R
 NULL
 
 #' @export

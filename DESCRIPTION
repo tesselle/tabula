@@ -86,7 +86,7 @@ Collate:
     'index-richness.R'
     'index-similarity.R'
     'index-turnover.R'
-    'prepare.R'
+    'plot-prepare.R'
     'plot-bar.R'
     'plot-date.R'
     'plot-matrix.R'

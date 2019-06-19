@@ -471,5 +471,5 @@
 <rect x='660.81' y='332.18' width='15.86' height='15.86' style='stroke-width: 1.07; stroke-linecap: square; stroke-linejoin: miter; fill: #00BFC4;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='682.86' y='325.85' style='font-size: 8.80px; font-family: Liberation Sans;' textLength='23.97px' lengthAdjust='spacingAndGlyphs'>above</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='682.86' y='343.13' style='font-size: 8.80px; font-family: Liberation Sans;' textLength='22.98px' lengthAdjust='spacingAndGlyphs'>below</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='8.22' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='94.52px' lengthAdjust='spacingAndGlyphs'>gg_bertin_count</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='8.22' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='94.52px' lengthAdjust='spacingAndGlyphs'>bertin_threshold</text></g>
 </svg>

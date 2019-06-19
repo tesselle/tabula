@@ -13,78 +13,79 @@ test_that("Bar plot", {
 })
 test_that("Bertin plot", {
   # Count data
-  gg_bertin_count <- plotBertin(test_count, threshold = mean)
-  expect_s3_class(gg_bertin_count, "ggplot")
-  vdiffr::expect_doppelganger("gg_bertin_count", gg_bertin_count)
+  # No threshold, no scale
+  gg_bertin <- plotBertin(test_count)
+  vdiffr::expect_doppelganger("bertin", gg_bertin)
+  # Threshold, no scale
+  gg_bertin_threshold <- plotBertin(test_count, threshold = mean)
+  vdiffr::expect_doppelganger("bertin_threshold", gg_bertin_threshold)
+  # No threshold, scale
+  scale_01 <- function(x) (x - min(x)) / (max(x) - min(x))
+  gg_bertin_scale <- plotBertin(test_count, scale = scale_01)
+  vdiffr::expect_doppelganger("bertin_scale", gg_bertin_scale)
 })
 test_that("Ford plot", {
   # Count data
-  gg_ford <- vector(mode = "list", length = 4)
-  for (i in TRUE:FALSE) {
+  for (i in c(TRUE, FALSE)) {
     # Count data
-    gg_ford[[i + 1]] <- plotFord(test_count, EPPM = i)
-    expect_s3_class(gg_ford[[i + 1]], "ggplot")
-    vdiffr::expect_doppelganger(paste0("gg_ford_count_EPPM-", i),
-                                gg_ford[[i + 1]])
+    gg_ford <- plotFord(test_count, EPPM = i)
+    vdiffr::expect_doppelganger(paste0("ford_count_EPPM-", i), gg_ford)
   }
 })
 test_that("Matrix plot", {
-  gg_mtx <- vector(mode = "list", length = 4)
-  for (i in TRUE:FALSE) {
+  for (i in c(TRUE, FALSE)) {
     # Count data
-    gg_mtx[[i + 1]] <- plotMatrix(test_count, PVI = i)
-    expect_s3_class(gg_mtx[[i + 1]], "ggplot")
-    vdiffr::expect_doppelganger(paste0("gg_mtx_count_PVI-", i), gg_mtx[[i + 1]])
+    gg_mtx_count <- plotMatrix(test_count, PVI = i)
+    vdiffr::expect_doppelganger(paste0("mtx_count_PVI-", i), gg_mtx_count)
     # Frequency data
-    gg_mtx[[i + 3]] <- plotMatrix(test_freq, PVI = i)
-    expect_s3_class(gg_mtx[[i + 3]], "ggplot")
-    vdiffr::expect_doppelganger(paste0("gg_mtx_freq_PVI-", i), gg_mtx[[i + 3]])
+    gg_mtx_freq <- plotMatrix(test_freq, PVI = i)
+    vdiffr::expect_doppelganger(paste0("mtx_freq_PVI-", i), gg_mtx_freq)
   }
   # Incidence data
   gg_mtx_incid <- plotMatrix(test_incid)
-  expect_s3_class(gg_mtx_incid, "ggplot")
-  vdiffr::expect_doppelganger("gg_mtx_incid", gg_mtx_incid)
+  vdiffr::expect_doppelganger("mtx_incid", gg_mtx_incid)
 })
 test_that("Rank plot", {
-  gg_rank <- vector(mode = "list", length = 4)
-  for (i in TRUE:FALSE) {
+  for (i in c(TRUE, FALSE)) {
     # Count data
-    gg_rank[[i + 1]] <- plotRank(test_count, facet = i)
-    expect_s3_class(gg_rank[[i + 1]], "ggplot")
-    vdiffr::expect_doppelganger(paste0("gg_rank_count_facet-", i),
-                                gg_rank[[i + 1]])
+    gg_rank_count <- plotRank(test_count, facet = i)
+    vdiffr::expect_doppelganger(paste0("rank_count_facet-", i), gg_rank_count)
     # Frequency data
-    gg_rank[[i + 3]] <- plotRank(test_freq, facet = i)
-    expect_s3_class(gg_rank[[i + 3]], "ggplot")
-    vdiffr::expect_doppelganger(paste0("gg_rank_freq_facet-", i),
-                                gg_rank[[i + 3]])
+    gg_rank_freq <- plotRank(test_freq, facet = i)
+    vdiffr::expect_doppelganger(paste0("rank_freq_facet-", i), gg_rank_freq)
   }
-  k <- 1
   for (j in c("x", "y", "xy", "yx")) {
     # Count data
-    gg_rank[[k]] <- plotRank(test_count, log = j)
-    expect_s3_class(gg_rank[[k]], "ggplot")
-    vdiffr::expect_doppelganger(paste0("gg_rank_count_log-", j), gg_rank[[k]])
-    k <- k + 1
+    gg_rank_log <- plotRank(test_count, log = j)
+    vdiffr::expect_doppelganger(paste0("rank_count_log-", j), gg_rank_log)
   }
 })
 test_that("Spot plot - Abundance", {
-  # Count data
-  gg_spot_count <- plotSpot(test_count, threshold = mean)
-  expect_s3_class(gg_spot_count, "ggplot")
-  vdiffr::expect_doppelganger("gg_spot_count", gg_spot_count)
+  # Count data, no threshold
+  gg_spot_count <- plotSpot(test_count)
+  vdiffr::expect_doppelganger("spot_count", gg_spot_count)
   # Frequency data
   gg_spot_freq <- plotSpot(test_freq, threshold = mean)
-  expect_s3_class(gg_spot_freq, "ggplot")
-  vdiffr::expect_doppelganger("gg_spot_freq", gg_spot_freq)
+  vdiffr::expect_doppelganger("spot_freq", gg_spot_freq)
 })
 test_that("Spot plot - Similarity", {
   gg_spot_sim <- plotSpot(test_sim)
-  expect_s3_class(gg_spot_sim, "ggplot")
-  vdiffr::expect_doppelganger("gg_spot_sim", gg_spot_sim)
+  vdiffr::expect_doppelganger("spot_sim", gg_spot_sim)
 })
 test_that("Spot plot - Co-Occurrence", {
   gg_spot_occ <- plotSpot(test_occ)
-  expect_s3_class(gg_spot_occ, "ggplot")
-  vdiffr::expect_doppelganger("gg_spot_occ", gg_spot_occ)
+  vdiffr::expect_doppelganger("spot_occ", gg_spot_occ)
+})
+test_that("Time plot", {
+  # Keep only decoration types that have a maximum frequency of at least 50
+  keep <- apply(X = merzbach, MARGIN = 2, FUN = function(x) max(x) >= 50)
+  count_merzbach <- as(merzbach[, keep], "CountMatrix")
+  # Use the row names as time coordinates (roman numerals)
+  setDates(count_merzbach) <- rownames(merzbach)
+  # Plot time vs abundance
+  gg_time <- plotTime(count_merzbach)
+  vdiffr::expect_doppelganger("time", gg_time)
+  # Plot time vs abundance and highlight selection
+  gg_time_FIT <- plotTime(count_merzbach, highlight = "FIT", roll = TRUE)
+  vdiffr::expect_doppelganger("time_FIT", gg_time_FIT)
 })

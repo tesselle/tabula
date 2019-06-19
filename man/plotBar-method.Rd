@@ -81,9 +81,7 @@ plotBertin(mississippi_count, threshold = NULL)
 plotBertin(mississippi_count, threshold = mean)
 
 ## ...with variables scaled to 0-1
-scale_01 <- function(x){
-  (x - min(x)) / (max(x) - min(x))
-}
+scale_01 <- function(x) (x - min(x)) / (max(x) - min(x))
 plotBertin(mississippi_count, threshold = mean, scale = scale_01)
 
 ## Load the mississippi dataset

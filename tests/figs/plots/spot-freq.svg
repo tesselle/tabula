@@ -689,5 +689,5 @@
 <circle cx='492.20' cy='417.09' r='1.95pt' style='stroke-width: 0.71; stroke: #00BFC4; fill: #00BFC4;' clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)' />
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='506.32' y='402.84' style='font-size: 8.80px; font-family: Liberation Sans;' textLength='23.97px' lengthAdjust='spacingAndGlyphs'>above</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='506.32' y='420.12' style='font-size: 8.80px; font-family: Liberation Sans;' textLength='22.98px' lengthAdjust='spacingAndGlyphs'>below</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='233.28' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='86.45px' lengthAdjust='spacingAndGlyphs'>gg_spot_count</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='233.28' y='14.56' style='font-size: 13.20px; font-family: Liberation Sans;' textLength='54.94px' lengthAdjust='spacingAndGlyphs'>spot_freq</text></g>
 </svg>
