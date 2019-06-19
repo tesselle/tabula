@@ -156,13 +156,11 @@ setValidity(
       ),
       rows = c(
         catchConditions(checkMissing(rows)),
-        catchConditions(checkNumbers(rows, "positive",
-                                     strict = TRUE, na.rm = TRUE))
+        catchConditions(checkNumbers(rows, "positive", strict = TRUE))
       ),
       columns = c(
         catchConditions(checkMissing(columns)),
-        catchConditions(checkNumbers(columns, "positive",
-                                     strict = TRUE, na.rm = TRUE))
+        catchConditions(checkNumbers(columns, "positive", strict = TRUE))
       ),
       method = c(
         checkScalar(method, expected = "character"),
@@ -261,8 +259,7 @@ setValidity(
     errors <- list(
       # Check data
       data = c(
-        catchConditions(checkNumbers(data, "positive", strict = FALSE,
-                                     na.rm = TRUE)),
+        catchConditions(checkNumbers(data, "positive", strict = FALSE)),
         catchConditions(checkNumbers(data, "whole"))
       )
     )
@@ -280,7 +277,7 @@ setValidity(
     }
     # Messages
     # TODO: warning instead of message?
-    if (isBinary(data))
+    if (all(isBinary(data)))
       message("Your matrix contains only 0s and 1s.\n",
               "You should consider using an incidence matrix instead.")
 
@@ -303,8 +300,7 @@ setValidity(
     errors <- list(
       # Check data
       data = c(
-        catchConditions(checkNumbers(data, "positive", strict = FALSE,
-                                     na.rm = TRUE)),
+        catchConditions(checkNumbers(data, "positive", strict = FALSE)),
         catchConditions(checkConstant(data))
       ),
       # Check totals

@@ -1,20 +1,18 @@
 # PREDICATES
 
-#' Utility predicates
+#' Utility Predicates
 #'
 #' \code{isEmpty} checks if a vector or list is empty.
+#'
 #' \code{isSubset} checks if a vector is a strict subset of another one.
 #' @param x,y,subset,set An object to be tested.
 #' @return A \code{\link{logical}} scalar.
 #' @name predicate-utils
 #' @keywords internal
-NULL
-
-#' @rdname predicate-utils
+#' @noRd
 isEmpty <- function(x) {
   length(x) == 0
 }
-#' @rdname predicate-utils
 isSubset <- function(subset, set) {
   # Validation
   n_sub <- length(subset)
@@ -38,96 +36,77 @@ isSubset <- function(subset, set) {
 }
 
 # ==============================================================================
-#' Type predicates
+#' Type Predicates
 #'
 #' @param x An object to be tested.
 #' @return A \code{\link{logical}} scalar.
 #' @name predicate-type
 #' @keywords internal
-NULL
-
-#' @rdname predicate-type
+#' @noRd
 isList <- function(x) {
   typeof(x) == "list"
 }
-#' @rdname predicate-type
 isAtomic <- function(x) {
   typeof(x) %in% c("logical", "integer", "double",
                    "complex", "character", "raw")
 }
-#' @rdname predicate-type
 isVector <- function(x) {
   isAtomic(x) || isList(x)
 }
-#' @rdname predicate-type
 isNumeric <- function(x) {
   typeof(x) %in% c("integer", "double")
 }
-#' @rdname predicate-type
 isInteger <- function(x) {
   typeof(x) == "integer"
 }
-#' @rdname predicate-type
 isDouble <- function(x) {
   typeof(x) == "double"
 }
-#' @rdname predicate-type
 isCharacter <- function(x) {
   typeof(x) == "character"
 }
-#' @rdname predicate-type
 isLogical <- function(x) {
   typeof(x) == "logical"
 }
-#' @rdname predicate-type
-isError <- function(x) {
-  inherits(x, "try-error")
-}
+# isError <- function(x) {
+#   inherits(x, "try-error")
+# }
 
 # ==============================================================================
-#' Scalar type predicates
+#' Scalar Type Predicates
 #'
 #' @param x An object to be tested.
 #' @return A \code{\link{logical}} scalar.
 #' @name predicate-scalar
 #' @keywords internal
-NULL
-
-#' @name predicate-scalar
+#' @noRd
 isScalarList <- function(x) {
   isList(x) && length(x) == 1
 }
-#' @name predicate-scalar
 isScalarAtomic <- function(x) {
   isAtomic(x) && length(x) == 1
 }
-#' @name predicate-scalar
 isScalarVector <- function(x) {
   isVector(x) && length(x) == 1
 }
-#' @name predicate-scalar
 isScalarNumeric <- function(x) {
   isNumeric(x) && length(x) == 1
 }
-#' @name predicate-scalar
 isScalarInteger <- function(x) {
   isInteger(x) && length(x) == 1
 }
-#' @name predicate-scalar
 isScalarDouble <- function(x) {
   isDouble(x) && length(x) == 1
 }
-#' @name predicate-scalar
 isScalarCharacter <- function(x) {
   isCharacter(x) && length(x) == 1
 }
-#' @name predicate-scalar
 isScalarLogical <- function(x) {
   isLogical(x) && length(x) == 1
 }
 
 # ==============================================================================
-#' Numeric predicates
+#' Numeric Predicates
 #'
 #' Check numeric objects:
 #'
@@ -154,64 +133,60 @@ isScalarLogical <- function(x) {
 #' @return A \code{\link{logical}} scalar.
 #' @name predicate-numeric
 #' @keywords internal
-NULL
-
-#' @rdname predicate-numeric
+#' @noRd
 isOdd <- function(x) {
   as.logical(x %% 2)
 }
-#' @rdname predicate-numeric
-isBinary <- function(x) {
-  if (!isNumeric(x))
-    stop(sprintf("`x` must be a numeric vector, not %.", typeof(x)))
-  all(x %in% c(0, 1))
-}
-#' @rdname predicate-numeric
-isEqual <- function(x, tolerance = .Machine$double.eps^0.5, na.rm = TRUE) {
-  # Validation
-  if (!isNumeric(x))
-    stop(sprintf("`x` must be a numeric vector, not %.", typeof(x)))
-  abs(max(x, na.rm = na.rm) - min(x, na.rm = na.rm)) <= tolerance
-}
-#' @rdname predicate-numeric
-isIncreasing <- function(x, na.rm = TRUE) {
+isPositive <- function(x, strict = FALSE) {
   # Validation
   if (!is.numeric(x))
     stop("`x` must be a numeric vector.")
-  all(x == cummax(x), na.rm = na.rm) && sum(x, na.rm = na.rm) != 0
+  if (strict) x > 0 else x >= 0
 }
-#' @rdname predicate-numeric
-isDecreasing <- function(x, na.rm = TRUE) {
-  # Validation
-  if (!is.numeric(x))
-    stop("`x` must be a numeric vector.")
-  all(x == cummin(x), na.rm = na.rm) && sum(x, na.rm = na.rm) != 0
-}
-#' @rdname predicate-numeric
-isOverlapping <- function(x, y) {
-  # Validation
-  if (!is.numeric(x) | !is.numeric(y))
-    stop("`x` and `y` must be numeric vectors.")
-
-  min(x) <= max(y) && max(x) >= min(y)
-}
-#' @rdname predicate-numeric
-isPositive <- function(x, strict = FALSE, na.rm = TRUE) {
-  # Validation
-  if (!is.numeric(x))
-    stop("`x` must be a numeric vector.")
-  if (strict) all(x > 0, na.rm = na.rm) else all(x >= 0, na.rm = na.rm)
-}
-#' @rdname predicate-numeric
 isWholeNumber <- function(x, tolerance = .Machine$double.eps^0.5) {
   # Validation
   if (!is.numeric(x))
     stop("`x` must be a numeric vector.")
   abs(x - round(x, digits = 0)) <= tolerance
 }
+isBinary <- function(x) {
+  if (!isNumeric(x))
+    stop(sprintf("`x` must be a numeric vector, not %.", typeof(x)))
+  x %in% c(0, 1)
+}
+isEqual <- function(x, tolerance = .Machine$double.eps^0.5, na.rm = TRUE) {
+  # Validation
+  if (!isNumeric(x))
+    stop(sprintf("`x` must be a numeric vector, not %.", typeof(x)))
+  k <- abs(max(x, na.rm = na.rm) - min(x, na.rm = na.rm)) <= tolerance
+  if (is.na(k)) k <- FALSE
+  k
+}
+isIncreasing <- function(x, na.rm = TRUE) {
+  # Validation
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
+  k <- all(x == cummax(x), na.rm = na.rm)
+  if (is.na(k)) k <- FALSE
+  k
+}
+isDecreasing <- function(x, na.rm = TRUE) {
+  # Validation
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
+  k <- all(x == cummin(x), na.rm = na.rm)
+  if (is.na(k)) k <- FALSE
+  k
+}
+isOverlapping <- function(x, y) {
+  # Validation
+  if (!is.numeric(x) | !is.numeric(y))
+    stop("`x` and `y` must be numeric vectors.")
+  min(x) <= max(y) && max(x) >= min(y)
+}
 
 # ==============================================================================
-#' Matrix predicates
+#' Matrix Predicates
 #'
 #' \code{isSquare} checks if a matrix is square.
 #'
@@ -220,13 +195,10 @@ isWholeNumber <- function(x, tolerance = .Machine$double.eps^0.5) {
 #' @return A \code{\link{logical}} scalar.
 #' @name predicate-matrix
 #' @keywords internal
-NULL
-
-#' @rdname predicate-matrix
+#' @noRd
 isSquare <- function(x) {
   if (is.matrix(x)) nrow(x) == ncol(x) else FALSE
 }
-#' @rdname predicate-matrix
 isSymmetric <- function(x) {
   if (is.matrix(x)) identical(x, t(x)) else FALSE
 }

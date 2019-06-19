@@ -6,8 +6,9 @@ test_that("Compute thresholds", {
   expect_error(independance(LETTERS))
 })
 test_that("Binomial coefficient", {
-  expect_type(combination(4, 3), "double")
-  expect_type(combination(171, 3), "double") # Ramanujan factorial approx.
+  expect_equal(combination(4, 3), 4)
+  # Ramanujan factorial approx.
+  expect_equal(combination(171, 3), 818816.247275706)
   expect_error(combination(3, "a"))
 
   options("verbose" = TRUE)
