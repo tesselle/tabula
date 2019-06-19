@@ -1,9 +1,25 @@
-# Contributing guidelines
+# Coding Style Guide
 
-## General rules
+## General Rules
 
 * Use `<-` for assignment, NOT `=`.
-* In a function call, specify arguments by name.
+```{r}
+# Good
+x <- 1
+
+# Bad
+x = 1
+1 -> 1
+```
+* In a function call, specify arguments by name. Never specify by partial name and never mix by position and complete name.
+```{r}
+# Good
+mean(x, na.rm = TRUE)
+
+# Bad
+mean(x, na = TRUE)
+1 -> 1
+```
 * The required arguments should be first, followed by optional arguments.
 * The `...` argument should either be in the beginning or in the end.
 * Always validate arguments in a function.
@@ -13,20 +29,20 @@
 ## Naming
 As a general rule, abbreviations must be avoided when naming.
 
-### Naming files
+### Naming Files
 
 * File names must use `.R` extension.
 * File names must be meaningful.
 * File names must be lowercase.
 * File names must not contain `/` and spaces. Instead, a dash (`-`) or underscore (`_`) should be used.
 * File names must use letters from Basic Latin, and NOT from Latin-1 Supplement.
-* Use `methods-` prefix for S4 class methods.
+* Use `-methods` suffix for S4 class methods.
 * Mind special names:
     * `AllClasses.R` stores all S4 classes definitions.
     * `AllGenerics.R` stores all S4 generic functions.
     * `zzz.R` contains `.onLoad()` and friends.
 
-### Naming variables
+### Naming Variables
 
 * Variables names must be as short as possible.
 * Variables names must be meaningful nouns.
@@ -34,31 +50,40 @@ As a general rule, abbreviations must be avoided when naming.
 * Never separate words within the name by `.` (reserved for an S3 dispatch) or use PascalCase (reserved for S4 classes definitions). Instead, use an underscore (`_`).
 * Do not use names of existing function and variables (especially, built-in ones).
 
-### Naming functions
+### Naming Functions
 
 * Function names must start with a verb.
 * Function names must be in camelCase: the first letter of an identifier is lowercase and the first letter of each subsequent concatenated word is capitalized.
 * Use `.` only for dispatching S3 generic.
 
-### Naming S4 classes
+### Naming S4 Classes
 
 * Class names must be nouns in PascalCase with initial capital case letter and the first letter of each subsequent concatenated word capitalized.
 
 ## Syntax
-### Line length
+### Line Length
 
 * The maximum length of lines is limited to 80 characters.
 
 ### Spacing
 
 * Put spaces around all infix binary operators (`=`, `+`, `*`, `==`, `&&`, `<-`, `%*%`, etc.).
+```{r}
+# Good 
+x == y
+z <- 2 + 1
+
+# Bad
+x==y
+z<-2+1
+```
 * Put spaces around `=` in function calls.
 * Do not place space for subsetting (`$` and `@`), namespace manipulation (`::` and `:::`), and for sequence generation (`:`).
 * Put a space after a comma.
 * Use a space before left parentheses, except in a function call.
 * No spacing around code in parenthesis or square brackets.
 
-### Curly braces
+### Curly Braces
 
 * An opening curly brace should never go on its own line and should always be followed by a new line.
 * A closing curly brace should always go on its own line, unless it's followed by `else`.
@@ -70,7 +95,7 @@ As a general rule, abbreviations must be avoided when naming.
 * Do not use tabs or mixes of tabs and spaces for indentation.
 * Use two spaces for indentation.
 
-### New line
+### New Line
 
 * In a function definition or call excessive arguments must be indented where the closing parenthesis is located, if only two lines are sufficient.
 * Otherwise, each argument can go into a separate line, starting with a new line after the opening parenthesis.
