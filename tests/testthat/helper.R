@@ -6,6 +6,9 @@ with_seed <- function(seed, code) {
   code <- substitute(code)
   orig.seed <- .Random.seed
   on.exit(.Random.seed <<- orig.seed)
-  set.seed(seed)
+  # Set sample.kind = "Rounding" to reproduce the old sampling
+  # Keep the results the same for R versions prior to 3.6
+  # Suppress warning "non-uniform 'Rounding' sampler used"
+  suppressWarnings(set.seed(seed, sample.kind = "Rounding"))
   eval.parent(code)
 }

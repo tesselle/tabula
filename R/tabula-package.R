@@ -42,7 +42,6 @@
 # See https://github.com/tidyverse/magrittr/issues/29
 if(getRversion() >= "2.15.1") utils::globalVariables(c("."))
 
-#' @importFrom ca ca
 #' @importFrom methods new setClass setClassUnion setGeneric setMethod
 #' @importFrom magrittr %<>%
 #' @importFrom magrittr %>%
