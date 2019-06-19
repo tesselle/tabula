@@ -122,10 +122,12 @@ test_that("numeric predicates return a logical vector", {
 test_that("matrix predicates return a logical scalar", {
   expect_true(isSquare(matrix(nrow = 3, ncol = 3)))
   expect_false(isSquare(matrix(nrow = 1, ncol = 3)))
+  expect_false(isSquare(c(1, 2, 3)))
 
   mtx1 <- matrix(sample(seq_len(25), size = 25), nrow = 5, ncol = 5)
   mtx2 <- t(mtx1)
   mtx2[lower.tri(mtx2)] <- mtx1[lower.tri(mtx1)]
   expect_true(isSymmetric(mtx2))
   expect_false(isSymmetric(mtx1))
+  expect_false(isSymmetric(c(1, 2, 3)))
 })

@@ -8,12 +8,17 @@ test_that("Rarefaction", {
                       nrow = 2, byrow = TRUE,
                       dimnames = list(c(1, 2), NULL))
   expected <- c(`1` = 6.56, `2` = NA)
-  index <- rarefaction(trap, 13)
 
+  index <- rarefaction(trap, sample = 13, simplify = FALSE)
+  expect_type(index, "list")
   expect_equal(round(index[[1]], digits = 2), expected)
+
+  index <- rarefaction(trap, sample = 13, simplify = TRUE)
+  expect_equal(dim(index), c(2, 1))
 
   freq <- as(trap, "FrequencyMatrix")
   expect_error(rarefaction(freq, 13))
+
   incid <- as(trap, "IncidenceMatrix")
   expect_error(rarefaction(incid, 13))
 })
