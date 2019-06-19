@@ -5,7 +5,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# tabula <img width=120px src="man/figures/logo.svg" align="right" />
+# tabula <img width=120px src="man/figures/logo.png" align="right" />
 
 [![Appveyor build
 status](https://ci.appveyor.com/api/projects/status/t1qmnis4ekqwslgs/branch/master?svg=true)](https://ci.appveyor.com/project/nfrerebeau/tabula/branch/master)
@@ -13,10 +13,10 @@ status](https://ci.appveyor.com/api/projects/status/t1qmnis4ekqwslgs/branch/mast
 Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula)
 [![codecov](https://codecov.io/gh/nfrerebeau/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/nfrerebeau/tabula)
 
-[![GitHub
-Release](https://img.shields.io/github/release/nfrerebeau/tabula.svg)](https://github.com/nfrerebeau/tabula/releases)
 [![CRAN
 Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula)
+[![CRAN
+checks](https://cranchecks.info/badges/worst/tabula)](https://cran.r-project.org/web/checks/check_results_tabula.html)
 [![CRAN
 Downloads](http://cranlogs.r-pkg.org/badges/tabula)](https://cran.r-project.org/package=tabula)
 
@@ -171,7 +171,7 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Matrix ID: 1600d27f-0ab7-4ad9-9181-95f04e50ab9c 
+#>    Matrix ID: 7b34f4d9-8581-4393-a660-fee9b8b77999 
 #>    Row order: 20 16 13 4 3 1 9 10 19 2 7 6 17 11 5 14 12 8 15 18 
 #>    Column order: 16 1 9 8 4 14 13 18 20 6 7 3 17 2 11 19 5 15 12 10 
 #>    Method: correspondance
