@@ -1,5 +1,4 @@
 # HELPERS
-NULL
 
 #' Independance
 #'
@@ -18,6 +17,7 @@ NULL
 #' @return A \eqn{m \times p}{m x p} \code{\link{numeric}} matrix.
 #' @author N. Frerebeau
 #' @keywords internal
+#' @noRd
 independance <- function(x, method = c("EPPM", "PVI")) {
   # Validation
   method <- match.arg(method, several.ok = FALSE)
@@ -45,7 +45,7 @@ independance <- function(x, method = c("EPPM", "PVI")) {
   return(threshold)
 }
 
-#' Binomial coefficient
+#' Binomial Coefficient
 #'
 #' Computes the number of \code{k}-combinations from a given set of \code{n}
 #'  elements ("\code{n} choose \code{k}").
@@ -59,6 +59,7 @@ independance <- function(x, method = c("EPPM", "PVI")) {
 #'  papers}. Berlin: Springer-Verlag.
 #' @author N. Frerebeau
 #' @keywords internal
+#' @noRd
 combination <- function(n, k) {
   # Validation
   checkType(n, expected = "numeric")
@@ -78,7 +79,7 @@ combination <- function(n, k) {
   c
 }
 
-#' Confidence interval for a proportion
+#' Confidence Interval for a Proportion
 #'
 #' Computes the margin of errors of a confidence interval at a desired level of
 #'  significance.
@@ -91,6 +92,7 @@ combination <- function(n, k) {
 #' @return A \code{\link{numeric}} vector giving the margin of errors.
 #' @author N. Frerebeau
 #' @keywords internal
+#' @noRd
 confidence <- function(x, level = 0.95, type = c("normal", "student")) {
   # Validation
   checkType(x, expected = "numeric")
@@ -110,7 +112,7 @@ confidence <- function(x, level = 0.95, type = c("normal", "student")) {
   margin
 }
 
-#' Jackknife estimation
+#' Jackknife Estimation
 #'
 #' @param x A vector.
 #' @param do A \code{\link{function}} that takes \code{x} as an argument
@@ -123,6 +125,7 @@ confidence <- function(x, level = 0.95, type = c("normal", "student")) {
 #'   \item{error}{he jackknife estimate of standard error.}
 #'  }
 #' @keywords internal
+#' @noRd
 jackknife <- function(x, do, ...) {
   n <- length(x)
   hat <- do(x, ...)

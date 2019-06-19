@@ -4,6 +4,7 @@
 #'
 #' \code{compact} removes elements from a list or vector.
 #' \code{detect} xxx.
+#' \code{count} xxx.
 #'
 #' %o% allows for function composition.
 #'
@@ -20,27 +21,20 @@
 #'  TODO
 #' @references
 #'  Wickham, H. (2014). \emph{Advanced R}. London: Chapman & Hall. The R Series.
-#' @name helpers
 #' @keywords internal
-NULL
-
-#' @rdname helpers
+#' @noRd
 `%||%` <- function(lhs, rhs) {
   if (!is.null(lhs)) lhs else rhs
 }
-#' @rdname helpers
 `%o%` <- function(f, g) {
   function(...) f(g(...))
 }
-#' @rdname helpers
 compact <- function(f, x) {
   Filter(Negate(f), x)
 }
-#' @rdname helpers
 detect <- function(f, x) {
   vapply(x, f, logical(1))
 }
-#' @rdname helpers
 count <- function(f, x) {
   sum(detect(f, x))
 }
@@ -58,6 +52,7 @@ count <- function(f, x) {
 #'   the window mid-point.}
 #'  }
 #' @keywords internal
+#' @noRd
 roll <- function(x, window = 3, simplify = FALSE) {
   # Validation
   if (!isOdd(window))
