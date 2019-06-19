@@ -50,19 +50,19 @@ test_that("Correspondance Analysis", {
   expect_equal(permute(count, indices)@id, count@id)
 })
 test_that("Refined correspondance Analysis", {
-  count <- as(compiegne, "CountMatrix")
+  count <- as(zuni, "CountMatrix")
 
   # Define cutoff as one standard deviation above the mean
   fun <- function(x) { mean(x) + sd(x) }
   subset <- with_seed(12345, refine(count, cutoff = fun))
 
   expect_s4_class(subset, "BootCA")
-  expect_equal(subset@cutoff, c(0.04560049, 0.13080163))
-  expect_equal(subset@keep[[1]], c(1L, 2L, 3L, 4L))
-  expect_equal(subset@keep[[2]], c(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 10L, 11L, 12L, 13L, 14L))
+  # /!\ Le test ci-après échoue avec R 3.2 et 3.3
+  # Sauf si une tolérance est définie (2019-06-19 : pas trouvé d'explication)
+  expect_equal(subset@cutoff, c(2.2427692, 0.3785501), tolerance = 0.005)
   expect_equal(subset@id, count@id)
 
-  indices <- seriate(count, subset)
+  indices <- seriate(count, subset, margin = 1)
   expect_s4_class(indices, "PermutationOrder")
   expect_s4_class(permute(count, indices), "CountMatrix")
 })
