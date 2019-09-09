@@ -810,9 +810,6 @@ setGeneric(
 #'  \code{object} to be used.
 #' @param order A \linkS4class{PermutationOrder} object giving the permutation
 #'  order for rows and columns.
-#' @param method A \code{\link{character}} string specifiying the method to be
-#'  used. This must be one of "\code{reciprocal}", "\code{correspondance}"
-#'  (see details). Any unambiguous substring can be given.
 #' @param EPPM A \code{\link{logical}} scalar: should the seriation be computed
 #'  on EPPM instead of raw data?
 #' @param margin A \code{\link{numeric}} vector giving the subscripts which the
@@ -885,18 +882,32 @@ setGeneric(
 #' @example inst/examples/ex-seriation.R
 #' @author N. Frerebeau
 #' @docType methods
-#' @name seriate
-#' @rdname seriate
+#' @name seriation
+#' @rdname seriation
 NULL
 
-#' @rdname seriate
-#' @aliases seriate-method
+#' @rdname seriation
+#' @aliases seriate_reciprocal-method
 setGeneric(
-  name = "seriate",
-  def = function(object, subset, ...) standardGeneric("seriate")
+  name = "seriate_reciprocal",
+  def = function(object, ...) standardGeneric("seriate_reciprocal")
 )
 
-#' @rdname seriate
+#' @rdname seriation
+#' @aliases seriate_rank-method
+setGeneric(
+  name = "seriate_correspondance",
+  def = function(object, subset, ...) standardGeneric("seriate_correspondance")
+)
+
+#' @rdname seriation
+#' @aliases seriate_idds-method
+setGeneric(
+  name = "seriate_idds",
+  def = function(object, ...) standardGeneric("seriate_idds")
+)
+
+#' @rdname seriation
 #' @aliases permute-method
 setGeneric(
   name = "permute",
@@ -1080,6 +1091,19 @@ setGeneric(
 #' and "\code{xy}" or "\code{yx}" if both axes are to be logarithmic (base 10).
 #' @param facet A \code{\link{logical}} scalar: should a matrix of panels
 #'  defined by case/sample be drawn?
+#' @param subset A \linkS4class{BootCA} object giving the subset of
+#'  \code{object} to be used.
+#' @param method A \code{\link{character}} string specifiying the method to be
+#'  used. This must be one of "\code{reciprocal}", "\code{correspondance}".
+#'  Any unambiguous substring can be given.
+#' @param EPPM A \code{\link{logical}} scalar: should the seriation be computed
+#'  on EPPM instead of raw data?
+#' @param margin A \code{\link{numeric}} vector giving the subscripts which the
+#'  rearrangement will be applied over: \code{1} indicates rows, \code{2}
+#'  indicates columns, \code{c(1, 2)} indicates rows then columns,
+#'  \code{c(2, 1)} indicates columns then rows.
+#' @param stop A length-one \code{\link{numeric}} vector giving the stopping rule
+#'  (i.e. maximum number of iterations) to avoid infinite loop.
 #' @param ... Further arguments to be passed to internal methods.
 #' @return
 #'  TODO
@@ -1108,4 +1132,9 @@ setGeneric(
 setGeneric(
   name = "plotSpot",
   def = function(object, ...) standardGeneric("plotSpot")
+)
+#' @rdname deprecated
+setGeneric(
+  name = "seriate",
+  def = function(object, subset, ...) standardGeneric("seriate")
 )

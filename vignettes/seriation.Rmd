@@ -70,8 +70,7 @@ incidence1 <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Get seriation order on rows and columns
 # If no convergence is reached before the maximum number of iterations (100), 
 # it stops with a warning.
-(indices <- seriate(incidence1, method = "reciprocal", margin = c(1, 2),
-                    stop = 100))
+(indices <- seriate_reciprocal(incidence1, margin = c(1, 2), stop = 100))
 
 # Permute matrix rows and columns
 incidence2 <- permute(incidence1, indices)
@@ -105,8 +104,7 @@ plot_ford(compiegne_counts, EPPM = TRUE) +
 
 ## Get seriation order for columns on EPPM using the reciprocal averaging method
 ## Expected column order: N, A, C, K, P, L, B, E, I, M, D, G, O, J, F, H
-compiegne_indices <- seriate(compiegne_counts, method = "reciprocal", 
-                             EPPM = TRUE, margin = 2)
+compiegne_indices <- seriate_reciprocal(compiegne_counts, EPPM = TRUE, margin = 2)
 
 ## Permute columns
 compiegne_seriation <- permute(compiegne_counts, compiegne_indices)
@@ -144,7 +142,7 @@ ggplot2::ggplot(mapping = ggplot2::aes(x = Dim1, y = Dim2)) +
 
 ```{r ca-seriation, fig.width=7, fig.height=7}
 # Get row permutations from CA coordinates
-zuni_indices <- seriate(zuni_counts, method = "correspondance", margin = 1)
+zuni_indices <- seriate_correspondance(zuni_counts, margin = 1)
 
 # Permute data matrix
 zuni_seriation <- permute(zuni_counts, zuni_indices)
@@ -207,7 +205,7 @@ If the results of `refine` is used as an input argument in `seriate`, a correspo
 
 ```{r refine-ca}
 ## Get CA-based seriation order
-(zuni_refined <- seriate(zuni_counts, zuni_keep, margin = 1))
+(zuni_refined <- seriate_correspondance(zuni_counts, zuni_keep, margin = 1))
 ```
 
 # Dating

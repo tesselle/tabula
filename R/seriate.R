@@ -2,37 +2,63 @@
 NULL
 
 # Matrix seriation order =======================================================
+## Reciprocal seriation --------------------------------------------------------
 #' @export
-#' @rdname seriate
-#' @aliases seriate,CountMatrix,missing-method
+#' @rdname seriation
+#' @aliases seriate_reciprocal,CountMatrix-method
 setMethod(
-  f = "seriate",
+  f = "seriate_reciprocal",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, EPPM = FALSE, margin = c(1, 2), stop = 100) {
+
+    seriation(object, method = "reciprocal", EPPM = EPPM, margin = margin,
+              stop = stop)
+  }
+)
+
+#' @export
+#' @rdname seriation
+#' @aliases seriate_reciprocal,IncidenceMatrix-method
+setMethod(
+  f = "seriate_reciprocal",
+  signature = signature(object = "IncidenceMatrix"),
+  definition = function(object, margin = c(1, 2), stop = 100) {
+
+    seriation(object, method = "reciprocal", margin = margin, stop = stop)
+  }
+)
+
+## CA seriation ----------------------------------------------------------------
+#' @export
+#' @rdname seriation
+#' @aliases seriate_correspondance,CountMatrix,missing-method
+setMethod(
+  f = "seriate_correspondance",
   signature = signature(object = "CountMatrix", subset = "missing"),
-  definition = function(object, method = c("correspondance", "reciprocal"),
-                        EPPM = FALSE, margin = c(1, 2), stop = 100, ...) {
-    seriation(object, method = method, EPPM = EPPM, margin = margin,
-              stop = stop, ...)
+  definition = function(object, margin = c(1, 2), ...) {
+
+    seriation(object, method = "correspondance", margin = margin, ...)
   }
 )
 
 #' @export
-#' @rdname seriate
-#' @aliases seriate,IncidenceMatrix,missing-method
+#' @rdname seriation
+#' @aliases seriate_correspondance,IncidenceMatrix-method
 setMethod(
-  f = "seriate",
+  f = "seriate_correspondance",
   signature = signature(object = "IncidenceMatrix", subset = "missing"),
-  definition = function(object, method = c("correspondance", "reciprocal"),
-                        margin = c(1, 2), stop = 100, ...) {
-    seriation(object * 1, method = method, EPPM = FALSE, margin = margin,
-              stop = stop, ...)
+  definition = function(object, margin = c(1, 2), ...) {
+
+    seriation(object, method = "correspondance", margin = margin, ...)
   }
 )
 
+## CA refined seriation --------------------------------------------------------
 #' @export
-#' @rdname seriate
-#' @aliases seriate,CountMatrix,BootCA-method
+#' @rdname seriation
+#' @aliases seriate_correspondance,CountMatrix,BootCA-method
 setMethod(
-  f = "seriate",
+  f = "seriate_correspondance",
   signature = signature(object = "CountMatrix", subset = "BootCA"),
   definition = function(object, subset, margin = c(1, 2), ...) {
     # Validation
@@ -75,7 +101,7 @@ setMethod(
 
 # Permute matrix ===============================================================
 #' @export
-#' @rdname seriate
+#' @rdname seriation
 #' @aliases permute,CountMatrix,PermutationOrder-method
 setMethod(
   f = "permute",
@@ -92,7 +118,7 @@ setMethod(
 )
 
 #' @export
-#' @rdname seriate
+#' @rdname seriation
 #' @aliases permute,IncidenceMatrix,PermutationOrder-method
 setMethod(
   f = "permute",
@@ -105,5 +131,40 @@ setMethod(
     new_matrix <- object[order[["rows"]], order[["columns"]]]
     # New CountMatrix object
     .IncidenceMatrix(new_matrix, id = order[["id"]])
+  }
+)
+
+# =================================================================== Deprecated
+#' @export
+#' @rdname deprecated
+setMethod(
+  f = "seriate",
+  signature = signature(object = "CountMatrix", subset = "missing"),
+  definition = function(object, method = c("correspondance", "reciprocal"),
+                        EPPM = FALSE, margin = c(1, 2), stop = 100, ...) {
+    .Deprecated(msg = "seriate is deprecated. Use seriate_reciprocal or seriate_correspondance instead.")
+    seriation(object, method = method, EPPM = EPPM, margin = margin,
+              stop = stop, ...)
+  }
+)
+#' @export
+#' @rdname deprecated
+setMethod(
+  f = "seriate",
+  signature = signature(object = "IncidenceMatrix", subset = "missing"),
+  definition = function(object, method = c("correspondance", "reciprocal"),
+                        margin = c(1, 2), stop = 100, ...) {
+    .Deprecated(msg = "seriate is deprecated. Use seriate_reciprocal or seriate_correspondance instead.")
+    seriation(object * 1, method = method, margin = margin, stop = stop, ...)
+  }
+)
+#' @export
+#' @rdname deprecated
+setMethod(
+  f = "seriate",
+  signature = signature(object = "CountMatrix", subset = "BootCA"),
+  definition = function(object, subset, margin = c(1, 2), ...) {
+    .Deprecated(msg = "seriate is deprecated. Use seriate_correspondance instead.")
+    seriate_correspondance(object, subset, margin = margin, ...)
   }
 )

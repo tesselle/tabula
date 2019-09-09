@@ -2,22 +2,15 @@
 
 # Seriation methods
 seriation <- function(object, method = c("correspondance", "reciprocal"),
-                      EPPM = FALSE, axes = 1, margin = c(1, 2), stop = 100,
-                      ...) {
+                      EPPM = FALSE, ...) {
   # Validation
-  checkType(object, expected = "numeric")
-  checkScalar(EPPM, expected = "logical")
-  checkScalar(axes, expected = "numeric")
-  checkType(margin, expected = "numeric")
-  checkScalar(stop, expected = "numeric")
   method <- match.arg(method, several.ok = FALSE)
-  data <- if(EPPM) independance(object, method = "EPPM") else object
+  data <- if (EPPM) independance(object, method = "EPPM") else object
 
   index <- switch(
     method,
-    reciprocal = seriationReciprocal(data, margin = margin, stop = stop),
-    correspondance = seriationCorrespondance(data, margin = margin,
-                                             axes = axes, ...),
+    reciprocal = seriationReciprocal(data, ...),
+    correspondance = seriationCorrespondance(data, ...),
     stop(sprintf("There is no such method: %s.", method), call. = FALSE)
   )
 
@@ -48,9 +41,8 @@ seriation <- function(object, method = c("correspondance", "reciprocal"),
 #' @family seriation methods
 #' @name seriation-probabilistic
 #' @keywords internal
-NULL
+#' @noRd
 
-#' @rdname seriation-probabilistic
 seriationReciprocal <- function(x, margin = 1, stop = 100) {
   # Validation
   margin <- as.integer(margin)
@@ -93,7 +85,6 @@ seriationReciprocal <- function(x, margin = 1, stop = 100) {
   index
 }
 
-#' @rdname seriation-probabilistic
 seriationCorrespondance <- function(x, margin, axes = 1, ...) {
   # Validation
   margin <- as.integer(margin)
@@ -103,7 +94,7 @@ seriationCorrespondance <- function(x, margin, axes = 1, ...) {
   i <- seq_len(nrow(x))
   j <- seq_len(ncol(x))
   # Correspondance analysis
-  corresp <- ca::ca(x)
+  corresp <- ca::ca(x, ...)
   # Sequence of the first axis as best seriation order
   coords <- ca::cacoord(corresp, type = "principal")
   row_coords <- if (1 %in% margin) order(coords$rows[, axes]) else i

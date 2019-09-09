@@ -5,8 +5,8 @@ compiegne_count <- as(compiegne, "CountMatrix")
 
 ## Get seriation order for columns on EPPM using the reciprocal averaging method
 ## Expected column order: N, A, C, K, P, L, B, E, I, M, D, G, O, J, F, H
-(compiegne_indices <- seriate(compiegne_count, method = "reciprocal",
-                              EPPM = TRUE, margin = 2))
+(compiegne_indices <- seriate_reciprocal(compiegne_count, EPPM = TRUE,
+                                         margin = 2))
 
 ## Permute columns
 compiegne_new <- permute(compiegne_count, compiegne_indices)
@@ -30,5 +30,5 @@ set.seed(123)
 (zuni_refined <- refine(zuni_count, cutoff = fun))
 
 ## Get CA-based seriation order
-(zuni_indices <- seriate(zuni_count, zuni_refined, margin = 1))
+(zuni_indices <- seriate_correspondance(zuni_count, zuni_refined, margin = 1))
 }
