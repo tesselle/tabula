@@ -1,6 +1,29 @@
 context("Date & Time")
 options("verbose" = FALSE)
 
+test_that("Time plot", {
+  # Keep only decoration types that have a maximum frequency of at least 50
+  keep <- apply(X = merzbach, MARGIN = 2, FUN = function(x) max(x) >= 50)
+  count_merzbach <- as(merzbach[, keep], "CountMatrix")
+  # Use the row names as time coordinates (roman numerals)
+  set_dates(count_merzbach) <- rownames(merzbach)
+  # Plot time vs abundance
+  for (i in c(TRUE, FALSE)) {
+    gg_time_facet <- plot_time(count_merzbach, facet = i)
+    vdiffr::expect_doppelganger(paste0("time_facet-", i), gg_time_facet)
+  }
+  # Plot time vs abundance and highlight selection
+  for (i in c(TRUE, FALSE)) {
+    gg_time_roll <- plot_time(count_merzbach, highlight = "FIT", roll = i)
+    vdiffr::expect_doppelganger(paste0("time_FIT_roll-", i), gg_time_roll)
+  }
+
+  # Errors
+  expect_error(plot_time(count_merzbach, highlight = "FIT",
+                         roll = TRUE, window = 2), "must be an odd integer")
+  set_dates(count_merzbach) <- NULL
+  expect_error(plot_time(count_merzbach), "Time coordinates are missing!")
+})
 test_that("Date plot", {
   count_zuni <- as(zuni, "CountMatrix")
   expect_warning(set_dates(count_zuni) <- list(value = c(X = 1097),
@@ -32,7 +55,8 @@ test_that("Date model", {
   # expect_s3_class(plot_date(model, select = NULL), "ggplot")
   expect_s3_class(plot_date(model, select = "LZ0569"), "ggplot")
   for (i in c(TRUE, FALSE)) {
-    gg_date_act <- plot_date(model, type = "activity", event = i, select = 1)
+    gg_date_act <- plot_date(model, type = "activity", event = i,
+                             select = c(1, 2))
     vdiffr::expect_doppelganger(paste0("date_activity_event-", i), gg_date_act)
   }
   gg_date_tempo <- plot_date(model, type = "tempo", select = 1)
@@ -42,24 +66,21 @@ test_that("Date model", {
   expect_error(date_event(count_zuni, cutoff = 10), "Cutoff value is below 50%")
   expect_error(plot_date(model, select = "X"), "Wrong selection")
 })
-test_that("Time plot", {
-  # Keep only decoration types that have a maximum frequency of at least 50
-  keep <- apply(X = merzbach, MARGIN = 2, FUN = function(x) max(x) >= 50)
-  count_merzbach <- as(merzbach[, keep], "CountMatrix")
-  # Use the row names as time coordinates (roman numerals)
-  set_dates(count_merzbach) <- rownames(merzbach)
-  # Plot time vs abundance
-  for (i in c(TRUE, FALSE)) {
-    gg_time_facet <- plot_time(count_merzbach, facet = i)
-    vdiffr::expect_doppelganger(paste0("time_facet-", i), gg_time_facet)
-  }
-  # Plot time vs abundance and highlight selection
-  for (i in c(TRUE, FALSE)) {
-    gg_time_roll <- plot_time(count_merzbach, highlight = "FIT", roll = i)
-    vdiffr::expect_doppelganger(paste0("time_FIT_roll-", i), gg_time_roll)
-  }
+test_that("Refine date model", {
+  count_zuni <- as(zuni, "CountMatrix")
+  set_dates(count_zuni) <- c(
+    LZ0569 = 1097, LZ0279 = 1119, CS16 = 1328, LZ0066 = 1111,
+    LZ0852 = 1216, LZ1209 = 1251, CS144 = 1262, LZ0563 = 1206,
+    LZ0329 = 1076, LZ0005Q = 859, LZ0322 = 1109, LZ0067 = 863,
+    LZ0578 = 1180, LZ0227 = 1104, LZ0610 = 1074
+  )
+  model <- date_event(count_zuni, cutoff = 90)
 
-  # Errors
-  set_dates(count_merzbach) <- NULL
-  expect_error(plot_time(count_merzbach), "Time coordinates are missing!")
+  # Jackknife
+  refined_jack <- refine(model, method = "jackknife")
+  expect_s3_class(refined_jack, "data.frame")
+
+  # Jackknife
+  refined_boot <- refine(model, method = "bootstrap")
+  expect_s3_class(refined_boot, "data.frame")
 })

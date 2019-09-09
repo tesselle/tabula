@@ -39,12 +39,13 @@ setMethod(
     data <- methods::slot(x, i)
 
     m <- nrow(data)
+    id <- rownames(data)
     if (m != 0) {
       if (missing(j)) {
         j <- seq_len(m)
       } else {
         if (is.null(j)) j <- seq_along(m)
-        if (is.character(j) | is.factor(j)) j <- which(data$id %in% j)
+        if (is.character(j) | is.factor(j)) j <- which(id %in% j)
         if (is.numeric(j)) j <- as.integer(j)
       }
       data <- data[j, , drop = drop]

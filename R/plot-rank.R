@@ -49,28 +49,3 @@ setMethod(
       log_x + log_y + facet
   }
 )
-
-# =================================================================== Deprecated
-#' @export
-#' @rdname deprecated
-#' @aliases plotRank,CountMatrix-method
-setMethod(
-  f = "plotRank",
-  signature = signature(object = "CountMatrix"),
-  definition = function(object, PVI = FALSE) {
-    .Deprecated(msg = "plotRank is deprecated. Use plot_rank instead.")
-    plot_rank(object)
-  }
-)
-
-#' @export
-#' @rdname deprecated
-#' @aliases plotRank,FrequencyMatrix-method
-setMethod(
-  f = "plotRank",
-  signature = signature(object = "FrequencyMatrix"),
-  definition = function(object, PVI = FALSE) {
-    .Deprecated(msg = "plotRank is deprecated. Use plot_rank instead.")
-    plot_rank(object)
-  }
-)

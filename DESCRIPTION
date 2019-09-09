@@ -80,6 +80,7 @@ Collate:
     'check.R'
     'data.R'
     'date.R'
+    'deprecate.R'
     'extract.R'
     'index-diversity.R'
     'index-rarefaction.R'
