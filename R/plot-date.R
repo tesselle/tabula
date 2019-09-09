@@ -9,16 +9,6 @@ setMethod(
   f = "plot_date",
   signature = signature(object = "AbundanceMatrix"),
   definition = function(object, select = NULL, sort = "dsc") {
-    # Selection
-    cases <- rownames(object)
-    index <- if (is.null(select)) {
-      seq_along(cases)
-    } else if (is.character(select)) {
-      which(cases %in% select)
-    } else {
-      as.numeric(select)
-    }
-
     # Get dates
     dates <- object@dates %>%
       as.data.frame() %>%
@@ -28,10 +18,22 @@ setMethod(
         min = .data$value - .data$error,
         max = .data$value + .data$error
       ) %>%
-      dplyr::filter(stats::complete.cases(.)) %>%
-      dplyr::slice(index)
-    if (nrow(dates) == 0)
-      stop("No dates were found!", call. = FALSE)
+      dplyr::filter(stats::complete.cases(.))
+
+    # Selection
+    cases <- dates[["id"]]
+    index <- if (is.null(select)) {
+      seq_along(cases)
+    } else if (is.character(select)) {
+      which(cases %in% select)
+    } else {
+      as.numeric(select)
+    }
+    k <- length(index)
+    if (k == 0)
+      stop("Wrong selection.", call. = FALSE)
+
+    dates %<>% dplyr::slice(index)
 
     if (!is.null(sort)) {
       sort <- match.arg(sort, choices = c("asc", "dsc"), several.ok = FALSE)

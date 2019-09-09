@@ -3,11 +3,20 @@ options("verbose" = FALSE)
 
 test_that("Date plot", {
   count_zuni <- as(zuni, "CountMatrix")
-  set_dates(count_zuni) <- list(value = c(LZ0569 = 1097, LZ0279 = 1119),
-                               error = c(LZ0569 = 30, LZ0279 = 30))
+  expect_warning(set_dates(count_zuni) <- list(value = c(X = 1097),
+                                               error = c(X = 1119)))
 
-  gg_date <- plot_date(count_zuni, select = c(1,2))
+  set_dates(count_zuni) <- list(value = c(LZ0569 = 1097, LZ0279 = 1119),
+                                error = c(LZ0569 = 30, LZ0279 = 30))
+
+  expect_s3_class(plot_date(count_zuni, select = NULL), "ggplot")
+  expect_s3_class(plot_date(count_zuni, select = "LZ0569"), "ggplot")
+  gg_date <- plot_date(count_zuni, select = c(1, 2))
   vdiffr::expect_doppelganger("date", gg_date)
+
+  expect_error(plot_date(count_zuni, select = "X"), "Wrong selection")
+  set_dates(count_zuni) <- NULL
+  expect_error(date_event(count_zuni), "No dates were found!")
 })
 test_that("Date model", {
   count_zuni <- as(zuni, "CountMatrix")
@@ -20,6 +29,8 @@ test_that("Date model", {
   model <- date_event(count_zuni, cutoff = 90)
   expect_s4_class(model, "DateModel")
 
+  # expect_s3_class(plot_date(model, select = NULL), "ggplot")
+  expect_s3_class(plot_date(model, select = "LZ0569"), "ggplot")
   for (i in c(TRUE, FALSE)) {
     gg_date_act <- plot_date(model, type = "activity", event = i, select = 1)
     vdiffr::expect_doppelganger(paste0("date_activity_event-", i), gg_date_act)
@@ -29,8 +40,7 @@ test_that("Date model", {
 
   # Errors
   expect_error(date_event(count_zuni, cutoff = 10), "Cutoff value is below 50%")
-  set_dates(count_zuni) <- NULL
-  expect_error(date_event(count_zuni), "No dates were found!")
+  expect_error(plot_date(model, select = "X"), "Wrong selection")
 })
 test_that("Time plot", {
   # Keep only decoration types that have a maximum frequency of at least 50

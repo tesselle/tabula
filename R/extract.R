@@ -24,27 +24,7 @@ setMethod(
     data
   }
 )
-# @export
-# @rdname subset
-# @aliases [,SpaceTime-method
-# setMethod(
-#   f = "[",
-#   signature = "SpaceTime",
-#   definition = function(x, i, j, drop = TRUE) {
-#     i <- match.arg(i, choices = c("dates", "coordinates"), several.ok = FALSE)
-#     data <- as.data.frame(methods::slot(x, i))
-#
-#     if (missing(j)) {
-#       j <- 1:nrow(data)
-#     } else {
-#       if (is.null(j)) j <- 1:nrow(data)
-#       if (is.character(j) | is.factor(j)) j <- which(data$id %in% j)
-#       if (is.numeric(j)) j <- as.integer(j)
-#     }
-#     data <- data[j, , drop = drop]
-#     data
-#   }
-# )
+
 #' @export
 #' @rdname subset
 #' @aliases [,DateModel-method

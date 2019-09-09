@@ -34,10 +34,10 @@ test_that("DateModel", {
   expect_type(date_model["counts", NULL, drop = FALSE], "double")
   expect_type(date_model["counts", 1, drop = TRUE], "double")
   expect_type(date_model["counts", 1:2], "double")
-  expect_type(date_model["counts", 1], "double")
   expect_type(date_model["rows", ], "double")
   expect_type(date_model["rows", NULL], "double")
   expect_type(date_model["rows", 1], "double")
+  expect_type(date_model["rows", "A"], "double")
   expect_type(date_model["columns", ], "double")
   expect_type(date_model["accumulation", ], "double")
   expect_error(date_model["X", ])
@@ -53,6 +53,11 @@ test_that("AbundanceMatrix", {
                     nrow = 10, ncol = 10, byrow = TRUE)
   # ID
   expect_type(get_id(A1), "character")
+})
+test_that("AbundanceMatrix - Dates", {
+  options("verbose" = TRUE)
+  A1 <- CountMatrix(data = sample(0:10, 100, TRUE),
+                    nrow = 10, ncol = 10, byrow = TRUE)
 
   # Time coordinates
   dates <- list(value = seq_len(10), error = rep(0, 10))
@@ -67,6 +72,8 @@ test_that("AbundanceMatrix", {
   expect_equal(get_dates(A1), dates)
   expect_message(set_dates(A1) <- as.data.frame(dates))
   expect_equal(get_dates(A1), dates)
+  expect_message(set_dates(A1) <- as.data.frame(unname(dates)))
+  expect_equal(get_dates(A1), dates)
 
   expect_error(set_dates(A1) <- as.data.frame(dates[-2]),
                "should have at least 2 columns")
@@ -75,6 +82,11 @@ test_that("AbundanceMatrix", {
                "must be a numeric, integer or character vector")
   expect_error(set_dates(A1) <- "X", "Cannot interpret")
   expect_warning(set_dates(A1) <- rep("A", 10))
+})
+test_that("AbundanceMatrix - Coordinates", {
+  options("verbose" = TRUE)
+  A1 <- CountMatrix(data = sample(0:10, 100, TRUE),
+                    nrow = 10, ncol = 10, byrow = TRUE)
 
   # Geographic coordinates
   set_epsg(A1) <- 12345
@@ -92,6 +104,10 @@ test_that("AbundanceMatrix", {
   expect_equal(get_coordinates(A1)[seq_len(3)], coords)
   expect_silent(set_coordinates(A1) <- as.data.frame(coords))
   expect_equal(get_coordinates(A1)[seq_len(3)], coords)
+  expect_silent(set_coordinates(A1) <- as.data.frame(unname(coords)))
+  expect_equal(get_coordinates(A1)[seq_len(3)], coords)
+  expect_message(set_coordinates(A1) <- as.data.frame(coords[-3]))
+  expect_equal(get_coordinates(A1)[-3], coords[-3])
 
   expect_error(set_coordinates(A1) <- as.data.frame(coords[-c(1, 2)]),
                "should have at least 2 columns")
@@ -100,8 +116,14 @@ test_that("AbundanceMatrix", {
                "must be a list, a matrix or a data frame")
 })
 test_that("NumericMatrix", {
-  freq <- new("FrequencyMatrix")
-  expect_type(get_totals(freq), "double")
+  mtx_count <- matrix(sample(1:100, 100, TRUE), ncol = 10,
+                      dimnames = list(LETTERS[1:10], LETTERS[26:17]))
+  freq <- .FrequencyMatrix(mtx_count / rowSums(mtx_count),
+                           totals = rowSums(mtx_count))
+
+  expect_equal(get_totals(freq), rowSums(mtx_count))
+  set_totals(freq) <- seq_len(10)
+  expect_equal(get_totals(freq), seq_len(10))
 })
 test_that("PermutationOrder", {
   perm_order <- new("PermutationOrder")
