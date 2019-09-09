@@ -7,6 +7,7 @@
 \alias{set}
 \alias{get_id}
 \alias{get_totals}
+\alias{set_totals<-}
 \alias{get_dates}
 \alias{set_dates<-}
 \alias{get_coordinates}
@@ -18,6 +19,8 @@
 \alias{get_epsg,AbundanceMatrix-method}
 \alias{get_id,ANY-method}
 \alias{get_totals,FrequencyMatrix-method}
+\alias{set_totals<-,FrequencyMatrix-method}
+\alias{set_totals,FrequencyMatrix-method}
 \alias{set_dates<-,AbundanceMatrix-method}
 \alias{set_dates,AbundanceMatrix-method}
 \alias{set_coordinates<-,AbundanceMatrix-method}
@@ -29,6 +32,8 @@
 get_id(object)
 
 get_totals(object)
+
+set_totals(object) <- value
 
 get_dates(object)
 
@@ -51,6 +56,8 @@ set_epsg(object) <- value
 \S4method{get_id}{ANY}(object)
 
 \S4method{get_totals}{FrequencyMatrix}(object)
+
+\S4method{set_totals}{FrequencyMatrix}(object) <- value
 
 \S4method{set_dates}{AbundanceMatrix}(object) <- value
 

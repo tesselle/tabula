@@ -24,7 +24,7 @@ setMethod(
     # Get number of cases
     n <- length(row_names)
     # Get time coordinates
-    time <- get_dates(object)[, 1, drop = TRUE]
+    time <- get_dates(object)[["value"]]
     if (isEmpty(time))
         stop("Time coordinates are missing!", call. = FALSE)
 

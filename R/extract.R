@@ -61,7 +61,7 @@ setMethod(
     m <- nrow(data)
     if (m != 0) {
       if (missing(j)) {
-        j <- seq_along(m)
+        j <- seq_len(m)
       } else {
         if (is.null(j)) j <- seq_along(m)
         if (is.character(j) | is.factor(j)) j <- which(data$id %in% j)
@@ -180,6 +180,7 @@ setMethod(
   signature = "AbundanceMatrix",
   definition = function(object) {
     coords <- object@coordinates
+    coords <- as.list(as.data.frame(coords))
     attr(coords, "epsg") <- object@epsg
     coords
   }
@@ -193,7 +194,7 @@ setMethod(
   signature = "AbundanceMatrix",
   definition = function(object) {
     dates <- object@dates
-    dates
+    as.list(as.data.frame(dates))
   }
 )
 
@@ -213,6 +214,20 @@ setMethod("get_id", "ANY", function(object) object@id)
 setMethod("get_totals", "FrequencyMatrix", function(object) object@totals)
 
 # Setters ======================================================================
+# Totals -----------------------------------------------------------------------
+#' @export
+#' @rdname access
+#' @aliases set_totals,FrequencyMatrix-method
+setMethod(
+  f = "set_totals<-",
+  signature = "FrequencyMatrix",
+  definition = function(object, value) {
+    object@totals <- value
+    methods::validObject(object)
+    object
+  }
+)
+
 # Dates ------------------------------------------------------------------------
 makeDates <- function(value) {
   if (is.matrix(value) | is.data.frame(value)) {
@@ -250,9 +265,6 @@ makeDates <- function(value) {
   # If `x` is a character vector, try to convert from roman numbers
   if (is.character(x)) {
    x <- as.numeric(utils::as.roman(x))
-   if (anyNA(x))
-     stop("`value` is a character vector, ",
-          "but does not only contain roman numerals.", call. = FALSE)
   }
   # Replace NA with zeros
   y[is.na(y)] <- 0
@@ -343,7 +355,7 @@ makeXYZ <- function(value) {
       if (getOption("verbose")) message("'z' is missing, NA generated.")
     }
   } else {
-    stop("`value` should be a list, a matrix or a data frame.",
+    stop("`value` must be a list, a matrix or a data frame.",
          call. = FALSE)
   }
   cbind(x = x, y = y, z = z)
@@ -369,8 +381,8 @@ setMethod(
   f = "set_epsg<-",
   signature = "AbundanceMatrix",
   definition = function(object, value) {
-    if (!is.numeric(object) | !is.integer(object) | length(object) != 1)
-      stop("`object` should be a length-one numeric or integer vector.",
+    if (!(is.numeric(value) | is.integer(value)) || length(value) != 1)
+      stop("`value` should be a length-one numeric or integer vector.",
            call. = FALSE)
     object@epsg <- as.integer(value[1L])
     methods::validObject(object)

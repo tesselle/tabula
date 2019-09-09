@@ -62,6 +62,10 @@ setGeneric(name = "get_totals",
 
 #' @export
 #' @rdname access
+setGeneric(name = "set_totals<-",
+           def = function(object, value) standardGeneric("set_totals<-"))
+#' @export
+#' @rdname access
 setGeneric(name = "get_dates",
            def = function(object) standardGeneric("get_dates"))
 

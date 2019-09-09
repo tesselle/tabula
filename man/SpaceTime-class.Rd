@@ -27,13 +27,13 @@ as by \code{\link{as.integer}} (and hence truncated towards zero).}
 
  In the code snippets below, \code{x} is a \code{SpaceTime} object.
  \describe{
-  \item{\code{getDates(x)}, \code{setDates(x) <- value}}{Get or set the dates
+  \item{\code{get_dates(x)}, \code{set_dates(x) <- value}}{Get or set the dates
   of \code{x} according to \code{value}
   (see \code{\link[=set_dates<-]{set_dates}} for details).}
-  \item{\code{getCoordinates(x)}, \code{setCoordinates(x) <- value}}{Get or
+  \item{\code{get_coordinates(x)}, \code{set_coordinates(x) <- value}}{Get or
   set the geographical coordinates of \code{x} according to \code{value}
   (see \code{\link[=set_coordinates<-]{set_coordinates}} for details).}
-  \item{\code{getEPSG(x)}, \code{setEPSG(x) <- value}}{Get or
+  \item{\code{get_epsg(x)}, \code{set_epsg(x) <- value}}{Get or
   set the EPSG of \code{x} according to \code{value}. Numeric values are
   coerced to \code{\link{integer}} as by \code{\link{as.integer}} (and hence
   truncated towards zero).}

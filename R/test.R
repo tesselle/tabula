@@ -13,7 +13,7 @@ setMethod(
     simplify <- as.logical(simplify)[1L]
 
     # Get time coordinates
-    time <- get_dates(object)[, "value", drop = TRUE]
+    time <- get_dates(object)[["value"]]
     if (isEmpty(time))
       stop("No dates were found!", call. = FALSE)
 

@@ -18,7 +18,9 @@ test_that("BootCA", {
   expect_error(boot_ca["X", ])
 })
 test_that("DateModel", {
-  date_model <- new("DateModel", counts = matrix(1, 3, 3))
+  mtx <- matrix(data = 1, nrow = 3, ncol = 3,
+                dimnames = list(c("A", "B", "C"), NULL))
+  date_model <- new("DateModel", counts = mtx)
 
   expect_type(date_model[["counts"]], "double")
   expect_type(date_model[["level"]], "double")
@@ -31,13 +33,71 @@ test_that("DateModel", {
   expect_type(date_model["counts", , drop = FALSE], "double")
   expect_type(date_model["counts", NULL, drop = FALSE], "double")
   expect_type(date_model["counts", 1, drop = TRUE], "double")
+  expect_type(date_model["counts", 1:2], "double")
+  expect_type(date_model["counts", 1], "double")
   expect_type(date_model["rows", ], "double")
   expect_type(date_model["rows", NULL], "double")
   expect_type(date_model["rows", 1], "double")
-  expect_type(date_model["rows", "a"], "double")
   expect_type(date_model["columns", ], "double")
   expect_type(date_model["accumulation", ], "double")
   expect_error(date_model["X", ])
+})
+test_that("SpaceTime", {
+  space_time <- new("SpaceTime")
+  expect_type(space_time[["dates"]], "list")
+  expect_type(space_time[["coordinates"]], "list")
+})
+test_that("AbundanceMatrix", {
+  options("verbose" = TRUE)
+  A1 <- CountMatrix(data = sample(0:10, 100, TRUE),
+                    nrow = 10, ncol = 10, byrow = TRUE)
+  # ID
+  expect_type(get_id(A1), "character")
+
+  # Time coordinates
+  dates <- list(value = seq_len(10), error = rep(0, 10))
+  roman <- c("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X")
+  num <- seq_len(10)
+
+  expect_message(set_dates(A1) <- roman)
+  expect_equal(get_dates(A1), dates)
+  expect_message(set_dates(A1) <- num)
+  expect_equal(get_dates(A1), dates)
+  expect_message(set_dates(A1) <- dates)
+  expect_equal(get_dates(A1), dates)
+  expect_message(set_dates(A1) <- as.data.frame(dates))
+  expect_equal(get_dates(A1), dates)
+
+  expect_error(set_dates(A1) <- as.data.frame(dates[-2]),
+               "should have at least 2 columns")
+  expect_error(set_dates(A1) <- dates[1], "does not have components")
+  expect_error(set_dates(A1) <- NA,
+               "must be a numeric, integer or character vector")
+  expect_error(set_dates(A1) <- "X", "Cannot interpret")
+  expect_warning(set_dates(A1) <- rep("A", 10))
+
+  # Geographic coordinates
+  set_epsg(A1) <- 12345
+  expect_equal(get_epsg(A1), 12345)
+  expect_equal(attr(get_coordinates(A1), "epsg"), 12345)
+  expect_error(set_epsg(A1) <- "X")
+
+  coords <- list(x = sample(0:10, 10, TRUE),
+                 y = sample(0:10, 10, TRUE),
+                 z = sample(0:10, 10, TRUE))
+  expect_message(set_coordinates(A1) <- coords[-3])
+  expect_equal(get_coordinates(A1)[-3], coords[-3])
+  expect_equal(get_coordinates(A1)[[3]], rep(NA_real_, 10))
+  expect_silent(set_coordinates(A1) <- coords)
+  expect_equal(get_coordinates(A1)[seq_len(3)], coords)
+  expect_silent(set_coordinates(A1) <- as.data.frame(coords))
+  expect_equal(get_coordinates(A1)[seq_len(3)], coords)
+
+  expect_error(set_coordinates(A1) <- as.data.frame(coords[-c(1, 2)]),
+               "should have at least 2 columns")
+  expect_error(set_coordinates(A1) <- coords[1], "does not have components")
+  expect_error(set_coordinates(A1) <- rep("A", 10),
+               "must be a list, a matrix or a data frame")
 })
 test_that("NumericMatrix", {
   freq <- new("FrequencyMatrix")

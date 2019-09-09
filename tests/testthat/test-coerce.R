@@ -99,6 +99,9 @@ test_that("CountMatrix <> FrequencyMatrix", {
   freq1 <- as(count1, "FrequencyMatrix")
   count2 <- as(freq1, "CountMatrix")
   expect_identical(count1, count2)
+
+  freq1@totals <- numeric(0)
+  expect_error(as(freq1, "CountMatrix"), "Cannot calculate absolute frequencies")
 })
 test_that("*Matrix > CountMatrix", {
   expect_s4_class(as(count, "CountMatrix"), "CountMatrix")
