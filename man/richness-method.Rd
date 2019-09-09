@@ -169,12 +169,10 @@ Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
  \emph{The American Naturalist}, 102(925), 243-282.
 }
 \seealso{
-\code{\link{turnover}}
- \code{\link{similarity}}
-
-Other alpha-diversity: \code{\link{diversity}}
+Other diversity: \code{\link{diversity}},
+  \code{\link{similarity}}, \code{\link{turnover}}
 }
 \author{
 N. Frerebeau
 }
-\concept{alpha-diversity}
+\concept{diversity}

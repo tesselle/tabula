@@ -11,10 +11,11 @@ NULL
 #'  below).
 #' @section Set dates:
 #'  An attempt is made to interpret the argument \code{value} in a suitable way.
-#'  If \code{value} is a character vector, it is assumed to contain Roman
-#'  numerals. \emph{Note} that errors are assumed to be given at \code{1} sigma.
+#'  \emph{Note} that errors are assumed to be given at \code{1} sigma.
+#'
 #'  If \code{value} is a:
 #'  \describe{
+#'   \item{\code{character} vector}{it is assumed to contain Roman numerals.}
 #'   \item{\code{numeric} or \code{integer} \code{vector}}{these values are
 #'   assumed to represent dates without known errors.}
 #'   \item{\code{list}}{containing components "\code{value}" and "\code{error}",
@@ -51,43 +52,43 @@ NULL
 
 #' @export
 #' @rdname access
-setGeneric(name = "getID",
-           def = function(object) standardGeneric("getID"))
+setGeneric(name = "get_id",
+           def = function(object) standardGeneric("get_id"))
 
 #' @export
 #' @rdname access
-setGeneric(name = "getTotals",
-           def = function(object) standardGeneric("getTotals"))
+setGeneric(name = "get_totals",
+           def = function(object) standardGeneric("get_totals"))
 
 #' @export
 #' @rdname access
-setGeneric(name = "getDates",
-           def = function(object) standardGeneric("getDates"))
+setGeneric(name = "get_dates",
+           def = function(object) standardGeneric("get_dates"))
 
 #' @export
 #' @rdname access
-setGeneric(name = "setDates<-",
-           def = function(object, value) standardGeneric("setDates<-"))
+setGeneric(name = "set_dates<-",
+           def = function(object, value) standardGeneric("set_dates<-"))
 
 #' @export
 #' @rdname access
-setGeneric(name = "getCoordinates",
-           def = function(object) standardGeneric("getCoordinates"))
+setGeneric(name = "get_coordinates",
+           def = function(object) standardGeneric("get_coordinates"))
 
 #' @export
 #' @rdname access
-setGeneric(name = "setCoordinates<-",
-           def = function(object, value) standardGeneric("setCoordinates<-"))
+setGeneric(name = "set_coordinates<-",
+           def = function(object, value) standardGeneric("set_coordinates<-"))
 
 #' @export
 #' @rdname access
-setGeneric(name = "getEPSG",
-           def = function(object) standardGeneric("getEPSG"))
+setGeneric(name = "get_epsg",
+           def = function(object) standardGeneric("get_epsg"))
 
 #' @export
 #' @rdname access
-setGeneric(name = "setEPSG<-",
-           def = function(object, value) standardGeneric("setEPSG<-"))
+setGeneric(name = "set_epsg<-",
+           def = function(object, value) standardGeneric("set_epsg<-"))
 
 # ------------------------------------------------------------------------------
 #' Extract or Replace Parts of an Object
@@ -193,13 +194,15 @@ NULL
 #' @example inst/examples/ex-dating.R
 #' @author N. Frerebeau
 #' @docType methods
+#' @name date
 #' @rdname date
+NULL
 
 #' @rdname date
-#' @aliases dateEvent-method
+#' @aliases date_event-method
 setGeneric(
-  name = "dateEvent",
-  def = function(object, ...) standardGeneric("dateEvent")
+  name = "date_event",
+  def = function(object, ...) standardGeneric("date_event")
 )
 
 # ==================================================================== Diversity
@@ -308,7 +311,7 @@ setGeneric(
 #'  688-688. DOI: \href{https://doi.org/10.1038/163688a0}{10.1038/163688a0}.
 #' @example inst/examples/ex-diversity.R
 #' @author N. Frerebeau
-#' @family alpha-diversity
+#' @family diversity
 #' @seealso
 #'  \code{\link{turnover}}
 #'  \code{\link{similarity}}
@@ -330,8 +333,8 @@ setGeneric(
 # ========================================================================= Plot
 #' Date and Time Plot
 #'
-#' \code{plotDate} produces an activity or tempo plot.
-#' \code{plotTime} produces a time \emph{vs} abundance diagram.
+#' \code{plot_date} produces an activity or tempo plot.
+#' \code{plot_time} produces a time \emph{vs} abundance diagram.
 #' @param object An object of class \linkS4class{DateModel} to be plotted.
 #' @param type A \code{\link{character}} string indicating the type of plot.
 #'  It must be one of "\code{activity}" (default) or "\code{tempo}".
@@ -381,22 +384,27 @@ setGeneric(
 #'  Dye, T. S. (2016). Long-Term Rhythms in the Development of Hawaiian
 #'  Social Stratification. \emph{Journal of Archaeological Science}, 71, 1-9.
 #'  DOI: \href{https://doi.org/10.1016/j.jas.2016.05.006}{10.1016/j.jas.2016.05.006}.
+#' @example inst/examples/ex-plot_line.R
 #' @author N. Frerebeau
 #' @family plot
-#' @seealso \link{dateEvent}, \link{test}
+#' @seealso \link{date_event}, \link{test}
 #' @docType methods
-#' @rdname plotDate-method
-#' @aliases plotDate-method
+#' @name plot_date
+#' @rdname plot_date
+NULL
+
+#' @rdname plot_date
+#' @aliases plot_date-method
 setGeneric(
-  name = "plotDate",
-  def = function(object, ...) standardGeneric("plotDate")
+  name = "plot_date",
+  def = function(object, ...) standardGeneric("plot_date")
 )
 
-#' @rdname plotDate-method
-#' @aliases plotTime-method
+#' @rdname plot_date
+#' @aliases plot_time-method
 setGeneric(
-  name = "plotTime",
-  def = function(object, ...) standardGeneric("plotTime")
+  name = "plot_time",
+  def = function(object, ...) standardGeneric("plot_time")
 )
 # ------------------------------------------------------------------------------
 #' Bar Plot
@@ -447,27 +455,27 @@ setGeneric(
 #'
 #'  Ford, J. A. (1962). \emph{A quantitative method for deriving cultural
 #'  chronology}. Washington, DC: Pan American Union. Technical manual 1.
-#' @example inst/examples/ex-plotBar.R
+#' @example inst/examples/ex-plot_bar.R
 #' @author N. Frerebeau
 #' @family plot
 #' @docType methods
-#' @name plotBar-method
-#' @rdname plotBar-method
+#' @name plot_bar
+#' @rdname plot_bar
 #' @aliases seriographe Bertin Ford
 NULL
 
-#' @rdname plotBar-method
-#' @aliases plotBertin-method
+#' @rdname plot_bar
+#' @aliases plot_bertin-method
 setGeneric(
-  name = "plotBertin",
-  def = function(object, ...) standardGeneric("plotBertin")
+  name = "plot_bertin",
+  def = function(object, ...) standardGeneric("plot_bertin")
 )
 
-#' @rdname plotBar-method
-#' @aliases plotFord-method
+#' @rdname plot_bar
+#' @aliases plot_ford-method
 setGeneric(
-  name = "plotFord",
-  def = function(object, ...) standardGeneric("plotFord")
+  name = "plot_ford",
+  def = function(object, ...) standardGeneric("plot_ford")
 )
 
 # ------------------------------------------------------------------------------
@@ -499,20 +507,24 @@ setGeneric(
 #'  graphique pour tableaux de comptages. \emph{Revue archéologique de
 #'  Picardie}, 3(1), 39-56.
 #'  DOI: \href{https://doi.org/10.3406/pica.2004.2396}{10.3406/pica.2004.2396}.
-#' @example inst/examples/ex-plotMatrix.R
+#' @example inst/examples/ex-plot_matrix.R
 #' @author N. Frerebeau
 #' @family plot
 #' @docType methods
-#' @rdname plotMatrix-method
-#' @aliases plotMatrix-method matrigraphe
+#' @name plot_matrix
+#' @rdname plot_matrix
+NULL
+
+#' @rdname plot_matrix
+#' @aliases plot_heatmap-method matrigraphe
 setGeneric(
-  name = "plotMatrix",
-  def = function(object, ...) standardGeneric("plotMatrix")
+  name = "plot_heatmap",
+  def = function(object, ...) standardGeneric("plot_heatmap")
 )
 # ------------------------------------------------------------------------------
 #' Line Plot
 #'
-#' \code{plotRank} plots a rank \emph{vs} relative abundance diagram.
+#' \code{plot_rank} plots a rank \emph{vs} relative abundance diagram.
 #' @param object An object to be plotted.
 #' @param log A \code{\link{character}} string which contains "\code{x}" if the
 #' x axis is to be logarithmic, "\code{y}" if the y axis is to be logarithmic
@@ -524,18 +536,19 @@ setGeneric(
 #'  TODO
 #' @return
 #'  TODO
-#' @example inst/examples/ex-plotRank.R
+#' @example inst/examples/ex-plot_rank.R
 #' @author N. Frerebeau
 #' @family plot
 #' @docType methods
-#' @name plotLine
+#' @name plot_line
+#' @rdname plot_line
 NULL
 
-#' @rdname plotLine
-#' @aliases plotRank-method
+#' @rdname plot_line
+#' @aliases plot_rank-method
 setGeneric(
-  name = "plotRank",
-  def = function(object, ...) standardGeneric("plotRank")
+  name = "plot_rank",
+  def = function(object, ...) standardGeneric("plot_rank")
 )
 
 # ------------------------------------------------------------------------------
@@ -550,7 +563,7 @@ setGeneric(
 #' @details
 #'  TODO
 #'  The spot matrix can be considered as a variant of the
-#'  \link[=plotBertin]{Bertin diagram} where the data are first transformed to
+#'  \link[=plot_bertin]{Bertin diagram} where the data are first transformed to
 #'  relative frequencies.
 #' @return
 #'  TODO
@@ -558,15 +571,19 @@ setGeneric(
 #'  Adapted from Dan Gopstein's original
 #'  \href{https://dgopstein.github.io/articles/spot-matrix/}{idea}.
 #'  Credit should be given to him.
-#' @example inst/examples/ex-plotSpot.R
+#' @example inst/examples/ex-plot_spot.R
 #' @author N. Frerebeau
 #' @family plot
 #' @docType methods
-#' @rdname plotSpot-method
-#' @aliases plotSpot-method
+#' @name plot_spot
+#' @rdname plot_spot
+NULL
+
+#' @rdname plot_spot
+#' @aliases plot_spot-method
 setGeneric(
-  name = "plotSpot",
-  def = function(object, ...) standardGeneric("plotSpot")
+  name = "plot_spot",
+  def = function(object, ...) standardGeneric("plot_spot")
 )
 
 # ===================================================================== Richness
@@ -674,10 +691,7 @@ setGeneric(
 #'  \emph{The American Naturalist}, 102(925), 243-282.
 #' @example inst/examples/ex-richness.R
 #' @author N. Frerebeau
-#' @family alpha-diversity
-#' @seealso
-#'  \code{\link{turnover}}
-#'  \code{\link{similarity}}
+#' @family diversity
 #' @docType methods
 #' @rdname richness-method
 #' @aliases richness-method
@@ -945,12 +959,7 @@ setGeneric(
 #'  DOI: \href{https://doi.org/10.2307/276978}{10.2307/276978}.
 #' @example inst/examples/ex-similarity.R
 #' @author N. Frerebeau
-#' @family beta-diversity
-#' @seealso
-#'  \code{\link{richness}}
-#'  \code{\link{rarefaction}}
-#'  \code{\link{diversity}}
-#'  \code{\link{evenness}}
+#' @family diversity
 #' @docType methods
 #' @rdname similarity-method
 #' @aliases similarity-method
@@ -1039,12 +1048,7 @@ setGeneric(
 #'  DOI: \href{https://doi.org/10.2307/2259551}{10.2307/2259551}.
 #' @example inst/examples/ex-turnover.R
 #' @author N. Frerebeau
-#' @family beta-diversity
-#' @seealso
-#'  \code{\link{richness}}
-#'  \code{\link{rarefaction}}
-#'  \code{\link{diversity}}
-#'  \code{\link{evenness}}
+#' @family diversity
 #' @docType methods
 #' @rdname turnover-method
 #' @aliases turnover-method
@@ -1062,6 +1066,8 @@ setGeneric(
 #'  confidence level to be drawn.
 #' @param EPPM A \code{\link{logical}} scalar: should the EPPM be drawn (see
 #'  details)?
+#' @param PVI A \code{\link{logical}} scalar: should the PVI be drawn instead of
+#'  frequencies (see details)?
 #' @param center A \code{\link{logical}} scalar: should the bar plot
 #'  be centered? The default, \code{TRUE}, produces a Ford diagram, otherwise it
 #'  produces a Bertin diagram.
@@ -1069,11 +1075,16 @@ setGeneric(
 #'  be horizontal? The default, \code{FALSE}, means variables in rows and
 #'  cases in columns (i.e. Bertin diagram). Only used if \code{center} is
 #'  \code{FALSE}.
+#' @param log A \code{\link{character}} string which contains "\code{x}" if the
+#' x axis is to be logarithmic, "\code{y}" if the y axis is to be logarithmic
+#' and "\code{xy}" or "\code{yx}" if both axes are to be logarithmic (base 10).
+#' @param facet A \code{\link{logical}} scalar: should a matrix of panels
+#'  defined by case/sample be drawn?
 #' @param ... Further arguments to be passed to internal methods.
 #' @return
 #'  TODO
 #' @docType methods
-#' @name deprecated
+#' @name tabula-deprecated
 #' @rdname deprecated
 #' @keywords internal
 NULL
@@ -1082,4 +1093,19 @@ NULL
 setGeneric(
   name = "plotBar",
   def = function(object, ...) standardGeneric("plotBar")
+)
+#' @rdname deprecated
+setGeneric(
+  name = "plotMatrix",
+  def = function(object, ...) standardGeneric("plotMatrix")
+)
+#' @rdname deprecated
+setGeneric(
+  name = "plotRank",
+  def = function(object, ...) standardGeneric("plotRank")
+)
+#' @rdname deprecated
+setGeneric(
+  name = "plotSpot",
+  def = function(object, ...) standardGeneric("plotSpot")
 )

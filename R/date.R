@@ -4,9 +4,9 @@ NULL
 
 #' @export
 #' @rdname date
-#' @aliases dateEvent,CountMatrix-method
+#' @aliases date_event,CountMatrix-method
 setMethod(
-  f = "dateEvent",
+  f = "date_event",
   signature = signature(object = "CountMatrix"),
   definition = function(object, level = 0.95, cutoff = 90, ...) {
     # Validation
@@ -51,16 +51,16 @@ setMethod(
     fit <- stats::lm(date ~ ., data = contexts)
 
     ## Predict event date for each context
-    row_event <- predictEvent(fit, row_coord, level = level)
+    row_event <- predict_event(fit, row_coord, level = level)
     ## Predict event dates for each fabric
-    col_event <- predictEvent(fit, col_coord, level = level)
+    col_event <- predict_event(fit, col_coord, level = level)
 
     # FIXME: error propagation
     # TODO: check predicted dates consistency
 
     # Accumulation time point estimate
     date_range <- range(row_event[, c("lower", "upper")])
-    acc_estimate <- predictAccumulation(counts, col_event, date_range)
+    acc_estimate <- predict_accumulation(counts, col_event, date_range)
 
     DateModel(
       id = object@id,
@@ -89,7 +89,7 @@ setMethod(
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
-predictEvent <- function(fit, data, level) {
+predict_event <- function(fit, data, level) {
   date_predict <- stats::predict.lm(fit, as.data.frame(data), se.fit = TRUE,
                                     interval = "confidence", level = level)
   results <- cbind(
@@ -115,7 +115,7 @@ predictEvent <- function(fit, data, level) {
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
-predictAccumulation <- function(count, event, range) {
+predict_accumulation <- function(count, event, range) {
   col_dates <- event[, "date", drop = TRUE]
   col_errors <- event[, "error", drop = TRUE]
   date_range <- seq(from = min(range), to = max(range), length.out = 500)

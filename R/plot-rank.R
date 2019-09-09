@@ -3,42 +3,28 @@
 NULL
 
 #' @export
-#' @rdname plotLine
-#' @aliases plotRank,CountMatrix-method
+#' @rdname plot_line
+#' @aliases plot_rank,CountMatrix-method
 setMethod(
-  f = "plotRank",
+  f = "plot_rank",
   signature = signature(object = "CountMatrix"),
   definition = function(object, log = NULL, facet = TRUE) {
     freq <- methods::as(object, "FrequencyMatrix")
-    plotRank(freq, log = log, facet = facet)
+    plot_rank(freq, log = log, facet = facet)
   }
 )
 
 #' @export
-#' @rdname plotLine
-#' @aliases plotRank,FrequencyMatrix-method
+#' @rdname plot_line
+#' @aliases plot_rank,FrequencyMatrix-method
 setMethod(
-  f = "plotRank",
+  f = "plot_rank",
   signature = signature(object = "FrequencyMatrix"),
   definition = function(object, log = NULL, facet = TRUE) {
-
     # Prepare data
-    # Get row names and coerce to factor (preserve original ordering)
-    row_names <- rownames(object) %>% factor(levels = unique(.))
+    data <- prepare_rank(object)
     # Get number of cases
-    n <- length(row_names)
-
-    data <- object %>%
-      as.data.frame() %>%
-      dplyr::mutate(case = row_names) %>%
-      tidyr::gather(key = "type", value = "frequency", -.data$case,
-                    factor_key = TRUE) %>%
-      dplyr::filter(.data$frequency > 0) %>%
-      dplyr::group_by(.data$case) %>%
-      dplyr::mutate(rank = dplyr::row_number(.data$frequency)) %>%
-      dplyr::arrange(rank, .by_group = TRUE) %>%
-      dplyr::mutate(rank = rev(.data$rank)) %>%
-      dplyr::ungroup()
+    n <- nrow(object)
 
     # ggplot
     log_x <- log_y <- NULL
@@ -61,5 +47,30 @@ setMethod(
       ggplot2::labs(x = "Rank", y = "Frequency",
                     colour = "Assemblage", fill = "Assemblage") +
       log_x + log_y + facet
+  }
+)
+
+# =================================================================== Deprecated
+#' @export
+#' @rdname deprecated
+#' @aliases plotRank,CountMatrix-method
+setMethod(
+  f = "plotRank",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, PVI = FALSE) {
+    .Deprecated(msg = "plotRank is deprecated. Use plot_rank instead.")
+    plot_rank(object)
+  }
+)
+
+#' @export
+#' @rdname deprecated
+#' @aliases plotRank,FrequencyMatrix-method
+setMethod(
+  f = "plotRank",
+  signature = signature(object = "FrequencyMatrix"),
+  definition = function(object, PVI = FALSE) {
+    .Deprecated(msg = "plotRank is deprecated. Use plot_rank instead.")
+    plot_rank(object)
   }
 )

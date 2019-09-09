@@ -174,9 +174,9 @@ setMethod(
 # Getters ======================================================================
 #' @export
 #' @rdname access
-#' @aliases getCoordinates,AbundanceMatrix-method
+#' @aliases get_coordinates,AbundanceMatrix-method
 setMethod(
-  f = "getCoordinates",
+  f = "get_coordinates",
   signature = "AbundanceMatrix",
   definition = function(object) {
     coords <- object@coordinates
@@ -187,9 +187,9 @@ setMethod(
 
 #' @export
 #' @rdname access
-#' @aliases getDates,AbundanceMatrix-method
+#' @aliases get_dates,AbundanceMatrix-method
 setMethod(
-  f = "getDates",
+  f = "get_dates",
   signature = "AbundanceMatrix",
   definition = function(object) {
     dates <- object@dates
@@ -199,18 +199,18 @@ setMethod(
 
 #' @export
 #' @rdname access
-#' @aliases getEPSG,AbundanceMatrix-method
-setMethod("getEPSG", "AbundanceMatrix", function(object) object@epsg)
+#' @aliases get_epsg,AbundanceMatrix-method
+setMethod("get_epsg", "AbundanceMatrix", function(object) object@epsg)
 
 #' @export
 #' @rdname access
-#' @aliases getID,ANY-method
-setMethod("getID", "ANY", function(object) object@id)
+#' @aliases get_id,ANY-method
+setMethod("get_id", "ANY", function(object) object@id)
 
 #' @export
 #' @rdname access
-#' @aliases getTotals,FrequencyMatrix-method
-setMethod("getTotals", "FrequencyMatrix", function(object) object@totals)
+#' @aliases get_totals,FrequencyMatrix-method
+setMethod("get_totals", "FrequencyMatrix", function(object) object@totals)
 
 # Setters ======================================================================
 # Dates ------------------------------------------------------------------------
@@ -261,9 +261,9 @@ makeDates <- function(value) {
 
 #' @export
 #' @rdname access
-#' @aliases setDates,AbundanceMatrix-method
+#' @aliases set_dates,AbundanceMatrix-method
 setMethod(
-  f = "setDates<-",
+  f = "set_dates<-",
   signature = "AbundanceMatrix",
   definition = function(object, value) {
     value <- makeDates(value)
@@ -351,9 +351,9 @@ makeXYZ <- function(value) {
 
 #' @export
 #' @rdname access
-#' @aliases setCoordinates,AbundanceMatrix-method
+#' @aliases set_coordinates,AbundanceMatrix-method
 setMethod(
-  f = "setCoordinates<-",
+  f = "set_coordinates<-",
   signature = "AbundanceMatrix",
   definition = function(object, value) {
     object@coordinates <- makeXYZ(value)
@@ -364,9 +364,9 @@ setMethod(
 
 #' @export
 #' @rdname access
-#' @aliases setEPSG,AbundanceMatrix-method
+#' @aliases set_epsg,AbundanceMatrix-method
 setMethod(
-  f = "setEPSG<-",
+  f = "set_epsg<-",
   signature = "AbundanceMatrix",
   definition = function(object, value) {
     if (!is.numeric(object) | !is.integer(object) | length(object) != 1)

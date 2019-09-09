@@ -3,14 +3,14 @@
 NULL
 
 #' @export
-#' @rdname plotBar-method
-#' @aliases plotBertin,CountMatrix-method
+#' @rdname plot_bar
+#' @aliases plot_bertin,CountMatrix-method
 setMethod(
-  f = "plotBertin",
+  f = "plot_bertin",
   signature = signature(object = "CountMatrix"),
   definition = function(object, threshold = NULL, scale = NULL) {
     # Prepare data
-    data <- prepareBertin(object, threshold = threshold, scale = scale)
+    data <- prepare_bertin(object, threshold = threshold, scale = scale)
 
     # ggplot
     aes_plot <- ggplot2::aes(x = .data$case, y = .data$frequency)
@@ -40,14 +40,14 @@ setMethod(
 )
 
 #' @export
-#' @rdname plotBar-method
-#' @aliases plotFord,CountMatrix-method
+#' @rdname plot_bar
+#' @aliases plot_ford,CountMatrix-method
 setMethod(
-  f = "plotFord",
+  f = "plot_ford",
   signature = signature(object = "CountMatrix"),
   definition = function(object, EPPM = FALSE) {
     # Prepare data
-    data <- prepareFord(object, EPPM = EPPM)
+    data <- prepare_ford(object, EPPM = EPPM)
 
     # ggplot
     # A function that given the scale limits returns a vector of breaks
@@ -97,7 +97,7 @@ setMethod(
   definition = function(object, level = FALSE, EPPM = FALSE,
                         center = TRUE, horizontal = FALSE) {
     .Deprecated(
-      msg = "plotBar is deprecated. Use plotBertin or plotFord instead."
+      msg = "plotBar is deprecated. Use plot_bertin or plot_ford instead."
     )
     # Get row names and coerce to factor (preserve original ordering)
     row_names <- rownames(object) %>% factor(levels = rev(unique(.)))

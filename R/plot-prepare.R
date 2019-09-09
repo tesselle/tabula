@@ -2,9 +2,10 @@
 # All these functions must return a data.frame
 
 # Prepare data for Bertin plot
-prepareBertin <- function(object, threshold = NULL, scale = NULL) {
+prepare_bertin <- function(object, threshold = NULL, scale = NULL) {
   # Get row names and coerce to factor (preserve original ordering)
-  row_names <- rownames(object) %>% factor(levels = rev(unique(.)))
+  row_names <- rownames(object)
+  row_names <- factor(x = row_names, levels = unique(row_names))
 
   # Build a long table from data
   data <- object %>%
@@ -35,9 +36,10 @@ prepareBertin <- function(object, threshold = NULL, scale = NULL) {
 }
 
 # Prepare data for Ford plot
-prepareFord <- function(object, EPPM = FALSE) {
+prepare_ford <- function(object, EPPM = FALSE) {
   # Get row names and coerce to factor (preserve original ordering)
-  row_names <- rownames(object) %>% factor(levels = rev(unique(.)))
+  row_names <- rownames(object)
+  row_names <- factor(x = row_names, levels = rev(unique(row_names)))
 
   # Build a long table from data
   data <- object %>%
@@ -67,5 +69,90 @@ prepareFord <- function(object, EPPM = FALSE) {
   data %<>% rbind.data.frame(., .) %>%
     dplyr::mutate(data = .data$data * z)
 
+  return(data)
+}
+
+# Prepare data for Heatmap plot
+prepare_heatmap <- function(object, PVI = FALSE, frequency = TRUE) {
+  # Get row names and coerce to factor (preserve original ordering)
+  row_names <- rownames(object)
+  row_names <- factor(x = row_names, levels = unique(row_names))
+
+  if (PVI) {
+    # Coerce to count data for PVI computation
+    object <- methods::as(object, "CountMatrix")
+
+    # Build long table from threshold
+    data <- independance(object, method = "PVI") %>%
+      as.data.frame() %>%
+      dplyr::mutate(case = row_names) %>%
+      tidyr::gather(key = "type", value = "PVI",
+                    -.data$case, factor_key = TRUE)
+  } else {
+    # Build long table from data
+    data <- if (frequency) object / rowSums(object) else object
+    data <- as.data.frame(data) %>%
+      dplyr::mutate(case = row_names) %>%
+      tidyr::gather(key = "type", value = "Frequency",
+                    -.data$case, factor_key = TRUE)
+  }
+
+  # Tile centers
+  data %<>% dplyr::mutate(
+    x = as.numeric(.data$type),
+    y = as.numeric(.data$case)
+  )
+  return(data)
+}
+
+# Prepare data for rank plot
+prepare_rank <- function(object) {
+  # Get row names and coerce to factor (preserve original ordering)
+  row_names <- rownames(object)
+  row_names <- factor(x = row_names, levels = unique(row_names))
+  # Get number of cases
+  n <- length(row_names)
+
+  data <- object %>%
+    as.data.frame() %>%
+    dplyr::mutate(case = row_names) %>%
+    tidyr::gather(key = "type", value = "frequency", -.data$case,
+                  factor_key = TRUE) %>%
+    dplyr::filter(.data$frequency > 0) %>%
+    dplyr::group_by(.data$case) %>%
+    dplyr::mutate(rank = dplyr::row_number(.data$frequency)) %>%
+    dplyr::arrange(rank, .by_group = TRUE) %>%
+    dplyr::mutate(rank = rev(.data$rank)) %>%
+    dplyr::ungroup()
+  return(data)
+}
+
+prepare_spot <- function(object, threshold = NULL, diag = TRUE) {
+  # Get row names and coerce to factor (preserve original ordering)
+  row_names <- rownames(object)
+  row_names <- factor(x = row_names, levels = unique(row_names))
+
+  # Build a long table from data
+  data <- object %>% #{ object * 0.8 } %>%
+    as.data.frame() %>%
+    dplyr::mutate(case = row_names) %>%
+    tidyr::gather(key = "type", value = "value",
+                  -.data$case, factor_key = TRUE)
+
+  if (!diag) {
+    data %<>% dplyr::filter(.data$type != .data$case)
+  }
+  if (isSquare(object)) {
+    max_value <- unique(diag(object))
+    data %<>% dplyr::mutate(max = max_value)
+  }
+  if (is.function(threshold)) {
+    data %<>%
+      dplyr::group_by(.data$type) %>%
+      dplyr::mutate(thresh = threshold(.data$value)) %>%
+      dplyr::ungroup() %>%
+      dplyr::mutate(threshold = dplyr::if_else(.data$value > .data$thresh,
+                                               "above", "below"))
+  }
   return(data)
 }

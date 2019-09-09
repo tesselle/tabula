@@ -193,9 +193,10 @@ Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
 \code{\link{turnover}}
  \code{\link{similarity}}
 
-Other alpha-diversity: \code{\link{richness}}
+Other diversity: \code{\link{richness}},
+  \code{\link{similarity}}, \code{\link{turnover}}
 }
 \author{
 N. Frerebeau
 }
-\concept{alpha-diversity}
+\concept{diversity}

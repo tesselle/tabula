@@ -199,7 +199,7 @@ bootDate <- function(x, model, margin = 1, n = 1000, keep = ncol(x),
     coords <- crossprod(replicated / colSums(replicated), svd)
     coords <- coords[, keep]
     # Gaussian multiple linear regression model
-    event <- predictEvent(model, coords, level)[, "date"]
+    event <- predict_event(model, coords, level)[, "date"]
     Q <- stats::quantile(event, probs = c(0.05, 0.95), names = FALSE)
     distrib <- cbind(min(event), Q[1], mean(event), Q[2], max(event))
     return(distrib)
@@ -301,6 +301,6 @@ jackDate <- function(x, model, keep = ncol(x), level = 0.95, ...) {
   jack_mean <- apply(X = do.call(rbind, jack), MARGIN = 2, FUN = mean)
   jack_fit <- model
   jack_fit$coefficients <- jack_mean
-  jack_event <- predictEvent(jack_fit, coords_CA, level)
+  jack_event <- predict_event(jack_fit, coords_CA, level)
   jack_event
 }

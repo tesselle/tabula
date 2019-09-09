@@ -3,50 +3,33 @@
 NULL
 
 #' @export
-#' @rdname plotSpot-method
-#' @aliases plotSpot,CountMatrix-method
+#' @rdname plot_spot
+#' @aliases plot_spot,CountMatrix-method
 setMethod(
-  f = "plotSpot",
+  f = "plot_spot",
   signature = signature(object = "CountMatrix"),
   definition = function(object, threshold = NULL) {
     freq <- methods::as(object, "FrequencyMatrix")
-    plotSpot(freq, threshold = threshold)
+    plot_spot(freq, threshold = threshold)
   }
 )
 
 #' @export
-#' @rdname plotSpot-method
-#' @aliases plotSpot,FrequencyMatrix-method
+#' @rdname plot_spot
+#' @aliases plot_spot,FrequencyMatrix-method
 setMethod(
-  f = "plotSpot",
+  f = "plot_spot",
   signature = signature(object = "FrequencyMatrix"),
   definition = function(object, threshold = NULL) {
     # Prepare data
-    # Get row names and coerce to factor (preserve original ordering)
-    row_names <- rownames(object) %>% factor(levels = unique(.))
-
-    # Build a long table from data
-    data <- object %>% #{ object * 0.8 } %>%
-      as.data.frame() %>%
-      dplyr::mutate(case = row_names) %>%
-      tidyr::gather(key = "type", value = "frequency",
-                    -.data$case, factor_key = TRUE)
-
-    if (is.function(threshold)) {
-      data %<>%
-        dplyr::group_by(.data$type) %>%
-        dplyr::mutate(thresh = threshold(.data$frequency)) %>%
-        dplyr::ungroup() %>%
-        dplyr::mutate(threshold = dplyr::if_else(.data$frequency > .data$thresh,
-                                                 "above", "below"))
-    }
+    data <- prepare_spot(object, threshold)
 
     # ggplot
     aes_plot <- ggplot2::aes(x = .data$type, y = .data$case)
     aes_point <- if (is.null(threshold)) {
-      ggplot2::aes(size = .data$frequency)
+      ggplot2::aes(size = .data$value)
     } else {
-      ggplot2::aes(size = .data$frequency, colour = .data$threshold)
+      ggplot2::aes(size = .data$value, colour = .data$threshold)
     }
 
     ggplot2::ggplot(data = data, mapping = aes_plot) +
@@ -71,37 +54,20 @@ setMethod(
 )
 
 #' @export
-#' @rdname plotSpot-method
-#' @aliases plotSpot,SimilarityMatrix-method
+#' @rdname plot_spot
+#' @aliases plot_spot,SimilarityMatrix-method
 setMethod(
-  f = "plotSpot",
+  f = "plot_spot",
   signature = signature(object = "SimilarityMatrix"),
   definition = function(object) {
     # Prepare data
-    # Get row names and coerce to factor (preserve original ordering)
-    row_names <- rownames(object) %>% factor(levels = unique(.))
-    max_value <- unique(diag(object))
+    data <- prepare_spot(object, threshold = NULL, diag = FALSE)
     index_name <- object[["method"]]
-
-    # Replace lower part and diagonal values with 0
-    clean <- object
-    # clean[lower.tri(clean, diag = TRUE)] <- 0
-
-    # Build long table from data
-    data <- clean %>%
-      as.data.frame() %>%
-      dplyr::mutate(case = row_names) %>%
-      tidyr::gather(key = "type", value = "similarity",
-                    -.data$case, factor_key = TRUE)  %>%
-      dplyr::filter(.data$type != .data$case) %>%
-      dplyr::mutate(similarity = similarity * 0.8,
-                    max = max_value) %>%
-      stats::na.omit()
 
     # ggplot
     aes_plot <- ggplot2::aes(x = .data$type, y = .data$case)
-    aes_point <- ggplot2::aes(size = .data$similarity,
-                              colour = .data$similarity)
+    aes_point <- ggplot2::aes(size = .data$value,
+                              colour = .data$value)
 
     ggplot2::ggplot(data = data, mapping = aes_plot) +
       ggplot2::geom_point(mapping = ggplot2::aes(size = .data$max),
@@ -125,28 +91,20 @@ setMethod(
 )
 
 #' @export
-#' @rdname plotSpot-method
-#' @aliases plotSpot,OccurrenceMatrix-method
+#' @rdname plot_spot
+#' @aliases plot_spot,OccurrenceMatrix-method
 setMethod(
-  f = "plotSpot",
+  f = "plot_spot",
   signature = signature(object = "OccurrenceMatrix"),
   definition = function(object) {
     # Prepare data
-    # Get row names and coerce to factor (preserve original ordering)
-    row_names <- rownames(object) %>% factor(levels = unique(.))
-
-    # Build long tables from data
-    data <- { object * 0.8 } %>%
-      as.data.frame() %>%
-      dplyr::mutate(case = row_names) %>%
-      tidyr::gather(key = "type", value = "occurrence",
-                    -.data$case, factor_key = TRUE) %>%
-      dplyr::filter(.data$type != .data$case)
+    data <- prepare_spot(object, threshold = NULL, diag = FALSE)
+    row_names <- unique(data$case)
 
     # ggplot
     aes_plot <- ggplot2::aes(x = .data$type, y = .data$case)
-    aes_point <- ggplot2::aes(size = .data$occurrence,
-                              colour = .data$occurrence)
+    aes_point <- ggplot2::aes(size = .data$value * 0.8,
+                              colour = .data$value)
 
     ggplot2::ggplot(data = data, mapping = aes_plot) +
       ggplot2::geom_point(ggplot2::aes(size = 1), colour = "black",
@@ -166,5 +124,53 @@ setMethod(
         panel.grid = ggplot2::element_blank()) +
       ggplot2::labs(colour = "Co-occurrence", size = "Co-occurrence") +
       ggplot2::coord_fixed()
+  }
+)
+
+# =================================================================== Deprecated
+#' @export
+#' @rdname deprecated
+#' @aliases plotSpot,CountMatrix-method
+setMethod(
+  f = "plotSpot",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, threshold = NULL) {
+    .Deprecated(msg = "plotSpot is deprecated. Use plot_spot instead.")
+    freq <- methods::as(object, "FrequencyMatrix")
+    plot_spot(freq, threshold = threshold)
+  }
+)
+#' @export
+#' @rdname deprecated
+#' @aliases plotSpot,FrequencyMatrix-method
+setMethod(
+  f = "plotSpot",
+  signature = signature(object = "FrequencyMatrix"),
+  definition = function(object, threshold = NULL) {
+    .Deprecated(msg = "plotSpot is deprecated. Use plot_spot instead.")
+    plot_spot(object, threshold = threshold)
+
+  }
+)
+#' @export
+#' @rdname deprecated
+#' @aliases plotSpot,SimilarityMatrix-method
+setMethod(
+  f = "plotSpot",
+  signature = signature(object = "SimilarityMatrix"),
+  definition = function(object) {
+    .Deprecated(msg = "plotSpot is deprecated. Use plot_spot instead.")
+    plot_spot(object)
+  }
+)
+#' @export
+#' @rdname deprecated
+#' @aliases plotSpot,OccurrenceMatrix-method
+setMethod(
+  f = "plotSpot",
+  signature = signature(object = "OccurrenceMatrix"),
+  definition = function(object) {
+    .Deprecated(msg = "plotSpot is deprecated. Use plot_spot instead.")
+    plot_spot(object)
   }
 )

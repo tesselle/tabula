@@ -3,44 +3,17 @@
 NULL
 
 #' @export
-#' @rdname plotMatrix-method
-#' @aliases plotMatrix,CountMatrix-method
+#' @rdname plot_matrix
+#' @aliases plot_heatmap,CountMatrix-method
 setMethod(
-  f = "plotMatrix",
+  f = "plot_heatmap",
   signature = signature(object = "CountMatrix"),
   definition = function(object, PVI = FALSE) {
     # Prepare data
-    # Get row names and coerce to factor (preserve original ordering)
-    row_names <- rownames(object) %>% factor(levels = unique(.))
-
-    if (PVI) {
-      # Coerce to count data for PVI computation
-      object <- methods::as(object, "CountMatrix")
-
-      # Build long table from threshold
-      data <- independance(object, method = "PVI") %>%
-        as.data.frame() %>%
-        dplyr::mutate(case = row_names) %>%
-        tidyr::gather(key = "type", value = "PVI",
-                      -.data$case, factor_key = TRUE)
-    } else {
-      # Build long table from data
-      data <- object %>%
-        { . / rowSums(.) } %>%
-        as.data.frame() %>%
-        dplyr::mutate(case = row_names) %>%
-        tidyr::gather(key = "type", value = "frequency",
-                      -.data$case, factor_key = TRUE)
-    }
-
-    # Tile centers
-    data %<>% dplyr::mutate(
-      x = as.numeric(.data$type),
-      y = as.numeric(.data$case)
-    )
+    data <- prepare_heatmap(object, PVI)
 
     # ggplot
-    fill <- ifelse(PVI, "PVI", "frequency")
+    fill <- ifelse(PVI, "PVI", "Frequency")
     aes_plot <- ggplot2::aes(x = .data$x, y = .data$y, fill = .data[[fill]])
     ggplot2::ggplot(data = data, mapping = aes_plot) +
       ggplot2::geom_tile() +
@@ -66,41 +39,56 @@ setMethod(
 )
 
 #' @export
-#' @rdname plotMatrix-method
-#' @aliases plotMatrix,FrequencyMatrix-method
+#' @rdname plot_matrix
+#' @aliases plot_heatmap,FrequencyMatrix-method
 setMethod(
-  f = "plotMatrix",
+  f = "plot_heatmap",
   signature = signature(object = "FrequencyMatrix"),
-  definition = function(object, PVI = FALSE) {
-    count <- methods::as(object, "CountMatrix")
-    plotMatrix(count, PVI = PVI)
+  definition = function(object) {
+    # Prepare data
+    data <- prepare_heatmap(object, PVI = FALSE)
+
+    # ggplot
+    aes_plot <- ggplot2::aes(x = .data$x, y = .data$y, fill = .data$Frequency)
+    ggplot2::ggplot(data = data, mapping = aes_plot) +
+      ggplot2::geom_tile() +
+      ggplot2::scale_x_continuous(
+        position = "top",
+        expand = c(0, 0),
+        limits = range(data$x) + c(-0.5, 0.5),
+        breaks = unique(data$x),
+        labels = unique(data$type)) +
+      ggplot2::scale_y_continuous(
+        expand = c(0, 0),
+        trans = "reverse",
+        breaks = unique(data$y),
+        labels = unique(data$case)) +
+      ggplot2::theme(
+        axis.text.x = ggplot2::element_text(angle = 90, hjust = 0),
+        axis.ticks = ggplot2::element_blank(),
+        axis.title = ggplot2::element_blank(),
+        panel.grid = ggplot2::element_blank()) +
+      ggplot2::labs(fill = "Frequency") +
+      ggplot2::coord_fixed()
   }
 )
 
 #' @export
-#' @rdname plotMatrix-method
-#' @aliases plotMatrix,IncidenceMatrix-method
+#' @rdname plot_matrix
+#' @aliases plot_heatmap,IncidenceMatrix-method
 setMethod(
-  f = "plotMatrix",
+  f = "plot_heatmap",
   signature = signature(object = "IncidenceMatrix"),
   definition = function(object) {
     # Prepare data
-    # Get row names and coerce to factor (preserve original ordering)
-    row_names <- rownames(object) %>% factor(levels = unique(.))
-
-    # Build long table from data
-    data <- object %>%
-      as.data.frame() %>%
-      dplyr::mutate(case = row_names) %>%
-      tidyr::gather(key = "type", value = "value",
-                    -.data$case, factor_key = TRUE)
+    data <- prepare_heatmap(object, PVI = FALSE, frequency = FALSE)
 
     # ggplot
-    aes_plot <- ggplot2::aes(x = .data$type, y = .data$case, fill = .data$value)
+    aes_plot <- ggplot2::aes(x = .data$x, y = .data$y, fill = .data$Frequency)
     ggplot2::ggplot(data = data, mapping = aes_plot) +
       ggplot2::geom_tile(color = "black") +
       ggplot2::scale_x_discrete(position = "top") +
-      ggplot2::scale_y_discrete(limits = rev(levels(data$case))) +
+      ggplot2::scale_y_discrete(limits = rev(levels(data$y))) +
       ggplot2::theme(
         axis.text.x = ggplot2::element_text(angle = 90, hjust = 0),
         axis.ticks = ggplot2::element_blank(),
@@ -109,5 +97,43 @@ setMethod(
         panel.grid = ggplot2::element_blank()) +
       ggplot2::labs(fill = "Value") +
       ggplot2::coord_fixed()
+  }
+)
+
+# =================================================================== Deprecated
+#' @export
+#' @rdname deprecated
+#' @aliases plotMatrix,CountMatrix-method
+setMethod(
+  f = "plotMatrix",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, PVI = FALSE) {
+    .Deprecated(msg = "plotMatrix is deprecated. Use plot_heatmap instead.")
+    plot_heatmap(object, PVI = PVI)
+  }
+)
+
+#' @export
+#' @rdname deprecated
+#' @aliases plotMatrix,FrequencyMatrix-method
+setMethod(
+  f = "plotMatrix",
+  signature = signature(object = "FrequencyMatrix"),
+  definition = function(object, PVI = FALSE) {
+    .Deprecated(msg = "plotMatrix is deprecated. Use plot_heatmap instead.")
+    count <- methods::as(object, "CountMatrix")
+    plot_heatmap(count, PVI = PVI)
+  }
+)
+
+#' @export
+#' @rdname deprecated
+#' @aliases plotMatrix,IncidenceMatrix-method
+setMethod(
+  f = "plotMatrix",
+  signature = signature(object = "IncidenceMatrix"),
+  definition = function(object) {
+    .Deprecated(msg = "plotMatrix is deprecated. Use plot_heatmap instead.")
+    plot_heatmap(object)
   }
 )

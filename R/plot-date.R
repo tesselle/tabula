@@ -3,10 +3,10 @@
 NULL
 
 #' @export
-#' @rdname plotDate-method
-#' @aliases plotDate,AbundanceMatrix-method
+#' @rdname plot_date
+#' @aliases plot_date,AbundanceMatrix-method
 setMethod(
-  f = "plotDate",
+  f = "plot_date",
   signature = signature(object = "AbundanceMatrix"),
   definition = function(object, select = NULL, sort = "dsc") {
     # Selection
@@ -60,10 +60,10 @@ setMethod(
 )
 
 #' @export
-#' @rdname plotDate-method
-#' @aliases plotDate,DateModel-method
+#' @rdname plot_date
+#' @aliases plot_date,DateModel-method
 setMethod(
-  f = "plotDate",
+  f = "plot_date",
   signature = c(object = "DateModel"),
   definition = function(object, type = c("activity", "tempo"),
                         event = FALSE, select = 1, n = 500) {

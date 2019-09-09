@@ -22,6 +22,8 @@ knitr::opts_chunk$set(
 library(tabula)
 ```
 
+Banning2000
+
 Thereafter, we denote by:
 
 * $S$ the total number of taxa recorded,
@@ -301,7 +303,7 @@ $$ C_{Bi} = \frac{o_i - N \times p}{\sqrt{N \times p \times (1 - p)}} $$
 S <- similarity(mississippi, method = "brainerd")
 
 # Plot the similarity matrix
-plotSpot(S) +
+plot_spot(S) +
   ggplot2::labs(size = "Similarity", colour = "Similarity") +
   khroma::scale_colour_YlOrBr()
 ```
@@ -311,7 +313,7 @@ plotSpot(S) +
 Ranks *vs* abundance plot can be used for abundance models (model fitting will be implemented in a futur release):
 
 ```{r plot-rank, fig.width=7, fig.height=5, fig.align="center"}
-plotRank(mississippi, log = "xy", facet = FALSE) +
+plot_rank(mississippi, log = "xy", facet = FALSE) +
   ggplot2::theme_bw() +
   khroma::scale_color_rainbow()
 ```

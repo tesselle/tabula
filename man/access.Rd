@@ -5,58 +5,58 @@
 \alias{access}
 \alias{get}
 \alias{set}
-\alias{getID}
-\alias{getTotals}
-\alias{getDates}
-\alias{setDates<-}
-\alias{getCoordinates}
-\alias{setCoordinates<-}
-\alias{getEPSG}
-\alias{setEPSG<-}
-\alias{getCoordinates,AbundanceMatrix-method}
-\alias{getDates,AbundanceMatrix-method}
-\alias{getEPSG,AbundanceMatrix-method}
-\alias{getID,ANY-method}
-\alias{getTotals,FrequencyMatrix-method}
-\alias{setDates<-,AbundanceMatrix-method}
-\alias{setDates,AbundanceMatrix-method}
-\alias{setCoordinates<-,AbundanceMatrix-method}
-\alias{setCoordinates,AbundanceMatrix-method}
-\alias{setEPSG<-,AbundanceMatrix-method}
-\alias{setEPSG,AbundanceMatrix-method}
+\alias{get_id}
+\alias{get_totals}
+\alias{get_dates}
+\alias{set_dates<-}
+\alias{get_coordinates}
+\alias{set_coordinates<-}
+\alias{get_epsg}
+\alias{set_epsg<-}
+\alias{get_coordinates,AbundanceMatrix-method}
+\alias{get_dates,AbundanceMatrix-method}
+\alias{get_epsg,AbundanceMatrix-method}
+\alias{get_id,ANY-method}
+\alias{get_totals,FrequencyMatrix-method}
+\alias{set_dates<-,AbundanceMatrix-method}
+\alias{set_dates,AbundanceMatrix-method}
+\alias{set_coordinates<-,AbundanceMatrix-method}
+\alias{set_coordinates,AbundanceMatrix-method}
+\alias{set_epsg<-,AbundanceMatrix-method}
+\alias{set_epsg,AbundanceMatrix-method}
 \title{Extract or Replace Parts of an Object}
 \usage{
-getID(object)
+get_id(object)
 
-getTotals(object)
+get_totals(object)
 
-getDates(object)
+get_dates(object)
 
-setDates(object) <- value
+set_dates(object) <- value
 
-getCoordinates(object)
+get_coordinates(object)
 
-setCoordinates(object) <- value
+set_coordinates(object) <- value
 
-getEPSG(object)
+get_epsg(object)
 
-setEPSG(object) <- value
+set_epsg(object) <- value
 
-\S4method{getCoordinates}{AbundanceMatrix}(object)
+\S4method{get_coordinates}{AbundanceMatrix}(object)
 
-\S4method{getDates}{AbundanceMatrix}(object)
+\S4method{get_dates}{AbundanceMatrix}(object)
 
-\S4method{getEPSG}{AbundanceMatrix}(object)
+\S4method{get_epsg}{AbundanceMatrix}(object)
 
-\S4method{getID}{ANY}(object)
+\S4method{get_id}{ANY}(object)
 
-\S4method{getTotals}{FrequencyMatrix}(object)
+\S4method{get_totals}{FrequencyMatrix}(object)
 
-\S4method{setDates}{AbundanceMatrix}(object) <- value
+\S4method{set_dates}{AbundanceMatrix}(object) <- value
 
-\S4method{setCoordinates}{AbundanceMatrix}(object) <- value
+\S4method{set_coordinates}{AbundanceMatrix}(object) <- value
 
-\S4method{setEPSG}{AbundanceMatrix}(object) <- value
+\S4method{set_epsg}{AbundanceMatrix}(object) <- value
 }
 \arguments{
 \item{object}{An object from which to get or set element(s).}
@@ -73,10 +73,11 @@ Getters and setters to extract or replace parts of an object.
 \section{Set dates}{
 
  An attempt is made to interpret the argument \code{value} in a suitable way.
- If \code{value} is a character vector, it is assumed to contain Roman
- numerals. \emph{Note} that errors are assumed to be given at \code{1} sigma.
+ \emph{Note} that errors are assumed to be given at \code{1} sigma.
+
  If \code{value} is a:
  \describe{
+  \item{\code{character} vector}{it is assumed to contain Roman numerals.}
   \item{\code{numeric} or \code{integer} \code{vector}}{these values are
   assumed to represent dates without known errors.}
   \item{\code{list}}{containing components "\code{value}" and "\code{error}",

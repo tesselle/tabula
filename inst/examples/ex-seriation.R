@@ -12,7 +12,7 @@ compiegne_count <- as(compiegne, "CountMatrix")
 compiegne_new <- permute(compiegne_count, compiegne_indices)
 
 ## Plot new matrix
-plotBar(compiegne_new, EPPM = FALSE)
+plot_ford(compiegne_new, EPPM = FALSE)
 
 \donttest{
 # Refine matrix seriation (this is a long running example)

@@ -41,7 +41,7 @@ test_that("DateModel", {
 })
 test_that("NumericMatrix", {
   freq <- new("FrequencyMatrix")
-  expect_type(getTotals(freq), "double")
+  expect_type(get_totals(freq), "double")
 })
 test_that("PermutationOrder", {
   perm_order <- new("PermutationOrder")

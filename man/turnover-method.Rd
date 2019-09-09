@@ -100,14 +100,10 @@ Cody, M. L. (1975). Towards a theory of continental species diversity: Bird
  DOI: \href{https://doi.org/10.2307/2259551}{10.2307/2259551}.
 }
 \seealso{
-\code{\link{richness}}
- \code{\link{rarefaction}}
- \code{\link{diversity}}
- \code{\link{evenness}}
-
-Other beta-diversity: \code{\link{similarity}}
+Other diversity: \code{\link{diversity}},
+  \code{\link{richness}}, \code{\link{similarity}}
 }
 \author{
 N. Frerebeau
 }
-\concept{beta-diversity}
+\concept{diversity}

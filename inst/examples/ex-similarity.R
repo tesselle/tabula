@@ -17,7 +17,7 @@ ceramics <- CountMatrix(
 
 # Brainerd-Robinson measure (count data)
 C <- similarity(ceramics, "brainerd")
-plotSpot(C)
+plot_spot(C)
 
 # Data from Magurran 1988, p. 166
 birds <- CountMatrix(

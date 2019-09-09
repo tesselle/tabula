@@ -75,7 +75,7 @@ ceramics <- CountMatrix(
 
 # Brainerd-Robinson measure (count data)
 C <- similarity(ceramics, "brainerd")
-plotSpot(C)
+plot_spot(C)
 
 # Data from Magurran 1988, p. 166
 birds <- CountMatrix(
@@ -121,14 +121,10 @@ Brainerd, G. W. (1951). The Place of Chronological Ordering in
  DOI: \href{https://doi.org/10.2307/276978}{10.2307/276978}.
 }
 \seealso{
-\code{\link{richness}}
- \code{\link{rarefaction}}
- \code{\link{diversity}}
- \code{\link{evenness}}
-
-Other beta-diversity: \code{\link{turnover}}
+Other diversity: \code{\link{diversity}},
+  \code{\link{richness}}, \code{\link{turnover}}
 }
 \author{
 N. Frerebeau
 }
-\concept{beta-diversity}
+\concept{diversity}

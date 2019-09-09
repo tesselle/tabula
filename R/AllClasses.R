@@ -186,10 +186,10 @@ NULL
 #'  \describe{
 #'   \item{\code{getDates(x)}, \code{setDates(x) <- value}}{Get or set the dates
 #'   of \code{x} according to \code{value}
-#'   (see \code{\link[=setDates<-]{setDate}} for details).}
+#'   (see \code{\link[=set_dates<-]{set_dates}} for details).}
 #'   \item{\code{getCoordinates(x)}, \code{setCoordinates(x) <- value}}{Get or
 #'   set the geographical coordinates of \code{x} according to \code{value}
-#'   (see \code{\link[=setCoordinates<-]{setCoordinates}} for details).}
+#'   (see \code{\link[=set_coordinates<-]{set_coordinates}} for details).}
 #'   \item{\code{getEPSG(x)}, \code{setEPSG(x) <- value}}{Get or
 #'   set the EPSG of \code{x} according to \code{value}. Numeric values are
 #'   coerced to \code{\link{integer}} as by \code{\link{as.integer}} (and hence

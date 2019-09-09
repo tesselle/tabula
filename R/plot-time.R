@@ -3,10 +3,10 @@
 NULL
 
 #' @export
-#' @rdname plotDate-method
-#' @aliases plotTime,CountMatrix-method
+#' @rdname plot_date
+#' @aliases plot_time,CountMatrix-method
 setMethod(
-  f = "plotTime",
+  f = "plot_time",
   signature = signature(object = "CountMatrix"),
   definition = function(object, highlight = NULL, level = 0.95,
                         roll = FALSE, window = 5, facet = TRUE, ...) {
@@ -24,7 +24,7 @@ setMethod(
     # Get number of cases
     n <- length(row_names)
     # Get time coordinates
-    time <- getDates(object)[, 1, drop = TRUE]
+    time <- get_dates(object)[, 1, drop = TRUE]
     if (isEmpty(time))
         stop("Time coordinates are missing!", call. = FALSE)
 
@@ -114,3 +114,36 @@ setMethod(
       ggplot2::labs(x = "Time", y = "Frequency", colour = colour)
   }
 )
+
+#' Indices of a rolling window
+#'
+#' @param x An object.
+#' @param window A \code{\link{integer}} scalar giving the window size.
+#' @return A \code{\link{list}} with the following components:
+#'  \describe{
+#'   \item{i}{A \code{\link{integer}} vector of indices.}
+#'   \item{w}{A \code{\link{integer}} vector of indices giving the window
+#'   number.}
+#'   \item{m}{A \code{\link{integer}} vector of indices giving the indice of
+#'   the window mid-point.}
+#'  }
+#' @keywords internal
+#' @noRd
+roll <- function(x, window = 3, simplify = FALSE) {
+  # Validation
+  if (!isOdd(window))
+    stop("`window` must be an odd integer.", call. = FALSE)
+
+  if (is.matrix(x) || is.data.frame(x)) {
+    n <- nrow(x)
+  } else {
+    n <- length(x)
+  }
+  i <- seq_len(n) # Indices of the rows
+  # Matrix of rolling-window indices of length w
+  w <- stats::embed(i, window)[, window:1]
+  inds <- i[c(t(w))] # Flatten indices
+  # Window mid-point
+  m <- w[, ceiling(window / 2)]
+  list(i = inds, w = rep(m, each = window))
+}

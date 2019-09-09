@@ -48,7 +48,7 @@ count_merzbach <- as(merzbach[, keep], "CountMatrix")
 
 ## The data are grouped by phase
 ## We use the row names as time coordinates (roman numerals)
-setDates(count_merzbach) <- rownames(merzbach)
+set_dates(count_merzbach) <- rownames(merzbach)
 
 fit <- test(count_merzbach, method = "FIT", simplify = TRUE)
 }

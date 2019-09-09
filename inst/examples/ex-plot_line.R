@@ -6,8 +6,8 @@ count_merzbach <- as(merzbach[, keep], "CountMatrix")
 
 ## The data are grouped by phase
 ## We use the row names as time coordinates (roman numerals)
-setDates(count_merzbach) <- rownames(merzbach)
+set_dates(count_merzbach) <- rownames(merzbach)
 ## Plot time vs abundance
-plotTime(count_merzbach)
+plot_time(count_merzbach)
 ## Plot time vs abundance and highlight selection
-plotTime(count_merzbach, highlight = "FIT", roll = TRUE)
+plot_time(count_merzbach, highlight = "FIT", roll = TRUE)
