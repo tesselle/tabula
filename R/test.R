@@ -3,9 +3,9 @@ NULL
 
 #' @export
 #' @rdname test
-#' @aliases test,CountMatrix-method
+#' @aliases test_fit,CountMatrix-method
 setMethod(
-  f = "test",
+  f = "test_fit",
   signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("FIT"), simplify = FALSE, ...) {
     # Validation
@@ -17,11 +17,7 @@ setMethod(
     if (isEmpty(time))
       stop("No dates were found!", call. = FALSE)
 
-    results <- switch (
-      method,
-      FIT = testFIT(object, time, roll = FALSE)[[1L]],
-      stop(sprintf("There is no such method: %s.", method), call. = FALSE)
-    )
+    results <- testFIT(object, time, roll = FALSE)[[1L]]
 
     # Check results
     failed <- apply(X = results, MARGIN = 1, FUN = anyNA)
@@ -107,6 +103,7 @@ testFIT <- function(x, time, roll = FALSE, window = 3, ...) {
 #   t = c(415, 505, 585, 665, 745, 825, 910)
 # )
 #' @keywords internal
+#' @noRd
 FIT <- function(v, t, ...) {
   # Validation
   checkType(v, expected = "numeric")

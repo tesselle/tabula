@@ -1009,10 +1009,14 @@ setGeneric(
 #'  509-522.
 #'  DOI: \href{https://doi.org/10.1534/genetics.113.158220}{10.1534/genetics.113.158220}.
 #' @name test
-#' @aliases test-method
+#' @rdname test
+NULL
+
+#' @rdname test
+#' @aliases test_fit-method
 setGeneric(
-  name = "test",
-  def = function(object, ...) standardGeneric("test")
+  name = "test_fit",
+  def = function(object, ...) standardGeneric("test_fit")
 )
 
 # ===================================================================== Turnover

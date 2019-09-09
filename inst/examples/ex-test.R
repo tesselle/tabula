@@ -10,4 +10,4 @@ count_merzbach <- as(merzbach[, keep], "CountMatrix")
 ## We use the row names as time coordinates (roman numerals)
 set_dates(count_merzbach) <- rownames(merzbach)
 
-fit <- test(count_merzbach, method = "FIT", simplify = TRUE)
+fit <- test_fit(count_merzbach, simplify = TRUE)

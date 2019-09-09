@@ -3,7 +3,9 @@
 \docType{methods}
 \name{subset}
 \alias{subset}
+\alias{[,BootCA,ANY,ANY,ANY-method}
 \alias{[,BootCA-method}
+\alias{[,DateModel,ANY,ANY,ANY-method}
 \alias{[,DateModel-method}
 \alias{[[,DateModel-method}
 \alias{[[,BootCA-method}
@@ -16,9 +18,9 @@
 \alias{[[,SimilarityMatrix-method}
 \title{Extract or Replace Parts of an Object}
 \usage{
-\S4method{[}{BootCA}(x, i, j, drop = TRUE)
+\S4method{[}{BootCA,ANY,ANY,ANY}(x, i, j, drop = TRUE)
 
-\S4method{[}{DateModel}(x, i, j, drop = TRUE)
+\S4method{[}{DateModel,ANY,ANY,ANY}(x, i, j, drop = TRUE)
 
 \S4method{[[}{DateModel}(x, i)
 
