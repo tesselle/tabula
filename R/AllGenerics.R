@@ -41,6 +41,12 @@ NULL
 #'   and "\code{y}" but not "\code{z}", the vertical coordinates will be ignored
 #'   (and \code{NA} will be generated).}
 #'  }
+#'
+#'  \code{get_features} is an EXPERIMENTAL method for spatial manipulation with
+#'  \pkg{sf}. It converts an \code{AbundanceMatrix} object to
+#'  a collection of features (i.e. a\code{\link[=data.frame]{data frame}} of
+#'  class \code{\link[sf]{sf}}). The \pkg{sf} package must be installed on your
+#'  machine to use this method.
 #' @return
 #'  TODO
 #' @author N. Frerebeau
@@ -78,6 +84,11 @@ setGeneric(name = "set_dates<-",
 #' @rdname access
 setGeneric(name = "get_coordinates",
            def = function(object) standardGeneric("get_coordinates"))
+
+#' @export
+#' @rdname access
+setGeneric(name = "get_features",
+           def = function(object) standardGeneric("get_features"))
 
 #' @export
 #' @rdname access

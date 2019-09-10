@@ -194,6 +194,9 @@ NULL
 #'   set the EPSG of \code{x} according to \code{value}. Numeric values are
 #'   coerced to \code{\link{integer}} as by \code{\link{as.integer}} (and hence
 #'   truncated towards zero).}
+#'   \item{\code{get_features(x)}}{Convert an \code{AbundanceMatrix}
+#'   object to a \code{\link[=data.frame]{data frame}} of class
+#'   \code{\link[sf]{sf}}.}
 #'  }
 #' @author N. Frerebeau
 #' @docType class
@@ -208,7 +211,7 @@ NULL
   ),
   prototype = list(
     dates = matrix(0, 0, 2, dimnames = list(NULL, c("value", "error"))),
-    coordinates = matrix(0, 0, 3, dimnames = list(NULL, c("x", "y", "z"))),
+    coordinates = matrix(0, 0, 3, dimnames = list(NULL, c("X", "Y", "Z"))),
     epsg = as.integer(0)
   )
 )
@@ -230,7 +233,7 @@ NULL
 #' @section Get and set:
 #'  In the code snippets below, \code{x} is a \code{*Matrix} object.
 #'  \describe{
-#'   \item{\code{getID(x)}}{Get the ID of \code{x}.}
+#'   \item{\code{get_id(x)}}{Get the ID of \code{x}.}
 #'  }
 #' @section Access:
 #'  In the code snippets below, \code{x} is a \code{*Matrix} object.
@@ -331,8 +334,8 @@ NULL
 #' @section Get and set:
 #'  In the code snippets below, \code{x} is a \code{FrequencyMatrix} object.
 #'  \describe{
-#'   \item{\code{getID(x)}}{Get the unique ID of \code{x}.}
-#'   \item{\code{getTotals(x)}}{Get the row sums (counts) of \code{x}.}
+#'   \item{\code{get_id(x)}}{Get the unique ID of \code{x}.}
+#'   \item{\code{get_totals(x)}}{Get the row sums (counts) of \code{x}.}
 #'  }
 #' @inheritSection Matrix-class Access
 #' @inheritSection Matrix-class Subset
@@ -522,10 +525,11 @@ PermutationOrder <- function(id = generate_uuid(), rows = integer(0),
 ## SpaceTime -------------------------------------------------------------------
 SpaceTime <- function(
   dates = matrix(0, 0, 2, dimnames = list(NULL, c("value", "error"))),
-  coordinates = matrix(0, 0, 3, dimnames = list(NULL, c("x", "y", "z"))),
+  coordinates = matrix(0, 0, 3, dimnames = list(NULL, c("X", "Y", "Z"))),
   epsg = 0, ...
 ) {
   throw_message_class("SpaceTime")
+  colnames(coordinates) <- toupper(colnames(coordinates))
   .SpaceTime(
     dates = dates,
     coordinates = coordinates,
@@ -560,7 +564,6 @@ SimilarityMatrix <- function(data = matrix(0, 0, 0), method = "unknown", ...) {
 CountMatrix <- function(data = 0, nrow = 1, ncol = 1, byrow = FALSE,
                         dimnames = NULL, ...) {
   throw_message_class("CountMatrix")
-  data <- as.integer(round(data, digits = 0))
   M <- buildMatrix(data, nrow, ncol, byrow, dimnames,
                    missing(nrow), missing(ncol))
   .CountMatrix(NumericMatrix(M), ...)

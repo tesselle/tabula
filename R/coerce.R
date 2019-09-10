@@ -104,7 +104,7 @@ matrix2incidence <- function(from) {
   } else {
     id <- generate_uuid()
     dates <- matrix(0, 0, 2, dimnames = list(NULL, c("value", "error")))
-    coordinates <- matrix(0, 0, 3, dimnames = list(NULL, c("x", "y", "z")))
+    coordinates <- matrix(0, 0, 3, dimnames = list(NULL, c("X", "Y", "Z")))
     epsg <- 0L
   }
   .IncidenceMatrix(

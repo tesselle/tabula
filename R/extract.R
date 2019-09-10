@@ -169,6 +169,38 @@ setMethod(
 
 #' @export
 #' @rdname access
+#' @aliases get_epsg,AbundanceMatrix-method
+setMethod("get_epsg", "AbundanceMatrix", function(object) object@epsg)
+
+#' @export
+#' @rdname access
+#' @aliases get_features,AbundanceMatrix-method
+setMethod(
+  f = "get_features",
+  signature = "AbundanceMatrix",
+  definition = function(object) {
+    if (requireNamespace("sf", quietly = TRUE)) {
+      epsg <- get_epsg(object)
+      coords <- get_coordinates(object)
+      if (any(lengths(coords) == 0))
+        stop("No coordinates!", call. = FALSE)
+
+      XYZ_index <- !vapply(X = coords, FUN = anyNA, FUN.VALUE = logical(1))
+      XYZ_coords <- c("X", "Y", "Z")[XYZ_index]
+      XYZ_dim <- paste0(XYZ_coords, collapse = "")
+
+      abundance <- cbind.data.frame(SITE = rownames(object), object)
+      data_frame <- cbind.data.frame(coords[XYZ_index], abundance)
+      sf::st_as_sf(data_frame, crs = epsg, coords = XYZ_coords, dim = XYZ_dim,
+                   remove = TRUE, na.fail = TRUE)
+    } else {
+      stop("The sf package is needed for this method.", call. = FALSE)
+    }
+  }
+)
+
+#' @export
+#' @rdname access
 #' @aliases get_dates,AbundanceMatrix-method
 setMethod(
   f = "get_dates",
@@ -178,11 +210,6 @@ setMethod(
     as.list(as.data.frame(dates))
   }
 )
-
-#' @export
-#' @rdname access
-#' @aliases get_epsg,AbundanceMatrix-method
-setMethod("get_epsg", "AbundanceMatrix", function(object) object@epsg)
 
 #' @export
 #' @rdname access
@@ -210,7 +237,7 @@ setMethod(
 )
 
 # Dates ------------------------------------------------------------------------
-makeDates <- function(value) {
+make_dates <- function(value) {
   if (is.matrix(value) | is.data.frame(value)) {
     value <- data.matrix(value)
     if (ncol(value) >= 2) {
@@ -240,8 +267,8 @@ makeDates <- function(value) {
   } else if (is.null(value)) {
     x <- y <- numeric(0)
   } else {
-    stop("`value` must be a numeric, integer or character vector, ",
-         "a list, a matrix, a data frame or NULL.", call. = FALSE)
+    stop("A numeric, integer or character vector, ",
+         "a list, a matrix or a data frame is expected.", call. = FALSE)
   }
   # If `x` is a character vector, try to convert from roman numbers
   if (is.character(x)) {
@@ -259,7 +286,7 @@ setMethod(
   f = "set_dates<-",
   signature = "AbundanceMatrix",
   definition = function(object, value) {
-    value <- makeDates(value)
+    value <- make_dates(value)
     rows_value <- rownames(value)
     rows_object <- rownames(object)
     i <- nrow(object)
@@ -297,49 +324,51 @@ setMethod(
 )
 
 # Coordinates ------------------------------------------------------------------
-makeXYZ <- function(value) {
+make_coordinates <- function(value) {
   if (is.matrix(value) | is.data.frame(value)) {
     value <- data.matrix(value)
+    colnames(value) <- toupper(colnames(value))
     if (ncol(value) >= 2) {
-      if (all(c("x", "y") %in% colnames(value))) {
-        x <- value[, "x"]
-        y <- value[, "y"]
+      if (all(c("X", "Y") %in% colnames(value))) {
+        X <- value[, "X"]
+        Y <- value[, "Y"]
       } else {
-        x <- value[, 1]
-        y <- value[, 2]
+        X <- value[, 1]
+        Y <- value[, 2]
       }
     } else {
       stop("`value` should have at least 2 columns.", call. = FALSE)
     }
     if (ncol(value) >= 3) {
-      if ("z" %in% colnames(value)) {
-        z <- value[, "z"]
+      if ("Z" %in% colnames(value)) {
+        Z <- value[, "Z"]
       } else {
-        z <- value[, 3]
+        Z <- value[, 3]
       }
     } else {
-      z <- rep_len(x = NA_real_, length.out = nrow(value))
-      if (getOption("verbose")) message("'z' is missing, NA generated.")
+      Z <- rep_len(x = NA_real_, length.out = nrow(value))
+      if (getOption("verbose")) message("'Z' is missing, NA generated.")
     }
-  } else if(is.list(value)) {
-    if (all(c("x", "y") %in% names(value))) {
-      x <- value[["x"]]
-      y <- value[["y"]]
+  } else if (is.list(value)) {
+    names(value) <- toupper(names(value))
+    if (all(c("X", "Y") %in% names(value))) {
+      X <- value[["X"]]
+      Y <- value[["Y"]]
     } else {
-      stop("`value` is a list, but does not have components 'x' and 'y'.",
+      stop("`value` is a list, but does not have components 'X' and 'Y'.",
            call. = FALSE)
     }
-    if ("z" %in% names(value)) {
-      z <- value[["z"]]
+    if ("Z" %in% names(value)) {
+      Z <- value[["Z"]]
     } else {
-      z <- rep_len(x = NA_real_, length.out = length(x))
-      if (getOption("verbose")) message("'z' is missing, NA generated.")
+      Z <- rep_len(x = NA_real_, length.out = length(X))
+      if (getOption("verbose")) message("'Z' is missing, NA generated.")
     }
   } else {
-    stop("`value` must be a list, a matrix or a data frame.",
+    stop("A list, a matrix or a data frame is expected.",
          call. = FALSE)
   }
-  cbind(x = x, y = y, z = z)
+  cbind(X = X, Y = Y, Z = Z)
 }
 
 #' @export
@@ -349,7 +378,7 @@ setMethod(
   f = "set_coordinates<-",
   signature = "AbundanceMatrix",
   definition = function(object, value) {
-    object@coordinates <- makeXYZ(value)
+    object@coordinates <- make_coordinates(value)
     methods::validObject(object)
     object
   }

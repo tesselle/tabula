@@ -194,7 +194,7 @@ setValidity(
       coordinates = c(
         catch_conditions(check_type(coordinates, expected = "numeric")),
         catch_conditions(check_infinite(coordinates)),
-        catch_conditions(check_names(coordinates, expected = c("x", "y", "z"),
+        catch_conditions(check_names(coordinates, expected = c("X", "Y", "Z"),
                                      margin = 2))
       ),
       epsg = c(

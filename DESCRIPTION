@@ -64,6 +64,7 @@ Suggests:
     knitr,
     pbapply (>= 1.4-0),
     rmarkdown,
+    sf (>= 0.7-7),
     testthat (>= 2.1.1),
     vdiffr (>= 0.3.0)
 VignetteBuilder: 

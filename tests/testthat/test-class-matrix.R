@@ -30,7 +30,7 @@ test_that("Initialize a SpaceTime instance", {
   expect_s4_class(.SpaceTime(), "SpaceTime")
 
   dates <- cbind(value = 1:10, error = 1:10)
-  coord <- cbind(x = 1:10, y = 1:10, z = 1:10)
+  coord <- cbind(X = 1:10, Y = 1:10, Z = 1:10)
   # Try Inf
   dates[1, 1] <- Inf
   coord[1, 1] <- Inf
@@ -60,7 +60,7 @@ test_that("SpaceTime constructor", {
   expect_s3_class(cnd[[1]], "message_class_initialize")
 
   dates <- cbind(value = 1:10, error = 1:10)
-  coord <- cbind(x = 1:10, y = 1:10, z = 1:10)
+  coord <- cbind(X = 1:10, Y = 1:10, Z = 1:10)
   expect_s4_class(SpaceTime(dates = dates, coordinates = coord, epsg = 4326),
                   "SpaceTime")
 })

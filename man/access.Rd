@@ -11,12 +11,14 @@
 \alias{get_dates}
 \alias{set_dates<-}
 \alias{get_coordinates}
+\alias{get_features}
 \alias{set_coordinates<-}
 \alias{get_epsg}
 \alias{set_epsg<-}
 \alias{get_coordinates,AbundanceMatrix-method}
-\alias{get_dates,AbundanceMatrix-method}
 \alias{get_epsg,AbundanceMatrix-method}
+\alias{get_features,AbundanceMatrix-method}
+\alias{get_dates,AbundanceMatrix-method}
 \alias{get_id,ANY-method}
 \alias{get_totals,FrequencyMatrix-method}
 \alias{set_totals<-,FrequencyMatrix-method}
@@ -41,6 +43,8 @@ set_dates(object) <- value
 
 get_coordinates(object)
 
+get_features(object)
+
 set_coordinates(object) <- value
 
 get_epsg(object)
@@ -49,9 +53,11 @@ set_epsg(object) <- value
 
 \S4method{get_coordinates}{AbundanceMatrix}(object)
 
-\S4method{get_dates}{AbundanceMatrix}(object)
-
 \S4method{get_epsg}{AbundanceMatrix}(object)
+
+\S4method{get_features}{AbundanceMatrix}(object)
+
+\S4method{get_dates}{AbundanceMatrix}(object)
 
 \S4method{get_id}{ANY}(object)
 
@@ -113,6 +119,12 @@ Getters and setters to extract or replace parts of an object.
   and "\code{y}" but not "\code{z}", the vertical coordinates will be ignored
   (and \code{NA} will be generated).}
  }
+
+ \code{get_features} is an EXPERIMENTAL method for spatial manipulation with
+ \pkg{sf}. It converts an \code{AbundanceMatrix} object to
+ a collection of features (i.e. a\code{\link[=data.frame]{data frame}} of
+ class \code{\link[sf]{sf}}). The \pkg{sf} package must be installed on your
+ machine to use this method.
 }
 
 \author{

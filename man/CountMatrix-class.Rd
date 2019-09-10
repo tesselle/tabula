@@ -55,7 +55,7 @@ Numeric values are \code{\link[base:round]{rounded}} to zero decimal places
 
  In the code snippets below, \code{x} is a \code{*Matrix} object.
  \describe{
-  \item{\code{getID(x)}}{Get the ID of \code{x}.}
+  \item{\code{get_id(x)}}{Get the ID of \code{x}.}
  }
 }
 
@@ -125,9 +125,14 @@ C <- as(B, "OccurrenceMatrix")
 
 # Set space-time information
 ## Geographic coordinates
-set_coordinates(A1) <- list(x = sample(0:10, 10, TRUE),
-                            y = sample(0:10, 10, TRUE))
+set_epsg(A1) <- 4326
+set_coordinates(A1) <- list(X = sample(0:10, 10, TRUE),
+                            Y = sample(0:10, 10, TRUE))
 get_coordinates(A1)
+\donttest{
+## Convert to a sf object (the sf package must be installed on your machine)
+get_features(A1)
+}
 }
 \seealso{
 \linkS4class{NumericMatrix}, \linkS4class{SpaceTime}

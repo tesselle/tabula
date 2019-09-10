@@ -22,7 +22,7 @@ An S4 class to represent a numeric matrix.
 
  In the code snippets below, \code{x} is a \code{*Matrix} object.
  \describe{
-  \item{\code{getID(x)}}{Get the ID of \code{x}.}
+  \item{\code{get_id(x)}}{Get the ID of \code{x}.}
  }
 }
 

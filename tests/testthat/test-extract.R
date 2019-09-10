@@ -79,7 +79,7 @@ test_that("AbundanceMatrix - Dates", {
                "should have at least 2 columns")
   expect_error(set_dates(A1) <- dates[1], "does not have components")
   expect_error(set_dates(A1) <- NA,
-               "must be a numeric, integer or character vector")
+               "a list, a matrix or a data frame is expected")
   expect_error(set_dates(A1) <- "X", "Cannot interpret")
   expect_warning(set_dates(A1) <- rep("A", 10))
 })
@@ -94,9 +94,9 @@ test_that("AbundanceMatrix - Coordinates", {
   expect_equal(attr(get_coordinates(A1), "epsg"), 12345)
   expect_error(set_epsg(A1) <- "X")
 
-  coords <- list(x = sample(0:10, 10, TRUE),
-                 y = sample(0:10, 10, TRUE),
-                 z = sample(0:10, 10, TRUE))
+  coords <- list(X = sample(0:10, 10, TRUE),
+                 Y = sample(0:10, 10, TRUE),
+                 Z = sample(0:10, 10, TRUE))
   expect_message(set_coordinates(A1) <- coords[-3])
   expect_equal(get_coordinates(A1)[-3], coords[-3])
   expect_equal(get_coordinates(A1)[[3]], rep(NA_real_, 10))
@@ -113,7 +113,7 @@ test_that("AbundanceMatrix - Coordinates", {
                "should have at least 2 columns")
   expect_error(set_coordinates(A1) <- coords[1], "does not have components")
   expect_error(set_coordinates(A1) <- rep("A", 10),
-               "must be a list, a matrix or a data frame")
+               "A list, a matrix or a data frame is expected")
 })
 test_that("NumericMatrix", {
   mtx_count <- matrix(sample(1:100, 100, TRUE), ncol = 10,

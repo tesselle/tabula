@@ -22,8 +22,8 @@ To ensure data integrity, a \code{FrequencyMatrix} can only be created by
 
  In the code snippets below, \code{x} is a \code{FrequencyMatrix} object.
  \describe{
-  \item{\code{getID(x)}}{Get the unique ID of \code{x}.}
-  \item{\code{getTotals(x)}}{Get the row sums (counts) of \code{x}.}
+  \item{\code{get_id(x)}}{Get the unique ID of \code{x}.}
+  \item{\code{get_totals(x)}}{Get the row sums (counts) of \code{x}.}
  }
 }
 
@@ -103,9 +103,14 @@ C <- as(B, "OccurrenceMatrix")
 
 # Set space-time information
 ## Geographic coordinates
-set_coordinates(A1) <- list(x = sample(0:10, 10, TRUE),
-                            y = sample(0:10, 10, TRUE))
+set_epsg(A1) <- 4326
+set_coordinates(A1) <- list(X = sample(0:10, 10, TRUE),
+                            Y = sample(0:10, 10, TRUE))
 get_coordinates(A1)
+\donttest{
+## Convert to a sf object (the sf package must be installed on your machine)
+get_features(A1)
+}
 }
 \seealso{
 \linkS4class{NumericMatrix}, \linkS4class{SpaceTime}

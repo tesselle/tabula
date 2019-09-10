@@ -30,7 +30,7 @@ identifier of the matrix (UUID v4).}
 
  In the code snippets below, \code{x} is a \code{*Matrix} object.
  \describe{
-  \item{\code{getID(x)}}{Get the ID of \code{x}.}
+  \item{\code{get_id(x)}}{Get the ID of \code{x}.}
  }
 }
 
