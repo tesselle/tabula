@@ -31,85 +31,111 @@ test_that("Initialize a SpaceTime instance", {
 
   dates <- cbind(value = 1:10, error = 1:10)
   coord <- cbind(x = 1:10, y = 1:10, z = 1:10)
-  expect_s4_class(SpaceTime(dates = dates, coordinates = coord, epsg = 4326),
-                  "SpaceTime")
-  expect_message(SpaceTime(dates = dates, coordinates = coord, epsg = 4326),
-                 "SpaceTime")
-
-  # Try NA
-  dates[1, 1] <- NA_real_
-  coord[1, 1] <- NA_real_
-  expect_s4_class(SpaceTime(dates = dates, coordinates = coord), "SpaceTime")
-  expect_error(SpaceTime(epsg = NA),
-               "`epsg` must not contain missing values")
-
   # Try Inf
   dates[1, 1] <- Inf
   coord[1, 1] <- Inf
-  expect_error(SpaceTime(dates = dates, coordinates = coord),
-               "`coordinates` must not contain infinite values")
+  cnd <- catch_conditions(.SpaceTime(dates = dates, coordinates = coord))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must not contain infinite values", cnd[[1]]$message))
   # Try character
   dates[1, 1] <- "A"
   coord[1, 1] <- "A"
-  expect_error(SpaceTime(dates = dates, coordinates = coord),
-               "`coordinates` must be numeric; not character.")
+  cnd <- catch_conditions(.SpaceTime(dates = dates, coordinates = coord))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must be numeric; not character", cnd[[1]]$message))
   # Check length
-  expect_error(SpaceTime(epsg = 1:2),
-               "`epsg` must be a scalar")
+  cnd <- catch_conditions(.SpaceTime(epsg = 1:2))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must be a scalar", cnd[[1]]$message))
   # Check names
   colnames(dates) <- NULL
   colnames(coord) <- NULL
-  expect_error(SpaceTime(dates = dates, coordinates = coord),
-               "must have the following column names")
+  cnd <- catch_conditions(.SpaceTime(dates = dates, coordinates = coord))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must have the following column names", cnd[[1]]$message))
 })
+test_that("SpaceTime constructor", {
+  cnd <- catch_conditions(SpaceTime())
+  expect_length(cnd, 1)
+  expect_s3_class(cnd[[1]], "message_class_initialize")
+
+  dates <- cbind(value = 1:10, error = 1:10)
+  coord <- cbind(x = 1:10, y = 1:10, z = 1:10)
+  expect_s4_class(SpaceTime(dates = dates, coordinates = coord, epsg = 4326),
+                  "SpaceTime")
+})
+
 # Matrix =======================================================================
 test_that("Initialize a Matrix instance", {
-  # Empty instance
-  expect_s4_class(.Matrix(matrix(0, 1, 1)), "Matrix")
-  expect_message(Matrix(data = 0))
+  # Empty instence
+  expect_s4_class(.Matrix(), "Matrix")
 
-  MTX1 <- Matrix(data = mtx_count)
-  expect_s4_class(MTX1, "Matrix")
-  expect_identical(dimnames(MTX1), list(LETTERS[1:10], LETTERS[26:17]))
+  cnd <- catch_conditions(.Matrix(matrix(NA, 1, 1)))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must not contain missing values", cnd[[1]]$message))
 
-  expect_error(.Matrix(matrix(NA, 1, 1)),
-               "`data` must not contain missing values")
-  expect_error(.Matrix(matrix(NaN, 1, 1)),
-               "`data` must not contain missing values")
-  expect_error(.Matrix(matrix(Inf, 1, 1)),
-               "`data` must not contain infinite values")
-  expect_error(.Matrix(id = NA_character_),
-               "`id` must be a character string.")
-  expect_error(.Matrix(id = LETTERS),
-               "`id` must be a character string.")
-  expect_error(.Matrix(id = "a"),
-               "must be a 36 characters long string")
+  cnd <- catch_conditions(.Matrix(matrix(NaN, 1, 1)))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must not contain missing values", cnd[[1]]$message))
+
+  cnd <- catch_conditions(.Matrix(matrix(Inf, 1, 1)))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must not contain infinite values", cnd[[1]]$message))
+
+  cnd <- catch_conditions(.Matrix(id = NA_character_))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must be an UUID", cnd[[1]]$message))
+
+  cnd <- catch_conditions(.Matrix(id = "a"))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must be an UUID", cnd[[1]]$message))
 })
+test_that("Matrix constructor", {
+  cnd <- catch_conditions(Matrix())
+  expect_length(cnd, 2)
+  expect_s3_class(cnd[[1]], "message_class_initialize")
+
+  mtx <- Matrix(data = mtx_count)
+  expect_s4_class(mtx, "Matrix")
+  expect_identical(dimnames(mtx), list(LETTERS[1:10], LETTERS[26:17]))
+})
+
 # Numeric matrix ===============================================================
 test_that("Initialize a NumericMatrix instance", {
   # Empty instence
   expect_s4_class(.NumericMatrix(), "NumericMatrix")
-  expect_s4_class(NumericMatrix(), "NumericMatrix")
-
-  expect_s4_class(NumericMatrix(mtx_count), "NumericMatrix")
-  expect_s4_class(NumericMatrix(mtx_freq), "NumericMatrix")
+  expect_s4_class(.NumericMatrix(mtx_count), "NumericMatrix")
+  expect_s4_class(.NumericMatrix(mtx_freq), "NumericMatrix")
 
   # Try logical
-  expect_error(NumericMatrix(mtx_incid),
-               "`data` must be numeric; not logical.")
+  cnd <- catch_conditions(.NumericMatrix(mtx_incid))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must be numeric; not logical", cnd[[1]]$message))
   # Try character
-  expect_error(NumericMatrix(mtx_character),
-               "`data` must be numeric; not character.")
+  cnd <- catch_conditions(.NumericMatrix(mtx_character))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must be numeric; not character", cnd[[1]]$message))
   # Try NA
-  expect_error(NumericMatrix(mtx_num_na),
-               "`data` must not contain missing values")
+  cnd <- catch_conditions(.NumericMatrix(mtx_num_na))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must not contain missing values", cnd[[1]]$message))
   # Try NaN
-  expect_error(NumericMatrix(mtx_num_nan),
-               "`data` must not contain missing values")
+  cnd <- catch_conditions(.NumericMatrix(mtx_num_nan))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must not contain missing values", cnd[[1]]$message))
   # Try Inf
-  expect_error(NumericMatrix(mtx_num_inf),
-               "`data` must not contain infinite values")
+  cnd <- catch_conditions(.NumericMatrix(mtx_num_inf))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must not contain infinite values", cnd[[1]]$message))
 })
+test_that("NumericMatrix constructor", {
+  cnd <- catch_conditions(NumericMatrix())
+  expect_length(cnd, 2)
+  for (i in seq_len(2)) {
+    expect_s3_class(cnd[[i]], "message_class_initialize")
+  }
+})
+
 ## Count matrix ----------------------------------------------------------------
 test_that("Initialize a CountMatrix instance", {
   # Empty instence
@@ -119,30 +145,42 @@ test_that("Initialize a CountMatrix instance", {
   # Try 0s and 1s
   expect_message(CountMatrix(as.numeric(mtx_incid), nrow = 10),
                  "You should consider using an incidence matrix instead.")
-  # Try negative values
-  expect_error(.CountMatrix(-mtx_count),
-               "`data` must contain positive numbers")
   # Try relative frequencies
-  expect_error(.CountMatrix(mtx_freq),
-               "`data` must contain whole numbers")
+  cnd <- catch_conditions(.CountMatrix(mtx_freq))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must contain whole numbers", cnd[[1]]$message))
   # Try logical
-  expect_error(.CountMatrix(mtx_incid),
-               "`data` must be numeric; not logical.")
+  cnd <- catch_conditions(.CountMatrix(mtx_incid))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must be numeric; not logical", cnd[[1]]$message))
+  # Try negative values
+  cnd <- catch_conditions(.CountMatrix(-mtx_count))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must contain positive numbers", cnd[[1]]$message))
   # Try character
-  expect_error(.CountMatrix(mtx_character),
-               "`data` must be numeric; not character.")
+  cnd <- catch_conditions(.CountMatrix(mtx_character))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must be numeric; not character", cnd[[1]]$message))
   # Try NA
-  expect_error(.CountMatrix(mtx_num_na),
-               "`data` must not contain missing values")
+  cnd <- catch_conditions(.CountMatrix(mtx_num_na))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must not contain missing values", cnd[[1]]$message))
   # Try NaN
-  expect_error(.CountMatrix(mtx_num_nan),
-               "`data` must not contain missing values")
+  cnd <- catch_conditions(.CountMatrix(mtx_num_nan))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must not contain missing values", cnd[[1]]$message))
   # Try Inf
-  expect_error(.CountMatrix(mtx_num_inf),
-               "`data` must not contain infinite values")
+  cnd <- catch_conditions(.CountMatrix(mtx_num_inf))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must not contain infinite values", cnd[[1]]$message))
 })
 test_that("CountMatrix constructor", {
-  expect_message(CountMatrix())
+  cnd <- catch_conditions(CountMatrix())
+  expect_length(cnd, 4)
+  for (i in seq_len(3)) {
+    expect_s3_class(cnd[[i]], "message_class_initialize")
+  }
+
   count_matrix1 <- CountMatrix(
     data = sample(0:10, 100, TRUE),
     ncol = 20
@@ -160,6 +198,7 @@ test_that("CountMatrix constructor", {
   expect_equal(dimnames(count_matrix2),
                list(as.character(1:20), LETTERS[1:5]))
 })
+
 ## Frequency matrix ------------------------------------------------------------
 test_that("Initialize a FrequencyMatrix instance", {
   expect_s4_class(.FrequencyMatrix(), "FrequencyMatrix")
@@ -167,68 +206,114 @@ test_that("Initialize a FrequencyMatrix instance", {
                   "FrequencyMatrix")
 
   # Try wrong total
-  expect_error(.FrequencyMatrix(mtx_freq, totals = 1),
-               "`totals` must be of length 10; not 1.")
+  cnd <- catch_conditions(.FrequencyMatrix(mtx_freq, totals = 1))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must be of length 10; not 1", cnd[[1]]$message))
   # Try missing total
-  expect_error(.FrequencyMatrix(mtx_freq),
-               "`totals` must be of length 10; not 0.")
+  cnd <- catch_conditions(.FrequencyMatrix(mtx_freq))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must be of length 10; not 0", cnd[[1]]$message))
   # Try count data
-  expect_error(.FrequencyMatrix(mtx_count),
-               "`data` must have constant row sums")
+  cnd <- catch_conditions(.FrequencyMatrix(mtx_count))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must have constant row sums", cnd[[1]]$message))
   # Try logical
-  expect_error(.FrequencyMatrix(mtx_incid),
-               "`data` must be numeric; not logical.")
+  cnd <- catch_conditions(.FrequencyMatrix(mtx_incid))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must be numeric; not logical.", cnd[[1]]$message))
+})
+
+## Co-occurrenceMatrix matrix --------------------------------------------------
+test_that("OccurrenceMatrix constructor", {
+  cnd <- catch_conditions(OccurrenceMatrix())
+  expect_length(cnd, 3)
+  for (i in seq_len(3)) {
+    expect_s3_class(cnd[[i]], "message_class_initialize")
+  }
+})
+
+## Similarity matrix -----------------------------------------------------------
+test_that("SimilarityMatrix constructor", {
+  cnd <- catch_conditions(SimilarityMatrix())
+  expect_length(cnd, 3)
+  for (i in seq_len(3)) {
+    expect_s3_class(cnd[[i]], "message_class_initialize")
+  }
 })
 
 # Logical matrix ===============================================================
 test_that("Initialize a LogicalMatrix instance", {
   expect_s4_class(.LogicalMatrix(), "LogicalMatrix")
-  expect_message(LogicalMatrix())
-  expect_s4_class(LogicalMatrix(mtx_incid), "LogicalMatrix")
+  expect_s4_class(.LogicalMatrix(mtx_incid), "LogicalMatrix")
 
   # Try count data
-  expect_error(LogicalMatrix(data = mtx_count),
-               "`data` must be logical; not integer.")
+  cnd <- catch_conditions(.LogicalMatrix(data = mtx_count))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must be logical; not integer", cnd[[1]]$message))
   # Try frequency data
-  expect_error(LogicalMatrix(data = mtx_freq),
-               "`data` must be logical; not double.")
+  cnd <- catch_conditions(.LogicalMatrix(data = mtx_freq))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must be logical; not double", cnd[[1]]$message))
   # Try character
-  expect_error(LogicalMatrix(data = mtx_character),
-               "`data` must be logical; not character.")
+  cnd <- catch_conditions(.LogicalMatrix(data = mtx_character))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must be logical; not character", cnd[[1]]$message))
   # Try NA
-  expect_error(LogicalMatrix(mtx_logic_na),
-               "`data` must not contain missing values")
+  cnd <- catch_conditions(.LogicalMatrix(mtx_logic_na))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must not contain missing values", cnd[[1]]$message))
   # Try NaN
-  expect_error(LogicalMatrix(mtx_logic_nan),
-               "`data` must not contain missing values")
+  cnd <- catch_conditions(.LogicalMatrix(mtx_logic_nan))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must not contain missing values", cnd[[1]]$message))
   # Try Inf
-  expect_error(LogicalMatrix(mtx_logic_inf),
-               "`data` must not contain infinite values")
+  cnd <- catch_conditions(.LogicalMatrix(mtx_logic_inf))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must not contain infinite values", cnd[[1]]$message))
+})
+test_that("LogicalMatrix constructor", {
+  cnd <- catch_conditions(LogicalMatrix())
+  expect_length(cnd, 2)
+  for (i in seq_len(2)) {
+    expect_s3_class(cnd[[i]], "message_class_initialize")
+  }
 })
 test_that("Initialize a IncidenceMatrix instance", {
   expect_s4_class(.IncidenceMatrix(), "IncidenceMatrix")
   expect_s4_class(.IncidenceMatrix(mtx_incid), "IncidenceMatrix")
 
   # Try count data
-  expect_error(.IncidenceMatrix(mtx_count),
-               "`data` must be logical; not integer.")
+  cnd <- catch_conditions(.IncidenceMatrix(mtx_count))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must be logical; not integer", cnd[[1]]$message))
   # Try frequency data
-  expect_error(.IncidenceMatrix(mtx_freq),
-               "`data` must be logical; not double.")
+  cnd <- catch_conditions(.IncidenceMatrix(mtx_freq))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must be logical; not double", cnd[[1]]$message))
   # Try character
-  expect_error(.IncidenceMatrix(mtx_character),
-               "`data` must be logical; not character.")
+  cnd <- catch_conditions(.IncidenceMatrix(mtx_character))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must be logical; not character.", cnd[[1]]$message))
   # Try NA
-  expect_error(.IncidenceMatrix(mtx_logic_na),
-               "`data` must not contain missing values")
+  cnd <- catch_conditions(.IncidenceMatrix(mtx_logic_na))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must not contain missing values", cnd[[1]]$message))
   # Try NaN
-  expect_error(.IncidenceMatrix(mtx_logic_nan),
-               "`data` must not contain missing values")
+  cnd <- catch_conditions(.IncidenceMatrix(mtx_logic_nan))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must not contain missing values", cnd[[1]]$message))
   # Try Inf
-  expect_error(.IncidenceMatrix(mtx_logic_inf),
-               "`data` must not contain infinite values")
+  cnd <- catch_conditions(.IncidenceMatrix(mtx_logic_inf))
+  expect_s3_class(cnd[[1]], "error_class_initialize")
+  expect_true(grepl("must not contain infinite values", cnd[[1]]$message))
 })
 test_that("IncidenceMatrix constructor", {
+  cnd <- catch_conditions(IncidenceMatrix())
+  expect_length(cnd, 3)
+  for (i in seq_len(3)) {
+    expect_s3_class(cnd[[i]], "message_class_initialize")
+  }
+
   incid_matrix1 <- IncidenceMatrix(
     data = sample(0:1, 100, TRUE),
     ncol = 20

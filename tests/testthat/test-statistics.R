@@ -30,3 +30,12 @@ test_that("Jackknife estimation", {
   expect_equal(jack$values, c(54, 53, 52, 51, 50, 49, 48, 47, 46, 45))
   expect_length(jack$values, 10)
 })
+test_that("FIT test", {
+  ## Data from Feder et al. 2014 (table S2)
+  test_fit <- FIT(
+    v = c(73/93, 98/105, 97/99, 97/98),
+    t = c(665, 745, 825, 910)
+  )
+  expect_equal(round(test_fit[[1]], 2), 2.42)
+  expect_equal(round(test_fit[[2]], 2), 0.14)
+})

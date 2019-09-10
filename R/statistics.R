@@ -62,8 +62,8 @@ independance <- function(x, method = c("EPPM", "PVI")) {
 #' @noRd
 combination <- function(n, k) {
   # Validation
-  checkType(n, expected = "numeric")
-  checkType(k, expected = "numeric")
+  check_type(n, expected = "numeric")
+  check_type(k, expected = "numeric")
 
   # Ramanujan factorial approximation
   ramanujan <- function(x){
@@ -95,7 +95,7 @@ combination <- function(n, k) {
 #' @noRd
 confidence <- function(x, level = 0.95, type = c("normal", "student")) {
   # Validation
-  checkType(x, expected = "numeric")
+  check_type(x, expected = "numeric")
   type <- match.arg(type, several.ok = FALSE)
 
   n <- sum(x)

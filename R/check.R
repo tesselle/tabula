@@ -9,194 +9,194 @@ NULL
 #' @return
 #'  Throw an error if any.
 #' @author N. Frerebeau
-#' @examples
-#' \dontrun{
-#' object <- 1:3
-#' checkType(object, "character")
-#' checkScalar(object, "numeric")
-#' checkLength(object, 2)
-#' checkNames(object)
-#' checkNames(object, c("a", "b", "c"))
-#'
-#' object <- c(1:3, NA, Inf)
-#' checkMissing(object)
-#' checkInfinite(object)
-#'
-#' object <- list(1:3, NULL, LETTERS)
-#' checkLength(object, 2)
-#' checkLengths(object)
-#' checkLengths(object, c(3, 1, 26))
-#'
-#' object <- matrix(-0.1, nrow = 3, ncol = 2)
-#' checkDim(object, c(2, 3))
-#' checkMatrix(object, "square")
-#' checkMatrix(object, "symmetric")
-#' checkNumbers(object, "positive", strict = TRUE)
-#' checkNumbers(object, "whole")
-#' }
 #' @name check
 #' @keywords internal
-NULL
+#' @noRd
 
-#' @rdname check
-checkType <- function(x, expected) {
+check_type <- function(x, expected) {
   arg <- deparse(substitute(x))
   predicate <- switch(
     expected,
-    list = isList,
-    atomic = isAtomic,
-    vector = isVector,
-    numeric = isNumeric,
-    integer = isInteger,
-    double = isDouble,
-    character = isCharacter,
-    logical = isLogical,
+    list = is_list,
+    atomic = is_atomic,
+    vector = is_vector,
+    numeric = is_numeric,
+    integer = is_integer,
+    double = is_double,
+    character = is_character,
+    logical = is_logical,
     stop("Can't find a predicate for this type: ", expected, call. = FALSE)
   )
-  if (!predicate(x))
-    throwError(arg, must = sprintf("be %s", expected), not = typeof(x))
+  if (!predicate(x)) {
+    msg <- sprintf("%s must be %s; not %s.", sQuote(arg), expected, typeof(x))
+    throw_error("error_bad_type", msg)
+  }
 }
-#' @rdname check
-checkScalar <- function(x, expected) {
+
+check_scalar <- function(x, expected) {
   arg <- deparse(substitute(x))
   predicate <- switch(
     expected,
-    list = isScalarList,
-    atomic = isScalarAtomic,
-    vector = isScalarVector,
-    numeric = isScalarNumeric,
-    integer = isScalarInteger,
-    double = isScalarDouble,
-    character = isScalarCharacter,
-    logical = isScalarLogical,
+    list = is_scalar_list,
+    atomic = is_scalar_atomic,
+    vector = is_scalar_vector,
+    numeric = is_scalar_numeric,
+    integer = is_scalar_integer,
+    double = is_scalar_double,
+    character = is_scalar_character,
+    logical = is_scalar_logical,
     stop("Can't find a predicate for this scalar: ", expected, call. = FALSE)
   )
-  if (!predicate(x))
-    throwError(arg, must = sprintf("be a scalar (%s).", expected))
+  if (!predicate(x)) {
+    msg <- sprintf("%s must be a scalar (%s).", sQuote(arg), expected)
+    throw_error("error_bad_scalar", msg)
+  }
 }
-#' @rdname check
-checkLength <- function(x, expected) {
+
+check_length <- function(x, expected) {
   arg <- deparse(substitute(x))
   n <- length(x)
-  if (n != expected)
-    throwError(arg, must = sprintf("be of length %d", expected), not = n)
+  if (n != expected) {
+    msg <- sprintf("%s must be of length %d; not %s.", sQuote(arg), expected, n)
+    throw_error("error_bad_dimension", msg)
+  }
 }
-#' @rdname check
-checkLengths <- function(x, expected) {
+
+check_lengths <- function(x, expected = NULL) {
   arg <- deparse(substitute(x))
   n <- lengths(x)
   m <- paste0(n, collapse = ", ")
-  if (missing(expected)) {
-    if (!isEqual(n)) {
-      throwError(arg, must = "have equal lengths", not = m)
+  if (is.null(expected)) {
+    if (!is_equal(n)) {
+      msg <- sprintf("Elements of %s must have the same length; not %s.",
+                     sQuote(arg), m)
+      throw_error("error_bad_dimension", msg)
     }
-  } else if (isEmpty(n) || any(n != expected)) {
-    ex <- paste0(expected, collapse = ", ")
-    throwError(arg, must = sprintf("have the following lengths: %s", ex),
-                    not = m)
+  } else {
+    expected <- as.integer(expected)
+    if (is_empty(n) || !identical(n, expected)) {
+      msg <- sprintf("Elements of %s must have the following lengths %s; not %s.",
+                     sQuote(arg), paste0(expected, collapse = ", "), m)
+      throw_error("error_bad_dimension", msg)
+    }
   }
 }
-#' @rdname check
-checkDim <- function(x, expected) {
+
+check_dimension <- function(x, expected) {
   arg <- deparse(substitute(x))
   n <- dim(x)
-  if (any(n != expected)) {
-    m <-  paste0(expected, collapse = " x ")
-    throwError(arg, must = sprintf("be of dimension %s", m),
-                    not = paste0(n, collapse = " x "))
+  expected <- as.integer(expected)
+  if (!identical(n, expected)) {
+    msg <- sprintf("%s must be of dimension %s; not %s.", sQuote(arg),
+                   paste0(expected, collapse = " x "),
+                   paste0(n, collapse = " x "))
+    throw_error("error_bad_dimension", msg)
   }
 }
-#' @rdname check
-checkNames <- function(x, expected) {
+
+check_names <- function(x, expected = NULL, margin = c(1, 2)) {
   arg <- deparse(substitute(x))
-  n <- names(x)
-  if (missing(expected)) {
-    if (isEmpty(n)) {
-      throwError(arg, must = "be named.")
+  if (is.array(x) || is.data.frame(x)) {
+    n <- dimnames(x)[[margin]]
+    if (is_scalar_numeric(margin)) {
+      mar <- ifelse(margin == 1, "row ", "column ")
+    } else {
+      mar <- "dim"
     }
-  } else if (isEmpty(n) || any(n != expected)) {
-    throwError(
-      arg, must = sprintf("have the following names: %s.",
-                          paste0(sQuote(expected), collapse = ", "))
-    )
+  } else {
+    n <- names(x)
+    mar <- ""
+  }
+  if (is.null(expected)) {
+    if (is_empty(n)) {
+      msg <- sprintf("%s must have %snames.", sQuote(arg), mar)
+      throw_error("error_bad_names", msg)
+    }
+  } else if (is_empty(n) || !identical(n, expected)) {
+    msg <- sprintf("%s must have the following %snames: %s.",
+                   sQuote(arg), mar, paste0(expected, collapse = ", "))
+    throw_error("error_bad_names", msg)
   }
 }
-#' @rdname check
-checkColnames <- function(x, expected) {
-  arg <- deparse(substitute(x))
-  n <- colnames(x)
-  if (missing(expected)) {
-    if (isEmpty(n)) {
-      throwError(arg, must = "have column names.")
-    }
-  } else if (isEmpty(n) || any(n != expected)) {
-    throwError(
-      arg, must = sprintf("have the following column names: %s.",
-                          paste0(sQuote(expected), collapse = ", "))
-    )
-  }
-}
-#' @rdname check
-checkMissing <- function(x) {
+
+check_missing <- function(x) {
   arg <- deparse(substitute(x))
   n <- sum(is.na(x))
-  if (n > 0)
-    throwError(
-      arg, must = sprintf("not contain missing values (%d detected).", n)
-    )
+  if (n > 0) {
+    msg <- sprintf("%s must not contain missing values (%d detected).",
+                   sQuote(arg), n)
+    throw_error("error_data_missing", msg)
+  }
 }
-#' @rdname check
-checkInfinite <- function(x) {
+
+check_infinite <- function(x) {
   arg <- deparse(substitute(x))
   n <- sum(is.infinite(x))
-  if (n > 0)
-    throwError(
-      arg, must = sprintf("not contain infinite values (%d detected).", n)
-    )
+  if (n > 0) {
+    msg <- sprintf("%s must not contain infinite values (%d detected).",
+                   sQuote(arg), n)
+    throw_error("error_data_infinite", msg)
+  }
 }
-#' @rdname check
-checkNumbers <- function(x, expected, ...) {
+
+check_numbers <- function(x, expected = c("positive", "whole", "odd"), ...) {
   arg <- deparse(substitute(x))
   predicate <- switch(
     expected,
-    positive = isPositive,
-    whole = isWholeNumber,
+    positive = is_positive,
+    whole = is_whole,
+    odd = is_odd,
     stop("Can't find a predicate for this: ", expected, call. = FALSE)
   )
-  if (!all(predicate(x, ...)))
-    throwError(arg, must = sprintf("contain %s numbers.", expected))
+  if (!all(predicate(x, ...))) {
+    msg <- sprintf("%s must contain %s numbers.", sQuote(arg), expected)
+    throw_error("error_bad_number", msg)
+  }
 }
-#' @rdname check
-checkConstant <- function(x, expected, na.rm = TRUE) {
+
+check_constant <- function(x) {
   arg <- deparse(substitute(x))
   # Check rowSums for array
   if (is.matrix(x) || is.data.frame(x)) {
     x <- rowSums(x)
-    if (!isEqual(x))
-      throwError(arg, must = "have constant row sums")
+    if (!is_equal(x)) {
+      msg <- sprintf("%s must have constant row sums.", sQuote(arg))
+      throw_error("error_bad_value", msg)
+    }
   } else {
-    if (!isEqual(x))
-      throwError(arg, must = "be constant")
+    if (!is_equal(x)) {
+      msg <- sprintf("%s must be constant.", sQuote(arg))
+      throw_error("error_bad_value", msg)
+    }
   }
 }
-#' @rdname check
-checkMatrix <- function(x, expected) {
+
+check_matrix <- function(x, expected = c("square", "symmetric")) {
   arg <- deparse(substitute(x))
   predicate <- switch(
     expected,
-    square = isSquare,
-    symmetric = isSymmetric,
+    square = is_square,
+    symmetric = is_symmetric,
     stop("Can't find a predicate for this matrix: ", expected, call. = FALSE)
   )
-  if (!predicate(x))
-    throwError(arg, must = sprintf("be a %s matrix.", expected))
+  if (!predicate(x)) {
+    msg <- sprintf("%s must be a %s matrix.", sQuote(arg), expected)
+    throw_error("error_bad_matrix", msg)
+  }
 }
 
+check_uuid <- function(x) {
+  arg <- deparse(substitute(x))
+  if (!is_uuid(x)) {
+    msg <- sprintf("%s must be an UUID.", sQuote(arg))
+    throw_error("error_bad_uuid", msg)
+  }
+}
+
+# =================================================================== conditions
 #' Conditions
 #'
-#' @param expr An expression.
-#' @param arg A \code{\link{character}} string specifying the argument name.
-#' @param must,not A \code{\link{character}} string specifying the error
+#' @param message A \code{\link{character}} string specifying the error
 #'  message.
 #' @param call The call.
 #' @param object An object to which error messages are related.
@@ -208,10 +208,22 @@ checkMatrix <- function(x, expected) {
 #' @author N. Frerebeau
 #' @name conditions
 #' @keywords internal
-NULL
+#' @noRd
 
-#' @rdname conditions
-catchConditions <- function(expr) {
+throw_error <- function(.subclass, message, call = NULL, ...) {
+  # TODO: gettext
+  err <- structure(
+    list(
+      message = message,
+      call = call,
+      ...
+    ),
+    class = c(.subclass, "error", "condition")
+  )
+  stop(err)
+}
+
+catch_conditions <- function(expr) {
   conditions <- list()
   add_mess <- function(cnd) {
     conditions <<- append(conditions, list(cnd))
@@ -233,29 +245,12 @@ catchConditions <- function(expr) {
       expr
     )
   )
-  conditions
+  return(conditions)
 }
-#' @rdname conditions
-throwError <- function(arg, must, not = NULL, call = NULL, ...) {
-  msg <- sprintf("`%s` must %s", arg, must)
-  if (!is.null(not)) {
-    msg <- sprintf("%s; not %s.", msg, as.character(not))
-  }
 
-  err <- structure(
-    list(
-      message = msg,
-      call = call,
-      ...
-    ),
-    class = c("error", "condition")
-  )
-  stop(err)
-}
-#' @rdname conditions
-formatErrors <- function(object, errors) {
-  errors <- compact(isEmpty, errors)
-  if (!isEmpty(errors)) {
+throw_error_class <- function(object, errors) {
+  errors <- compact(is_empty, errors)
+  if (!is_empty(errors)) {
     messages <- lapply(
       X = names(errors),
       FUN = function(slot, errors) {
@@ -263,16 +258,25 @@ formatErrors <- function(object, errors) {
       },
       errors = errors
     )
-
-    stop(
-      sprintf(
-        "%s object initialization:\n*  %s",
-        dQuote(class(object)),
-        paste0(unlist(messages), collapse = "\n*  ")
-      ),
-      call. = FALSE
+    error_msg <- sprintf("%s object initialization:\n*  %s",
+                         dQuote(class(object)),
+                         paste0(unlist(messages), collapse = "\n*  "))
+    err <- structure(
+      list(message = error_msg, call = NULL),
+      class = c("error_class_initialize", "error", "condition")
     )
+    stop(err)
   } else {
     TRUE
   }
+}
+
+throw_message_class <- function(class, verbose = getOption("verbose")) {
+  msg <- structure(
+    list(
+      message = sprintf("%s instance initialization...\n", dQuote(class))
+    ),
+    class = c("message_class_initialize", "message", "condition")
+  )
+  if (verbose) message(msg)
 }

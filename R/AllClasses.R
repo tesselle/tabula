@@ -55,7 +55,7 @@ NULL
     accumulation = "matrix"
   ),
   prototype = list(
-    id = "00000000-0000-0000-0000-000000000000",
+    id = "00000000-0000-4000-a000-000000000000",
     counts = matrix(0, 0, 0),
     level = numeric(1),
     model = stats::lm(0 ~ 0),
@@ -121,7 +121,7 @@ NULL
     keep = "list"
   ),
   prototype = list(
-    id = "00000000-0000-0000-0000-000000000000",
+    id = "00000000-0000-4000-a000-000000000000",
     rows = list(id = factor(), x = numeric(0), y = numeric(0)),
     columns = list(id = factor(), x = numeric(0), y = numeric(0)),
     lengths = list(numeric(0), numeric(0)),
@@ -162,7 +162,7 @@ NULL
     method = "character"
   ),
   prototype = list(
-    id = "00000000-0000-0000-0000-000000000000",
+    id = "00000000-0000-4000-a000-000000000000",
     rows = integer(0),
     columns = integer(0),
     method = "unknown"
@@ -272,7 +272,7 @@ NULL
   ),
   prototype = prototype(
     matrix(0, 0, 0),
-    id = "00000000-0000-0000-0000-000000000000"
+    id = "00000000-0000-4000-a000-000000000000"
   ),
   contains = "matrix"
 )
@@ -454,7 +454,7 @@ setClassUnion(
 # INITIALIZATION ===============================================================
 ## DateModel -------------------------------------------------------------------
 DateModel <- function(
-  id = generateUUID(), counts = matrix(0, 0, 0),
+  id = generate_uuid(), counts = matrix(0, 0, 0),
   level = numeric(1), model = stats::lm(0 ~ 0),
   rows = matrix(0, 0, 4,
                 dimnames = list(NULL, c("date", "lower", "upper", "error"))),
@@ -462,10 +462,8 @@ DateModel <- function(
                    dimnames = list(NULL, c("date", "lower", "upper", "error"))),
   accumulation = matrix(0, 0, 2, dimnames = list(NULL, c("date", "error")))
 ) {
+  throw_message_class("SimilarityMatrix")
 
-  if (getOption("verbose")) {
-    message(sprintf("%s instance initialization...", dQuote("BootCA")))
-  }
   .DateModel(
     id = id,
     counts = counts,
@@ -478,15 +476,13 @@ DateModel <- function(
 }
 ## BootCA ----------------------------------------------------------------------
 BootCA <- function(
-  id = generateUUID(),
+  id = generate_uuid(),
   rows = list(id = factor(), x = numeric(0), y = numeric(0)),
   columns = list(id = factor(), x = numeric(0), y = numeric(0)),
   lengths = list(numeric(0), numeric(0)),
   cutoff = c(0, 0), keep = list(integer(0), integer(0))
 ) {
-  if (getOption("verbose")) {
-    message(sprintf("%s instance initialization...", dQuote("BootCA")))
-  }
+  throw_message_class("BootCA")
 
   rows <- mapply(
     FUN = function(x, type) type(x),
@@ -513,12 +509,9 @@ BootCA <- function(
   )
 }
 ## PermutationOrder ------------------------------------------------------------
-PermutationOrder <- function(id = generateUUID(), rows = integer(0),
+PermutationOrder <- function(id = generate_uuid(), rows = integer(0),
                              columns = integer(0), method = "unknown") {
-  if (getOption("verbose")) {
-    message(sprintf("%s instance initialization...",
-                    dQuote("PermutationOrder")))
-  }
+  throw_message_class("PermutationOrder")
   .PermutationOrder(
     id = as.character(id),
     rows = as.integer(rows),
@@ -532,9 +525,7 @@ SpaceTime <- function(
   coordinates = matrix(0, 0, 3, dimnames = list(NULL, c("x", "y", "z"))),
   epsg = 0, ...
 ) {
-  if (getOption("verbose")) {
-    message(sprintf("%s instance initialization...", dQuote("SpaceTime")))
-  }
+  throw_message_class("SpaceTime")
   .SpaceTime(
     dates = dates,
     coordinates = coordinates,
@@ -544,35 +535,23 @@ SpaceTime <- function(
 }
 ## *Matrix ---------------------------------------------------------------------
 Matrix <- function(...) {
-  if (getOption("verbose")) {
-    message(sprintf("%s instance initialization...", dQuote("Matrix")))
-  }
-  .Matrix(..., id = generateUUID(seed = NULL))
+  throw_message_class("Matrix")
+  .Matrix(..., id = generate_uuid(seed = NULL))
 }
 NumericMatrix <- function(data = matrix(0, 0, 0), ...) {
-  if (getOption("verbose")) {
-    message(sprintf("%s instance initialization...", dQuote("NumericMatrix")))
-  }
+  throw_message_class("NumericMatrix")
   .NumericMatrix(Matrix(data), ...)
 }
 LogicalMatrix <- function(data = matrix(FALSE, 0, 0), ...) {
-  if (getOption("verbose")) {
-    message(sprintf("%s instance initialization...", dQuote("LogicalMatrix")))
-  }
+  throw_message_class("LogicalMatrix")
   .LogicalMatrix(Matrix(data), ...)
 }
 OccurrenceMatrix <- function(data = matrix(0, 0, 0), ...) {
-  if (getOption("verbose")) {
-    message(sprintf("%s instance initialization...",
-                    dQuote("OccurrenceMatrix")))
-  }
+  throw_message_class("OccurrenceMatrix")
   .OccurrenceMatrix(NumericMatrix(data), ...)
 }
 SimilarityMatrix <- function(data = matrix(0, 0, 0), method = "unknown", ...) {
-  if (getOption("verbose")) {
-    message(sprintf("%s instance initialization...",
-                    dQuote("SimilarityMatrix")))
-  }
+  throw_message_class("SimilarityMatrix")
   .SimilarityMatrix(NumericMatrix(data), method = as.character(method), ...)
 }
 
@@ -580,9 +559,7 @@ SimilarityMatrix <- function(data = matrix(0, 0, 0), method = "unknown", ...) {
 #' @rdname CountMatrix-class
 CountMatrix <- function(data = 0, nrow = 1, ncol = 1, byrow = FALSE,
                         dimnames = NULL, ...) {
-  if (getOption("verbose")) {
-    message(sprintf("%s instance initialization...", dQuote("CountMatrix")))
-  }
+  throw_message_class("CountMatrix")
   data <- as.integer(round(data, digits = 0))
   M <- buildMatrix(data, nrow, ncol, byrow, dimnames,
                    missing(nrow), missing(ncol))
@@ -593,9 +570,7 @@ CountMatrix <- function(data = 0, nrow = 1, ncol = 1, byrow = FALSE,
 #' @rdname IncidenceMatrix-class
 IncidenceMatrix <- function(data = FALSE, nrow = 1, ncol = 1, byrow = FALSE,
                             dimnames = NULL, ...) {
-  if (getOption("verbose")) {
-    message(sprintf("%s instance initialization", dQuote("IncidenceMatrix")))
-  }
+  throw_message_class("IncidenceMatrix")
   data <- as.logical(data)
   M <- buildMatrix(data, nrow, ncol, byrow, dimnames,
                    missing(nrow), missing(ncol))

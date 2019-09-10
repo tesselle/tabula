@@ -71,8 +71,6 @@ setMethod(
                         event = FALSE, select = 1, n = 500) {
     # Validation
     type <- match.arg(type, several.ok = FALSE)
-    checkScalar(event, expected = "logical")
-    checkScalar(n, expected = "numeric")
     n <- as.integer(n)
 
     # Selection

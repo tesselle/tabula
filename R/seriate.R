@@ -108,7 +108,7 @@ setMethod(
   signature = signature(object = "CountMatrix", order = "PermutationOrder"),
   definition = function(object, order) {
     # Validation
-    compareUUID(object[["id"]], order[["id"]])
+    compare_uuid(object[["id"]], order[["id"]])
 
     # Rearrange matrix
     new_matrix <- object[order[["rows"]], order[["columns"]]]
@@ -125,7 +125,7 @@ setMethod(
   signature = signature(object = "IncidenceMatrix", order = "PermutationOrder"),
   definition = function(object, order) {
     # Validation
-    compareUUID(object[["id"]], order[["id"]])
+    compare_uuid(object[["id"]], order[["id"]])
 
     # Rearrange matrix
     new_matrix <- object[order[["rows"]], order[["columns"]]]

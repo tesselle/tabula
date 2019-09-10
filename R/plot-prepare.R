@@ -142,7 +142,7 @@ prepare_spot <- function(object, threshold = NULL, diag = TRUE) {
   if (!diag) {
     data %<>% dplyr::filter(.data$type != .data$case)
   }
-  if (isSquare(object)) {
+  if (is_square(object)) {
     max_value <- unique(diag(object))
     data %<>% dplyr::mutate(max = max_value)
   }

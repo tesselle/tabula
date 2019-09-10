@@ -142,8 +142,8 @@ similaritySorenson <- function(x, y) {
 #' @rdname index-similarity
 similarityBray <- function(x, y) {
   # Validation
-  checkType(x, expected = "numeric")
-  checkType(y, expected = "numeric")
+  check_type(x, expected = "numeric")
+  check_type(y, expected = "numeric")
   if (length(x) != length(y))
     stop("`x` and `y` must have the same length.", call. = FALSE)
 
@@ -158,8 +158,8 @@ similarityBray <- function(x, y) {
 #' @rdname index-similarity
 similarityMorisita <- function(x, y) {
   # Validation
-  checkType(x, expected = "numeric")
-  checkType(y, expected = "numeric")
+  check_type(x, expected = "numeric")
+  check_type(y, expected = "numeric")
   if (length(x) != length(y))
     stop("`x` and `y` must have the same length.", call. = FALSE)
 
@@ -175,8 +175,8 @@ similarityMorisita <- function(x, y) {
 #' @rdname index-similarity
 similarityBrainerd <- function(x, y) {
   # Validation
-  checkType(x, expected = "numeric")
-  checkType(y, expected = "numeric")
+  check_type(x, expected = "numeric")
+  check_type(y, expected = "numeric")
   if (length(x) != length(y))
     stop("`x` and `y` must have the same length.", call. = FALSE)
 
@@ -190,8 +190,8 @@ similarityBrainerd <- function(x, y) {
 #' @rdname index-similarity
 similarityBinomial <- function(x, y) {
   # Validation
-  checkType(x, expected = "numeric")
-  checkType(y, expected = "numeric")
+  check_type(x, expected = "numeric")
+  check_type(y, expected = "numeric")
   if (length(x) != length(y))
     stop("`x` and `y` must have the same length.", call. = FALSE)
 

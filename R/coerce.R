@@ -15,7 +15,7 @@ matrix2count <- function(from) {
     FUN = function(x) as.integer(round(x, digits = 0))
   )
   dimnames(whole_numbers) <- dimnames(data)
-  .CountMatrix(whole_numbers, id = generateUUID())
+  .CountMatrix(whole_numbers, id = generate_uuid())
 }
 setAs(from = "matrix", to = "CountMatrix", def = matrix2count)
 setAs(from = "data.frame", to = "CountMatrix", def = matrix2count)
@@ -26,7 +26,7 @@ matrix2frequency <- function(from) {
   totals <- rowSums(data)
   freq <- data / totals
   dimnames(freq) <- dimnames(data)
-  .FrequencyMatrix(freq, totals = totals, id = generateUUID())
+  .FrequencyMatrix(freq, totals = totals, id = generate_uuid())
 }
 setAs(from = "matrix", to = "FrequencyMatrix", def = matrix2frequency)
 setAs(from = "data.frame", to = "FrequencyMatrix", def = matrix2frequency)
@@ -35,7 +35,7 @@ setAs(from = "data.frame", to = "FrequencyMatrix", def = matrix2frequency)
 matrix2similarity <- function(from) {
   data <- data.matrix(from)
   rownames(data) <- colnames(from)
-  .SimilarityMatrix(data, method = "unknown", id = generateUUID())
+  .SimilarityMatrix(data, method = "unknown", id = generate_uuid())
 }
 setAs(from = "matrix", to = "SimilarityMatrix", def = matrix2similarity)
 setAs(from = "data.frame", to = "SimilarityMatrix", def = matrix2similarity)
@@ -64,7 +64,7 @@ setAs(
   def = function(from) {
     freq <- methods::S3Part(from, strictS3 = TRUE, "matrix")
     totals <- from@totals
-    if (isEmpty(totals))
+    if (is_empty(totals))
       stop("Cannot calculate absolute frequencies (`totals` is empty).",
            call. = FALSE)
     count <- round(freq * totals, digits = 0)
@@ -102,7 +102,7 @@ matrix2incidence <- function(from) {
     coordinates <- from@coordinates
     epsg <- from@epsg
   } else {
-    id <- generateUUID()
+    id <- generate_uuid()
     dates <- matrix(0, 0, 2, dimnames = list(NULL, c("value", "error")))
     coordinates <- matrix(0, 0, 3, dimnames = list(NULL, c("x", "y", "z")))
     epsg <- 0L
@@ -151,7 +151,7 @@ matrix2occurrence <- function(from) {
   C <- t(C)
   C[lower.tri(C, diag = FALSE)] <- occurrence
 
-  id <- ifelse(isS4(from), from@id, generateUUID())
+  id <- ifelse(isS4(from), from@id, generate_uuid())
   .OccurrenceMatrix(C, id = id)
 }
 

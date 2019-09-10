@@ -53,8 +53,8 @@ setMethod(
 #' @keywords internal
 rarefactionHurlbert <- function(x, sample) {
   # Validation
-  checkType(x, expected = "numeric")
-  checkScalar(sample, expected = "numeric")
+  check_type(x, expected = "numeric")
+  check_scalar(sample, expected = "numeric")
   # Strictly positive whole numbers
   x <- trunc(x, digits = 0)[x > 0]
   sample <- trunc(sample, digits = 0)

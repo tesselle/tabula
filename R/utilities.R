@@ -5,26 +5,21 @@
 #' \code{compact} removes elements from a list or vector.
 #' \code{detect} xxx.
 #' \code{count} xxx.
+#' \code{extract} extracts string form another string based on a pattern.
 #'
 #' %o% allows for function composition.
-#'
-#' %||% xxx.
-#' @param x An object.
-#' @param f,f1,f2 A \code{\link{function}}. In \code{compact} and \code{detect}
-#'  \code{f} must be a logical predicate.
-#' @param g A \code{\link{function}}.
-#' @param lhs An object.
-#' @param rhs An object.
-#' @details
-#'  Adapted from H. Wickham's \emph{Avanced R}.
-#' @return
-#'  TODO
+#' %||% allows to define a default value.
+#' @param x,y An object.
+#' @param f,g A \code{\link{function}}. In \code{compact}, \code{detect}
+#'  and \code{count} \code{f} must be a logical predicate.
+#' @param pattern A \code{\link{character}} string containing a regular
+#'  expression.
 #' @references
 #'  Wickham, H. (2014). \emph{Advanced R}. London: Chapman & Hall. The R Series.
 #' @keywords internal
 #' @noRd
-`%||%` <- function(lhs, rhs) {
-  if (!is.null(lhs)) lhs else rhs
+`%||%` <- function(x, y) {
+  if (!is.null(x) || length(x) != 0) x else y
 }
 `%o%` <- function(f, g) {
   function(...) f(g(...))
@@ -38,38 +33,8 @@ detect <- function(f, x) {
 count <- function(f, x) {
   sum(detect(f, x))
 }
-
-#' Indices of a rolling window
-#'
-#' @param x An object.
-#' @param window A \code{\link{integer}} scalar giving the window size.
-#' @return A \code{\link{list}} with the following components:
-#'  \describe{
-#'   \item{i}{A \code{\link{integer}} vector of indices.}
-#'   \item{w}{A \code{\link{integer}} vector of indices giving the window
-#'   number.}
-#'   \item{m}{A \code{\link{integer}} vector of indices giving the indice of
-#'   the window mid-point.}
-#'  }
-#' @keywords internal
-#' @noRd
-roll <- function(x, window = 3, simplify = FALSE) {
-  # Validation
-  if (!isOdd(window))
-    stop("`window` must be an odd integer.", call. = FALSE)
-
-  if (is.matrix(x) || is.data.frame(x)) {
-    n <- nrow(x)
-  } else {
-    n <- length(x)
-  }
-  i <- seq_len(n) # Indices of the rows
-  # Matrix of rolling-window indices of length w
-  w <- stats::embed(i, window)[, window:1]
-  inds <- i[c(t(w))] # Flatten indices
-  # Window mid-point
-  m <- w[, ceiling(window / 2)]
-  list(i = inds, w = rep(m, each = window))
+extract <- function(x, pattern) {
+  regmatches(x, regexpr(pattern, x))
 }
 
 #' UUID v4
@@ -88,10 +53,9 @@ roll <- function(x, window = 3, simplify = FALSE) {
 #' @author N. Frerebeau
 #' @name UUID
 #' @keywords internal
-NULL
+#' @noRd
 
-#' @rdname UUID
-generateUUID <- function(seed = NULL) {
+generate_uuid <- function(seed = NULL) {
   # Save and restore the random number generator (RNG) state
   if (!exists(".Random.seed", mode = "numeric")) sample(NA)
   old_seed <- .Random.seed
@@ -120,25 +84,11 @@ generateUUID <- function(seed = NULL) {
   uuid
 }
 
-#' @rdname UUID
-checkUUID <- function(x) {
-  arg <- deparse(substitute(x))
+compare_uuid <- function(x, y) {
+  check_uuid(x)
+  check_uuid(y)
 
-  if (!isScalarCharacter(x) || is.na(x))
-    throwError(arg, must = "be a character string.")
-
-  n <- nchar(x)
-  if (n != 36) {
-    throwError(arg, must = "be a 36 characters long string", not = n)
-  }
-}
-
-#' @rdname UUID
-compareUUID <- function(x, y) {
-  checkUUID(x)
-  checkUUID(y)
-
-  if (x != y) {
-    stop(sprintf("IDs do not match:\n* %s\n* %s", x, y), call. = FALSE)
+  if (!identical(x, y)) {
+    stop(sprintf("UUIDs do not match:\n* %s\n* %s", x, y), call. = FALSE)
   }
 }

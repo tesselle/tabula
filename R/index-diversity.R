@@ -107,7 +107,7 @@ NULL
 #' @rdname index-heterogeneity
 dominanceBerger <- function(x, ...) {
   # Validation
-  checkType(x, expected = "numeric")
+  check_type(x, expected = "numeric")
   # Remove zeros
   x <- x[x > 0]
 
@@ -121,7 +121,7 @@ dominanceBerger <- function(x, ...) {
 #' @rdname index-heterogeneity
 diversityBrillouin <- function(x, ...) {
   # Validation
-  checkType(x, expected = "numeric")
+  check_type(x, expected = "numeric")
   # Remove zeros
   x <- x[x > 0]
 
@@ -132,7 +132,7 @@ diversityBrillouin <- function(x, ...) {
 #' @rdname index-heterogeneity
 evennessBrillouin <- function(x, ...) {
   # Validation
-  checkType(x, expected = "numeric")
+  check_type(x, expected = "numeric")
   # Remove zeros
   x <- x[x > 0]
 
@@ -151,7 +151,7 @@ evennessBrillouin <- function(x, ...) {
 #' @rdname index-heterogeneity
 dominanceMcintosh <- function(x, ...) {
   # Validation
-  checkType(x, expected = "numeric")
+  check_type(x, expected = "numeric")
   # Remove zeros
   x <- x[x > 0]
 
@@ -163,7 +163,7 @@ dominanceMcintosh <- function(x, ...) {
 #' @rdname index-heterogeneity
 evennessMcintosh <- function(x, ...) {
   # Validation
-  checkType(x, expected = "numeric")
+  check_type(x, expected = "numeric")
   # Remove zeros
   x <- x[x > 0]
 
@@ -178,7 +178,7 @@ evennessMcintosh <- function(x, ...) {
 #' @rdname index-heterogeneity
 diversityShannon <- function(x, base = exp(1), ...) {
   # Validation
-  checkType(x, expected = "numeric")
+  check_type(x, expected = "numeric")
   # Remove zeros
   x <- x[x > 0]
 
@@ -194,7 +194,7 @@ diversityShannon <- function(x, base = exp(1), ...) {
 #' @rdname index-heterogeneity
 evennessShannon <- function(x, ...) {
   # Validation
-  checkType(x, expected = "numeric")
+  check_type(x, expected = "numeric")
   # Remove zeros
   x <- x[x > 0]
 
@@ -204,7 +204,7 @@ evennessShannon <- function(x, ...) {
 #' @rdname index-heterogeneity
 varianceShannon <- function(x, ...) {
   # Validation
-  checkType(x, expected = "numeric")
+  check_type(x, expected = "numeric")
   # Remove zeros
   x <- x[x > 0]
 
@@ -221,7 +221,7 @@ varianceShannon <- function(x, ...) {
 #' @rdname index-heterogeneity
 dominanceSimpson <- function(x, ...) {
   # Validation
-  checkType(x, expected = "numeric")
+  check_type(x, expected = "numeric")
   # Remove zeros
   x <- x[x > 0]
 
@@ -232,7 +232,7 @@ dominanceSimpson <- function(x, ...) {
 #' @rdname index-heterogeneity
 evennessSimpson <- function(x, ...) {
   # Validation
-  checkType(x, expected = "numeric")
+  check_type(x, expected = "numeric")
   # Remove zeros
   x <- x[x > 0]
 

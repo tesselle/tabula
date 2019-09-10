@@ -10,8 +10,6 @@ setMethod(
   signature = signature(object = "CountMatrix"),
   definition = function(object, level = 0.95, cutoff = 90, ...) {
     # Validation
-    checkScalar(level, expected = "numeric")
-    checkScalar(cutoff, expected = "numeric")
     cutoff <- as.integer(cutoff)
     if (cutoff < 50)
       stop("Cutoff value is below 50%, you can't be serious.", call. = FALSE)

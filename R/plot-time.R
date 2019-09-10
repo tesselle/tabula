@@ -25,7 +25,7 @@ setMethod(
     n <- length(row_names)
     # Get time coordinates
     time <- get_dates(object)[["value"]]
-    if (isEmpty(time))
+    if (is_empty(time))
         stop("Time coordinates are missing!", call. = FALSE)
 
     data <- object %>%
@@ -131,7 +131,7 @@ setMethod(
 #' @noRd
 roll <- function(x, window = 3, simplify = FALSE) {
   # Validation
-  if (!isOdd(window))
+  if (!is_odd(window))
     stop("`window` must be an odd integer.", call. = FALSE)
 
   if (is.matrix(x) || is.data.frame(x)) {

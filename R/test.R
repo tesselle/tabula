@@ -14,7 +14,7 @@ setMethod(
 
     # Get time coordinates
     time <- get_dates(object)[["value"]]
-    if (isEmpty(time))
+    if (is_empty(time))
       stop("No dates were found!", call. = FALSE)
 
     results <- testFIT(object, time, roll = FALSE)[[1L]]
@@ -30,15 +30,13 @@ setMethod(
 
     if (!simplify)
       results <- split(x = results, f = rownames(results))
-    results
+    return(results)
   }
 )
 
 # ==============================================================================
 testFIT <- function(x, time, roll = FALSE, window = 3, ...) {
   # Validation
-  checkType(x, expected = "numeric")
-  checkType(time, expected = "numeric")
   roll <- as.logical(roll)[1L]
   window <- as.integer(window)[1L]
 
@@ -77,7 +75,7 @@ testFIT <- function(x, time, roll = FALSE, window = 3, ...) {
     f = roll_freq, t = roll_time,
     SIMPLIFY = FALSE
   )
-  results
+  return(results)
 }
 
 #' Frequency Increment Test (FIT)
@@ -96,18 +94,12 @@ testFIT <- function(x, time, roll = FALSE, window = 3, ...) {
 #'  Signatures of Selection in Genetic Time Series. \emph{Genetics}, 196(2),
 #'  509-522.
 #'  DOI: \href{https://doi.org/10.1534/genetics.113.158220}{10.1534/genetics.113.158220}.
-# @examples
-# ## Data from Feder et al. 2014 (table S2)
-# FIT(
-#   v = c(8/115, 34/64, 84/102, 73/93, 98/105, 97/99, 97/98),
-#   t = c(415, 505, 585, 665, 745, 825, 910)
-# )
 #' @keywords internal
 #' @noRd
 FIT <- function(v, t, ...) {
   # Validation
-  checkType(v, expected = "numeric")
-  checkType(t, expected = "numeric")
+  if (!is.numeric(v) || !is.numeric(t))
+    stop("`v` and `t` must be of numeric type.", call. = FALSE)
   if (length(v) != length(t))
     stop("`v` and `t` must have the same length.", call. = FALSE)
   # Remove zeros

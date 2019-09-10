@@ -132,8 +132,8 @@ NULL
 #' @rdname index-richness
 richnessACE <- function(x, k = 10, ...) {
   # Validation
-  checkType(x, expected = "numeric")
-  checkScalar(k, expected = "numeric")
+  check_type(x, expected = "numeric")
+  check_scalar(k, expected = "numeric")
 
   x <- x[x > 0] # Remove unobserved species
   S <- length(x) # Number of observed species
@@ -174,9 +174,9 @@ richnessACE <- function(x, k = 10, ...) {
 #' @rdname index-richness
 richnessChao1 <- function(x, unbiased = FALSE, improved = FALSE, ...) {
   # Validation
-  checkType(x, expected = "numeric")
-  checkScalar(unbiased, expected = "logical")
-  checkScalar(improved, expected = "logical")
+  check_type(x, expected = "numeric")
+  check_scalar(unbiased, expected = "logical")
+  check_scalar(improved, expected = "logical")
 
   x <- x[x > 0] # Remove unobserved species
   S <- length(x) # Number of observed species
@@ -210,7 +210,7 @@ richnessChao1 <- function(x, unbiased = FALSE, improved = FALSE, ...) {
 #' @rdname index-richness
 richnessMargalef <- function(x, ...) {
   # Validation
-  checkType(x, expected = "numeric")
+  check_type(x, expected = "numeric")
 
   x <- x[x > 0] # Remove unobserved species
   N <- sum(x) # Number of individuals
@@ -222,7 +222,7 @@ richnessMargalef <- function(x, ...) {
 #' @rdname index-richness
 richnessMenhinick <- function(x, ...) {
   # Validation
-  checkType(x, expected = "numeric")
+  check_type(x, expected = "numeric")
 
   x <- x[x > 0] # Remove unobserved species
   N <- sum(x) # Number of individuals
@@ -235,8 +235,8 @@ richnessMenhinick <- function(x, ...) {
 #' @rdname index-richness
 richnessICE <- function(x, k = 10, ...) {
   # Validation
-  checkType(x, expected = "logical")
-  checkScalar(k, expected = "numeric")
+  check_type(x, expected = "logical")
+  check_scalar(k, expected = "numeric")
 
   q <- colSums(x) # Number of species in the assemblage
   q <- q[q > 0] # Remove unobserved species
@@ -280,9 +280,9 @@ richnessICE <- function(x, k = 10, ...) {
 #' @rdname index-richness
 richnessChao2 <- function(x, unbiased = FALSE, improved = FALSE, ...) {
   # Validation
-  checkType(x, expected = "logical")
-  checkScalar(unbiased, expected = "logical")
-  checkScalar(improved, expected = "logical")
+  check_type(x, expected = "logical")
+  check_scalar(unbiased, expected = "logical")
+  check_scalar(improved, expected = "logical")
 
   q <- colSums(x) # Number of species in the assemblage
   q <- q[q > 0] # Remove unobserved species
