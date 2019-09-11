@@ -42,11 +42,10 @@ NULL
 #'   (and \code{NA} will be generated).}
 #'  }
 #'
-#'  \code{get_features} is an EXPERIMENTAL method for spatial manipulation with
-#'  \pkg{sf}. It converts an \code{AbundanceMatrix} object to
-#'  a collection of features (i.e. a\code{\link[=data.frame]{data frame}} of
-#'  class \code{\link[sf]{sf}}). The \pkg{sf} package must be installed on your
-#'  machine to use this method.
+#'  \code{get_features} converts an \code{AbundanceMatrix} object to a
+#'  collection of features (i.e. a\code{\link[=data.frame]{data frame}} with
+#'  dates and coordinates columns) that can be used for spatial manipulation
+#'  with \pkg{sf}.
 #' @return
 #'  TODO
 #' @author N. Frerebeau

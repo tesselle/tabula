@@ -131,7 +131,9 @@ set_coordinates(A1) <- list(X = sample(0:10, 10, TRUE),
 get_coordinates(A1)
 \donttest{
 ## Convert to a sf object (the sf package must be installed on your machine)
-get_features(A1)
+feat <- get_features(A1)
+sf::st_as_sf(feat, crs = 4326, coords = c("X", "Y"), dim = "XY",
+             remove = FALSE, na.fail = TRUE)
 }
 }
 \seealso{

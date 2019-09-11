@@ -88,7 +88,7 @@ compare_uuid <- function(x, y) {
   check_uuid(x)
   check_uuid(y)
 
-  if (!identical(x, y)) {
+  if (x != y) {
     stop(sprintf("UUIDs do not match:\n* %s\n* %s", x, y), call. = FALSE)
   }
 }

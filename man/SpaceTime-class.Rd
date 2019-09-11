@@ -38,8 +38,8 @@ as by \code{\link{as.integer}} (and hence truncated towards zero).}
   coerced to \code{\link{integer}} as by \code{\link{as.integer}} (and hence
   truncated towards zero).}
   \item{\code{get_features(x)}}{Convert an \code{AbundanceMatrix}
-  object to a \code{\link[=data.frame]{data frame}} of class
-  \code{\link[sf]{sf}}.}
+  object to a \code{\link[=data.frame]{data frame}} with dates and
+  coordinates columns.}
  }
 }
 

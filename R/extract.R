@@ -179,23 +179,26 @@ setMethod(
   f = "get_features",
   signature = "AbundanceMatrix",
   definition = function(object) {
-    if (requireNamespace("sf", quietly = TRUE)) {
-      epsg <- get_epsg(object)
-      coords <- get_coordinates(object)
-      if (any(lengths(coords) == 0))
-        stop("No coordinates!", call. = FALSE)
-
-      XYZ_index <- !vapply(X = coords, FUN = anyNA, FUN.VALUE = logical(1))
-      XYZ_coords <- c("X", "Y", "Z")[XYZ_index]
-      XYZ_dim <- paste0(XYZ_coords, collapse = "")
-
-      abundance <- cbind.data.frame(SITE = rownames(object), object)
-      data_frame <- cbind.data.frame(coords[XYZ_index], abundance)
-      sf::st_as_sf(data_frame, crs = epsg, coords = XYZ_coords, dim = XYZ_dim,
-                   remove = TRUE, na.fail = TRUE)
-    } else {
-      stop("The sf package is needed for this method.", call. = FALSE)
+    # Spatial coordinates
+    epsg <- get_epsg(object)
+    coords <- get_coordinates(object)
+    if (any(lengths(coords) == 0)) {
+      coords <- matrix(data = rep(NA_real_, 3 * nrow(object)), ncol = 3,
+                       dimnames = list(NULL, c("X", "Y", "Z")))
+      coords <- as.data.frame(coords)
+      message("No coordinates were set, NA generated.")
     }
+    # Time coordinates
+    dates <- get_dates(object)
+    if (any(lengths(dates) == 0)) {
+      dates <- matrix(data = rep(NA_real_, 2 * nrow(object)), ncol = 2)
+      dates <- as.data.frame(dates)
+      message("No dates were set, NA generated.")
+    }
+    colnames(dates) <- c("DATE_VALUE", "DATE_ERROR")
+
+    # XYZ_index <- !vapply(X = coords, FUN = anyNA, FUN.VALUE = logical(1))
+    cbind.data.frame(SITE = rownames(object), coords, dates, object)
   }
 )
 
