@@ -20,7 +20,8 @@ setMethod(
     # Prepare data
     gg_roll <- NULL
     # Get row names and coerce to factor (preserve original ordering)
-    row_names <- rownames(object) %>% factor(levels = unique(.))
+    row_names <- rownames(object)
+    row_names <- factor(x = row_names, levels = unique(row_names))
     # Get number of cases
     n <- length(row_names)
     # Get time coordinates
@@ -28,50 +29,52 @@ setMethod(
     if (is_empty(time))
         stop("Time coordinates are missing!", call. = FALSE)
 
-    data <- object %>%
-      as.data.frame() %>%
-      dplyr::mutate(case = row_names,
-                    time = time) %>%
-      tidyr::gather(key = "type", value = "frequency", -.data$case, -.data$time,
-                    factor_key = TRUE) %>%
-      dplyr::filter(.data$frequency > 0) # Remove zeros in case of log scale
+    data_stacked <- utils::stack(as.data.frame(object))
+    data <- cbind.data.frame(row_names, time, data_stacked)
+    colnames(data) <- c("case", "time", "frequency", "type")
+    # Preserves the original ordering of the columns
+    data$type <- factor(data$type, levels = unique(data$type))
+
+    # Remove zeros in case of log scale
+    data <- data[data$frequency > 0, ]
 
     if (highlight == "FIT") {
-      signature <- testFIT(object, time, roll = FALSE)[[1L]] %>%
-        as.data.frame() %>%
-        dplyr::transmute(
-          type = factor(rownames(.), levels = unique(rownames(.))),
-          signature = ifelse(.data$p.value <= alpha, "selection", "neutral")
-        )
+      signature <- as.data.frame(testFIT(object, time, roll = FALSE)[[1L]])
+      signature <- cbind.data.frame(
+        type = factor(rownames(signature), levels = unique(rownames(signature))),
+        signature = ifelse(signature$p.value <= alpha, "selection", "neutral")
+      )
 
-      data %<>% dplyr::left_join(y = signature, by = c("type"))
+      data <- merge(x = data, y = signature, by = c("type"),
+                    all.x = TRUE, all.y = FALSE)
 
       if (roll) {
         k <- (window - 1) / 2
-        fit <- object %>%
-          testFIT(time, roll = roll, window = window) %>%
-          lapply(FUN = function(x) {
-            x %>%
-              as.data.frame() %>%
-              dplyr::mutate(
-                type = factor(rownames(.), levels = unique(rownames(.)))
-              )
-          }) %>%
-          dplyr::bind_rows(.id = "w") %>%
-          dplyr::transmute(
-            type = .data$type,
-            sub_signature = ifelse(.data$p.value <= alpha,
-                                   "selection", "neutral"),
-            time = time[as.integer(.data$w)]
-          )
+        fit <- testFIT(object, time, roll = roll, window = window)
+        fit <- lapply(
+          X = fit,
+          FUN = function(x) {
+            row_names <- factor(rownames(x), levels = unique(rownames(x)))
+            cbind.data.frame(type = row_names, x)
+          })
+        id <- rep(names(fit), times = vapply(fit, nrow, numeric(1)))
+        fit <- do.call(rbind.data.frame, fit)
+        fit <- cbind.data.frame(
+          type = fit$type,
+          sub_signature = ifelse(fit$p.value <= alpha, "selection", "neutral"),
+          time = time[as.integer(id)]
+        )
 
-        data %<>% dplyr::left_join(y = fit, by = c("type", "time")) %>%
-          dplyr::arrange(.data$type, .data$time) %>%
-          dplyr::group_by(.data$type) %>%
-          dplyr::mutate(
-            sub_signature = ifelse(
+        data <- merge(x = data, y = fit, by = c("type", "time"),
+                      all.x = TRUE, all.y = FALSE)
+        data <- data[order(data$type, data$time), ]
+        data <- by(
+          data,
+          INDICES = data$type,
+          FUN = function(x, k) {
+            sub_signature <- ifelse(
               vapply(
-                X = seq_along(.data$sub_signature),
+                X = seq_along(x$sub_signature),
                 FUN = function(x, var, k) {
                   max <- length(var)
                   lower <- x - k
@@ -81,20 +84,26 @@ setMethod(
                   any(var[lower:upper] == "selection")
                 },
                 FUN.VALUE = logical(1),
-                var = .data$sub_signature, k = k
+                var = x$sub_signature, k = k
               ),
               "selection", "neutral")
-          ) %>%
-          dplyr::ungroup()
+            x$sub_signature <- sub_signature
+            x
+          },
+          k = k
+        )
+        data <- do.call(rbind.data.frame, data)
 
-        gg_roll <- data %>%
-          dplyr::filter(.data$sub_signature == "selection") %>%
-          ggplot2::geom_line(mapping = ggplot2::aes(group = .data$type),
-                             size = 5, colour = "grey80", lineend = "round")
+        data_sub <- stats::na.omit(data[data$sub_signature == "selection", ])
+        gg_roll <- ggplot2::geom_line(
+          data = data_sub,
+          mapping = ggplot2::aes(group = data_sub$type),
+          size = 5, colour = "grey80", lineend = "round"
+        )
       }
     }
 
-    data %<>% dplyr::arrange(.data$type, .data$time)
+    data <- data[order(data$type, data$time), ]
 
     # ggplot
     colour <- ifelse(highlight == "FIT", "signature", "type")

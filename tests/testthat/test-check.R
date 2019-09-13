@@ -85,15 +85,15 @@ test_that("object property checks return an error", {
   expect_s3_class(cnd[[1]], "error_bad_names")
 })
 test_that("data checks return an error", {
-  k <- sample(c(1:3, NA), size = 15, replace = TRUE)
+  k <- sample(c(1, NA), size = 15, replace = TRUE)
   cnd <- catch_conditions(check_missing(k))
   expect_s3_class(cnd[[1]], "error_data_missing")
 
-  k <- sample(c(1:3, NaN), size = 15, replace = TRUE)
+  k <- sample(c(1, NaN), size = 15, replace = TRUE)
   cnd <- catch_conditions(check_missing(k))
   expect_s3_class(cnd[[1]], "error_data_missing")
 
-  k <- sample(c(1:3, Inf), size = 15, replace = TRUE)
+  k <- sample(c(1, Inf), size = 15, replace = TRUE)
   cnd <- catch_conditions(check_infinite(k))
   expect_s3_class(cnd[[1]], "error_data_infinite")
 })

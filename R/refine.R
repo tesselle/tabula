@@ -31,8 +31,14 @@ setMethod(
     keep_rows <- which(length_rows < limit_rows)
     keep_columns <- which(length_columns < limit_columns)
     # Bind hull vertices in a data.frame
-    rows <- dplyr::bind_rows(hull_rows, .id = "id")
-    cols <- dplyr::bind_rows(hull_columns, .id = "id")
+    id_rows <- rep(names(hull_rows),
+                   times = vapply(hull_rows, nrow, numeric(1)))
+    rows <- do.call(rbind.data.frame, hull_rows)
+    rows <- cbind.data.frame(id = id_rows, rows)
+    id_cols <- rep(names(hull_columns),
+                   times = vapply(hull_columns, nrow, numeric(1)))
+    cols <- do.call(rbind.data.frame, hull_columns)
+    cols <- cbind.data.frame(id = id_cols, cols)
 
     BootCA(
       id = object[["id"]],
@@ -126,16 +132,15 @@ setMethod(
     if ("jackknife" %in% method) {
       jack_event <- jackDate(counts, fit, keep = keep_dim, level = level, ...)
       # Compute jaccknife bias
-      results <- jack_event %>%
-        as.data.frame() %>%
-        dplyr::transmute(
-          id = factor(rownames(.), levels = rownames(.)),
-          date = .data$date,
-          lower = .data$lower,
-          upper = .data$upper,
-          error = .data$error,
-          bias = (ncol(counts) - 1) * (.data$date - row_event[, "date"])
-        )
+      results <- rownames_to_column(jack_event, factor = TRUE, id = "id")
+      results <- cbind.data.frame(
+        id = results$id,
+        date = results$date,
+        lower = results$lower,
+        upper = results$upper,
+        error = results$error,
+        bias = (ncol(counts) - 1) * (results$date - row_event[, "date"])
+      )
     }
     ## Bootstrap assemblages
     if ("bootstrap" %in% method) {
@@ -253,12 +258,11 @@ jackDate <- function(x, model, keep = ncol(x), level = 0.95, ...) {
   level <- as.numeric(level)
 
   # Get data
-  dates <- model$model %>%
-    as.data.frame() %>%
-    dplyr::transmute(
-      id = factor(rownames(.), levels = rownames(.)),
-      date = .data$date
-    )
+  dates <- rownames_to_column(model$model, factor = TRUE, id = "id")
+  dates <- cbind.data.frame(
+    id = dates$id,
+    date = dates$date
+  )
 
   # CA on the whole dataset
   axes <- min(dim(x))
@@ -280,9 +284,9 @@ jackDate <- function(x, model, keep = ncol(x), level = 0.95, ...) {
     # Gaussian multiple linear regression model
     contexts <- merge(dates, row_coord[, keep], by.x = "id", by.y = "row.names")
     ## Remove column 'id' before fitting
-    contexts %<>%
-      as.data.frame() %>%
-      dplyr::select(-.data$id)
+    contexts <- as.data.frame(contexts)
+    contexts <- contexts[, !(names(contexts) %in% c("id"))]
+
     fit <- stats::lm(date ~ ., data = contexts)
     # Return model coefficients
     return(stats::coef(fit))

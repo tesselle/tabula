@@ -89,7 +89,6 @@ Plots the two probability estimate density curves of
 \examples{
 ## Coerce the merzbach dataset to a count matrix
 ## Keep only decoration types that have a maximum frequency of at least 50
-data("merzbach")
 keep <- apply(X = merzbach, MARGIN = 2, FUN = function(x) max(x) >= 50)
 count_merzbach <- as(merzbach[, keep], "CountMatrix")
 

@@ -10,15 +10,14 @@ setMethod(
   signature = signature(object = "AbundanceMatrix"),
   definition = function(object, select = NULL, sort = "dsc") {
     # Get dates
-    dates <- object@dates %>%
-      as.data.frame() %>%
-      dplyr::mutate(
-        y = dplyr::row_number(),
-        id = factor(rownames(.), levels = unique(rownames(.))),
-        min = .data$value - .data$error,
-        max = .data$value + .data$error
-      ) %>%
-      dplyr::filter(stats::complete.cases(.))
+    dates <- rownames_to_column(object@dates, factor = TRUE, id = "id")
+    dates <- cbind.data.frame(
+      dates,
+      y = seq_len(nrow(dates)),
+      min = dates$value - dates$error,
+      max = dates$value + dates$error
+    )
+    dates <- dates[stats::complete.cases(dates), ]
 
     # Selection
     cases <- dates[["id"]]
@@ -33,16 +32,16 @@ setMethod(
     if (k == 0)
       stop("Wrong selection.", call. = FALSE)
 
-    dates %<>% dplyr::slice(index)
+    dates <- dates[index, ]
 
     if (!is.null(sort)) {
       sort <- match.arg(sort, choices = c("asc", "dsc"), several.ok = FALSE)
       dates <- switch (
         sort,
-        asc = dplyr::arrange(dates, .data$value),
-        dsc = dplyr::arrange(dates, dplyr::desc(.data$value))
+        asc = dates[order(dates$value), ],
+        dsc = dates[order(dates$value, decreasing = TRUE), ]
       )
-      dates %<>% dplyr::mutate(y = dplyr::row_number())
+      dates[["y"]] <- seq_len(nrow(dates))
     }
 
     # Set error bar height
@@ -110,8 +109,10 @@ setMethod(
       )
       colnames(date_event) <- cases[index]
 
-      row_data <- cbind.data.frame(date = date_range, date_event) %>%
-        tidyr::gather(key = "assemblage", value = "density", -date)
+      # Build a long table for ggplot2
+      row_stacked <- utils::stack(as.data.frame(date_event))
+      row_data <- cbind.data.frame(date = date_range, row_stacked)
+      colnames(row_data) <- c("date", "density", "assemblage")
       plot_event <- ggplot2::geom_line(data = row_data, color = "black")
     }
 
@@ -141,8 +142,10 @@ setMethod(
       density = col_density
     )
 
-    col_data <- cbind.data.frame(date = date_range, date_acc) %>%
-      tidyr::gather(key = "assemblage", value = "density", -date)
+    # Build a long table for ggplot2
+    col_stacked <- utils::stack(as.data.frame(date_acc))
+    col_data <- cbind.data.frame(date = date_range, col_stacked)
+    colnames(col_data) <- c("date", "density", "assemblage")
 
     # ggplot
     plot_accumulation <- switch(

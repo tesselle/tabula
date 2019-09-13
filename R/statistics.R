@@ -79,39 +79,6 @@ combination <- function(n, k) {
   c
 }
 
-#' Confidence Interval for a Proportion
-#'
-#' Computes the margin of errors of a confidence interval at a desired level of
-#'  significance.
-#' @param x A \code{\link{numeric}} vector.
-#' @param level A length-one \code{\link{numeric}} vector giving the significance
-#'  level to be used.
-#' @param type A \code{\link{character}} string giving the type of confidence
-#'  interval to be returned. It must be one \code{normal} (default) or
-#'  \code{student}. Any unambiguous substring can be given.
-#' @return A \code{\link{numeric}} vector giving the margin of errors.
-#' @author N. Frerebeau
-#' @keywords internal
-#' @noRd
-confidence <- function(x, level = 0.95, type = c("normal", "student")) {
-  # Validation
-  check_type(x, expected = "numeric")
-  type <- match.arg(type, several.ok = FALSE)
-
-  n <- sum(x)
-  p <- x / n
-  z <- switch(
-    type,
-    "normal" = stats::qnorm(1 - level / 2),
-    "student" = stats::qt(1 - level / 2, n - 1),
-    stop(sprintf("There is no such type: %s", type), call. = FALSE)
-  )
-  stardard_error <- sqrt(p * (1 - p) / n)
-
-  margin <- z * stardard_error
-  margin
-}
-
 #' Jackknife Estimation
 #'
 #' @param x A vector.
@@ -142,3 +109,87 @@ jackknife <- function(x, do, ...) {
 
   list(values = jack_values, bias = jack_bias, error = jack_error)
 }
+
+#' Confidence Interval for a Proportion
+#'
+#' Computes the margin of errors of a confidence interval at a desired level of
+#'  significance.
+#' @param x A \code{\link{numeric}} vector.
+#' @param alpha A length-one \code{\link{numeric}} vector giving the significance
+#'  level to be used.
+#' @param type A \code{\link{character}} string giving the type of confidence
+#'  interval to be returned. It must be one \code{normal} (default) or
+#'  \code{student}. Any unambiguous substring can be given.
+#' @return A \code{\link{numeric}} vector giving the margin of errors.
+#' @author N. Frerebeau
+#' @keywords internal
+#' @noRd
+confidence_proportion <- function(x, alpha = 0.05,
+                                  type = c("normal", "student")) {
+  # Validation
+  check_type(x, expected = "numeric")
+  type <- match.arg(type, several.ok = FALSE)
+
+  n <- sum(x)
+  p <- x / n
+  z <- switch(
+    type,
+    "normal" = stats::qnorm(1 - alpha / 2),
+    "student" = stats::qt(1 - alpha / 2, n - 1),
+    stop(sprintf("There is no such type: %s", type), call. = FALSE)
+  )
+  stardard_error <- sqrt(p * (1 - p) / n)
+
+  margin <- z * stardard_error
+  margin
+}
+
+# confidence_mean <- function(x, alpha = 0.05, type = c("student", "normal")) {
+#   # Validation
+#   check_type(x, expected = "numeric")
+#   type <- match.arg(type, several.ok = FALSE)
+#
+#   n <- length(x)
+#   z <- switch(
+#     type,
+#     "normal" = stats::qnorm(1 - alpha / 2),
+#     "student" = stats::qt(1 - alpha / 2, n - 1),
+#     stop(sprintf("There is no such type: %s", type), call. = FALSE)
+#   )
+#   stardard_error <- sd(x) / sqrt(n)
+#
+#   margin <- z * stardard_error
+#   mean(x) + margin * c(-1, 1)
+# }
+
+#' Bootstrap Confidence Interval
+#'
+#'
+#' @return A \code{\link{numeric}} vector giving the margin of errors.
+#' @author N. Frerebeau
+#' @keywords internal
+#' @noRd
+# confidence_bootstrap <- function(x, alpha = 0.05, n = 1000) {
+#   # Validation
+#   check_type(x, expected = "numeric")
+#
+#   # Bootstrap
+#   x_names <- names(x)
+#   sample_levels <- if (is.null(x_names)) seq_len(length(x)) else x_names
+#   # Preserve original order of columns
+#   sample_levels <- factor(sample_levels, levels = unique(sample_levels))
+#   sample_seq <- rep(sample_levels, times = x)
+#   sample_size <- length(sample_seq)
+#
+#   foo <- function(x, s) {
+#     table(sample(x = x, size = s, replace = TRUE))
+#   }
+#   rpl <- replicate(n, foo(x = sample_seq, s = sample_size))# / sample_size)
+#
+#   apply(
+#     X = rpl,
+#     MARGIN = 1,
+#     FUN = confidence_mean,
+#     alpha = alpha
+#   )
+# }

@@ -15,10 +15,10 @@ test_that("Binomial coefficient", {
   expect_message(combination(171, 3), "Ramanujan approximation of x!")
 })
 test_that("Confidence interval for a proportion", {
-  expect_type(confidence(1:10, level = 0.05, type = "norm"), "double")
-  expect_type(confidence(1:10, level = 0.05, type = "stud"), "double")
-  expect_length(confidence(1:10), 10)
-  expect_error(confidence(LETTERS))
+  expect_type(confidence_proportion(1:10, alpha = 0.05, type = "norm"), "double")
+  expect_type(confidence_proportion(1:10, alpha = 0.05, type = "stud"), "double")
+  expect_length(confidence_proportion(1:10), 10)
+  expect_error(confidence_proportion(LETTERS))
 })
 test_that("Jackknife estimation", {
   jack <- jackknife(1:10, sum)

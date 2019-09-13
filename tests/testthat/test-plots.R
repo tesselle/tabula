@@ -8,6 +8,27 @@ test_sim <- similarity(test_count)
 
 test_that("Deprecated plot", {
   # Deprecated
+  gg_old_bar1 <- suppressWarnings(
+    plotBar(test_count, level = FALSE, EPPM = FALSE,
+            center = TRUE, horizontal = FALSE)
+  )
+  vdiffr::expect_doppelganger("gg_old_bar1", gg_old_bar1)
+  gg_old_bar2 <- suppressWarnings(
+    plotBar(test_count, level = 0.95, EPPM = FALSE,
+            center = TRUE, horizontal = FALSE)
+  )
+  vdiffr::expect_doppelganger("gg_old_bar2", gg_old_bar2)
+  gg_old_bar3 <- suppressWarnings(
+    plotBar(test_count, level = 0.95, EPPM = TRUE,
+            center = TRUE, horizontal = FALSE)
+  )
+  vdiffr::expect_doppelganger("gg_old_bar3", gg_old_bar3)
+  gg_old_bar4 <- suppressWarnings(
+    plotBar(test_count, level = FALSE, EPPM = TRUE,
+            center = FALSE, horizontal = TRUE)
+  )
+  vdiffr::expect_doppelganger("gg_old_bar4", gg_old_bar4)
+
   expect_warning(plotBar(test_count), "deprecated")
   expect_warning(plotBar(test_freq), "deprecated")
   expect_warning(plotMatrix(test_count), "deprecated")

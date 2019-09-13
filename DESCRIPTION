@@ -48,25 +48,23 @@ BugReports: http://github.com/nfrerebeau/tabula/issues
 Depends: 
     R (>= 3.2)
 Imports:
-    dplyr (>= 0.8.0.1),
     ca (>= 0.71),
-    ggplot2 (>= 3.1.0),
+    ggplot2 (>= 3.2.1),
     grDevices,
-    magrittr (>= 1.5),
     methods,
-    rlang (>= 0.3.1),
+    rlang (>= 0.4.0),
     stats,
-    tidyr (>= 0.8.3),
     utils
 Suggests:
-    covr,
+    covr (>= 3.3.1),
     khroma (>= 1.2.0),
     knitr,
-    pbapply (>= 1.4-0),
+    magrittr (>= 1.5),
+    pbapply (>= 1.4-2),
     rmarkdown,
     sf (>= 0.7-7),
-    testthat (>= 2.1.1),
-    vdiffr (>= 0.3.0)
+    testthat (>= 2.2.1),
+    vdiffr (>= 0.3.1)
 VignetteBuilder: 
     knitr
 Encoding: UTF-8

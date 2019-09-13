@@ -15,10 +15,9 @@ setMethod(
       stop("Cutoff value is below 50%, you can't be serious.", call. = FALSE)
 
     # Get dates
-    dates <- object@dates %>%
-      as.data.frame() %>%
-      dplyr::mutate(id = factor(rownames(.), levels = rownames(.))) %>%
-      dplyr::filter(stats::complete.cases(.))
+    dates <- rownames_to_column(object@dates, factor = TRUE, id = "id")
+    dates <- dates[stats::complete.cases(dates), ]
+
     if (nrow(dates) == 0)
       stop("No dates were found!", call. = FALSE)
     # Get count data
@@ -40,11 +39,10 @@ setMethod(
     contexts <- merge(dates, row_coord, by.x = "id", by.y = "row.names")
     ctxt_id <- contexts$id
     ## Remove 'id' and 'error' columns before fitting
-    contexts %<>%
-      as.data.frame() %>%
-      dplyr::select(-.data$id, -.data$error) %>%
-      dplyr::rename(date = "value")
-    ## Set rownames (removed by dplyr): we need these for refine()
+    contexts <- contexts[, !(names(contexts) %in% c("id", "error"))]
+    names(contexts)[names(contexts) == "value"] <- "date"
+
+    ## Set rownames: we need these for refine()
     rownames(contexts) <- ctxt_id
     fit <- stats::lm(date ~ ., data = contexts)
 

@@ -37,6 +37,38 @@ extract <- function(x, pattern) {
   regmatches(x, regexpr(pattern, x))
 }
 
+#' Row Names
+#'
+#' Converts row names to an explicit column.
+#' @param x A \code{\link{matrix}} or \code{\link{data.frame}}.
+#' @param factor A \code{\link{logical}} scalar: should row names be coerced to
+#'  factors? The default (\code{TRUE}) preserves the original ordering of the
+#'  columns.
+#' @param id A \code{\link{character}} string giving the name of the newly
+#'  created column.
+#' @return A data.frame
+#' @author N. Frerebeau
+#' @keywords internal
+#' @noRd
+rownames_to_column <- function(x, factor = TRUE, id = "id") {
+  if (!is.matrix(x) && !is.data.frame(x))
+    stop("A matrix or data.frame is expected.", call. = FALSE)
+
+  row_names <- rownames(x)
+  col_names <- colnames(x)
+  if (is.null(col_names)) {
+    col_names <- paste0("V", seq_len(ncol(x)))
+  }
+  if (factor) {
+    row_names <- factor(x = row_names, levels = row_names)
+  }
+  y <- cbind.data.frame(row_names, x, stringsAsFactors = FALSE)
+  if (is.character(id)) {
+    colnames(y) <- c(id, col_names)
+  }
+  y
+}
+
 #' UUID v4
 #'
 #' Generates a universally unique identifier (UUID v4).

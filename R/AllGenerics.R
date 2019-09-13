@@ -997,17 +997,16 @@ setGeneric(
 #' Test
 #'
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
-#' @param method A \code{\link{character}} string specifiying the method to be
-#'  used (see details). Any unambiguous substring can be given.
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  The following methods are available:
 #'  \describe{
-#'   \item{FIT}{The Frequency Increment Test (Feder et al. 2014). This
-#'   test rejects neutrality if the distribution of normalized variant frequency
-#'   increments exhibits a mean that deviates significantly from zero.}
+#'   \item{\code{test_fit}}{The Frequency Increment Test (Feder et al. 2014).
+#'   This test rejects neutrality if the distribution of normalized variant
+#'   frequency increments exhibits a mean that deviates significantly from
+#'   zero.}
 #'  }
 #' @return
 #'  TODO

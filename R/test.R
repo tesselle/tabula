@@ -7,9 +7,8 @@ NULL
 setMethod(
   f = "test_fit",
   signature = signature(object = "CountMatrix"),
-  definition = function(object, method = c("FIT"), simplify = FALSE, ...) {
+  definition = function(object, simplify = FALSE, ...) {
     # Validation
-    method <- match.arg(method, several.ok = FALSE)
     simplify <- as.logical(simplify)[1L]
 
     # Get time coordinates

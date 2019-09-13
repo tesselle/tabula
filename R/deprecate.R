@@ -14,53 +14,59 @@ setMethod(
       msg = "plotBar is deprecated. Use plot_bertin or plot_ford instead."
     )
     # Get row names and coerce to factor (preserve original ordering)
-    row_names <- rownames(object) %>% factor(levels = rev(unique(.)))
+    row_names <- rownames(object)
+    row_names <- factor(x = row_names, levels = unique(row_names))
 
     # Build long table from data and join with threshold
     # 'id' is only used for joining
-    data <- object %>%
-      as.data.frame() %>%
-      dplyr::mutate(case = row_names) %>%
-      tidyr::gather(key = "type", value = "data",
-                    -.data$case, factor_key = TRUE) %>%
-      dplyr::group_by(.data$case) %>%
-      dplyr::mutate(
-        ci = { if (level) confidence(.data$data, level = level) else 0 },
-        data = .data$data / sum(abs(.data$data)), # Computes frequencies
-        conf_center = .data$data # Center of confidence intervals
-      ) %>%
-      dplyr::ungroup()
+    data_stacked <- utils::stack(as.data.frame(object))
+    data <- cbind.data.frame(row_names, data_stacked)
+    colnames(data) <- c("case", "data", "type")
+    # Preserves the original ordering of the columns
+    data$type <- factor(data$type, levels = unique(data$type))
+
+    data <- by(
+      data,
+      INDICES = data$case,
+      FUN = function(x, alpha) {
+        ci <- if (alpha) confidence_proportion(x$data, alpha = alpha) else 0
+        x$data <- x$data / sum(abs(x$data)) # Computes frequencies
+        conf_center <- x$data # Center of confidence intervals
+        cbind.data.frame(ci = ci, conf_center = conf_center, x)
+      },
+      alpha = 1 - level
+    )
+    data <- do.call(rbind.data.frame, data)
 
     if (EPPM) {
       # Build long table from threshold
-      # 'id' is only used for joining
-      threshold <- independance(object, method = "EPPM") %>%
-        as.data.frame() %>%
-        dplyr::mutate(case = row_names) %>%
-        tidyr::gather(key = "type", value = "EPPM",
-                      -.data$case, factor_key = TRUE)
+      threshold <- independance(object, method = "EPPM")
+      threshold_stacked <- utils::stack(as.data.frame(threshold))
+      threshold <- cbind.data.frame(case = row_names, threshold_stacked)
+      colnames(threshold) <- c("case", "EPPM", "type")
+      # Preserves the original ordering of the columns
+      threshold$type <- factor(threshold$type, levels = unique(threshold$type))
 
-      # Join data and with threshold
-      data %<>% dplyr::inner_join(threshold, by = c("case", "type")) %>%
-        dplyr::mutate(data = .data$data - .data$EPPM) %>%
-        tidyr::gather(key = "threshold", value = "data", -.data$conf_center,
-                      -.data$case, -.data$type, -.data$ci,
-                      factor_key = TRUE) %>%
-        dplyr::mutate( # Remove CI on EPPM values
-          ci = dplyr::case_when(.data$threshold == "EPPM" ~ 0, TRUE ~ .data$ci)
-        )
+      # Join data and threshold
+      data <- merge(data, threshold, by = c("case", "type"), all = TRUE)
+      data$data <- data$data - data$EPPM
+      data_stacked <- utils::stack(data[, !(names(data) %in% c("case", "type", "conf_center", "ci"))])
+      data <- cbind.data.frame(data$case, data$type, data$conf_center, data$ci, data_stacked)
+      colnames(data) <- c("case", "type", "conf_center", "ci", "data", "threshold")
+      # Remove CI on EPPM values
+      data$ci <- ifelse(data$threshold == "EPPM", 0, data$ci)
     }
     if (center) {
       k <- nrow(data)
       z <- c(rep(1, k), rep(-1, k)) / 2
-      data %<>% rbind.data.frame(., .) %>%
-        dplyr::mutate(data = .data$data * z,
-                      ci = .data$ci * z,
-                      conf_center = .data$conf_center * z)
+      data <- rbind.data.frame(data, data)
+      data$data <- data$data * z
+      data$ci <- data$ci * z
+      data$conf_center <- data$conf_center * z
     }
 
     # Rename axis
-    data %<>% dplyr::rename(frequency = "data")
+    names(data)[names(data) == "data"] <- "frequency"
 
     # ggplot
     scale_breaks <- c(-4:4) * 0.10

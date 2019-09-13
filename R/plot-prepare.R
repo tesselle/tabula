@@ -7,29 +7,41 @@ prepare_bertin <- function(object, threshold = NULL, scale = NULL) {
   row_names <- rownames(object)
   row_names <- factor(x = row_names, levels = unique(row_names))
 
-  # Build a long table from data
-  data <- object %>%
-    as.data.frame() %>%
-    dplyr::mutate(case = row_names) %>%
-    tidyr::gather(key = "type", value = "frequency",
-                  -.data$case, factor_key = TRUE)
+  # Build a long table for ggplot2
+  data_stacked <- utils::stack(as.data.frame(object))
+  data <- cbind.data.frame(case = row_names, data_stacked)
+  colnames(data) <- c("case", "frequency", "type")
+  # Preserves the original ordering of the columns
+  data$type <- factor(data$type, levels = unique(data$type))
 
   # Scale variables
   if (is.function(scale)) {
-    data %<>%
-      dplyr::group_by(.data$type) %>%
-      dplyr::mutate(frequency = scale(.data$frequency)) %>%
-      dplyr::ungroup()
+    data <- by(
+      data,
+      INDICES = data$type,
+      FUN = function(x, fun) {
+        x$frequency = fun(x$frequency)
+        x
+      },
+      fun = scale
+    )
+    data <- do.call(rbind.data.frame, data)
   }
 
   # Compute threshold, if any
   if (is.function(threshold)) {
-    data %<>%
-      dplyr::group_by(.data$type) %>%
-      dplyr::mutate(thresh = threshold(.data$frequency)) %>%
-      dplyr::ungroup() %>%
-      dplyr::mutate(threshold = dplyr::if_else(.data$frequency > .data$thresh,
-                                               "above", "below"))
+    data <- by(
+      data,
+      INDICES = data$type,
+      FUN = function(x, fun) {
+        x$thresh = fun(x$frequency)
+        x
+      },
+      fun = threshold
+    )
+    data <- do.call(rbind.data.frame, data)
+    threshold <- ifelse(data$frequency > data$thresh, "above", "below")
+    data <- cbind.data.frame(threshold, data)
   }
 
   return(data)
@@ -41,33 +53,35 @@ prepare_ford <- function(object, EPPM = FALSE) {
   row_names <- rownames(object)
   row_names <- factor(x = row_names, levels = rev(unique(row_names)))
 
-  # Build a long table from data
-  data <- object %>%
-    { . / rowSums(.) } %>%
-    as.data.frame() %>%
-    dplyr::mutate(case = row_names) %>%
-    tidyr::gather(key = "type", value = "data",
-                  -.data$case, factor_key = TRUE)
+  # Build a long table for ggplot2
+  data <- object / rowSums(object)
+  data_stacked <- utils::stack(as.data.frame(data))
+  data <- cbind.data.frame(case = row_names, data_stacked)
+  colnames(data) <- c("case", "data", "type")
+  # Preserves the original ordering of the columns
+  data$type <- factor(data$type, levels = unique(data$type))
 
   if (EPPM) {
     # Build long table from threshold
-    threshold <- independance(object, method = "EPPM") %>%
-      as.data.frame() %>%
-      dplyr::mutate(case = row_names) %>%
-      tidyr::gather(key = "type", value = "EPPM",
-                    -.data$case, factor_key = TRUE)
+    threshold <- independance(object, method = "EPPM")
+    threshold_stacked <- utils::stack(as.data.frame(threshold))
+    threshold <- cbind.data.frame(case = row_names, threshold_stacked)
+    colnames(threshold) <- c("case", "EPPM", "type")
+    # Preserves the original ordering of the columns
+    threshold$type <- factor(threshold$type, levels = unique(threshold$type))
 
     # Join data and threshold
-    data %<>% dplyr::inner_join(threshold, by = c("case", "type")) %>%
-      dplyr::mutate(data = .data$data - .data$EPPM) %>%
-      tidyr::gather(key = "threshold", value = "data",
-                    -.data$case, -.data$type)
+    data <- merge(data, threshold, by = c("case", "type"), all = TRUE)
+    data$data <- data$data - data$EPPM
+    data_stacked <- utils::stack(data[, !(names(data) %in% c("case", "type"))])
+    data <- cbind.data.frame(data$case, data$type, data_stacked)
+    colnames(data) <- c("case", "type", "data", "threshold")
   }
 
   k <- nrow(data)
   z <- c(rep(1, k), rep(-1, k)) / 2
-  data %<>% rbind.data.frame(., .) %>%
-    dplyr::mutate(data = .data$data * z)
+  data <- rbind.data.frame(data, data)
+  data$data <- data$data * z
 
   return(data)
 }
@@ -83,24 +97,27 @@ prepare_heatmap <- function(object, PVI = FALSE, frequency = TRUE) {
     object <- methods::as(object, "CountMatrix")
 
     # Build long table from threshold
-    data <- independance(object, method = "PVI") %>%
-      as.data.frame() %>%
-      dplyr::mutate(case = row_names) %>%
-      tidyr::gather(key = "type", value = "PVI",
-                    -.data$case, factor_key = TRUE)
+    data <- independance(object, method = "PVI")
+    data_stacked <- utils::stack(as.data.frame(data))
+    data <- cbind.data.frame(row_names, data_stacked)
+    colnames(data) <- c("case", "PVI", "type")
+    # Preserves the original ordering of the columns
+    data$type <- factor(data$type, levels = unique(data$type))
   } else {
     # Build long table from data
     data <- if (frequency) object / rowSums(object) else object
-    data <- as.data.frame(data) %>%
-      dplyr::mutate(case = row_names) %>%
-      tidyr::gather(key = "type", value = "Frequency",
-                    -.data$case, factor_key = TRUE)
+    data_stacked <- utils::stack(as.data.frame(data))
+    data <- cbind.data.frame(row_names, data_stacked)
+    colnames(data) <- c("case", "Frequency", "type")
+    # Preserves the original ordering of the columns
+    data$type <- factor(data$type, levels = unique(data$type))
   }
 
   # Tile centers
-  data %<>% dplyr::mutate(
-    x = as.numeric(.data$type),
-    y = as.numeric(.data$case)
+  data <- cbind.data.frame(
+    data,
+    x = as.numeric(data$type),
+    y = as.numeric(data$case)
   )
   return(data)
 }
@@ -113,17 +130,26 @@ prepare_rank <- function(object) {
   # Get number of cases
   n <- length(row_names)
 
-  data <- object %>%
-    as.data.frame() %>%
-    dplyr::mutate(case = row_names) %>%
-    tidyr::gather(key = "type", value = "frequency", -.data$case,
-                  factor_key = TRUE) %>%
-    dplyr::filter(.data$frequency > 0) %>%
-    dplyr::group_by(.data$case) %>%
-    dplyr::mutate(rank = dplyr::row_number(.data$frequency)) %>%
-    dplyr::arrange(rank, .by_group = TRUE) %>%
-    dplyr::mutate(rank = rev(.data$rank)) %>%
-    dplyr::ungroup()
+  # Build long table from data
+  data_stacked <- utils::stack(as.data.frame(object))
+  data <- cbind.data.frame(row_names, data_stacked)
+  colnames(data) <- c("case", "frequency", "type")
+  # Preserves the original ordering of the columns
+  data$type <- factor(data$type, levels = unique(data$type))
+
+  # Remove zeros in case of log scale
+  data <- data[data$frequency > 0, ]
+
+  data <- by(
+    data,
+    INDICES = data$case,
+    FUN = function(x) {
+      data <- x[order(x$frequency, decreasing = TRUE), ]
+      data <- cbind.data.frame(rank = seq_len(nrow(data)), data)
+      data
+    }
+  )
+  data <- do.call(rbind.data.frame, data)
   return(data)
 }
 
@@ -133,26 +159,33 @@ prepare_spot <- function(object, threshold = NULL, diag = TRUE) {
   row_names <- factor(x = row_names, levels = unique(row_names))
 
   # Build a long table from data
-  data <- object %>% #{ object * 0.8 } %>%
-    as.data.frame() %>%
-    dplyr::mutate(case = row_names) %>%
-    tidyr::gather(key = "type", value = "value",
-                  -.data$case, factor_key = TRUE)
+  data <- object #* 0.8
+  data_stacked <- utils::stack(as.data.frame(data))
+  data <- cbind.data.frame(row_names, data_stacked)
+  colnames(data) <- c("case", "value", "type")
+  # Preserves the original ordering of the columns
+  data$type <- factor(data$type, levels = unique(data$type))
 
   if (!diag) {
-    data %<>% dplyr::filter(.data$type != .data$case)
+    data <- data[data$type != data$case, ]
   }
   if (is_square(object)) {
     max_value <- unique(diag(object))
-    data %<>% dplyr::mutate(max = max_value)
+    data <- cbind.data.frame(max = max_value, data)
   }
   if (is.function(threshold)) {
-    data %<>%
-      dplyr::group_by(.data$type) %>%
-      dplyr::mutate(thresh = threshold(.data$value)) %>%
-      dplyr::ungroup() %>%
-      dplyr::mutate(threshold = dplyr::if_else(.data$value > .data$thresh,
-                                               "above", "below"))
+    data <- by(
+      data,
+      INDICES = data$type,
+      FUN = function(x, fun) {
+        data <- cbind.data.frame(thresh = fun(x$value), x)
+        data
+      },
+      fun = threshold
+    )
+    data <- do.call(rbind.data.frame, data)
+    threshold <- ifelse(data$value > data$thresh, "above", "below")
+    data <- cbind.data.frame(threshold = threshold, data)
   }
   return(data)
 }
