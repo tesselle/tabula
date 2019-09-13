@@ -62,7 +62,6 @@ Suggests:
     magrittr (>= 1.5),
     pbapply (>= 1.4-2),
     rmarkdown,
-    sf (>= 0.7-7),
     testthat (>= 2.2.1),
     vdiffr (>= 0.3.1)
 VignetteBuilder: 

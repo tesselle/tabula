@@ -43,7 +43,5 @@
 if(getRversion() >= "2.15.1") utils::globalVariables(c("."))
 
 #' @importFrom methods new setClass setClassUnion setGeneric setMethod
-#' @importFrom magrittr %<>%
-#' @importFrom magrittr %>%
 #' @importFrom rlang .data
 NULL
