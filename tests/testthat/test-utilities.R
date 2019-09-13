@@ -41,9 +41,10 @@ test_that("Row names to column", {
   expect_error(rownames_to_column(LETTERS, factor = TRUE, id = NULL))
 })
 test_that("UUID", {
-  id1 <- generate_uuid()
-  id2 <- generate_uuid()
+  id1 <- generate_uuid(seed = 12345)
+  id2 <- generate_uuid(seed = 54321)
 
   expect_true(is_uuid(id1))
-  # expect_error(compare_uuid(id1, id2))
+  expect_true(is_uuid(id2))
+  expect_error(compare_uuid(id1, id2))
 })
