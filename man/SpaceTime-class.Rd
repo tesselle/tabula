@@ -43,7 +43,13 @@ as by \code{\link{as.integer}} (and hence truncated towards zero).}
  }
 }
 
+\seealso{
+Other S4 class: \code{\link{BootCA-class}},
+  \code{\link{DateModel-class}},
+  \code{\link{PermutationOrder-class}}
+}
 \author{
 N. Frerebeau
 }
+\concept{S4 class}
 \keyword{internal}

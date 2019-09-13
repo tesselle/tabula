@@ -62,8 +62,17 @@ An S4 class to represent a numeric matrix.
 
 \seealso{
 \linkS4class{Matrix}
+
+Other S4 class, matrix class: \code{\link{CountMatrix-class}},
+  \code{\link{FrequencyMatrix-class}},
+  \code{\link{IncidenceMatrix-class}},
+  \code{\link{LogicalMatrix-class}},
+  \code{\link{Matrix-class}},
+  \code{\link{OccurrenceMatrix-class}},
+  \code{\link{SimilarityMatrix-class}}
 }
 \author{
 N. Frerebeau
 }
+\concept{S4 class, matrix class}
 \keyword{internal}

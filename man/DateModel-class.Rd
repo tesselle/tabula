@@ -53,6 +53,12 @@ point estimate of the accumulation dates and the corresponding error.}
  }
 }
 
+\seealso{
+Other S4 class: \code{\link{BootCA-class}},
+  \code{\link{PermutationOrder-class}},
+  \code{\link{SpaceTime-class}}
+}
 \author{
 N. Frerebeau
 }
+\concept{S4 class}

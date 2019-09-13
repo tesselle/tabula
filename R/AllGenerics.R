@@ -3,7 +3,7 @@
 NULL
 
 # ====================================================================== Extract
-#' Extract or Replace Parts of an Object
+#' Get or Set Parts of an Object
 #'
 #' Getters and setters to extract or replace parts of an object.
 #' @param object An object from which to get or set element(s).
@@ -207,6 +207,7 @@ NULL
 #' @seealso \link{refine}
 #' @example inst/examples/ex-dating.R
 #' @author N. Frerebeau
+#' @family seriation
 #' @docType methods
 #' @name date
 #' @rdname date
@@ -807,6 +808,7 @@ setGeneric(
 #'  Archaeological Science}, 39(8), 2818-2827.
 #'  DOI: \href{https://doi.org/10.1016/j.jas.2012.04.040}{10.1016/j.jas.2012.04.040}.
 #' @seealso \link{seriate}, \link{date}
+#' @family seriation
 #' @rdname refine
 #' @aliases refine-method
 setGeneric(
@@ -897,6 +899,7 @@ setGeneric(
 #' @seealso \link{refine}, \link[ca]{ca}
 #' @example inst/examples/ex-seriation.R
 #' @author N. Frerebeau
+#' @family seriation
 #' @docType methods
 #' @name seriation
 #' @rdname seriation

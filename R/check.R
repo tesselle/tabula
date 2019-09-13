@@ -10,7 +10,7 @@ NULL
 #'  Throw an error if any.
 #' @author N. Frerebeau
 #' @name check
-#' @keywords internal
+#' @keywords internal error
 #' @noRd
 
 check_type <- function(x, expected) {
@@ -207,7 +207,7 @@ check_uuid <- function(x) {
 #'  if not.
 #' @author N. Frerebeau
 #' @name conditions
-#' @keywords internal
+#' @keywords internal error
 #' @noRd
 
 throw_error <- function(.subclass, message, call = NULL, ...) {

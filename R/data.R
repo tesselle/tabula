@@ -22,7 +22,8 @@
 #'  Racinet P. (2002). Le site castral et prioral de Boves du Xe au XVIIe
 #'  siècle. Bilan des recherches 1996-2000. \emph{Revue archéologique de
 #'  Picardie}. Numéro spécial 20, 123 p.
-#'  @family data sets
+#' @family data set
+#' @keywords datasets
 "boves"
 
 #' Compiegne ceramics
@@ -58,7 +59,8 @@
 #'  Compiègne (Oise). \emph{Revue archéologique de Picardie}. Numéro spécial,
 #'  13(1), 135-168.
 #'  DOI: \href{https://doi.org/10.3406/pica.1997.1945}{10.3406/pica.1997.1945}
-#'  @family data sets
+#' @family data set
+#' @keywords datasets
 "compiegne"
 
 #' Merzbach ceramics
@@ -80,7 +82,8 @@
 #'  cultural transmission from frequency data: equilibrium and non-equilibrium
 #'  assumptions". \emph{Zenodo}, v1.0.
 #'  DOI: \href{https://doi.org/10.5281/zenodo.187558}{10.5281/zenodo.187558}.
-#'  @family data sets
+#' @family data set
+#' @keywords datasets
 "merzbach"
 
 #' Mississippi ceramics
@@ -104,7 +107,8 @@
 #'  Theoretically-Sufficient and Computationally-Practical Technique for
 #'  Deterministic Frequency Seriation. \emph{PLOS ONE}, 10(4), e0124942.
 #'  DOI: \href{https://doi.org/10.1371/journal.pone.0124942}{10.1371/journal.pone.0124942}.
-#'  @family data sets
+#' @family data set
+#' @keywords datasets
 "mississippi"
 
 #' Zuni ceramics
@@ -139,5 +143,6 @@
 #'  analysis-based ceramic seriation of regional data sets. \emph{Journal of
 #'  Archaeological Science}, 39(8), 2818-2827.
 #'  DOI: \href{https://doi.org/10.1016/j.jas.2012.04.040}{10.1016/j.jas.2012.04.040}.
-#'  @family data sets
+#' @family data set
+#' @keywords datasets
 "zuni"

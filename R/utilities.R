@@ -16,7 +16,7 @@
 #'  expression.
 #' @references
 #'  Wickham, H. (2014). \emph{Advanced R}. London: Chapman & Hall. The R Series.
-#' @keywords internal
+#' @keywords internal utilities
 #' @noRd
 `%||%` <- function(x, y) {
   if (!is.null(x) || length(x) != 0) x else y
@@ -48,7 +48,7 @@ extract <- function(x, pattern) {
 #'  created column.
 #' @return A data.frame
 #' @author N. Frerebeau
-#' @keywords internal
+#' @keywords internal utilities
 #' @noRd
 rownames_to_column <- function(x, factor = TRUE, id = "id") {
   if (!is.matrix(x) && !is.data.frame(x))
@@ -72,6 +72,7 @@ rownames_to_column <- function(x, factor = TRUE, id = "id") {
 #' UUID v4
 #'
 #' Generates a universally unique identifier (UUID v4).
+#' @param x,y A \code{\link{character}} string (UUID).
 #' @param seed A single \code{\link{integer}} specifying the seeds.
 #'  If \code{NULL} (the default) the seed will be re-initialized.
 #' @details
@@ -84,7 +85,7 @@ rownames_to_column <- function(x, factor = TRUE, id = "id") {
 #' @seealso \link{set.seed}
 #' @author N. Frerebeau
 #' @name UUID
-#' @keywords internal
+#' @keywords internal utilities
 #' @noRd
 
 generate_uuid <- function(seed = NULL) {

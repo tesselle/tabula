@@ -119,8 +119,17 @@ get_coordinates(A1)
 
 Other abundance matrix: \code{\link{CountMatrix-class}},
   \code{\link{OccurrenceMatrix-class}}
+
+Other S4 class, matrix class: \code{\link{CountMatrix-class}},
+  \code{\link{IncidenceMatrix-class}},
+  \code{\link{LogicalMatrix-class}},
+  \code{\link{Matrix-class}},
+  \code{\link{NumericMatrix-class}},
+  \code{\link{OccurrenceMatrix-class}},
+  \code{\link{SimilarityMatrix-class}}
 }
 \author{
 N. Frerebeau
 }
+\concept{S4 class, matrix class}
 \concept{abundance matrix}

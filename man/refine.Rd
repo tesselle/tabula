@@ -126,4 +126,8 @@ Peeples, M. A., & Schachner, G. (2012). Refining correspondence
 }
 \seealso{
 \link{seriate}, \link{date}
+
+Other seriation: \code{\link{date}},
+  \code{\link{seriation}}
 }
+\concept{seriation}

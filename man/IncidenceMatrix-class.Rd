@@ -113,8 +113,17 @@ E <- as(C, "OccurrenceMatrix")
 }
 \seealso{
 \linkS4class{LogicalMatrix}, \linkS4class{SpaceTime}
+
+Other S4 class, matrix class: \code{\link{CountMatrix-class}},
+  \code{\link{FrequencyMatrix-class}},
+  \code{\link{LogicalMatrix-class}},
+  \code{\link{Matrix-class}},
+  \code{\link{NumericMatrix-class}},
+  \code{\link{OccurrenceMatrix-class}},
+  \code{\link{SimilarityMatrix-class}}
 }
 \author{
 N. Frerebeau
 }
+\concept{S4 class, matrix class}
 \concept{logical matrix}

@@ -29,7 +29,7 @@
 \alias{set_coordinates,AbundanceMatrix-method}
 \alias{set_epsg<-,AbundanceMatrix-method}
 \alias{set_epsg,AbundanceMatrix-method}
-\title{Extract or Replace Parts of an Object}
+\title{Get or Set Parts of an Object}
 \usage{
 get_id(object)
 

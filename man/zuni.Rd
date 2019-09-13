@@ -32,7 +32,6 @@ Peeples, M. A., & Schachner, G. (2012). Refining correspondence
  analysis-based ceramic seriation of regional data sets. \emph{Journal of
  Archaeological Science}, 39(8), 2818-2827.
  DOI: \href{https://doi.org/10.1016/j.jas.2012.04.040}{10.1016/j.jas.2012.04.040}.
- @family data sets
 }
 \usage{
 zuni
@@ -41,4 +40,10 @@ zuni
 A dataset containing ceramic counts from the Zuni region of the American
  Southwest.
 }
+\seealso{
+Other data set: \code{\link{boves}},
+  \code{\link{compiegne}}, \code{\link{merzbach}},
+  \code{\link{mississippi}}
+}
+\concept{data set}
 \keyword{datasets}

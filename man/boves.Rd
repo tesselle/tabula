@@ -23,7 +23,6 @@
 Racinet P. (2002). Le site castral et prioral de Boves du Xe au XVIIe
  siècle. Bilan des recherches 1996-2000. \emph{Revue archéologique de
  Picardie}. Numéro spécial 20, 123 p.
- @family data sets
 }
 \usage{
 boves
@@ -33,4 +32,10 @@ A dataset containing the ceramic counts from the castle site of Boves
  (Somme, France). The data are grouped into eight periods ranging from the
  10th to the 18th century and thirteen ceramic types.
 }
+\seealso{
+Other data set: \code{\link{compiegne}},
+  \code{\link{merzbach}}, \code{\link{mississippi}},
+  \code{\link{zuni}}
+}
+\concept{data set}
 \keyword{datasets}

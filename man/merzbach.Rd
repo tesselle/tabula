@@ -19,7 +19,6 @@ Crema, E. R., Kandler, A. & Shennan, S. (2016). Revealing Patterns of
  cultural transmission from frequency data: equilibrium and non-equilibrium
  assumptions". \emph{Zenodo}, v1.0.
  DOI: \href{https://doi.org/10.5281/zenodo.187558}{10.5281/zenodo.187558}.
- @family data sets
 }
 \usage{
 merzbach
@@ -28,4 +27,10 @@ merzbach
 A dataset containing the ceramic counts from the Merzbach assemblage
 (Germany). The data are grouped into heigth phases.
 }
+\seealso{
+Other data set: \code{\link{boves}},
+  \code{\link{compiegne}}, \code{\link{mississippi}},
+  \code{\link{zuni}}
+}
+\concept{data set}
 \keyword{datasets}

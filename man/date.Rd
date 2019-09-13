@@ -142,7 +142,11 @@ Bellanger, L. & Husi, P. (2013). Mesurer et modéliser le temps inscrit dans
 }
 \seealso{
 \link{refine}
+
+Other seriation: \code{\link{refine}},
+  \code{\link{seriation}}
 }
 \author{
 N. Frerebeau
 }
+\concept{seriation}

@@ -69,7 +69,16 @@ method used.}
 
 \seealso{
 \linkS4class{NumericMatrix}
+
+Other S4 class, matrix class: \code{\link{CountMatrix-class}},
+  \code{\link{FrequencyMatrix-class}},
+  \code{\link{IncidenceMatrix-class}},
+  \code{\link{LogicalMatrix-class}},
+  \code{\link{Matrix-class}},
+  \code{\link{NumericMatrix-class}},
+  \code{\link{OccurrenceMatrix-class}}
 }
 \author{
 N. Frerebeau
 }
+\concept{S4 class, matrix class}
