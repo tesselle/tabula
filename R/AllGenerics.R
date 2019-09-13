@@ -500,7 +500,7 @@ setGeneric(
 #' @param PVI A \code{\link{logical}} scalar: should the PVI be drawn instead of
 #'  frequencies (see details)?
 #' @param frequency A \code{\link{logical}} scalar: should relative frequencies
-#'  be drawn? If \code{FALSE} (the default), raw data are ploted.
+#'  be drawn? If \code{FALSE}, raw data are ploted.
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  If \code{PVI} is \code{FALSE}, it plots a heatmap of relative abundances

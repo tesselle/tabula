@@ -1,5 +1,4 @@
 context("Matrix classes")
-options("verbose" = TRUE)
 
 # Create a count matrix with dimnames
 mtx_count <- matrix(sample(1:100, 100, TRUE), ncol = 10,
@@ -55,6 +54,7 @@ test_that("Initialize a SpaceTime instance", {
   expect_true(grepl("must have the following column names", cnd[[1]]$message))
 })
 test_that("SpaceTime constructor", {
+  options("verbose" = TRUE)
   cnd <- catch_conditions(SpaceTime())
   expect_length(cnd, 1)
   expect_s3_class(cnd[[1]], "message_class_initialize")
@@ -91,6 +91,7 @@ test_that("Initialize a Matrix instance", {
   expect_true(grepl("must be an UUID", cnd[[1]]$message))
 })
 test_that("Matrix constructor", {
+  options("verbose" = TRUE)
   cnd <- catch_conditions(Matrix())
   expect_length(cnd, 2)
   expect_s3_class(cnd[[1]], "message_class_initialize")
@@ -129,6 +130,7 @@ test_that("Initialize a NumericMatrix instance", {
   expect_true(grepl("must not contain infinite values", cnd[[1]]$message))
 })
 test_that("NumericMatrix constructor", {
+  options("verbose" = TRUE)
   cnd <- catch_conditions(NumericMatrix())
   expect_length(cnd, 2)
   for (i in seq_len(2)) {
@@ -175,6 +177,7 @@ test_that("Initialize a CountMatrix instance", {
   expect_true(grepl("must not contain infinite values", cnd[[1]]$message))
 })
 test_that("CountMatrix constructor", {
+  options("verbose" = TRUE)
   cnd <- catch_conditions(CountMatrix())
   expect_length(cnd, 4)
   for (i in seq_len(3)) {
@@ -225,6 +228,7 @@ test_that("Initialize a FrequencyMatrix instance", {
 
 ## Co-occurrenceMatrix matrix --------------------------------------------------
 test_that("OccurrenceMatrix constructor", {
+  options("verbose" = TRUE)
   cnd <- catch_conditions(OccurrenceMatrix())
   expect_length(cnd, 3)
   for (i in seq_len(3)) {
@@ -234,6 +238,7 @@ test_that("OccurrenceMatrix constructor", {
 
 ## Similarity matrix -----------------------------------------------------------
 test_that("SimilarityMatrix constructor", {
+  options("verbose" = TRUE)
   cnd <- catch_conditions(SimilarityMatrix())
   expect_length(cnd, 3)
   for (i in seq_len(3)) {
@@ -272,6 +277,7 @@ test_that("Initialize a LogicalMatrix instance", {
   expect_true(grepl("must not contain infinite values", cnd[[1]]$message))
 })
 test_that("LogicalMatrix constructor", {
+  options("verbose" = TRUE)
   cnd <- catch_conditions(LogicalMatrix())
   expect_length(cnd, 2)
   for (i in seq_len(2)) {
@@ -308,6 +314,7 @@ test_that("Initialize a IncidenceMatrix instance", {
   expect_true(grepl("must not contain infinite values", cnd[[1]]$message))
 })
 test_that("IncidenceMatrix constructor", {
+  options("verbose" = TRUE)
   cnd <- catch_conditions(IncidenceMatrix())
   expect_length(cnd, 3)
   for (i in seq_len(3)) {

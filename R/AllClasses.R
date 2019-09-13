@@ -7,8 +7,7 @@ NULL
 #' Date model
 #'
 #' An S4 class to store the event and accumulation times of archaeological
-#'  assemblages as well as the results of resampling methods for date model
-#'  checking.
+#'  assemblages.
 #' @slot counts A numeric matrix of count data.
 #' @slot level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.

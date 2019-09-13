@@ -79,6 +79,7 @@ test_that("Initialize a BootCA object", {
   expect_true(grepl("must be of length 2; not 3", cnd[[1]]$message))
 })
 test_that("BootCA constructor", {
+  options("verbose" = TRUE)
   cnd <- catch_conditions(BootCA())
   expect_length(cnd, 1)
   expect_s3_class(cnd[[1]], "message_class_initialize")
@@ -137,6 +138,7 @@ test_that("Initialize a DateModel object", {
   expect_true(grepl("must have the following column names", cnd[[1]]$message))
 })
 test_that("DateModel constructor", {
+  options("verbose" = TRUE)
   cnd <- catch_conditions(DateModel())
   expect_length(cnd, 1)
   expect_s3_class(cnd[[1]], "message_class_initialize")

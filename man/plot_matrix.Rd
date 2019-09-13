@@ -29,7 +29,7 @@ plot_heatmap(object, ...)
 frequencies (see details)?}
 
 \item{frequency}{A \code{\link{logical}} scalar: should relative frequencies
-be drawn? If \code{FALSE} (the default), raw data are ploted.}
+be drawn? If \code{FALSE}, raw data are ploted.}
 }
 \value{
 TODO

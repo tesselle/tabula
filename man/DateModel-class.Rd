@@ -7,8 +7,7 @@
 \title{Date model}
 \description{
 An S4 class to store the event and accumulation times of archaeological
- assemblages as well as the results of resampling methods for date model
- checking.
+ assemblages.
 }
 \section{Slots}{
 
