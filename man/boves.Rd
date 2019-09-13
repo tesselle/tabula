@@ -23,6 +23,7 @@
 Racinet P. (2002). Le site castral et prioral de Boves du Xe au XVIIe
  siècle. Bilan des recherches 1996-2000. \emph{Revue archéologique de
  Picardie}. Numéro spécial 20, 123 p.
+ @family data sets
 }
 \usage{
 boves

@@ -31,6 +31,7 @@ Lacroix, M. C. (1997). La céramique médiévale du site des Hallettes à
  Compiègne (Oise). \emph{Revue archéologique de Picardie}. Numéro spécial,
  13(1), 135-168.
  DOI: \href{https://doi.org/10.3406/pica.1997.1945}{10.3406/pica.1997.1945}
+ @family data sets
 }
 \usage{
 compiegne

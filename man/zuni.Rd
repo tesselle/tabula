@@ -32,6 +32,7 @@ Peeples, M. A., & Schachner, G. (2012). Refining correspondence
  analysis-based ceramic seriation of regional data sets. \emph{Journal of
  Archaeological Science}, 39(8), 2818-2827.
  DOI: \href{https://doi.org/10.1016/j.jas.2012.04.040}{10.1016/j.jas.2012.04.040}.
+ @family data sets
 }
 \usage{
 zuni

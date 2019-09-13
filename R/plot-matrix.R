@@ -8,9 +8,9 @@ NULL
 setMethod(
   f = "plot_heatmap",
   signature = signature(object = "CountMatrix"),
-  definition = function(object, PVI = FALSE) {
+  definition = function(object, PVI = FALSE, frequency = TRUE) {
     # Prepare data
-    data <- prepare_heatmap(object, PVI)
+    data <- prepare_heatmap(object, PVI, frequency)
 
     # ggplot
     fill <- ifelse(PVI, "PVI", "Frequency")

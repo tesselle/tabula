@@ -9,11 +9,12 @@
 \alias{plot_heatmap,CountMatrix-method}
 \alias{plot_heatmap,FrequencyMatrix-method}
 \alias{plot_heatmap,IncidenceMatrix-method}
-\title{Matrix Plot}
+\title{Heatmap}
 \usage{
 plot_heatmap(object, ...)
 
-\S4method{plot_heatmap}{CountMatrix}(object, PVI = FALSE)
+\S4method{plot_heatmap}{CountMatrix}(object, PVI = FALSE,
+  frequency = TRUE)
 
 \S4method{plot_heatmap}{FrequencyMatrix}(object)
 
@@ -26,6 +27,9 @@ plot_heatmap(object, ...)
 
 \item{PVI}{A \code{\link{logical}} scalar: should the PVI be drawn instead of
 frequencies (see details)?}
+
+\item{frequency}{A \code{\link{logical}} scalar: should relative frequencies
+be drawn? If \code{FALSE} (the default), raw data are ploted.}
 }
 \value{
 TODO
