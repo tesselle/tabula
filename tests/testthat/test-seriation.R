@@ -48,6 +48,10 @@ test_that("Correspondance Analysis", {
   expect_s4_class(indices, "PermutationOrder")
   expect_s4_class(permute(count, indices), "CountMatrix")
   expect_equal(permute(count, indices)@id, count@id)
+
+  options("verbose" = TRUE)
+  count2 <- as(merzbach, "CountMatrix")
+  expect_warning(seriate_correspondance(count2))
 })
 test_that("Refined correspondance Analysis", {
   count <- as(zuni, "CountMatrix")

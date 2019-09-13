@@ -85,16 +85,31 @@ seriationReciprocal <- function(x, margin = 1, stop = 100) {
   index
 }
 
-seriationCorrespondance <- function(x, margin, axes = 1, ...) {
+seriationCorrespondance <- function(x, margin, axes = 1,
+                                    verbose = getOption("verbose"), ...) {
   # Validation
   margin <- as.integer(margin)
   axes <- as.integer(axes)[[1L]]
 
+  # /!\ Important: we need to clean the data before processing
+  # Empty rows/columns must be removed to avoid error in svd()
+  empty_rows <- rowSums(x) == 0
+  empty_cols <- colSums(x) == 0
+  x_clean <- x[!empty_rows, !empty_cols]
+  if (verbose) {
+    row_names <- paste0(rownames(x)[empty_rows], collapse = ", ")
+    col_names <- paste0(colnames(x)[empty_cols], collapse = ", ")
+    msg <- "Empty values were removed:"
+    if (sum(empty_rows) != 0) msg <- paste0(msg, "\n* Rows: ", row_names)
+    if (sum(empty_cols) != 0) msg <- paste0(msg, "\n* Columns: ", col_names)
+    warning(msg, call. = FALSE)
+  }
+
   # Original sequences
-  i <- seq_len(nrow(x))
-  j <- seq_len(ncol(x))
+  i <- seq_len(nrow(x_clean))
+  j <- seq_len(ncol(x_clean))
   # Correspondance analysis
-  corresp <- ca::ca(x, ...)
+  corresp <- ca::ca(x_clean, ...)
   # Sequence of the first axis as best seriation order
   coords <- ca::cacoord(corresp, type = "principal")
   row_coords <- if (1 %in% margin) order(coords$rows[, axes]) else i
