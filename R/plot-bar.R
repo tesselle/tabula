@@ -33,9 +33,11 @@ setMethod(
         panel.background = ggplot2::element_rect(fill = "white"),
         panel.grid = ggplot2::element_blank(),
         strip.text.y = ggplot2::element_text(angle = 0, hjust = 0),
+        strip.text.x = ggplot2::element_text(angle = 90, hjust = 0,
+                                             vjust = 0.5),
         strip.background = ggplot2::element_rect(fill = "white")
       ) +
-      ggplot2::labs(fill = "Threshold")
+      ggplot2::labs(x = "Case", y = "Frequency", fill = "Threshold")
   }
 )
 
@@ -82,7 +84,7 @@ setMethod(
         strip.text.x = ggplot2::element_text(angle = 90, hjust = 0,
                                              vjust = 0.5),
         strip.background = ggplot2::element_rect(fill = "white")) +
-      ggplot2::labs(fill = "Value") +
+      ggplot2::labs(x = "Case", y = "Frequency", fill = "Value") +
       ggplot2::coord_flip()
   }
 )

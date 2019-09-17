@@ -48,7 +48,8 @@ setMethod(
         legend.key = ggplot2::element_rect(fill = "white"),
         panel.background = ggplot2::element_rect(fill = "white"),
         panel.grid = ggplot2::element_blank()) +
-      ggplot2::labs(colour = "Threshold", size = "Frequency") +
+      ggplot2::labs(x = "Type", y = "Case", colour = "Threshold",
+                    size = "Frequency") +
       ggplot2::coord_fixed()
   }
 )
@@ -85,7 +86,8 @@ setMethod(
         legend.key = ggplot2::element_rect(fill = "white"),
         panel.background = ggplot2::element_rect(fill = "white"),
         panel.grid = ggplot2::element_blank()) +
-      ggplot2::labs(colour = index_name, size = index_name) +
+      ggplot2::labs(x = "Type", y = "Case", colour = index_name,
+                    size = index_name) +
       ggplot2::coord_fixed()
   }
 )
@@ -122,7 +124,8 @@ setMethod(
         legend.key = ggplot2::element_rect(fill = "white"),
         panel.background = ggplot2::element_rect(fill = "white"),
         panel.grid = ggplot2::element_blank()) +
-      ggplot2::labs(colour = "Co-occurrence", size = "Co-occurrence") +
+      ggplot2::labs(x = "Type", y = "Case", colour = "Co-occurrence",
+                    size = "Co-occurrence") +
       ggplot2::coord_fixed()
   }
 )

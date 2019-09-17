@@ -3,12 +3,20 @@
 \docType{methods}
 \name{date}
 \alias{date}
+\alias{date_mcd}
+\alias{date_mcd-method}
 \alias{date_event}
 \alias{date_event-method}
+\alias{date_mcd,CountMatrix-method}
 \alias{date_event,CountMatrix-method}
 \title{Date Archaeological Assemblages}
 \usage{
+date_mcd(object, ...)
+
 date_event(object, ...)
+
+\S4method{date_mcd}{CountMatrix}(object, dates, errors = NULL,
+  level = 0.95, n = 1000, ...)
 
 \S4method{date_event}{CountMatrix}(object, level = 0.95, cutoff = 90,
   ...)
@@ -18,8 +26,17 @@ date_event(object, ...)
 
 \item{...}{Further arguments to be passed to internal methods.}
 
+\item{dates}{A length-\eqn{p} numeric vector giving the mid-date of each type
+(year AD).}
+
+\item{errors}{A length-\eqn{p} numeric vector giving the absolute error of
+each date.}
+
 \item{level}{A length-one \code{\link{numeric}} vector giving the
 confidence level.}
+
+\item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
+replications (see below).}
 
 \item{cutoff}{An \code{\link{integer}} giving the cumulative percentage of
 variance used to select CA factorial components for linear model fitting
@@ -27,87 +44,105 @@ variance used to select CA factorial components for linear model fitting
 less than the \code{cutoff} value will be retained.}
 }
 \value{
-An object of class \linkS4class{DateModel}.
+\code{date_mcd} returns a \code{\link{data.frame}} with the following
+ columns:
+ \describe{
+  \item{id}{An identifier to link each row to an assemblage.}
+  \item{date}{The Mean Ceramic Date.}
+  \item{error}{The error on the MCD.}
+  \item{lower}{The lower boundary of the confidence interval.}
+  \item{upper}{The upper boundary of the confidence interval.}
+ }
+
+ \code{date_event} returns an object of class \linkS4class{DateModel}.
 }
 \description{
-Experimental (see note).
+\code{date_mcd} estimates the Mean Ceramic Date of an assemblage.
 }
 \details{
-This is an implementation of the chronological modeling method developed by
- Bellanger and Husi (2012, 2013).
-
- This method allows the estimation of two probability densities. The
- first one (\emph{event date}) represents the \emph{terminus post-quem} of an
- archaeological assemblage: an event dated in calendar time. The second
- represents the "chronological profile" of the assemblage: the accumulation
- rate (Bellanger and Husi 2012).
-
- This method - somewhat similar to that described by Poblome and Groenen
- 2003 - is based on the adjustment of a Gaussian multiple linear regression
- model on the factors resulting from a correspondence analysis. This model
- results from the known dates of a selection of reliable contexts and allows
- to predict the \emph{event} dates of the remaining assemblage with a 95%
- confidence interval.
-
- Since correspondence analysis allows the rows and columns of a contingency
- table to be projected in the same space (through the transition formula),
- it is possible to estimate the date of each fabric using the previous model.
- Finally, the \emph{accumulation} date of each context is defined as the
- mean of the fabric dates, weighted by their relative proportions in that
- context (akin to the \emph{Mean Ceramic Date} proposed by South 1977).
-
- This method relies on strong archaeological and statistical assumptions.
- Use it if you know what you are doing (see references below).
+\code{date_event}
 }
 \note{
-The original authors of the method did not publish the data supporting their
- demonstration and some elements are unclear. As such, no replication of
- their results is possible and this implementation should be considered
- \strong{EXPERIMENTAL}. It may be subject to major changes in a future
- release.
+Bellanger \emph{et al.} did not publish the data supporting their
+ demonstration: no replication of their results is possible and this
+ implementation must be considered \strong{experimental}.
+ \code{date_event} may be subject to major changes in a future release.
 }
-\examples{
-## Coerce dataset to abundance (count) matrix
-zuni <- as(zuni, "CountMatrix")
+\section{Mean Ceramic Date}{
 
-## Assume that some assemblages are reliably dated (this is NOT a real example)
-## The name of the vector elements must match the names of the assemblages
-set_dates(zuni) <- c(
-  LZ0569 = 1097, LZ0279 = 1119, CS16 = 1328, LZ0066 = 1111,
-  LZ0852 = 1216, LZ1209 = 1251, CS144 = 1262, LZ0563 = 1206,
-  LZ0329 = 1076, LZ0005Q = 859, LZ0322 = 1109, LZ0067 = 863,
-  LZ0578 = 1180, LZ0227 = 1104, LZ0610 = 1074
+ The Mean Ceramic Date (MCD) is a point estimate of the occupation of an
+ archaeological site (South 1977). The MCD is estimated as the weighted mean
+ of the date midpoints of the ceramic types (based on absolute dates or the
+ known production interval) found in a given assemblage. The weights are the
+ relative frequencies of the respective types in the assemblage.
+
+ A bootstrapping procedure is used to estimate the confidence interval of a
+ given MCD. For each assemblage, a large number of new bootstrap replicates
+ is created, with the same sample size, by resampling the original
+ assemblage with replacement. MCDs are calculated for each replicates and
+ upper and lower boudaries of the confidence interval associated with each
+ MCD are then returned. Confidence interval are not estimated for assemblages
+ with only a single type (\code{NA}s are returned).
+}
+
+\section{Event and Accumulation Dates}{
+
+ This is an implementation of the chronological modeling method proposed by
+ Bellanger and Husi (2012, 2013).
+
+ Event and accumulation dates are density estimates of the occupation and
+ duration of an archaeological site (Bellanger and Husi 2012, 2013).
+ The event date is an estimation of the \emph{terminus post-quem} of an
+ archaeological assemblage. The accumulation date represents the
+ "chronological profile" of the assemblage. According to Bellanger and Husi
+ (2012), accumulation date can be interpreted "at best [...] as a formation
+ process reflecting the duration or succession of events on the scale of
+ archaeological time, and at worst, as imprecise dating due to contamination
+ of the context by residual or intrusive material." In other words,
+ accumulation dates estimate occurence of archaeological events and rhythms
+ of the long term.
+
+ This method relies on strong archaeological and statistical assumptions.
+ Use it only if you know what you are doing (see references below).
+}
+
+\examples{
+## Event and accumulation dates (Bellanger et al.)
+## See the vignette:
+\donttest{
+utils::vignette("dating")
+}
+
+## Mean Ceramic Date
+## Coerce the zuni dataset to an abundance (count) matrix
+zuni_counts <- as(zuni, "CountMatrix")
+
+## Set the start and end dates for each ceramic type
+zuni_dates <- list(
+  LINO = c(600, 875), KIAT = c(850, 950), RED = c(900, 1050),
+  GALL = c(1025, 1125), ESC = c(1050, 1150), PUBW = c(1050, 1150),
+  RES = c(1000, 1200), TULA = c(1175, 1300), PINE = c(1275, 1350),
+  PUBR = c(1000, 1200), WING = c(1100, 1200), WIPO = c(1125, 1225),
+  SJ = c(1200, 1300), LSJ = c(1250, 1300), SPR = c(1250, 1300),
+  PINER = c(1275, 1325), HESH = c(1275, 1450), KWAK = c(1275, 1450)
 )
 
+## Calculate date midpoints and errors
+zuni_mid <- vapply(X = zuni_dates, FUN = mean, FUN.VALUE = numeric(1))
+zuni_error <- vapply(X = zuni_dates, FUN = diff, FUN.VALUE = numeric(1)) / 2
+
+
+## Calculate MCD
+## (we use a bootstrapping procedure to estimate the confidence interval)
+zuni_mcd <- date_mcd(zuni_counts, dates = zuni_mid, errors = zuni_error)
+head(zuni_mcd)
+
 ## Plot dates
-plot_date(zuni)
-
-## Model the event and accumulation date for each assemblage
-(model <- date_event(zuni, cutoff = 90))
-
-## Plot event date and accumulation time distributions
-## (for the first three assemblages)
-plot_date(model, type = "activity", event = TRUE, select = 1:3) +
+keep_sites <- c("CS11", "CS12", "CS144", "CS195", "CS40", "LZ0219", "LZ0280",
+                "LZ0367", "LZ0508", "LZ0560", "LZ1076", "LZ1087")
+set_dates(zuni_counts) <- list(value = zuni_mcd$date, error = zuni_mcd$error)
+plot_date(zuni_counts, select = keep_sites, sort = "asc") +
   ggplot2::theme_bw()
-
-## Activity plot
-plot_date(model, type = "activity") +
-  ggplot2::theme_bw()
-## Tempo plot
-plot_date(model, type = "tempo") +
-  ggplot2::theme_bw()
-
-\donttest{
-## Check model variability
-## Warning: this may take a few seconds!
-### Jackknife fabrics
-refined_jack <- refine(model, method = "jackknife", n = 1000)
-head(refined_jack)
-
-### Bootstrap of assemblages
-refined_boot <- refine(model, method = "bootstrap", n = 1000)
-head(refined_boot)
-}
 }
 \references{
 Bellanger, L. & Husi, P. (2013). Mesurer et modéliser le temps inscrit dans

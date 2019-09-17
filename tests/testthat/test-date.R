@@ -1,6 +1,28 @@
 context("Date & Time")
 options("verbose" = FALSE)
 
+test_that("Mean Ceramic Date", {
+  zuni_dates <- list(
+    LINO = c(600, 875), KIAT = c(850, 950), RED = c(900, 1050),
+    GALL = c(1025, 1125), ESC = c(1050, 1150), PUBW = c(1050, 1150),
+    RES = c(1000, 1200), TULA = c(1175, 1300), PINE = c(1275, 1350),
+    PUBR = c(1000, 1200), WING = c(1100, 1200), WIPO = c(1125, 1225),
+    SJ = c(1200, 1300), LSJ = c(1250, 1300), SPR = c(1250, 1300),
+    PINER = c(1275, 1325), HESH = c(1275, 1450), KWAK = c(1275, 1450)
+  )
+  # Calculate mid-point
+  zuni_mid_dates <- vapply(X = zuni_dates, FUN = mean, FUN.VALUE = numeric(1))
+
+  keep_sites <- c("CS11", "CS12", "CS144", "CS195", "CS40", "LZ0219", "LZ0280",
+                  "LZ0367", "LZ0508", "LZ0560", "LZ1076", "LZ1087")
+  zuni2 <- zuni[rownames(zuni) %in% keep_sites, ]
+  zuni2 <- as(zuni2, "CountMatrix")
+
+  dt <- date_mcd(zuni2, zuni_mid_dates)
+  expect_equal(round(dt[, 2]), c(943, 1205, 1187, 1150, 782, 1148, 1156,
+                                 1248, 1248, 1262, 1250, 1249))
+})
+
 test_that("Time plot", {
   # Keep only decoration types that have a maximum frequency of at least 50
   keep <- apply(X = merzbach, MARGIN = 2, FUN = function(x) max(x) >= 50)

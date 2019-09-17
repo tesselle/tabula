@@ -71,14 +71,13 @@ indicates columns, \code{c(1, 2)} indicates rows then columns,
 (i.e. maximum number of iterations) to avoid infinite loop.}
 }
 \value{
-\code{seriate} returns a \linkS4class{PermutationOrder} object.
+\code{seriate_*} returns a \linkS4class{PermutationOrder} object.
 
- \code{permute} returns either a
- \linkS4class{CountMatrix}, \linkS4class{FrequencyMatrix} or
+ \code{permute} returns either a \linkS4class{CountMatrix} or an
  \linkS4class{IncidenceMatrix} (the same as \code{object}).
 }
 \description{
-\code{seriate} computes a permutation order for rows and/or columns.
+\code{seriate_*} computes a permutation order for rows and/or columns.
 
  \code{permute} rearranges a data matrix according to a permutation order.
 }

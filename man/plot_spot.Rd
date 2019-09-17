@@ -36,8 +36,7 @@ TODO
 Plots a spot matrix.
 }
 \details{
-TODO
- The spot matrix can be considered as a variant of the
+The spot matrix can be considered as a variant of the
  \link[=plot_bertin]{Bertin diagram} where the data are first transformed to
  relative frequencies.
 }

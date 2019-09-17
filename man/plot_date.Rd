@@ -67,21 +67,30 @@ TODO
 }
 \description{
 \code{plot_date} produces an activity or tempo plot.
-\code{plot_time} produces a time \emph{vs} abundance diagram.
 }
 \details{
-Plots the two probability estimate density curves of
- archaeological assembalge dates (\emph{event} and
- \emph{accumulation} dates; Bellanger and Husi 2012).
-
- The estimated probability density of an event date is approached by a normal
- distribution. The distribution of the accumulation time of each context is
- approached by a Gaussian mixture.
-
- The \emph{event date} is plotted as a line, while the \emph{accumulation
- time} is shown as a grey filled area.
+\code{plot_time} produces a time \emph{vs} abundance diagram.
 }
-\section{Detection of selective processes}{
+\section{Event and Acccumulation Dates}{
+
+ \code{plot_date} plots the probability estimate density curves of
+ archaeological assemblage dates (\emph{event} and
+ \emph{accumulation} dates; Bellanger and Husi 2012).
+ The \emph{event date} is plotted as a line, while the \emph{accumulation
+ date} is shown as a grey filled area.
+
+ The accumulation date can be displayed as a tempo plot (Dye 2016) or an
+ activity plot (Philippe and Vibet 2017):
+ \describe{
+  \item{Tempo plot}{A tempo plot estimates the cumulative occurrence of
+  archaeological events, such as the slope of the plot directly reflects the
+  pace of change.}
+  \item{Activity plot}{An activty plot displays the first derivative of the
+  tempo plot.}
+ }
+}
+
+\section{Detection of Selective Processes}{
 
  TODO
 }
@@ -109,6 +118,11 @@ Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
  Dye, T. S. (2016). Long-Term Rhythms in the Development of Hawaiian
  Social Stratification. \emph{Journal of Archaeological Science}, 71, 1-9.
  DOI: \href{https://doi.org/10.1016/j.jas.2016.05.006}{10.1016/j.jas.2016.05.006}.
+
+ Philippe, A. & Vibet, M.-A. (2017). Analysis of Archaeological Phases using
+ the CRAN Package ArchaeoPhases. HAL,
+ \href{https://hal.archives-ouvertes.fr/hal-01347895v3}{hal-01347895},
+ v3.
 }
 \seealso{
 \link{date_event}, \link{test}

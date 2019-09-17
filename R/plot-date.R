@@ -11,6 +11,7 @@ setMethod(
   definition = function(object, select = NULL, sort = "dsc") {
     # Get dates
     dates <- rownames_to_column(object@dates, factor = TRUE, id = "id")
+
     dates <- cbind.data.frame(
       dates,
       y = seq_len(nrow(dates)),

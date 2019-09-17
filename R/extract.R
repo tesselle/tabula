@@ -317,6 +317,7 @@ setMethod(
       stop("Cannot interpret `value` in a suitable way.", call. = FALSE)
     }
 
+    if (nrow(value) != 0) rownames(B) <- rows_object
     object@dates <- B
     methods::validObject(object)
     if (getOption("verbose")) {

@@ -21,7 +21,7 @@
    \item{WING}{Wingate Black-on-red (1070-1200).}
    \item{WIPO}{Wingate Polychrome (1150-1250).}
    \item{SJ}{St. Johns Black-on-red/Polychrome (1200-1300).}
-   \item{LSJ}{St.Johns glaze, Techado Polychrome (1275-1300).}
+   \item{LSJ}{St. Johns glaze, Techado Polychrome (1275-1300).}
    \item{SPR}{Springerville Polychrome (1250-1300).}
    \item{PINER}{Pinedale Black-on-red/Polychrome (1275-1325).}
    \item{HESH}{Heshotauthla Polychrome (1285-1400).}

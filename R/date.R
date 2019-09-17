@@ -4,6 +4,69 @@ NULL
 
 #' @export
 #' @rdname date
+#' @aliases date_mcd,CountMatrix-method
+setMethod(
+  f = "date_mcd",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, dates, errors = NULL,
+                        level = 0.95, n = 1000, ...) {
+    # Validation
+    i <- nrow(object)
+    j <- ncol(object)
+    check_length(dates, expected = j)
+    if (!is.null(errors) && is.numeric(errors))
+      check_length(errors, expected = j)
+    if (!is.null(names(dates)))
+      check_names(dates, expected = colnames(object))
+
+    mcd <- function(count, dates, errors = NULL) {
+      # Build a matrix of dates
+      i <- nrow(count)
+      j <- ncol(count)
+      dates <- matrix(data = dates, nrow = i, ncol = j, byrow = TRUE)
+      # Calculate relative frequencies
+      freq <- count / rowSums(count)
+      # Calculate date
+      mcd_dates <- rowSums(freq * dates)
+      # Calculate errors
+      if (!is.null(errors) && is.numeric(errors)) {
+        mcd_errors <- sqrt(rowSums((freq * errors)^2))
+      } else {
+        mcd_errors <- rep(NA_real_, times = i)
+      }
+      return(list(mcd_dates, mcd_errors))
+    }
+
+    # Calculate MCD
+    mcd_dates <- mcd(object, dates, errors)
+
+    # Bootstrap confidence interval
+    mcd_errors <-apply(
+      X = object,
+      MARGIN = 1,
+      FUN = function(x, dates, level, n) {
+        sim <- stats::rmultinom(n, size = sum(x), prob = x)
+        sim <- t(sim)
+        temp <- mcd(sim, dates)[[1]]
+        ci <- try(stats::t.test(temp, conf.level = level)$conf.int,
+                  silent = TRUE)
+        if (is_error(ci)) c(NA_real_, NA_real_) else ci
+      },
+      dates, level, n
+    )
+
+    id <- if (!is.null(rownames(object))) rownames(object) else seq_len(i)
+    results <- cbind.data.frame(id, mcd_dates, t(mcd_errors),
+                                stringsAsFactors = FALSE)
+    rownames(results) <- NULL
+    colnames(results) <- c("id", "date", "error", "lower", "upper")
+    attr(results, "level") <- level
+    return(results)
+  }
+)
+
+#' @export
+#' @rdname date
 #' @aliases date_event,CountMatrix-method
 setMethod(
   f = "date_event",

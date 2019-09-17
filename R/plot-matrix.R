@@ -33,7 +33,7 @@ setMethod(
         axis.ticks = ggplot2::element_blank(),
         axis.title = ggplot2::element_blank(),
         panel.grid = ggplot2::element_blank()) +
-      ggplot2::labs(fill = fill) +
+      ggplot2::labs(x = "Type", y = "Case", fill = fill) +
       ggplot2::coord_fixed()
   }
 )
@@ -68,7 +68,7 @@ setMethod(
         axis.ticks = ggplot2::element_blank(),
         axis.title = ggplot2::element_blank(),
         panel.grid = ggplot2::element_blank()) +
-      ggplot2::labs(fill = "Frequency") +
+      ggplot2::labs(x = "Type", y = "Case", fill = "Frequency") +
       ggplot2::coord_fixed()
   }
 )
@@ -95,7 +95,7 @@ setMethod(
         axis.title = ggplot2::element_blank(),
         panel.background = ggplot2::element_rect(fill = "white"),
         panel.grid = ggplot2::element_blank()) +
-      ggplot2::labs(fill = "Value") +
+      ggplot2::labs(x = "Type", y = "Case", fill = "Value") +
       ggplot2::coord_fixed()
   }
 )

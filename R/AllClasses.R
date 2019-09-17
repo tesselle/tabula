@@ -510,7 +510,7 @@ BootCA <- function(
   lengths <- mapply(FUN = `names<-`,
                     lengths, list(unique(rows$id), unique(columns$id)),
                     SIMPLIFY = FALSE)
-  keep <- lapply(X = keep, FUN = as.integer)
+  # keep <- lapply(X = keep, FUN = as.integer)
   .BootCA(
     id = id,
     rows = rows,

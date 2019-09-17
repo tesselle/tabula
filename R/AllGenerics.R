@@ -255,6 +255,13 @@ setGeneric(
 NULL
 
 #' @rdname date
+#' @aliases date_mcd-method
+setGeneric(
+  name = "date_mcd",
+  def = function(object, ...) standardGeneric("date_mcd")
+)
+
+#' @rdname date
 #' @aliases date_event-method
 setGeneric(
   name = "date_event",
@@ -390,6 +397,7 @@ setGeneric(
 #' Date and Time Plot
 #'
 #' \code{plot_date} produces an activity or tempo plot.
+#'
 #' \code{plot_time} produces a time \emph{vs} abundance diagram.
 #' @param object An object of class \linkS4class{DateModel} to be plotted.
 #' @param type A \code{\link{character}} string indicating the type of plot.
@@ -416,18 +424,24 @@ setGeneric(
 #' @param facet A \code{\link{logical}} scalar: should a matrix of panels
 #'  defined by type/taxon be drawn? Only used if XXX.
 #' @param ... Further arguments to be passed to internal methods.
-#' @details
-#'  Plots the two probability estimate density curves of
-#'  archaeological assembalge dates (\emph{event} and
+#' @section Event and Acccumulation Dates:
+#'  \code{plot_date} plots the probability estimate density curves of
+#'  archaeological assemblage dates (\emph{event} and
 #'  \emph{accumulation} dates; Bellanger and Husi 2012).
-#'
-#'  The estimated probability density of an event date is approached by a normal
-#'  distribution. The distribution of the accumulation time of each context is
-#'  approached by a Gaussian mixture.
-#'
 #'  The \emph{event date} is plotted as a line, while the \emph{accumulation
-#'  time} is shown as a grey filled area.
-#' @section Detection of selective processes:
+#'  date} is shown as a grey filled area.
+#'
+#'  The accumulation date can be displayed as a tempo plot (Dye 2016) or an
+#'  activity plot (Philippe and Vibet 2017):
+#'  \describe{
+#'   \item{Tempo plot}{A tempo plot estimates the cumulative occurrence of
+#'   archaeological events, such as the slope of the plot directly reflects the
+#'   pace of change.}
+#'   \item{Activity plot}{An activty plot displays the first derivative of the
+#'   tempo plot.}
+#'  }
+#'
+#' @section Detection of Selective Processes:
 #'  TODO
 #' @return
 #'  TODO
@@ -440,6 +454,11 @@ setGeneric(
 #'  Dye, T. S. (2016). Long-Term Rhythms in the Development of Hawaiian
 #'  Social Stratification. \emph{Journal of Archaeological Science}, 71, 1-9.
 #'  DOI: \href{https://doi.org/10.1016/j.jas.2016.05.006}{10.1016/j.jas.2016.05.006}.
+#'
+#'  Philippe, A. & Vibet, M.-A. (2017). Analysis of Archaeological Phases using
+#'  the CRAN Package ArchaeoPhases. HAL,
+#'  \href{https://hal.archives-ouvertes.fr/hal-01347895v3}{hal-01347895},
+#'  v3.
 #' @example inst/examples/ex-plot_line.R
 #' @author N. Frerebeau
 #' @family plot
@@ -619,7 +638,6 @@ setGeneric(
 #'  If \code{NULL} (the default), no threshold is computed.
 #' @param ... Currently not used.
 #' @details
-#'  TODO
 #'  The spot matrix can be considered as a variant of the
 #'  \link[=plot_bertin]{Bertin diagram} where the data are first transformed to
 #'  relative frequencies.
@@ -844,6 +862,13 @@ setGeneric(
 #'  progress bar will automatically be displayed if the
 #'  \code{\link[pbapply]{pbapply}} package is installed on your machine.
 #' @references
+#'  Bellanger, L., Tomassone, R. & Husi, P. (2008). A Statistical Approach for
+#'  Dating Archaeological Contexts. \emph{Journal of Data Science}, 6, 135-154.
+#'
+#'  Bellanger, L., Husi, P. & Tomassone, R. (2006). Une approche statistique
+#'  pour la datation de contextes archéologiques. \emph{Revue de Statistique
+#'  Appliquée}, 54(2), 65-81.
+#'
 #'  Peeples, M. A., & Schachner, G. (2012). Refining correspondence
 #'  analysis-based ceramic seriation of regional data sets. \emph{Journal of
 #'  Archaeological Science}, 39(8), 2818-2827.
@@ -861,7 +886,7 @@ setGeneric(
 #' Matrix Seriation
 #'
 #' @description
-#'  \code{seriate} computes a permutation order for rows and/or columns.
+#'  \code{seriate_*} computes a permutation order for rows and/or columns.
 #'
 #'  \code{permute} rearranges a data matrix according to a permutation order.
 #' @param object An \eqn{m \times p}{m x p} data matrix.
@@ -918,10 +943,9 @@ setGeneric(
 #'   stops with a warning.}
 #'  }
 #' @return
-#'  \code{seriate} returns a \linkS4class{PermutationOrder} object.
+#'  \code{seriate_*} returns a \linkS4class{PermutationOrder} object.
 #'
-#'  \code{permute} returns either a
-#'  \linkS4class{CountMatrix}, \linkS4class{FrequencyMatrix} or
+#'  \code{permute} returns either a \linkS4class{CountMatrix} or an
 #'  \linkS4class{IncidenceMatrix} (the same as \code{object}).
 #' @references
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
