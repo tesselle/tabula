@@ -1,6 +1,46 @@
 # COERCION
-#' @include AllClasses.R
+#' @include AllGenerics.R AllClasses.R
 NULL
+
+#' @export
+#' @rdname coerce
+#' @aliases as_matrix,matrix-method
+setMethod(
+  f = "as_matrix",
+  signature = signature(from = "matrix"),
+  definition = function(from) {
+    if (!is.numeric(from))
+      stop("A numeric matrix is expected.", call. = FALSE)
+
+    if (all(is_binary(from))) {
+      methods::as(from, "IncidenceMatrix")
+    } else if (all(is_whole(from))) {
+      methods::as(from, "CountMatrix")
+    } else {
+      stop("Check your input data.", call. = FALSE)
+    }
+  }
+)
+
+#' @export
+#' @rdname coerce
+#' @aliases as_matrix,data.frame-method
+setMethod(
+  f = "as_matrix",
+  signature = signature(from = "data.frame"),
+  definition = function(from) {
+    if (!all(lapply(X = from, FUN = is.numeric)))
+      stop("A numeric data frame is expected.", call. = FALSE)
+
+    if (!all(lapply(X = from, FUN = function(x) all(is_binary(x))))) {
+      methods::as(from, "IncidenceMatrix")
+    } else if (!all(lapply(X = from, FUN = function(x) all(is_whole(x))))) {
+      methods::as(from, "CountMatrix")
+    } else {
+      stop("Check your input data.", call. = FALSE)
+    }
+  }
+)
 
 ## From NumericMatrix ==========================================================
 setAs(from = "NumericMatrix", to = "data.frame", def = function(from)

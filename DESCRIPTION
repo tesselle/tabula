@@ -72,10 +72,10 @@ RoxygenNote: 6.1.1
 Collate:
     'utilities.R'
     'AllClasses.R'
-    'coerce.R'
     'AllGenerics.R'
     'predicates.R'
     'check.R'
+    'coerce.R'
     'data.R'
     'date.R'
     'deprecate.R'

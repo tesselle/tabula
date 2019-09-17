@@ -56,6 +56,9 @@ rownames_to_column <- function(x, factor = TRUE, id = "id") {
 
   row_names <- rownames(x)
   col_names <- colnames(x)
+  if (is.null(row_names)) {
+    row_names <- seq_len(nrow(x))
+  }
   if (is.null(col_names)) {
     col_names <- paste0("V", seq_len(ncol(x)))
   }

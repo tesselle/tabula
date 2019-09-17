@@ -1,5 +1,5 @@
 # GENERIC METHODS
-#' @include AllClasses.R coerce.R
+#' @include AllClasses.R
 NULL
 
 # ====================================================================== Extract
@@ -128,52 +128,93 @@ setGeneric(name = "set_epsg<-",
 #' @rdname subset
 NULL
 
+# ------------------------------------------------------------------------------
+#' Coerce
+#'
+#' @param from A numeric \code{\link{matrix}} or \code{\link{data.frame}} to be
+#'  coerced.
+#' @author N. Frerebeau
+#' @docType methods
+#' @name coerce
+#' @rdname coerce
+NULL
+
+#' @rdname coerce
+#' @aliases as_matrix-method
+setGeneric(
+  name = "as_matrix",
+  def = function(from) standardGeneric("as_matrix")
+)
+
 # ========================================================================= Date
 #' Date Archaeological Assemblages
 #'
-#' Experimental (see note).
+#' \code{date_mcd} estimates the Mean Ceramic Date of an assemblage.
+#'
+#' \code{date_event}
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
+#' @param dates A length-\eqn{p} numeric vector giving the mid-date of each type
+#'  (year AD).
+#' @param errors A length-\eqn{p} numeric vector giving the absolute error of
+#'  each date.
 #' @param level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
 #' @param cutoff An \code{\link{integer}} giving the cumulative percentage of
 #'  variance used to select CA factorial components for linear model fitting
 #'  (see details). All compounds with a cumulative percentage of variance of
 #'  less than the \code{cutoff} value will be retained.
+#' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
+#' replications (see below).
 #' @param ... Further arguments to be passed to internal methods.
-#' @details
-#'  This is an implementation of the chronological modeling method developed by
+#' @section Mean Ceramic Date:
+#'  The Mean Ceramic Date (MCD) is a point estimate of the occupation of an
+#'  archaeological site (South 1977). The MCD is estimated as the weighted mean
+#'  of the date midpoints of the ceramic types (based on absolute dates or the
+#'  known production interval) found in a given assemblage. The weights are the
+#'  relative frequencies of the respective types in the assemblage.
+#'
+#'  A bootstrapping procedure is used to estimate the confidence interval of a
+#'  given MCD. For each assemblage, a large number of new bootstrap replicates
+#'  is created, with the same sample size, by resampling the original
+#'  assemblage with replacement. MCDs are calculated for each replicates and
+#'  upper and lower boudaries of the confidence interval associated with each
+#'  MCD are then returned. Confidence interval are not estimated for assemblages
+#'  with only a single type (\code{NA}s are returned).
+#' @section Event and Accumulation Dates:
+#'  This is an implementation of the chronological modeling method proposed by
 #'  Bellanger and Husi (2012, 2013).
 #'
-#'  This method allows the estimation of two probability densities. The
-#'  first one (\emph{event date}) represents the \emph{terminus post-quem} of an
-#'  archaeological assemblage: an event dated in calendar time. The second
-#'  represents the "chronological profile" of the assemblage: the accumulation
-#'  rate (Bellanger and Husi 2012).
-#'
-#'  This method - somewhat similar to that described by Poblome and Groenen
-#'  2003 - is based on the adjustment of a Gaussian multiple linear regression
-#'  model on the factors resulting from a correspondence analysis. This model
-#'  results from the known dates of a selection of reliable contexts and allows
-#'  to predict the \emph{event} dates of the remaining assemblage with a 95%
-#'  confidence interval.
-#'
-#'  Since correspondence analysis allows the rows and columns of a contingency
-#'  table to be projected in the same space (through the transition formula),
-#'  it is possible to estimate the date of each fabric using the previous model.
-#'  Finally, the \emph{accumulation} date of each context is defined as the
-#'  mean of the fabric dates, weighted by their relative proportions in that
-#'  context (akin to the \emph{Mean Ceramic Date} proposed by South 1977).
+#'  Event and accumulation dates are density estimates of the occupation and
+#'  duration of an archaeological site (Bellanger and Husi 2012, 2013).
+#'  The event date is an estimation of the \emph{terminus post-quem} of an
+#'  archaeological assemblage. The accumulation date represents the
+#'  "chronological profile" of the assemblage. According to Bellanger and Husi
+#'  (2012), accumulation date can be interpreted "at best [...] as a formation
+#'  process reflecting the duration or succession of events on the scale of
+#'  archaeological time, and at worst, as imprecise dating due to contamination
+#'  of the context by residual or intrusive material." In other words,
+#'  accumulation dates estimate occurence of archaeological events and rhythms
+#'  of the long term.
 #'
 #'  This method relies on strong archaeological and statistical assumptions.
-#'  Use it if you know what you are doing (see references below).
+#'  Use it only if you know what you are doing (see references below).
 #' @note
-#'  The original authors of the method did not publish the data supporting their
-#'  demonstration and some elements are unclear. As such, no replication of
-#'  their results is possible and this implementation should be considered
-#'  \strong{EXPERIMENTAL}. It may be subject to major changes in a future
-#'  release.
+#'  Bellanger \emph{et al.} did not publish the data supporting their
+#'  demonstration: no replication of their results is possible and this
+#'  implementation must be considered \strong{experimental}.
+#'  \code{date_event} may be subject to major changes in a future release.
 #' @return
-#'  An object of class \linkS4class{DateModel}.
+#'  \code{date_mcd} returns a \code{\link{data.frame}} with the following
+#'  columns:
+#'  \describe{
+#'   \item{id}{An identifier to link each row to an assemblage.}
+#'   \item{date}{The Mean Ceramic Date.}
+#'   \item{error}{The error on the MCD.}
+#'   \item{lower}{The lower boundary of the confidence interval.}
+#'   \item{upper}{The upper boundary of the confidence interval.}
+#'  }
+#'
+#'  \code{date_event} returns an object of class \linkS4class{DateModel}.
 #' @references
 #'  Bellanger, L. & Husi, P. (2013). Mesurer et modéliser le temps inscrit dans
 #'  la matière à partir d'une source matérielle : la céramique médiévale.
