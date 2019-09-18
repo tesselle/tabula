@@ -52,6 +52,7 @@ Useful links:
 
 \tabular{ll}{
  Nicolas Frerebeau \tab \emph{Université Bordeaux Montaigne, France} \cr
+ Jean-Baptiste Fourvel \tab \emph{CNRS, France} \cr
  Brice Lebrun \tab \emph{Aix-Marseille Université, France} \cr
  Ben Marwick \tab \emph{University of Washington, USA} \cr
  Matthew Peeples \tab \emph{Arizona State University, USA} \cr

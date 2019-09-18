@@ -26,7 +26,12 @@ Authors@R:
       person(given = "Anne",
              family = "Philippe",
              role = "ctb",
-             email = "anne.philippe@univ-nantes.fr"))
+             email = "anne.philippe@univ-nantes.fr"),
+      person(given = "Jean-Baptiste",
+             family = "Fourvel",
+             role = "ctb",
+             email = "anne.philippe@univ-nantes.fr",
+             comment = c(ORCID = "https://orcid.org/0000-0002-1061-4642 ")))
 Maintainer: Nicolas Frerebeau
     <nicolas.frerebeau@u-bordeaux-montaigne.fr>
 Description: An easy way to examine archaeological count data. This package 
