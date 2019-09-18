@@ -29,15 +29,17 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 
 ## Overview
 
-`tabula` provides an easy way to examine archaeological count data
-(artifacts, faunal remains, etc.). This package includes several
-measures of diversity: e.g. richness and rarefaction (Chao1, Chao2, ACE,
-ICE, etc.), diversity/dominance and evenness (Brillouin, Shannon,
-Simpson, etc.), turnover and similarity (Brainerd-Robinson, …). It also
-provides matrix seriation methods (reciprocal ranking, CA-based
-seriation) for chronological modeling and dating. The package make it
-easy to visualize count data and statistical thresholds: rank/abundance
-plots, Ford and Bertin diagrams, etc.
+An easy way to examine archaeological count data. This package provides
+a convenient and reproducible toolkit for relative and absolute dating
+and analysis of (chronological) patterns. It includes functions for
+matrix seriation (reciprocal ranking, CA-based seriation), chronological
+modeling and dating of archaeological assemblages and/or objects. Beyond
+these, the package provides several measures of diversity: heterogeneity
+and evenness (Brillouin, Shannon, Simpson, etc.), richness and
+rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity
+(Brainerd-Robinson, etc.). The package make it easy to visualize count
+data and statistical thresholds: rank vs. abundance plots, heatmaps,
+Ford (1962) and Bertin (1977) diagrams.
 
 ## Installation
 
@@ -52,13 +54,13 @@ Or install the development version from GitHub with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("nfrerebeau/tabula")
+remotes::install_github("nfrerebeau/tabula")
 ```
 
 ## Usage
 
-`tabula` provides a set of S4 classes that extend the `matrix` data type
-from R `base`. These new classes represent different special types of
+`tabula` provides a set of S4 classes that extend the basic `matrix`
+data type. These new classes represent different special types of
 matrix.
 
   - Abundance matrix:
@@ -70,9 +72,9 @@ matrix.
       - `OccurrenceMatrix` represents a co-occurence matrix.
       - `SimilarityMatrix` represents a (dis)similarity matrix.
 
-It assumes that you keep your data tidy: each variable (type/taxa) must
-be saved in its own column and each observation (sample/case) must be
-saved in its own row.
+*It assumes that you keep your data tidy*: each variable (type/taxa)
+must be saved in its own column and each observation (sample/case) must
+be saved in its own row.
 
 These new classes are of simple use, on the same way as the base
 `matrix`:
@@ -124,7 +126,7 @@ Spot matrix \[1\] allows direct examination of data:
 # (i.e. how many times (percent) each pairs of taxa occur together 
 # in at least one sample.)
 ceram_occ <- as(mississippi, "OccurrenceMatrix")
-plotSpot(ceram_occ) +
+plot_spot(ceram_occ) +
   ggplot2::labs(size = "", colour = "Co-occurrence") +
   ggplot2::theme(legend.box = "horizontal") +
   khroma::scale_colour_YlOrBr()
@@ -137,7 +139,7 @@ statistic threshold.
 
 ``` r
 mississippi_counts <- as(mississippi, "CountMatrix")
-plotBertin(mississippi_counts, threshold = mean) +
+plot_bertin(mississippi_counts, threshold = mean) +
   khroma::scale_fill_vibrant()
 ```
 
@@ -145,7 +147,7 @@ plotBertin(mississippi_counts, threshold = mean) +
 
 ``` r
 compiegne_counts <- as(compiegne, "CountMatrix")
-plotFord(compiegne_counts, EPPM = TRUE) +
+plot_ford(compiegne_counts, EPPM = TRUE) +
   ggplot2::theme(legend.position = "bottom") +
   khroma::scale_fill_bright()
 ```
@@ -169,12 +171,12 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 
 # Get seriation order on rows and columns
 # Correspondance analysis-based seriation
-(indices <- seriate(incidence, method = "correspondance", margin = c(1, 2)))
+(indices <- seriate_reciprocal(incidence, margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Matrix ID: 7b34f4d9-8581-4393-a660-fee9b8b77999 
-#>    Row order: 20 16 13 4 3 1 9 10 19 2 7 6 17 11 5 14 12 8 15 18 
-#>    Column order: 16 1 9 8 4 14 13 18 20 6 7 3 17 2 11 19 5 15 12 10 
-#>    Method: correspondance
+#>    Matrix ID: 916de718-f750-412c-b766-f1f117cb4dd4 
+#>    Row order: 1 4 20 3 9 16 19 10 13 2 11 7 17 5 6 18 14 15 8 12 
+#>    Column order: 1 16 9 4 8 14 3 20 13 2 6 18 7 17 5 11 19 12 15 10 
+#>    Method: reciprocal
 
 # Permute matrix rows and columns
 incidence2 <- permute(incidence, indices)
@@ -182,10 +184,10 @@ incidence2 <- permute(incidence, indices)
 
 ``` r
 # Plot matrix
-plotMatrix(incidence) + 
+plot_heatmap(incidence) + 
   ggplot2::labs(title = "Original matrix") +
   ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
-plotMatrix(incidence2) + 
+plot_heatmap(incidence2) + 
   ggplot2::labs(title = "Rearranged matrix") +
   ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
 ```
@@ -200,14 +202,14 @@ method developed by Bellanger and Husi
 slightly modified here and allows the construction of different
 probability density curves of archaeological assembalge dates (*event*,
 *activity* and *tempo*). Note that this implementation is experimental
-(see `help(dateEvent)`).
+(see `help(date_event)`).
 
 ``` r
 # Coerce dataset to abundance (count) matrix
 zuni_counts <- as(zuni, "CountMatrix")
 # Assume that some assemblages are reliably dated (this is NOT a real example)
 # The names of the vector entries must match the names of the assemblages
-setDates(zuni_counts) <- c(
+set_dates(zuni_counts) <- c(
   LZ0569 = 1097, LZ0279 = 1119, CS16 = 1328, LZ0066 = 1111,
   LZ0852 = 1216, LZ1209 = 1251, CS144 = 1262, LZ0563 = 1206,
   LZ0329 = 1076, LZ0005Q = 859, LZ0322 = 1109, LZ0067 = 863,
@@ -215,12 +217,12 @@ setDates(zuni_counts) <- c(
 )
 
 # Model the event date for each assemblage
-model <- dateEvent(zuni_counts, cutoff = 90)
+model <- date_event(zuni_counts, cutoff = 90)
 # Plot activity and tempo distributions
-plotDate(model, type = "activity", select = "LZ1105") +
+plot_date(model, type = "activity", select = "LZ1105") +
   ggplot2::labs(title = "Activity plot") +
   ggplot2::theme_bw()
-plotDate(model, type = "tempo", select = "LZ1105") +
+plot_date(model, type = "tempo", select = "LZ1105") +
   ggplot2::labs(title = "Tempo plot") +
   ggplot2::theme_bw()
 ```
@@ -271,21 +273,10 @@ S <- similarity(mississippi_counts, method = "brainerd")
 plotSpot(S) +
   ggplot2::labs(size = "Similarity", colour = "Similarity") +
   khroma::scale_colour_iridescent()
+#> Warning: plotSpot is deprecated. Use plot_spot instead.
 ```
 
 <img src="man/figures/README-similarity-brainerd-1.png" style="display: block; margin: auto;" />
-
-Ranks *vs* abundance plot can be used for abundance models (model
-fitting will be implemented in a futur release):
-
-``` r
-count_merzbach1 <- as(merzbach, "CountMatrix")
-plotRank(count_merzbach1, log = "xy", facet = FALSE) +
-  khroma::scale_colour_discreterainbow() +
-  ggplot2::theme_bw()
-```
-
-<img src="man/figures/README-plot-rank-1.png" style="display: block; margin: auto;" />
 
 ``` r
 ## Keep only decoration types that have a maximum frequency of at least 50
@@ -294,9 +285,9 @@ count_merzbach2 <- as(merzbach[, keep], "CountMatrix")
 
 ## The data are grouped by phase
 ## We use the row names as time coordinates (roman numerals)
-setDates(count_merzbach2) <- rownames(merzbach)
+set_dates(count_merzbach2) <- rownames(merzbach)
 ## Plot time vs abundance and highlight selection
-plotTime(count_merzbach2, highlight = "FIT", roll = TRUE) +
+plot_time(count_merzbach2, highlight = "FIT", roll = TRUE) +
   ggplot2::theme_bw() +
   khroma::scale_color_vibrant()
 ```

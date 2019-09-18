@@ -1,5 +1,5 @@
 ---
-title: "Matrix classes"
+title: "1. Matrix Classes"
 author: "N. Frerebeau"
 date: "`r Sys.Date()`"
 output:
@@ -12,7 +12,7 @@ header-includes:
    - \usepackage{amssymb}
 bibliography: bibliography.bib
 vignette: >
-  %\VignetteIndexEntry{Matrix}
+  %\VignetteIndexEntry{1. Matrix Classes}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -24,24 +24,30 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-library(tabula)
 ```
 
 # Definitions
-`tabula` provides a set of S4 classes that extend the `matrix` data type from R `base`. These new classes represent different special types of matrix.
+The **tabula** package provides a set of S4 classes for archaeological data matrices that extend the basic `matrix` data type. These new classes represent different special types of matrix.
 
-* Abundance matrix:
-    * `CountMatrix` represents count data,
-    * `FrequencyMatrix` represents relative frequency data.
-* Logical matrix:
-    * `IncidenceMatrix` represents presence/absence data.
 * Numeric matrix:
-    * `OccurrenceMatrix` represents a co-occurence matrix.
-    * `SimilarityMatrix` represents a (dis)similarity matrix.
+  * `CountMatrix` represents count data,
+  * `FrequencyMatrix` represents relative frequency data.
+  * `OccurrenceMatrix` represents a co-occurence matrix.
+  * `SimilarityMatrix` represents a (dis)similarity matrix.
+* Logical matrix:
+  * `IncidenceMatrix` represents presence/absence data.
     
-It assumes that you keep your data tidy: each variable (taxon/type) must be saved in its own column and each observation (sample/case) must be saved in its own row. Missing values are not allowed.
+*It assumes that you keep your data tidy*: each variable (taxon/type) must be saved in its own column and each observation (assemblage/sample/case) must be saved in its own row. Note that missing values are not allowed.
 
-## Abundance matix
+Methods for a variety of functions applied to objects from these classes provide tools for analysis, seriation and dating of archaeological assembalges. See `help(methods)` to list all available methods for these classes.
+
+The internal structure of S4 classes implemented in **tabula** is depicted in the UML class diagram in the following figure.
+
+```{r uml, echo=FALSE, fig.cap="UML class diagram of the S4 classes structure.", fig.width=7}
+knitr::include_graphics("classes.svg")
+```
+
+## Numeric matrix
 ### Count matrix
 
 We denote the $m \times p$ count matrix by $A = \left[ a_{ij} \right] ~\forall i \in \left[ 1,m \right], j \in \left[ 1,p \right]$ with row and column sums:
@@ -66,19 +72,6 @@ We denote the $m \times p$ frequency matrix by $B = \left[ b_{ij} \right] ~\fora
  \forall b_{ij} \in \left[ 0,1 \right]
 \end{align}
 
-## Logical matrix
-### Incidence matrix
-
-We denote the $m \times p$ incidence matrix by $C = \left[ c_{ij} \right] ~\forall i \in \left[ 1,m \right], j \in \left[ 1,p \right]$ with row and column sums:
-
-\begin{align}
- c_{i \cdot} = \sum_{j = 1}^{p} c_{ij} &&
- c_{\cdot j} = \sum_{i = 1}^{m} c_{ij} &&
- c_{\cdot \cdot} = \sum_{i = 1}^{m} \sum_{j = 1}^{p} c_{ij} &&
- \forall c_{ij} \in \lbrace 0,1 \rbrace
-\end{align}
-
-## Numeric matrix
 ### Co-occurrence matrix
 
 A co-occurrence matrix is a symetric matrix with zeros on its main diagonal, which works out how many times (expressed in percent) each pairs of taxa occur together in at least one sample.
@@ -96,19 +89,37 @@ with row and column sums:
   \forall d_{ij} \in \mathbb{N}
 \end{align}
 
+## Logical matrix
+### Incidence matrix
+
+We denote the $m \times p$ incidence matrix by $C = \left[ c_{ij} \right] ~\forall i \in \left[ 1,m \right], j \in \left[ 1,p \right]$ with row and column sums:
+
+\begin{align}
+ c_{i \cdot} = \sum_{j = 1}^{p} c_{ij} &&
+ c_{\cdot j} = \sum_{i = 1}^{m} c_{ij} &&
+ c_{\cdot \cdot} = \sum_{i = 1}^{m} \sum_{j = 1}^{p} c_{ij} &&
+ \forall c_{ij} \in \lbrace 0,1 \rbrace
+\end{align}
+
 # Usage
+
+```{r packages}
+# Load packages
+library(tabula)
+```
+
 ## Create
 
 These new classes are of simple use, on the same way as the base `matrix`:
 
 ```{r create}
 set.seed(12345)
-# Create a count data matrix
+## Create a count data matrix
 CountMatrix(data = sample(0:10, 100, TRUE),
             nrow = 10, ncol = 10)
 
-# Create an incidence (presence/absence) matrix
-# Numeric values are coerced to logical as by as.logical
+## Create an incidence (presence/absence) matrix
+## Numeric values are coerced to logical as by as.logical
 IncidenceMatrix(data = sample(0:1, 100, TRUE),
                 nrow = 10, ncol = 10)
 ```
@@ -116,41 +127,45 @@ IncidenceMatrix(data = sample(0:1, 100, TRUE),
 Note that a `FrequencyMatrix` can only be created by coercion from a `CountMatrix` to ensure data integrity (see below).
 
 ## Coerce
-
-`tabula` uses coercing mechanisms (with validation methods) for data type conversions:
+**tabula** uses coercing mechanisms (with validation methods) for data type conversions:
 
 ```{r coerce}
-# Create a count matrix
-# Numeric values are coerced to integer and hence truncated towards zero
+## Create a count matrix
+## Numeric values are coerced to integer and hence truncated towards zero
 set.seed(12345)
 A1 <- CountMatrix(data = sample(0:10, 100, TRUE),
                   nrow = 10, ncol = 10)
 
-# Coerce counts to frequencies
+## Coerce counts to relative frequencies
 B <- as(A1, "FrequencyMatrix")
 
-# Row sums are internally stored before coercing to a frequency matrix
+## Row sums are internally stored before coercing to a frequency matrix
 get_totals(B)
-# This allows to restore the source data
+## This allows to restore the source data
 A2 <- as(B, "CountMatrix")
 all(A1 == A2)
 
-# Coerce to presence/absence
+## Coerce to presence/absence
 C <- as(A1, "IncidenceMatrix")
 
-# Coerce to a co-occurrence matrix
+## Coerce to a co-occurrence matrix
 D <- as(A1, "OccurrenceMatrix")
+
+## Attempt to auto-coerce a matrix in a suitable way
+mtx <- matrix(data = sample(0:10, 100, TRUE), nrow = 10, ncol = 10)
+## Coerce to a count matrix
+E <- as_matrix(mtx)
 ```
 
 # Visualization
 
-Several types of graphs are available in `tabula` which uses `ggplot2` for plotting informations. This makes it easy to customize diagramms (e.g. using themes and scales).
+Several types of graphs are available in **tabula** which uses **ggplot2** for plotting informations. This makes it easy to customize diagramms (e.g. using themes and scales).
 
 ## Spot plot
 Spot matrix allows direct examination of data (above/below some threshold):
 
-```{r plot-freq, fig.width=4, fig.height=6, fig.align="center"}
-# Plot frequencies with the column means as a threshold
+```{r plot-freq, fig.cap="Spot plot", fig.width=4, fig.height=6, fig.align="center"}
+## Plot frequencies with the column means as a threshold
 mississippi_counts <- as(mississippi, "CountMatrix")
 
 plot_spot(mississippi_counts, threshold = mean) +
@@ -158,10 +173,10 @@ plot_spot(mississippi_counts, threshold = mean) +
   khroma::scale_colour_vibrant()
 ```
 
-```{r plot-occ, fig.width=6, fig.height=4, fig.align="center"}
-# Plot co-occurence of types
-# (i.e. how many times (percent) each pairs of taxa occur together 
-# in at least one sample.)
+```{r plot-occ, fig.cap="Spot plot of co-occurrence", fig.width=6, fig.height=4, fig.align="center"}
+## Plot co-occurence of types
+## (i.e. how many times (percent) each pairs of taxa occur together 
+## in at least one sample.)
 mississippi_occ <- as(mississippi, "OccurrenceMatrix")
 plot_spot(mississippi_occ) +
   ggplot2::labs(size = "", colour = "Co-occurrence") +
@@ -169,49 +184,37 @@ plot_spot(mississippi_occ) +
   khroma::scale_colour_YlOrBr()
 ```
 
-## Matrix plot
+## Heatmap
 
 Abundance matrix can be displayed as a heatmap of relative abundances (frequency), or as percentages of the independence value (in french, "pourcentages de valeur d'indépendance", PVI).
 
-```{r plot-matrix, fig.width=7, fig.height=3.5, fig.align="center"}
-# Reproduce B. Desachy's matrigraphe
+```{r plot-matrix, fig.cap="Heatmap", fig.width=7, fig.height=3.5, fig.align="center"}
 boves_counts <- as(boves, "CountMatrix")
 
 plot_heatmap(boves_counts) +
-  ggplot2::theme_light() +
   khroma::scale_fill_YlOrBr()
 ```
 
+
 PVI is calculated for each cell as the percentage to the column theoretical independence value: PVI greater than $1$ represent positive deviations from the independance, whereas PVI smaller than $1$ represent negative deviations [@desachy2004]. The PVI matrix allows to explore deviations from independence (an intuitive graphical approach to $\chi^2$), in such a way that a high-contrast matrix has quite significant deviations, with a low risk of being due to randomness [@desachy2004].
 
-```{r plot-matrigraphe, fig.width=7, fig.height=3.5, fig.align="center"}
-# Reproduce B. Desachy's matrigraphe
+```{r plot-matrigraphe, fig.cap="Matrigraphe", fig.width=7, fig.height=3.5, fig.align="center"}
+## Reproduce B. Desachy's matrigraphe
 plot_heatmap(boves_counts, PVI = TRUE) +
-  khroma::scale_fill_BuRd(midpoint = 1) +
-  ggplot2::theme_bw()
+  khroma::scale_fill_BuRd(midpoint = 1)
 ```
 
 ## Bar plot
 @bertin1977 or @ford1962 (battleship curve) diagramms can also be plotted, with statistic threshold.
 
-```{r plot-bertin, fig.width=7, fig.height=7, fig.align="center"}
-plot_bertin(boves_counts) +
-  ggplot2::labs(title = "Bertin diagram") +
-  ggplot2::theme_bw()
-```
-
-```{r plot-ford, fig.width=7, fig.height=3.5, fig.align="center"}
-plot_ford(boves_counts) +
-  ggplot2::labs(title = "Ford diagram") +
-  ggplot2::theme_light()
-```
-
-The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence [@desachy2004]. As independence can be interpreted as the absence of relationships between types and the chronological order of the assemblages, EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation [@desachy2004].
-
-```{r plot-seriographe, fig.width=7, fig.height=3.5, fig.align="center"}
-# Reproduce B. Desachy's sériographe
-plot_ford(boves_counts, EPPM = TRUE) +
+```{r plot-bertin, fig.cap="Bertin diagram", fig.width=7, fig.height=7, fig.align="center"}
+mississippi_counts <- as(mississippi, "CountMatrix")
+plot_bertin(mississippi_counts, threshold = mean) +
   khroma::scale_fill_bright()
+```
+
+```{r plot-ford, fig.cap="Ford diagram", fig.width=7, fig.height=3.5, fig.align="center"}
+plot_ford(boves_counts)
 ```
 
 # References

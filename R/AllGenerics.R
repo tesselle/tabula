@@ -91,6 +91,11 @@ setGeneric(name = "get_features",
 
 #' @export
 #' @rdname access
+setGeneric(name = "get_order",
+           def = function(object) standardGeneric("get_order"))
+
+#' @export
+#' @rdname access
 setGeneric(name = "set_coordinates<-",
            def = function(object, value) standardGeneric("set_coordinates<-"))
 
@@ -133,6 +138,10 @@ NULL
 #'
 #' @param from A numeric \code{\link{matrix}} or \code{\link{data.frame}} to be
 #'  coerced.
+#' @details
+#'  An attempt is made to coerce \code{from} in a suitable way, i. e. to a
+#'  \linkS4class{CountMatrix} or an \linkS4class{IncidenceMatrix}.
+#' @return A \linkS4class{CountMatrix} or an \linkS4class{IncidenceMatrix}.
 #' @author N. Frerebeau
 #' @docType methods
 #' @name coerce
@@ -151,7 +160,8 @@ setGeneric(
 #'
 #' \code{date_mcd} estimates the Mean Ceramic Date of an assemblage.
 #'
-#' \code{date_event}
+#' \code{date_event} estimates the event and accumation dates of an assemblage
+#' (see below).
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
 #' @param dates A length-\eqn{p} numeric vector giving the mid-date of each type
 #'  (year AD).
@@ -197,7 +207,8 @@ setGeneric(
 #'  of the long term.
 #'
 #'  This method relies on strong archaeological and statistical assumptions.
-#'  Use it only if you know what you are doing (see references below).
+#'  Use it only if you know what you are doing (see references below and the
+#'  vignette: \code{utils::vignette("dating", package = "tabula")}).
 #' @note
 #'  Bellanger \emph{et al.} did not publish the data supporting their
 #'  demonstration: no replication of their results is possible and this

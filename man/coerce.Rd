@@ -19,8 +19,15 @@ as_matrix(from)
 \item{from}{A numeric \code{\link{matrix}} or \code{\link{data.frame}} to be
 coerced.}
 }
+\value{
+A \linkS4class{CountMatrix} or an \linkS4class{IncidenceMatrix}.
+}
 \description{
 Coerce
+}
+\details{
+An attempt is made to coerce \code{from} in a suitable way, i. e. to a
+ \linkS4class{CountMatrix} or an \linkS4class{IncidenceMatrix}.
 }
 \author{
 N. Frerebeau

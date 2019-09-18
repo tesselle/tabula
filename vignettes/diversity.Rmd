@@ -1,5 +1,5 @@
 ---
-title: "Diversity measures"
+title: "2. Diversity Measures"
 author: "N. Frerebeau"
 date: "`r Sys.Date()`"
 output:
@@ -9,7 +9,7 @@ output:
     toc: true
 bibliography: bibliography.bib
 vignette: >
-  %\VignetteIndexEntry{Diversity}
+  %\VignetteIndexEntry{2. Diversity Measures}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -19,6 +19,10 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+```
+
+```{r packages}
+# Load packages
 library(tabula)
 ```
 
@@ -315,7 +319,7 @@ Ranks *vs* abundance plot can be used for abundance models (model fitting will b
 ```{r plot-rank, fig.width=7, fig.height=5, fig.align="center"}
 plot_rank(mississippi, log = "xy", facet = FALSE) +
   ggplot2::theme_bw() +
-  khroma::scale_color_rainbow()
+  khroma::scale_color_discreterainbow()
 ```
 
 # References

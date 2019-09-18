@@ -221,6 +221,13 @@ setMethod("get_id", "ANY", function(object) object@id)
 
 #' @export
 #' @rdname access
+#' @aliases get_order,PermutationOrder-method
+setMethod("get_order", "PermutationOrder", function(object) {
+  list(rows = object@rows, columns = object@columns)
+})
+
+#' @export
+#' @rdname access
 #' @aliases get_totals,FrequencyMatrix-method
 setMethod("get_totals", "FrequencyMatrix", function(object) object@totals)
 

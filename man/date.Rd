@@ -60,7 +60,8 @@ less than the \code{cutoff} value will be retained.}
 \code{date_mcd} estimates the Mean Ceramic Date of an assemblage.
 }
 \details{
-\code{date_event}
+\code{date_event} estimates the event and accumation dates of an assemblage
+(see below).
 }
 \note{
 Bellanger \emph{et al.} did not publish the data supporting their
@@ -103,14 +104,15 @@ Bellanger \emph{et al.} did not publish the data supporting their
  of the long term.
 
  This method relies on strong archaeological and statistical assumptions.
- Use it only if you know what you are doing (see references below).
+ Use it only if you know what you are doing (see references below and the
+ vignette: \code{utils::vignette("dating", package = "tabula")}).
 }
 
 \examples{
 ## Event and accumulation dates (Bellanger et al.)
 ## See the vignette:
 \donttest{
-utils::vignette("dating")
+utils::vignette("dating", package = "tabula")
 }
 
 ## Mean Ceramic Date

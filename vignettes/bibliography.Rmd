@@ -1,5 +1,5 @@
 ---
-title: "Bibliography"
+title: "5. Bibliography"
 subtitle: "Comprehensive list of references cited in the package"
 author: "N. Frerebeau"
 date: "`r Sys.Date()`"
@@ -10,7 +10,7 @@ output:
 bibliography: bibliography.bib
 nocite: '@*'
 vignette: >
-  %\VignetteIndexEntry{Bibliography}
+  %\VignetteIndexEntry{5. Bibliography}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

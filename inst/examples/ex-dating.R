@@ -1,7 +1,7 @@
 ## Event and accumulation dates (Bellanger et al.)
 ## See the vignette:
 \donttest{
-utils::vignette("dating")
+utils::vignette("dating", package = "tabula")
 }
 
 ## Mean Ceramic Date
