@@ -71,7 +71,7 @@ identifier of the matrix (UUID v4).}
 \seealso{
 \link[base]{matrix}
 
-Other S4 class, matrix class: \code{\link{CountMatrix-class}},
+Other matrix class: \code{\link{CountMatrix-class}},
   \code{\link{FrequencyMatrix-class}},
   \code{\link{IncidenceMatrix-class}},
   \code{\link{LogicalMatrix-class}},
@@ -82,5 +82,5 @@ Other S4 class, matrix class: \code{\link{CountMatrix-class}},
 \author{
 N. Frerebeau
 }
-\concept{S4 class, matrix class}
+\concept{matrix class}
 \keyword{internal}

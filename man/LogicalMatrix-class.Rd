@@ -63,7 +63,7 @@ An S4 class to represent a logical matrix.
 \seealso{
 \linkS4class{Matrix}
 
-Other S4 class, matrix class: \code{\link{CountMatrix-class}},
+Other matrix class: \code{\link{CountMatrix-class}},
   \code{\link{FrequencyMatrix-class}},
   \code{\link{IncidenceMatrix-class}},
   \code{\link{Matrix-class}},
@@ -74,5 +74,5 @@ Other S4 class, matrix class: \code{\link{CountMatrix-class}},
 \author{
 N. Frerebeau
 }
-\concept{S4 class, matrix class}
+\concept{matrix class}
 \keyword{internal}

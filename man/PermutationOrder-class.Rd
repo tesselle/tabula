@@ -36,12 +36,6 @@ Numeric values are coerced to \code{\link{integer}} as by
  }
 }
 
-\seealso{
-Other S4 class: \code{\link{BootCA-class}},
-  \code{\link{DateModel-class}},
-  \code{\link{SpaceTime-class}}
-}
 \author{
 N. Frerebeau
 }
-\concept{S4 class}

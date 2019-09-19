@@ -53,12 +53,6 @@ of the samples and variables to be kept, respectively.}
  }
 }
 
-\seealso{
-Other S4 class: \code{\link{DateModel-class}},
-  \code{\link{PermutationOrder-class}},
-  \code{\link{SpaceTime-class}}
-}
 \author{
 N. Frerebeau
 }
-\concept{S4 class}
