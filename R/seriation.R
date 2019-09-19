@@ -96,7 +96,8 @@ seriationCorrespondance <- function(x, margin, axes = 1,
   empty_rows <- rowSums(x) == 0
   empty_cols <- colSums(x) == 0
   x_clean <- x[!empty_rows, !empty_cols]
-  if (verbose) {
+
+  if (sum(empty_rows) != 0 || sum(empty_cols) != 0) {
     row_names <- paste0(rownames(x)[empty_rows], collapse = ", ")
     col_names <- paste0(colnames(x)[empty_cols], collapse = ", ")
     msg <- "Empty values were removed:"

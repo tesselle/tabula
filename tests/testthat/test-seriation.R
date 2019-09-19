@@ -49,7 +49,6 @@ test_that("Correspondance Analysis", {
   expect_s4_class(permute(count, indices), "CountMatrix")
   expect_equal(permute(count, indices)@id, count@id)
 
-  options("verbose" = TRUE)
   count2 <- as(merzbach, "CountMatrix")
   expect_warning(seriate_correspondance(count2))
 })
@@ -58,7 +57,7 @@ test_that("Refined correspondance Analysis", {
 
   # Define cutoff as one standard deviation above the mean
   fun <- function(x) { mean(x) + sd(x) }
-  expect_warning(refine_seriation(count, cutoff = fun), "deprecated")
+  expect_warning(refine(count, cutoff = fun), "deprecated")
   subset <- with_seed(12345, refine_seriation(count, cutoff = fun))
 
   expect_s4_class(subset, "BootCA")
