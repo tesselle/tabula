@@ -169,7 +169,7 @@ Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
 
  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
  Princeton, NJ: Princeton University Press.
- DOI:\href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+ DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
 
  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
  Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.

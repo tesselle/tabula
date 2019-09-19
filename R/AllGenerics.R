@@ -388,7 +388,7 @@ setGeneric(
 #'
 #'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
 #'  Princeton, NJ: Princeton University Press.
-#'  DOI:\href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+#'  DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
 #'
 #'  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
 #'  Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
@@ -724,6 +724,10 @@ setGeneric(
 #'  TODO
 #' @return
 #'  A \code{\link[ggplot2]{ggplot}} object.
+#' @references
+#'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
+#'  Princeton, NJ: Princeton University Press.
+#'  DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
 #' @example inst/examples/ex-plot_rank.R
 #' @author N. Frerebeau
 #' @family plot
@@ -861,7 +865,7 @@ setGeneric(
 #'
 #'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
 #'  Princeton, NJ: Princeton University Press.
-#'  DOI:\href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+#'  DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
 #'
 #'  Margalef, R. (1958). Information Theory in Ecology. \emph{General Systems},
 #'  3, 36-71.
@@ -1122,7 +1126,7 @@ setGeneric(
 #'
 #'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
 #'  Princeton, NJ: Princeton University Press.
-#'  DOI:\href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+#'  DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
 #'
 #'  Robinson, W. S. (1951). A Method for Chronologically Ordering Archaeological
 #'  Deposits. \emph{American Antiquity}, 16(04), 293-301.
@@ -1142,12 +1146,17 @@ setGeneric(
 #' Tests on Abundance Data
 #'
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
+#' @param adjust A \code{\link{character}} string specifying the method for
+#'  adjusting \eqn{p} values (see \code{\link[stats]{p.adjust}}).
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix?
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  The following methods are available:
 #'  \describe{
+#'   \item{\code{test_diversity}}{Compare Shannon diversity bewteen samples.
+#'   This test produces two sided pairwise comparisons: it returns a matrix of
+#'   adjusted \eqn{p} values.}
 #'   \item{\code{test_fit}}{The Frequency Increment Test (Feder et al. 2014).
 #'   This test rejects neutrality if the distribution of normalized variant
 #'   frequency increments exhibits a mean that deviates significantly from
@@ -1163,9 +1172,20 @@ setGeneric(
 #'  Signatures of Selection in Genetic Time Series. \emph{Genetics}, 196(2),
 #'  509-522.
 #'  DOI: \href{https://doi.org/10.1534/genetics.113.158220}{10.1534/genetics.113.158220}.
+#'
+#'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
+#'  Princeton, NJ: Princeton University Press.
+#'  DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
 #' @name test
 #' @rdname test
 NULL
+
+#' @rdname test
+#' @aliases test_diversity-method
+setGeneric(
+  name = "test_diversity",
+  def = function(object, ...) standardGeneric("test_diversity")
+)
 
 #' @rdname test
 #' @aliases test_fit-method

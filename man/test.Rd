@@ -3,14 +3,21 @@
 \docType{methods}
 \name{test}
 \alias{test}
+\alias{test_diversity}
+\alias{test_diversity-method}
 \alias{test_fit}
 \alias{test_fit-method}
 \alias{test_fit,CountMatrix-method}
+\alias{test_diversity,CountMatrix-method}
 \title{Tests on Abundance Data}
 \usage{
+test_diversity(object, ...)
+
 test_fit(object, ...)
 
 \S4method{test_fit}{CountMatrix}(object, simplify = FALSE, ...)
+
+\S4method{test_diversity}{CountMatrix}(object, adjust = "holm", ...)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
@@ -19,6 +26,9 @@ test_fit(object, ...)
 
 \item{simplify}{A \code{\link{logical}} scalar: should the result be
 simplified to a matrix?}
+
+\item{adjust}{A \code{\link{character}} string specifying the method for
+adjusting \eqn{p} values (see \code{\link[stats]{p.adjust}}).}
 }
 \value{
 If \code{simplify} is \code{FALSE}, returns a list (default), else returns
@@ -30,6 +40,9 @@ Tests on Abundance Data
 \details{
 The following methods are available:
  \describe{
+  \item{\code{test_diversity}}{Compare Shannon diversity bewteen samples.
+  This test produces two sided pairwise comparisons: it returns a matrix of
+  adjusted \eqn{p} values.}
   \item{\code{test_fit}}{The Frequency Increment Test (Feder et al. 2014).
   This test rejects neutrality if the distribution of normalized variant
   frequency increments exhibits a mean that deviates significantly from
@@ -37,9 +50,11 @@ The following methods are available:
  }
 }
 \examples{
-## Load the merzbach dataset
-data("merzbach")
+## Shannon diversity test
+count_merzbach <- as(merzbach, "CountMatrix")
+div <- test_diversity(count_merzbach)
 
+## Frequency Increment Test
 ## Coerce the merzbach dataset to a count matrix
 ## Keep only decoration types that have a maximum frequency of at least 50
 keep <- apply(X = merzbach, MARGIN = 2, FUN = function(x) max(x) >= 50)
@@ -56,6 +71,10 @@ Feder, A. F., Kryazhimskiy, S. & Plotkin, J. B. (2014). Identifying
  Signatures of Selection in Genetic Time Series. \emph{Genetics}, 196(2),
  509-522.
  DOI: \href{https://doi.org/10.1534/genetics.113.158220}{10.1534/genetics.113.158220}.
+
+ Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
+ Princeton, NJ: Princeton University Press.
+ DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
 }
 \author{
 N. Frerebeau

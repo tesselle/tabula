@@ -45,6 +45,11 @@ count <- as(compiegne, "CountMatrix")
 plot_rank(count)
 plot_rank(count, facet = FALSE)
 }
+\references{
+Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
+ Princeton, NJ: Princeton University Press.
+ DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+}
 \seealso{
 Other plot: \code{\link{plot_bar}},
   \code{\link{plot_date}}, \code{\link{plot_matrix}},

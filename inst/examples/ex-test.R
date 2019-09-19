@@ -1,6 +1,8 @@
-## Load the merzbach dataset
-data("merzbach")
+## Shannon diversity test
+count_merzbach <- as(merzbach, "CountMatrix")
+div <- test_diversity(count_merzbach)
 
+## Frequency Increment Test
 ## Coerce the merzbach dataset to a count matrix
 ## Keep only decoration types that have a maximum frequency of at least 50
 keep <- apply(X = merzbach, MARGIN = 2, FUN = function(x) max(x) >= 50)

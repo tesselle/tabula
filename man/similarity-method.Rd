@@ -114,7 +114,7 @@ Brainerd, G. W. (1951). The Place of Chronological Ordering in
 
  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
  Princeton, NJ: Princeton University Press.
- DOI:\href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+ DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
 
  Robinson, W. S. (1951). A Method for Chronologically Ordering Archaeological
  Deposits. \emph{American Antiquity}, 16(04), 293-301.

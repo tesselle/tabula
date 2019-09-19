@@ -76,6 +76,10 @@ Experimental tools to deal with spatial information.
 }
 
 \examples{
+## Create a count data matrix
+A1 <- CountMatrix(data = sample(0:10, 100, TRUE),
+                  nrow = 10, ncol = 10, byrow = TRUE)
+
 ## Set geographic coordinates
 set_epsg(A1) <- 4326
 set_coordinates(A1) <- list(X = sample(0:10, 10, TRUE),
