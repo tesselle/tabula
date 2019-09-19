@@ -40,7 +40,7 @@ If \code{NULL} (the default), no scaling is performed.}
 details)?}
 }
 \value{
-TODO
+A \code{\link[ggplot2]{ggplot}} object.
 }
 \description{
 Plots a Bertin, Ford (battleship curve) or Dice-Leraas diagram.

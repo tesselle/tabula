@@ -2,7 +2,7 @@
 NULL
 
 #' @export
-#' @rdname richness-method
+#' @rdname richness
 #' @aliases richness,CountMatrix-method
 setMethod(
   f = "richness",
@@ -41,7 +41,7 @@ setMethod(
 )
 
 #' @export
-#' @rdname richness-method
+#' @rdname richness
 #' @aliases richness,IncidenceMatrix-method
 setMethod(
   f = "richness",

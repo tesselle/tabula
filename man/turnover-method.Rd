@@ -27,7 +27,7 @@ turnover(object, ...)
 used (see details). Any unambiguous substring can be given.}
 
 \item{simplify}{A \code{\link{logical}} scalar: should the result be
-simplified to a matrix? The default value, \code{FALSE}, returns a list.}
+simplified to a matrix?}
 }
 \value{
 If \code{simplify} is \code{FALSE}, returns a list (default), else returns

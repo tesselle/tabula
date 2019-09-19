@@ -55,7 +55,7 @@ the lowest possible dimension? This only works for extracting elements,
 not for the replacement.}
 }
 \value{
-TODO
+A subseted object.
 }
 \description{
 Operators acting on objects to extract or replace parts.

@@ -6,31 +6,15 @@
 \alias{get}
 \alias{set}
 \alias{get_id}
+\alias{get_id-method}
 \alias{get_totals}
+\alias{get_totals-method}
 \alias{set_totals<-}
-\alias{get_dates}
-\alias{set_dates<-}
-\alias{get_coordinates}
-\alias{get_features}
-\alias{get_order}
-\alias{set_coordinates<-}
-\alias{get_epsg}
-\alias{set_epsg<-}
-\alias{get_coordinates,AbundanceMatrix-method}
-\alias{get_epsg,AbundanceMatrix-method}
-\alias{get_features,AbundanceMatrix-method}
-\alias{get_dates,AbundanceMatrix-method}
+\alias{set_totals-method}
 \alias{get_id,ANY-method}
-\alias{get_order,PermutationOrder-method}
 \alias{get_totals,FrequencyMatrix-method}
 \alias{set_totals<-,FrequencyMatrix-method}
 \alias{set_totals,FrequencyMatrix-method}
-\alias{set_dates<-,AbundanceMatrix-method}
-\alias{set_dates,AbundanceMatrix-method}
-\alias{set_coordinates<-,AbundanceMatrix-method}
-\alias{set_coordinates,AbundanceMatrix-method}
-\alias{set_epsg<-,AbundanceMatrix-method}
-\alias{set_epsg,AbundanceMatrix-method}
 \title{Get or Set Parts of an Object}
 \usage{
 get_id(object)
@@ -39,43 +23,11 @@ get_totals(object)
 
 set_totals(object) <- value
 
-get_dates(object)
-
-set_dates(object) <- value
-
-get_coordinates(object)
-
-get_features(object)
-
-get_order(object)
-
-set_coordinates(object) <- value
-
-get_epsg(object)
-
-set_epsg(object) <- value
-
-\S4method{get_coordinates}{AbundanceMatrix}(object)
-
-\S4method{get_epsg}{AbundanceMatrix}(object)
-
-\S4method{get_features}{AbundanceMatrix}(object)
-
-\S4method{get_dates}{AbundanceMatrix}(object)
-
 \S4method{get_id}{ANY}(object)
-
-\S4method{get_order}{PermutationOrder}(object)
 
 \S4method{get_totals}{FrequencyMatrix}(object)
 
 \S4method{set_totals}{FrequencyMatrix}(object) <- value
-
-\S4method{set_dates}{AbundanceMatrix}(object) <- value
-
-\S4method{set_coordinates}{AbundanceMatrix}(object) <- value
-
-\S4method{set_epsg}{AbundanceMatrix}(object) <- value
 }
 \arguments{
 \item{object}{An object from which to get or set element(s).}
@@ -84,54 +36,11 @@ set_epsg(object) <- value
 below).}
 }
 \value{
-TODO
+An object of the same sort as \code{object} with the new values assigned.
 }
 \description{
 Getters and setters to extract or replace parts of an object.
 }
-\section{Set dates}{
-
- An attempt is made to interpret the argument \code{value} in a suitable way.
- \emph{Note} that errors are assumed to be given at \code{1} sigma.
-
- If \code{value} is a:
- \describe{
-  \item{\code{character} vector}{it is assumed to contain Roman numerals.}
-  \item{\code{numeric} or \code{integer} \code{vector}}{these values are
-  assumed to represent dates without known errors.}
-  \item{\code{list}}{containing components "\code{value}" and "\code{error}",
-  these are used to define dates and corresponding errors.}
-  \item{\code{matrix} or \code{data.frame} with two or more columns}{the
-  first is assumed to contain the dates and the second the error values.
-  \emph{Note} that if \code{value} has columns named "\code{value}" and
-  "\code{error}", these columns will be used.}
- }
-}
-
-\section{Set coordinates}{
-
- An attempt is made to interpret the argument \code{value} in a way suitable
- for geographic coordinates. If \code{value} is a:
- \describe{
-  \item{\code{list}}{containing components "\code{x}", "\code{y}" and
-  "\code{z}", these are used to define coordinates (longitude, latitude and
-  elevation, respectively). If "\code{z}" is missing, the vertical
-  coordinates will be ignored (and \code{NA} will be generated).}
-  \item{\code{matrix} or \code{data.frame} with two or more columns}{the
-  first is assumed to contain the \code{x} values, the second the \code{y}
-  and the third the \code{z} values. \emph{Note} that if \code{value} has
-  columns named "\code{x}", "\code{y}" and "\code{z}", these columns will be
-  used. If \code{value} has only two columns or has columns named "\code{x}"
-  and "\code{y}" but not "\code{z}", the vertical coordinates will be ignored
-  (and \code{NA} will be generated).}
- }
-
- \code{get_features} converts an \code{AbundanceMatrix} object to a
- collection of features (i.e. a\code{\link[=data.frame]{data frame}} with
- dates and coordinates columns) that can be used for spatial manipulation
- with \pkg{sf}.
-}
-
 \author{
 N. Frerebeau
 }

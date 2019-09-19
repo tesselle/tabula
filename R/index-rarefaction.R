@@ -2,7 +2,7 @@
 NULL
 
 #' @export
-#' @rdname richness-method
+#' @rdname richness
 #' @aliases rarefaction,CountMatrix-method
 setMethod(
   f = "rarefaction",

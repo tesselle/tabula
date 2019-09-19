@@ -30,7 +30,7 @@ argument and returns a numeric threshold value.
 If \code{NULL} (the default), no threshold is computed.}
 }
 \value{
-TODO
+A \code{\link[ggplot2]{ggplot}} object.
 }
 \description{
 Plots a spot matrix.

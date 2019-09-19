@@ -3,9 +3,9 @@
 \docType{methods}
 \name{plot_matrix}
 \alias{plot_matrix}
+\alias{matrigraphe}
 \alias{plot_heatmap}
 \alias{plot_heatmap-method}
-\alias{matrigraphe}
 \alias{plot_heatmap,CountMatrix-method}
 \alias{plot_heatmap,FrequencyMatrix-method}
 \alias{plot_heatmap,IncidenceMatrix-method}
@@ -32,7 +32,7 @@ frequencies (see details)?}
 be drawn? If \code{FALSE}, raw data are ploted.}
 }
 \value{
-TODO
+A \code{\link[ggplot2]{ggplot}} object.
 }
 \description{
 Plots a heatmap.

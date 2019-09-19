@@ -154,7 +154,7 @@ setMethod(
 
 # Getters ======================================================================
 #' @export
-#' @rdname access
+#' @rdname geography
 #' @aliases get_coordinates,AbundanceMatrix-method
 setMethod(
   f = "get_coordinates",
@@ -168,12 +168,12 @@ setMethod(
 )
 
 #' @export
-#' @rdname access
+#' @rdname geography
 #' @aliases get_epsg,AbundanceMatrix-method
 setMethod("get_epsg", "AbundanceMatrix", function(object) object@epsg)
 
 #' @export
-#' @rdname access
+#' @rdname geography
 #' @aliases get_features,AbundanceMatrix-method
 setMethod(
   f = "get_features",
@@ -203,7 +203,7 @@ setMethod(
 )
 
 #' @export
-#' @rdname access
+#' @rdname date
 #' @aliases get_dates,AbundanceMatrix-method
 setMethod(
   f = "get_dates",
@@ -220,7 +220,7 @@ setMethod(
 setMethod("get_id", "ANY", function(object) object@id)
 
 #' @export
-#' @rdname access
+#' @rdname seriation
 #' @aliases get_order,PermutationOrder-method
 setMethod("get_order", "PermutationOrder", function(object) {
   list(rows = object@rows, columns = object@columns)
@@ -290,7 +290,7 @@ make_dates <- function(value) {
 }
 
 #' @export
-#' @rdname access
+#' @rdname date
 #' @aliases set_dates,AbundanceMatrix-method
 setMethod(
   f = "set_dates<-",
@@ -383,7 +383,7 @@ make_coordinates <- function(value) {
 }
 
 #' @export
-#' @rdname access
+#' @rdname geography
 #' @aliases set_coordinates,AbundanceMatrix-method
 setMethod(
   f = "set_coordinates<-",
@@ -396,7 +396,7 @@ setMethod(
 )
 
 #' @export
-#' @rdname access
+#' @rdname geography
 #' @aliases set_epsg,AbundanceMatrix-method
 setMethod(
   f = "set_epsg<-",

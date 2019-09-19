@@ -63,7 +63,7 @@ window. Only used if \code{roll} is \code{TRUE}.}
 defined by type/taxon be drawn? Only used if XXX.}
 }
 \value{
-TODO
+A \code{\link[ggplot2]{ggplot}} object.
 }
 \description{
 \code{plot_date} produces an activity or tempo plot.

@@ -28,7 +28,7 @@ and "\code{xy}" or "\code{yx}" if both axes are to be logarithmic (base 10).}
 defined by case/sample be drawn?}
 }
 \value{
-TODO
+A \code{\link[ggplot2]{ggplot}} object.
 }
 \description{
 \code{plot_rank} plots a rank \emph{vs} relative abundance diagram.

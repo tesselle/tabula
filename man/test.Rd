@@ -6,7 +6,7 @@
 \alias{test_fit}
 \alias{test_fit-method}
 \alias{test_fit,CountMatrix-method}
-\title{Test}
+\title{Tests on Abundance Data}
 \usage{
 test_fit(object, ...)
 
@@ -18,13 +18,14 @@ test_fit(object, ...)
 \item{...}{Further arguments to be passed to internal methods.}
 
 \item{simplify}{A \code{\link{logical}} scalar: should the result be
-simplified to a matrix? The default value, \code{FALSE}, returns a list.}
+simplified to a matrix?}
 }
 \value{
-TODO
+If \code{simplify} is \code{FALSE}, returns a list (default), else returns
+ a matrix.
 }
 \description{
-Test
+Tests on Abundance Data
 }
 \details{
 The following methods are available:

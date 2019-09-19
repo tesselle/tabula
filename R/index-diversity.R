@@ -2,7 +2,7 @@
 NULL
 
 #' @export
-#' @rdname diversity-method
+#' @rdname diversity
 #' @aliases diversity,CountMatrix-method
 setMethod(
   f = "diversity",
@@ -35,7 +35,7 @@ setMethod(
 )
 
 #' @export
-#' @rdname diversity-method
+#' @rdname diversity
 #' @aliases evenness,CountMatrix-method
 setMethod(
   f = "evenness",

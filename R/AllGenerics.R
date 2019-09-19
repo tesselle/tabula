@@ -9,45 +9,8 @@ NULL
 #' @param object An object from which to get or set element(s).
 #' @param value A possible value for the element(s) of \code{object} (see
 #'  below).
-#' @section Set dates:
-#'  An attempt is made to interpret the argument \code{value} in a suitable way.
-#'  \emph{Note} that errors are assumed to be given at \code{1} sigma.
-#'
-#'  If \code{value} is a:
-#'  \describe{
-#'   \item{\code{character} vector}{it is assumed to contain Roman numerals.}
-#'   \item{\code{numeric} or \code{integer} \code{vector}}{these values are
-#'   assumed to represent dates without known errors.}
-#'   \item{\code{list}}{containing components "\code{value}" and "\code{error}",
-#'   these are used to define dates and corresponding errors.}
-#'   \item{\code{matrix} or \code{data.frame} with two or more columns}{the
-#'   first is assumed to contain the dates and the second the error values.
-#'   \emph{Note} that if \code{value} has columns named "\code{value}" and
-#'   "\code{error}", these columns will be used.}
-#'  }
-#' @section Set coordinates:
-#'  An attempt is made to interpret the argument \code{value} in a way suitable
-#'  for geographic coordinates. If \code{value} is a:
-#'  \describe{
-#'   \item{\code{list}}{containing components "\code{x}", "\code{y}" and
-#'   "\code{z}", these are used to define coordinates (longitude, latitude and
-#'   elevation, respectively). If "\code{z}" is missing, the vertical
-#'   coordinates will be ignored (and \code{NA} will be generated).}
-#'   \item{\code{matrix} or \code{data.frame} with two or more columns}{the
-#'   first is assumed to contain the \code{x} values, the second the \code{y}
-#'   and the third the \code{z} values. \emph{Note} that if \code{value} has
-#'   columns named "\code{x}", "\code{y}" and "\code{z}", these columns will be
-#'   used. If \code{value} has only two columns or has columns named "\code{x}"
-#'   and "\code{y}" but not "\code{z}", the vertical coordinates will be ignored
-#'   (and \code{NA} will be generated).}
-#'  }
-#'
-#'  \code{get_features} converts an \code{AbundanceMatrix} object to a
-#'  collection of features (i.e. a\code{\link[=data.frame]{data frame}} with
-#'  dates and coordinates columns) that can be used for spatial manipulation
-#'  with \pkg{sf}.
 #' @return
-#'  TODO
+#'  An object of the same sort as \code{object} with the new values assigned.
 #' @author N. Frerebeau
 #' @docType methods
 #' @name access
@@ -55,59 +18,26 @@ NULL
 #' @aliases get set
 NULL
 
-#' @export
 #' @rdname access
-setGeneric(name = "get_id",
-           def = function(object) standardGeneric("get_id"))
+#' @aliases get_id-method
+setGeneric(
+  name = "get_id",
+  def = function(object) standardGeneric("get_id")
+)
 
-#' @export
 #' @rdname access
-setGeneric(name = "get_totals",
-           def = function(object) standardGeneric("get_totals"))
+#' @aliases get_totals-method
+setGeneric(
+  name = "get_totals",
+  def = function(object) standardGeneric("get_totals")
+)
 
-#' @export
 #' @rdname access
-setGeneric(name = "set_totals<-",
-           def = function(object, value) standardGeneric("set_totals<-"))
-#' @export
-#' @rdname access
-setGeneric(name = "get_dates",
-           def = function(object) standardGeneric("get_dates"))
-
-#' @export
-#' @rdname access
-setGeneric(name = "set_dates<-",
-           def = function(object, value) standardGeneric("set_dates<-"))
-
-#' @export
-#' @rdname access
-setGeneric(name = "get_coordinates",
-           def = function(object) standardGeneric("get_coordinates"))
-
-#' @export
-#' @rdname access
-setGeneric(name = "get_features",
-           def = function(object) standardGeneric("get_features"))
-
-#' @export
-#' @rdname access
-setGeneric(name = "get_order",
-           def = function(object) standardGeneric("get_order"))
-
-#' @export
-#' @rdname access
-setGeneric(name = "set_coordinates<-",
-           def = function(object, value) standardGeneric("set_coordinates<-"))
-
-#' @export
-#' @rdname access
-setGeneric(name = "get_epsg",
-           def = function(object) standardGeneric("get_epsg"))
-
-#' @export
-#' @rdname access
-setGeneric(name = "set_epsg<-",
-           def = function(object, value) standardGeneric("set_epsg<-"))
+#' @aliases set_totals-method
+setGeneric(
+  name = "set_totals<-",
+  def = function(object, value) standardGeneric("set_totals<-")
+)
 
 # ------------------------------------------------------------------------------
 #' Extract or Replace Parts of an Object
@@ -126,7 +56,7 @@ setGeneric(name = "set_epsg<-",
 #'  the lowest possible dimension? This only works for extracting elements,
 #'  not for the replacement.
 #' @return
-#'  TODO
+#'  A subseted object.
 #' @author N. Frerebeau
 #' @docType methods
 #' @name subset
@@ -160,9 +90,17 @@ setGeneric(
 #'
 #' \code{date_mcd} estimates the Mean Ceramic Date of an assemblage.
 #'
-#' \code{date_event} estimates the event and accumation dates of an assemblage
-#' (see below).
-#' @param object A \eqn{m \times p}{m x p} matrix of count data.
+#' \code{date_event} estimates the event and accumation dates of an assemblage.
+#'
+#' \code{refine_dates} checks the stability of a date model with resampling
+#' methods.
+#'
+#' \code{set_dates} and \code{get_dates} allow to get or set the dates of an
+#' object.
+#' @param object A \eqn{m \times p}{m x p} matrix of count data (typically of
+#'  class \linkS4class{CountMatrix}).
+#' @param value A possible value for the element(s) of \code{object} (see
+#'  below).
 #' @param dates A length-\eqn{p} numeric vector giving the mid-date of each type
 #'  (year AD).
 #' @param errors A length-\eqn{p} numeric vector giving the absolute error of
@@ -175,7 +113,26 @@ setGeneric(
 #'  less than the \code{cutoff} value will be retained.
 #' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
 #' replications (see below).
+#' @param method A \code{\link{character}} string specifiying the resampling
+#'  method to be used. This must be one of "\code{jackknife}",
+#'  "\code{bootstrap}" (see details). Any unambiguous substring can be given.
 #' @param ... Further arguments to be passed to internal methods.
+#' @section Set dates:
+#'  An attempt is made to interpret the argument \code{value} in a suitable way.
+#'  \emph{Note} that errors are assumed to be given at \code{1} sigma.
+#'
+#'  If \code{value} is a:
+#'  \describe{
+#'   \item{\code{character} vector}{it is assumed to contain Roman numerals.}
+#'   \item{\code{numeric} or \code{integer} \code{vector}}{these values are
+#'   assumed to represent dates without known errors.}
+#'   \item{\code{list}}{containing components "\code{value}" and "\code{error}",
+#'   these are used to define dates and corresponding errors.}
+#'   \item{\code{matrix} or \code{data.frame} with two or more columns}{the
+#'   first is assumed to contain the dates and the second the error values.
+#'   \emph{Note} that if \code{value} has columns named "\code{value}" and
+#'   "\code{error}", these columns will be used.}
+#'  }
 #' @section Mean Ceramic Date:
 #'  The Mean Ceramic Date (MCD) is a point estimate of the occupation of an
 #'  archaeological site (South 1977). The MCD is estimated as the weighted mean
@@ -302,11 +259,25 @@ setGeneric(
 #' @seealso \link{refine}
 #' @example inst/examples/ex-dating.R
 #' @author N. Frerebeau
-#' @family seriation
+#' @family dating
 #' @docType methods
 #' @name date
 #' @rdname date
 NULL
+
+#' @rdname date
+#' @aliases get_dates-method
+setGeneric(
+  name = "get_dates",
+  def = function(object) standardGeneric("get_dates")
+)
+
+#' @rdname date
+#' @aliases set_dates-method
+setGeneric(
+  name = "set_dates<-",
+  def = function(object, value) standardGeneric("set_dates<-")
+)
 
 #' @rdname date
 #' @aliases date_mcd-method
@@ -440,18 +411,92 @@ setGeneric(
 #'  \code{\link{turnover}}
 #'  \code{\link{similarity}}
 #' @docType methods
-#' @rdname diversity-method
+#' @name diversity
+#' @rdname diversity
+NULL
+
+#' @rdname diversity
 #' @aliases diversity-method
 setGeneric(
   name = "diversity",
   def = function(object, ...) standardGeneric("diversity")
 )
 
-#' @rdname diversity-method
+#' @rdname diversity
 #' @aliases evenness-method
 setGeneric(
   name = "evenness",
   def = function(object, ...) standardGeneric("evenness")
+)
+
+# ===================================================================== Geography
+#' Spatial Information
+#'
+#' Experimental tools to deal with spatial information.
+#' @param object An object from which to get or set element(s).
+#' @param value A possible value for the element(s) of \code{object} (see
+#'  below).
+#' @section Set coordinates:
+#'  An attempt is made to interpret the argument \code{value} in a way suitable
+#'  for geographic coordinates. If \code{value} is a:
+#'  \describe{
+#'   \item{\code{list}}{containing components "\code{x}", "\code{y}" and
+#'   "\code{z}", these are used to define coordinates (longitude, latitude and
+#'   elevation, respectively). If "\code{z}" is missing, the vertical
+#'   coordinates will be ignored (and \code{NA} will be generated).}
+#'   \item{\code{matrix} or \code{data.frame} with two or more columns}{the
+#'   first is assumed to contain the \code{x} values, the second the \code{y}
+#'   and the third the \code{z} values. \emph{Note} that if \code{value} has
+#'   columns named "\code{x}", "\code{y}" and "\code{z}", these columns will be
+#'   used. If \code{value} has only two columns or has columns named "\code{x}"
+#'   and "\code{y}" but not "\code{z}", the vertical coordinates will be ignored
+#'   (and \code{NA} will be generated).}
+#'  }
+#'
+#'  \code{get_features} converts an \code{AbundanceMatrix} object to a
+#'  collection of features (i.e. a\code{\link[=data.frame]{data frame}} with
+#'  dates and coordinates columns) that can be used for spatial manipulation
+#'  with \pkg{sf}.
+#' @author N. Frerebeau
+#' @family geography
+#' @docType methods
+#' @name geography
+#' @rdname geography
+NULL
+
+#' @rdname geography
+#' @aliases get_features-method
+setGeneric(
+  name = "get_features",
+  def = function(object) standardGeneric("get_features")
+)
+
+#' @rdname geography
+#' @aliases get_coordinates-method
+setGeneric(
+  name = "get_coordinates",
+  def = function(object) standardGeneric("get_coordinates")
+)
+
+#' @rdname geography
+#' @aliases set_coordinates-method
+setGeneric(
+  name = "set_coordinates<-",
+  def = function(object, value) standardGeneric("set_coordinates<-")
+)
+
+#' @rdname geography
+#' @aliases get_epsg-method
+setGeneric(
+  name = "get_epsg",
+  def = function(object) standardGeneric("get_epsg")
+)
+
+#' @rdname geography
+#' @aliases set_epsg-method
+setGeneric(
+  name = "set_epsg<-",
+  def = function(object, value) standardGeneric("set_epsg<-")
 )
 
 # ========================================================================= Plot
@@ -505,7 +550,7 @@ setGeneric(
 #' @section Detection of Selective Processes:
 #'  TODO
 #' @return
-#'  TODO
+#'  A \code{\link[ggplot2]{ggplot}} object.
 #' @references
 #'  Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
 #'  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
@@ -574,7 +619,7 @@ setGeneric(
 #'  significance of relationship between rows and columns related to
 #'  \code{\link[=seriate]{seriation}} (Desachy 2004).
 #' @return
-#'  TODO
+#'  A \code{\link[ggplot2]{ggplot}} object.
 #' @references
 #'  Bertin, J. (1977). \emph{La graphique et le traitement graphique de
 #'  l'information}. Paris: Flammarion. Nouvelle Bibliothèque Scientifique.
@@ -639,7 +684,7 @@ setGeneric(
 #'  in such a way that a high-contrast matrix has quite significant deviations,
 #'  with a low risk of being due to randomness (Desachy 2004).
 #' @return
-#'  TODO
+#'  A \code{\link[ggplot2]{ggplot}} object.
 #' @references
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
 #'  graphique pour tableaux de comptages. \emph{Revue archéologique de
@@ -651,10 +696,11 @@ setGeneric(
 #' @docType methods
 #' @name plot_matrix
 #' @rdname plot_matrix
+#' @aliases matrigraphe
 NULL
 
 #' @rdname plot_matrix
-#' @aliases plot_heatmap-method matrigraphe
+#' @aliases plot_heatmap-method
 setGeneric(
   name = "plot_heatmap",
   def = function(object, ...) standardGeneric("plot_heatmap")
@@ -673,7 +719,7 @@ setGeneric(
 #' @details
 #'  TODO
 #' @return
-#'  TODO
+#'  A \code{\link[ggplot2]{ggplot}} object.
 #' @example inst/examples/ex-plot_rank.R
 #' @author N. Frerebeau
 #' @family plot
@@ -703,7 +749,7 @@ setGeneric(
 #'  \link[=plot_bertin]{Bertin diagram} where the data are first transformed to
 #'  relative frequencies.
 #' @return
-#'  TODO
+#'  A \code{\link[ggplot2]{ggplot}} object.
 #' @note
 #'  Adapted from Dan Gopstein's original
 #'  \href{https://dgopstein.github.io/articles/spot-matrix/}{idea}.
@@ -1016,7 +1062,6 @@ setGeneric(
   def = function(object, ...) standardGeneric("refine_seriation")
 )
 
-#' @export
 #' @rdname seriation
 #' @aliases get_order-method
 setGeneric(
@@ -1090,11 +1135,11 @@ setGeneric(
 )
 
 # ========================================================================= Test
-#' Test
+#' Tests on Abundance Data
 #'
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
 #' @param simplify A \code{\link{logical}} scalar: should the result be
-#'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
+#'  simplified to a matrix?
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  The following methods are available:
@@ -1105,7 +1150,8 @@ setGeneric(
 #'   zero.}
 #'  }
 #' @return
-#'  TODO
+#'  If \code{simplify} is \code{FALSE}, returns a list (default), else returns
+#'  a matrix.
 #' @example inst/examples/ex-test.R
 #' @author N. Frerebeau
 #' @references
@@ -1133,7 +1179,7 @@ setGeneric(
 #' @param method A \code{\link{character}} string specifiying the method to be
 #'  used (see details). Any unambiguous substring can be given.
 #' @param simplify A \code{\link{logical}} scalar: should the result be
-#'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
+#'  simplified to a matrix?
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  The following methods can be used to acertain the degree of \emph{turnover}
@@ -1185,7 +1231,7 @@ setGeneric(
 #' Deprecated Methods
 #'
 #' \code{plotBar} produces a Bertin or a Ford (battleship curve) diagram.
-#' @param object An object to be plotted.
+#' @param object An object.
 #' @param level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level to be drawn.
 #' @param EPPM A \code{\link{logical}} scalar: should the EPPM be drawn (see
@@ -1217,9 +1263,13 @@ setGeneric(
 #'  \code{c(2, 1)} indicates columns then rows.
 #' @param stop A length-one \code{\link{numeric}} vector giving the stopping rule
 #'  (i.e. maximum number of iterations) to avoid infinite loop.
+#' @param cutoff A function that takes a numeric vector as argument and returns
+#'  a single numeric value.
+#' @param n A non-negative \code{\link{integer}} giving the number of partial
+#'  bootstrap replications.
+#' @param axes A \code{\link{numeric}} vector giving the subscripts of the CA
+#'  axes to use.
 #' @param ... Further arguments to be passed to internal methods.
-#' @return
-#'  TODO
 #' @docType methods
 #' @name tabula-deprecated
 #' @rdname deprecated
@@ -1250,4 +1300,9 @@ setGeneric(
 setGeneric(
   name = "seriate",
   def = function(object, subset, ...) standardGeneric("seriate")
+)
+#' @rdname deprecated
+setGeneric(
+  name = "refine",
+  def = function(object, ...) standardGeneric("refine")
 )
