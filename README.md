@@ -34,9 +34,9 @@ a convenient and reproducible toolkit for relative and absolute dating
 and analysis of (chronological) patterns. It includes functions for
 matrix seriation (reciprocal ranking, CA-based seriation), chronological
 modeling and dating of archaeological assemblages and/or objects. Beyond
-these, the package provides several measures of diversity: heterogeneity
-and evenness (Brillouin, Shannon, Simpson, etc.), richness and
-rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity
+these, the package provides several tests and measures of diversity:
+heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness
+and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity
 (Brainerd-Robinson, etc.). The package make it easy to visualize count
 data and statistical thresholds: rank vs. abundance plots, heatmaps,
 Ford (1962) and Bertin (1977) diagrams.
@@ -58,6 +58,12 @@ remotes::install_github("nfrerebeau/tabula")
 ```
 
 ## Usage
+
+``` r
+# Load packages
+library(tabula)
+library(magrittr)
+```
 
 `tabula` provides a set of S4 classes that extend the basic `matrix`
 data type. These new classes represent different special types of
@@ -94,25 +100,25 @@ quali <- IncidenceMatrix(data = sample(0:1, 100, TRUE),
 type conversions:
 
 ``` r
-# Create a count matrix
+## Create a count matrix
 A1 <- CountMatrix(data = sample(0:10, 100, TRUE),
                   nrow = 10, ncol = 10)
 
-# Coerce counts to frequencies
-B <- as(A1, "FrequencyMatrix")
+## Coerce counts to frequencies
+B <- as_frequency(A1)
 
-# Row sums are internally stored before coercing to a frequency matrix
-# (use totals() to get these values)
-# This allows to restore the source data
-A2 <- as(B, "CountMatrix")
+## Row sums are internally stored before coercing to a frequency matrix
+## (use totals() to get these values)
+## This allows to restore the source data
+A2 <- as_count(B)
 all(A1 == A2)
 #> [1] TRUE
 
-# Coerce to presence/absence
-C <- as(A1, "IncidenceMatrix")
+## Coerce to presence/absence
+C <- as_incidence(A1)
 
-# Coerce to a co-occurrence matrix
-D <- as(A1, "OccurrenceMatrix")
+## Coerce to a co-occurrence matrix
+D <- as_occurrence(A1)
 ```
 
 Several types of graphs are available in `tabula` which uses `ggplot2`
@@ -125,8 +131,9 @@ Spot matrix \[1\] allows direct examination of data:
 # Plot co-occurence of types
 # (i.e. how many times (percent) each pairs of taxa occur together 
 # in at least one sample.)
-ceram_occ <- as(mississippi, "OccurrenceMatrix")
-plot_spot(ceram_occ) +
+mississippi %>%
+  as_occurrence() %>%
+  plot_spot() +
   ggplot2::labs(size = "", colour = "Co-occurrence") +
   ggplot2::theme(legend.box = "horizontal") +
   khroma::scale_colour_YlOrBr()
@@ -135,31 +142,25 @@ plot_spot(ceram_occ) +
 <img src="man/figures/README-plot-occ-1.png" style="display: block; margin: auto;" />
 
 Bertin or Ford (battleship curve) diagramms can be plotted, with
-statistic threshold.
+statistic threshold (including B. Desachy’s
+[sériographe](https://doi.org/10.3406/pica.2004.2396)).
 
 ``` r
-mississippi_counts <- as(mississippi, "CountMatrix")
-plot_bertin(mississippi_counts, threshold = mean) +
+mississippi %>%
+  as_count() %>%
+  plot_bertin(threshold = mean) +
   khroma::scale_fill_vibrant()
 ```
 
 <img src="man/figures/README-bertin-1.png" style="display: block; margin: auto;" />
 
 ``` r
-compiegne_counts <- as(compiegne, "CountMatrix")
-plot_ford(compiegne_counts, EPPM = TRUE) +
-  ggplot2::theme(legend.position = "bottom") +
-  khroma::scale_fill_bright()
+compiegne %>%
+  as_count() %>%
+  plot_ford()
 ```
 
 <img src="man/figures/README-ford-1.png" style="display: block; margin: auto;" />
-
-The positive difference from the column mean percentage (in french
-“écart positif au pourcentage moyen”, EPPM) represents a deviation
-from the situation of statistical independence (B. Desachy’s
-[sériographe](https://doi.org/10.3406/pica.2004.2396)). EPPM is a
-usefull graphical tool to explore significance of relationship between
-rows and columns related to seriation.
 
 ### Seriation
 
@@ -173,7 +174,7 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate_reciprocal(incidence, margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Matrix ID: 916de718-f750-412c-b766-f1f117cb4dd4 
+#>    Matrix ID: 3ce0c4ab-68a6-4853-ad10-434aadddc573 
 #>    Row order: 1 4 20 3 9 16 19 10 13 2 11 7 17 5 6 18 14 15 8 12 
 #>    Column order: 1 16 9 4 8 14 3 20 13 2 6 18 7 17 5 11 19 12 15 10 
 #>    Method: reciprocal
@@ -206,7 +207,7 @@ probability density curves of archaeological assembalge dates (*event*,
 
 ``` r
 # Coerce dataset to abundance (count) matrix
-zuni_counts <- as(zuni, "CountMatrix")
+zuni_counts <- as_count(zuni)
 # Assume that some assemblages are reliably dated (this is NOT a real example)
 # The names of the vector entries must match the names of the assemblages
 set_dates(zuni_counts) <- c(
@@ -235,19 +236,28 @@ plot_date(model, type = "tempo", select = "LZ1105") +
 refered to as indices of *heterogeneity*):
 
 ``` r
-H <- diversity(
-  mississippi_counts, 
-  method = c("shannon", "brillouin", "simpson", "mcintosh", "berger"),
-  simplify = TRUE
-)
-head(H)
-#>           shannon brillouin   simpson  mcintosh    berger
-#> 10-P-1  1.2027955 1.1572676 0.3166495 0.4714431 0.4052288
-#> 11-N-9  0.7646565 0.7541207 0.5537760 0.2650711 0.6965699
-#> 11-N-1  0.9293974 0.9192403 0.5047209 0.2975381 0.6638526
-#> 11-O-10 0.8228576 0.8085445 0.5072514 0.2990830 0.6332288
-#> 11-N-4  0.7901428 0.7823396 0.5018826 0.2997089 0.6034755
-#> 13-N-5  0.9998430 0.9442803 0.3823434 0.4229570 0.4430380
+mississippi %>%
+  as_count() %>%
+  diversity(simplify = TRUE) %>%
+  head()
+#>            berger brillouin  mcintosh   shannon   simpson
+#> 10-P-1  0.4052288 1.1572676 0.4714431 1.2027955 0.3166495
+#> 11-N-9  0.6965699 0.7541207 0.2650711 0.7646565 0.5537760
+#> 11-N-1  0.6638526 0.9192403 0.2975381 0.9293974 0.5047209
+#> 11-O-10 0.6332288 0.8085445 0.2990830 0.8228576 0.5072514
+#> 11-N-4  0.6034755 0.7823396 0.2997089 0.7901428 0.5018826
+#> 13-N-5  0.4430380 0.9442803 0.4229570 0.9998430 0.3823434
+
+## Test difference in Shannon diversity between assemblages
+## (returns a matrix of adjusted p values)
+mississippi[1:5, ] %>%
+  as_count() %>%
+  test_diversity()
+#>               10-P-1       11-N-9       11-N-1   11-O-10
+#> 11-N-9  0.000000e+00           NA           NA        NA
+#> 11-N-1  3.609626e-08 8.538298e-05           NA        NA
+#> 11-O-10 2.415845e-13 4.735511e-01 2.860461e-02        NA
+#> 11-N-4  0.000000e+00 7.116363e-01 7.961107e-05 0.7116363
 ```
 
 Note that `berger`, `mcintosh` and `simpson` methods return a
@@ -255,7 +265,8 @@ Note that `berger`, `mcintosh` and `simpson` methods return a
 increase in the value of the index accompanies a decrease in diversity.
 
 Corresponding *evenness* (i.e. a measure of how evenly individuals are
-distributed across the sample) can also be computed.
+distributed across the sample) can also be computed, as well as
+*richness* and *rarefaction*.
 
 Several methods can be used to acertain the degree of *turnover* in taxa
 composition along a gradient on qualitative (presence/absence) data. It
@@ -266,14 +277,14 @@ Diversity can also be measured by addressing *similarity* between pairs
 of sites:
 
 ``` r
-# Brainerd-Robinson index
-S <- similarity(mississippi_counts, method = "brainerd")
-
-# Plot the similarity matrix
-plotSpot(S) +
+## Calculate the Brainerd-Robinson index
+## Plot the similarity matrix
+mississippi %>%
+  as_count() %>%
+  similarity(method = "brainerd") %>%
+  plot_spot() +
   ggplot2::labs(size = "Similarity", colour = "Similarity") +
   khroma::scale_colour_iridescent()
-#> Warning: plotSpot is deprecated. Use plot_spot instead.
 ```
 
 <img src="man/figures/README-similarity-brainerd-1.png" style="display: block; margin: auto;" />
@@ -281,15 +292,15 @@ plotSpot(S) +
 ``` r
 ## Keep only decoration types that have a maximum frequency of at least 50
 keep <- apply(X = merzbach, MARGIN = 2, FUN = function(x) max(x) >= 50)
-count_merzbach2 <- as(merzbach[, keep], "CountMatrix")
+merzbach_count <- as_count(merzbach[, keep])
 
 ## The data are grouped by phase
 ## We use the row names as time coordinates (roman numerals)
-set_dates(count_merzbach2) <- rownames(merzbach)
+set_dates(merzbach_count) <- rownames(merzbach)
 ## Plot time vs abundance and highlight selection
-plot_time(count_merzbach2, highlight = "FIT", roll = TRUE) +
+plot_time(merzbach_count, highlight = "FIT", roll = TRUE) +
   ggplot2::theme_bw() +
-  khroma::scale_color_vibrant()
+  khroma::scale_color_contrast()
 ```
 
 <img src="man/figures/README-plot-time-1.png" style="display: block; margin: auto;" />

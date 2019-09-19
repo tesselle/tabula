@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = NULL
 )
-library(tabula)
 ```
 
 # tabula <img width=120px src="man/figures/logo.png" align="right" />
@@ -36,7 +35,7 @@ library(tabula)
 
 ## Overview
 
-An easy way to examine archaeological count data. This package provides a convenient and reproducible toolkit for relative and absolute dating and analysis of (chronological) patterns. It includes functions for matrix seriation (reciprocal ranking, CA-based seriation), chronological modeling and dating of archaeological assemblages and/or objects. Beyond these, the package provides several measures of diversity: heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity (Brainerd-Robinson, etc.). The package make it easy to visualize count data and statistical thresholds: rank vs. abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
+An easy way to examine archaeological count data. This package provides a convenient and reproducible toolkit for relative and absolute dating and analysis of (chronological) patterns. It includes functions for matrix seriation (reciprocal ranking, CA-based seriation), chronological modeling and dating of archaeological assemblages and/or objects. Beyond these, the package provides several tests and measures of diversity: heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity (Brainerd-Robinson, etc.). The package make it easy to visualize count data and statistical thresholds: rank vs. abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
 
 ## Installation
 
@@ -54,6 +53,12 @@ remotes::install_github("nfrerebeau/tabula")
 ```
 
 ## Usage
+
+```{r packages}
+# Load packages
+library(tabula)
+library(magrittr)
+```
 
 `tabula` provides a set of S4 classes that extend the basic `matrix` data type. These new classes represent different special types of matrix.
 
@@ -84,24 +89,24 @@ quali <- IncidenceMatrix(data = sample(0:1, 100, TRUE),
 `tabula` uses coercing mechanisms (with validation methods) for data type conversions:
 
 ```{r coerce}
-# Create a count matrix
+## Create a count matrix
 A1 <- CountMatrix(data = sample(0:10, 100, TRUE),
                   nrow = 10, ncol = 10)
 
-# Coerce counts to frequencies
-B <- as(A1, "FrequencyMatrix")
+## Coerce counts to frequencies
+B <- as_frequency(A1)
 
-# Row sums are internally stored before coercing to a frequency matrix
-# (use totals() to get these values)
-# This allows to restore the source data
-A2 <- as(B, "CountMatrix")
+## Row sums are internally stored before coercing to a frequency matrix
+## (use totals() to get these values)
+## This allows to restore the source data
+A2 <- as_count(B)
 all(A1 == A2)
 
-# Coerce to presence/absence
-C <- as(A1, "IncidenceMatrix")
+## Coerce to presence/absence
+C <- as_incidence(A1)
 
-# Coerce to a co-occurrence matrix
-D <- as(A1, "OccurrenceMatrix")
+## Coerce to a co-occurrence matrix
+D <- as_occurrence(A1)
 ```
 
 Several types of graphs are available in `tabula` which uses `ggplot2` for plotting informations. This makes it easy to customize diagramms (e.g. using themes and scales).
@@ -112,30 +117,29 @@ Spot matrix [^1] allows direct examination of data:
 # Plot co-occurence of types
 # (i.e. how many times (percent) each pairs of taxa occur together 
 # in at least one sample.)
-ceram_occ <- as(mississippi, "OccurrenceMatrix")
-plot_spot(ceram_occ) +
+mississippi %>%
+  as_occurrence() %>%
+  plot_spot() +
   ggplot2::labs(size = "", colour = "Co-occurrence") +
   ggplot2::theme(legend.box = "horizontal") +
   khroma::scale_colour_YlOrBr()
 ```
 
-Bertin or Ford (battleship curve) diagramms can be plotted, with statistic threshold. 
+Bertin or Ford (battleship curve) diagramms can be plotted, with statistic threshold (including B. Desachy's [sériographe](https://doi.org/10.3406/pica.2004.2396)). 
 
 ```{r bertin, fig.width=7, fig.height=5, fig.align="center", fig.show="hold"}
-mississippi_counts <- as(mississippi, "CountMatrix")
-plot_bertin(mississippi_counts, threshold = mean) +
+mississippi %>%
+  as_count() %>%
+  plot_bertin(threshold = mean) +
   khroma::scale_fill_vibrant()
 ```
 
 
 ```{r ford, fig.width=7, fig.height=3.5, fig.align="center", fig.show="hold"}
-compiegne_counts <- as(compiegne, "CountMatrix")
-plot_ford(compiegne_counts, EPPM = TRUE) +
-  ggplot2::theme(legend.position = "bottom") +
-  khroma::scale_fill_bright()
+compiegne %>%
+  as_count() %>%
+  plot_ford()
 ```
-
-The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence (B. Desachy's [sériographe](https://doi.org/10.3406/pica.2004.2396)). EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation.
 
 ### Seriation
 
@@ -169,7 +173,7 @@ This package provides an implementation of the chronological modeling method dev
 
 ```{r date, fig.width=3.5, fig.height=3.5, fig.show="hold"}
 # Coerce dataset to abundance (count) matrix
-zuni_counts <- as(zuni, "CountMatrix")
+zuni_counts <- as_count(zuni)
 # Assume that some assemblages are reliably dated (this is NOT a real example)
 # The names of the vector entries must match the names of the assemblages
 set_dates(zuni_counts) <- c(
@@ -195,28 +199,33 @@ plot_date(model, type = "tempo", select = "LZ1105") +
 *Diversity* can be measured according to several indices (sometimes refered to as indices of *heterogeneity*):
 
 ```{r diversity}
-H <- diversity(
-  mississippi_counts, 
-  method = c("shannon", "brillouin", "simpson", "mcintosh", "berger"),
-  simplify = TRUE
-)
-head(H)
+mississippi %>%
+  as_count() %>%
+  diversity(simplify = TRUE) %>%
+  head()
+
+## Test difference in Shannon diversity between assemblages
+## (returns a matrix of adjusted p values)
+mississippi[1:5, ] %>%
+  as_count() %>%
+  test_diversity()
 ```
 
 Note that `berger`, `mcintosh` and `simpson` methods return a *dominance* index, not the reciprocal form usually adopted, so that an increase in the value of the index accompanies a decrease in diversity.
 
-Corresponding *evenness* (i.e. a measure of how evenly individuals are distributed across the sample) can also be computed.
+Corresponding *evenness* (i.e. a measure of how evenly individuals are distributed across the sample) can also be computed, as well as *richness* and *rarefaction*.
 
 Several methods can be used to acertain the degree of *turnover* in taxa composition along a gradient on qualitative (presence/absence) data. It assumes that the order of the matrix rows (from $1$ to $n$) follows the progression along the gradient/transect.
 
 Diversity can also be measured by addressing *similarity* between pairs of sites:
 
 ```{r similarity-brainerd, fig.width=6, fig.height=5, fig.align="center"}
-# Brainerd-Robinson index
-S <- similarity(mississippi_counts, method = "brainerd")
-
-# Plot the similarity matrix
-plotSpot(S) +
+## Calculate the Brainerd-Robinson index
+## Plot the similarity matrix
+mississippi %>%
+  as_count() %>%
+  similarity(method = "brainerd") %>%
+  plot_spot() +
   ggplot2::labs(size = "Similarity", colour = "Similarity") +
   khroma::scale_colour_iridescent()
 ```
@@ -225,18 +234,19 @@ plotSpot(S) +
 ```{r plot-time, fig.width=7, fig.height=3.5, fig.align="center"}
 ## Keep only decoration types that have a maximum frequency of at least 50
 keep <- apply(X = merzbach, MARGIN = 2, FUN = function(x) max(x) >= 50)
-count_merzbach2 <- as(merzbach[, keep], "CountMatrix")
+merzbach_count <- as_count(merzbach[, keep])
 
 ## The data are grouped by phase
 ## We use the row names as time coordinates (roman numerals)
-set_dates(count_merzbach2) <- rownames(merzbach)
+set_dates(merzbach_count) <- rownames(merzbach)
 ## Plot time vs abundance and highlight selection
-plot_time(count_merzbach2, highlight = "FIT", roll = TRUE) +
+plot_time(merzbach_count, highlight = "FIT", roll = TRUE) +
   ggplot2::theme_bw() +
-  khroma::scale_color_vibrant()
+  khroma::scale_color_contrast()
 ```
 
 ## Contributing
 Please note that the `tabula` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
 [^1]: Adapted from Dan Gopstein's original [idea](https://dgopstein.github.io/articles/spot-matrix/).
+[^2]: Adapted from Ben Marwick's original [idea](https://github.com/benmarwick/signatselect/).
