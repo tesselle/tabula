@@ -235,6 +235,9 @@ set_dates(zuni) <- train_dates
 ## Model the event and accumulation date for each assemblage
 model <- date_event(zuni, cutoff = 90)
 summary(model[["model"]])
+
+## Estimated event dates
+head(model[["rows"]])
 ```
 
 ```{r event-plot, fig.show="hold"}
@@ -251,11 +254,11 @@ Resampling methods can be used to check the stability of the resulting model. If
 ```{r event-refine}
 ## Check model variability
 ## Jackknife fabrics
-refined_jack <- refine(model, method = "jackknife", n = 1000)
+refined_jack <- refine_dates(model, method = "jackknife", n = 1000)
 head(refined_jack)
 
 ## Bootstrap of assemblages
-refined_boot <- refine(model, method = "bootstrap", n = 1000)
+refined_boot <- refine_dates(model, method = "bootstrap", n = 1000)
 head(refined_boot)
 ```
 

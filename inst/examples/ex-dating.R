@@ -1,9 +1,3 @@
-## Event and accumulation dates (Bellanger et al.)
-## See the vignette:
-\donttest{
-utils::vignette("dating", package = "tabula")
-}
-
 ## Mean Ceramic Date
 ## Coerce the zuni dataset to an abundance (count) matrix
 zuni_counts <- as(zuni, "CountMatrix")
@@ -34,3 +28,9 @@ keep_sites <- c("CS11", "CS12", "CS144", "CS195", "CS40", "LZ0219", "LZ0280",
 set_dates(zuni_counts) <- list(value = zuni_mcd$date, error = zuni_mcd$error)
 plot_date(zuni_counts, select = keep_sites, sort = "asc") +
   ggplot2::theme_bw()
+
+## Event and accumulation dates (Bellanger et al.)
+## See the vignette:
+\donttest{
+  utils::vignette("dating", package = "tabula")
+}

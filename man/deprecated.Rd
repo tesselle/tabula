@@ -8,6 +8,9 @@
 \alias{plotRank}
 \alias{plotSpot}
 \alias{seriate}
+\alias{refine}
+\alias{refine,CountMatrix-method}
+\alias{refine,DateModel-method}
 \alias{plotBar,CountMatrix-method}
 \alias{plotBar,FrequencyMatrix-method}
 \alias{plotMatrix,CountMatrix-method}
@@ -33,6 +36,14 @@ plotRank(object, ...)
 plotSpot(object, ...)
 
 seriate(object, subset, ...)
+
+refine(object, ...)
+
+\S4method{refine}{CountMatrix}(object, cutoff, n = 1000, axes = c(1,
+  2), ...)
+
+\S4method{refine}{DateModel}(object, method = c("jackknife",
+  "bootstrap"), n = 1000, ...)
 
 \S4method{plotBar}{CountMatrix}(object, level = FALSE, EPPM = FALSE,
   center = TRUE, horizontal = FALSE)
@@ -70,12 +81,25 @@ seriate(object, subset, ...)
   ...)
 }
 \arguments{
-\item{object}{An object to be plotted.}
+\item{object}{An object.}
 
 \item{...}{Further arguments to be passed to internal methods.}
 
 \item{subset}{A \linkS4class{BootCA} object giving the subset of
 \code{object} to be used.}
+
+\item{cutoff}{A function that takes a numeric vector as argument and returns
+a single numeric value.}
+
+\item{n}{A non-negative \code{\link{integer}} giving the number of partial
+bootstrap replications.}
+
+\item{axes}{A \code{\link{numeric}} vector giving the subscripts of the CA
+axes to use.}
+
+\item{method}{A \code{\link{character}} string specifiying the method to be
+used. This must be one of "\code{reciprocal}", "\code{correspondance}".
+Any unambiguous substring can be given.}
 
 \item{level}{A length-one \code{\link{numeric}} vector giving the
 confidence level to be drawn.}
@@ -95,10 +119,6 @@ cases in columns (i.e. Bertin diagram). Only used if \code{center} is
 \item{PVI}{A \code{\link{logical}} scalar: should the PVI be drawn instead of
 frequencies (see details)?}
 
-\item{method}{A \code{\link{character}} string specifiying the method to be
-used. This must be one of "\code{reciprocal}", "\code{correspondance}".
-Any unambiguous substring can be given.}
-
 \item{margin}{A \code{\link{numeric}} vector giving the subscripts which the
 rearrangement will be applied over: \code{1} indicates rows, \code{2}
 indicates columns, \code{c(1, 2)} indicates rows then columns,
@@ -116,9 +136,6 @@ defined by case/sample be drawn?}
 
 \item{EPPM}{A \code{\link{logical}} scalar: should the seriation be computed
 on EPPM instead of raw data?}
-}
-\value{
-TODO
 }
 \description{
 \code{plotBar} produces a Bertin or a Ford (battleship curve) diagram.

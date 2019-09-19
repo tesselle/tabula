@@ -99,10 +99,12 @@ test_that("Refine date model", {
   model <- date_event(count_zuni, cutoff = 90)
 
   # Jackknife
-  refined_jack <- refine(model, method = "jackknife")
+  expect_warning(refine(model, method = "jackknife"), "deprecated")
+  refined_jack <- refine_dates(model, method = "jackknife")
   expect_s3_class(refined_jack, "data.frame")
 
   # Jackknife
-  refined_boot <- refine(model, method = "bootstrap")
+  expect_warning(refine(model, method = "bootstrap"), "deprecated")
+  refined_boot <- refine_dates(model, method = "bootstrap")
   expect_s3_class(refined_boot, "data.frame")
 })

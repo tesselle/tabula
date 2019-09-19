@@ -58,7 +58,8 @@ test_that("Refined correspondance Analysis", {
 
   # Define cutoff as one standard deviation above the mean
   fun <- function(x) { mean(x) + sd(x) }
-  subset <- with_seed(12345, refine(count, cutoff = fun))
+  expect_warning(refine_seriation(count, cutoff = fun), "deprecated")
+  subset <- with_seed(12345, refine_seriation(count, cutoff = fun))
 
   expect_s4_class(subset, "BootCA")
   # /!\ Le test ci-après échoue avec R 3.2 et 3.3

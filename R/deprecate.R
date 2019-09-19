@@ -1,5 +1,30 @@
 # DEPRECATED METHODS
 
+# ======================================================================= refine
+#' @export
+#' @rdname deprecated
+#' @aliases refine,CountMatrix-method
+setMethod(
+  f = "refine",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, cutoff, n = 1000, axes = c(1, 2), ...) {
+    .Deprecated(msg = "refine is deprecated. Use refine_seriation instead.")
+    refine_seriation(object, cutoff, n, axes, ...)
+  }
+)
+#' @export
+#' @rdname deprecated
+#' @aliases refine,DateModel-method
+setMethod(
+  f = "refine",
+  signature = signature(object = "DateModel"),
+  definition = function(object, method = c("jackknife", "bootstrap"),
+                        n = 1000, ...) {
+    .Deprecated(msg = "refine is deprecated. Use refine_dates instead.")
+    refine_dates(object, method, n, ...)
+  }
+)
+
 # ========================================================================= plot
 # ---------------------------------------------------------------------- plotBar
 #' @export

@@ -148,10 +148,12 @@ zuni_seriation <- permute(zuni_counts, zuni_indices)
 
 ## Plot Ford diagram
 ## Warning: this may take a few seconds!
-plot_ford(zuni_seriation)
+plot_ford(zuni_seriation) +
+  ggplot2::theme(axis.text = ggplot2::element_blank(),
+                 axis.ticks = ggplot2::element_blank())
 ```
 
-## Refined CA-based seriation
+## Refining
 
 @peeples2012 propose a procedure to identify samples that are subject to sampling error or samples that have underlying structural relationships and might be influencing the ordering along the CA space. This relies on a partial bootstrap approach to CA-based seriation where each sample is replicated `n` times. The maximum dimension length of the convex hull around the sample point cloud allows to remove samples for a given `cutoff` value.
 
@@ -168,7 +170,7 @@ fun <- function(x) { mean(x) + sd(x) }
 ## Get indices of samples to be kept
 ## Warning: this may take a few seconds!
 set.seed(123)
-zuni_keep <- refine(zuni_counts, cutoff = fun, n = 1000)
+(zuni_keep <- refine_seriation(zuni_counts, cutoff = fun, n = 1000))
 
 ## Plot convex hull
 ## blue: convex hull for samples; red: convex hull for types
@@ -181,8 +183,8 @@ ggplot2::ggplot(mapping = ggplot2::aes(x = x, y = y, group = id)) +
   ggplot2::geom_polygon(data = zuni_keep[["columns"]], 
                         fill = "red", alpha = 0.5) +
   ggplot2::coord_fixed() + 
-  ggplot2::theme_bw() + 
-  ggplot2::labs(title = "Whole dataset", x = "Dim. 1", y = "Dim. 2")
+  ggplot2::labs(title = "Whole dataset", x = "Dim. 1", y = "Dim. 2") + 
+  ggplot2::theme_bw()
 ### Only retained samples
 ggplot2::ggplot(mapping = ggplot2::aes(x = x, y = y, group = id)) +
   ggplot2::geom_vline(xintercept = 0, linetype = 2) +
@@ -193,11 +195,20 @@ ggplot2::ggplot(mapping = ggplot2::aes(x = x, y = y, group = id)) +
   ggplot2::geom_polygon(data = zuni_keep[["columns"]], 
                         fill = "red", alpha = 0.5) +
   ggplot2::coord_fixed() + 
-  ggplot2::theme_bw() + 
-  ggplot2::labs(title = "Selected samples", x = "Dim. 1", y = "Dim. 2")
+  ggplot2::labs(title = "Selected samples", x = "Dim. 1", y = "Dim. 2") + 
+  ggplot2::theme_bw()
+
+## Histogram of convex hull maximum dimension length
+hull_length <- cbind.data.frame(length = zuni_keep[["lengths"]][[1]])
+ggplot2::ggplot(data = hull_length, mapping = ggplot2::aes(x = length)) +
+  ggplot2::geom_histogram(breaks = seq(0, 4.5, by = 0.5), fill = "grey70") +
+  ggplot2::geom_vline(xintercept = fun(hull_length$length), colour = "red") +
+  ggplot2::labs(title = "Convex hull max. dim.", 
+                x = "Maximum length", y = "Count") + 
+  ggplot2::theme_bw()
 ```
 
-If the results of `refine` is used as an input argument in `seriate`, a correspondance analysis is performed on the subset of `object` which matches the samples to be kept. Then excluded samples are projected onto the dimensions of the CA coordinate space using the row transition formulae. Finally, row coordinates onto the first dimension give the seriation order.
+If the results of `refine_seriation` is used as an input argument in `seriate`, a correspondance analysis is performed on the subset of `object` which matches the samples to be kept. Then excluded samples are projected onto the dimensions of the CA coordinate space using the row transition formulae. Finally, row coordinates onto the first dimension give the seriation order.
 
 ```{r refine-ca}
 ## Get CA-based seriation order

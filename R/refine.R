@@ -3,16 +3,15 @@
 NULL
 
 #' @export
-#' @describeIn refine Performs a partial bootstrap correspondance analysis
-#'  seriation refinement and returns a \linkS4class{BootCA} object.
-#' @aliases refine,CountMatrix-method
+#' @rdname seriation
+#' @aliases refine_seriation,CountMatrix-method
 setMethod(
-  f = "refine",
+  f = "refine_seriation",
   signature = signature(object = "CountMatrix"),
   definition = function(object, cutoff, n = 1000, axes = c(1, 2), ...) {
     # Partial bootstrap CA
-    hull_rows <- bootHull(object, n = n, margin = 1, axes = axes, ...)
-    hull_columns <- bootHull(object, n = n, margin = 2, axes = axes, ...)
+    hull_rows <- boot_hull(object, n = n, margin = 1, axes = axes, ...)
+    hull_columns <- boot_hull(object, n = n, margin = 2, axes = axes, ...)
     # Get convex hull maximal dimension length for each sample
     length_rows <- vapply(
       X = hull_rows,
@@ -51,6 +50,8 @@ setMethod(
   }
 )
 
+#' Convex Hull of CA Coordinates
+#'
 #' @param x An \eqn{m \times p}{m x p} data matrix.
 #' @param cutoff A function that takes a numeric vector as argument and returns
 #'  a single numeric value.
@@ -66,7 +67,7 @@ setMethod(
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
-bootHull <- function(x, margin = 1, n = 1000, axes = c(1, 2), ...) {
+boot_hull <- function(x, margin = 1, n = 1000, axes = c(1, 2), ...) {
   # Validation
   margin <- as.integer(margin)
   n <- as.integer(n)
@@ -109,11 +110,10 @@ bootHull <- function(x, margin = 1, n = 1000, axes = c(1, 2), ...) {
 
 # DateModel ====================================================================
 #' @export
-#' @describeIn refine Checks the stability of a date model with resampling
-#'  methods.
-#' @aliases refine,DateModel-method
+#' @rdname date
+#' @aliases refine_dates,DateModel-method
 setMethod(
-  f = "refine",
+  f = "refine_dates",
   signature = signature(object = "DateModel"),
   definition = function(object, method = c("jackknife", "bootstrap"),
                         n = 1000, ...) {
@@ -130,7 +130,7 @@ setMethod(
     # Check model with resampling methods
     ## Jackknife fabrics
     if ("jackknife" %in% method) {
-      jack_event <- jackDate(counts, fit, keep = keep_dim, level = level, ...)
+      jack_event <- jack_date(counts, fit, keep = keep_dim, level = level, ...)
       # Compute jaccknife bias
       results <- rownames_to_column(jack_event, factor = TRUE, id = "id")
       results <- cbind.data.frame(
@@ -144,14 +144,14 @@ setMethod(
     }
     ## Bootstrap assemblages
     if ("bootstrap" %in% method) {
-      results <- bootDate(counts, fit, margin = 1, n = n,
+      results <- boot_date(counts, fit, margin = 1, n = n,
                           keep = keep_dim, level = level, ...)
     }
     results
   }
 )
 
-#' Bootstrap resampling of assemblages
+#' Bootstrap Resampling of Assemblages
 #'
 #' @param x An \eqn{m \times p}{m x p} \code{\link{numeric}} matrix of count data.
 #' @param model An object of class \code{\link[stats]{lm}}.
@@ -179,7 +179,7 @@ setMethod(
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
-bootDate <- function(x, model, margin = 1, n = 1000, keep = ncol(x),
+boot_date <- function(x, model, margin = 1, n = 1000, keep = ncol(x),
                      level = 0.95, ...) {
   # Validation
   margin <- as.integer(margin)
@@ -196,7 +196,7 @@ bootDate <- function(x, model, margin = 1, n = 1000, keep = ncol(x),
   svd <- if (margin == 1) std$columns else std$rows
 
   # Compute date event statistics for each replicated sample
-  computeStats <- function(x, n, svd, keep, model, level) {
+  compute_stats <- function(x, n, svd, keep, model, level) {
     # n random replicates
     # replicated <- sample(x = n, size = sum(x), prob = x)
     replicated <- stats::rmultinom(n = n, size = sum(x), prob = x)
@@ -215,7 +215,7 @@ bootDate <- function(x, model, margin = 1, n = 1000, keep = ncol(x),
   } else {
     apply
   }
-  loop_args <- list(X = x, MARGIN = margin, FUN = computeStats,
+  loop_args <- list(X = x, MARGIN = margin, FUN = compute_stats,
                     n = n, svd = svd, keep = keep, model = model, level = level)
   boot <- do.call(loop_fun, loop_args)
 
@@ -225,7 +225,7 @@ bootDate <- function(x, model, margin = 1, n = 1000, keep = ncol(x),
   boot_event
 }
 
-#' Jackknife fabrics
+#' Jackknife Fabrics
 #'
 #' @param x An \eqn{m \times p}{m x p} \code{\link{numeric}} matrix of count
 #'  data.
@@ -252,7 +252,7 @@ bootDate <- function(x, model, margin = 1, n = 1000, keep = ncol(x),
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
-jackDate <- function(x, model, keep = ncol(x), level = 0.95, ...) {
+jack_date <- function(x, model, keep = ncol(x), level = 0.95, ...) {
   # Validation
   keep <- as.integer(keep)
   level <- as.numeric(level)
@@ -270,7 +270,7 @@ jackDate <- function(x, model, keep = ncol(x), level = 0.95, ...) {
   coords_CA <- ca::cacoord(results_CA, type = "principal",
                            rows = TRUE, cols = FALSE)
 
-  computeCoef <- function(i, data, dates, keep, level) {
+  compute_coef <- function(i, data, dates, keep, level) {
     # Removing a column may lead to rows filled only with zeros
     # We need to remove such rows to compute CA
     zero <- which(rowSums(data[, -i]) == 0)
@@ -297,7 +297,7 @@ jackDate <- function(x, model, keep = ncol(x), level = 0.95, ...) {
   } else {
     lapply
   }
-  loop_args <- list(X = seq_len(ncol(x)), FUN = computeCoef,
+  loop_args <- list(X = seq_len(ncol(x)), FUN = compute_coef,
                     data = x, dates = dates, keep = keep, level = level)
   jack <- do.call(loop_fun, loop_args)
 
