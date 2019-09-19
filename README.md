@@ -23,7 +23,7 @@ Downloads](http://cranlogs.r-pkg.org/badges/tabula)](https://cran.r-project.org/
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
 
@@ -174,7 +174,7 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate_reciprocal(incidence, margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Matrix ID: 3ce0c4ab-68a6-4853-ad10-434aadddc573 
+#>    Matrix ID: c274c022-d9d1-4f4d-b9c0-445adfd2a81c 
 #>    Row order: 1 4 20 3 9 16 19 10 13 2 11 7 17 5 6 18 14 15 8 12 
 #>    Column order: 1 16 9 4 8 14 3 20 13 2 6 18 7 17 5 11 19 12 15 10 
 #>    Method: reciprocal
@@ -270,8 +270,8 @@ distributed across the sample) can also be computed, as well as
 
 Several methods can be used to acertain the degree of *turnover* in taxa
 composition along a gradient on qualitative (presence/absence) data. It
-assumes that the order of the matrix rows (from \(1\) to \(n\)) follows
-the progression along the gradient/transect.
+assumes that the order of the matrix rows (from *1* to *n*) follows the
+progression along the gradient/transect.
 
 Diversity can also be measured by addressing *similarity* between pairs
 of sites:
