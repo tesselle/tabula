@@ -11,6 +11,7 @@ NULL
 #'  below).
 #' @return
 #'  An object of the same sort as \code{object} with the new values assigned.
+#' @example inst/examples/ex-abundance-class.R
 #' @author N. Frerebeau
 #' @docType methods
 #' @name access
@@ -57,6 +58,7 @@ setGeneric(
 #'  not for the replacement.
 #' @return
 #'  A subseted object.
+#' @example inst/examples/ex-abundance-class.R
 #' @author N. Frerebeau
 #' @docType methods
 #' @name subset
@@ -72,6 +74,7 @@ NULL
 #'  An attempt is made to coerce \code{from} in a suitable way, i. e. to a
 #'  \linkS4class{CountMatrix} or an \linkS4class{IncidenceMatrix}.
 #' @return A \linkS4class{CountMatrix} or an \linkS4class{IncidenceMatrix}.
+#' @example inst/examples/ex-coerce.R
 #' @author N. Frerebeau
 #' @docType methods
 #' @name coerce
@@ -457,6 +460,7 @@ setGeneric(
 #'  collection of features (i.e. a\code{\link[=data.frame]{data frame}} with
 #'  dates and coordinates columns) that can be used for spatial manipulation
 #'  with \pkg{sf}.
+#' @example inst/examples/ex-geography.R
 #' @author N. Frerebeau
 #' @family geography
 #' @docType methods

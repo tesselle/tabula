@@ -29,6 +29,12 @@ Coerce
 An attempt is made to coerce \code{from} in a suitable way, i. e. to a
  \linkS4class{CountMatrix} or an \linkS4class{IncidenceMatrix}.
 }
+\examples{
+## Attempt to auto-coerce a matrix in a suitable way
+mtx <- matrix(data = sample(0:10, 100, TRUE), nrow = 10, ncol = 10)
+## Coerce to a count matrix
+E <- as_matrix(mtx)
+}
 \author{
 N. Frerebeau
 }
