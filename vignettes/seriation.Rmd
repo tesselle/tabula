@@ -29,6 +29,7 @@ knitr::opts_chunk$set(
 ```{r packages}
 # Load packages
 library(tabula)
+library(magrittr)
 ```
 
 # Introduction
@@ -96,7 +97,7 @@ The positive difference from the column mean percentage (in french "écart posit
 ## Replicates Desachy 2004 results
 
 ## Coerce dataset to an abundance matrix
-compiegne_counts <- as(compiegne, "CountMatrix")
+compiegne_counts <- as_count(compiegne)
 
 ## Plot original data matrix
 plot_ford(compiegne_counts, EPPM = TRUE) +
@@ -123,7 +124,7 @@ Correspondance Analysis (CA) is an effective method for the seriation of archaeo
 
 ```{r ca}
 ## Coerce dataset to an abundance matrix
-zuni_counts <- as(zuni, "CountMatrix")
+zuni_counts <- as_count(zuni)
 
 ## Correspondance analysis of the whole dataset
 corresp <- ca::ca(zuni_counts)
@@ -141,7 +142,8 @@ ggplot2::ggplot(mapping = ggplot2::aes(x = Dim1, y = Dim2)) +
 
 ```{r ca-seriation, fig.width=7, fig.height=7}
 ## Get row permutations from CA coordinates
-zuni_indices <- seriate_correspondance(zuni_counts, margin = 1)
+zuni_indices <- zuni_counts %>%
+  seriate_correspondance(margin = 1)
 
 ## Permute data matrix
 zuni_seriation <- permute(zuni_counts, zuni_indices)

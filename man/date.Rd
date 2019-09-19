@@ -213,7 +213,7 @@ Bellanger \emph{et al.} did not publish the data supporting their
 \examples{
 ## Mean Ceramic Date
 ## Coerce the zuni dataset to an abundance (count) matrix
-zuni_counts <- as(zuni, "CountMatrix")
+zuni_counts <- as_count(zuni)
 
 ## Set the start and end dates for each ceramic type
 zuni_dates <- list(
@@ -228,7 +228,6 @@ zuni_dates <- list(
 ## Calculate date midpoints and errors
 zuni_mid <- vapply(X = zuni_dates, FUN = mean, FUN.VALUE = numeric(1))
 zuni_error <- vapply(X = zuni_dates, FUN = diff, FUN.VALUE = numeric(1)) / 2
-
 
 ## Calculate MCD
 ## (we use a bootstrapping procedure to estimate the confidence interval)
@@ -245,7 +244,7 @@ plot_date(zuni_counts, select = keep_sites, sort = "asc") +
 ## Event and accumulation dates (Bellanger et al.)
 ## See the vignette:
 \donttest{
-  utils::vignette("dating", package = "tabula")
+utils::vignette("dating", package = "tabula")
 }
 }
 \references{

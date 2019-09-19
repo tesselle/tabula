@@ -1,12 +1,12 @@
 ## Abundance data
 ## Coerce dataset to a count matrix (data from Desachy 2004)
-count <- as(compiegne, "CountMatrix")
+compiegne_count <- as_count(compiegne)
 
 ## Plot matrix diagram...
 ## ...without threshod (i.e. heatmap)
-plot_heatmap(count)
+plot_heatmap(compiegne_count)
 ## ...with PVI as threshold (i.e. Bruno Desachy's matrigraphe)
-plot_heatmap(count, PVI = TRUE) +
+plot_heatmap(compiegne_count, PVI = TRUE) +
   ggplot2::scale_fill_gradient2(midpoint = 1)
 
 ## Presence/absence data

@@ -2,43 +2,98 @@
 #' @include AllGenerics.R AllClasses.R
 NULL
 
+# \code{as_matrix} attempts to coerce \code{from} in a suitable way, i. e. to a
+# \linkS4class{CountMatrix} or an \linkS4class{IncidenceMatrix}.
+# @rdname coerce
+# @aliases as_matrix,matrix-method
+# setMethod(
+#   f = "as_matrix",
+#   signature = signature(from = "matrix"),
+#   definition = function(from) {
+#     if (!is.numeric(from))
+#       stop("A numeric matrix is expected.", call. = FALSE)
+#
+#     if (all(is_binary(from))) {
+#       methods::as(from, "IncidenceMatrix")
+#     } else if (all(is_whole(from))) {
+#       methods::as(from, "CountMatrix")
+#     } else {
+#       stop("Check your input data.", call. = FALSE)
+#     }
+#   }
+# )
+
+# @rdname coerce
+# @aliases as_matrix,data.frame-method
+# setMethod(
+#   f = "as_matrix",
+#   signature = signature(from = "data.frame"),
+#   definition = function(from) {
+#     if (!all(lapply(X = from, FUN = is.numeric)))
+#       stop("A numeric data frame is expected.", call. = FALSE)
+#
+#     if (!all(lapply(X = from, FUN = function(x) all(is_binary(x))))) {
+#       methods::as(from, "IncidenceMatrix")
+#     } else if (!all(lapply(X = from, FUN = function(x) all(is_whole(x))))) {
+#       methods::as(from, "CountMatrix")
+#     } else {
+#       stop("Check your input data.", call. = FALSE)
+#     }
+#   }
+# )
+
 #' @export
 #' @rdname coerce
-#' @aliases as_matrix,matrix-method
+#' @aliases as_count,ANY-method
 setMethod(
-  f = "as_matrix",
-  signature = signature(from = "matrix"),
+  f = "as_count",
+  signature = signature(from = "ANY"),
   definition = function(from) {
-    if (!is.numeric(from))
-      stop("A numeric matrix is expected.", call. = FALSE)
-
-    if (all(is_binary(from))) {
-      methods::as(from, "IncidenceMatrix")
-    } else if (all(is_whole(from))) {
-      methods::as(from, "CountMatrix")
-    } else {
-      stop("Check your input data.", call. = FALSE)
-    }
+    methods::as(from, "CountMatrix")
   }
 )
 
 #' @export
 #' @rdname coerce
-#' @aliases as_matrix,data.frame-method
+#' @aliases as_frequency,ANY-method
 setMethod(
-  f = "as_matrix",
-  signature = signature(from = "data.frame"),
+  f = "as_frequency",
+  signature = signature(from = "ANY"),
   definition = function(from) {
-    if (!all(lapply(X = from, FUN = is.numeric)))
-      stop("A numeric data frame is expected.", call. = FALSE)
+    methods::as(from, "FrequencyMatrix")
+  }
+)
 
-    if (!all(lapply(X = from, FUN = function(x) all(is_binary(x))))) {
-      methods::as(from, "IncidenceMatrix")
-    } else if (!all(lapply(X = from, FUN = function(x) all(is_whole(x))))) {
-      methods::as(from, "CountMatrix")
-    } else {
-      stop("Check your input data.", call. = FALSE)
-    }
+#' @export
+#' @rdname coerce
+#' @aliases as_incidence,ANY-method
+setMethod(
+  f = "as_incidence",
+  signature = signature(from = "ANY"),
+  definition = function(from) {
+    methods::as(from, "IncidenceMatrix")
+  }
+)
+
+#' @export
+#' @rdname coerce
+#' @aliases as_occurrence,ANY-method
+setMethod(
+  f = "as_occurrence",
+  signature = signature(from = "ANY"),
+  definition = function(from) {
+    methods::as(from, "OccurrenceMatrix")
+  }
+)
+
+#' @export
+#' @rdname coerce
+#' @aliases as_similarity,ANY-method
+setMethod(
+  f = "as_similarity",
+  signature = signature(from = "ANY"),
+  definition = function(from) {
+    methods::as(from, "SimilarityMatrix")
   }
 )
 

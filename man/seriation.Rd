@@ -190,7 +190,7 @@ Refining method can lead to much longer execution times and larger output
 ## Matrix seriation
 ## Replicates Desachy 2004 results
 ## Coerce dataset to abundance matrix
-compiegne_count <- as(compiegne, "CountMatrix")
+compiegne_count <- as_count(compiegne)
 
 ## Get seriation order for columns on EPPM using the reciprocal averaging method
 ## Expected column order: N, A, C, K, P, L, B, E, I, M, D, G, O, J, F, H
@@ -206,7 +206,7 @@ plot_ford(compiegne_new, EPPM = FALSE)
 ## Refined seriation
 ## See the vignette:
 \donttest{
-  utils::vignette("seriation", package = "tabula")
+utils::vignette("seriation", package = "tabula")
 }
 }
 \references{

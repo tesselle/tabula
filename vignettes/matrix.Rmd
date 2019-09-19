@@ -106,6 +106,7 @@ We denote the $m \times p$ incidence matrix by $C = \left[ c_{ij} \right] ~\fora
 ```{r packages}
 # Load packages
 library(tabula)
+library(magrittr)
 ```
 
 ## Create
@@ -124,7 +125,7 @@ IncidenceMatrix(data = sample(0:1, 100, TRUE),
                 nrow = 10, ncol = 10)
 ```
 
-Note that a `FrequencyMatrix` can only be created by coercion from a `CountMatrix` to ensure data integrity (see below).
+Note that a `FrequencyMatrix` can only be created by coercion (see below).
 
 ## Coerce
 **tabula** uses coercing mechanisms (with validation methods) for data type conversions:
@@ -132,29 +133,23 @@ Note that a `FrequencyMatrix` can only be created by coercion from a `CountMatri
 ```{r coerce}
 ## Create a count matrix
 ## Numeric values are coerced to integer and hence truncated towards zero
-set.seed(12345)
 A1 <- CountMatrix(data = sample(0:10, 100, TRUE),
                   nrow = 10, ncol = 10)
 
-## Coerce counts to relative frequencies
-B <- as(A1, "FrequencyMatrix")
+## Coerce counts to frequencies
+B <- as_frequency(A1)
 
 ## Row sums are internally stored before coercing to a frequency matrix
-get_totals(B)
+## (use totals() to get these values)
 ## This allows to restore the source data
-A2 <- as(B, "CountMatrix")
+A2 <- as_count(B)
 all(A1 == A2)
 
 ## Coerce to presence/absence
-C <- as(A1, "IncidenceMatrix")
+C <- as_incidence(A1)
 
 ## Coerce to a co-occurrence matrix
-D <- as(A1, "OccurrenceMatrix")
-
-## Attempt to auto-coerce a matrix in a suitable way
-mtx <- matrix(data = sample(0:10, 100, TRUE), nrow = 10, ncol = 10)
-## Coerce to a count matrix
-E <- as_matrix(mtx)
+D <- as_occurrence(A1)
 ```
 
 # Visualization
@@ -166,9 +161,9 @@ Spot matrix allows direct examination of data (above/below some threshold):
 
 ```{r plot-freq, fig.cap="Spot plot", fig.width=4, fig.height=6, fig.align="center"}
 ## Plot frequencies with the column means as a threshold
-mississippi_counts <- as(mississippi, "CountMatrix")
-
-plot_spot(mississippi_counts, threshold = mean) +
+mississippi %>%
+  as_count() %>%
+  plot_spot(threshold = mean) +
   ggplot2::labs(size = "Frequency", colour = "Mean") +
   khroma::scale_colour_vibrant()
 ```
@@ -177,8 +172,9 @@ plot_spot(mississippi_counts, threshold = mean) +
 ## Plot co-occurence of types
 ## (i.e. how many times (percent) each pairs of taxa occur together 
 ## in at least one sample.)
-mississippi_occ <- as(mississippi, "OccurrenceMatrix")
-plot_spot(mississippi_occ) +
+mississippi %>%
+  as_occurrence() %>%
+  plot_spot() +
   ggplot2::labs(size = "", colour = "Co-occurrence") +
   ggplot2::theme(legend.box = "horizontal") +
   khroma::scale_colour_YlOrBr()
@@ -189,9 +185,9 @@ plot_spot(mississippi_occ) +
 Abundance matrix can be displayed as a heatmap of relative abundances (frequency), or as percentages of the independence value (in french, "pourcentages de valeur d'indépendance", PVI).
 
 ```{r plot-matrix, fig.cap="Heatmap", fig.width=7, fig.height=3.5, fig.align="center"}
-boves_counts <- as(boves, "CountMatrix")
-
-plot_heatmap(boves_counts) +
+boves %>%
+  as_count() %>%
+  plot_heatmap() +
   khroma::scale_fill_YlOrBr()
 ```
 
@@ -200,7 +196,9 @@ PVI is calculated for each cell as the percentage to the column theoretical inde
 
 ```{r plot-matrigraphe, fig.cap="Matrigraphe", fig.width=7, fig.height=3.5, fig.align="center"}
 ## Reproduce B. Desachy's matrigraphe
-plot_heatmap(boves_counts, PVI = TRUE) +
+boves %>%
+  as_count() %>%
+  plot_heatmap(PVI = TRUE) +
   khroma::scale_fill_BuRd(midpoint = 1)
 ```
 
@@ -208,13 +206,17 @@ plot_heatmap(boves_counts, PVI = TRUE) +
 @bertin1977 or @ford1962 (battleship curve) diagramms can also be plotted, with statistic threshold.
 
 ```{r plot-bertin, fig.cap="Bertin diagram", fig.width=7, fig.height=7, fig.align="center"}
-mississippi_counts <- as(mississippi, "CountMatrix")
-plot_bertin(mississippi_counts, threshold = mean) +
+mississippi %>%
+  as_count() %>%
+  plot_bertin(threshold = mean) +
   khroma::scale_fill_bright()
 ```
 
 ```{r plot-ford, fig.cap="Ford diagram", fig.width=7, fig.height=3.5, fig.align="center"}
-plot_ford(boves_counts)
+boves %>%
+  as_count() %>%
+  plot_ford(EPPM = TRUE) +
+  khroma::scale_fill_contrast()
 ```
 
 # References

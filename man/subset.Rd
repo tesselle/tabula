@@ -82,14 +82,12 @@ A1[c("A", "B", "C"), 1] # Get the first three rows of the first column
 A1[, 1, drop = FALSE] # Get the first column
 
 ## Coerce counts to frequencies
-B <- as(A1, "FrequencyMatrix")
+B <- as_frequency(A1)
 ## Row sums are internally stored before coercing to a frequency matrix
 get_totals(B) # Get row sums
 ## This allows to restore the source data
-A2 <- as(B, "CountMatrix")
+A2 <- as_count(B)
 all(A1 == A2)
-## Coerce to a co-occurrence matrix
-C <- as(B, "OccurrenceMatrix")
 }
 \author{
 N. Frerebeau

@@ -39,11 +39,11 @@ TODO
 \examples{
 ## Abundance matrix
 ## Coerce datasets to a count matrix (data from Desachy 2004)
-count <- as(compiegne, "CountMatrix")
+compiegne_count <- as_count(compiegne)
 
 ## Plot rank vs abundance
-plot_rank(count)
-plot_rank(count, facet = FALSE)
+plot_rank(compiegne_count)
+plot_rank(compiegne_count, facet = FALSE)
 }
 \references{
 Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.

@@ -71,8 +71,20 @@ NULL
 #' @param from A numeric \code{\link{matrix}} or \code{\link{data.frame}} to be
 #'  coerced.
 #' @details
-#'  An attempt is made to coerce \code{from} in a suitable way, i. e. to a
-#'  \linkS4class{CountMatrix} or an \linkS4class{IncidenceMatrix}.
+#'  \code{as_count} coerces a \code{matrix} or \code{data.frame} to a
+#'  \linkS4class{CountMatrix}.
+#'
+#'  \code{as_frequency} coerces a \code{matrix} or \code{data.frame} to a
+#'  \linkS4class{FrequencyMatrix}.
+#'
+#'  \code{as_incidence} coerces a \code{matrix} or \code{data.frame} to an
+#'  \linkS4class{IncidenceMatrix}.
+#'
+#'  \code{as_occurrence} coerces a \code{matrix} or \code{data.frame} to an
+#'  \linkS4class{OccurrenceMatrix}.
+#'
+#'  \code{as_similarity} coerces a \code{matrix} or \code{data.frame} to a
+#'  \linkS4class{SimilarityMatrix}.
 #' @return A \linkS4class{CountMatrix} or an \linkS4class{IncidenceMatrix}.
 #' @example inst/examples/ex-coerce.R
 #' @author N. Frerebeau
@@ -81,13 +93,47 @@ NULL
 #' @rdname coerce
 NULL
 
+# @rdname coerce
+# @aliases as_matrix-method
+# setGeneric(
+#   name = "as_matrix",
+#   def = function(from) standardGeneric("as_matrix")
+# )
+
 #' @rdname coerce
-#' @aliases as_matrix-method
+#' @aliases as_count-method
 setGeneric(
-  name = "as_matrix",
-  def = function(from) standardGeneric("as_matrix")
+  name = "as_count",
+  def = function(from) standardGeneric("as_count")
 )
 
+#' @rdname coerce
+#' @aliases as_frequency-method
+setGeneric(
+  name = "as_frequency",
+  def = function(from) standardGeneric("as_frequency")
+)
+
+#' @rdname coerce
+#' @aliases as_incidence-method
+setGeneric(
+  name = "as_incidence",
+  def = function(from) standardGeneric("as_incidence")
+)
+
+#' @rdname coerce
+#' @aliases as_occurrence-method
+setGeneric(
+  name = "as_occurrence",
+  def = function(from) standardGeneric("as_occurrence")
+)
+
+#' @rdname coerce
+#' @aliases as_similarity-method
+setGeneric(
+  name = "as_similarity",
+  def = function(from) standardGeneric("as_similarity")
+)
 # ========================================================================= Date
 #' Date Archaeological Assemblages
 #'

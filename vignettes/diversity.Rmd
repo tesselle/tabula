@@ -24,6 +24,7 @@ knitr::opts_chunk$set(
 ```{r packages}
 # Load packages
 library(tabula)
+library(magrittr)
 ```
 
 Banning2000
@@ -191,15 +192,10 @@ $$ d = \frac{n_{max}}{N} $$
 ### Usage
 
 ```{r diversity}
-mississippi <- as(mississippi, "CountMatrix")
-
-H <- diversity(
-  mississippi, 
-  method = c("shannon", "brillouin", "simpson", "mcintosh", "berger"), 
-  simplify = TRUE
-)
-
-head(H)
+mississippi %>%
+  as_count() %>%
+  diversity(simplify = TRUE) %>%
+  head()
 ```
 
 Note that `berger`, `mcintosh` and `simpson` methods return a *dominance* index, not the reciprocal form usually adopted, so that an increase in the value of the index accompanies a decrease in diversity.
@@ -207,13 +203,10 @@ Note that `berger`, `mcintosh` and `simpson` methods return a *dominance* index,
 Corresponding *evenness* can also be computed :
 
 ```{r evenness}
-E <- evenness(
-  mississippi,
-  method = c("brillouin", "mcintosh", "shannon", "simpson"),
-  simplify = TRUE
-)
-
-head(E)
+mississippi %>%
+  as_count() %>%
+  evenness(simplify = TRUE) %>%
+  head()
 ```
 
 # $\beta$-diversity
@@ -304,10 +297,10 @@ $$ C_{Bi} = \frac{o_i - N \times p}{\sqrt{N \times p \times (1 - p)}} $$
 
 ```{r similarity, fig.width=7, fig.height=5, fig.align="center"}
 # Brainerd-Robinson index
-S <- similarity(mississippi, method = "brainerd")
-
-# Plot the similarity matrix
-plot_spot(S) +
+mississippi %>%
+  as_count() %>%
+  similarity(method = "brainerd") %>%
+  plot_spot() +
   ggplot2::labs(size = "Similarity", colour = "Similarity") +
   khroma::scale_colour_YlOrBr()
 ```
@@ -317,7 +310,9 @@ plot_spot(S) +
 Ranks *vs* abundance plot can be used for abundance models (model fitting will be implemented in a futur release):
 
 ```{r plot-rank, fig.width=7, fig.height=5, fig.align="center"}
-plot_rank(mississippi, log = "xy", facet = FALSE) +
+mississippi %>%
+  as_count() %>%
+  plot_rank(log = "xy", facet = FALSE) +
   ggplot2::theme_bw() +
   khroma::scale_color_discreterainbow()
 ```

@@ -15,7 +15,7 @@ An easy way to examine archaeological count data. This package
     dating and analysis of (chronological) patterns. It includes functions for 
     matrix seriation (reciprocal ranking, CA-based seriation), chronological 
     modeling and dating of archaeological assemblages and/or objects. 
-    Beyond these, the package provides several measures of diversity: 
+    Beyond these, the package provides several tests and measures of diversity: 
     heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), 
     richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), 
     turnover and similarity (Brainerd-Robinson, etc.). 

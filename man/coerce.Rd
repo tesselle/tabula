@@ -3,17 +3,42 @@
 \docType{methods}
 \name{coerce}
 \alias{coerce}
-\alias{as_matrix}
-\alias{as_matrix-method}
-\alias{as_matrix,matrix-method}
-\alias{as_matrix,data.frame-method}
+\alias{as_count}
+\alias{as_count-method}
+\alias{as_frequency}
+\alias{as_frequency-method}
+\alias{as_incidence}
+\alias{as_incidence-method}
+\alias{as_occurrence}
+\alias{as_occurrence-method}
+\alias{as_similarity}
+\alias{as_similarity-method}
+\alias{as_count,ANY-method}
+\alias{as_frequency,ANY-method}
+\alias{as_incidence,ANY-method}
+\alias{as_occurrence,ANY-method}
+\alias{as_similarity,ANY-method}
 \title{Coerce}
 \usage{
-as_matrix(from)
+as_count(from)
 
-\S4method{as_matrix}{matrix}(from)
+as_frequency(from)
 
-\S4method{as_matrix}{data.frame}(from)
+as_incidence(from)
+
+as_occurrence(from)
+
+as_similarity(from)
+
+\S4method{as_count}{ANY}(from)
+
+\S4method{as_frequency}{ANY}(from)
+
+\S4method{as_incidence}{ANY}(from)
+
+\S4method{as_occurrence}{ANY}(from)
+
+\S4method{as_similarity}{ANY}(from)
 }
 \arguments{
 \item{from}{A numeric \code{\link{matrix}} or \code{\link{data.frame}} to be
@@ -26,14 +51,40 @@ A \linkS4class{CountMatrix} or an \linkS4class{IncidenceMatrix}.
 Coerce
 }
 \details{
-An attempt is made to coerce \code{from} in a suitable way, i. e. to a
- \linkS4class{CountMatrix} or an \linkS4class{IncidenceMatrix}.
+\code{as_count} coerces a \code{matrix} or \code{data.frame} to a
+ \linkS4class{CountMatrix}.
+
+ \code{as_frequency} coerces a \code{matrix} or \code{data.frame} to a
+ \linkS4class{FrequencyMatrix}.
+
+ \code{as_incidence} coerces a \code{matrix} or \code{data.frame} to an
+ \linkS4class{IncidenceMatrix}.
+
+ \code{as_occurrence} coerces a \code{matrix} or \code{data.frame} to an
+ \linkS4class{OccurrenceMatrix}.
+
+ \code{as_similarity} coerces a \code{matrix} or \code{data.frame} to a
+ \linkS4class{SimilarityMatrix}.
 }
 \examples{
-## Attempt to auto-coerce a matrix in a suitable way
-mtx <- matrix(data = sample(0:10, 100, TRUE), nrow = 10, ncol = 10)
-## Coerce to a count matrix
-E <- as_matrix(mtx)
+## Create a count matrix
+A1 <- CountMatrix(data = sample(0:10, 100, TRUE),
+                  nrow = 10, ncol = 10)
+
+## Coerce counts to frequencies
+B <- as_frequency(A1)
+
+## Row sums are internally stored before coercing to a frequency matrix
+## (use totals() to get these values)
+## This allows to restore the source data
+A2 <- as_count(B)
+all(A1 == A2)
+
+## Coerce to presence/absence
+C <- as_incidence(A1)
+
+## Coerce to a co-occurrence matrix
+D <- as_occurrence(A1)
 }
 \author{
 N. Frerebeau
