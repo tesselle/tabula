@@ -6,13 +6,13 @@ citEntry(entry = "Manual",
   year         = "2019",
   organization = "Université Bordeaux Montaigne",
   address      = "Pessac, France",
-  note         = paste("R package version", packageVersion("tabula")),
+  note         = "R package version 1.3.0",
   url          = "https://doi.org/10.5281/zenodo.1489944",
 
   textVersion  =
   paste("Frerebeau, Nicolas (2019).",
         "tabula: Analysis, Seriation and Visualization of Archaeological Count Data.",
-        "R package version", paste0(packageVersion("tabula"), "."),
+        "R package version 1.3.0",
         "Université Bordeaux Montaigne, Pessac, France.",
         "DOI 10.5281/zenodo.1489944.",
         "URL https://cran.r-project.org/package=tabula.")
