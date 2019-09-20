@@ -1,20 +1,13 @@
 ## Test environments
-* local Ubuntu 18.04 install: R 3.5.2
-* travis-ci: 3.3, 3.4, oldrel, release and devel
-* appveyor: oldrel, release and devel
+* local Ubuntu 18.04 install: R 3.6.0
+* travis-ci: 3.2, 3.3, 3.4, oldrel, release and devel
+* appveyor: release
 * win-builder: oldrel, release and devel
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
-
-* The maintainer's email address has been updated.
+0 errors | 0 warnings | 0 note
 
 ## Reverse dependencies
 
 There are no reverse dependencies.
-
-## Resubmission
-This is a resubmission. A first submission was made on 2019-01-09 13:59.
-
-* Last released version's additional issues are now fixed.
