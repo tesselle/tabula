@@ -51,16 +51,19 @@ desired length of the vector of quantiles for density computation.}
 plot. It must be one of "\code{FIT}" or \code{NULL} (default).
 Any unambiguous substring can be given.}
 
-\item{level}{A single \code{\link{numeric}} value giving the XXX.}
+\item{level}{A length-one \code{\link{numeric}} vector giving the
+confidence level.}
 
-\item{roll}{A \code{\link{logical}} scalar: should XXX?
-Only used if \code{type} is "\code{FIT}" (see details).}
+\item{roll}{A \code{\link{logical}} scalar: should each time series be
+subseted to look for episodes of selection?
+Only used if \code{highlight} is "\code{FIT}" (see details).}
 
 \item{window}{An odd \code{\link{integer}} giving the size of the rolling
 window. Only used if \code{roll} is \code{TRUE}.}
 
 \item{facet}{A \code{\link{logical}} scalar: should a matrix of panels
-defined by type/taxon be drawn? Only used if XXX.}
+defined by type/taxon be drawn? Only used if \code{highlight} is
+\code{NULL}.}
 }
 \value{
 A \code{\link[ggplot2]{ggplot}} object.
@@ -69,7 +72,12 @@ A \code{\link[ggplot2]{ggplot}} object.
 \code{plot_date} produces an activity or tempo plot.
 }
 \details{
-\code{plot_time} produces a time \emph{vs} abundance diagram.
+\code{plot_time} produces an abundance \emph{vs.} time diagram.
+}
+\note{
+Displaying FIT results on an abundance \emph{vs.} time diagram is
+ adapted from Ben Marwick's original
+ \href{https://github.com/benmarwick/signatselect/}{idea}.
 }
 \section{Event and Acccumulation Dates}{
 
@@ -92,7 +100,13 @@ A \code{\link[ggplot2]{ggplot}} object.
 
 \section{Detection of Selective Processes}{
 
- TODO
+ Results of the frequency increment test can be displayed on an abundance
+ \emph{vs.} time diagram aid in the detection and quantification of selective
+ processes in the archaeological record. If \code{roll} is \code{TRUE},
+ each time series is subseted according to \code{window} to see if episodes
+ of selection can be identified among decoration types that might not show
+ overall selection. If so, shading highlights the data points where
+ \code{\link{test_fit}} identifies selection.
 }
 
 \examples{

@@ -51,20 +51,17 @@ A \linkS4class{CountMatrix} or an \linkS4class{IncidenceMatrix}.
 Coerce
 }
 \details{
-\code{as_count} coerces a \code{matrix} or \code{data.frame} to a
- \linkS4class{CountMatrix}.
+The following methods coerce a \code{matrix} or \code{data.frame} to a
+ \code{*Matrix} object:
 
- \code{as_frequency} coerces a \code{matrix} or \code{data.frame} to a
- \linkS4class{FrequencyMatrix}.
-
- \code{as_incidence} coerces a \code{matrix} or \code{data.frame} to an
- \linkS4class{IncidenceMatrix}.
-
- \code{as_occurrence} coerces a \code{matrix} or \code{data.frame} to an
- \linkS4class{OccurrenceMatrix}.
-
- \code{as_similarity} coerces a \code{matrix} or \code{data.frame} to a
- \linkS4class{SimilarityMatrix}.
+ \tabular{ll}{
+  \strong{Method} \tab \strong{Target} \cr
+  \code{as_count} \tab \linkS4class{CountMatrix} \cr
+  \code{as_frequency} \tab \linkS4class{FrequencyMatrix} \cr
+  \code{as_incidence} \tab \linkS4class{IncidenceMatrix} \cr
+  \code{as_occurrence} \tab \linkS4class{OccurrenceMatrix} \cr
+  \code{as_similarity} \tab \linkS4class{SimilarityMatrix}
+ }
 }
 \examples{
 ## Create a count matrix

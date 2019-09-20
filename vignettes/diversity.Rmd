@@ -10,8 +10,10 @@ output:
 bibliography: bibliography.bib
 vignette: >
   %\VignetteIndexEntry{2. Diversity Measures}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}
@@ -27,7 +29,7 @@ library(tabula)
 library(magrittr)
 ```
 
-Banning2000
+<!-- Vérifier Banning 2000 -->
 
 Thereafter, we denote by:
 
@@ -101,6 +103,15 @@ Where $\hat{S}_{infreq} = \sum_{i = 1}^{k} q_i$ is the number of infrequent taxa
 $$ \hat{\gamma}^2_{infreq} = \max\left[\frac{\hat{S}_{infreq}}{\hat{C}_{infreq}} \frac{m_{infreq}}{m_{infreq} - 1} \frac{\sum_{i = 1}^{k} i(i - 1)q_i}{\left(\sum_{i = 1}^{k} iq_i\right)\left(\sum_{i = 1}^{k} iq_i - 1\right)} - 1, 0\right]  $$
 
 Where $m_{infreq}$ is the number of sampling units that include at least one infrequent species.
+
+### Usage
+```{r richness}
+mississippi %>%
+  as_count() %>%
+  richness(method = c("chao1", "margalef", "menhinick"), 
+           unbiased = TRUE, simplify = TRUE) %>%
+  head()
+```
 
 ## Rarefaction
 It is not always possible to ensure that all sample sizes are equal and the number of different taxa increases with sample size and sampling effort [@magurran1988]. Then, *rarefaction* ($E(S)$) is the number of taxa expected if all samples were of a standard size $n$ (i.e. taxa per fixed number of individuals). Rarefaction assumes that imbalances between taxa are due to sampling and not to differences in actual abundances.

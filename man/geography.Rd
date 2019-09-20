@@ -70,7 +70,7 @@ Experimental tools to deal with spatial information.
  }
 
  \code{get_features} converts an \code{AbundanceMatrix} object to a
- collection of features (i.e. a\code{\link[=data.frame]{data frame}} with
+ collection of features (i.e. a\code{\link{data.frame}} with
  dates and coordinates columns) that can be used for spatial manipulation
  with \pkg{sf}.
 }

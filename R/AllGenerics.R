@@ -71,20 +71,17 @@ NULL
 #' @param from A numeric \code{\link{matrix}} or \code{\link{data.frame}} to be
 #'  coerced.
 #' @details
-#'  \code{as_count} coerces a \code{matrix} or \code{data.frame} to a
-#'  \linkS4class{CountMatrix}.
+#'  The following methods coerce a \code{matrix} or \code{data.frame} to a
+#'  \code{*Matrix} object:
 #'
-#'  \code{as_frequency} coerces a \code{matrix} or \code{data.frame} to a
-#'  \linkS4class{FrequencyMatrix}.
-#'
-#'  \code{as_incidence} coerces a \code{matrix} or \code{data.frame} to an
-#'  \linkS4class{IncidenceMatrix}.
-#'
-#'  \code{as_occurrence} coerces a \code{matrix} or \code{data.frame} to an
-#'  \linkS4class{OccurrenceMatrix}.
-#'
-#'  \code{as_similarity} coerces a \code{matrix} or \code{data.frame} to a
-#'  \linkS4class{SimilarityMatrix}.
+#'  \tabular{ll}{
+#'   \strong{Method} \tab \strong{Target} \cr
+#'   \code{as_count} \tab \linkS4class{CountMatrix} \cr
+#'   \code{as_frequency} \tab \linkS4class{FrequencyMatrix} \cr
+#'   \code{as_incidence} \tab \linkS4class{IncidenceMatrix} \cr
+#'   \code{as_occurrence} \tab \linkS4class{OccurrenceMatrix} \cr
+#'   \code{as_similarity} \tab \linkS4class{SimilarityMatrix}
+#'  }
 #' @return A \linkS4class{CountMatrix} or an \linkS4class{IncidenceMatrix}.
 #' @example inst/examples/ex-coerce.R
 #' @author N. Frerebeau
@@ -503,7 +500,7 @@ setGeneric(
 #'  }
 #'
 #'  \code{get_features} converts an \code{AbundanceMatrix} object to a
-#'  collection of features (i.e. a\code{\link[=data.frame]{data frame}} with
+#'  collection of features (i.e. a\code{\link{data.frame}} with
 #'  dates and coordinates columns) that can be used for spatial manipulation
 #'  with \pkg{sf}.
 #' @example inst/examples/ex-geography.R
@@ -554,7 +551,7 @@ setGeneric(
 #'
 #' \code{plot_date} produces an activity or tempo plot.
 #'
-#' \code{plot_time} produces a time \emph{vs} abundance diagram.
+#' \code{plot_time} produces an abundance \emph{vs.} time diagram.
 #' @param object An object of class \linkS4class{DateModel} to be plotted.
 #' @param type A \code{\link{character}} string indicating the type of plot.
 #'  It must be one of "\code{activity}" (default) or "\code{tempo}".
@@ -572,13 +569,16 @@ setGeneric(
 #' @param highlight A \code{\link{character}} string indicating the type of
 #'  plot. It must be one of "\code{FIT}" or \code{NULL} (default).
 #'  Any unambiguous substring can be given.
-#' @param level A single \code{\link{numeric}} value giving the XXX.
-#' @param roll A \code{\link{logical}} scalar: should XXX?
-#'  Only used if \code{type} is "\code{FIT}" (see details).
+#' @param level A length-one \code{\link{numeric}} vector giving the
+#'  confidence level.
+#' @param roll A \code{\link{logical}} scalar: should each time series be
+#'  subseted to look for episodes of selection?
+#'  Only used if \code{highlight} is "\code{FIT}" (see details).
 #' @param window An odd \code{\link{integer}} giving the size of the rolling
 #'  window. Only used if \code{roll} is \code{TRUE}.
 #' @param facet A \code{\link{logical}} scalar: should a matrix of panels
-#'  defined by type/taxon be drawn? Only used if XXX.
+#'  defined by type/taxon be drawn? Only used if \code{highlight} is
+#'  \code{NULL}.
 #' @param ... Further arguments to be passed to internal methods.
 #' @section Event and Acccumulation Dates:
 #'  \code{plot_date} plots the probability estimate density curves of
@@ -598,9 +598,19 @@ setGeneric(
 #'  }
 #'
 #' @section Detection of Selective Processes:
-#'  TODO
+#'  Results of the frequency increment test can be displayed on an abundance
+#'  \emph{vs.} time diagram aid in the detection and quantification of selective
+#'  processes in the archaeological record. If \code{roll} is \code{TRUE},
+#'  each time series is subseted according to \code{window} to see if episodes
+#'  of selection can be identified among decoration types that might not show
+#'  overall selection. If so, shading highlights the data points where
+#'  \code{\link{test_fit}} identifies selection.
 #' @return
 #'  A \code{\link[ggplot2]{ggplot}} object.
+#' @note
+#'  Displaying FIT results on an abundance \emph{vs.} time diagram is
+#'  adapted from Ben Marwick's original
+#'  \href{https://github.com/benmarwick/signatselect/}{idea}.
 #' @references
 #'  Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
 #'  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
