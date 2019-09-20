@@ -247,7 +247,7 @@ plot_time(merzbach_count, highlight = "FIT", roll = TRUE) +
 ```
 
 ## Contributing
-Please note that the `tabula` project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+Please note that the `tabula` project is released with a [Contributor Code of Conduct](https://github.com/nfrerebeau/tabula/blob/master/.github/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
 
 [^1]: Adapted from Dan Gopstein's original [idea](https://dgopstein.github.io/articles/spot-matrix/).
 [^2]: Adapted from Ben Marwick's original [idea](https://github.com/benmarwick/signatselect/).

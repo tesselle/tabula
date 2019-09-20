@@ -174,7 +174,7 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate_reciprocal(incidence, margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Matrix ID: 647a4ee7-2f20-4632-98e9-fb006408c011 
+#>    Matrix ID: 7ff145b5-32f6-4f16-a298-37c6eb6a46a9 
 #>    Row order: 1 4 20 3 9 16 19 10 13 2 11 7 17 5 6 18 14 15 8 12 
 #>    Column order: 1 16 9 4 8 14 3 20 13 2 6 18 7 17 5 11 19 12 15 10 
 #>    Method: reciprocal
@@ -312,8 +312,9 @@ plot_time(merzbach_count, highlight = "FIT", roll = TRUE) +
 ## Contributing
 
 Please note that the `tabula` project is released with a [Contributor
-Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
-you agree to abide by its terms.
+Code of
+Conduct](https://github.com/nfrerebeau/tabula/blob/master/.github/CODE_OF_CONDUCT.md).
+By contributing to this project, you agree to abide by its terms.
 
 1.  Adapted from Dan Gopstein’s original
     [idea](https://dgopstein.github.io/articles/spot-matrix/).

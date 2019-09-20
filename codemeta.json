@@ -5,8 +5,8 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "tabula",
-  "description": "An easy way to examine archaeological count data. This package provides a convenient and reproducible toolkit for relative and absolute dating and analysis of (chronological) patterns. It includes functions for matrix seriation (reciprocal ranking, CA-based seriation), chronological modeling and dating of archaeological assemblages and/or objects.  Beyond these, the package provides several tests and measures of diversity: heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.),  richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity (Brainerd-Robinson, etc.).  The package make it easy to visualize count data and statistical thresholds: rank vs. abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.",
-  "name": "tabula: Analysis, Seriation and Visualization of Archaeological  Count Data",
+  "description": "An easy way to examine archaeological count data. This package provides a convenient and reproducible toolkit for relative and absolute dating and analysis of (chronological) patterns. It includes functions for matrix seriation (reciprocal ranking, CA-based seriation), chronological modeling and dating of archaeological assemblages and/or objects. Beyond these, the package provides several tests and measures of diversity: heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity (Brainerd-Robinson, etc.). The package make it easy to visualize count data and statistical thresholds: rank vs. abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.",
+  "name": "tabula: Analysis, Seriation and Visualization of Archaeological Count Data",
   "codeRepository": "http://github.com/nfrerebeau/tabula",
   "relatedLink": [
     "http://tabula.archaeo.science",
@@ -70,8 +70,8 @@
       "@type": "Person",
       "givenName": "Jean-Baptiste",
       "familyName": "Fourvel",
-      "email": "anne.philippe@univ-nantes.fr",
-      "@id": "https://orcid.org/0000-0002-1061-4642 "
+      "email": "jbfourvel@yahoo.com",
+      "@id": "https://orcid.org/0000-0002-1061-4642"
     }
   ],
   "copyrightHolder": {},
