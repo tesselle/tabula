@@ -68,7 +68,7 @@ library(magrittr)
 * Logical matrix:
     * `IncidenceMatrix` represents presence/absence data.
 * Other numeric matrix:
-    * `OccurrenceMatrix` represents a co-occurence matrix.
+    * `OccurrenceMatrix` represents a co-occurrence matrix.
     * `SimilarityMatrix` represents a (dis)similarity matrix.
 
 *It assumes that you keep your data tidy*: each variable (type/taxa) must be saved in its own column and each observation (sample/case) must be saved in its own row.
@@ -109,12 +109,12 @@ C <- as_incidence(A1)
 D <- as_occurrence(A1)
 ```
 
-Several types of graphs are available in `tabula` which uses `ggplot2` for plotting informations. This makes it easy to customize diagramms (e.g. using themes and scales).
+Several types of graphs are available in `tabula` which uses `ggplot2` for plotting informations. This makes it easy to customize diagrams (e.g. using themes and scales).
 
 Spot matrix[^1] allows direct examination of data:
 
 ```{r plot-occ, fig.width=6, fig.height=4, fig.align="center"}
-# Plot co-occurence of types
+# Plot co-occurrence of types
 # (i.e. how many times (percent) each pairs of taxa occur together 
 # in at least one sample.)
 mississippi %>%
@@ -125,7 +125,7 @@ mississippi %>%
   khroma::scale_colour_YlOrBr()
 ```
 
-Bertin or Ford (battleship curve) diagramms can be plotted, with statistic threshold (including B. Desachy's [sériographe](https://doi.org/10.3406/pica.2004.2396)). 
+Bertin or Ford (battleship curve) diagrams can be plotted, with statistic threshold (including B. Desachy's [sériographe](https://doi.org/10.3406/pica.2004.2396)). 
 
 ```{r bertin, fig.width=7, fig.height=5, fig.align="center", fig.show="hold"}
 mississippi %>%
@@ -169,7 +169,7 @@ plot_heatmap(incidence2) +
 
 ### Dating
 
-This package provides an implementation of the chronological modeling method developed by Bellanger and Husi ([2012](https://doi.org/10.1016/j.jas.2011.06.031)). This method is slightly modified here and allows the construction of different probability density curves of archaeological assembalge dates (*event*, *activity* and *tempo*). Note that this implementation is experimental (see `help(date_event)`).
+This package provides an implementation of the chronological modeling method developed by Bellanger and Husi ([2012](https://doi.org/10.1016/j.jas.2011.06.031)). This method is slightly modified here and allows the construction of different probability density curves of archaeological assemblage dates (*event*, *activity* and *tempo*). Note that this implementation is experimental (see `help(date_event)`).
 
 ```{r date, fig.width=3.5, fig.height=3.5, fig.show="hold"}
 # Coerce dataset to abundance (count) matrix
@@ -196,7 +196,7 @@ plot_date(model, type = "tempo", select = "LZ1105") +
 
 ### Analysis
 
-*Diversity* can be measured according to several indices (sometimes refered to as indices of *heterogeneity*):
+*Diversity* can be measured according to several indices (sometimes referred to as indices of *heterogeneity*):
 
 ```{r diversity}
 mississippi %>%
@@ -215,7 +215,7 @@ Note that `berger`, `mcintosh` and `simpson` methods return a *dominance* index,
 
 Corresponding *evenness* (i.e. a measure of how evenly individuals are distributed across the sample) can also be computed, as well as *richness* and *rarefaction*.
 
-Several methods can be used to acertain the degree of *turnover* in taxa composition along a gradient on qualitative (presence/absence) data. It assumes that the order of the matrix rows (from *1* to *n*) follows the progression along the gradient/transect.
+Several methods can be used to ascertain the degree of *turnover* in taxa composition along a gradient on qualitative (presence/absence) data. It assumes that the order of the matrix rows (from *1* to *n*) follows the progression along the gradient/transect.
 
 Diversity can also be measured by addressing *similarity* between pairs of sites:
 

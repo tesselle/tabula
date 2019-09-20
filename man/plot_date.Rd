@@ -55,7 +55,7 @@ Any unambiguous substring can be given.}
 confidence level.}
 
 \item{roll}{A \code{\link{logical}} scalar: should each time series be
-subseted to look for episodes of selection?
+subsetted to look for episodes of selection?
 Only used if \code{highlight} is "\code{FIT}" (see details).}
 
 \item{window}{An odd \code{\link{integer}} giving the size of the rolling
@@ -93,7 +93,7 @@ Displaying FIT results on an abundance \emph{vs.} time diagram is
   \item{Tempo plot}{A tempo plot estimates the cumulative occurrence of
   archaeological events, such as the slope of the plot directly reflects the
   pace of change.}
-  \item{Activity plot}{An activty plot displays the first derivative of the
+  \item{Activity plot}{An activity plot displays the first derivative of the
   tempo plot.}
  }
 }
@@ -103,7 +103,7 @@ Displaying FIT results on an abundance \emph{vs.} time diagram is
  Results of the frequency increment test can be displayed on an abundance
  \emph{vs.} time diagram aid in the detection and quantification of selective
  processes in the archaeological record. If \code{roll} is \code{TRUE},
- each time series is subseted according to \code{window} to see if episodes
+ each time series is subsetted according to \code{window} to see if episodes
  of selection can be identified among decoration types that might not show
  overall selection. If so, shading highlights the data points where
  \code{\link{test_fit}} identifies selection.

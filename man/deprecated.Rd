@@ -97,8 +97,8 @@ bootstrap replications.}
 \item{axes}{A \code{\link{numeric}} vector giving the subscripts of the CA
 axes to use.}
 
-\item{method}{A \code{\link{character}} string specifiying the method to be
-used. This must be one of "\code{reciprocal}", "\code{correspondance}".
+\item{method}{A \code{\link{character}} string specifying the method to be
+used. This must be one of "\code{reciprocal}", "\code{correspondence}".
 Any unambiguous substring can be given.}
 
 \item{level}{A length-one \code{\link{numeric}} vector giving the

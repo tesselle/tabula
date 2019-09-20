@@ -265,7 +265,7 @@ setMethod(
   signature = signature(object = "CountMatrix", subset = "missing"),
   definition = function(object, method = c("correspondance", "reciprocal"),
                         EPPM = FALSE, margin = c(1, 2), stop = 100, ...) {
-    .Deprecated(msg = "seriate is deprecated. Use seriate_reciprocal or seriate_correspondance instead.")
+    .Deprecated(msg = "seriate is deprecated. Use seriate_reciprocal or seriate_correspondence instead.")
     seriation(object, method = method, EPPM = EPPM, margin = margin,
               stop = stop, ...)
   }
@@ -277,7 +277,7 @@ setMethod(
   signature = signature(object = "IncidenceMatrix", subset = "missing"),
   definition = function(object, method = c("correspondance", "reciprocal"),
                         margin = c(1, 2), stop = 100, ...) {
-    .Deprecated(msg = "seriate is deprecated. Use seriate_reciprocal or seriate_correspondance instead.")
+    .Deprecated(msg = "seriate is deprecated. Use seriate_reciprocal or seriate_correspondence instead.")
     seriation(object * 1, method = method, margin = margin, stop = stop, ...)
   }
 )
@@ -287,7 +287,7 @@ setMethod(
   f = "seriate",
   signature = signature(object = "CountMatrix", subset = "BootCA"),
   definition = function(object, subset, margin = c(1, 2), ...) {
-    .Deprecated(msg = "seriate is deprecated. Use seriate_correspondance instead.")
-    seriate_correspondance(object, subset, margin = margin, ...)
+    .Deprecated(msg = "seriate is deprecated. Use seriate_correspondence instead.")
+    seriate_correspondence(object, subset, margin = margin, ...)
   }
 )

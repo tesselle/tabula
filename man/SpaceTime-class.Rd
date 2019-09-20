@@ -6,7 +6,7 @@
 \alias{.SpaceTime}
 \title{Space and Time}
 \description{
-An S4 class to reprensent space-time informations.
+An S4 class to represent space-time informations.
 }
 \section{Slots}{
 

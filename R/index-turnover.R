@@ -57,9 +57,9 @@ setMethod(
 #' @family diversity measures
 #' @name index-turnover
 #' @keywords internal
-NULL
+#' @noRd
 
-#' @rdname index-turnover
+# @rdname index-turnover
 turnoverWhittaker <- function(x) {
   x <- x > 0 # presence/absence
   #' @name index-turnover
@@ -73,7 +73,7 @@ turnoverWhittaker <- function(x) {
   return(W)
 }
 
-#' @rdname index-turnover
+# @rdname index-turnover
 turnoverCody <- function(x) {
   x <- x > 0 # presence/absence
   m <- nrow(x)
@@ -90,7 +90,7 @@ turnoverCody <- function(x) {
   return(beta)
 }
 
-#' @rdname index-turnover
+# @rdname index-turnover
 turnoverRoutledge1 <- function(x) {
   # Beta R
   x <- x > 0 # presence/absence
@@ -105,7 +105,7 @@ turnoverRoutledge1 <- function(x) {
   beta <- S^2 / (2 * r + S) - 1
   return(beta)
 }
-#' @rdname index-turnover
+# @rdname index-turnover
 turnoverRoutledge2 <- function(x) {
   # Beta I
   x <- x > 0 # presence/absence
@@ -119,7 +119,7 @@ turnoverRoutledge2 <- function(x) {
   beta <- log(t) - (1 / t) * sum(e * log(e)) - (1 / t) * sum(alpha * log(alpha))
   return(beta)
 }
-#' @rdname index-turnover
+# @rdname index-turnover
 turnoverRoutledge3 <- function(x) {
   # Beta E
   I <- turnoverRoutledge2(x)
@@ -127,7 +127,7 @@ turnoverRoutledge3 <- function(x) {
   return(E)
 }
 
-#' @rdname index-turnover
+# @rdname index-turnover
 turnoverWilson <- function(x) {
   x <- x > 0 # presence/absence
   m <- nrow(x)

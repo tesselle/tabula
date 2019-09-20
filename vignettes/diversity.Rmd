@@ -116,7 +116,7 @@ mississippi %>%
 ## Rarefaction
 It is not always possible to ensure that all sample sizes are equal and the number of different taxa increases with sample size and sampling effort [@magurran1988]. Then, *rarefaction* ($E(S)$) is the number of taxa expected if all samples were of a standard size $n$ (i.e. taxa per fixed number of individuals). Rarefaction assumes that imbalances between taxa are due to sampling and not to differences in actual abundances.
 
-@hurlbert1971 unbiaised estimate of @sander1968 rarefaction:
+@hurlbert1971 unbiased estimate of @sander1968 rarefaction:
 
 $$ E(S) = \sum_{i = 1}^{S} 1 - \frac{{N - N_i} \choose n}{N \choose n} $$
 Where $n$ is the sub-sample size.
@@ -145,7 +145,7 @@ When $p_i$ is unknown in the population, an estimate is given by $\hat{p}_i =\fr
 
 $$ \hat{H}' = - \sum_{i = 1}^{S} \hat{p}_i \ln \hat{p}_i - \frac{S - 1}{N} + \frac{1 - \sum_{i = 1}^{S} \hat{p}_i^{-1}}{12N^2} + \frac{\sum_{i = 1}^{S} (\hat{p}_i^{-1} - \hat{p}_i^{-2})}{12N^3} + \cdots $$
 
-This error is rarely significant [@peet1974], so the unbiaised form is not implemented here (for now).
+This error is rarely significant [@peet1974], so the unbiased form is not implemented here (for now).
 
 ##### Brillouin diversity index
 The Brillouin index [@brillouin1956] describes a known collection: it does not assume random sampling in an infinite population. @pielou1975 and @laxton1978 argues for the use of the Brillouin index in all circumstances, especially in preference to the Shannon index.
@@ -224,7 +224,7 @@ mississippi %>%
 
 ## Turnover
 ### Definitions
-The following methods can be used to acertain the degree of turnover in taxa composition along a gradient on qualitative (presence/absence) data. This assumes that the order of the matrix rows (from 1 to $m$) follows the progression along the gradient/transect.
+The following methods can be used to ascertain the degree of turnover in taxa composition along a gradient on qualitative (presence/absence) data. This assumes that the order of the matrix rows (from 1 to $m$) follows the progression along the gradient/transect.
 
 We denote the $m \times p$ incidence matrix by $X = \left[ x_{ij} \right] ~\forall i \in \left[ 1,m \right], j \in \left[ 1,p \right]$ and the $p \times p$ corresponding co-occurrence matrix by $Y = \left[ y_{ij} \right] ~\forall i,j \in \left[ 1,p \right]$, with row and column sums:
 
@@ -318,7 +318,7 @@ mississippi %>%
 
 # Abundance models
 
-Ranks *vs* abundance plot can be used for abundance models (model fitting will be implemented in a futur release):
+Ranks *vs* abundance plot can be used for abundance models (model fitting will be implemented in a future release):
 
 ```{r plot-rank, fig.width=7, fig.height=5, fig.align="center"}
 mississippi %>%

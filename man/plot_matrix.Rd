@@ -29,7 +29,7 @@ plot_heatmap(object, ...)
 frequencies (see details)?}
 
 \item{frequency}{A \code{\link{logical}} scalar: should relative frequencies
-be drawn? If \code{FALSE}, raw data are ploted.}
+be drawn? If \code{FALSE}, raw data are plotted.}
 }
 \value{
 A \code{\link[ggplot2]{ggplot}} object.
@@ -44,7 +44,7 @@ If \code{PVI} is \code{FALSE}, it plots a heatmap of relative abundances
 
  \code{PVI} is calculated for each cell as the percentage to the column
  theoretical independence value: \code{PVI} greater than \eqn{1} represent
- positive deviations from the independance, whereas \code{PVI} smaller than
+ positive deviations from the independence, whereas \code{PVI} smaller than
  \eqn{1} represent negative deviations (Desachy 2004).
 
  The \code{PVI} matrix allows to explore deviations from independence

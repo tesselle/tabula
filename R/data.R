@@ -26,7 +26,7 @@
 #' @keywords datasets
 "boves"
 
-#' Compiegne ceramics
+#' Compiègne ceramics
 #'
 #' A dataset containing the ceramic counts from the Place des Hallettes in
 #'  Compiègne (Oise, France). The data are grouped into five periods of about a
@@ -66,7 +66,7 @@
 #' Merzbach ceramics
 #'
 #' A dataset containing the ceramic counts from the Merzbach assemblage
-#' (Germany). The data are grouped into heigth phases.
+#' (Germany). The data are grouped into eight phases.
 #' @format A numeric matrix with 8 rows (phases, numbered from VII to XIV)
 #' and 36 variables (pottery motifs).
 #'  \describe{

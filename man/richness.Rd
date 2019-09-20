@@ -35,7 +35,7 @@ rarefaction(object, ...)
 size.}
 
 \item{method}{A \code{\link{character}} string or vector of strings
-specifiying the index to be computed (see details).
+specifying the index to be computed (see details).
 Any unambiguous substring can be given.}
 
 \item{simplify}{A \code{\link{logical}} scalar: should the result be
@@ -59,7 +59,7 @@ If \code{simplify} is \code{FALSE}, then \code{rarefaction} and
 }
 \description{
 \code{richness} returns sample richness.
- \code{rarefaction} returns Hurlbert's unbiaised estimate of Sander's
+ \code{rarefaction} returns Hurlbert's unbiased estimate of Sander's
  rarefaction.
 }
 \details{

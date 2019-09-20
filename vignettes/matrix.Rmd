@@ -32,14 +32,14 @@ The **tabula** package provides a set of S4 classes for archaeological data matr
 * Numeric matrix:
   * `CountMatrix` represents count data,
   * `FrequencyMatrix` represents relative frequency data.
-  * `OccurrenceMatrix` represents a co-occurence matrix.
+  * `OccurrenceMatrix` represents a co-occurrence matrix.
   * `SimilarityMatrix` represents a (dis)similarity matrix.
 * Logical matrix:
   * `IncidenceMatrix` represents presence/absence data.
     
 *It assumes that you keep your data tidy*: each variable (taxon/type) must be saved in its own column and each observation (assemblage/sample/case) must be saved in its own row. Note that missing values are not allowed.
 
-Methods for a variety of functions applied to objects from these classes provide tools for analysis, seriation and dating of archaeological assembalges. See `help(methods)` to list all available methods for these classes.
+Methods for a variety of functions applied to objects from these classes provide tools for analysis, seriation and dating of archaeological assemblages. See `help(methods)` to list all available methods for these classes.
 
 The internal structure of S4 classes implemented in **tabula** is depicted in the UML class diagram in the following figure.
 
@@ -74,7 +74,7 @@ We denote the $m \times p$ frequency matrix by $B = \left[ b_{ij} \right] ~\fora
 
 ### Co-occurrence matrix
 
-A co-occurrence matrix is a symetric matrix with zeros on its main diagonal, which works out how many times (expressed in percent) each pairs of taxa occur together in at least one sample.
+A co-occurrence matrix is a symmetric matrix with zeros on its main diagonal, which works out how many times (expressed in percent) each pairs of taxa occur together in at least one sample.
 
 The $p \times p$ co-occurrence matrix $D = \left[ d_{i,j} \right] ~\forall i,j \in \left[ 1,p \right]$ is defined over an $m \times p$ abundance matrix $A = \left[ a_{x,y} \right] ~\forall x \in \left[ 1,m \right], y \in \left[ 1,p \right]$ as:
 
@@ -154,7 +154,7 @@ D <- as_occurrence(A1)
 
 # Visualization
 
-Several types of graphs are available in **tabula** which uses **ggplot2** for plotting informations. This makes it easy to customize diagramms (e.g. using themes and scales).
+Several types of graphs are available in **tabula** which uses **ggplot2** for plotting informations. This makes it easy to customize diagrams (e.g. using themes and scales).
 
 ## Spot plot
 Spot matrix allows direct examination of data (above/below some threshold):
@@ -169,7 +169,7 @@ mississippi %>%
 ```
 
 ```{r plot-occ, fig.cap="Spot plot of co-occurrence", fig.width=6, fig.height=4, fig.align="center"}
-## Plot co-occurence of types
+## Plot co-occurrence of types
 ## (i.e. how many times (percent) each pairs of taxa occur together 
 ## in at least one sample.)
 mississippi %>%
@@ -192,7 +192,7 @@ boves %>%
 ```
 
 
-PVI is calculated for each cell as the percentage to the column theoretical independence value: PVI greater than $1$ represent positive deviations from the independance, whereas PVI smaller than $1$ represent negative deviations [@desachy2004]. The PVI matrix allows to explore deviations from independence (an intuitive graphical approach to $\chi^2$), in such a way that a high-contrast matrix has quite significant deviations, with a low risk of being due to randomness [@desachy2004].
+PVI is calculated for each cell as the percentage to the column theoretical independence value: PVI greater than $1$ represent positive deviations from the independence, whereas PVI smaller than $1$ represent negative deviations [@desachy2004]. The PVI matrix allows to explore deviations from independence (an intuitive graphical approach to $\chi^2$), in such a way that a high-contrast matrix has quite significant deviations, with a low risk of being due to randomness [@desachy2004].
 
 ```{r plot-matrigraphe, fig.cap="Matrigraphe", fig.width=7, fig.height=3.5, fig.align="center"}
 ## Reproduce B. Desachy's matrigraphe
@@ -203,7 +203,7 @@ boves %>%
 ```
 
 ## Bar plot
-@bertin1977 or @ford1962 (battleship curve) diagramms can also be plotted, with statistic threshold.
+@bertin1977 or @ford1962 (battleship curve) diagrams can also be plotted, with statistic threshold.
 
 ```{r plot-bertin, fig.cap="Bertin diagram", fig.width=7, fig.height=7, fig.align="center"}
 mississippi %>%

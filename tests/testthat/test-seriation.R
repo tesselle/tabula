@@ -37,10 +37,10 @@ test_that("Reciprocal ranking", {
   expect_s4_class(permute(incid, indices), "IncidenceMatrix")
   expect_equal(permute(incid, indices)@id, incid@id)
 })
-test_that("Correspondance Analysis", {
+test_that("correspondence Analysis", {
   count <- as(compiegne, "CountMatrix")
 
-  indices <- seriate_correspondance(count, margin = c(1, 2))
+  indices <- seriate_correspondence(count, margin = c(1, 2))
   expect_equal(indices@rows, c(1, 2, 3, 4, 5))
   expect_equal(indices@columns,
                c(14, 11, 1, 12, 3, 16, 5, 2, 15, 13, 7, 4, 6, 10, 9, 8))
@@ -50,9 +50,9 @@ test_that("Correspondance Analysis", {
   expect_equal(permute(count, indices)@id, count@id)
 
   count2 <- as(merzbach, "CountMatrix")
-  expect_warning(seriate_correspondance(count2))
+  expect_warning(seriate_correspondence(count2))
 })
-test_that("Refined correspondance Analysis", {
+test_that("Refined correspondence Analysis", {
   count <- as(zuni, "CountMatrix")
 
   # Define cutoff as one standard deviation above the mean
@@ -66,7 +66,7 @@ test_that("Refined correspondance Analysis", {
   expect_equal(subset@cutoff, c(2.2427692, 0.3785501), tolerance = 0.005)
   expect_equal(subset@id, count@id)
 
-  indices <- seriate_correspondance(count, subset, margin = 1)
+  indices <- seriate_correspondence(count, subset, margin = 1)
   expect_s4_class(indices, "PermutationOrder")
   expect_s4_class(permute(count, indices), "CountMatrix")
 })

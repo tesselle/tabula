@@ -21,11 +21,11 @@ similarity(object, ...)
 
 \item{...}{Further arguments to be passed to internal methods.}
 
-\item{method}{A \code{\link{character}} string specifiying the method to be
+\item{method}{A \code{\link{character}} string specifying the method to be
 used (see details). Any unambiguous substring can be given.}
 }
 \value{
-\code{similarity} returns a symetric matrix of class
+\code{similarity} returns a symmetric matrix of class
  \linkS4class{SimilarityMatrix}.
 }
 \description{
@@ -34,7 +34,7 @@ Similarity
 \details{
 \eqn{\beta}-diversity can be measured by addressing \emph{similarity}
  between pairs of samples/cases (Brainerd-Robinson, Jaccard, Morisita-Horn
- and Sorenson indices). Similarity bewteen pairs of taxa/types can be
+ and Sorenson indices). Similarity between pairs of taxa/types can be
  measured by assessing the degree of co-occurrence (binomial co-occurrence).
 
  Jaccard, Morisita-Horn and Sorenson indices provide a scale of similarity

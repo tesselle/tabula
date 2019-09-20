@@ -126,10 +126,10 @@ setMethod(
 #' @family diversity measures
 #' @name index-richness
 #' @keywords internal
-NULL
+#' @noRd
 
 # Abundance data ---------------------------------------------------------------
-#' @rdname index-richness
+# @rdname index-richness
 richnessACE <- function(x, k = 10, ...) {
   # Validation
   check_type(x, expected = "numeric")
@@ -171,7 +171,7 @@ richnessACE <- function(x, k = 10, ...) {
   D
 }
 
-#' @rdname index-richness
+# @rdname index-richness
 richnessChao1 <- function(x, unbiased = FALSE, improved = FALSE, ...) {
   # Validation
   check_type(x, expected = "numeric")
@@ -207,7 +207,7 @@ richnessChao1 <- function(x, unbiased = FALSE, improved = FALSE, ...) {
   D
 }
 
-#' @rdname index-richness
+# @rdname index-richness
 richnessMargalef <- function(x, ...) {
   # Validation
   check_type(x, expected = "numeric")
@@ -219,7 +219,7 @@ richnessMargalef <- function(x, ...) {
   D
 }
 
-#' @rdname index-richness
+# @rdname index-richness
 richnessMenhinick <- function(x, ...) {
   # Validation
   check_type(x, expected = "numeric")
@@ -232,7 +232,7 @@ richnessMenhinick <- function(x, ...) {
 }
 
 # Incidence data ---------------------------------------------------------------
-#' @rdname index-richness
+# @rdname index-richness
 richnessICE <- function(x, k = 10, ...) {
   # Validation
   check_type(x, expected = "logical")
@@ -277,7 +277,7 @@ richnessICE <- function(x, k = 10, ...) {
   D
 }
 
-#' @rdname index-richness
+# @rdname index-richness
 richnessChao2 <- function(x, unbiased = FALSE, improved = FALSE, ...) {
   # Validation
   check_type(x, expected = "logical")

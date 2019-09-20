@@ -57,7 +57,7 @@ setGeneric(
 #'  the lowest possible dimension? This only works for extracting elements,
 #'  not for the replacement.
 #' @return
-#'  A subseted object.
+#'  A subsetted object.
 #' @example inst/examples/ex-abundance-class.R
 #' @author N. Frerebeau
 #' @docType methods
@@ -136,7 +136,8 @@ setGeneric(
 #'
 #' \code{date_mcd} estimates the Mean Ceramic Date of an assemblage.
 #'
-#' \code{date_event} estimates the event and accumation dates of an assemblage.
+#' \code{date_event} estimates the event and accumulation dates of an
+#' assemblage.
 #'
 #' \code{refine_dates} checks the stability of a date model with resampling
 #' methods.
@@ -159,7 +160,7 @@ setGeneric(
 #'  less than the \code{cutoff} value will be retained.
 #' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
 #' replications (see below).
-#' @param method A \code{\link{character}} string specifiying the resampling
+#' @param method A \code{\link{character}} string specifying the resampling
 #'  method to be used. This must be one of "\code{jackknife}",
 #'  "\code{bootstrap}" (see details). Any unambiguous substring can be given.
 #' @param ... Further arguments to be passed to internal methods.
@@ -190,7 +191,7 @@ setGeneric(
 #'  given MCD. For each assemblage, a large number of new bootstrap replicates
 #'  is created, with the same sample size, by resampling the original
 #'  assemblage with replacement. MCDs are calculated for each replicates and
-#'  upper and lower boudaries of the confidence interval associated with each
+#'  upper and lower boundaries of the confidence interval associated with each
 #'  MCD are then returned. Confidence interval are not estimated for assemblages
 #'  with only a single type (\code{NA}s are returned).
 #' @section Event and Accumulation Dates:
@@ -206,7 +207,7 @@ setGeneric(
 #'  process reflecting the duration or succession of events on the scale of
 #'  archaeological time, and at worst, as imprecise dating due to contamination
 #'  of the context by residual or intrusive material." In other words,
-#'  accumulation dates estimate occurence of archaeological events and rhythms
+#'  accumulation dates estimate occurrence of archaeological events and rhythms
 #'  of the long term.
 #'
 #'  This method relies on strong archaeological and statistical assumptions.
@@ -221,7 +222,7 @@ setGeneric(
 #'  whether certain type/fabric has a substantial influence on the date
 #'  estimate.
 #'  A six columns \code{\link{data.frame}} is returned, giving the results of
-#'  the resamping procedure (jackknifing fabrics) for each assemblage (in rows)
+#'  the resampling procedure (jackknifing fabrics) for each assemblage (in rows)
 #'  with the following columns:
 #'  \describe{
 #'   \item{id}{An identifier to link each row to an assemblage.}
@@ -237,7 +238,7 @@ setGeneric(
 #'  each of the original assemblage with replacement. Then, examination of the
 #'  bootstrap statistics makes it possible to pinpoint assemblages that require
 #'  further investigation.
-#'  A six columns \code{\link{data.frame}} is returned, giving the boostrap
+#'  A six columns \code{\link{data.frame}} is returned, giving the bootstrap
 #'  distribution statistics for each replicated assemblage (in rows)
 #'  with the following columns:
 #'  \describe{
@@ -354,7 +355,7 @@ setGeneric(
 #'  \code{evenness} returns an evenness measure.
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
 #' @param method A \code{\link{character}} string or vector of strings
-#'  specifiying the index to be computed (see details).
+#'  specifying the index to be computed (see details).
 #'  Any unambiguous substring can be given.
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
@@ -572,7 +573,7 @@ setGeneric(
 #' @param level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
 #' @param roll A \code{\link{logical}} scalar: should each time series be
-#'  subseted to look for episodes of selection?
+#'  subsetted to look for episodes of selection?
 #'  Only used if \code{highlight} is "\code{FIT}" (see details).
 #' @param window An odd \code{\link{integer}} giving the size of the rolling
 #'  window. Only used if \code{roll} is \code{TRUE}.
@@ -593,7 +594,7 @@ setGeneric(
 #'   \item{Tempo plot}{A tempo plot estimates the cumulative occurrence of
 #'   archaeological events, such as the slope of the plot directly reflects the
 #'   pace of change.}
-#'   \item{Activity plot}{An activty plot displays the first derivative of the
+#'   \item{Activity plot}{An activity plot displays the first derivative of the
 #'   tempo plot.}
 #'  }
 #'
@@ -601,7 +602,7 @@ setGeneric(
 #'  Results of the frequency increment test can be displayed on an abundance
 #'  \emph{vs.} time diagram aid in the detection and quantification of selective
 #'  processes in the archaeological record. If \code{roll} is \code{TRUE},
-#'  each time series is subseted according to \code{window} to see if episodes
+#'  each time series is subsetted according to \code{window} to see if episodes
 #'  of selection can be identified among decoration types that might not show
 #'  overall selection. If so, shading highlights the data points where
 #'  \code{\link{test_fit}} identifies selection.
@@ -664,7 +665,7 @@ setGeneric(
 #' @section Bertin Matrix:
 #'  As de Falguerolles \emph{et al.} (1997) points out:
 #'  "In abstract terms, a Bertin matrix is a matrix
-#'  of  displays. [...] To fix ideas, think of a data matrix, variable bycase,
+#'  of  displays. [...] To fix ideas, think of a data matrix, variable by case,
 #'  with real valued variables. For each variable, draw a bar chart of variable
 #'  value by case. High-light all bars representing a value above some sample
 #'  threshold for that variable."
@@ -675,7 +676,7 @@ setGeneric(
 #'  positif au pourcentage moyen", EPPM) represents a deviation from the
 #'  situation of statistical independence. As independence can be interpreted as
 #'  the absence of relationships between types and the chronological order of
-#'  the assemblages, \code{EPPM} is a usefull graphical tool to explore
+#'  the assemblages, \code{EPPM} is a useful graphical tool to explore
 #'  significance of relationship between rows and columns related to
 #'  \code{\link[=seriate]{seriation}} (Desachy 2004).
 #' @return
@@ -727,7 +728,7 @@ setGeneric(
 #' @param PVI A \code{\link{logical}} scalar: should the PVI be drawn instead of
 #'  frequencies (see details)?
 #' @param frequency A \code{\link{logical}} scalar: should relative frequencies
-#'  be drawn? If \code{FALSE}, raw data are ploted.
+#'  be drawn? If \code{FALSE}, raw data are plotted.
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  If \code{PVI} is \code{FALSE}, it plots a heatmap of relative abundances
@@ -736,7 +737,7 @@ setGeneric(
 #'
 #'  \code{PVI} is calculated for each cell as the percentage to the column
 #'  theoretical independence value: \code{PVI} greater than \eqn{1} represent
-#'  positive deviations from the independance, whereas \code{PVI} smaller than
+#'  positive deviations from the independence, whereas \code{PVI} smaller than
 #'  \eqn{1} represent negative deviations (Desachy 2004).
 #'
 #'  The \code{PVI} matrix allows to explore deviations from independence
@@ -838,11 +839,11 @@ setGeneric(
 #'
 #' @description
 #'  \code{richness} returns sample richness.
-#'  \code{rarefaction} returns Hurlbert's unbiaised estimate of Sander's
+#'  \code{rarefaction} returns Hurlbert's unbiased estimate of Sander's
 #'  rarefaction.
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
 #' @param method A \code{\link{character}} string or vector of strings
-#'  specifiying the index to be computed (see details).
+#'  specifying the index to be computed (see details).
 #'  Any unambiguous substring can be given.
 #' @param unbiased A \code{\link{logical}} scalar. Should the bias-corrected
 #'  estimator be used? Only used with "\code{chao1}" or "\code{chao2}"
@@ -968,7 +969,7 @@ setGeneric(
 #'
 #'  \code{get_order} returns the seriation order for rows and columns.
 #'
-#'  \code{refine_seriation} performs a partial bootstrap correspondance analysis
+#'  \code{refine_seriation} performs a partial bootstrap correspondence analysis
 #'  seriation.
 #' @param object An \eqn{m \times p}{m x p} data matrix (typically an object
 #'  of class \linkS4class{CountMatrix} or \linkS4class{IncidenceMatrix}.
@@ -1011,22 +1012,22 @@ setGeneric(
 #'  }
 #'  Theses assumptions create a distributional model and ordering is
 #'  accomplished by arranging the matrix so that the class distributions
-#'  approximate the required pattern. The resulting order is infered
+#'  approximate the required pattern. The resulting order is inferred
 #'  to be chronological.
 #'
 #'  The following seriation methods are available:
 #'  \describe{
-#'   \item{correspondance}{Correspondance analysis-based seriation.
-#'   Correspondance analysis (CA) is an effective method for the seriation of
+#'   \item{correspondence}{Correspondence analysis-based seriation.
+#'   Correspondence analysis (CA) is an effective method for the seriation of
 #'   archaeological assemblages. The order of the rows and columns is given by
 #'   the coordinates along one dimension of the CA space, assumed to account
 #'   for temporal variation. The direction of temporal change within the
-#'   correspondance analysis space is arbitrary: additional information is
+#'   correspondence analysis space is arbitrary: additional information is
 #'   needed to determine the actual order in time.}
-#'   \item{reciprocal}{Reciprocal ranking (incidence data) or averaging
-#'   (frequency data) seriation. These procedures iteratively rearrange rows
-#'   and/or columns according to their weighted rank in the data matrix until
-#'   convergence. Note that this procedure could enter into an infinite loop.
+#'   \item{reciprocal}{Reciprocal ranking seriation. These procedures
+#'   iteratively rearrange rows and/or columns according to their weighted rank
+#'   in the data matrix until convergence.
+#'   Note that this procedure could enter into an infinite loop.
 #'   If no convergence is reached before the maximum number of iterations, it
 #'   stops with a warning.}
 #'  }
@@ -1042,11 +1043,11 @@ setGeneric(
 #'
 #'  According to Peebles and Schachner (2012), "[this] point removal procedure
 #'  [results in] a reduced dataset where the position of individuals within the
-#'  CA are highly stable and which produces an ordering consistend with the
+#'  CA are highly stable and which produces an ordering consistent with the
 #'  assumptions of frequency seriation."
 #'
 #'  If the results of \code{\link{refine}} is used as an input argument in
-#'  \code{seriate}, a correspondance analysis is performed on the subset of
+#'  \code{seriate}, a correspondence analysis is performed on the subset of
 #'  \code{object} which matches the samples to be kept. Then excluded samples
 #'  are projected onto the dimensions of the CA coordinate space using the row
 #'  transition formulae. Finally, row coordinates onto the first dimension
@@ -1101,8 +1102,8 @@ setGeneric(
 #' @rdname seriation
 #' @aliases seriate_rank-method
 setGeneric(
-  name = "seriate_correspondance",
-  def = function(object, subset, ...) standardGeneric("seriate_correspondance")
+  name = "seriate_correspondence",
+  def = function(object, subset, ...) standardGeneric("seriate_correspondence")
 )
 
 #' @rdname seriation
@@ -1137,13 +1138,13 @@ setGeneric(
 #' Similarity
 #'
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
-#' @param method A \code{\link{character}} string specifiying the method to be
+#' @param method A \code{\link{character}} string specifying the method to be
 #'  used (see details). Any unambiguous substring can be given.
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  \eqn{\beta}-diversity can be measured by addressing \emph{similarity}
 #'  between pairs of samples/cases (Brainerd-Robinson, Jaccard, Morisita-Horn
-#'  and Sorenson indices). Similarity bewteen pairs of taxa/types can be
+#'  and Sorenson indices). Similarity between pairs of taxa/types can be
 #'  measured by assessing the degree of co-occurrence (binomial co-occurrence).
 #'
 #'  Jaccard, Morisita-Horn and Sorenson indices provide a scale of similarity
@@ -1164,7 +1165,7 @@ setGeneric(
 #'   \item{sorenson}{Sorenson qualitative index.}
 #'  }
 #' @return
-#'  \code{similarity} returns a symetric matrix of class
+#'  \code{similarity} returns a symmetric matrix of class
 #'  \linkS4class{SimilarityMatrix}.
 #' @references
 #'  Brainerd, G. W. (1951). The Place of Chronological Ordering in
@@ -1210,7 +1211,7 @@ setGeneric(
 #' @details
 #'  The following methods are available:
 #'  \describe{
-#'   \item{\code{test_diversity}}{Compare Shannon diversity bewteen samples.
+#'   \item{\code{test_diversity}}{Compare Shannon diversity between samples.
 #'   This test produces two sided pairwise comparisons: it returns a matrix of
 #'   adjusted \eqn{p} values.}
 #'   \item{\code{test_fit}}{The Frequency Increment Test (Feder et al. 2014).
@@ -1253,16 +1254,16 @@ setGeneric(
 # ===================================================================== Turnover
 #' Turnover
 #'
-#' Returns the degree of turnover in taxa composition along a grandient or
+#' Returns the degree of turnover in taxa composition along a gradient or
 #' transect.
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
-#' @param method A \code{\link{character}} string specifiying the method to be
+#' @param method A \code{\link{character}} string specifying the method to be
 #'  used (see details). Any unambiguous substring can be given.
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix?
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
-#'  The following methods can be used to acertain the degree of \emph{turnover}
+#'  The following methods can be used to ascertain the degree of \emph{turnover}
 #'  in taxa composition along a gradient (\eqn{\beta}-diversity) on qualitative
 #'  (presence/absence) data. This assumes that the order of the matrix rows
 #'  (from 1 to \eqn{n}) follows the progression along the gradient/transect.
@@ -1332,8 +1333,8 @@ setGeneric(
 #'  defined by case/sample be drawn?
 #' @param subset A \linkS4class{BootCA} object giving the subset of
 #'  \code{object} to be used.
-#' @param method A \code{\link{character}} string specifiying the method to be
-#'  used. This must be one of "\code{reciprocal}", "\code{correspondance}".
+#' @param method A \code{\link{character}} string specifying the method to be
+#'  used. This must be one of "\code{reciprocal}", "\code{correspondence}".
 #'  Any unambiguous substring can be given.
 #' @param EPPM A \code{\link{logical}} scalar: should the seriation be computed
 #'  on EPPM instead of raw data?

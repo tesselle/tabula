@@ -23,7 +23,7 @@ turnover(object, ...)
 
 \item{...}{Further arguments to be passed to internal methods.}
 
-\item{method}{A \code{\link{character}} string specifiying the method to be
+\item{method}{A \code{\link{character}} string specifying the method to be
 used (see details). Any unambiguous substring can be given.}
 
 \item{simplify}{A \code{\link{logical}} scalar: should the result be
@@ -34,11 +34,11 @@ If \code{simplify} is \code{FALSE}, returns a list (default), else returns
  a matrix.
 }
 \description{
-Returns the degree of turnover in taxa composition along a grandient or
+Returns the degree of turnover in taxa composition along a gradient or
 transect.
 }
 \details{
-The following methods can be used to acertain the degree of \emph{turnover}
+The following methods can be used to ascertain the degree of \emph{turnover}
  in taxa composition along a gradient (\eqn{\beta}-diversity) on qualitative
  (presence/absence) data. This assumes that the order of the matrix rows
  (from 1 to \eqn{n}) follows the progression along the gradient/transect.

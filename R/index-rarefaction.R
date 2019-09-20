@@ -34,7 +34,7 @@ setMethod(
 # ==============================================================================
 #' Rarefaction index
 #'
-#' \code{rarefactionHurlbert} returns Hurlbert's unbiaised estimate of Sander's
+#' \code{rarefactionHurlbert} returns Hurlbert's unbiased estimate of Sander's
 #' rarefaction.
 #' @param n A \code{\link{numeric}} vector giving the number of individuals for
 #'  each type.
@@ -51,6 +51,7 @@ setMethod(
 #' @family diversity measures
 #' @name index-rarefaction
 #' @keywords internal
+#' @noRd
 rarefactionHurlbert <- function(x, sample) {
   # Validation
   check_type(x, expected = "numeric")

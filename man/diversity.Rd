@@ -26,7 +26,7 @@ evenness(object, ...)
 \item{...}{Further arguments to be passed to internal methods.}
 
 \item{method}{A \code{\link{character}} string or vector of strings
-specifiying the index to be computed (see details).
+specifying the index to be computed (see details).
 Any unambiguous substring can be given.}
 
 \item{simplify}{A \code{\link{logical}} scalar: should the result be

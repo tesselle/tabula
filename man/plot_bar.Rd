@@ -49,7 +49,7 @@ Plots a Bertin, Ford (battleship curve) or Dice-Leraas diagram.
 
  As de Falguerolles \emph{et al.} (1997) points out:
  "In abstract terms, a Bertin matrix is a matrix
- of  displays. [...] To fix ideas, think of a data matrix, variable bycase,
+ of  displays. [...] To fix ideas, think of a data matrix, variable by case,
  with real valued variables. For each variable, draw a bar chart of variable
  value by case. High-light all bars representing a value above some sample
  threshold for that variable."
@@ -63,7 +63,7 @@ Plots a Bertin, Ford (battleship curve) or Dice-Leraas diagram.
  positif au pourcentage moyen", EPPM) represents a deviation from the
  situation of statistical independence. As independence can be interpreted as
  the absence of relationships between types and the chronological order of
- the assemblages, \code{EPPM} is a usefull graphical tool to explore
+ the assemblages, \code{EPPM} is a useful graphical tool to explore
  significance of relationship between rows and columns related to
  \code{\link[=seriate]{seriation}} (Desachy 2004).
 }

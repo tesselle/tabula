@@ -115,14 +115,14 @@ plot_date(zuni_count, select = 1:15, sort = "asc") +
 ## Definition
 Event and accumulation dates are density estimates of the occupation and duration of an archaeological site [@bellanger2006; @bellanger2008; @bellanger2012].
 
-The event date is an estimation of the *terminus post-quem* of an archaeological assemblage. The accumulation date represents the "chronological profile" of the assemblage. According to @bellanger2012, accumulation date can be interpreted "at best [...] as a formation process reflecting the duration or succession of events on the scale of archaeological time, and at worst, as imprecise dating due to contamination of the context by residual or intrusive material." In other words, accumulation dates estimate occurence of archaeological events and rhythms of the long term.
+The event date is an estimation of the *terminus post-quem* of an archaeological assemblage. The accumulation date represents the "chronological profile" of the assemblage. According to @bellanger2012, accumulation date can be interpreted "at best [...] as a formation process reflecting the duration or succession of events on the scale of archaeological time, and at worst, as imprecise dating due to contamination of the context by residual or intrusive material." In other words, accumulation dates estimate occurrence of archaeological events and rhythms of the long term.
 
 ### Event Date
 Event dates are estimated by fitting a Gaussian multiple linear regression model on the factors resulting from a correspondence analysis - somewhat similar to the idea introduced by @poblome2003. This model results from the known dates of a selection of reliable contexts and allows to predict the event dates of the remaining assemblages.
 
 First, a correspondence analysis (CA) is carried out to summarize the information in the count matrix $X$. The correspondence analysis of $X$ provides the coordinates of the $m$ rows along the $q$ factorial components, denoted $f_{ik} ~\forall i \in \left[ 1,m \right], k \in \left[ 1,q \right]$.
 
-Then, assuming that $n$ assemblages are reliably dated by another source, a Gaussian multiple linear regression model is fitted on the factorial components for the $n$ dated asemblages:
+Then, assuming that $n$ assemblages are reliably dated by another source, a Gaussian multiple linear regression model is fitted on the factorial components for the $n$ dated assemblages:
 
 $$
 t^E_i = \beta_{0} + \sum_{k = 1}^{q} \beta_{k} f_{ik} + \epsilon_i ~\forall i \in [1,n]
@@ -173,7 +173,7 @@ $$
 
 were $\widehat{\sigma} = \frac{\sum_{i=1}^{n} \left( t_i - \widehat{t^E_i} \right)^2}{n - q - 1}$.
 
-The probability densitiy of an event date $t^E_i$ can be described as a normal distribution:
+The probability density of an event date $t^E_i$ can be described as a normal distribution:
 
 $$
 t^E_i \sim \mathcal{N}(\widehat{t^E_i},\widehat{V_i})
@@ -182,20 +182,20 @@ $$
 ### Accumulation Date
 As row (assemblages) and columns (types) CA coordinates are linked together through the so-called transition formulae, event dates for each type $t^E_j$ can be predicted following the same procedure as above.
 
-Then, the accumulation date $t^A_i$ is defined as the weighted mean of the event date of the ceramic types found in a given assemblage. The weights are the conditionnal frequencies of the respective types in the assemblage (akin to the MCD).
+Then, the accumulation date $t^A_i$ is defined as the weighted mean of the event date of the ceramic types found in a given assemblage. The weights are the conditional frequencies of the respective types in the assemblage (akin to the MCD).
 
 The accumulation date is estimated as:
 $$ 
 \widehat{t^A_i} = \sum_{j = 1}^{p} \widehat{t^E_j} \times \frac{x_{ij}}{x_{i \cdot}}
 $$
 
-The probability densitiy of an accumulation date $t^A_i$ can be described as a Gaussian mixture: 
+The probability density of an accumulation date $t^A_i$ can be described as a Gaussian mixture: 
 
 $$
 t^A_i \sim \frac{x_{ij}}{x_{i \cdot}} \mathcal{N}(\widehat{t^E_j},\widehat{V_j}^2)
 $$
 
-Interestingly, the integral of the accumulation date offers an estimates of the cumulative occurrence of archaeological events, which is close enought to the definition of the *tempo plot* introduced by @dye2016.
+Interestingly, the integral of the accumulation date offers an estimates of the cumulative occurrence of archaeological events, which is close enough to the definition of the *tempo plot* introduced by @dye2016.
 
 ## Limitation
 Event and accumulation dates estimation relies on the same conditions and assumptions as the matrix seriation problem. @dunnell1970 summarizes these conditions and assumptions as follows.
@@ -211,7 +211,7 @@ The mathematical assumptions state that the distribution of any historical or te
 * Is continuous through time.
 * Exhibits the form of a unimodal curve.
 
-Theses assumptions create a distributional model and ordering is accomplished by arranging the matrix so that the class distributions approximate the required pattern. The resulting order is infered to be chronological.
+Theses assumptions create a distributional model and ordering is accomplished by arranging the matrix so that the class distributions approximate the required pattern. The resulting order is inferred to be chronological.
 
 Predicted dates have to be interpreted with care: these dates are highly dependent on the range of the known dates and the fit of the regression.
 

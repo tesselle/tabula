@@ -47,7 +47,7 @@ The mathematical assumptions state that the distribution of any historical or te
 * Is continuous through time,
 * Exhibits the form of a unimodal curve.
 
-Theses assumptions create a distributional model and ordering is accomplished by arranging the matrix so that the class distributions approximate the required pattern. The resulting order is *infered* to be chronological.
+Theses assumptions create a distributional model and ordering is accomplished by arranging the matrix so that the class distributions approximate the required pattern. The resulting order is *inferred* to be chronological.
 
 # Reciprocal ranking
 
@@ -89,9 +89,7 @@ plot_heatmap(incidence2) +
   ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
 ```
 
-# Reciprocal averaging
-
-The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence [@desachy2004]. As independence can be interpreted as the absence of relationships between types and the chronological order of the assemblages, EPPM is a usefull graphical tool to explore significance of relationship between rows and columns related to seriation [@desachy2004].
+The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence [@desachy2004]. As independence can be interpreted as the absence of relationships between types and the chronological order of the assemblages, EPPM is a useful graphical tool to explore significance of relationship between rows and columns related to seriation [@desachy2004].
 
 ```{r averaging, fig.width=7, fig.height=3.5, fig.show='hold'}
 ## Replicates Desachy 2004 results
@@ -117,16 +115,16 @@ plot_ford(compiegne_seriation, EPPM = TRUE) +
   khroma::scale_fill_bright()
 ```
 
-# Correspondance analysis
+# correspondence analysis
 ## Seriation
 
-Correspondance Analysis (CA) is an effective method for the seriation of archaeological assemblages. The order of the rows and columns is given by the coordinates along one dimension of the CA space, assumed to account for temporal variation. The direction of temporal change within the correspondance analysis space is arbitrary: additional information is needed to determine the actual order in time.
+correspondence Analysis (CA) is an effective method for the seriation of archaeological assemblages. The order of the rows and columns is given by the coordinates along one dimension of the CA space, assumed to account for temporal variation. The direction of temporal change within the correspondence analysis space is arbitrary: additional information is needed to determine the actual order in time.
 
 ```{r ca}
 ## Coerce dataset to an abundance matrix
 zuni_counts <- as_count(zuni)
 
-## Correspondance analysis of the whole dataset
+## correspondence analysis of the whole dataset
 corresp <- ca::ca(zuni_counts)
 coords <- ca::cacoord(corresp, type = "principal")
 
@@ -143,7 +141,7 @@ ggplot2::ggplot(mapping = ggplot2::aes(x = Dim1, y = Dim2)) +
 ```{r ca-seriation, fig.width=7, fig.height=7}
 ## Get row permutations from CA coordinates
 zuni_indices <- zuni_counts %>%
-  seriate_correspondance(margin = 1)
+  seriate_correspondence(margin = 1)
 
 ## Permute data matrix
 zuni_seriation <- permute(zuni_counts, zuni_indices)
@@ -210,11 +208,11 @@ ggplot2::ggplot(data = hull_length, mapping = ggplot2::aes(x = length)) +
   ggplot2::theme_bw()
 ```
 
-If the results of `refine_seriation` is used as an input argument in `seriate`, a correspondance analysis is performed on the subset of `object` which matches the samples to be kept. Then excluded samples are projected onto the dimensions of the CA coordinate space using the row transition formulae. Finally, row coordinates onto the first dimension give the seriation order.
+If the results of `refine_seriation` is used as an input argument in `seriate`, a correspondence analysis is performed on the subset of `object` which matches the samples to be kept. Then excluded samples are projected onto the dimensions of the CA coordinate space using the row transition formulae. Finally, row coordinates onto the first dimension give the seriation order.
 
 ```{r refine-ca}
 ## Get CA-based seriation order
-(zuni_refined <- seriate_correspondance(zuni_counts, zuni_keep, margin = 1))
+(zuni_refined <- seriate_correspondence(zuni_counts, zuni_keep, margin = 1))
 ```
 
 # References

@@ -3,7 +3,7 @@
 \docType{data}
 \name{compiegne}
 \alias{compiegne}
-\title{Compiegne ceramics}
+\title{Compiègne ceramics}
 \format{A numeric matrix with 5 rows (chronological periods, numbered from
  the oldest to the most recent from 1 to 5) and 16 variables (ceramic types):
  \describe{

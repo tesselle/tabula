@@ -33,7 +33,7 @@ An easy way to examine archaeological count data. This package
 }
 \note{
 This work received a state financial support managed by the Agence Nationale
-de la Recherche (France) throught the program \emph{Investissements d'avenir}
+de la Recherche (France) through the program \emph{Investissements d'avenir}
 (ref. ANR-10-LABX-52).
 }
 \seealso{

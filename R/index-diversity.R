@@ -101,10 +101,10 @@ setMethod(
 #' @family diversity index
 #' @name index-heterogeneity
 #' @keywords internal
-NULL
+#' @noRd
 
 # Berger-Parker ----------------------------------------------------------------
-#' @rdname index-heterogeneity
+# @rdname index-heterogeneity
 dominanceBerger <- function(x, ...) {
   # Validation
   check_type(x, expected = "numeric")
@@ -118,7 +118,7 @@ dominanceBerger <- function(x, ...) {
 }
 
 # Brillouin --------------------------------------------------------------------
-#' @rdname index-heterogeneity
+# @rdname index-heterogeneity
 diversityBrillouin <- function(x, ...) {
   # Validation
   check_type(x, expected = "numeric")
@@ -129,7 +129,7 @@ diversityBrillouin <- function(x, ...) {
   HB <- (lfactorial(N) - sum(lfactorial(x))) / N
   HB
 }
-#' @rdname index-heterogeneity
+# @rdname index-heterogeneity
 evennessBrillouin <- function(x, ...) {
   # Validation
   check_type(x, expected = "numeric")
@@ -148,7 +148,7 @@ evennessBrillouin <- function(x, ...) {
 }
 
 # McIntosh ---------------------------------------------------------------------
-#' @rdname index-heterogeneity
+# @rdname index-heterogeneity
 dominanceMcintosh <- function(x, ...) {
   # Validation
   check_type(x, expected = "numeric")
@@ -160,7 +160,7 @@ dominanceMcintosh <- function(x, ...) {
   D <- (N - U) / (N - sqrt(N))
   D
 }
-#' @rdname index-heterogeneity
+# @rdname index-heterogeneity
 evennessMcintosh <- function(x, ...) {
   # Validation
   check_type(x, expected = "numeric")
@@ -175,7 +175,7 @@ evennessMcintosh <- function(x, ...) {
 }
 
 # Shannon ----------------------------------------------------------------------
-#' @rdname index-heterogeneity
+# @rdname index-heterogeneity
 diversityShannon <- function(x, base = exp(1), ...) {
   # Validation
   check_type(x, expected = "numeric")
@@ -191,7 +191,7 @@ diversityShannon <- function(x, base = exp(1), ...) {
   #   (sum(p^-1 - p^-2)) / (12 * N^3)
   H
 }
-#' @rdname index-heterogeneity
+# @rdname index-heterogeneity
 evennessShannon <- function(x, ...) {
   # Validation
   check_type(x, expected = "numeric")
@@ -201,7 +201,7 @@ evennessShannon <- function(x, ...) {
   E <- diversityShannon(x, base = length(x))
   E
 }
-#' @rdname index-heterogeneity
+# @rdname index-heterogeneity
 varianceShannon <- function(x, ...) {
   # Validation
   check_type(x, expected = "numeric")
@@ -218,7 +218,7 @@ varianceShannon <- function(x, ...) {
 }
 
 # Simpson ----------------------------------------------------------------------
-#' @rdname index-heterogeneity
+# @rdname index-heterogeneity
 dominanceSimpson <- function(x, ...) {
   # Validation
   check_type(x, expected = "numeric")
@@ -229,7 +229,7 @@ dominanceSimpson <- function(x, ...) {
   D <- sum(x * (x - 1)) / (N* (N - 1)) # For discrete data
   D
 }
-#' @rdname index-heterogeneity
+# @rdname index-heterogeneity
 evennessSimpson <- function(x, ...) {
   # Validation
   check_type(x, expected = "numeric")

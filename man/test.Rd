@@ -40,7 +40,7 @@ Tests on Abundance Data
 \details{
 The following methods are available:
  \describe{
-  \item{\code{test_diversity}}{Compare Shannon diversity bewteen samples.
+  \item{\code{test_diversity}}{Compare Shannon diversity between samples.
   This test produces two sided pairwise comparisons: it returns a matrix of
   adjusted \eqn{p} values.}
   \item{\code{test_fit}}{The Frequency Increment Test (Feder et al. 2014).

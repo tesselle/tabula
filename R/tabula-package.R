@@ -30,7 +30,7 @@
 #' France
 #' @note
 #' This work received a state financial support managed by the Agence Nationale
-#' de la Recherche (France) throught the program \emph{Investissements d'avenir}
+#' de la Recherche (France) through the program \emph{Investissements d'avenir}
 #' (ref. ANR-10-LABX-52).
 #' @name tabula-package
 #' @aliases tabula

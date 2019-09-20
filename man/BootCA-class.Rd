@@ -6,7 +6,7 @@
 \alias{.BootCA}
 \title{Partial bootstrap CA}
 \description{
-An S4 class to store partial bootstrap correspondance analysis results.
+An S4 class to store partial bootstrap correspondence analysis results.
 }
 \section{Slots}{
 

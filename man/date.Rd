@@ -71,7 +71,7 @@ variance used to select CA factorial components for linear model fitting
 (see details). All compounds with a cumulative percentage of variance of
 less than the \code{cutoff} value will be retained.}
 
-\item{method}{A \code{\link{character}} string specifiying the resampling
+\item{method}{A \code{\link{character}} string specifying the resampling
 method to be used. This must be one of "\code{jackknife}",
 "\code{bootstrap}" (see details). Any unambiguous substring can be given.}
 }
@@ -94,7 +94,8 @@ method to be used. This must be one of "\code{jackknife}",
 \code{date_mcd} estimates the Mean Ceramic Date of an assemblage.
 }
 \details{
-\code{date_event} estimates the event and accumation dates of an assemblage.
+\code{date_event} estimates the event and accumulation dates of an
+assemblage.
 
 \code{refine_dates} checks the stability of a date model with resampling
 methods.
@@ -144,7 +145,7 @@ Bellanger \emph{et al.} did not publish the data supporting their
  given MCD. For each assemblage, a large number of new bootstrap replicates
  is created, with the same sample size, by resampling the original
  assemblage with replacement. MCDs are calculated for each replicates and
- upper and lower boudaries of the confidence interval associated with each
+ upper and lower boundaries of the confidence interval associated with each
  MCD are then returned. Confidence interval are not estimated for assemblages
  with only a single type (\code{NA}s are returned).
 }
@@ -163,7 +164,7 @@ Bellanger \emph{et al.} did not publish the data supporting their
  process reflecting the duration or succession of events on the scale of
  archaeological time, and at worst, as imprecise dating due to contamination
  of the context by residual or intrusive material." In other words,
- accumulation dates estimate occurence of archaeological events and rhythms
+ accumulation dates estimate occurrence of archaeological events and rhythms
  of the long term.
 
  This method relies on strong archaeological and statistical assumptions.
@@ -181,7 +182,7 @@ Bellanger \emph{et al.} did not publish the data supporting their
  whether certain type/fabric has a substantial influence on the date
  estimate.
  A six columns \code{\link{data.frame}} is returned, giving the results of
- the resamping procedure (jackknifing fabrics) for each assemblage (in rows)
+ the resampling procedure (jackknifing fabrics) for each assemblage (in rows)
  with the following columns:
  \describe{
   \item{id}{An identifier to link each row to an assemblage.}
@@ -197,7 +198,7 @@ Bellanger \emph{et al.} did not publish the data supporting their
  each of the original assemblage with replacement. Then, examination of the
  bootstrap statistics makes it possible to pinpoint assemblages that require
  further investigation.
- A six columns \code{\link{data.frame}} is returned, giving the boostrap
+ A six columns \code{\link{data.frame}} is returned, giving the bootstrap
  distribution statistics for each replicated assemblage (in rows)
  with the following columns:
  \describe{

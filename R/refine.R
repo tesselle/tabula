@@ -74,7 +74,7 @@ boot_hull <- function(x, margin = 1, n = 1000, axes = c(1, 2), ...) {
   axes <- as.integer(axes)
 
   # CA on the whole dataset
-  ## Compute correspondance analysis
+  ## Compute correspondence analysis
   results_CA <- ca::ca(x, ...)
   ## Get standard coordinates
   std <- ca::cacoord(results_CA, type = "standard")
@@ -189,7 +189,7 @@ boot_date <- function(x, model, margin = 1, n = 1000, keep = ncol(x),
 
   # CA on the whole dataset
   axes <- min(dim(x))
-  ## Compute correspondance analysis
+  ## Compute correspondence analysis
   results_CA <- ca::ca(x, nd = axes, ...)
   ## Get standard coordinates
   std <- ca::cacoord(results_CA, type = "standard")

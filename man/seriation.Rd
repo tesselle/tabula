@@ -6,7 +6,7 @@
 \alias{seriation}
 \alias{seriate_reciprocal}
 \alias{seriate_reciprocal-method}
-\alias{seriate_correspondance}
+\alias{seriate_correspondence}
 \alias{seriate_rank-method}
 \alias{seriate_idds}
 \alias{seriate_idds-method}
@@ -20,17 +20,17 @@
 \alias{refine_seriation,CountMatrix-method}
 \alias{seriate_reciprocal,CountMatrix-method}
 \alias{seriate_reciprocal,IncidenceMatrix-method}
-\alias{seriate_correspondance,CountMatrix,missing-method}
-\alias{seriate_correspondance,IncidenceMatrix,missing-method}
-\alias{seriate_correspondance,IncidenceMatrix-method}
-\alias{seriate_correspondance,CountMatrix,BootCA-method}
+\alias{seriate_correspondence,CountMatrix,missing-method}
+\alias{seriate_correspondence,IncidenceMatrix,missing-method}
+\alias{seriate_correspondence,IncidenceMatrix-method}
+\alias{seriate_correspondence,CountMatrix,BootCA-method}
 \alias{permute,CountMatrix,PermutationOrder-method}
 \alias{permute,IncidenceMatrix,PermutationOrder-method}
 \title{Matrix Seriation}
 \usage{
 seriate_reciprocal(object, ...)
 
-seriate_correspondance(object, subset, ...)
+seriate_correspondence(object, subset, ...)
 
 seriate_idds(object, ...)
 
@@ -51,13 +51,13 @@ get_order(object)
 \S4method{seriate_reciprocal}{IncidenceMatrix}(object, margin = c(1, 2),
   stop = 100)
 
-\S4method{seriate_correspondance}{CountMatrix,missing}(object,
+\S4method{seriate_correspondence}{CountMatrix,missing}(object,
   margin = c(1, 2), ...)
 
-\S4method{seriate_correspondance}{IncidenceMatrix,missing}(object,
+\S4method{seriate_correspondence}{IncidenceMatrix,missing}(object,
   margin = c(1, 2), ...)
 
-\S4method{seriate_correspondance}{CountMatrix,BootCA}(object, subset,
+\S4method{seriate_correspondence}{CountMatrix,BootCA}(object, subset,
   margin = c(1, 2), ...)
 
 \S4method{permute}{CountMatrix,PermutationOrder}(object, order)
@@ -111,7 +111,7 @@ indicates columns, \code{c(1, 2)} indicates rows then columns,
 
  \code{get_order} returns the seriation order for rows and columns.
 
- \code{refine_seriation} performs a partial bootstrap correspondance analysis
+ \code{refine_seriation} performs a partial bootstrap correspondence analysis
  seriation.
 }
 \note{
@@ -141,22 +141,22 @@ Refining method can lead to much longer execution times and larger output
  }
  Theses assumptions create a distributional model and ordering is
  accomplished by arranging the matrix so that the class distributions
- approximate the required pattern. The resulting order is infered
+ approximate the required pattern. The resulting order is inferred
  to be chronological.
 
  The following seriation methods are available:
  \describe{
-  \item{correspondance}{Correspondance analysis-based seriation.
-  Correspondance analysis (CA) is an effective method for the seriation of
+  \item{correspondence}{Correspondence analysis-based seriation.
+  Correspondence analysis (CA) is an effective method for the seriation of
   archaeological assemblages. The order of the rows and columns is given by
   the coordinates along one dimension of the CA space, assumed to account
   for temporal variation. The direction of temporal change within the
-  correspondance analysis space is arbitrary: additional information is
+  correspondence analysis space is arbitrary: additional information is
   needed to determine the actual order in time.}
-  \item{reciprocal}{Reciprocal ranking (incidence data) or averaging
-  (frequency data) seriation. These procedures iteratively rearrange rows
-  and/or columns according to their weighted rank in the data matrix until
-  convergence. Note that this procedure could enter into an infinite loop.
+  \item{reciprocal}{Reciprocal ranking seriation. These procedures
+  iteratively rearrange rows and/or columns according to their weighted rank
+  in the data matrix until convergence.
+  Note that this procedure could enter into an infinite loop.
   If no convergence is reached before the maximum number of iterations, it
   stops with a warning.}
  }
@@ -175,11 +175,11 @@ Refining method can lead to much longer execution times and larger output
 
  According to Peebles and Schachner (2012), "[this] point removal procedure
  [results in] a reduced dataset where the position of individuals within the
- CA are highly stable and which produces an ordering consistend with the
+ CA are highly stable and which produces an ordering consistent with the
  assumptions of frequency seriation."
 
  If the results of \code{\link{refine}} is used as an input argument in
- \code{seriate}, a correspondance analysis is performed on the subset of
+ \code{seriate}, a correspondence analysis is performed on the subset of
  \code{object} which matches the samples to be kept. Then excluded samples
  are projected onto the dimensions of the CA coordinate space using the row
  transition formulae. Finally, row coordinates onto the first dimension

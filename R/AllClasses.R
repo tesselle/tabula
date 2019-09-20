@@ -73,7 +73,7 @@ NULL
 ## -----------------------------------------------------------------------------
 #' Partial bootstrap CA
 #'
-#' An S4 class to store partial bootstrap correspondance analysis results.
+#' An S4 class to store partial bootstrap correspondence analysis results.
 #' @slot id A \code{\link{character}} string specifying the unique
 #'  identifier of the corresponding matrix (UUID v4).
 #' @slot rows A list of length three giving the vertices coordinates
@@ -171,7 +171,7 @@ NULL
 ## -----------------------------------------------------------------------------
 #' Space and Time
 #'
-#' An S4 class to reprensent space-time informations.
+#' An S4 class to represent space-time informations.
 #' @slot dates A two column \code{\link{numeric}} matrix giving
 #'  the date \code{value} and \code{error}, respectively.
 #' @slot coordinates A three columns \code{\link{numeric}} matrix
@@ -364,7 +364,7 @@ NULL
 #'
 #' An S4 class to represent a co-occurrence matrix.
 #' @details
-#'  A co-occurrence matrix is a symetric matrix with zeros on its main diagonal,
+#'  A co-occurrence matrix is a symmetric matrix with zeros on its main diagonal,
 #'  which works out how many times (expressed in percent) each pairs of
 #'  taxa/types occur together in at least one sample.
 #' @inheritSection Matrix-class Matrix ID

@@ -75,7 +75,7 @@ matrix.
   - Logical matrix:
       - `IncidenceMatrix` represents presence/absence data.
   - Other numeric matrix:
-      - `OccurrenceMatrix` represents a co-occurence matrix.
+      - `OccurrenceMatrix` represents a co-occurrence matrix.
       - `SimilarityMatrix` represents a (dis)similarity matrix.
 
 *It assumes that you keep your data tidy*: each variable (type/taxa)
@@ -122,13 +122,13 @@ D <- as_occurrence(A1)
 ```
 
 Several types of graphs are available in `tabula` which uses `ggplot2`
-for plotting informations. This makes it easy to customize diagramms
+for plotting informations. This makes it easy to customize diagrams
 (e.g. using themes and scales).
 
 Spot matrix\[1\] allows direct examination of data:
 
 ``` r
-# Plot co-occurence of types
+# Plot co-occurrence of types
 # (i.e. how many times (percent) each pairs of taxa occur together 
 # in at least one sample.)
 mississippi %>%
@@ -141,7 +141,7 @@ mississippi %>%
 
 <img src="man/figures/README-plot-occ-1.png" style="display: block; margin: auto;" />
 
-Bertin or Ford (battleship curve) diagramms can be plotted, with
+Bertin or Ford (battleship curve) diagrams can be plotted, with
 statistic threshold (including B. Desachy’s
 [sériographe](https://doi.org/10.3406/pica.2004.2396)).
 
@@ -174,7 +174,7 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate_reciprocal(incidence, margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Matrix ID: e4191b56-813e-49b1-b989-6c7520fa71a7 
+#>    Matrix ID: 647a4ee7-2f20-4632-98e9-fb006408c011 
 #>    Row order: 1 4 20 3 9 16 19 10 13 2 11 7 17 5 6 18 14 15 8 12 
 #>    Column order: 1 16 9 4 8 14 3 20 13 2 6 18 7 17 5 11 19 12 15 10 
 #>    Method: reciprocal
@@ -201,7 +201,7 @@ This package provides an implementation of the chronological modeling
 method developed by Bellanger and Husi
 ([2012](https://doi.org/10.1016/j.jas.2011.06.031)). This method is
 slightly modified here and allows the construction of different
-probability density curves of archaeological assembalge dates (*event*,
+probability density curves of archaeological assemblage dates (*event*,
 *activity* and *tempo*). Note that this implementation is experimental
 (see `help(date_event)`).
 
@@ -233,7 +233,7 @@ plot_date(model, type = "tempo", select = "LZ1105") +
 ### Analysis
 
 *Diversity* can be measured according to several indices (sometimes
-refered to as indices of *heterogeneity*):
+referred to as indices of *heterogeneity*):
 
 ``` r
 mississippi %>%
@@ -268,10 +268,10 @@ Corresponding *evenness* (i.e. a measure of how evenly individuals are
 distributed across the sample) can also be computed, as well as
 *richness* and *rarefaction*.
 
-Several methods can be used to acertain the degree of *turnover* in taxa
-composition along a gradient on qualitative (presence/absence) data. It
-assumes that the order of the matrix rows (from *1* to *n*) follows the
-progression along the gradient/transect.
+Several methods can be used to ascertain the degree of *turnover* in
+taxa composition along a gradient on qualitative (presence/absence)
+data. It assumes that the order of the matrix rows (from *1* to *n*)
+follows the progression along the gradient/transect.
 
 Diversity can also be measured by addressing *similarity* between pairs
 of sites:

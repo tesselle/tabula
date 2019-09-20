@@ -95,7 +95,7 @@ setMethod(
 #' Sorenson index.
 #' \code{similarityMorisita} returns Morisita-Horn quantitative index.
 #' \code{similarityBrainerd} returns Brainerd-Robinson quantitative index.
-#' \code{similarityBinomial} retunrs binomial co-occurrence of types assessment.
+#' \code{similarityBinomial} returns binomial co-occurrence of types assessment.
 #' @param x A length-p \code{\link{numeric}} vector.
 #' @param y A length-p \code{\link{numeric}} vector.
 #' @return A length-one \code{\link{numeric}} vector.
@@ -103,10 +103,10 @@ setMethod(
 #' @family diversity measures
 #' @name index-similarity
 #' @keywords internal
-NULL
+#' @noRd
 
 # Qualitative index ------------------------------------------------------------
-#' @rdname index-similarity
+# @rdname index-similarity
 similarityJaccard <- function(x, y) {
   # Validation
   if (length(x) != length(y))
@@ -122,7 +122,7 @@ similarityJaccard <- function(x, y) {
   return(Cj)
 }
 
-#' @rdname index-similarity
+# @rdname index-similarity
 similaritySorenson <- function(x, y) {
   # Validation
   if (length(x) != length(y))
@@ -139,7 +139,7 @@ similaritySorenson <- function(x, y) {
 }
 
 # Quantitative index -----------------------------------------------------------
-#' @rdname index-similarity
+# @rdname index-similarity
 similarityBray <- function(x, y) {
   # Validation
   check_type(x, expected = "numeric")
@@ -155,7 +155,7 @@ similarityBray <- function(x, y) {
   return(Cs)
 }
 
-#' @rdname index-similarity
+# @rdname index-similarity
 similarityMorisita <- function(x, y) {
   # Validation
   check_type(x, expected = "numeric")
@@ -172,7 +172,7 @@ similarityMorisita <- function(x, y) {
   return(Cm)
 }
 
-#' @rdname index-similarity
+# @rdname index-similarity
 similarityBrainerd <- function(x, y) {
   # Validation
   check_type(x, expected = "numeric")
@@ -187,7 +187,7 @@ similarityBrainerd <- function(x, y) {
 }
 
 # Binomial co-occurrence -------------------------------------------------------
-#' @rdname index-similarity
+# @rdname index-similarity
 similarityBinomial <- function(x, y) {
   # Validation
   check_type(x, expected = "numeric")

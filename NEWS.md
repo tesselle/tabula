@@ -84,7 +84,7 @@
 ### New classes and methods
 
   - The function `dateEvent()` allows to compute chronological models as
-    described in Belanger and Husi (2006).
+    described in Bellanger and Husi (2006).
   - `DateModel` this S4 class stores the results of `dateEvent()`.
   - `SimilarityMatrix` this S4 class represents a (dis)similarity
     matrix.

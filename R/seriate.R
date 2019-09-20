@@ -31,34 +31,34 @@ setMethod(
 ## CA seriation ----------------------------------------------------------------
 #' @export
 #' @rdname seriation
-#' @aliases seriate_correspondance,CountMatrix,missing-method
+#' @aliases seriate_correspondence,CountMatrix,missing-method
 setMethod(
-  f = "seriate_correspondance",
+  f = "seriate_correspondence",
   signature = signature(object = "CountMatrix", subset = "missing"),
   definition = function(object, margin = c(1, 2), ...) {
 
-    seriation(object, method = "correspondance", margin = margin, ...)
+    seriation(object, method = "correspondence", margin = margin, ...)
   }
 )
 
 #' @export
 #' @rdname seriation
-#' @aliases seriate_correspondance,IncidenceMatrix-method
+#' @aliases seriate_correspondence,IncidenceMatrix-method
 setMethod(
-  f = "seriate_correspondance",
+  f = "seriate_correspondence",
   signature = signature(object = "IncidenceMatrix", subset = "missing"),
   definition = function(object, margin = c(1, 2), ...) {
 
-    seriation(object, method = "correspondance", margin = margin, ...)
+    seriation(object, method = "correspondence", margin = margin, ...)
   }
 )
 
 ## CA refined seriation --------------------------------------------------------
 #' @export
 #' @rdname seriation
-#' @aliases seriate_correspondance,CountMatrix,BootCA-method
+#' @aliases seriate_correspondence,CountMatrix,BootCA-method
 setMethod(
-  f = "seriate_correspondance",
+  f = "seriate_correspondence",
   signature = signature(object = "CountMatrix", subset = "BootCA"),
   definition = function(object, subset, margin = c(1, 2), ...) {
     # Validation
@@ -70,7 +70,7 @@ setMethod(
     i <- seq_len(m)
     j <- seq_len(p)
 
-    # Correspondance analysis
+    # correspondence analysis
     index_rows <- subset[["keep"]][[1]]
     index_columns <- subset[["keep"]][[2]]
 
@@ -82,7 +82,7 @@ setMethod(
       supp_columns <- j[-index_columns]
     }
 
-    # Correspondance analysis
+    # correspondence analysis
     corresp <- ca::ca(object, suprow = supp_rows, supcol = supp_columns, ...)
     # Sequence of the first axis as best seriation order
     coords <- ca::cacoord(corresp, type = "principal")
@@ -94,7 +94,7 @@ setMethod(
       id = object[["id"]],
       rows = row_coords,
       columns = col_coords,
-      method = "refined correspondance"
+      method = "refined correspondence"
     )
   }
 )

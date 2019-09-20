@@ -1,7 +1,7 @@
 # SERIATION METHODS
 
 # Seriation methods
-seriation <- function(object, method = c("correspondance", "reciprocal"),
+seriation <- function(object, method = c("correspondence", "reciprocal"),
                       EPPM = FALSE, ...) {
   # Validation
   method <- match.arg(method, several.ok = FALSE)
@@ -10,7 +10,7 @@ seriation <- function(object, method = c("correspondance", "reciprocal"),
   index <- switch(
     method,
     reciprocal = seriationReciprocal(data, ...),
-    correspondance = seriationCorrespondance(data, ...),
+    correspondence = seriationCorrespondence(data, ...),
     stop(sprintf("There is no such method: %s.", method), call. = FALSE)
   )
 
@@ -26,8 +26,8 @@ seriation <- function(object, method = c("correspondance", "reciprocal"),
 # ==============================================================================
 #' Probabilistic seriation methods
 #'
-#' \code{seriationReciprocal} computes reciprocal ranking/averaging.
-#' \code{seriationCorrespondance} computes CA-based seriation.
+#' \code{seriationReciprocal} computes reciprocal ranking.
+#' \code{seriationCorrespondence} computes CA-based seriation.
 #' @param x A \code{\link{numeric}} matrix.
 #' @param stop A length-one \code{\link{numeric}} vector giving the stopping rule
 #'  (i.e. maximum number of iterations) to avoid infinite loop.
@@ -85,7 +85,7 @@ seriationReciprocal <- function(x, margin = 1, stop = 100) {
   index
 }
 
-seriationCorrespondance <- function(x, margin, axes = 1,
+seriationCorrespondence <- function(x, margin, axes = 1,
                                     verbose = getOption("verbose"), ...) {
   # Validation
   margin <- as.integer(margin)
@@ -109,7 +109,7 @@ seriationCorrespondance <- function(x, margin, axes = 1,
   # Original sequences
   i <- seq_len(nrow(x_clean))
   j <- seq_len(ncol(x_clean))
-  # Correspondance analysis
+  # Correspondence analysis
   corresp <- ca::ca(x_clean, ...)
   # Sequence of the first axis as best seriation order
   coords <- ca::cacoord(corresp, type = "principal")
