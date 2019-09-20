@@ -125,7 +125,7 @@ Several types of graphs are available in `tabula` which uses `ggplot2`
 for plotting informations. This makes it easy to customize diagramms
 (e.g. using themes and scales).
 
-Spot matrix \[1\] allows direct examination of data:
+Spot matrix\[1\] allows direct examination of data:
 
 ``` r
 # Plot co-occurence of types
@@ -174,7 +174,7 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate_reciprocal(incidence, margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Matrix ID: c274c022-d9d1-4f4d-b9c0-445adfd2a81c 
+#>    Matrix ID: e4191b56-813e-49b1-b989-6c7520fa71a7 
 #>    Row order: 1 4 20 3 9 16 19 10 13 2 11 7 17 5 6 18 14 15 8 12 
 #>    Column order: 1 16 9 4 8 14 3 20 13 2 6 18 7 17 5 11 19 12 15 10 
 #>    Method: reciprocal
@@ -289,6 +289,10 @@ mississippi %>%
 
 <img src="man/figures/README-similarity-brainerd-1.png" style="display: block; margin: auto;" />
 
+The Frequency Increment Test can be used to assess the detection and
+quantification of selective processes in the archaeological
+record\[2\].
+
 ``` r
 ## Keep only decoration types that have a maximum frequency of at least 50
 keep <- apply(X = merzbach, MARGIN = 2, FUN = function(x) max(x) >= 50)
@@ -313,3 +317,6 @@ you agree to abide by its terms.
 
 1.  Adapted from Dan Gopstein’s original
     [idea](https://dgopstein.github.io/articles/spot-matrix/).
+
+2.  Adapted from Ben Marwick’s original
+    [idea](https://github.com/benmarwick/signatselect/).

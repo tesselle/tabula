@@ -111,7 +111,7 @@ D <- as_occurrence(A1)
 
 Several types of graphs are available in `tabula` which uses `ggplot2` for plotting informations. This makes it easy to customize diagramms (e.g. using themes and scales).
 
-Spot matrix [^1] allows direct examination of data:
+Spot matrix[^1] allows direct examination of data:
 
 ```{r plot-occ, fig.width=6, fig.height=4, fig.align="center"}
 # Plot co-occurence of types
@@ -230,6 +230,7 @@ mississippi %>%
   khroma::scale_colour_iridescent()
 ```
 
+The Frequency Increment Test can be used to assess the detection and quantification of selective processes in the archaeological record[^2].
 
 ```{r plot-time, fig.width=7, fig.height=3.5, fig.align="center"}
 ## Keep only decoration types that have a maximum frequency of at least 50
