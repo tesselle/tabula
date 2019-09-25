@@ -61,9 +61,9 @@ test_that("Refined correspondence Analysis", {
   subset <- with_seed(12345, refine_seriation(count, cutoff = fun))
 
   expect_s4_class(subset, "BootCA")
-  # /!\ Le test ci-après échoue avec R 3.2 et 3.3
-  # Sauf si une tolérance est définie (2019-06-19 : pas trouvé d'explication)
-  expect_equal(subset@cutoff, c(2.2427692, 0.3785501), tolerance = 0.005)
+  # /!\ Fails on noLD platforms unless a tolerance is set in expect_equal
+  eps <- if (capabilities("long.double")) .Machine$double.eps^0.5 else 0.1
+  expect_equal(round(subset@cutoff, 3), c(2.243, 0.379), tolerance = eps)
   expect_equal(subset@id, count@id)
 
   indices <- seriate_correspondence(count, subset, margin = 1)
