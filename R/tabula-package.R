@@ -28,10 +28,6 @@
 #' Université Bordeaux Montaigne\cr
 #' F-33607 Pessac cedex\cr
 #' France
-#' @note
-#' This work received a state financial support managed by the Agence Nationale
-#' de la Recherche (France) through the program \emph{Investissements d'avenir}
-#' (ref. ANR-10-LABX-52).
 #' @name tabula-package
 #' @aliases tabula
 #' @docType package
@@ -43,5 +39,7 @@
 if(getRversion() >= "2.15.1") utils::globalVariables(c("."))
 
 #' @importFrom methods new setClass setClassUnion setGeneric setMethod
+#' @importFrom ca ca
+#' @importFrom ggplot2 ggplot
 #' @importFrom rlang .data
 NULL

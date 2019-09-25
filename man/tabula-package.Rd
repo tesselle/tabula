@@ -31,11 +31,6 @@ An easy way to examine archaeological count data. This package
  \strong{DOI:} \tab \href{https://doi.org/10.5281/zenodo.1489944}{10.5281/zenodo.1489944}
 }
 }
-\note{
-This work received a state financial support managed by the Agence Nationale
-de la Recherche (France) through the program \emph{Investissements d'avenir}
-(ref. ANR-10-LABX-52).
-}
 \seealso{
 Useful links:
 \itemize{
