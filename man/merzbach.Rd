@@ -28,9 +28,9 @@ A dataset containing the ceramic counts from the Merzbach assemblage
 (Germany). The data are grouped into eight phases.
 }
 \seealso{
-Other data set: \code{\link{boves}},
+Other datasets: \code{\link{boves}},
   \code{\link{compiegne}}, \code{\link{mississippi}},
   \code{\link{zuni}}
 }
-\concept{data set}
+\concept{datasets}
 \keyword{datasets}

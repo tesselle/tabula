@@ -70,15 +70,16 @@ method used.}
 \seealso{
 \linkS4class{NumericMatrix}
 
-Other matrix class: \code{\link{CountMatrix-class}},
+Other matrix: \code{\link{CountMatrix-class}},
   \code{\link{FrequencyMatrix-class}},
   \code{\link{IncidenceMatrix-class}},
   \code{\link{LogicalMatrix-class}},
   \code{\link{Matrix-class}},
   \code{\link{NumericMatrix-class}},
-  \code{\link{OccurrenceMatrix-class}}
+  \code{\link{OccurrenceMatrix-class}},
+  \code{\link{coerce}}
 }
 \author{
 N. Frerebeau
 }
-\concept{matrix class}
+\concept{matrix}

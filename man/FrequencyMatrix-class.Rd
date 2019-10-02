@@ -106,16 +106,17 @@ all(A1 == A2)
 Other abundance matrix: \code{\link{CountMatrix-class}},
   \code{\link{OccurrenceMatrix-class}}
 
-Other matrix class: \code{\link{CountMatrix-class}},
+Other matrix: \code{\link{CountMatrix-class}},
   \code{\link{IncidenceMatrix-class}},
   \code{\link{LogicalMatrix-class}},
   \code{\link{Matrix-class}},
   \code{\link{NumericMatrix-class}},
   \code{\link{OccurrenceMatrix-class}},
-  \code{\link{SimilarityMatrix-class}}
+  \code{\link{SimilarityMatrix-class}},
+  \code{\link{coerce}}
 }
 \author{
 N. Frerebeau
 }
 \concept{abundance matrix}
-\concept{matrix class}
+\concept{matrix}

@@ -41,9 +41,9 @@ A dataset containing ceramic counts from the Zuni region of the American
  Southwest.
 }
 \seealso{
-Other data set: \code{\link{boves}},
+Other datasets: \code{\link{boves}},
   \code{\link{compiegne}}, \code{\link{merzbach}},
   \code{\link{mississippi}}
 }
-\concept{data set}
+\concept{datasets}
 \keyword{datasets}

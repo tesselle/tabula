@@ -53,6 +53,11 @@ point estimate of the accumulation dates and the corresponding error.}
  }
 }
 
+\seealso{
+Other class: \code{\link{BootCA-class}},
+  \code{\link{PermutationOrder-class}}
+}
 \author{
 N. Frerebeau
 }
+\concept{class}

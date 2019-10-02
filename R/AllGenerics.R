@@ -14,6 +14,7 @@ NULL
 #' @example inst/examples/ex-abundance-class.R
 #' @author N. Frerebeau
 #' @docType methods
+#' @family mutator
 #' @name access
 #' @rdname access
 #' @aliases get set
@@ -61,6 +62,7 @@ setGeneric(
 #' @example inst/examples/ex-abundance-class.R
 #' @author N. Frerebeau
 #' @docType methods
+#' @family mutator
 #' @name subset
 #' @rdname subset
 NULL
@@ -86,6 +88,7 @@ NULL
 #' @example inst/examples/ex-coerce.R
 #' @author N. Frerebeau
 #' @docType methods
+#' @family matrix
 #' @name coerce
 #' @rdname coerce
 NULL
@@ -1106,12 +1109,12 @@ setGeneric(
   def = function(object, subset, ...) standardGeneric("seriate_correspondence")
 )
 
-#' @rdname seriation
-#' @aliases seriate_idds-method
-setGeneric(
-  name = "seriate_idds",
-  def = function(object, ...) standardGeneric("seriate_idds")
-)
+# @rdname seriation
+# @aliases seriate_idds-method
+# setGeneric(
+#   name = "seriate_idds",
+#   def = function(object, ...) standardGeneric("seriate_idds")
+# )
 
 #' @rdname seriation
 #' @aliases permute-method
@@ -1233,6 +1236,7 @@ setGeneric(
 #'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
 #'  Princeton, NJ: Princeton University Press.
 #'  DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+#' @family test
 #' @name test
 #' @rdname test
 NULL

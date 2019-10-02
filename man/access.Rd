@@ -70,6 +70,10 @@ get_totals(B) # Get row sums
 A2 <- as_count(B)
 all(A1 == A2)
 }
+\seealso{
+Other mutator: \code{\link{subset}}
+}
 \author{
 N. Frerebeau
 }
+\concept{mutator}

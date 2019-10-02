@@ -44,7 +44,7 @@ Methods for a variety of functions applied to objects from these classes provide
 The internal structure of S4 classes implemented in **tabula** is depicted in the UML class diagram in the following figure.
 
 ```{r uml, echo=FALSE, fig.cap="UML class diagram of the S4 classes structure.", fig.width=7}
-knitr::include_graphics("classes.svg")
+knitr::include_graphics("classes.png")
 ```
 
 ## Numeric matrix

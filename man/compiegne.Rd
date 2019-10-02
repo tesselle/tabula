@@ -42,9 +42,9 @@ A dataset containing the ceramic counts from the Place des Hallettes in
  types.
 }
 \seealso{
-Other data set: \code{\link{boves}},
+Other datasets: \code{\link{boves}},
   \code{\link{merzbach}}, \code{\link{mississippi}},
   \code{\link{zuni}}
 }
-\concept{data set}
+\concept{datasets}
 \keyword{datasets}

@@ -33,9 +33,9 @@ A dataset containing the ceramic counts from the castle site of Boves
  10th to the 18th century and thirteen ceramic types.
 }
 \seealso{
-Other data set: \code{\link{compiegne}},
+Other datasets: \code{\link{compiegne}},
   \code{\link{merzbach}}, \code{\link{mississippi}},
   \code{\link{zuni}}
 }
-\concept{data set}
+\concept{datasets}
 \keyword{datasets}

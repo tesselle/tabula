@@ -71,16 +71,17 @@ identifier of the matrix (UUID v4).}
 \seealso{
 \link[base]{matrix}
 
-Other matrix class: \code{\link{CountMatrix-class}},
+Other matrix: \code{\link{CountMatrix-class}},
   \code{\link{FrequencyMatrix-class}},
   \code{\link{IncidenceMatrix-class}},
   \code{\link{LogicalMatrix-class}},
   \code{\link{NumericMatrix-class}},
   \code{\link{OccurrenceMatrix-class}},
-  \code{\link{SimilarityMatrix-class}}
+  \code{\link{SimilarityMatrix-class}},
+  \code{\link{coerce}}
 }
 \author{
 N. Frerebeau
 }
-\concept{matrix class}
+\concept{matrix}
 \keyword{internal}

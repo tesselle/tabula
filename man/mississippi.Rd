@@ -30,9 +30,9 @@ mississippi
 A dataset containing ceramic counts from the Mississippi region.
 }
 \seealso{
-Other data set: \code{\link{boves}},
+Other datasets: \code{\link{boves}},
   \code{\link{compiegne}}, \code{\link{merzbach}},
   \code{\link{zuni}}
 }
-\concept{data set}
+\concept{datasets}
 \keyword{datasets}

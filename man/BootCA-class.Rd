@@ -53,6 +53,11 @@ of the samples and variables to be kept, respectively.}
  }
 }
 
+\seealso{
+Other class: \code{\link{DateModel-class}},
+  \code{\link{PermutationOrder-class}}
+}
 \author{
 N. Frerebeau
 }
+\concept{class}

@@ -40,6 +40,7 @@ NULL
 #'   vector. Returns the corresponding slot values.}
 #'  }
 #' @author N. Frerebeau
+#' @family class
 #' @docType class
 #' @aliases DateModel-class
 .DateModel <- setClass(
@@ -107,6 +108,7 @@ NULL
 #'   "\code{keep}". Any unambiguous substring can be given.}
 #'  }
 #' @author N. Frerebeau
+#' @family class
 #' @docType class
 #' @aliases BootCA-class
 .BootCA <- setClass(
@@ -150,6 +152,7 @@ NULL
 #'  Numeric values are coerced to \code{\link{integer}} as by
 #'  \code{\link[base]{as.integer}} (and hence truncated towards zero).
 #' @author N. Frerebeau
+#' @family class
 #' @docType class
 #' @aliases PermutationOrder-class
 .PermutationOrder <- setClass(
@@ -264,7 +267,7 @@ NULL
 #'  }
 #' @seealso \link[base]{matrix}
 #' @author N. Frerebeau
-#' @family matrix class
+#' @family matrix
 #' @docType class
 #' @aliases Matrix-class
 #' @keywords internal
@@ -290,7 +293,7 @@ NULL
 #' @inheritSection Matrix-class Subset
 #' @seealso \linkS4class{Matrix}
 #' @author N. Frerebeau
-#' @family matrix class
+#' @family matrix
 #' @docType class
 #' @aliases NumericMatrix-class
 #' @keywords internal
@@ -317,7 +320,7 @@ NULL
 #' @family abundance matrix
 #' @example inst/examples/ex-abundance-class.R
 #' @author N. Frerebeau
-#' @family matrix class
+#' @family matrix
 #' @docType class
 #' @aliases CountMatrix-class
 .CountMatrix <- setClass(
@@ -345,7 +348,7 @@ NULL
 #' @family abundance matrix
 #' @example inst/examples/ex-abundance-class.R
 #' @author N. Frerebeau
-#' @family matrix class
+#' @family matrix
 #' @docType class
 #' @aliases FrequencyMatrix-class
 .FrequencyMatrix <- setClass(
@@ -375,7 +378,7 @@ NULL
 #' @family abundance matrix
 #' @example inst/examples/ex-abundance-class.R
 #' @author N. Frerebeau
-#' @family matrix class
+#' @family matrix
 #' @docType class
 #' @aliases OccurrenceMatrix-class
 .OccurrenceMatrix <- setClass(
@@ -393,7 +396,7 @@ NULL
 #' @inheritSection Matrix-class Access
 #' @inheritSection Matrix-class Subset
 #' @seealso \linkS4class{NumericMatrix}
-#' @family matrix class
+#' @family matrix
 #' @author N. Frerebeau
 #' @docType class
 #' @aliases SimilarityMatrix-class
@@ -419,7 +422,7 @@ NULL
 #' @inheritSection Matrix-class Subset
 #' @seealso \linkS4class{Matrix}
 #' @author N. Frerebeau
-#' @family matrix class
+#' @family matrix
 #' @docType class
 #' @aliases LogicalMatrix-class
 #' @keywords internal
@@ -445,7 +448,7 @@ NULL
 #' @family logical matrix
 #' @example inst/examples/ex-logical-class.R
 #' @author N. Frerebeau
-#' @family matrix class
+#' @family matrix
 #' @docType class
 #' @aliases IncidenceMatrix-class
 .IncidenceMatrix <- setClass(

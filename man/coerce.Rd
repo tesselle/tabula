@@ -83,6 +83,17 @@ C <- as_incidence(A1)
 ## Coerce to a co-occurrence matrix
 D <- as_occurrence(A1)
 }
+\seealso{
+Other matrix: \code{\link{CountMatrix-class}},
+  \code{\link{FrequencyMatrix-class}},
+  \code{\link{IncidenceMatrix-class}},
+  \code{\link{LogicalMatrix-class}},
+  \code{\link{Matrix-class}},
+  \code{\link{NumericMatrix-class}},
+  \code{\link{OccurrenceMatrix-class}},
+  \code{\link{SimilarityMatrix-class}}
+}
 \author{
 N. Frerebeau
 }
+\concept{matrix}

@@ -109,16 +109,17 @@ D <- as_incidence(C)
 \seealso{
 \linkS4class{LogicalMatrix}, \linkS4class{SpaceTime}
 
-Other matrix class: \code{\link{CountMatrix-class}},
+Other matrix: \code{\link{CountMatrix-class}},
   \code{\link{FrequencyMatrix-class}},
   \code{\link{LogicalMatrix-class}},
   \code{\link{Matrix-class}},
   \code{\link{NumericMatrix-class}},
   \code{\link{OccurrenceMatrix-class}},
-  \code{\link{SimilarityMatrix-class}}
+  \code{\link{SimilarityMatrix-class}},
+  \code{\link{coerce}}
 }
 \author{
 N. Frerebeau
 }
 \concept{logical matrix}
-\concept{matrix class}
+\concept{matrix}
