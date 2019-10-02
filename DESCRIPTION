@@ -1,7 +1,7 @@
 Package: tabula
 Title: Analysis, Seriation and Visualization of Archaeological
     Count Data
-Version: 1.3.0
+Version: 1.3.0.9000
 Authors@R: 
     c(person(given = "Nicolas",
              family = "Frerebeau",
