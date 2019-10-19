@@ -26,6 +26,8 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
+[![JOSS
+status](https://joss.theoj.org/papers/d4f9ee7bc85e4e6cb66bb12406570b73/status.svg)](https://joss.theoj.org/papers/d4f9ee7bc85e4e6cb66bb12406570b73)
 
 ## Overview
 
@@ -174,7 +176,7 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate_reciprocal(incidence, margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Matrix ID: 7ff145b5-32f6-4f16-a298-37c6eb6a46a9 
+#>    Matrix ID: d8073deb-f15a-4bf2-a7d8-8d5ea5514c21 
 #>    Row order: 1 4 20 3 9 16 19 10 13 2 11 7 17 5 6 18 14 15 8 12 
 #>    Column order: 1 16 9 4 8 14 3 20 13 2 6 18 7 17 5 11 19 12 15 10 
 #>    Method: reciprocal

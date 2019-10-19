@@ -32,6 +32,7 @@ knitr::opts_chunk$set(
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
+[![JOSS status](https://joss.theoj.org/papers/d4f9ee7bc85e4e6cb66bb12406570b73/status.svg)](https://joss.theoj.org/papers/d4f9ee7bc85e4e6cb66bb12406570b73)
 
 ## Overview
 
