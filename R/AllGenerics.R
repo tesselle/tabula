@@ -354,14 +354,23 @@ setGeneric(
 #' Heterogeneity and Evenness
 #'
 #' @description
-#'  \code{diversity} returns a diversity or dominance index.
+#'  \code{diversity} returns an heterogeneity or dominance index.
+#'
 #'  \code{evenness} returns an evenness measure.
-#' @param object A \eqn{m \times p}{m x p} matrix of count data.
+#' @param object A \eqn{m \times p}{m x p} matrix of count data (typically
+#'  a \linkS4class{CountMatrix} object).
 #' @param method A \code{\link{character}} string or vector of strings
 #'  specifying the index to be computed (see details).
 #'  Any unambiguous substring can be given.
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
+#' @param prob A length-\eqn{p} \code{\link{numeric}} vector giving the of
+#'  probability of the \eqn{p} taxa/types (see below). If \code{NULL} (the
+#'  default), probabilities are estimated from the whole dataset.
+#' @param level A length-one \code{\link{numeric}} vector giving the
+#'  confidence level.
+#' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
+#' replications (see below).
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  \emph{Diversity} measurement assumes that all individuals in a specific
@@ -429,6 +438,15 @@ setGeneric(
 #'  Brillouin, L. (1956). \emph{Science and information theory}. New York:
 #'  Academic Press.
 #'
+#'  Kintigh, K. W. (1984). Measuring Archaeological Diversity by Comparison
+#'  with Simulated Assemblages. \emph{American Antiquity}, 49(1), 44-54.
+#'  DOI: \href{https://doi.org/10.2307/280511}{10.2307/280511}.
+#'
+#'  Kintigh, K. W. (1989). Sample Size, Significance, and Measures of
+#'  Diversity. In Leonard, R. D. and Jones, G. T., \emph{Quantifying Diversity
+#'  in Archaeology}. New Directions in Archaeology. Cambridge:
+#'  Cambridge University Press, p. 25-36.
+#'
 #'  Laxton, R. R. (1978). The measure of diversity. \emph{Journal of Theoretical
 #'  Biology}, 70(1), 51-67.
 #'  DOI: \href{https://doi.org/10.1016/0022-5193(78)90302-8}{10.1016/0022-5193(78)90302-8}.
@@ -477,6 +495,13 @@ setGeneric(
 setGeneric(
   name = "evenness",
   def = function(object, ...) standardGeneric("evenness")
+)
+
+#' @rdname diversity
+#' @aliases refine_evenness-method
+setGeneric(
+  name = "refine_evenness",
+  def = function(object, ...) standardGeneric("refine_evenness")
 )
 
 # ===================================================================== Geography
@@ -860,6 +885,13 @@ setGeneric(
 #'  \code{method} is "\code{ace}" or "\code{ice}".
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
+#' @param prob A length-\eqn{p} \code{\link{numeric}} vector giving the of
+#'  probability of the \eqn{p} taxa/types (see below). If \code{NULL} (the
+#'  default), probabilities are estimated from the whole dataset.
+#' @param level A length-one \code{\link{numeric}} vector giving the
+#'  confidence level.
+#' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
+#' replications (see below).
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  The number of different taxa, provides an instantly comprehensible
@@ -960,6 +992,13 @@ setGeneric(
 setGeneric(
   name = "rarefaction",
   def = function(object, ...) standardGeneric("rarefaction")
+)
+
+#' @rdname richness
+#' @aliases refine_richness-method
+setGeneric(
+  name = "refine_richness",
+  def = function(object, ...) standardGeneric("refine_richness")
 )
 
 # ====================================================================== Seriate

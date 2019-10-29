@@ -19,7 +19,7 @@ brazil <- CountMatrix(
   nrow = 1, byrow = TRUE
 )
 
-richness(brazil, method = c("chao1", "chao1i", "ace"),
+richness(brazil, method = c("chao1", "ace"),
          unbiased = FALSE, simplify = TRUE)
 ## 461.625 488.284 445.822
 

@@ -15,15 +15,7 @@ setMethod(
     H <- lapply(
       X = method,
       FUN = function(x, data) {
-        index <- switch (
-          x,
-          berger = dominanceBerger,
-          brillouin = diversityBrillouin,
-          mcintosh = dominanceMcintosh,
-          shannon = diversityShannon,
-          simpson = dominanceSimpson,
-          stop(sprintf("There is no such method: %s.", method), call. = FALSE)
-        )
+        index <- switch_heterogeneity(x)
         apply(X = object, MARGIN = 1, FUN = index)
       },
       data = object)
@@ -46,14 +38,7 @@ setMethod(
     # Validation
     method <- match.arg(method, several.ok = TRUE)
     E <- lapply(X = method, FUN = function(x, data) {
-      index <- switch (
-        x,
-        brillouin = evennessBrillouin,
-        mcintosh = evennessMcintosh,
-        shannon = evennessShannon,
-        simpson = evennessSimpson,
-        stop(sprintf("There is no such method: %s.", method), call. = FALSE)
-      )
+      index <- switch_evenness(x)
       apply(X = object, MARGIN = 1, FUN = index)
     }, data = object)
     names(E) <- method
@@ -62,6 +47,40 @@ setMethod(
     return(E)
   }
 )
+
+
+switch_heterogeneity <- function(x) {
+  # Validation
+  measures <- c("berger", "brillouin", "mcintosh", "shannon", "simpson")
+  method <- match.arg(x, choices = measures, several.ok = TRUE)
+
+  index <- switch (
+    x,
+    berger = dominanceBerger,
+    brillouin = diversityBrillouin,
+    mcintosh = dominanceMcintosh,
+    shannon = diversityShannon,
+    simpson = dominanceSimpson,
+    stop(sprintf("There is no such method: %s.", method), call. = FALSE)
+  )
+  return(index)
+}
+
+switch_evenness <- function(x) {
+  # Validation
+  measures <- c("brillouin", "mcintosh", "shannon", "simpson")
+  method <- match.arg(x, choices = measures, several.ok = TRUE)
+
+  index <- switch (
+    x,
+    brillouin = evennessBrillouin,
+    mcintosh = evennessMcintosh,
+    shannon = evennessShannon,
+    simpson = evennessSimpson,
+    stop(sprintf("There is no such method: %s.", method), call. = FALSE)
+  )
+  return(index)
+}
 
 # ==============================================================================
 #' Diversity, dominance and evenness index
@@ -185,7 +204,11 @@ diversityShannon <- function(x, base = exp(1), ...) {
   N <- sum(x)
   S <- length(x) # richness = number of different species
   p <- x / N
-  H <- -sum(p * log(p, base))
+  Hmax <- suppressWarnings(log(p, base))
+  if (anyNA(Hmax))
+    return(NA_real_)
+
+  H <- -sum(p * Hmax)
   # H <- H - (S - 1) / N +
   #   (1 - sum(p^-1)) / (12 * N^2) +
   #   (sum(p^-1 - p^-2)) / (12 * N^3)

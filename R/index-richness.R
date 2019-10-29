@@ -11,27 +11,14 @@ setMethod(
                                            "margalef", "menhinick", "none"),
                         unbiased = FALSE, improved = FALSE, k = 10,
                         simplify = FALSE) {
-    # Validation
-    method <- match.arg(method, several.ok = TRUE)
     E <- lapply(
       X = method,
       FUN = function(x, object, unbiased, improved, k) {
-        index <- switch (
-          x,
-          ace = richnessACE,
-          chao1 = richnessChao1,
-          margalef = richnessMargalef,
-          menhinick = richnessMenhinick,
-          none = function(x, ...) { sum(x > 0) },
-          stop(sprintf("There is no such method: %s.", method), call. = FALSE)
-        )
+        index <- switch_richness(x)
         apply(X = object, MARGIN = 1, FUN = index, unbiased = unbiased,
               improved = improved, k = k)
       },
-      object,
-      unbiased,
-      improved,
-      k
+      object, unbiased, improved, k
     )
     names(E) <- method
     if (simplify)
@@ -62,10 +49,7 @@ setMethod(
         )
         index(object, unbiased = unbiased, improved = improved, k = k)
       },
-      object,
-      unbiased,
-      improved,
-      k
+      object, unbiased, improved, k
     )
     names(E) <- method
     if (simplify)
@@ -73,6 +57,23 @@ setMethod(
     return(E)
   }
 )
+
+switch_richness <- function(x) {
+  # Validation
+  measures <- c("ace", "chao1", "margalef", "menhinick", "none")
+  method <- match.arg(x, choices = measures, several.ok = TRUE)
+
+  index <- switch (
+    x,
+    ace = richnessACE,
+    chao1 = richnessChao1,
+    margalef = richnessMargalef,
+    menhinick = richnessMenhinick,
+    none = function(x, ...) { sum(x > 0) },
+    stop(sprintf("There is no such method: %s.", method), call. = FALSE)
+  )
+  return(index)
+}
 
 # ==============================================================================
 #' Richness index
