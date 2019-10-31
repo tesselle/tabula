@@ -17,5 +17,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.github$
+^\.covrignore$
 ^paper\.md$
 ^paper\.bib$
