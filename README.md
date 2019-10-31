@@ -1,8 +1,4 @@
 
-
-
-
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 # tabula <img width=120px src="man/figures/logo.png" align="right" />
@@ -45,7 +41,7 @@ Ford (1962) and Bertin (1977) diagrams.
 
 ## Installation
 
-You can install the released version of `tabula` from
+You can install the released version of **tabula** from
 [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
@@ -64,10 +60,13 @@ remotes::install_github("nfrerebeau/tabula")
 ``` r
 # Load packages
 library(tabula)
+
+library(khroma)
+library(ggplot2)
 library(magrittr)
 ```
 
-`tabula` provides a set of S4 classes that extend the basic `matrix`
+**tabula** provides a set of S4 classes that extend the basic `matrix`
 data type. These new classes represent different special types of
 matrix.
 
@@ -98,7 +97,7 @@ quali <- IncidenceMatrix(data = sample(0:1, 100, TRUE),
                          nrow = 10, ncol = 10)
 ```
 
-`tabula` uses coercing mechanisms (with validation methods) for data
+**tabula** uses coercing mechanisms (with validation methods) for data
 type conversions:
 
 ``` r
@@ -123,9 +122,10 @@ C <- as_incidence(A1)
 D <- as_occurrence(A1)
 ```
 
-Several types of graphs are available in `tabula` which uses `ggplot2`
-for plotting informations. This makes it easy to customize diagrams
-(e.g. using themes and scales).
+Several types of graphs are available in **tabula** which uses
+[**ggplot2**](https://github.com/tidyverse/ggplot2) for plotting
+informations. This makes it easy to customize diagrams (e.g. using
+themes and scales).
 
 Spot matrix\[1\] allows direct examination of data:
 
@@ -176,7 +176,7 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate_reciprocal(incidence, margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Matrix ID: d8073deb-f15a-4bf2-a7d8-8d5ea5514c21 
+#>    Matrix ID: a3257479-d188-48e1-9720-1c64c20f0509 
 #>    Row order: 1 4 20 3 9 16 19 10 13 2 11 7 17 5 6 18 14 15 8 12 
 #>    Column order: 1 16 9 4 8 14 3 20 13 2 6 18 7 17 5 11 19 12 15 10 
 #>    Method: reciprocal
@@ -313,7 +313,7 @@ plot_time(merzbach_count, highlight = "FIT", roll = TRUE) +
 
 ## Contributing
 
-Please note that the `tabula` project is released with a [Contributor
+Please note that the **tabula** project is released with a [Contributor
 Code of
 Conduct](https://github.com/nfrerebeau/tabula/blob/master/.github/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
