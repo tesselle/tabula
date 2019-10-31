@@ -41,8 +41,8 @@ plot_diversity <- function(object, diversity,
     y = apply(X = object, MARGIN = 1, FUN = diversity)
   )
 
-  refined <- refine_diversity(x = object, method = diversity,
-                              prob = prob, level = level, n = n)
+  refined <- simulate_diversity(x = object, method = diversity,
+                                prob = prob, level = level, n = n)
   # Build a long table for ggplot2
   data_stacked <- utils::stack(as.data.frame(refined), select = -c(1))
   data <- cbind.data.frame(

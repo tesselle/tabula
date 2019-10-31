@@ -364,6 +364,7 @@ setGeneric(
 #'  Any unambiguous substring can be given.
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
+#' @param size A \code{\link{numeric}} vector giving the sample size.
 #' @param prob A length-\eqn{p} \code{\link{numeric}} vector giving the of
 #'  probability of the \eqn{p} taxa/types (see below). If \code{NULL} (the
 #'  default), probabilities are estimated from the whole dataset.
@@ -505,10 +506,10 @@ setGeneric(
 )
 
 #' @rdname diversity
-#' @aliases refine_evenness-method
+#' @aliases simulate_evenness-method
 setGeneric(
-  name = "refine_evenness",
-  def = function(object, ...) standardGeneric("refine_evenness")
+  name = "simulate_evenness",
+  def = function(object, ...) standardGeneric("simulate_evenness")
 )
 
 # ===================================================================== Geography
@@ -892,6 +893,7 @@ setGeneric(
 #'  \code{method} is "\code{ace}" or "\code{ice}".
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
+#' @param size A \code{\link{numeric}} vector giving the sample size.
 #' @param prob A length-\eqn{p} \code{\link{numeric}} vector giving the of
 #'  probability of the \eqn{p} taxa/types (see below). If \code{NULL} (the
 #'  default), probabilities are estimated from the whole dataset.
@@ -1009,10 +1011,10 @@ setGeneric(
 )
 
 #' @rdname richness
-#' @aliases refine_richness-method
+#' @aliases simulate_richness-method
 setGeneric(
-  name = "refine_richness",
-  def = function(object, ...) standardGeneric("refine_richness")
+  name = "simulate_richness",
+  def = function(object, ...) standardGeneric("simulate_richness")
 )
 
 # ====================================================================== Seriate
