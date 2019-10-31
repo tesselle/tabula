@@ -42,16 +42,15 @@ test_that("Simulated Richness", {
 
   expect_type(index, "double")
   expect_equal(dim(index), c(73, 4))
-  expect_equivalent(round(index[70, 2]), 26)
+  expect_equivalent(round(index[70, 2]), 26, tolerance = 0.1)
 
   # Evenness
   count <- CountMatrix(30, nrow = 1, byrow = TRUE)
-  index <- refine_evenness(count, method = "shannon", prob = chevelon,
-                           level = 0.80, n = 1000)
+  index <- refine_evenness(count, prob = chevelon, level = 0.80, n = 500)
 
   expect_type(index, "double")
   expect_equal(dim(index), c(31, 4))
-  expect_equivalent(round(index[30, 2], 1), 0.9)
+  expect_equivalent(round(index[30, 2], 1), 0.9, tolerance = 0.1)
 })
 # Indices ======================================================================
 test_that("Margalef richness", {

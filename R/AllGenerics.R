@@ -498,6 +498,13 @@ setGeneric(
 )
 
 #' @rdname diversity
+#' @aliases plot_evenness-method
+setGeneric(
+  name = "plot_evenness",
+  def = function(object, ...) standardGeneric("plot_evenness")
+)
+
+#' @rdname diversity
 #' @aliases refine_evenness-method
 setGeneric(
   name = "refine_evenness",
@@ -992,6 +999,13 @@ setGeneric(
 setGeneric(
   name = "rarefaction",
   def = function(object, ...) standardGeneric("rarefaction")
+)
+
+#' @rdname richness
+#' @aliases plot_richness-method
+setGeneric(
+  name = "plot_richness",
+  def = function(object, ...) standardGeneric("plot_richness")
 )
 
 #' @rdname richness

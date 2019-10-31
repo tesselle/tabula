@@ -25,3 +25,15 @@ richness(brazil, method = c("chao1", "ace"),
 
 ## Rarefaction
 rarefaction(trap, sample = 13) # 6.56
+
+\donttest{
+## Assemblage diversity size comparison
+## Warning: this may take a few seconds!
+merzbach %>%
+  as_count() %>%
+  plot_richness()
+
+merzbach %>%
+  as_count() %>%
+  plot_evenness()
+}

@@ -40,6 +40,6 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("."))
 
 #' @importFrom methods new setClass setClassUnion setGeneric setMethod
 #' @importFrom ca ca
-#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 ggplot aes geom_path geom_point labs scale_x_log10
 #' @importFrom rlang .data
 NULL

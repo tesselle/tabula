@@ -68,7 +68,7 @@ switch_heterogeneity <- function(x) {
 
 switch_evenness <- function(x) {
   # Validation
-  measures <- c("brillouin", "mcintosh", "shannon", "simpson")
+  measures <- c("shannon", "brillouin", "mcintosh", "simpson")
   method <- match.arg(x, choices = measures, several.ok = TRUE)
 
   index <- switch (
@@ -195,33 +195,30 @@ evennessMcintosh <- function(x, ...) {
 
 # Shannon ----------------------------------------------------------------------
 # @rdname index-heterogeneity
-diversityShannon <- function(x, base = exp(1), ...) {
+diversityShannon <- function(x, base = exp(1), zero.rm = TRUE, ...) {
   # Validation
   check_type(x, expected = "numeric")
   # Remove zeros
-  x <- x[x > 0]
+  if (zero.rm) x <- x[x > 0]
 
   N <- sum(x)
   S <- length(x) # richness = number of different species
   p <- x / N
-  Hmax <- suppressWarnings(log(p, base))
-  if (anyNA(Hmax))
-    return(NA_real_)
+  Hmax <- log(p, base)
+  Hmax[is.infinite(Hmax)] <- 0
 
   H <- -sum(p * Hmax)
-  # H <- H - (S - 1) / N +
-  #   (1 - sum(p^-1)) / (12 * N^2) +
-  #   (sum(p^-1 - p^-2)) / (12 * N^3)
   H
 }
 # @rdname index-heterogeneity
-evennessShannon <- function(x, ...) {
+evennessShannon <- function(x, zero.rm = TRUE, ...) {
   # Validation
   check_type(x, expected = "numeric")
   # Remove zeros
-  x <- x[x > 0]
+  if (zero.rm) x <- x[x > 0]
 
-  E <- diversityShannon(x, base = length(x))
+  S <- length(x)
+  E <- diversityShannon(x, zero.rm = zero.rm) / log(S)
   E
 }
 # @rdname index-heterogeneity

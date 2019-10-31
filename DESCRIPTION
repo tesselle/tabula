@@ -93,6 +93,7 @@ Collate:
     'plot-prepare.R'
     'plot-bar.R'
     'plot-date.R'
+    'plot-diversity.R'
     'plot-matrix.R'
     'plot-rank.R'
     'plot-spot.R'
