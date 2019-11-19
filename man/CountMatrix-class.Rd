@@ -30,9 +30,6 @@ CountMatrix(data = 0, nrow = 1, ncol = 1, byrow = FALSE,
 
 \item{...}{additional arguments to be passed to or from methods.}
 }
-\value{
-TODO
-}
 \description{
 An S4 class to represent a count matrix.
 }

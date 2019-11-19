@@ -310,8 +310,6 @@ NULL
 #' @inheritSection Matrix-class Get and set
 #' @inheritSection Matrix-class Access
 #' @inheritSection Matrix-class Subset
-#' @return
-#'  TODO
 # @note
 #  Numeric values are \code{\link[base:round]{rounded}} to zero decimal places
 #  and then coerced to \code{\link{integer}} as by
@@ -350,7 +348,7 @@ NULL
 #' @author N. Frerebeau
 #' @family matrix
 #' @docType class
-#' @aliases FrequencyMatrix-class
+#' @aliases FrequencyMatrix FrequencyMatrix-class
 .FrequencyMatrix <- setClass(
   Class = "FrequencyMatrix",
   slots = c(

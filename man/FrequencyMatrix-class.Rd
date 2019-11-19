@@ -4,6 +4,7 @@
 \name{FrequencyMatrix-class}
 \alias{FrequencyMatrix-class}
 \alias{.FrequencyMatrix}
+\alias{FrequencyMatrix}
 \title{Frequency matrix}
 \description{
 An S4 class to represent a relative frequency matrix.
