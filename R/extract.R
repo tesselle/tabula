@@ -62,7 +62,7 @@ setMethod(
   f = "[<-",
   signature = "Matrix",
   definition = function(x, i, value) {
-    .Object <- callNextMethod()
+    .Object <- methods::callNextMethod()
     methods::validObject(.Object)
     .Object
   }
@@ -75,7 +75,7 @@ setMethod(
   f = "[<-",
   signature = "Matrix",
   definition = function(x, i, j, value) {
-    .Object <- callNextMethod()
+    .Object <- methods::callNextMethod()
     methods::validObject(.Object)
     .Object
   }
@@ -88,7 +88,7 @@ setMethod(
   f = "[[<-",
   signature = "Matrix",
   definition = function(x, i, value) {
-    .Object <- callNextMethod()
+    .Object <- methods::callNextMethod()
     methods::validObject(.Object)
     .Object
   }

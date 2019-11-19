@@ -38,7 +38,8 @@
 # See https://github.com/tidyverse/magrittr/issues/29
 if(getRversion() >= "2.15.1") utils::globalVariables(c("."))
 
-#' @importFrom methods new setClass setClassUnion setGeneric setMethod
+#' @importFrom methods as callNextMethod new setClass setClassUnion setGeneric
+#' setMethod validObject
 #' @importFrom ca ca
 #' @importFrom ggplot2 ggplot aes geom_path geom_point labs scale_x_log10
 #' @importFrom rlang .data
