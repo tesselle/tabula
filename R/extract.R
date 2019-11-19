@@ -54,6 +54,45 @@ setMethod(
   }
 )
 
+# Replace part of an object ----------------------------------------------------
+#' @export
+#' @rdname subset
+#' @aliases [,Matrix-method
+setMethod(
+  f = "[<-",
+  signature = "Matrix",
+  definition = function(x, i, value) {
+    .Object <- callNextMethod()
+    methods::validObject(.Object)
+    .Object
+  }
+)
+
+#' @export
+#' @rdname subset
+#' @aliases [,Matrix-method
+setMethod(
+  f = "[<-",
+  signature = "Matrix",
+  definition = function(x, i, j, value) {
+    .Object <- callNextMethod()
+    methods::validObject(.Object)
+    .Object
+  }
+)
+
+#' @export
+#' @rdname subset
+#' @aliases [[,Matrix-method
+setMethod(
+  f = "[[<-",
+  signature = "Matrix",
+  definition = function(x, i, value) {
+    .Object <- callNextMethod()
+    methods::validObject(.Object)
+    .Object
+  }
+)
 # ------------------------------------------------------------------------------
 #' Extract Parts of an Object
 #'
@@ -111,6 +150,7 @@ setMethod(
     data
   }
 )
+
 #' @export
 #' @rdname subset
 #' @aliases [[,CountMatrix-method

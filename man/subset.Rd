@@ -5,6 +5,10 @@
 \alias{subset}
 \alias{[,BootCA-method}
 \alias{[,DateModel-method}
+\alias{[<-,Matrix-method}
+\alias{[,Matrix-method}
+\alias{[[<-,Matrix-method}
+\alias{[[,Matrix-method}
 \alias{[[,DateModel-method}
 \alias{[[,BootCA-method}
 \alias{[[,PermutationOrder-method}
@@ -19,6 +23,12 @@
 \S4method{[}{BootCA}(x, i, j, drop = TRUE)
 
 \S4method{[}{DateModel}(x, i, j, drop = TRUE)
+
+\S4method{[}{Matrix}(x, i, j) <- value
+
+\S4method{[}{Matrix}(x, i, j) <- value
+
+\S4method{[[}{Matrix}(x, i) <- value
 
 \S4method{[[}{DateModel}(x, i)
 
