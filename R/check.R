@@ -149,6 +149,10 @@ check_numbers <- function(x, expected = c("positive", "whole", "odd"), ...) {
     stop("Can't find a predicate for this: ", expected, call. = FALSE)
   )
   if (!all(predicate(x, ...))) {
+    if (c("strict") %in% names(c(...)))
+      if (!c(...)[["strict"]])
+        expected <- paste("only 0 or", expected, sep = " ")
+
     msg <- sprintf("%s must contain %s numbers.", sQuote(arg), expected)
     throw_error("error_bad_number", msg)
   }

@@ -158,7 +158,7 @@ test_that("Initialize a CountMatrix instance", {
   # Try negative values
   cnd <- catch_conditions(.CountMatrix(-mtx_count))
   expect_s3_class(cnd[[1]], "error_class_initialize")
-  expect_true(grepl("must contain positive numbers", cnd[[1]]$message))
+  expect_true(grepl("must contain only 0 or positive numbers", cnd[[1]]$message))
   # Try character
   cnd <- catch_conditions(.CountMatrix(mtx_character))
   expect_s3_class(cnd[[1]], "error_class_initialize")
