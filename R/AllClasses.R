@@ -312,10 +312,10 @@ NULL
 #' @inheritSection Matrix-class Subset
 #' @return
 #'  TODO
-#' @note
-#'  Numeric values are \code{\link[base:round]{rounded}} to zero decimal places
-#'  and then coerced to \code{\link{integer}} as by
-#'  \code{\link[base]{as.integer}}.
+# @note
+#  Numeric values are \code{\link[base:round]{rounded}} to zero decimal places
+#  and then coerced to \code{\link{integer}} as by
+#  \code{\link[base]{as.integer}}.
 #' @seealso \linkS4class{NumericMatrix}, \linkS4class{SpaceTime}
 #' @family abundance matrix
 #' @example inst/examples/ex-abundance-class.R

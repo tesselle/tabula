@@ -36,11 +36,6 @@ TODO
 \description{
 An S4 class to represent a count matrix.
 }
-\note{
-Numeric values are \code{\link[base:round]{rounded}} to zero decimal places
- and then coerced to \code{\link{integer}} as by
- \code{\link[base]{as.integer}}.
-}
 \section{Matrix ID}{
 
  When a matrix is first created, an identifier is generated (UUID v4).
