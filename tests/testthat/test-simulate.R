@@ -9,7 +9,9 @@ test_that("Simulate Richness", {
              2.7, 5.1, 3.0, 2.1)
 
   # Richness
-  index <- simulate_richness(object = magda, size = 1:70, level = 0.80, n = 500)
+  fun <- function(x, ...) { sum(x > 0) }
+  index <- simulate_diversity(x = 1:70, method = fun,
+                              prob = magda, level = 0.80, n = 500)
 
   expect_type(index, "double")
   expect_equal(dim(index), c(70, 4))
@@ -21,7 +23,8 @@ test_that("Simulate Evenness", {
                 0.155, 0.015, 0.053, 0.257, 0.170)
 
   # Evenness
-  index <- simulate_evenness(object = chevelon, size = 1:30, level = 0.80, n = 1000)
+  index <- simulate_diversity(x = 1:30, method = evennessShannon,
+                              prob = chevelon, level = 0.80, n = 1000)
 
   expect_type(index, "double")
   expect_equal(dim(index), c(30, 4))

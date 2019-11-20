@@ -112,8 +112,8 @@ Bertin, J. (1977). \emph{La graphique et le traitement graphique de
 }
 \seealso{
 Other plot: \code{\link{plot_date}},
-  \code{\link{plot_line}}, \code{\link{plot_matrix}},
-  \code{\link{plot_spot}}
+  \code{\link{plot_diversity}}, \code{\link{plot_line}},
+  \code{\link{plot_matrix}}, \code{\link{plot_spot}}
 }
 \author{
 N. Frerebeau

@@ -38,7 +38,8 @@ Numeric values are coerced to \code{\link{integer}} as by
 
 \seealso{
 Other class: \code{\link{BootCA-class}},
-  \code{\link{DateModel-class}}
+  \code{\link{DateModel-class}},
+  \code{\link{DiversityIndex}}
 }
 \author{
 N. Frerebeau

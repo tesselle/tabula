@@ -7,38 +7,26 @@ birds <- matrix(c(1.4, 4.3, 2.9, 8.6, 4.2, 15.7, 2.0, 50, 1, 11.4, 11.4, 4.3,
                   2.9, 0, 0, 2.9, 0, 0, 5.7, 0, 2.9, 0, 2.9),
                 nrow = 2, byrow = TRUE)
 
-# Diversity index ==============================================================
-test_that("Diversity index - simplify = FALSE", {
+# Heterogeneity index ==========================================================
+test_that("Heterogeneity", {
   count <- as(birds, "CountMatrix")
   method <- c("berger", "brillouin", "mcintosh", "shannon", "simpson")
-  index <- diversity(count, method = method, simplify = FALSE)
-  expect_is(index, "list")
-  expect_identical(length(index), length(method))
-  expect_identical(unique(lengths(index)), nrow(count))
-})
-test_that("Diversity index - simplify = TRUE", {
-  count <- as(birds, "CountMatrix")
-  method <- c("berger", "brillouin", "mcintosh", "shannon", "simpson")
-  index <- diversity(count, method = method, simplify = TRUE)
-  expect_is(index, "matrix")
-  expect_identical(dim(index), c(nrow(count), length(method)))
+  for (i in method) {
+    index <- index_heterogeneity(count, method = i)
+    expect_s4_class(index, "HeterogeneityIndex")
+    expect_length(index@index, 2)
+  }
 })
 
 # Evenness =====================================================================
-test_that("Evenness - simplify = FALSE", {
+test_that("Evenness", {
   count <- as(birds, "CountMatrix")
   method <- c("brillouin", "mcintosh", "shannon", "simpson")
-  index <- evenness(count, method = method, simplify = FALSE)
-  expect_is(index, "list")
-  expect_identical(length(index), length(method))
-  expect_identical(unique(lengths(index)), nrow(count))
-})
-test_that("Evenness - simplify = TRUE", {
-  count <- as(birds, "CountMatrix")
-  method <- c("brillouin", "mcintosh", "shannon", "simpson")
-  index <- evenness(count, method = method, simplify = TRUE)
-  expect_is(index, "matrix")
-  expect_identical(dim(index), c(nrow(count), length(method)))
+  for (i in method) {
+    index <- index_evenness(count, method = i)
+    expect_s4_class(index, "EvennessIndex")
+    expect_length(index@index, 2)
+  }
 })
 
 # Indices ======================================================================

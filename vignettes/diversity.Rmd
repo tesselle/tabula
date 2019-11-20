@@ -35,24 +35,55 @@ Thereafter, we denote by:
 
 * $S$ the total number of taxa recorded,
 * $i$ the rank of the taxon
-* $n_i$ the number of individuals in the $i$-th taxon,
-* $N = \sum n_i$ the total number of individuals,
+* $N_i$ the number of individuals in the $i$-th taxon,
+* $N = \sum N_i$ the total number of individuals,
 * $p_i$ the relative proportion of the $i$-th taxon in the population,
 * $s_k$ the number of taxa with $k$ individuals,
 * $q_i$ the incidence of the $i$-th taxon.
 
+Diversity in ecology describes complex interspecific interactions between and within communities under a variety of environmental conditions [@bobrowsky1989]. This concept covers different components, allowing different aspects of interspecific interactions to be measured.
+
 # $\alpha$-diversity
-## Richness
+## Richness and Rarefaction
+The number of different taxa, provides an instantly comprehensible expression of diversity. While the number of taxa within a sample is easy to ascertain, as a term, it makes little sense: some taxa may not have been seen, or there may not be a fixed number of taxa [e.g. in an open system; @peet1974]. As an alternative, *richness* ($R$) can be used for the concept of taxa number [@mcintosh1967]. Richness refers to the variety of taxa/species/types present in an assemblage or community [@bobrowsky1989] as "the number of species present in a collection containing a specified number of individuals" [@hurlbert1971].
+
+It is not always possible to ensure that all sample sizes are equal and the number of different taxa increases with sample size and sampling effort [@magurran1988]. Then, *rarefaction* ($\hat{S}$) is the number of taxa expected if all samples were of a standard size $n$ (i.e. taxa per fixed number of individuals). Rarefaction assumes that imbalances between taxa are due to sampling and not to differences in actual abundances.
+
 ### Definitions
-The number of different taxa, provides an instantly comprehensible expression of diversity. While the number of taxa within a sample is easy to ascertain, as a term, it makes little sense: some taxa may not have been seen, or there may not be a fixed number of taxa [e.g. in an open system; @peet1974]. As an alternative, *richness* ($S$) can be used for the concept of taxa number [@mcintosh1967].
 
-#### Margalef index [@margalef1958]
+|   | Measure                           | Reference      |
+|:-:|:----------------------------------|:---------------|
+| * | $$ R_{1} = \frac{S - 1}{\ln N} $$ | @margalef1958  |
+|   | $$ R_{2} = \frac{S}{\log N} $$    | @odum1960      |
+| * | $$ R_{3} = \frac{S}{\sqrt{N}} $$  | @menhinick1964 |
+|   | $$ R_{4} = \frac{S}{\log A} $$    | @gleason1922   |
+Table: Richness measures [@bobrowsky1989]. *: implemented.
 
-$$ S_{Mg} = \frac{S - 1}{\ln N} $$
+|   | Measure                           | Reference      |
+|:-:|:----------------------------------|:---------------|
+|   | $$ \hat{S}_{1} = \alpha - \left[ \ln \left( 1 - x \right) \right] $$ | @fisher1943 |
+| * | $$ \hat{S}_{2} = y_{0} \hat{\sigma} \sqrt{2 \pi} $$ | @preston1948 |
+|   | $$ \hat{S}_{3} = 2.07 \left( \frac{N}{m} \right)^{0.262} $$ | @preston1962, @preston1962a |
+|   | $$ \hat{S}_{4} = 2.07 \left( \frac{N}{m} \right)^{0.262} A^{0.262} $$ | @macarthur1965 |
+|   | $$ \hat{S}_{5} = k A^{d} $$ | @kilburn1966 |
+| * | $$ \hat{S}_{6} = \frac{a N}{1 + b N} $$ | @decaprariis1976 |
+| * | $$ \hat{S}_{7} = \sum_{i = 1}^{S} 1 - \frac{{N - N_i} \choose n}{N \choose n} $$ | @hurlbert1971, @sander1968 |
+Table: Rarefaction measures [@bobrowsky1989]. *: implemented.
 
-#### Menhinick index [@menhinick1964]
+Where:
 
-$$ S_{Mn} = \frac{S}{\sqrt{N}} $$
+* $S$ is the number of observed species/types,
+* $N_i$ is the number of individuals in the $i$-th species/type,
+* $N = \sum_{i = 1}^{S} N_i$ is the total number of individuals,
+* $A$ is the area of the isolate or collection.
+* $m$ is the number of individuals in the rarest species/type.
+* $\alpha$ is the Fisher's slope constant,
+* $y_{0}$ is the number of species/types in the modal class interval,
+* $\hat{\sigma}$ is the estimate of the standard deviation,
+* $n$ is the sub-sample size,
+* $R$ is the constant of rate increment,
+* $\hat{S}$ is the number of expected or predicted species/types,
+* $k$, $d$, $a$ and $b$ are empirically derived coefficients of regression.
 
 #### Chao1 estimator [@chao1984]
 
@@ -65,9 +96,9 @@ $$
 
 In the special case of homogeneous case, a bias-corrected estimator is:
 
-$$ \hat{S}_{Chao1-bc} = S + \frac{N - 1}{N} \frac{s_1 (s_1 - 1)}{2 s_2 + 1}$$
+$$ \hat{S}_{bcChao1} = S + \frac{N - 1}{N} \frac{s_1 (s_1 - 1)}{2 s_2 + 1}$$
 
-Improved Chao1 estimator [makes use of the additional information of tripletons and quadrupletons; @chiu2014] :
+The improved Chao1 estimator makes use of the additional information of tripletons and quadrupletons [@chiu2014]:
 
 $$ \hat{S}_{iChao1} = \hat{S}_{Chao1} + \frac{N - 3}{4 N} \frac{s_3}{s_4} \times \max\left(s_1 - \frac{N - 3}{N - 1} \frac{s_2 s_3}{2 s_4} , 0\right)$$
 
@@ -108,20 +139,17 @@ Where $m_{infreq}$ is the number of sampling units that include at least one inf
 ```{r richness}
 mississippi %>%
   as_count() %>%
-  richness(method = c("chao1", "margalef", "menhinick"), 
-           unbiased = TRUE, simplify = TRUE) %>%
+  index_richness(method = "margalef")
+```
+
+```{r rarefaction}
+mississippi %>%
+  as_count() %>%
+  rarefaction(sample = 10, method = "hurlbert", simplify = TRUE) %>%
   head()
 ```
 
-## Rarefaction
-It is not always possible to ensure that all sample sizes are equal and the number of different taxa increases with sample size and sampling effort [@magurran1988]. Then, *rarefaction* ($E(S)$) is the number of taxa expected if all samples were of a standard size $n$ (i.e. taxa per fixed number of individuals). Rarefaction assumes that imbalances between taxa are due to sampling and not to differences in actual abundances.
-
-@hurlbert1971 unbiased estimate of @sander1968 rarefaction:
-
-$$ E(S) = \sum_{i = 1}^{S} 1 - \frac{{N - N_i} \choose n}{N \choose n} $$
-Where $n$ is the sub-sample size.
-
-## Diversity and evenness
+## Heterogeneity and Evenness
 ### Definitions
 *Diversity* measurement assumes that all individuals in a specific taxa are equivalent and that all types are equally different from each other [@peet1974]. A measure of diversity can be achieved by using indices built on the relative abundance of taxa. These indices (sometimes referred to as non-parametric indices) benefit from not making assumptions about the underlying distribution of taxa abundance: they only take relative abundances of the species that are present and species richness into account. @peet1974 refers to them as indices of *heterogeneity* ($H$).
 
@@ -133,13 +161,17 @@ Diversity indices focus on one aspect of the taxa abundance and emphasize either
 ##### Shannon-Wiener diversity index
 The Shannon-Wiener index [@shannon1948] assumes that individuals are randomly sampled from an infinite population and that all taxa are represented in the sample (it does not reflect the sample size). The main source of error arises from the failure to include all taxa in the sample: this error increases as the proportion of species discovered in the sample declines [@peet1974; @magurran1988]. The maximum likelihood estimator (MLE) is used for the relative abundance, this is known to be negatively biased by sample size.
 
-Diversity:
+Heterogeneity for an infinite sample:
 
 $$ H' = - \sum_{i = 1}^{S} p_i \ln p_i $$
 
+Heterogeneity for a finite sample:
+
+$$ H' = - \sum_{i = 1}^{S} \frac{n_i}{N} \ln \frac{n_i}{N} $$
+
 Evenness:
 
-$$ E = \frac{H'}{H'_{max}} = \frac{H'}{\ln S} = - \sum_{i = 1}^{S} p_i \log_S p_i $$
+$$ E = \frac{H}{H_{max}} = \frac{H'}{\ln S} = - \sum_{i = 1}^{S} p_i \log_S p_i $$
 
 When $p_i$ is unknown in the population, an estimate is given by $\hat{p}_i =\frac{n_i}{N}$ (maximum likelihood estimator - MLE). As the use of $\hat{p}_i$ results in a biased estimate, @hutcheson1970 and @bowman1971 suggest the use of:
 
@@ -152,15 +184,15 @@ The Brillouin index [@brillouin1956] describes a known collection: it does not a
 
 Diversity:
 
-$$ HB = \frac{\ln (N!) - \sum_{i = 1}^{S} \ln (n_i!)}{N} $$
+$$ H' = \frac{\ln (N!) - \sum_{i = 1}^{S} \ln (n_i!)}{N} $$
 
 Evenness:
 
-$$ E = \frac{HB}{HB_{max}} $$
+$$ E = \frac{H'}{H'_{max}} $$
 
 with:
 
-$$ HB_{max} = \frac{1}{N} \ln \frac{N!}{\left( \lfloor \frac{N}{S} \rfloor! \right)^{S - r} \left[ \left( \lfloor \frac{N}{S} \rfloor + 1 \right)! \right]^{r}} $$
+$$ H'_{max} = \frac{1}{N} \ln \frac{N!}{\left( \lfloor \frac{N}{S} \rfloor! \right)^{S - r} \left[ \left( \lfloor \frac{N}{S} \rfloor + 1 \right)! \right]^{r}} $$
 
 where: $r = N - S \lfloor \frac{N}{S} \rfloor$.
 
@@ -176,7 +208,7 @@ $$ D = \sum_{i = 1}^{S} p_i^2 $$
 
 Dominance for a finite sample:
 
-$$ \lambda = \sum_{i = 1}^{S} \frac{n_i \left( n_i - 1 \right)}{N \left( N - 1 \right)} $$
+$$ D = \sum_{i = 1}^{S} \frac{n_i \left( n_i - 1 \right)}{N \left( N - 1 \right)} $$
 
 ##### McIntosh index
 The McIntosh index [@mcintosh1967] expresses the heterogeneity of a sample in geometric terms. It describes the sample as a point of a $S$-dimensional hypervolume and uses the Euclidean distance of this point from the origin.
@@ -198,15 +230,14 @@ The Berger-Parker index [@berger1970] expresses the proportional importance of t
 
 Dominance:
 
-$$ d = \frac{n_{max}}{N} $$
+$$ D = \frac{n_{max}}{N} $$
 
 ### Usage
 
 ```{r diversity}
 mississippi %>%
   as_count() %>%
-  diversity(simplify = TRUE) %>%
-  head()
+  index_heterogeneity(method = "shannon")
 ```
 
 Note that `berger`, `mcintosh` and `simpson` methods return a *dominance* index, not the reciprocal form usually adopted, so that an increase in the value of the index accompanies a decrease in diversity.
@@ -216,8 +247,7 @@ Corresponding *evenness* can also be computed :
 ```{r evenness}
 mississippi %>%
   as_count() %>%
-  evenness(simplify = TRUE) %>%
-  head()
+  index_evenness(method = "shannon")
 ```
 
 # $\beta$-diversity
@@ -240,31 +270,23 @@ We denote the $m \times p$ incidence matrix by $X = \left[ x_{ij} \right] ~\fora
  \forall y_{ij} \in \lbrace 0,1 \rbrace
 \end{align}
 
-#### Whittaker measure [@whittaker1960]
+|   | Measure                           | Reference      |
+|:-:|:----------------------------------|:---------------|
+| * | $$ \beta_W = \frac{S}{\alpha} - 1 $$ | @whittaker1960 |
+| * | $$ \beta_C = \frac{g(H) + l(H)}{2} - 1 $$ | @cody1975 |
+| * | $$ \beta_R = \frac{S^2}{2 y_{\cdot \cdot} + S} - 1 $$ | @routledge1977 |
+| * | $$ \beta_I = \log x_{\cdot \cdot} - \frac{\sum_{j = 1}^{p} x_{\cdot j} \log x_{\cdot j}}{x_{\cdot \cdot}} - \frac{\sum_{i = 1}^{m} x_{i \cdot} \log x_{i \cdot}}{x_{\cdot \cdot}} $$ | @routledge1977 |
+| * | $$ \beta_E = \exp(\beta_I) - 1 $$ | @routledge1977 |
+| * | $$ \beta_T = \frac{g(H) + l(H)}{2\alpha} $$ | @wilson1984 |
+Table: Turnover measures. *: implemented.
 
-$$ \beta_W = \frac{S}{\alpha} - 1 $$
+Where:
 
-where $\alpha$ is the mean sample diversity: $\alpha = \frac{x_{\cdot \cdot}}{m}$.
+* $\alpha$ is the mean sample diversity: $\alpha = \frac{x_{\cdot \cdot}}{m}$,
+* $g(H)$ is the number of taxa gained along the transect,
+* $l(H)$ is the number of taxa lost along the transect.
 
-#### Cody measure [@cody1975]
-
-$$ \beta_C = \frac{g(H) + l(H)}{2} - 1 $$
-
-where $g(H)$ is the number of taxa gained along the transect and $l(H)$ the number of taxa lost.
-
-#### Routledge measures [@routledge1977]
-
-\begin{align}
- \beta_R &= \frac{S^2}{2 y_{\cdot \cdot} + S} - 1 \\
- \beta_I &= \log x_{\cdot \cdot} - \frac{\sum_{j = 1}^{p} x_{\cdot j} \log x_{\cdot j}}{x_{\cdot \cdot}} - \frac{\sum_{i = 1}^{m} x_{i \cdot} \log x_{i \cdot}}{x_{\cdot \cdot}} \\
- \beta_E &= \exp(\beta_I) - 1
-\end{align}
-
-#### Wilson and Shmida measure [@wilson1984]
-
-$$ \beta_T = \frac{g(H) + l(H)}{2\alpha} $$
-
-where $g(H)$ is the number of taxa gained along the transect, $l(H)$ the number of taxa lost and $\alpha$ the mean sample diversity, $\alpha = \frac{x_{\cdot \cdot}}{m}$.
+### Usage
 
 ## Similarity
 ### Definitions
@@ -272,48 +294,49 @@ Similarity between two samples $a$ and $b$ or between two types $x$ and $y$ can 
 
 These indices provide a scale of similarity from $0$-$1$ where $1$ is perfect similarity and $0$ is no similarity, with the exception of the Brainerd-Robinson index which is scaled between $0$ and $200$.
 
-$a_j$ and $b_j$ denote the number of individuals in the $j$-th type/taxon, $j \in \left[ 1,n \right]$. $o_j$ denotes the number of type/taxon common to both sample/case: $o_j = \sum_{k = 1}^{n} a_k \cap b_k$.
+|   | Measure                           | Reference      |
+|:-:|:----------------------------------|:---------------|
+| * | $$ C_J = \frac{o_j}{S_a + S_b - o_j} $$ | Jaccard |
+| * | $$ C_S = \frac{2 \times o_j}{S_a + S_b} $$ | Sorenson |
+Table: Qualitative similarity measures (between samples). *: implemented.
 
-$x_i$ and $y_i$ denote the number of individuals in the $i$-th sample/case, $i \in \left[ 1,m \right]$. $o_i$ denotes the number of sample/case common to both type/taxon: $o_i = \sum_{k = 1}^{m} x_k \cap y_k$.
+|   | Measure                           | Reference      |
+|:-:|:----------------------------------|:---------------|
+| * | $$ C_{BR} = 200 - \sum_{j = 1}^{S} \left| \frac{a_j \times 100}{\sum_{j = 1}^{S} a_j} - \frac{b_j \times 100}{\sum_{j = 1}^{S} b_j} \right|$$ | @brainerd1951, @robinson1951 |
+| * | $$ C_N = \frac{2 \sum_{j = 1}^{S} \min(a_j, b_j)}{N_a + N_b} $$ | @bray1957, Sorenson |
+| * | $$ C_{MH} = \frac{2 \sum_{j = 1}^{S} a_j \times b_j}{(\frac{\sum_{j = 1}^{S} a_j^2}{N_a^2} + \frac{\sum_{j = 1}^{S} b_j^2}{N_b^2}) \times N_a \times N_b} $$ | Morisita-Horn |
+Table: Quantitative similarity measures (between samples). *: implemented.
 
-#### Qualitative indices
-##### Jaccard index
+|   | Measure                           | Reference      |
+|:-:|:----------------------------------|:---------------|
+| * | $$ C_{Bi} = \frac{o_i - N \times p}{\sqrt{N \times p \times (1 - p)}} $$ | @kintigh2006 |
+Table: Quantitative similarity measures (between types). *: implemented.
 
-$$ C_J = \frac{o_j}{S_a + S_b - o_j} $$
+Where:
 
-##### Sorenson index
-
-$$ C_S = \frac{2 \times o_j}{S_a + S_b} $$
-
-#### Quantitative index
-##### Brainerd-Robinson index [@brainerd1951; @robinson1951]
-
-$$ C_{BR} = 200 - \sum_{j = 1}^{S} \left| \frac{a_j \times 100}{\sum_{j = 1}^{S} a_j} - \frac{b_j \times 100}{\sum_{j = 1}^{S} b_j} \right|$$
-
-##### Sorenson index
-
-@bray1957 modified version of Sorenson's index:
-
-$$ C_N = \frac{2 \sum_{j = 1}^{S} \min(a_j, b_j)}{N_a + N_b} $$
-
-##### Morisita-Horn index
-
-$$ C_{MH} = \frac{2 \sum_{j = 1}^{S} a_j \times b_j}{(\frac{\sum_{j = 1}^{S} a_j^2}{N_a^2} + \frac{\sum_{j = 1}^{S} b_j^2}{N_b^2}) \times N_a \times N_b} $$
-
-##### Binomial co-occurrence [@kintigh2006]
-
-$$ C_{Bi} = \frac{o_i - N \times p}{\sqrt{N \times p \times (1 - p)}} $$
+* $S_a$ and $S_b$ denote the total number of taxa observed in samples $a$ and $b$, respectively,
+* $N_a$ and $N_b$ denote the total number of individuals in samples $a$ and $b$, respectively,
+* $a_j$ and $b_j$ denote the number of individuals in the $j$-th type/taxon, $j \in \left[ 1,S \right]$,
+* $x_i$ and $y_i$ denote the number of individuals in the $i$-th sample/case, $i \in \left[ 1,m \right]$,
+* $o_i$ denotes the number of sample/case common to both type/taxon: $o_i = \sum_{k = 1}^{m} x_k \cap y_k$,
+* $o_j$ denotes the number of type/taxon common to both sample/case: $o_j = \sum_{k = 1}^{S} a_k \cap b_k$.
 
 ### Usage
 
 ```{r similarity, fig.width=7, fig.height=5, fig.align="center"}
-# Brainerd-Robinson index
+# Brainerd-Robinson (similarity between assemblages)
 mississippi %>%
   as_count() %>%
   similarity(method = "brainerd") %>%
   plot_spot() +
-  ggplot2::labs(size = "Similarity", colour = "Similarity") +
   khroma::scale_colour_YlOrBr()
+
+# Binomial co-occurrence (similarity between types)
+mississippi %>%
+  as_count() %>%
+  similarity(method = "binomial") %>%
+  plot_spot() +
+  khroma::scale_colour_PRGn()
 ```
 
 # Abundance models

@@ -121,8 +121,9 @@ Brainerd, G. W. (1951). The Place of Chronological Ordering in
  DOI: \href{https://doi.org/10.2307/276978}{10.2307/276978}.
 }
 \seealso{
-Other diversity: \code{\link{diversity}},
-  \code{\link{richness}}, \code{\link{turnover}}
+Other diversity: \code{\link{heterogeneity-index}},
+  \code{\link{richness-index}},
+  \code{\link{turnover-index}}
 }
 \author{
 N. Frerebeau

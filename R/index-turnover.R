@@ -2,7 +2,7 @@
 NULL
 
 #' @export
-#' @rdname turnover-method
+#' @rdname turnover-index
 #' @aliases turnover,CountMatrix-method
 setMethod(
   f = "turnover",
@@ -16,7 +16,7 @@ setMethod(
 )
 
 #' @export
-#' @rdname turnover-method
+#' @rdname turnover-index
 #' @aliases turnover,IncidenceMatrix-method
 setMethod(
   f = "turnover",

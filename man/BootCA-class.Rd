@@ -55,6 +55,7 @@ of the samples and variables to be kept, respectively.}
 
 \seealso{
 Other class: \code{\link{DateModel-class}},
+  \code{\link{DiversityIndex}},
   \code{\link{PermutationOrder-class}}
 }
 \author{

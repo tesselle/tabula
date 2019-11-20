@@ -110,6 +110,14 @@ extractSlot <- function(x, i) {
 
 #' @export
 #' @rdname subset
+#' @aliases [[,DiversityIndex-method
+setMethod(
+  f = "[[",
+  signature = "DiversityIndex",
+  definition = extractSlot
+)
+#' @export
+#' @rdname subset
 #' @aliases [[,DateModel-method
 setMethod(
   f = "[[",

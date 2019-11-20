@@ -4,7 +4,7 @@
 \name{DateModel-class}
 \alias{DateModel-class}
 \alias{.DateModel}
-\title{Date model}
+\title{Date Model}
 \description{
 An S4 class to store the event and accumulation times of archaeological
  assemblages.
@@ -12,6 +12,9 @@ An S4 class to store the event and accumulation times of archaeological
 \section{Slots}{
 
 \describe{
+\item{\code{id}}{A \code{\link{character}} string specifying the unique
+identifier of the corresponding matrix (UUID v4).}
+
 \item{\code{counts}}{A numeric matrix of count data.}
 
 \item{\code{level}}{A length-one \code{\link{numeric}} vector giving the
@@ -55,6 +58,7 @@ point estimate of the accumulation dates and the corresponding error.}
 
 \seealso{
 Other class: \code{\link{BootCA-class}},
+  \code{\link{DiversityIndex}},
   \code{\link{PermutationOrder-class}}
 }
 \author{

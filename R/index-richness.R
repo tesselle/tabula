@@ -2,66 +2,48 @@
 NULL
 
 #' @export
-#' @rdname richness
-#' @aliases richness,CountMatrix-method
+#' @rdname richness-index
+#' @aliases index_richness,CountMatrix-method
 setMethod(
-  f = "richness",
+  f = "index_richness",
   signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("ace", "chao1",
                                            "margalef", "menhinick", "none"),
                         unbiased = FALSE, improved = FALSE, k = 10,
-                        simplify = FALSE) {
-    E <- lapply(
-      X = method,
-      FUN = function(x, object, unbiased, improved, k) {
-        index <- switch_richness(x)
-        apply(X = object, MARGIN = 1, FUN = index, unbiased = unbiased,
-              improved = improved, k = k)
-      },
-      object, unbiased, improved, k
-    )
-    names(E) <- method
-    if (simplify)
-      E <- simplify2array(E, higher = FALSE)
-    return(E)
+                        jackknife = TRUE, bootstrap = TRUE, simulate = FALSE,
+                        level = 0.80, n = 1000, ...) {
+    fun <- switch_richness_count(method)
+    index <- index_diversity(object, fun, jackknife, bootstrap, simulate,
+                             prob = NULL, level = level, n = n,
+                             unbiased = unbiased, improved = improved, k = k)
+    index@method <- method[[1L]]
+    methods::as(index, "RichnessIndex")
   }
 )
 
 #' @export
-#' @rdname richness
-#' @aliases richness,IncidenceMatrix-method
+#' @rdname richness-index
+#' @aliases index_richness,IncidenceMatrix-method
 setMethod(
-  f = "richness",
+  f = "index_richness",
   signature = signature(object = "IncidenceMatrix"),
-  definition = function(object, method = c("chao2", "ice"),
-                        unbiased = FALSE, improved = FALSE, k = 10,
-                        simplify = FALSE) {
+  definition = function(object, method = c("chao2", "ice", "none"),
+                        unbiased = FALSE, improved = FALSE, k = 10) {
     # Validation
-    method <- match.arg(method, several.ok = TRUE)
-    E <- lapply(
-      X = method,
-      FUN = function(x, object, unbiased, improved, k) {
-        index <- switch (
-          x,
-          ice = richnessICE,
-          chao2 = richnessChao2,
-          stop(sprintf("There is no such method: %s.", method), call. = FALSE)
-        )
-        index(object, unbiased = unbiased, improved = improved, k = k)
-      },
-      object, unbiased, improved, k
+    fun <- switch_richness_incid(method)
+    index <- fun(object, unbiased = unbiased, improved = improved, k = k)
+    .RichnessIndex(
+      id = object[["id"]],
+      index = index,
+      method = method
     )
-    names(E) <- method
-    if (simplify)
-      E <- simplify2array(E, higher = FALSE)
-    return(E)
   }
 )
 
-switch_richness <- function(x) {
+switch_richness_count <- function(x) {
   # Validation
   measures <- c("ace", "chao1", "margalef", "menhinick", "none")
-  method <- match.arg(x, choices = measures, several.ok = TRUE)
+  x <- match.arg(x, choices = measures, several.ok = FALSE)
 
   index <- switch (
     x,
@@ -70,7 +52,21 @@ switch_richness <- function(x) {
     margalef = richnessMargalef,
     menhinick = richnessMenhinick,
     none = function(x, ...) { sum(x > 0) },
-    stop(sprintf("There is no such method: %s.", method), call. = FALSE)
+    stop(sprintf("There is no such method: %s.", x), call. = FALSE)
+  )
+  return(index)
+}
+switch_richness_incid <- function(x) {
+  # Validation
+  measures <- c("chao2", "ice", "none")
+  x <- match.arg(x, choices = measures, several.ok = FALSE)
+
+  index <- switch (
+    x,
+    chao2 = richnessChao2,
+    ice = richnessICE,
+    none = function(x, ...) { sum(x > 0) },
+    stop(sprintf("There is no such method: %s.", x), call. = FALSE)
   )
   return(index)
 }

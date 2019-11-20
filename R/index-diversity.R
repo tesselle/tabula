@@ -1,305 +1,99 @@
 #' @include AllGenerics.R AllClasses.R
 NULL
 
-#' @export
-#' @rdname diversity
-#' @aliases diversity,CountMatrix-method
-setMethod(
-  f = "diversity",
-  signature = signature(object = "CountMatrix"),
-  definition = function(object, method = c("berger", "brillouin", "mcintosh",
-                                           "shannon", "simpson"),
-                        simplify = FALSE, ...) {
-    # Validation
-    method <- match.arg(method, several.ok = TRUE)
-    H <- lapply(
-      X = method,
-      FUN = function(x, data) {
-        index <- switch_heterogeneity(x)
-        apply(X = object, MARGIN = 1, FUN = index)
+index_diversity <- function(x, method, jackknife = TRUE, bootstrap = TRUE,
+                            simulate = FALSE, prob = NULL, level = 0.80,
+                            n = 1000, ...) {
+  jack <- boot <- sim <- matrix(0, 0, 0)
+  # Heterogeneity
+  idx <- apply(X = x, MARGIN = 1, FUN = method, ...)
+  names(idx) <- rownames(x)
+  # Jackknife
+  if (jackknife) {
+    jack <- apply(
+      X = x,
+      MARGIN = 1,
+      FUN = function(x, foo, ...) {
+        jackknife(x, foo, ...)[c("mean", "bias", "error")]
       },
-      data = object)
-    names(H) <- method
-    if (simplify)
-      H <- simplify2array(H, higher = FALSE)
-    return(H)
+      foo = method, ...
+    )
+    jack <- do.call(rbind, jack)
   }
-)
-
-#' @export
-#' @rdname diversity
-#' @aliases evenness,CountMatrix-method
-setMethod(
-  f = "evenness",
-  signature = signature(object = "CountMatrix"),
-  definition = function(object, method = c("brillouin", "mcintosh",
-                                           "shannon", "simpson"),
-                        simplify = FALSE, ...) {
-    # Validation
-    method <- match.arg(method, several.ok = TRUE)
-    E <- lapply(X = method, FUN = function(x, data) {
-      index <- switch_evenness(x)
-      apply(X = object, MARGIN = 1, FUN = index)
-    }, data = object)
-    names(E) <- method
-    if (simplify)
-      E <- simplify2array(E, higher = FALSE)
-    return(E)
+  # Bootstrap
+  if (bootstrap) {
+    boot <- apply(
+      X = x,
+      MARGIN = 1,
+      FUN = function(x, foo, n, ...) bootstrap(x, foo, n, ...),
+      foo = method, n = n, ...
+    )
+    boot <- do.call(rbind, boot)
   }
-)
+  # Simulation
+  if (simulate) {
+    sim <- simulate_diversity(x, method, prob = prob, level = level, n = n)
+  }
 
-
-switch_heterogeneity <- function(x) {
-  # Validation
-  measures <- c("berger", "brillouin", "mcintosh", "shannon", "simpson")
-  method <- match.arg(x, choices = measures, several.ok = TRUE)
-
-  index <- switch (
-    x,
-    berger = dominanceBerger,
-    brillouin = diversityBrillouin,
-    mcintosh = dominanceMcintosh,
-    shannon = diversityShannon,
-    simpson = dominanceSimpson,
-    stop(sprintf("There is no such method: %s.", method), call. = FALSE)
+  .DiversityIndex(
+    id = x[["id"]],
+    index = idx,
+    size = rowSums(x),
+    jackknife = jack,
+    boostrap = boot,
+    simulated = sim
   )
-  return(index)
 }
 
-switch_evenness <- function(x) {
-  # Validation
-  measures <- c("shannon", "brillouin", "mcintosh", "simpson")
-  method <- match.arg(x, choices = measures, several.ok = TRUE)
 
-  index <- switch (
-    x,
-    brillouin = evennessBrillouin,
-    mcintosh = evennessMcintosh,
-    shannon = evennessShannon,
-    simpson = evennessSimpson,
-    stop(sprintf("There is no such method: %s.", method), call. = FALSE)
-  )
-  return(index)
-}
-
-# ==============================================================================
-#' Diversity, dominance and evenness index
-#'
-#' \code{dominanceBerger} returns Berger-Parker dominance index.
-#' \code{diversityBrillouin} and \code{evennessBrillouin} return Brillouin
-#' diversity index and evenness.
-#' \code{dominanceMcintosh} and \code{evennessMcintosh} return McIntosh
-#' dominance index and evenness.
-#' \code{diversityShannon}, \code{evennessShannon}, \code{varianceShannon}
-#' return Shannon-Wiener diversity index, evenness and variance.
-#' \code{dominanceSimpson} and \code{evennessSimpson} return Simpson dominance
-#' index and evenness.
-#' @param x A \code{\link{numeric}} vector giving the number of individuals for
-#'  each class.
-#' @param ... Currently not used.
-#' @return A length-one \code{\link{numeric}} vector.
-#' @references
-#'  Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
-#'  in Deep-Sea Sediments. \emph{Science}, 168(3937), 1345-1347.
-#'  DOI: \href{https://doi.org/10.1126/science.168.3937.1345}{10.1126/science.168.3937.1345}.
-#'
-#'  Brillouin, L. (1956). \emph{Science and information theory}. New York:
-#'  Academic Press.
-#'
-#'  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
-#'  Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
-#'  DOI: \href{https://doi.org/10.2307/1932674}{10.2307/1932674}.
-#'
-#'  Shannon, C. E. (1948). A Mathematical Theory of Communication. \emph{The
-#'  Bell System Technical Journal}, 27, 379-423.
-#'  DOI: \href{https://doi.org/10.1002/j.1538-7305.1948.tb01338.x}{10.1002/j.1538-7305.1948.tb01338.x}.
-#'
-#'  Simpson, E. H. (1949). Measurement of Diversity. \emph{Nature}, 163(4148),
-#'  688-688. DOI: \href{https://doi.org/10.1038/163688a0}{10.1038/163688a0}.
-#' @author N. Frerebeau
-#' @family diversity index
-#' @name index-heterogeneity
+#' @param x A \code{\link{numeric}} vector giving the sample size.
+#' @param prob A length-\eqn{p} \code{\link{numeric}} vector giving the of
+#'  probability of the \eqn{p} taxa/types (see below). If \code{NULL} (the
+#'  default), probabilities are estimated from the whole dataset.
+#' @param level A length-one \code{\link{numeric}} vector giving the
+#'  confidence level.
+#' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
+#' replications.
 #' @keywords internal
 #' @noRd
+simulate_diversity <- function(x, method, prob = NULL,
+                               level = 0.80, n = 1000, ...) {
+  # Specify the probability for the classes
+  if (is.null(prob) && is.matrix(x)) {
+    prob <- colSums(x) / sum(x)
+  }
+  # Sample size
+  if (is.matrix(x)) {
+    size <- max(rowSums(x))
+    sample_sizes <- seq_len(size * 1.05)
+  } else {
+    sample_sizes <- x
+  }
 
-# Berger-Parker ----------------------------------------------------------------
-# @rdname index-heterogeneity
-dominanceBerger <- function(x, ...) {
-  # Validation
-  check_type(x, expected = "numeric")
-  # Remove zeros
-  x <- x[x > 0]
+  sim <- function(x, n, prob, level, method, ...) {
+    replicates <- stats::rmultinom(n, size = x, prob = prob)
+    R <- apply(X = replicates, MARGIN = 2, FUN = method, ...)
 
-  Nmax <- max(x)
-  N <- sum(x)
-  d <- Nmax / N
-  d
+    # Confidence interval as described in Kintigh 1989
+    # k <- (1 - level) / 2
+    # conf <- quantile(R, probs = c(k, k + level))
+
+    # Confidence interval
+    conf <- mean(R) + stats::sd(R) * stats::qnorm(level / 2) * c(-1, 1)
+
+    c(mean(R), conf)
+  }
+  loop_args <- list(X = sample_sizes, FUN = sim,
+                    n = n, prob = prob, level = level, method = method, ...)
+  loop_fun <- if (requireNamespace("pbapply", quietly = TRUE)) {
+    pbapply::pblapply
+  } else {
+    lapply
+  }
+  simulated <- do.call(loop_fun, loop_args)
+  simulated <- do.call(rbind, simulated)
+  simulated <- cbind(sample_sizes, simulated)
+  colnames(simulated) <- c("size", "mean", "lower", "upper")
+
+  return(simulated)
 }
-
-# Brillouin --------------------------------------------------------------------
-# @rdname index-heterogeneity
-diversityBrillouin <- function(x, ...) {
-  # Validation
-  check_type(x, expected = "numeric")
-  # Remove zeros
-  x <- x[x > 0]
-
-  N <- sum(x)
-  HB <- (lfactorial(N) - sum(lfactorial(x))) / N
-  HB
-}
-# @rdname index-heterogeneity
-evennessBrillouin <- function(x, ...) {
-  # Validation
-  check_type(x, expected = "numeric")
-  # Remove zeros
-  x <- x[x > 0]
-
-  HB <- diversityBrillouin(x)
-  N <- sum(x)
-  S <- length(x) # richness = number of different species
-  a <- trunc(N / S)
-  r <- N - S * a
-  c <- (S - r) * lfactorial(a) + r * lfactorial(a + 1)
-  HBmax <- (1 / N) * (lfactorial(N) - c)
-  E <- HB / HBmax
-  E
-}
-
-# McIntosh ---------------------------------------------------------------------
-# @rdname index-heterogeneity
-dominanceMcintosh <- function(x, ...) {
-  # Validation
-  check_type(x, expected = "numeric")
-  # Remove zeros
-  x <- x[x > 0]
-
-  N <- sum(x)
-  U <- sqrt(sum(x^2))
-  D <- (N - U) / (N - sqrt(N))
-  D
-}
-# @rdname index-heterogeneity
-evennessMcintosh <- function(x, ...) {
-  # Validation
-  check_type(x, expected = "numeric")
-  # Remove zeros
-  x <- x[x > 0]
-
-  N <- sum(x)
-  S <- length(x) # richness = number of different species
-  U <- sqrt(sum(x^2))
-  E <- (N - U) / (N - (N / sqrt(S)))
-  E
-}
-
-# Shannon ----------------------------------------------------------------------
-# @rdname index-heterogeneity
-diversityShannon <- function(x, base = exp(1), zero.rm = TRUE, ...) {
-  # Validation
-  check_type(x, expected = "numeric")
-  # Remove zeros
-  if (zero.rm) x <- x[x > 0]
-
-  N <- sum(x)
-  S <- length(x) # richness = number of different species
-  p <- x / N
-  Hmax <- log(p, base)
-  Hmax[is.infinite(Hmax)] <- 0
-
-  H <- -sum(p * Hmax)
-  H
-}
-# @rdname index-heterogeneity
-evennessShannon <- function(x, zero.rm = TRUE, ...) {
-  # Validation
-  check_type(x, expected = "numeric")
-  # Remove zeros
-  if (zero.rm) x <- x[x > 0]
-
-  S <- length(x)
-  E <- diversityShannon(x, zero.rm = zero.rm) / log(S)
-  E
-}
-# @rdname index-heterogeneity
-varianceShannon <- function(x, ...) {
-  # Validation
-  check_type(x, expected = "numeric")
-  # Remove zeros
-  x <- x[x > 0]
-
-  N <- sum(x)
-  S <- length(x) # richness = number of different species
-  p <- x / N
-  a <- sum(p * (log(p, base = exp(1)))^2)
-  b <- sum(p * log(p, base = exp(1)))^2
-  var <- ((a - b) / N) + ((S - 1) / (2 * N^2))
-  var
-}
-
-# Simpson ----------------------------------------------------------------------
-# @rdname index-heterogeneity
-dominanceSimpson <- function(x, ...) {
-  # Validation
-  check_type(x, expected = "numeric")
-  # Remove zeros
-  x <- x[x > 0]
-
-  N <- sum(x)
-  D <- sum(x * (x - 1)) / (N* (N - 1)) # For discrete data
-  D
-}
-# @rdname index-heterogeneity
-evennessSimpson <- function(x, ...) {
-  # Validation
-  check_type(x, expected = "numeric")
-  # Remove zeros
-  x <- x[x > 0]
-
-  D <- 1 / dominanceSimpson(x)
-  S <- length(x[x > 0]) # richness = number of different species
-  E <- D / S
-  E
-}
-
-# Chao -------------------------------------------------------------------------
-# Chao index
-#
-# @param n A \code{\link{numeric}} vector.
-# @param method A \code{\link{character}} string specifiying the method to be
-#  used. This must be one of "MLEU", "CHAO" (see details). Any unambiguous
-#  substring can be given.
-# @param k A length-one \code{\link{numeric}} vector.
-# @param base A positive or complex number: the base with respect to which
-#  logarithms are computed (see \code{\link[base]{log}}).
-# @param ... Currently not used.
-# @details TODO
-# @return A length-one \code{\link{numeric}} vector.
-# @family diversity index
-# @author N. Frerebeau
-# chaoIndex <- function(n, method = c("MLEU", "CHAO"), k = 10, base = exp(1)) {
-#   method <- match.arg(method, several.ok = FALSE)
-#
-#   f <- function(i, n) { sum(n == i) }
-#   N <- sum(n)
-#   # p estimation
-#   p <- n / N
-#   C_e <- 1 - (f(1, n) / N)
-#   p_e <- p * C_e
-#   # s estimation
-#   S.abun <- sum(sapply(X = (k + 1):N, FUN = f, n))
-#   S.rare <- sum(sapply(X = 1:k, FUN = f, n))
-#   C.rare <- 1 - sum(c(1:k) * sapply(X = 1:k, FUN = f, n))
-#   a <- sum(1:k * c(1:k - 1) * sapply(X = 1:k, FUN = f, n))
-#   b <- sum(1:k * sapply(X = 1:k, FUN = f, n)) *
-#     sum(1:k * sapply(X = 1:k, FUN = f, n) - 1)
-#   gamma <- max((S.rare / C.estimate) * (a / b) - 1, 0)
-#   S.estimate <- S.abun + (S.rare / C.rare) + (f(1, n) / C.rare) * gamma^2
-#
-#   H <- switch (
-#     methode,
-#     MLEU = shannon.index(n, base) + (S.estimate - 1) / (2 * N),
-#     CHAO = -sum((p_e * log(p_e, base)) / (1 - (1 - p_e)^N))
-#   )
-#   return(H)
-# }

@@ -7,16 +7,16 @@ birds <- CountMatrix(
            0, 3, 9, 0, 0, 5, 0, 0, 0, 0, 1, 1),
   nrow = 2, byrow = TRUE, dimnames = list(c("oakwood", "spruce"), NULL))
 
-diversity(birds, "shannon") # 2.40 2.06
-evenness(birds, "shannon") # 0.80 0.78
+index_heterogeneity(birds, "shannon") # 2.40 2.06
+index_evenness(birds, "shannon") # 0.80 0.78
 
 # Brillouin diversity index
 # Data from Magurran 1988, p. 150-151
 moths <- CountMatrix(data = c(17, 15, 11, 4, 4, 3, 3, 3, 2, 2, 1, 1, 1),
                      nrow = 1, byrow = TRUE)
 
-diversity(moths, "brillouin") # 1.88
-evenness(moths, "brillouin") # 0.83
+index_heterogeneity(moths, "brillouin") # 1.88
+index_evenness(moths, "brillouin") # 0.83
 
 # Simpson dominance index
 # Data from Magurran 1988, p. 152-153
@@ -26,8 +26,8 @@ trees <- CountMatrix(
   nrow = 1, byrow = TRUE
 )
 
-diversity(trees, "simpson") # 1.19
-evenness(trees, "simpson") # 0.21
+index_heterogeneity(trees, "simpson") # 1.19
+index_evenness(trees, "simpson") # 0.21
 
 # McIntosh dominance index
 # Data from Magurran 1988, p. 154-155
@@ -37,8 +37,8 @@ invertebrates <- CountMatrix(
   nrow = 1, byrow = TRUE
 )
 
-diversity(invertebrates, "mcintosh") # 0.71
-evenness(invertebrates, "mcintosh") # 0.82
+index_heterogeneity(invertebrates, "mcintosh") # 0.71
+index_evenness(invertebrates, "mcintosh") # 0.82
 
 # Berger-Parker dominance index
 # Data from Magurran 1988, p. 156-157
@@ -53,4 +53,4 @@ fishes <- CountMatrix(
                     "station 4", "station 5"), NULL)
 )
 
-diversity(fishes, "berger") # 0.71 0.63 0.50 0.60 0.51
+index_heterogeneity(fishes, "berger") # 0.71 0.63 0.50 0.60 0.51

@@ -9,6 +9,9 @@
 \alias{plotSpot}
 \alias{seriate}
 \alias{refine}
+\alias{diversity}
+\alias{evenness}
+\alias{richness}
 \alias{refine,CountMatrix-method}
 \alias{refine,DateModel-method}
 \alias{plotBar,CountMatrix-method}
@@ -25,6 +28,10 @@
 \alias{seriate,CountMatrix,missing-method}
 \alias{seriate,IncidenceMatrix,missing-method}
 \alias{seriate,CountMatrix,BootCA-method}
+\alias{diversity,CountMatrix-method}
+\alias{evenness,CountMatrix-method}
+\alias{richness,CountMatrix-method}
+\alias{richness,IncidenceMatrix-method}
 \title{Deprecated Methods}
 \usage{
 plotBar(object, ...)
@@ -38,6 +45,12 @@ plotSpot(object, ...)
 seriate(object, subset, ...)
 
 refine(object, ...)
+
+diversity(object, ...)
+
+evenness(object, ...)
+
+richness(object, ...)
 
 \S4method{refine}{CountMatrix}(object, cutoff, n = 1000, axes = c(1,
   2), ...)
@@ -79,6 +92,19 @@ refine(object, ...)
 
 \S4method{seriate}{CountMatrix,BootCA}(object, subset, margin = c(1, 2),
   ...)
+
+\S4method{diversity}{CountMatrix}(object, method = c("berger",
+  "brillouin", "mcintosh", "shannon", "simpson"), simplify = FALSE, ...)
+
+\S4method{evenness}{CountMatrix}(object, method = c("brillouin",
+  "mcintosh", "shannon", "simpson"), simplify = FALSE, ...)
+
+\S4method{richness}{CountMatrix}(object, method = c("ace", "chao1",
+  "margalef", "menhinick", "none"), unbiased = FALSE, improved = FALSE,
+  k = 10, simplify = FALSE)
+
+\S4method{richness}{IncidenceMatrix}(object, method = c("chao2", "ice"),
+  unbiased = FALSE, improved = FALSE, k = 10, simplify = FALSE)
 }
 \arguments{
 \item{object}{An object.}
@@ -127,6 +153,20 @@ indicates columns, \code{c(1, 2)} indicates rows then columns,
 \item{stop}{A length-one \code{\link{numeric}} vector giving the stopping rule
 (i.e. maximum number of iterations) to avoid infinite loop.}
 
+\item{simplify}{A \code{\link{logical}} scalar: should the result be
+simplified to a matrix? The default value, \code{FALSE}, returns a list.}
+
+\item{unbiased}{A \code{\link{logical}} scalar. Should the bias-corrected
+estimator be used? Only used with "\code{chao1}" or "\code{chao2}"
+(improved) estimator.}
+
+\item{improved}{A \code{\link{logical}} scalar. Should the improved
+estimator be used? Only used with "\code{chao1}" or "\code{chao2}".}
+
+\item{k}{A length-one \code{\link{numeric}} vector giving the threshold
+between rare/infrequent and abundant/frequent species. Only used if
+\code{method} is "\code{ace}" or "\code{ice}".}
+
 \item{log}{A \code{\link{character}} string which contains "\code{x}" if the
 x axis is to be logarithmic, "\code{y}" if the y axis is to be logarithmic
 and "\code{xy}" or "\code{yx}" if both axes are to be logarithmic (base 10).}
@@ -136,6 +176,9 @@ defined by case/sample be drawn?}
 
 \item{EPPM}{A \code{\link{logical}} scalar: should the seriation be computed
 on EPPM instead of raw data?}
+
+\item{sample}{A length-one \code{\link{numeric}} vector giving the sub-sample
+size.}
 }
 \description{
 \code{plotBar} produces a Bertin or a Ford (battleship curve) diagram.

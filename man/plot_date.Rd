@@ -142,8 +142,8 @@ Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
 \link{date_event}, \link{test}
 
 Other plot: \code{\link{plot_bar}},
-  \code{\link{plot_line}}, \code{\link{plot_matrix}},
-  \code{\link{plot_spot}}
+  \code{\link{plot_diversity}}, \code{\link{plot_line}},
+  \code{\link{plot_matrix}}, \code{\link{plot_spot}}
 }
 \author{
 N. Frerebeau

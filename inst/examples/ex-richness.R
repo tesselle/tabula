@@ -4,8 +4,9 @@
 trap <- CountMatrix(data = c(9, 3, 0, 4, 2, 1, 1, 0, 1, 0, 1, 1,
                              1, 0, 1, 0, 0, 0, 1, 2, 0, 5, 3, 0),
                     nrow = 2, byrow = TRUE, dimnames = list(c("A", "B"), NULL))
-richness(trap, method = c("margalef", "menhinick"), simplify = TRUE)
+index_richness(trap, method = "margalef")
 ## A 2.55 1.88
+index_richness(trap, method = "menhinick")
 ## B 1.95 1.66
 
 ## Chao1-type estimators
@@ -19,21 +20,10 @@ brazil <- CountMatrix(
   nrow = 1, byrow = TRUE
 )
 
-richness(brazil, method = c("chao1", "ace"),
-         unbiased = FALSE, simplify = TRUE)
-## 461.625 488.284 445.822
+index_richness(brazil, method = c("chao1"), unbiased = FALSE)
+## 461.625
+index_richness(brazil, method = c("ace"), k = 10)
+## 445.822
 
 ## Rarefaction
 rarefaction(trap, sample = 13) # 6.56
-
-\donttest{
-## Assemblage diversity size comparison
-## Warning: this may take a few seconds!
-merzbach %>%
-  as_count() %>%
-  plot_richness()
-
-merzbach %>%
-  as_count() %>%
-  plot_evenness()
-}

@@ -3,11 +3,74 @@
 NULL
 
 # DEFINITION ===================================================================
+#' Diversity Index
+#'
+#' An S4 class to represent a diversity measure.
+#' @slot id A \code{\link{character}} string specifying the unique
+#'  identifier of the corresponding matrix (UUID v4).
+#' @slot index A \code{\link{numeric}} vector giving the diversity index values.
+#' @slot size A \code{\link{numeric}} vector giving the sample sizes.
+#' @slot jackknife A numeric \code{\link{matrix}} vector giving the jackknifed
+#'  estimates.
+#' @slot boostrap A numeric \code{\link{matrix}} vector giving the boostraped
+#'  estimates.
+#' @slot simulated A numeric \code{\link{matrix}} vector giving the diversity
+#'  measures for the simulated assemblage.
+#' @slot method A \code{\link{character}} string indicating the method used.
+#' @section Subset:
+#'  In the code snippets below, \code{x} is a \code{DiversityIndex} object.
+#'  \describe{
+#'   \item{\code{x[[i]]}}{Extracts informations from a slot selected by
+#'   subscript \code{i}. \code{i} is a length-one \code{\link{character}}
+#'   vector. Returns the corresponding slot values.}
+#'  }
+#' @author N. Frerebeau
+#' @family class
+#' @docType class
+#' @name DiversityIndex
+#' @rdname DiversityIndex
+NULL
+
+#' @rdname DiversityIndex
+#' @aliases DiversityIndex-class
+.DiversityIndex <- setClass(
+  Class = "DiversityIndex",
+  slots = c(
+    id = "character",
+    index = "numeric",
+    size = "numeric",
+    jackknife = "matrix",
+    boostrap = "matrix",
+    simulated = "matrix",
+    method = "character"
+  )
+)
+#' @rdname DiversityIndex
+#' @aliases HeterogeneityIndex HeterogeneityIndex-class
+.HeterogeneityIndex <- setClass(
+  Class = "HeterogeneityIndex",
+  contains = "DiversityIndex"
+)
+#' @rdname DiversityIndex
+#' @aliases EvennessIndex EvennessIndex-class
+.EvennessIndex <- setClass(
+  Class = "EvennessIndex",
+  contains = "DiversityIndex"
+)
+#' @rdname DiversityIndex
+#' @aliases RichnessIndex RichnessIndex-class
+.RichnessIndex <- setClass(
+  Class = "RichnessIndex",
+  contains = "DiversityIndex"
+)
+
 ## -----------------------------------------------------------------------------
-#' Date model
+#' Date Model
 #'
 #' An S4 class to store the event and accumulation times of archaeological
 #'  assemblages.
+#' @slot id A \code{\link{character}} string specifying the unique
+#'  identifier of the corresponding matrix (UUID v4).
 #' @slot counts A numeric matrix of count data.
 #' @slot level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.

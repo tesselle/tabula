@@ -355,24 +355,23 @@ setGeneric(
 #' Heterogeneity and Evenness
 #'
 #' @description
-#'  \code{diversity} returns an heterogeneity or dominance index.
+#'  \code{index_heterogeneity} returns an heterogeneity or dominance index.
 #'
-#'  \code{evenness} returns an evenness measure.
+#'  \code{index_evenness} returns an evenness measure.
 #' @param object A \eqn{m \times p}{m x p} matrix of count data (typically
 #'  a \linkS4class{CountMatrix} object).
-#' @param method A \code{\link{character}} string or vector of strings
-#'  specifying the index to be computed (see details).
-#'  Any unambiguous substring can be given.
-#' @param simplify A \code{\link{logical}} scalar: should the result be
-#'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
-#' @param size A \code{\link{numeric}} vector giving the sample size.
-#' @param prob A length-\eqn{p} \code{\link{numeric}} vector giving the of
-#'  probability of the \eqn{p} taxa/types (see below). If \code{NULL} (the
-#'  default), probabilities are estimated from the whole dataset.
+#' @param method A \code{\link{character}} string specifying the index to be
+#'  computed (see details). Any unambiguous substring can be given.
+#' @param jackknife A \code{\link{logical}} scalar: should jackknifed estimates
+#'  be computed?
+#' @param bootstrap A \code{\link{logical}} scalar: should boostraped estimates
+#'  be computed?
+#' @param simulate A \code{\link{logical}} scalar: simulated assemblages
+#'  be computed?
 #' @param level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
 #' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
-#' replications (see below).
+#' replications.
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  \emph{Diversity} measurement assumes that all individuals in a specific
@@ -428,8 +427,17 @@ setGeneric(
 #'  so that an increase in the value of the index accompanies a decrease in
 #'  diversity.
 #' @return
-#'  If \code{simplify} is \code{FALSE}, then \code{diversity} and
-#'  \code{evenness} return a list (default), else return a matrix.
+#'  \code{index_heterogeneity} and \code{index_evenness} return a
+#'  \linkS4class{DiversityIndex}.
+#'
+#'  \code{simulate_evenness} returns a \code{\link{data.frame}} with the
+#'  following columns:
+#'  \describe{
+#'   \item{size}{The sample sizes.}
+#'   \item{mean}{The boostraped mean.}
+#'   \item{lower}{The lower boundary of the boostraped confidence interval.}
+#'   \item{upper}{The upper boundary of the boostraped confidence interval.}
+#'  }
 #' @note
 #'  Ramanujan approximation is used for \eqn{x!} computation if \eqn{x > 170}.
 #' @references
@@ -481,36 +489,22 @@ setGeneric(
 #'  \code{\link{turnover}}
 #'  \code{\link{similarity}}
 #' @docType methods
-#' @name diversity
-#' @rdname diversity
+#' @name heterogeneity-index
+#' @rdname heterogeneity-index
 NULL
 
-#' @rdname diversity
-#' @aliases diversity-method
+#' @rdname heterogeneity-index
+#' @aliases index_heterogeneity-method
 setGeneric(
-  name = "diversity",
-  def = function(object, ...) standardGeneric("diversity")
+  name = "index_heterogeneity",
+  def = function(object, ...) standardGeneric("index_heterogeneity")
 )
 
-#' @rdname diversity
-#' @aliases evenness-method
+#' @rdname heterogeneity-index
+#' @aliases index_evenness-method
 setGeneric(
-  name = "evenness",
-  def = function(object, ...) standardGeneric("evenness")
-)
-
-#' @rdname diversity
-#' @aliases plot_evenness-method
-setGeneric(
-  name = "plot_evenness",
-  def = function(object, ...) standardGeneric("plot_evenness")
-)
-
-#' @rdname diversity
-#' @aliases simulate_evenness-method
-setGeneric(
-  name = "simulate_evenness",
-  def = function(object, ...) standardGeneric("simulate_evenness")
+  name = "index_evenness",
+  def = function(object, ...) standardGeneric("index_evenness")
 )
 
 # ===================================================================== Geography
@@ -685,6 +679,29 @@ setGeneric(
   name = "plot_time",
   def = function(object, ...) standardGeneric("plot_time")
 )
+
+# ------------------------------------------------------------------------------
+#' Diversity Plot
+#'
+#' @param object A \linkS4class{DiversityIndex} object to be plotted.
+#' @param ... Currently not used.
+#' @example inst/examples/ex-plot_diversity.R
+#' @author N. Frerebeau
+#' @family plot
+#' @seealso \link{index_heterogeneity}, \link{index_evenness},
+#'  \link{index_richness}
+#' @docType methods
+#' @name plot_diversity
+#' @rdname plot_diversity
+NULL
+
+#' @rdname plot_diversity
+#' @aliases plot_diversity-method
+setGeneric(
+  name = "plot_diversity",
+  def = function(object, ...) standardGeneric("plot_diversity")
+)
+
 # ------------------------------------------------------------------------------
 #' Bar Plot
 #'
@@ -892,16 +909,18 @@ setGeneric(
 #' @param k A length-one \code{\link{numeric}} vector giving the threshold
 #'  between rare/infrequent and abundant/frequent species. Only used if
 #'  \code{method} is "\code{ace}" or "\code{ice}".
-#' @param simplify A \code{\link{logical}} scalar: should the result be
-#'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
-#' @param size A \code{\link{numeric}} vector giving the sample size.
-#' @param prob A length-\eqn{p} \code{\link{numeric}} vector giving the of
-#'  probability of the \eqn{p} taxa/types (see below). If \code{NULL} (the
-#'  default), probabilities are estimated from the whole dataset.
+#' @param jackknife A \code{\link{logical}} scalar: should jackknifed estimates
+#'  be computed?
+#' @param bootstrap A \code{\link{logical}} scalar: should boostraped estimates
+#'  be computed?
+#' @param simulate A \code{\link{logical}} scalar: simulated assemblages
+#'  be computed?
 #' @param level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
 #' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
-#' replications (see below).
+#' replications.
+#' @param simplify A \code{\link{logical}} scalar: should the result be
+#'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  The number of different taxa, provides an instantly comprehensible
@@ -937,6 +956,15 @@ setGeneric(
 #'  If \code{simplify} is \code{FALSE}, then \code{rarefaction} and
 #'  \code{richness} return a list (default), else return a matrix
 #'  (for \code{CountMatrix}) or a a numeric vector (for \code{IncidenceMatrix}).
+#'
+#'  \code{simulate_richness} returns a \code{\link{data.frame}} with the
+#'  following columns:
+#'  \describe{
+#'   \item{size}{The sample sizes.}
+#'   \item{mean}{The boostraped mean.}
+#'   \item{lower}{The lower boundary of the boostraped confidence interval.}
+#'   \item{upper}{The upper boundary of the boostraped confidence interval.}
+#'  }
 #' @references
 #'  Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
 #'  Population. \emph{Scandinavian Journal of Statistics}, 11(4), 265-270.
@@ -986,36 +1014,22 @@ setGeneric(
 #' @author N. Frerebeau
 #' @family diversity
 #' @docType methods
-#' @name richness
-#' @rdname richness
+#' @name richness-index
+#' @rdname richness-index
 NULL
 
-#' @rdname richness
-#' @aliases richness-method
+#' @rdname richness-index
+#' @aliases index_richness-method
 setGeneric(
-  name = "richness",
-  def = function(object, ...) standardGeneric("richness")
+  name = "index_richness",
+  def = function(object, ...) standardGeneric("index_richness")
 )
 
-#' @rdname richness
+#' @rdname richness-index
 #' @aliases rarefaction-method
 setGeneric(
   name = "rarefaction",
   def = function(object, ...) standardGeneric("rarefaction")
-)
-
-#' @rdname richness
-#' @aliases plot_richness-method
-setGeneric(
-  name = "plot_richness",
-  def = function(object, ...) standardGeneric("plot_richness")
-)
-
-#' @rdname richness
-#' @aliases simulate_richness-method
-setGeneric(
-  name = "simulate_richness",
-  def = function(object, ...) standardGeneric("simulate_richness")
 )
 
 # ====================================================================== Seriate
@@ -1361,7 +1375,11 @@ setGeneric(
 #' @author N. Frerebeau
 #' @family diversity
 #' @docType methods
-#' @rdname turnover-method
+#' @name turnover-index
+#' @rdname turnover-index
+NULL
+
+#' @rdname turnover-index
 #' @aliases turnover-method
 setGeneric(
   name = "turnover",
@@ -1410,6 +1428,18 @@ setGeneric(
 #'  bootstrap replications.
 #' @param axes A \code{\link{numeric}} vector giving the subscripts of the CA
 #'  axes to use.
+#' @param unbiased A \code{\link{logical}} scalar. Should the bias-corrected
+#'  estimator be used? Only used with "\code{chao1}" or "\code{chao2}"
+#'  (improved) estimator.
+#' @param improved A \code{\link{logical}} scalar. Should the improved
+#'  estimator be used? Only used with "\code{chao1}" or "\code{chao2}".
+#' @param sample A length-one \code{\link{numeric}} vector giving the sub-sample
+#'  size.
+#' @param k A length-one \code{\link{numeric}} vector giving the threshold
+#'  between rare/infrequent and abundant/frequent species. Only used if
+#'  \code{method} is "\code{ace}" or "\code{ice}".
+#' @param simplify A \code{\link{logical}} scalar: should the result be
+#'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
 #' @param ... Further arguments to be passed to internal methods.
 #' @docType methods
 #' @name tabula-deprecated
@@ -1446,4 +1476,19 @@ setGeneric(
 setGeneric(
   name = "refine",
   def = function(object, ...) standardGeneric("refine")
+)
+#' @rdname deprecated
+setGeneric(
+  name = "diversity",
+  def = function(object, ...) standardGeneric("diversity")
+)
+#' @rdname deprecated
+setGeneric(
+  name = "evenness",
+  def = function(object, ...) standardGeneric("evenness")
+)
+#' @rdname deprecated
+setGeneric(
+  name = "richness",
+  def = function(object, ...) standardGeneric("richness")
 )

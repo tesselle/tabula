@@ -291,3 +291,104 @@ setMethod(
     seriate_correspondence(object, subset, margin = margin, ...)
   }
 )
+
+# ==================================================================== Diversity
+
+#' @export
+#' @rdname deprecated
+setMethod(
+  f = "diversity",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, method = c("berger", "brillouin", "mcintosh",
+                                           "shannon", "simpson"),
+                        simplify = FALSE, ...) {
+    .Deprecated(new = "index_heterogeneity")
+    # Validation
+    method <- match.arg(method, several.ok = TRUE)
+    H <- lapply(
+      X = method,
+      FUN = function(x, data) {
+        index <- switch_heterogeneity(x)
+        apply(X = object, MARGIN = 1, FUN = index)
+      },
+      data = object)
+    names(H) <- method
+    if (simplify)
+      H <- simplify2array(H, higher = FALSE)
+    return(H)
+  }
+)
+#' @export
+#' @rdname deprecated
+setMethod(
+  f = "evenness",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, method = c("brillouin", "mcintosh",
+                                           "shannon", "simpson"),
+                        simplify = FALSE, ...) {
+    .Deprecated(new = "index_evenness")
+    # Validation
+    method <- match.arg(method, several.ok = TRUE)
+    E <- lapply(X = method, FUN = function(x, data) {
+      index <- switch_evenness(x)
+      apply(X = object, MARGIN = 1, FUN = index)
+    }, data = object)
+    names(E) <- method
+    if (simplify)
+      E <- simplify2array(E, higher = FALSE)
+    return(E)
+  }
+)
+#' @export
+#' @rdname deprecated
+setMethod(
+  f = "richness",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, method = c("ace", "chao1",
+                                           "margalef", "menhinick", "none"),
+                        unbiased = FALSE, improved = FALSE, k = 10,
+                        simplify = FALSE) {
+    E <- lapply(
+      X = method,
+      FUN = function(x, object, unbiased, improved, k) {
+        index <- switch_richness_count(x)
+        apply(X = object, MARGIN = 1, FUN = index, unbiased = unbiased,
+              improved = improved, k = k)
+      },
+      object, unbiased, improved, k
+    )
+    names(E) <- method
+    if (simplify)
+      E <- simplify2array(E, higher = FALSE)
+    return(E)
+  }
+)
+#' @export
+#' @rdname deprecated
+setMethod(
+  f = "richness",
+  signature = signature(object = "IncidenceMatrix"),
+  definition = function(object, method = c("chao2", "ice"),
+                        unbiased = FALSE, improved = FALSE, k = 10,
+                        simplify = FALSE) {
+    # Validation
+    method <- match.arg(method, several.ok = TRUE)
+    E <- lapply(
+      X = method,
+      FUN = function(x, object, unbiased, improved, k) {
+        index <- switch (
+          x,
+          ice = richnessICE,
+          chao2 = richnessChao2,
+          stop(sprintf("There is no such method: %s.", method), call. = FALSE)
+        )
+        index(object, unbiased = unbiased, improved = improved, k = k)
+      },
+      object, unbiased, improved, k
+    )
+    names(E) <- method
+    if (simplify)
+      E <- simplify2array(E, higher = FALSE)
+    return(E)
+  }
+)

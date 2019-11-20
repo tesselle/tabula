@@ -88,6 +88,7 @@ combination <- function(n, k) {
 #' @return A list with the following elements:
 #'  \describe{
 #'   \item{values}{The \eqn{n} leave-one-out values.}
+#'   \item{mean}{The jackknife estimate of mean.}
 #'   \item{bias}{The jackknife estimate of bias.}
 #'   \item{error}{he jackknife estimate of standard error.}
 #'  }
@@ -104,10 +105,43 @@ jackknife <- function(x, do, ...) {
     FUN.VALUE = double(1),
     x, do, ...
   )
-  jack_bias <- (n - 1) * (mean(jack_values) - hat)
-  jack_error <- sqrt(((n - 1) / n) * sum((jack_values - mean(jack_values))^2))
+  jack_mean <- mean(jack_values)
+  jack_bias <- (n - 1) * (jack_mean - hat)
+  jack_error <- sqrt(((n - 1) / n) * sum((jack_values - jack_mean)^2))
 
-  list(values = jack_values, bias = jack_bias, error = jack_error)
+  list(values = jack_values, mean = jack_mean,
+       bias = jack_bias, error = jack_error)
+}
+#' Bootstrap Estimation
+#'
+#' @param x A vector.
+#' @param do A \code{\link{function}} that takes \code{x} as an argument
+#'  and returns a single numeric value.
+#' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
+#' replications.
+#' @param ... Extra arguments passed to \code{do}.
+#' @return A list with the following elements:
+#'  \describe{
+#'   \item{min}{Minimum value.}
+#'   \item{Q05}{Sample quantile to 0.05 probability.}
+#'   \item{mean}{Mean value (event date).}
+#'   \item{Q95}{Sample quantile to 0.95 probability.}
+#'   \item{max}{Maximum value.}
+#'  }
+#' @keywords internal
+#' @noRd
+bootstrap <- function(x, do, n = 1000, ...) {
+
+  replicates <- stats::rmultinom(n, size = sum(x), prob = x / sum(x))
+  boot_values <- apply(X = replicates, MARGIN = 2, FUN = do, ...)
+
+  list(
+    min = min(boot_values),
+    Q05 = stats::quantile(boot_values, probs = 0.05),
+    mean = mean(boot_values),
+    Q95 = stats::quantile(boot_values, probs = 0.95),
+    max = max(boot_values)
+  )
 }
 
 #' Confidence Interval for a Proportion
@@ -143,53 +177,3 @@ confidence_proportion <- function(x, alpha = 0.05,
   margin <- z * stardard_error
   margin
 }
-
-# confidence_mean <- function(x, alpha = 0.05, type = c("student", "normal")) {
-#   # Validation
-#   check_type(x, expected = "numeric")
-#   type <- match.arg(type, several.ok = FALSE)
-#
-#   n <- length(x)
-#   z <- switch(
-#     type,
-#     "normal" = stats::qnorm(1 - alpha / 2),
-#     "student" = stats::qt(1 - alpha / 2, n - 1),
-#     stop(sprintf("There is no such type: %s", type), call. = FALSE)
-#   )
-#   stardard_error <- sd(x) / sqrt(n)
-#
-#   margin <- z * stardard_error
-#   mean(x) + margin * c(-1, 1)
-# }
-
-#' Bootstrap Confidence Interval
-#'
-#'
-#' @return A \code{\link{numeric}} vector giving the margin of errors.
-#' @author N. Frerebeau
-#' @keywords internal
-#' @noRd
-# confidence_bootstrap <- function(x, alpha = 0.05, n = 1000) {
-#   # Validation
-#   check_type(x, expected = "numeric")
-#
-#   # Bootstrap
-#   x_names <- names(x)
-#   sample_levels <- if (is.null(x_names)) seq_len(length(x)) else x_names
-#   # Preserve original order of columns
-#   sample_levels <- factor(sample_levels, levels = unique(sample_levels))
-#   sample_seq <- rep(sample_levels, times = x)
-#   sample_size <- length(sample_seq)
-#
-#   foo <- function(x, s) {
-#     table(sample(x = x, size = s, replace = TRUE))
-#   }
-#   rpl <- replicate(n, foo(x = sample_seq, s = sample_size))# / sample_size)
-#
-#   apply(
-#     X = rpl,
-#     MARGIN = 1,
-#     FUN = confidence_mean,
-#     alpha = alpha
-#   )
-# }

@@ -9,6 +9,7 @@
 \alias{[,Matrix-method}
 \alias{[[<-,Matrix-method}
 \alias{[[,Matrix-method}
+\alias{[[,DiversityIndex-method}
 \alias{[[,DateModel-method}
 \alias{[[,BootCA-method}
 \alias{[[,PermutationOrder-method}
@@ -29,6 +30,8 @@
 \S4method{[}{Matrix}(x, i, j) <- value
 
 \S4method{[[}{Matrix}(x, i) <- value
+
+\S4method{[[}{DiversityIndex}(x, i)
 
 \S4method{[[}{DateModel}(x, i)
 

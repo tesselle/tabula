@@ -7,22 +7,24 @@ test_that("Richness", {
                                1, 0, 1, 0, 0, 0, 1, 2, 0, 5, 3, 0),
                       nrow = 2, byrow = TRUE)
   method <- c("margalef", "menhinick", "none")
-  expected <- matrix(data = c(2.55, 1.88, 9,
-                              1.95, 1.66, 6),
-                     nrow = 2, byrow = TRUE,
-                     dimnames = list(c(1, 2), method))
-
-  index <- richness(trap, method, simplify = TRUE)
-  expect_equal(round(index, digits = 2), expected)
+  for (i in method) {
+    index <- index_richness(trap, method = i)
+    expect_s4_class(index, "RichnessIndex")
+    expect_length(index@index, 2)
+  }
 
   # Frequency data
   freq <- as(trap, "FrequencyMatrix")
-  expect_error(richness(freq))
+  expect_error(index_richness(freq))
 
   # Incidence data
   incid <- as(trap, "IncidenceMatrix")
   method <- c("chao2", "ice")
-  expect_is(richness(incid, method, simplify = TRUE), "numeric")
+  for (i in method) {
+    index <- index_richness(incid, method = i)
+    expect_s4_class(index, "RichnessIndex")
+    expect_length(index@index, 1)
+  }
 })
 # Indices ======================================================================
 test_that("Margalef richness", {
