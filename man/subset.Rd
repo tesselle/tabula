@@ -63,6 +63,8 @@ entries in that dimension are selected.}
 \item{drop}{A \code{\link{logical}} scalar: should the result be coerced to
 the lowest possible dimension? This only works for extracting elements,
 not for the replacement.}
+
+\item{value}{A possible value for \code{x}.}
 }
 \value{
 A subsetted object.

@@ -67,8 +67,7 @@ setMethod(
 
     # ggplot
     aes_plot <- ggplot2::aes(x = .data$type, y = .data$case)
-    aes_point <- ggplot2::aes(size = .data$value,
-                              colour = .data$value)
+    aes_point <- ggplot2::aes(size = .data$value, colour = .data$value)
 
     ggplot2::ggplot(data = data, mapping = aes_plot) +
       ggplot2::geom_point(mapping = ggplot2::aes(size = .data$max),

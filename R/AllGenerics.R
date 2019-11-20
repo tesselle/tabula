@@ -57,6 +57,7 @@ setGeneric(
 #' @param drop A \code{\link{logical}} scalar: should the result be coerced to
 #'  the lowest possible dimension? This only works for extracting elements,
 #'  not for the replacement.
+#' @param value A possible value for \code{x}.
 #' @return
 #'  A subsetted object.
 #' @example inst/examples/ex-abundance-class.R
