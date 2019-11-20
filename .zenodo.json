@@ -38,12 +38,14 @@
             "name": "Fourvel, Jean-Baptiste"
         }
     ],
-    "license": "GPL-3.0",
+    "license": "GPL-3.0+",
     "language": "eng",
     "keywords": [
         "matrix seriation",
         "data visualization",
-        "archaeology"
+        "archaeology",
+        "archaeological science",
+        "r package"
     ],
     "communities": [
         {
