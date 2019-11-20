@@ -49,16 +49,7 @@ replications.}
 }
 \value{
 \code{index_heterogeneity} and \code{index_evenness} return a
- \linkS4class{DiversityIndex}.
-
- \code{simulate_evenness} returns a \code{\link{data.frame}} with the
- following columns:
- \describe{
-  \item{size}{The sample sizes.}
-  \item{mean}{The boostraped mean.}
-  \item{lower}{The lower boundary of the boostraped confidence interval.}
-  \item{upper}{The upper boundary of the boostraped confidence interval.}
- }
+ \linkS4class{DiversityIndex} object.
 }
 \description{
 \code{index_heterogeneity} returns an heterogeneity or dominance index.

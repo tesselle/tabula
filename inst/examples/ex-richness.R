@@ -9,6 +9,7 @@ index_richness(trap, method = "margalef")
 index_richness(trap, method = "menhinick")
 ## B 1.95 1.66
 
+## Asymptotic species richness
 ## Chao1-type estimators
 ## Data from Chao & Chiu 2016
 brazil <- CountMatrix(
@@ -20,10 +21,12 @@ brazil <- CountMatrix(
   nrow = 1, byrow = TRUE
 )
 
-index_richness(brazil, method = c("chao1"), unbiased = FALSE)
+index_composition(brazil, method = c("chao1"), unbiased = FALSE)
 ## 461.625
-index_richness(brazil, method = c("ace"), k = 10)
+index_composition(brazil, method = c("ace"), k = 10)
 ## 445.822
 
 ## Rarefaction
 rarefaction(trap, sample = 13) # 6.56
+
+richness(trap, method = c("margalef", "menhinick", "chao1"))

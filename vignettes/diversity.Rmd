@@ -142,6 +142,12 @@ mississippi %>%
   index_richness(method = "margalef")
 ```
 
+```{r asymptotic-richness}
+mississippi %>%
+  as_count() %>%
+  index_composition(method = "chao1")
+```
+
 ```{r rarefaction}
 mississippi %>%
   as_count() %>%

@@ -348,10 +348,20 @@ setMethod(
                                            "margalef", "menhinick", "none"),
                         unbiased = FALSE, improved = FALSE, k = 10,
                         simplify = FALSE) {
+    # Validation
+    method <- match.arg(method, several.ok = TRUE)
     E <- lapply(
       X = method,
       FUN = function(x, object, unbiased, improved, k) {
-        index <- switch_richness_count(x)
+        index <- switch (
+          x,
+          ace = richnessACE,
+          chao1 = richnessChao1,
+          margalef = richnessMargalef,
+          menhinick = richnessMenhinick,
+          none = function(x, ...) { sum(x > 0) },
+          stop(sprintf("There is no such method: %s.", x), call. = FALSE)
+        )
         apply(X = object, MARGIN = 1, FUN = index, unbiased = unbiased,
               improved = improved, k = k)
       },

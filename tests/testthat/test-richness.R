@@ -16,12 +16,17 @@ test_that("Richness", {
   # Frequency data
   freq <- as(trap, "FrequencyMatrix")
   expect_error(index_richness(freq))
-
+})
+test_that("Chao richness", {
+  # Data from Magurran 1988, p. 128-129
+  trap <- CountMatrix(data = c(9, 3, 0, 4, 2, 1, 1, 0, 1, 0, 1, 1,
+                               1, 0, 1, 0, 0, 0, 1, 2, 0, 5, 3, 0),
+                      nrow = 2, byrow = TRUE)
   # Incidence data
   incid <- as(trap, "IncidenceMatrix")
   method <- c("chao2", "ice")
   for (i in method) {
-    index <- index_richness(incid, method = i)
+    index <- index_composition(incid, method = i)
     expect_s4_class(index, "RichnessIndex")
     expect_length(index@index, 1)
   }

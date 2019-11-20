@@ -428,16 +428,7 @@ setGeneric(
 #'  diversity.
 #' @return
 #'  \code{index_heterogeneity} and \code{index_evenness} return a
-#'  \linkS4class{DiversityIndex}.
-#'
-#'  \code{simulate_evenness} returns a \code{\link{data.frame}} with the
-#'  following columns:
-#'  \describe{
-#'   \item{size}{The sample sizes.}
-#'   \item{mean}{The boostraped mean.}
-#'   \item{lower}{The lower boundary of the boostraped confidence interval.}
-#'   \item{upper}{The upper boundary of the boostraped confidence interval.}
-#'  }
+#'  \linkS4class{DiversityIndex} object.
 #' @note
 #'  Ramanujan approximation is used for \eqn{x!} computation if \eqn{x > 170}.
 #' @references
@@ -507,7 +498,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("index_evenness")
 )
 
-# ===================================================================== Geography
+# ==================================================================== Geography
 #' Spatial Information
 #'
 #' Experimental tools to deal with spatial information.
@@ -892,7 +883,9 @@ setGeneric(
 #' Richness and Rarefaction
 #'
 #' @description
-#'  \code{richness} returns sample richness.
+#'  \code{index_richness} returns sample richness. \code{index_composition}
+#'  returns asymptotic species richness.
+#'
 #'  \code{rarefaction} returns Hurlbert's unbiased estimate of Sander's
 #'  rarefaction.
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
@@ -916,9 +909,9 @@ setGeneric(
 #' @param simulate A \code{\link{logical}} scalar: simulated assemblages
 #'  be computed?
 #' @param level A length-one \code{\link{numeric}} vector giving the
-#'  confidence level.
+#'  confidence level. Only used if \code{simulate} is \code{TRUE}.
 #' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
-#' replications.
+#' replications. Only used if \code{simulate} is \code{TRUE}.
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
 #' @param ... Further arguments to be passed to internal methods.
@@ -940,31 +933,29 @@ setGeneric(
 #'
 #'  The following richness measures are available for count data:
 #'  \describe{
-#'   \item{ace}{Abundance-based Coverage Estimator.}
-#'   \item{chao1}{(improved) Chao1 estimator.}
 #'   \item{margalef}{Margalef richness index.}
 #'   \item{menhinick}{Menhinick richness index.}
 #'   \item{none}{Returns the number of observed taxa/types.}
 #'  }
 #'
-#'  The following richness measures are available for replicated incidence data:
+#' @section Asymptotic Species Richness:
+#'  The following measures are available for count data:
+#'  \describe{
+#'   \item{ace}{Abundance-based Coverage Estimator.}
+#'   \item{chao1}{(improved/unbiased) Chao1 estimator.}
+#'  }
+#'
+#'  The following measures are available for replicated incidence data:
 #'  \describe{
 #'   \item{ice}{Incidence-based Coverage Estimator.}
-#'   \item{chao2}{(improved) Chao2 estimator.}
+#'   \item{chao2}{(improved/unbiased) Chao2 estimator.}
 #'  }
 #' @return
-#'  If \code{simplify} is \code{FALSE}, then \code{rarefaction} and
-#'  \code{richness} return a list (default), else return a matrix
-#'  (for \code{CountMatrix}) or a a numeric vector (for \code{IncidenceMatrix}).
+#'  \code{index_richness} and \code{index_composition} return a
+#'  \linkS4class{DiversityIndex} object.
 #'
-#'  \code{simulate_richness} returns a \code{\link{data.frame}} with the
-#'  following columns:
-#'  \describe{
-#'   \item{size}{The sample sizes.}
-#'   \item{mean}{The boostraped mean.}
-#'   \item{lower}{The lower boundary of the boostraped confidence interval.}
-#'   \item{upper}{The upper boundary of the boostraped confidence interval.}
-#'  }
+#'  If \code{simplify} is \code{FALSE}, then \code{rarefaction} returns a list
+#'  (default), else return a matrix.
 #' @references
 #'  Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
 #'  Population. \emph{Scandinavian Journal of Statistics}, 11(4), 265-270.
@@ -997,6 +988,9 @@ setGeneric(
 #'  Princeton, NJ: Princeton University Press.
 #'  DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
 #'
+#'  Magurran, A E. & Brian J. McGill (2011). \emph{Biological Diversity:
+#'  Frontiers in Measurement and Assessment}. Oxford: Oxford University Press.
+#'
 #'  Margalef, R. (1958). Information Theory in Ecology. \emph{General Systems},
 #'  3, 36-71.
 #'
@@ -1023,6 +1017,13 @@ NULL
 setGeneric(
   name = "index_richness",
   def = function(object, ...) standardGeneric("index_richness")
+)
+
+#' @rdname richness-index
+#' @aliases index_composition-method
+setGeneric(
+  name = "index_composition",
+  def = function(object, ...) standardGeneric("index_composition")
 )
 
 #' @rdname richness-index

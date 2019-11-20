@@ -6,27 +6,34 @@
 \alias{richness-index}
 \alias{index_richness}
 \alias{index_richness-method}
+\alias{index_composition}
+\alias{index_composition-method}
 \alias{rarefaction}
 \alias{rarefaction-method}
 \alias{rarefaction,CountMatrix-method}
 \alias{index_richness,CountMatrix-method}
-\alias{index_richness,IncidenceMatrix-method}
+\alias{index_composition,CountMatrix-method}
+\alias{index_composition,IncidenceMatrix-method}
 \title{Richness and Rarefaction}
 \usage{
 index_richness(object, ...)
+
+index_composition(object, ...)
 
 rarefaction(object, ...)
 
 \S4method{rarefaction}{CountMatrix}(object, sample,
   method = c("hurlbert"), simplify = FALSE, ...)
 
-\S4method{index_richness}{CountMatrix}(object, method = c("ace", "chao1",
-  "margalef", "menhinick", "none"), unbiased = FALSE, improved = FALSE,
-  k = 10, jackknife = TRUE, bootstrap = TRUE, simulate = FALSE,
-  level = 0.8, n = 1000, ...)
+\S4method{index_richness}{CountMatrix}(object, method = c("none",
+  "margalef", "menhinick"), jackknife = TRUE, bootstrap = TRUE,
+  simulate = FALSE, level = 0.8, n = 1000, ...)
 
-\S4method{index_richness}{IncidenceMatrix}(object, method = c("chao2",
-  "ice", "none"), unbiased = FALSE, improved = FALSE, k = 10)
+\S4method{index_composition}{CountMatrix}(object, method = c("chao1",
+  "ace"), unbiased = FALSE, improved = FALSE, k = 10)
+
+\S4method{index_composition}{IncidenceMatrix}(object, method = c("chao2",
+  "ice"), unbiased = FALSE, improved = FALSE, k = 10)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
@@ -43,17 +50,6 @@ Any unambiguous substring can be given.}
 \item{simplify}{A \code{\link{logical}} scalar: should the result be
 simplified to a matrix? The default value, \code{FALSE}, returns a list.}
 
-\item{unbiased}{A \code{\link{logical}} scalar. Should the bias-corrected
-estimator be used? Only used with "\code{chao1}" or "\code{chao2}"
-(improved) estimator.}
-
-\item{improved}{A \code{\link{logical}} scalar. Should the improved
-estimator be used? Only used with "\code{chao1}" or "\code{chao2}".}
-
-\item{k}{A length-one \code{\link{numeric}} vector giving the threshold
-between rare/infrequent and abundant/frequent species. Only used if
-\code{method} is "\code{ace}" or "\code{ice}".}
-
 \item{jackknife}{A \code{\link{logical}} scalar: should jackknifed estimates
 be computed?}
 
@@ -64,27 +60,33 @@ be computed?}
 be computed?}
 
 \item{level}{A length-one \code{\link{numeric}} vector giving the
-confidence level.}
+confidence level. Only used if \code{simulate} is \code{TRUE}.}
 
 \item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
-replications.}
+replications. Only used if \code{simulate} is \code{TRUE}.}
+
+\item{unbiased}{A \code{\link{logical}} scalar. Should the bias-corrected
+estimator be used? Only used with "\code{chao1}" or "\code{chao2}"
+(improved) estimator.}
+
+\item{improved}{A \code{\link{logical}} scalar. Should the improved
+estimator be used? Only used with "\code{chao1}" or "\code{chao2}".}
+
+\item{k}{A length-one \code{\link{numeric}} vector giving the threshold
+between rare/infrequent and abundant/frequent species. Only used if
+\code{method} is "\code{ace}" or "\code{ice}".}
 }
 \value{
-If \code{simplify} is \code{FALSE}, then \code{rarefaction} and
- \code{richness} return a list (default), else return a matrix
- (for \code{CountMatrix}) or a a numeric vector (for \code{IncidenceMatrix}).
+\code{index_richness} and \code{index_composition} return a
+ \linkS4class{DiversityIndex} object.
 
- \code{simulate_richness} returns a \code{\link{data.frame}} with the
- following columns:
- \describe{
-  \item{size}{The sample sizes.}
-  \item{mean}{The boostraped mean.}
-  \item{lower}{The lower boundary of the boostraped confidence interval.}
-  \item{upper}{The upper boundary of the boostraped confidence interval.}
- }
+ If \code{simplify} is \code{FALSE}, then \code{rarefaction} returns a list
+ (default), else return a matrix.
 }
 \description{
-\code{richness} returns sample richness.
+\code{index_richness} returns sample richness. \code{index_composition}
+ returns asymptotic species richness.
+
  \code{rarefaction} returns Hurlbert's unbiased estimate of Sander's
  rarefaction.
 }
@@ -106,19 +108,26 @@ The number of different taxa, provides an instantly comprehensible
 
  The following richness measures are available for count data:
  \describe{
-  \item{ace}{Abundance-based Coverage Estimator.}
-  \item{chao1}{(improved) Chao1 estimator.}
   \item{margalef}{Margalef richness index.}
   \item{menhinick}{Menhinick richness index.}
   \item{none}{Returns the number of observed taxa/types.}
  }
+}
+\section{Asymptotic Species Richness}{
 
- The following richness measures are available for replicated incidence data:
+ The following measures are available for count data:
+ \describe{
+  \item{ace}{Abundance-based Coverage Estimator.}
+  \item{chao1}{(improved/unbiased) Chao1 estimator.}
+ }
+
+ The following measures are available for replicated incidence data:
  \describe{
   \item{ice}{Incidence-based Coverage Estimator.}
-  \item{chao2}{(improved) Chao2 estimator.}
+  \item{chao2}{(improved/unbiased) Chao2 estimator.}
  }
 }
+
 \examples{
 ## Richness
 ## Margalef and Menhinick index
@@ -131,6 +140,7 @@ index_richness(trap, method = "margalef")
 index_richness(trap, method = "menhinick")
 ## B 1.95 1.66
 
+## Asymptotic species richness
 ## Chao1-type estimators
 ## Data from Chao & Chiu 2016
 brazil <- CountMatrix(
@@ -142,13 +152,15 @@ brazil <- CountMatrix(
   nrow = 1, byrow = TRUE
 )
 
-index_richness(brazil, method = c("chao1"), unbiased = FALSE)
+index_composition(brazil, method = c("chao1"), unbiased = FALSE)
 ## 461.625
-index_richness(brazil, method = c("ace"), k = 10)
+index_composition(brazil, method = c("ace"), k = 10)
 ## 445.822
 
 ## Rarefaction
 rarefaction(trap, sample = 13) # 6.56
+
+richness(trap, method = c("margalef", "menhinick", "chao1"))
 }
 \references{
 Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
@@ -181,6 +193,9 @@ Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
  Princeton, NJ: Princeton University Press.
  DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+
+ Magurran, A E. & Brian J. McGill (2011). \emph{Biological Diversity:
+ Frontiers in Measurement and Assessment}. Oxford: Oxford University Press.
 
  Margalef, R. (1958). Information Theory in Ecology. \emph{General Systems},
  3, 36-71.

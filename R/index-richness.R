@@ -7,15 +7,12 @@ NULL
 setMethod(
   f = "index_richness",
   signature = signature(object = "CountMatrix"),
-  definition = function(object, method = c("ace", "chao1",
-                                           "margalef", "menhinick", "none"),
-                        unbiased = FALSE, improved = FALSE, k = 10,
+  definition = function(object, method = c("none", "margalef", "menhinick"),
                         jackknife = TRUE, bootstrap = TRUE, simulate = FALSE,
                         level = 0.80, n = 1000, ...) {
-    fun <- switch_richness_count(method)
+    fun <- switch_richness(method)
     index <- index_diversity(object, fun, jackknife, bootstrap, simulate,
-                             prob = NULL, level = level, n = n,
-                             unbiased = unbiased, improved = improved, k = k)
+                             prob = NULL, level = level, n = n)
     index@method <- method[[1L]]
     methods::as(index, "RichnessIndex")
   }
@@ -23,14 +20,46 @@ setMethod(
 
 #' @export
 #' @rdname richness-index
-#' @aliases index_richness,IncidenceMatrix-method
+#' @aliases index_composition,CountMatrix-method
 setMethod(
-  f = "index_richness",
-  signature = signature(object = "IncidenceMatrix"),
-  definition = function(object, method = c("chao2", "ice", "none"),
+  f = "index_composition",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, method = c("chao1", "ace"),
                         unbiased = FALSE, improved = FALSE, k = 10) {
     # Validation
-    fun <- switch_richness_incid(method)
+    method <- match.arg(method, several.ok = FALSE)
+    fun <- switch (
+      method,
+      ace = richnessACE,
+      chao1 = richnessChao1,
+      stop(sprintf("There is no such method: %s.", method), call. = FALSE)
+    )
+    index <- apply(X = object, MARGIN = 1, FUN = fun,
+                   unbiased = unbiased, improved = improved, k = k)
+    .RichnessIndex(
+      id = object[["id"]],
+      index = index,
+      method = method
+    )
+  }
+)
+
+#' @export
+#' @rdname richness-index
+#' @aliases index_composition,IncidenceMatrix-method
+setMethod(
+  f = "index_composition",
+  signature = signature(object = "IncidenceMatrix"),
+  definition = function(object, method = c("chao2", "ice"),
+                        unbiased = FALSE, improved = FALSE, k = 10) {
+    # Validation
+    method <- match.arg(method, several.ok = FALSE)
+    fun <- switch (
+      method,
+      chao2 = richnessChao2,
+      ice = richnessICE,
+      stop(sprintf("There is no such method: %s.", method), call. = FALSE)
+    )
     index <- fun(object, unbiased = unbiased, improved = improved, k = k)
     .RichnessIndex(
       id = object[["id"]],
@@ -40,31 +69,15 @@ setMethod(
   }
 )
 
-switch_richness_count <- function(x) {
+switch_richness <- function(x) {
   # Validation
-  measures <- c("ace", "chao1", "margalef", "menhinick", "none")
+  measures <- c("margalef", "menhinick", "none")
   x <- match.arg(x, choices = measures, several.ok = FALSE)
 
   index <- switch (
     x,
-    ace = richnessACE,
-    chao1 = richnessChao1,
     margalef = richnessMargalef,
     menhinick = richnessMenhinick,
-    none = function(x, ...) { sum(x > 0) },
-    stop(sprintf("There is no such method: %s.", x), call. = FALSE)
-  )
-  return(index)
-}
-switch_richness_incid <- function(x) {
-  # Validation
-  measures <- c("chao2", "ice", "none")
-  x <- match.arg(x, choices = measures, several.ok = FALSE)
-
-  index <- switch (
-    x,
-    chao2 = richnessChao2,
-    ice = richnessICE,
     none = function(x, ...) { sum(x > 0) },
     stop(sprintf("There is no such method: %s.", x), call. = FALSE)
   )
