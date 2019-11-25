@@ -85,7 +85,7 @@ simulate_diversity <- function(x, method, prob = NULL,
   }
   loop_args <- list(X = sample_sizes, FUN = sim,
                     n = n, prob = prob, level = level, method = method, ...)
-  loop_fun <- if (requireNamespace("pbapply", quietly = TRUE)) {
+  loop_fun <- if (interactive() && requireNamespace("pbapply", quietly = TRUE)) {
     pbapply::pblapply
   } else {
     lapply

@@ -28,17 +28,21 @@ setMethod(
         type = ifelse(sim_stacked[["ind"]] == "mean", "mean", "conf. int.")
       )
       sim <- stats::na.omit(sim)
-      gg_sim <- geom_path(mapping = aes(x = .data$size, y = .data$values,
-                                        colour = .data$type, group = .data$ind),
-                          data = sim, inherit.aes = FALSE)
+      gg_sim <- ggplot2::geom_path(
+        mapping = ggplot2::aes(x = .data$size, y = .data$values,
+                               colour = .data$type, group = .data$ind),
+        data = sim, inherit.aes = FALSE
+      )
     }
 
     # ggplot
-    ggplot(data = count,
-           mapping = aes(x = .data$x, y = .data$y, label = .data$label)) +
-      geom_point() +
+    ggplot2::ggplot(data = count,
+                    mapping = ggplot2::aes(x = .data$x, y = .data$y,
+                                           label = .data$label)) +
+      ggplot2::geom_point() +
       gg_sim +
-      scale_x_log10() +
-      labs(x = "Sample size", y = object[["method"]], colour = "Simulation")
+      ggplot2::scale_x_log10() +
+      ggplot2::labs(x = "Sample size", y = object[["method"]],
+                    colour = "Simulation")
   }
 )

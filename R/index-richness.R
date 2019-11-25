@@ -39,6 +39,7 @@ setMethod(
     .RichnessIndex(
       id = object[["id"]],
       index = index,
+      size = rowSums(object),
       method = method
     )
   }

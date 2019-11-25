@@ -96,7 +96,7 @@ boot_hull <- function(x, margin = 1, n = 1000, axes = c(1, 2), ...) {
     return(as.data.frame(hull))
   }
 
-  loop_fun <- if (requireNamespace("pbapply", quietly = TRUE)) {
+  loop_fun <- if (interactive() && requireNamespace("pbapply", quietly = TRUE)) {
     pbapply::pbapply
   } else {
     apply
@@ -210,7 +210,7 @@ boot_date <- function(x, model, margin = 1, n = 1000, keep = ncol(x),
     return(distrib)
   }
 
-  loop_fun <- if (requireNamespace("pbapply", quietly = TRUE)) {
+  loop_fun <- if (interactive() && requireNamespace("pbapply", quietly = TRUE)) {
     pbapply::pbapply
   } else {
     apply
@@ -292,7 +292,7 @@ jack_date <- function(x, model, keep = ncol(x), level = 0.95, ...) {
     return(stats::coef(fit))
   }
 
-  loop_fun <- if (requireNamespace("pbapply", quietly = TRUE)) {
+  loop_fun <- if (interactive() && requireNamespace("pbapply", quietly = TRUE)) {
     pbapply::pblapply
   } else {
     lapply
