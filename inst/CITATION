@@ -1,19 +1,17 @@
 citHeader("To cite tabula in publications use:")
 
-citEntry(entry = "Manual",
-  title        = "{tabula}: Analysis, Seriation and Visualization of Archaeological Count Data",
+citEntry(entry = "Article",
+  title        = "{tabula}: An R Package for Analysis, Seriation, and Visualization of Archaeological Count Data",
   author       = c(person("Nicolas", "Frerebeau", role = "aut")),
   year         = "2019",
-  organization = "Université Bordeaux Montaigne",
-  address      = "Pessac, France",
-  note         = "R package version 1.3.0",
-  url          = "https://doi.org/10.5281/zenodo.1489944",
+  journal      = "Journal of Open Source Software",
+  volume       = "39",
+  number       = "4",
+  doi          = "10.21105/joss.01821",
 
   textVersion  =
   paste("Frerebeau, Nicolas (2019).",
-        "tabula: Analysis, Seriation and Visualization of Archaeological Count Data.",
-        "R package version 1.3.0",
-        "Université Bordeaux Montaigne, Pessac, France.",
-        "DOI 10.5281/zenodo.1489944.",
-        "URL https://cran.r-project.org/package=tabula.")
+        "tabula: An R Package for Analysis, Seriation, and Visualization of Archaeological Count Data.",
+        "Journal of Open Source Software,",
+        "DOI 10.21105/joss.01821.")
 )

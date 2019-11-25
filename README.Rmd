@@ -209,8 +209,7 @@ plot_date(model, type = "tempo", select = "LZ1105") +
 ```{r diversity}
 mississippi %>%
   as_count() %>%
-  diversity(simplify = TRUE) %>%
-  head()
+  index_heterogeneity(method = "shannon")
 
 ## Test difference in Shannon diversity between assemblages
 ## (returns a matrix of adjusted p values)

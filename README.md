@@ -176,7 +176,7 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate_reciprocal(incidence, margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Matrix ID: a3257479-d188-48e1-9720-1c64c20f0509 
+#>    Matrix ID: 9639e796-f714-402c-baa6-35541d7e1b96 
 #>    Row order: 1 4 20 3 9 16 19 10 13 2 11 7 17 5 6 18 14 15 8 12 
 #>    Column order: 1 16 9 4 8 14 3 20 13 2 6 18 7 17 5 11 19 12 15 10 
 #>    Method: reciprocal
@@ -240,15 +240,29 @@ referred to as indices of *heterogeneity*):
 ``` r
 mississippi %>%
   as_count() %>%
-  diversity(simplify = TRUE) %>%
-  head()
-#>            berger brillouin  mcintosh   shannon   simpson
-#> 10-P-1  0.4052288 1.1572676 0.4714431 1.2027955 0.3166495
-#> 11-N-9  0.6965699 0.7541207 0.2650711 0.7646565 0.5537760
-#> 11-N-1  0.6638526 0.9192403 0.2975381 0.9293974 0.5047209
-#> 11-O-10 0.6332288 0.8085445 0.2990830 0.8228576 0.5072514
-#> 11-N-4  0.6034755 0.7823396 0.2997089 0.7901428 0.5018826
-#> 13-N-5  0.4430380 0.9442803 0.4229570 0.9998430 0.3823434
+  index_heterogeneity(method = "shannon")
+#> <HeterogeneityIndex: shannon>
+#>                 index
+#> 10-P-1      1.2027955
+#> 11-N-9      0.7646565
+#> 11-N-1      0.9293974
+#> 11-O-10     0.8228576
+#> 11-N-4      0.7901428
+#> 13-N-5      0.9998430
+#> 13-N-4      1.2051989
+#> 13-N-16     1.1776226
+#> 13-O-11     1.1533432
+#> 13-O-10     1.2884172
+#> 13-P-1      1.1725355
+#> 13-P-8      1.5296294
+#> 13-P-10     1.7952443
+#> 13-O-7      1.1627477
+#> 13-O-5      1.0718463
+#> 13-N-21     0.9205717
+#> 12-O-5      1.1751002
+#> Holden Lake 0.7307620
+#> 13-N-15     1.1270126
+#> 12-N-3      1.0270291
 
 ## Test difference in Shannon diversity between assemblages
 ## (returns a matrix of adjusted p values)

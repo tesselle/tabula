@@ -9,7 +9,8 @@
 0 errors | 0 warnings | 1 note
 
 * Some links in the documentation point to articles behind paywalls that may return a 403 error.
-* CRAN Package Check notes for v1.2.0 have been fixed.
+* CRAN package check error with long doubles disabled has been fixed.
+* CRAN package check notes have been fixed.
 
 ## Reverse dependencies
 

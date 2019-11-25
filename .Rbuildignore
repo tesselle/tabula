@@ -7,7 +7,6 @@
 ^cran-comments\.md$
 ^CRAN-RELEASE$
 ^LICENSE\.md$
-^NEWS\.Rmd$
 ^README\.Rmd$
 ^data-raw$
 ^doc$
@@ -17,6 +16,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.github$
-^\.covrignore$
 ^paper\.md$
 ^paper\.bib$

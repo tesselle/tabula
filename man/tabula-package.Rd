@@ -26,9 +26,10 @@ An easy way to examine archaeological count data. This package
 \tabular{ll}{
  \strong{Package:} \tab tabula \cr
  \strong{Type:} \tab Package \cr
- \strong{Version:} \tab 1.3.0 \cr
+ \strong{Version:} \tab 1.4.0 \cr
  \strong{License:} \tab GPL-3 \cr
- \strong{DOI:} \tab \href{https://doi.org/10.5281/zenodo.1489944}{10.5281/zenodo.1489944}
+ \strong{DOI:} \tab \href{https://doi.org/10.5281/zenodo.1489944}{10.5281/zenodo.1489944} \cr
+ \strong{JOSS:} \tab \href{https://doi.org/10.21105/joss.01821}{10.21105/joss.01821} \cr
 }
 }
 \seealso{
@@ -45,8 +46,8 @@ Useful links:
 \strong{Full list of authors and contributors} (alphabetic order)
 
 \tabular{ll}{
- Nicolas Frerebeau \tab \emph{Université Bordeaux Montaigne, France} \cr
  Jean-Baptiste Fourvel \tab \emph{CNRS, France} \cr
+ Nicolas Frerebeau \tab \emph{Université Bordeaux Montaigne, France} \cr
  Brice Lebrun \tab \emph{Aix-Marseille Université, France} \cr
  Ben Marwick \tab \emph{University of Washington, USA} \cr
  Matthew Peeples \tab \emph{Arizona State University, USA} \cr
