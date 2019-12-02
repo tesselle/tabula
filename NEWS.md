@@ -1,4 +1,5 @@
-## tabula 1.4.0
+## tabula 1.4.0 (release date: 2019-11-25)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3552904.svg)](https://doi.org/10.5281/zenodo.3552904)
 
 * Published in the [*Journal of Open Source Software*](https://doi.org/10.21105/joss.01821).
 
@@ -17,7 +18,7 @@
 ### Internals
 * Display progress bars only if `interactive()` is `TRUE` and {pbapply} is installed.
 
-## tabula 1.3.0 (release date: 2019-09-20)
+## tabula 1.3.0 (CRAN release date: 2019-09-20)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3455385.svg)](https://doi.org/10.5281/zenodo.3455385)
 
 ### New classes and methods
@@ -63,7 +64,7 @@
 * `get_coordinates()` and `set_coordinates<-` allow to extract and replace spatial informations in `AbundanceMatrix` objects.
 * `get_features()` allows to convert an `AbundanceMatrix` object to a `data.frame`. It is intended for compatibility with the {sf} package.
 
-## tabula 1.2.0 (release date: 2019-03-20)
+## tabula 1.2.0 (CRAN release date: 2019-03-20)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2600844.svg)](https://doi.org/10.5281/zenodo.2600844)
 
 ### New classes and methods
@@ -87,7 +88,7 @@
 ### Internals
 * Add an optional progress bars with {pbapply} in long running functions.
 
-## tabula 1.1.0 (release date: 2018-12-30)
+## tabula 1.1.0 (CRAN release date: 2018-12-30)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.2529084.svg)](https://doi.org/10.5281/zenodo.2529084)
 
 ### Bugfixes & changes
@@ -103,7 +104,7 @@
 * Split the documentation for alpha-diversity measures.
 * Split the documentation for beta-diversity measures.
 
-## tabula 1.0.0 (release date: 2018-12-03)
+## tabula 1.0.0 (CRAN release date: 2018-12-03)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1881131.svg)](https://doi.org/10.5281/zenodo.1881131)
 
 * Initial version on CRAN

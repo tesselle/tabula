@@ -28,12 +28,16 @@ knitr::opts_chunk$set(
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
-[![JOSS status](https://joss.theoj.org/papers/d4f9ee7bc85e4e6cb66bb12406570b73/status.svg)](https://joss.theoj.org/papers/d4f9ee7bc85e4e6cb66bb12406570b73)
+[![DOI Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
+[![DOI JOSS](https://joss.theoj.org/papers/10.21105/joss.01821/status.svg)](https://doi.org/10.21105/joss.01821)
 
 ## Overview
 
 An easy way to examine archaeological count data. This package provides a convenient and reproducible toolkit for relative and absolute dating and analysis of (chronological) patterns. It includes functions for matrix seriation (reciprocal ranking, CA-based seriation), chronological modeling and dating of archaeological assemblages and/or objects. Beyond these, the package provides several tests and measures of diversity: heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity (Brainerd-Robinson, etc.). The package make it easy to visualize count data and statistical thresholds: rank vs. abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
+
+To cite **tabula** in publications please use:
+
+> Frerebeau, N. (2019). tabula: An R Package for Analysis, Seriation, and Visualization of Archaeological Count Data. *Journal of Open Source Software*, 4(44), 1821. DOI [10.21105/joss.01821](https://doi.org/10.21105/joss.01821).
 
 ## Installation
 
@@ -51,13 +55,6 @@ remotes::install_github("nfrerebeau/tabula")
 ```
 
 ## Usage
-
-```{r packages-installation, echo=FALSE}
-# Install missing packages (if any)
-packages <- c("khroma", "magrittr")
-if (!all(packages %in% utils::installed.packages()))
-  utils::install.packages(packages)
-```
 
 ```{r packages-load}
 # Load packages

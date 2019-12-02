@@ -5,13 +5,14 @@ citEntry(entry = "Article",
   author       = c(person("Nicolas", "Frerebeau", role = "aut")),
   year         = "2019",
   journal      = "Journal of Open Source Software",
-  volume       = "39",
-  number       = "4",
+  volume       = "4",
+  number       = "44",
+  page         = "1821",
   doi          = "10.21105/joss.01821",
 
   textVersion  =
   paste("Frerebeau, Nicolas (2019).",
         "tabula: An R Package for Analysis, Seriation, and Visualization of Archaeological Count Data.",
-        "Journal of Open Source Software,",
+        "Journal of Open Source Software, 4(44), 1821.",
         "DOI 10.21105/joss.01821.")
 )

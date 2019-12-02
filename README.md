@@ -21,9 +21,10 @@ state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
-[![JOSS
-status](https://joss.theoj.org/papers/d4f9ee7bc85e4e6cb66bb12406570b73/status.svg)](https://joss.theoj.org/papers/d4f9ee7bc85e4e6cb66bb12406570b73)
+[![DOI
+Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
+[![DOI
+JOSS](https://joss.theoj.org/papers/10.21105/joss.01821/status.svg)](https://doi.org/10.21105/joss.01821)
 
 ## Overview
 
@@ -38,6 +39,13 @@ and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity
 (Brainerd-Robinson, etc.). The package make it easy to visualize count
 data and statistical thresholds: rank vs. abundance plots, heatmaps,
 Ford (1962) and Bertin (1977) diagrams.
+
+To cite **tabula** in publications please use:
+
+> Frerebeau, N. (2019). tabula: An R Package for Analysis, Seriation,
+> and Visualization of Archaeological Count Data. *Journal of Open
+> Source Software*, 4(44), 1821. DOI
+> [10.21105/joss.01821](https://doi.org/10.21105/joss.01821).
 
 ## Installation
 
@@ -176,7 +184,7 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate_reciprocal(incidence, margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Matrix ID: 9639e796-f714-402c-baa6-35541d7e1b96 
+#>    Matrix ID: 2b312a8d-5cc5-491c-ac5d-37eecd2f9bf2 
 #>    Row order: 1 4 20 3 9 16 19 10 13 2 11 7 17 5 6 18 14 15 8 12 
 #>    Column order: 1 16 9 4 8 14 3 20 13 2 6 18 7 17 5 11 19 12 15 10 
 #>    Method: reciprocal
