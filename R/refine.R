@@ -39,7 +39,7 @@ setMethod(
     cols <- do.call(rbind.data.frame, hull_columns)
     cols <- cbind.data.frame(id = id_cols, cols)
 
-    BootCA(
+    .BootCA(
       id = object[["id"]],
       rows = as.list(rows),
       columns = as.list(cols),

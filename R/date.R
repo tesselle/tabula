@@ -121,7 +121,7 @@ setMethod(
     date_range <- range(row_event[, c("lower", "upper")])
     acc_estimate <- predict_accumulation(counts, col_event, date_range)
 
-    DateModel(
+    .DateModel(
       id = object@id,
       counts = counts,
       level = level,
