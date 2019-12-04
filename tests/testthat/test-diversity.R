@@ -9,7 +9,7 @@ birds <- matrix(c(1.4, 4.3, 2.9, 8.6, 4.2, 15.7, 2.0, 50, 1, 11.4, 11.4, 4.3,
 
 # Heterogeneity index ==========================================================
 test_that("Heterogeneity", {
-  count <- as(birds, "CountMatrix")
+  count <- as(birds, "AbsoluteFrequencyMatrix")
   method <- c("berger", "brillouin", "mcintosh", "shannon", "simpson")
   for (i in method) {
     index <- index_heterogeneity(count, method = i)
@@ -20,7 +20,7 @@ test_that("Heterogeneity", {
 
 # Evenness =====================================================================
 test_that("Evenness", {
-  count <- as(birds, "CountMatrix")
+  count <- as(birds, "AbsoluteFrequencyMatrix")
   method <- c("brillouin", "mcintosh", "shannon", "simpson")
   for (i in method) {
     index <- index_evenness(count, method = i)

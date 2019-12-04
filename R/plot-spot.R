@@ -63,7 +63,7 @@ setMethod(
   definition = function(object) {
     # Prepare data
     data <- prepare_spot(object, threshold = NULL, diag = FALSE)
-    index_name <- object[["method"]]
+    index_name <- codex::get_method(object)
 
     # ggplot
     aes_plot <- ggplot2::aes(x = .data$type, y = .data$case)

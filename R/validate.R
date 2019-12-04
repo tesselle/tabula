@@ -1,5 +1,5 @@
 # CLASSES VALIDATION
-#' @include AllClasses.R utilities.R check.R
+#' @include AllClasses.R utilities.R
 NULL
 
 # BootCA =======================================================================
@@ -15,71 +15,65 @@ setValidity(
     keep <- object@keep
 
     errors <- list(
-      id = c(
-        catch_conditions(check_uuid(id))
-      ),
-      rows = c(
-        unlist(mapply(
-          FUN = function(x, expected) catch_conditions(check_type(x, expected)),
-          rows, list("integer", "numeric", "numeric")
-        )),
-        unlist(lapply(
-          X = rows,
-          FUN = function(x) {
-            c(catch_conditions(check_missing(x)),
-              catch_conditions(check_infinite(x)))
-          }
-        )),
-        catch_conditions(check_length(rows, expected = 3)),
-        catch_conditions(check_lengths(rows)),
-        catch_conditions(check_names(rows, expected = c("id", "x", "y")))
-      ),
-      columns = c(
-        unlist(mapply(
-          FUN = function(x, expected) catch_conditions(check_type(x, expected)),
-          columns, list("integer", "numeric", "numeric")
-        )),
-        unlist(lapply(
-          X = columns,
-          FUN = function(x) {
-            c(catch_conditions(check_missing(x)),
-              catch_conditions(check_infinite(x)))
-          }
-        )),
-        catch_conditions(check_length(columns, expected = 3)),
-        catch_conditions(check_lengths(columns)),
-        catch_conditions(check_names(columns, expected = c("id", "x", "y")))
-      ),
-      lengths = c(
-        unlist(lapply(
-          X = lengths,
-          FUN = function(x) {
-            c(catch_conditions(check_type(x, expected = "numeric")),
-              # catch_conditions(check_names(x)),
-              catch_conditions(check_missing(x)),
-              catch_conditions(check_infinite(x)))
-          }
-        )),
-        catch_conditions(check_length(lengths, expected = 2))
-      ),
-      cutoff = c(
-        catch_conditions(check_length(cutoff, expected = 2)),
-        catch_conditions(check_missing(cutoff)),
-        catch_conditions(check_infinite(cutoff))
-      ),
-      keep = c(
-        unlist(lapply(
-          X = keep,
-          FUN = function(x) {
-            c(catch_conditions(check_type(x, expected = "integer")),
-              catch_conditions(check_missing(x)))
-          }
-        )),
-        catch_conditions(check_length(keep, expected = 2))
-      )
+      # Check id
+      codex:::catch_conditions(codex:::check_uuid(id)),
+      # Check rows
+      codex:::catch_conditions(codex:::check_length(rows, 3)),
+      codex:::catch_conditions(codex:::check_lengths(rows)),
+      codex:::catch_conditions(codex:::check_names(rows, c("id", "x", "y"))),
+      codex:::catch_conditions(codex:::check_type(rows[[1]], "integer")),
+      codex:::catch_conditions(codex:::check_type(rows[[2]], "numeric")),
+      codex:::catch_conditions(codex:::check_type(rows[[3]], "numeric")),
+      unlist(lapply(
+        X = rows,
+        FUN = function(x) {
+          c(codex:::catch_conditions(codex:::check_missing(x)),
+            codex:::catch_conditions(codex:::check_infinite(x)))
+        }
+      )),
+      # Check columns
+      codex:::catch_conditions(codex:::check_length(columns, 3)),
+      codex:::catch_conditions(codex:::check_lengths(columns)),
+      codex:::catch_conditions(codex:::check_names(columns, c("id", "x", "y"))),
+      codex:::catch_conditions(codex:::check_type(columns[[1]], "integer")),
+      codex:::catch_conditions(codex:::check_type(columns[[2]], "numeric")),
+      codex:::catch_conditions(codex:::check_type(columns[[3]], "numeric")),
+      unlist(lapply(
+        X = columns,
+        FUN = function(x) {
+          c(codex:::catch_conditions(codex:::check_missing(x)),
+            codex:::catch_conditions(codex:::check_infinite(x)))
+        }
+      )),
+      # Check lenghts
+      codex:::catch_conditions(codex:::check_length(lengths, expected = 2)),
+      codex:::catch_conditions(codex:::check_type(lengths[[1]], "numeric")),
+      codex:::catch_conditions(codex:::check_type(lengths[[2]], "numeric")),
+      unlist(lapply(
+        X = lengths,
+        FUN = function(x) {
+          c(# catch_conditions(check_names(x)),
+            codex:::catch_conditions(codex:::check_missing(x)),
+            codex:::catch_conditions(codex:::check_infinite(x)))
+        }
+      )),
+      # Check cutoff
+      codex:::catch_conditions(codex:::check_length(cutoff, 2)),
+      codex:::catch_conditions(codex:::check_missing(cutoff)),
+      codex:::catch_conditions(codex:::check_infinite(cutoff)),
+      # Check keep
+      unlist(lapply(
+        X = keep,
+        FUN = function(x) {
+          c(codex:::catch_conditions(codex:::check_type(x, expected = "integer")),
+            codex:::catch_conditions(codex:::check_missing(x)))
+        }
+      )),
+      codex:::catch_conditions(codex:::check_length(keep, 2))
     )
+
     # Return errors if any
-    throw_error_class(object, errors)
+    codex:::check_class(object, errors)
   }
 )
 
@@ -98,44 +92,38 @@ setValidity(
     accumulation <- object@accumulation
 
     errors <- list(
-      id = c(
-        catch_conditions(check_uuid(id))
-      ),
-      counts = c(
-        catch_conditions(check_type(counts, expected = "numeric")),
-        catch_conditions(check_missing(counts)),
-        catch_conditions(check_infinite(counts))
-      ),
-      level = c(
-        catch_conditions(check_scalar(level, expected = "numeric")),
-        catch_conditions(check_missing(level)),
-        catch_conditions(check_infinite(level))
-      ),
-      rows = c(
-        catch_conditions(check_type(rows, expected = "numeric")),
-        catch_conditions(check_missing(rows)),
-        catch_conditions(check_infinite(rows)),
-        catch_conditions(check_names(rows, expected = c("date", "lower", "upper", "error"),
-                                     margin = 2))
-      ),
-      columns = c(
-        catch_conditions(check_type(columns, expected = "numeric")),
-        catch_conditions(check_missing(columns)),
-        catch_conditions(check_infinite(columns)),
-        catch_conditions(check_names(columns, expected = c("date", "lower", "upper", "error"),
-                                     margin = 2))
-      ),
-      accumulation = c(
-        catch_conditions(check_type(accumulation, expected = "numeric")),
-        catch_conditions(check_missing(accumulation)),
-        catch_conditions(check_infinite(accumulation)),
-        catch_conditions(check_names(accumulation, expected = c("date", "error"),
-                                     margin = 2))
-      )
+      # Check id
+      codex:::catch_conditions(codex:::check_uuid(id)),
+      # Check counts
+      codex:::catch_conditions(codex:::check_type(counts, "numeric")),
+      codex:::catch_conditions(codex:::check_missing(counts)),
+      codex:::catch_conditions(codex:::check_infinite(counts)),
+      # Check level
+      codex:::catch_conditions(codex:::check_scalar(level, "numeric")),
+      codex:::catch_conditions(codex:::check_missing(level)),
+      codex:::catch_conditions(codex:::check_infinite(level)),
+      # Check rows
+      codex:::catch_conditions(codex:::check_type(rows, "numeric")),
+      codex:::catch_conditions(codex:::check_missing(rows)),
+      codex:::catch_conditions(codex:::check_infinite(rows)),
+      codex:::catch_conditions(codex:::check_names(rows, c("date", "lower", "upper", "error"),
+                                                   margin = 2)),
+      # Check columns
+      codex:::catch_conditions(codex:::check_type(columns, "numeric")),
+      codex:::catch_conditions(codex:::check_missing(columns)),
+      codex:::catch_conditions(codex:::check_infinite(columns)),
+      codex:::catch_conditions(codex:::check_names(columns, c("date", "lower", "upper", "error"),
+                                                   margin = 2)),
+      # Check accumulation
+      codex:::catch_conditions(codex:::check_type(accumulation, "numeric")),
+      codex:::catch_conditions(codex:::check_missing(accumulation)),
+      codex:::catch_conditions(codex:::check_infinite(accumulation)),
+      codex:::catch_conditions(codex:::check_names(accumulation, c("date", "error"),
+                                                   margin = 2))
     )
 
     # Return errors if any
-    throw_error_class(object, errors)
+    codex:::check_class(object, errors)
   }
 )
 
@@ -150,26 +138,22 @@ setValidity(
     method <- object@method
 
     errors <- list(
-      id = c(
-        catch_conditions(check_uuid(id))
-      ),
-      rows = c(
-        catch_conditions(check_missing(rows)),
-        catch_conditions(check_numbers(rows, expected = "positive",
-                                       strict = TRUE))
-      ),
-      columns = c(
-        catch_conditions(check_missing(columns)),
-        catch_conditions(check_numbers(columns, expected = "positive",
-                                       strict = TRUE))
-      ),
-      method = c(
-        catch_conditions(check_scalar(method, expected = "character")),
-        catch_conditions(check_missing(method))
-      )
+      # Check id
+      codex:::catch_conditions(codex:::check_uuid(id)),
+      # Check rows
+      codex:::catch_conditions(codex:::check_missing(rows)),
+      codex:::catch_conditions(codex:::check_numbers(rows, "positive",
+                                                     strict = TRUE)),
+      # Check columns
+      codex:::catch_conditions(codex:::check_missing(columns)),
+      codex:::catch_conditions(codex:::check_numbers(columns, "positive",
+                                                     strict = TRUE)),
+      # Check method
+      codex:::catch_conditions(codex:::check_scalar(method, "character")),
+      codex:::catch_conditions(codex:::check_missing(method))
     )
 
     # Return errors if any
-    throw_error_class(object, errors)
+    codex:::check_class(object, errors)
   }
 )

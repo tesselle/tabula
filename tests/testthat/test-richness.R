@@ -14,7 +14,7 @@ test_that("Richness", {
   }
 
   # Frequency data
-  freq <- as(trap, "FrequencyMatrix")
+  freq <- as(trap, "RelativeFrequencyMatrix")
   expect_error(index_richness(freq))
 })
 test_that("Chao richness", {

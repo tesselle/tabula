@@ -16,7 +16,7 @@ test_that("Rarefaction", {
   index <- rarefaction(trap, sample = 13, simplify = TRUE)
   expect_equal(dim(index), c(2, 1))
 
-  freq <- as(trap, "FrequencyMatrix")
+  freq <- as(trap, "RelativeFrequencyMatrix")
   expect_error(rarefaction(freq, 13))
 
   incid <- as(trap, "IncidenceMatrix")

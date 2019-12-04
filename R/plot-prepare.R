@@ -94,7 +94,7 @@ prepare_heatmap <- function(object, PVI = FALSE, frequency = TRUE) {
 
   if (PVI) {
     # Coerce to count data for PVI computation
-    object <- methods::as(object, "CountMatrix")
+    object <- methods::as(object, "AbsoluteFrequencyMatrix")
 
     # Build long table from threshold
     data <- independance(object, method = "PVI")
@@ -169,7 +169,7 @@ prepare_spot <- function(object, threshold = NULL, diag = TRUE) {
   if (!diag) {
     data <- data[data$type != data$case, ]
   }
-  if (is_square(object)) {
+  if (nrow(object) == ncol(object)) {
     max_value <- unique(diag(object))
     if (max_value == 0) max_value <- max(data$value)
     data <- cbind.data.frame(max = max_value, data)

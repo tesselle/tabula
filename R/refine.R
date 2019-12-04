@@ -40,7 +40,7 @@ setMethod(
     cols <- cbind.data.frame(id = id_cols, cols)
 
     .BootCA(
-      id = object[["id"]],
+      id = codex::get_id(object),
       rows = as.list(rows),
       columns = as.list(cols),
       lengths = list(length_rows, length_columns),

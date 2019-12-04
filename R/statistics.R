@@ -62,8 +62,10 @@ independance <- function(x, method = c("EPPM", "PVI")) {
 #' @noRd
 combination <- function(n, k) {
   # Validation
-  check_type(n, expected = "numeric")
-  check_type(k, expected = "numeric")
+  if (!is.numeric(n))
+    stop("`n` must be a numeric vector.")
+  if (!is.numeric(k))
+    stop("`k` must be a numeric vector.")
 
   # Ramanujan factorial approximation
   ramanujan <- function(x){
@@ -161,7 +163,8 @@ bootstrap <- function(x, do, n = 1000, ...) {
 confidence_proportion <- function(x, alpha = 0.05,
                                   type = c("normal", "student")) {
   # Validation
-  check_type(x, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
   type <- match.arg(type, several.ok = FALSE)
 
   n <- sum(x)

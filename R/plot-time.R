@@ -26,7 +26,7 @@ setMethod(
     n <- length(row_names)
     # Get time coordinates
     time <- get_dates(object)[["value"]]
-    if (is_empty(time))
+    if (length(time) == 0)
         stop("Time coordinates are missing!", call. = FALSE)
 
     data_stacked <- utils::stack(as.data.frame(object))
@@ -140,7 +140,7 @@ setMethod(
 #' @noRd
 roll <- function(x, window = 3, simplify = FALSE) {
   # Validation
-  if (!is_odd(window))
+  if (window %% 2 == 0)
     stop("`window` must be an odd integer.", call. = FALSE)
 
   if (is.matrix(x) || is.data.frame(x)) {

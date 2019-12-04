@@ -13,11 +13,17 @@ setMethod(
     # Validation
     i <- nrow(object)
     j <- ncol(object)
-    check_length(dates, expected = j)
-    if (!is.null(errors) && is.numeric(errors))
-      check_length(errors, expected = j)
-    if (!is.null(names(dates)))
-      check_names(dates, expected = colnames(object))
+    if (length(dates) != j) {
+      stop(sprintf("`dates` must be of length %d; not %d.", j, length(dates)))
+    }
+    if (!is.null(errors) && is.numeric(errors)) {
+      if (length(errors) != j)
+        stop(sprintf("`errors` must be of length %d; not %d.", j, length(errors)))
+    }
+    if (!is.null(names(dates))) {
+      if (any(names(dates) != colnames(object)))
+        stop("`dates` names do not match.")
+    }
 
     mcd <- function(count, dates, errors = NULL) {
       # Build a matrix of dates
@@ -50,7 +56,7 @@ setMethod(
         temp <- mcd(sim, dates)[[1]]
         ci <- try(stats::t.test(temp, conf.level = level)$conf.int,
                   silent = TRUE)
-        if (is_error(ci)) c(NA_real_, NA_real_) else ci
+        if (inherits(ci, "try-error")) c(NA_real_, NA_real_) else ci
       },
       dates, level, n
     )
@@ -78,8 +84,9 @@ setMethod(
       stop("Cutoff value is below 50%, you can't be serious.", call. = FALSE)
 
     # Get dates
-    dates <- rownames_to_column(object@dates, factor = TRUE, id = "id")
-    dates <- dates[stats::complete.cases(dates), ]
+    dates <- rownames_to_column(codex::get_dates(object),
+                                factor = TRUE, id = "id")
+    dates <- dates[!is.na(dates[[1]]), ]
 
     if (nrow(dates) == 0)
       stop("No dates were found!", call. = FALSE)

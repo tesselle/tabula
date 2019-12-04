@@ -16,3 +16,6 @@ with_seed <- function(seed, code) {
   }
   eval.parent(code)
 }
+
+# Copy from non exported codex
+catch_conditions <- codex:::catch_conditions

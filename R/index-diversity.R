@@ -36,7 +36,7 @@ index_diversity <- function(x, method, jackknife = TRUE, bootstrap = TRUE,
   }
 
   .DiversityIndex(
-    id = x[["id"]],
+    id = codex::get_id(x),
     index = idx,
     size = rowSums(x),
     jackknife = jack,
