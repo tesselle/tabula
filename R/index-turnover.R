@@ -3,10 +3,10 @@ NULL
 
 #' @export
 #' @rdname turnover-index
-#' @aliases turnover,CountMatrix-method
+#' @aliases turnover,AbsoluteFrequencyMatrix-method
 setMethod(
   f = "turnover",
-  signature = signature(object = "CountMatrix"),
+  signature = signature(object = "AbsoluteFrequencyMatrix"),
   definition = function(object, method = c("whittaker", "cody", "routledge1",
                                            "routledge2", "routledge3",
                                            "wilson"), simplify = FALSE, ...) {

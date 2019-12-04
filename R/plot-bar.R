@@ -4,10 +4,10 @@ NULL
 
 #' @export
 #' @rdname plot_bar
-#' @aliases plot_bertin,CountMatrix-method
+#' @aliases plot_bertin,AbsoluteFrequencyMatrix-method
 setMethod(
   f = "plot_bertin",
-  signature = signature(object = "CountMatrix"),
+  signature = signature(object = "AbsoluteFrequencyMatrix"),
   definition = function(object, threshold = NULL, scale = NULL) {
     # Prepare data
     data <- prepare_bertin(object, threshold = threshold, scale = scale)
@@ -43,10 +43,10 @@ setMethod(
 
 #' @export
 #' @rdname plot_bar
-#' @aliases plot_ford,CountMatrix-method
+#' @aliases plot_ford,AbsoluteFrequencyMatrix-method
 setMethod(
   f = "plot_ford",
-  signature = signature(object = "CountMatrix"),
+  signature = signature(object = "AbsoluteFrequencyMatrix"),
   definition = function(object, EPPM = FALSE) {
     # Prepare data
     data <- prepare_ford(object, EPPM = EPPM)

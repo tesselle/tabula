@@ -15,14 +15,14 @@
 \alias{get_order}
 \alias{get_order-method}
 \alias{get_order,PermutationOrder-method}
-\alias{refine_seriation,CountMatrix-method}
-\alias{seriate_reciprocal,CountMatrix-method}
+\alias{refine_seriation,AbsoluteFrequencyMatrix-method}
+\alias{seriate_reciprocal,AbsoluteFrequencyMatrix-method}
 \alias{seriate_reciprocal,IncidenceMatrix-method}
-\alias{seriate_correspondence,CountMatrix,missing-method}
+\alias{seriate_correspondence,AbsoluteFrequencyMatrix,missing-method}
 \alias{seriate_correspondence,IncidenceMatrix,missing-method}
 \alias{seriate_correspondence,IncidenceMatrix-method}
-\alias{seriate_correspondence,CountMatrix,BootCA-method}
-\alias{permute,CountMatrix,PermutationOrder-method}
+\alias{seriate_correspondence,AbsoluteFrequencyMatrix,BootCA-method}
+\alias{permute,AbsoluteFrequencyMatrix,PermutationOrder-method}
 \alias{permute,IncidenceMatrix,PermutationOrder-method}
 \title{Matrix Seriation}
 \usage{
@@ -38,25 +38,25 @@ get_order(object)
 
 \S4method{get_order}{PermutationOrder}(object)
 
-\S4method{refine_seriation}{CountMatrix}(object, cutoff, n = 1000,
-  axes = c(1, 2), ...)
+\S4method{refine_seriation}{AbsoluteFrequencyMatrix}(object, cutoff,
+  n = 1000, axes = c(1, 2), ...)
 
-\S4method{seriate_reciprocal}{CountMatrix}(object, EPPM = FALSE,
-  margin = c(1, 2), stop = 100)
+\S4method{seriate_reciprocal}{AbsoluteFrequencyMatrix}(object,
+  EPPM = FALSE, margin = c(1, 2), stop = 100)
 
 \S4method{seriate_reciprocal}{IncidenceMatrix}(object, margin = c(1, 2),
   stop = 100)
 
-\S4method{seriate_correspondence}{CountMatrix,missing}(object,
+\S4method{seriate_correspondence}{AbsoluteFrequencyMatrix,missing}(object,
   margin = c(1, 2), ...)
 
 \S4method{seriate_correspondence}{IncidenceMatrix,missing}(object,
   margin = c(1, 2), ...)
 
-\S4method{seriate_correspondence}{CountMatrix,BootCA}(object, subset,
-  margin = c(1, 2), ...)
+\S4method{seriate_correspondence}{AbsoluteFrequencyMatrix,BootCA}(object,
+  subset, margin = c(1, 2), ...)
 
-\S4method{permute}{CountMatrix,PermutationOrder}(object, order)
+\S4method{permute}{AbsoluteFrequencyMatrix,PermutationOrder}(object, order)
 
 \S4method{permute}{IncidenceMatrix,PermutationOrder}(object, order)
 }

@@ -3,10 +3,10 @@ NULL
 
 #' @export
 #' @rdname test
-#' @aliases test_fit,CountMatrix-method
+#' @aliases test_fit,AbsoluteFrequencyMatrix-method
 setMethod(
   f = "test_fit",
-  signature = signature(object = "CountMatrix"),
+  signature = signature(object = "AbsoluteFrequencyMatrix"),
   definition = function(object, simplify = FALSE, ...) {
     # Validation
     simplify <- as.logical(simplify)[1L]
@@ -34,10 +34,10 @@ setMethod(
 )
 #' @export
 #' @rdname test
-#' @aliases test_diversity,CountMatrix-method
+#' @aliases test_diversity,AbsoluteFrequencyMatrix-method
 setMethod(
   f = "test_diversity",
-  signature = signature(object = "CountMatrix"),
+  signature = signature(object = "AbsoluteFrequencyMatrix"),
   definition = function(object, adjust = "holm", ...) {
     # Calculate the number of individuals
     N <- apply(X = object, MARGIN = 1, FUN = sum)

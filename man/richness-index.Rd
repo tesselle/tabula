@@ -10,9 +10,9 @@
 \alias{index_composition-method}
 \alias{rarefaction}
 \alias{rarefaction-method}
-\alias{rarefaction,CountMatrix-method}
-\alias{index_richness,CountMatrix-method}
-\alias{index_composition,CountMatrix-method}
+\alias{rarefaction,AbsoluteFrequencyMatrix-method}
+\alias{index_richness,AbsoluteFrequencyMatrix-method}
+\alias{index_composition,AbsoluteFrequencyMatrix-method}
 \alias{index_composition,IncidenceMatrix-method}
 \title{Richness and Rarefaction}
 \usage{
@@ -22,15 +22,16 @@ index_composition(object, ...)
 
 rarefaction(object, ...)
 
-\S4method{rarefaction}{CountMatrix}(object, sample,
+\S4method{rarefaction}{AbsoluteFrequencyMatrix}(object, sample,
   method = c("hurlbert"), simplify = FALSE, ...)
 
-\S4method{index_richness}{CountMatrix}(object, method = c("none",
-  "margalef", "menhinick"), jackknife = TRUE, bootstrap = TRUE,
-  simulate = FALSE, level = 0.8, n = 1000, ...)
+\S4method{index_richness}{AbsoluteFrequencyMatrix}(object,
+  method = c("none", "margalef", "menhinick"), jackknife = TRUE,
+  bootstrap = TRUE, simulate = FALSE, level = 0.8, n = 1000, ...)
 
-\S4method{index_composition}{CountMatrix}(object, method = c("chao1",
-  "ace"), unbiased = FALSE, improved = FALSE, k = 10)
+\S4method{index_composition}{AbsoluteFrequencyMatrix}(object,
+  method = c("chao1", "ace"), unbiased = FALSE, improved = FALSE,
+  k = 10)
 
 \S4method{index_composition}{IncidenceMatrix}(object, method = c("chao2",
   "ice"), unbiased = FALSE, improved = FALSE, k = 10)

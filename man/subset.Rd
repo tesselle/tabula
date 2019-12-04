@@ -5,31 +5,15 @@
 \alias{subset}
 \alias{[,BootCA-method}
 \alias{[,DateModel-method}
-\alias{[<-,Matrix-method}
-\alias{[,Matrix-method}
-\alias{[[<-,Matrix-method}
-\alias{[[,Matrix-method}
 \alias{[[,DiversityIndex-method}
 \alias{[[,DateModel-method}
 \alias{[[,BootCA-method}
 \alias{[[,PermutationOrder-method}
-\alias{[[,SpaceTime-method}
-\alias{[[,CountMatrix-method}
-\alias{[[,FrequencyMatrix-method}
-\alias{[[,IncidenceMatrix-method}
-\alias{[[,OccurrenceMatrix-method}
-\alias{[[,SimilarityMatrix-method}
 \title{Extract or Replace Parts of an Object}
 \usage{
 \S4method{[}{BootCA}(x, i, j, drop = TRUE)
 
 \S4method{[}{DateModel}(x, i, j, drop = TRUE)
-
-\S4method{[}{Matrix}(x, i, j) <- value
-
-\S4method{[}{Matrix}(x, i, j) <- value
-
-\S4method{[[}{Matrix}(x, i) <- value
 
 \S4method{[[}{DiversityIndex}(x, i)
 
@@ -38,18 +22,6 @@
 \S4method{[[}{BootCA}(x, i)
 
 \S4method{[[}{PermutationOrder}(x, i)
-
-\S4method{[[}{SpaceTime}(x, i)
-
-\S4method{[[}{CountMatrix}(x, i)
-
-\S4method{[[}{FrequencyMatrix}(x, i)
-
-\S4method{[[}{IncidenceMatrix}(x, i)
-
-\S4method{[[}{OccurrenceMatrix}(x, i)
-
-\S4method{[[}{SimilarityMatrix}(x, i)
 }
 \arguments{
 \item{x}{An object from which to extract element(s) or in which to replace
