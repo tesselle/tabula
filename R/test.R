@@ -13,7 +13,7 @@ setMethod(
 
     # Get time coordinates
     time <- get_dates(object)[["value"]]
-    if (is_empty(time))
+    if (length(time) == 0)
       stop("No dates were found!", call. = FALSE)
 
     results <- testFIT(object, time, roll = FALSE)[[1L]]

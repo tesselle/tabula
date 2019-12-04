@@ -34,17 +34,9 @@ test_that("Row names to column", {
 
   df2 <- rownames_to_column(df, factor = FALSE, id = NULL)
   expect_identical(dim(df2), c(26L, 3L))
-  expect_identical(colnames(df2), c("row_names", "V1", "V2"))
+  expect_identical(colnames(df2), c("id", "V1", "V2"))
   expect_identical(unname(df2[, 1]), LETTERS)
   expect_s3_class(df2, "data.frame")
 
   expect_error(rownames_to_column(LETTERS, factor = TRUE, id = NULL))
-})
-test_that("UUID", {
-  id1 <- generate_uuid(seed = 12345)
-  id2 <- generate_uuid(seed = 54321)
-
-  expect_true(is_uuid(id1))
-  expect_true(is_uuid(id2))
-  expect_error(compare_uuid(id1, id2))
 })

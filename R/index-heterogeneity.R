@@ -114,7 +114,8 @@ switch_evenness <- function(x) {
 # @rdname index-heterogeneity
 dominanceBerger <- function(x, ...) {
   # Validation
-  check_type(x, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
   # Remove zeros
   x <- x[x > 0]
 
@@ -128,7 +129,8 @@ dominanceBerger <- function(x, ...) {
 # @rdname index-heterogeneity
 diversityBrillouin <- function(x, ...) {
   # Validation
-  check_type(x, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
   # Remove zeros
   x <- x[x > 0]
 
@@ -139,7 +141,8 @@ diversityBrillouin <- function(x, ...) {
 # @rdname index-heterogeneity
 evennessBrillouin <- function(x, ...) {
   # Validation
-  check_type(x, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
   # Remove zeros
   x <- x[x > 0]
 
@@ -158,7 +161,8 @@ evennessBrillouin <- function(x, ...) {
 # @rdname index-heterogeneity
 dominanceMcintosh <- function(x, ...) {
   # Validation
-  check_type(x, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
   # Remove zeros
   x <- x[x > 0]
 
@@ -170,7 +174,8 @@ dominanceMcintosh <- function(x, ...) {
 # @rdname index-heterogeneity
 evennessMcintosh <- function(x, ...) {
   # Validation
-  check_type(x, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
   # Remove zeros
   x <- x[x > 0]
 
@@ -185,7 +190,8 @@ evennessMcintosh <- function(x, ...) {
 # @rdname index-heterogeneity
 diversityShannon <- function(x, base = exp(1), zero.rm = TRUE, ...) {
   # Validation
-  check_type(x, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
   # Remove zeros
   if (zero.rm) x <- x[x > 0]
 
@@ -201,7 +207,8 @@ diversityShannon <- function(x, base = exp(1), zero.rm = TRUE, ...) {
 # @rdname index-heterogeneity
 evennessShannon <- function(x, zero.rm = TRUE, ...) {
   # Validation
-  check_type(x, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
   # Remove zeros
   if (zero.rm) x <- x[x > 0]
 
@@ -212,7 +219,8 @@ evennessShannon <- function(x, zero.rm = TRUE, ...) {
 # @rdname index-heterogeneity
 varianceShannon <- function(x, ...) {
   # Validation
-  check_type(x, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
   # Remove zeros
   x <- x[x > 0]
 
@@ -229,7 +237,8 @@ varianceShannon <- function(x, ...) {
 # @rdname index-heterogeneity
 dominanceSimpson <- function(x, ...) {
   # Validation
-  check_type(x, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
   # Remove zeros
   x <- x[x > 0]
 
@@ -240,7 +249,8 @@ dominanceSimpson <- function(x, ...) {
 # @rdname index-heterogeneity
 evennessSimpson <- function(x, ...) {
   # Validation
-  check_type(x, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
   # Remove zeros
   x <- x[x > 0]
 

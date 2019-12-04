@@ -65,7 +65,7 @@ setMethod(
                         ...) {
     method <- match.arg(method, several.ok = FALSE)
     C <- similarityIndex(object, method)
-    SimilarityMatrix(C, method = method)
+    .SimilarityMatrix(C, method = method)
   }
 )
 
@@ -78,7 +78,7 @@ setMethod(
   definition = function(object, method = c("jaccard", "sorenson"), ...) {
     method <- match.arg(method, several.ok = FALSE)
     C <- similarityIndex(object, method)
-    SimilarityMatrix(C, method = method)
+    .SimilarityMatrix(C, method = method)
   }
 )
 
@@ -142,8 +142,10 @@ similaritySorenson <- function(x, y) {
 # @rdname index-similarity
 similarityBray <- function(x, y) {
   # Validation
-  check_type(x, expected = "numeric")
-  check_type(y, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
+  if (!is.numeric(y))
+    stop("`y` must be a numeric vector.")
   if (length(x) != length(y))
     stop("`x` and `y` must have the same length.", call. = FALSE)
 
@@ -158,8 +160,10 @@ similarityBray <- function(x, y) {
 # @rdname index-similarity
 similarityMorisita <- function(x, y) {
   # Validation
-  check_type(x, expected = "numeric")
-  check_type(y, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
+  if (!is.numeric(y))
+    stop("`y` must be a numeric vector.")
   if (length(x) != length(y))
     stop("`x` and `y` must have the same length.", call. = FALSE)
 
@@ -175,8 +179,10 @@ similarityMorisita <- function(x, y) {
 # @rdname index-similarity
 similarityBrainerd <- function(x, y) {
   # Validation
-  check_type(x, expected = "numeric")
-  check_type(y, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
+  if (!is.numeric(y))
+    stop("`y` must be a numeric vector.")
   if (length(x) != length(y))
     stop("`x` and `y` must have the same length.", call. = FALSE)
 
@@ -190,8 +196,10 @@ similarityBrainerd <- function(x, y) {
 # @rdname index-similarity
 similarityBinomial <- function(x, y) {
   # Validation
-  check_type(x, expected = "numeric")
-  check_type(y, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
+  if (!is.numeric(y))
+    stop("`y` must be a numeric vector.")
   if (length(x) != length(y))
     stop("`x` and `y` must have the same length.", call. = FALSE)
 

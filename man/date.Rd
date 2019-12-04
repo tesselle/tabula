@@ -3,10 +3,6 @@
 \docType{methods}
 \name{date}
 \alias{date}
-\alias{get_dates}
-\alias{get_dates-method}
-\alias{set_dates<-}
-\alias{set_dates-method}
 \alias{date_mcd}
 \alias{date_mcd-method}
 \alias{date_event}
@@ -18,10 +14,6 @@
 \alias{refine_dates,DateModel-method}
 \title{Date Archaeological Assemblages}
 \usage{
-get_dates(object)
-
-set_dates(object) <- value
-
 date_mcd(object, ...)
 
 date_event(object, ...)
@@ -40,9 +32,6 @@ refine_dates(object, ...)
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data (typically of
 class \linkS4class{CountMatrix}).}
-
-\item{value}{A possible value for the element(s) of \code{object} (see
-below).}
 
 \item{...}{Further arguments to be passed to internal methods.}
 
@@ -106,25 +95,6 @@ Bellanger \emph{et al.} did not publish the data supporting their
  progress bar will automatically be displayed if the
  \code{\link[pbapply]{pbapply}} package is installed on your machine.
 }
-\section{Set dates}{
-
- An attempt is made to interpret the argument \code{value} in a suitable way.
- \emph{Note} that errors are assumed to be given at \code{1} sigma.
-
- If \code{value} is a:
- \describe{
-  \item{\code{character} vector}{it is assumed to contain Roman numerals.}
-  \item{\code{numeric} or \code{integer} \code{vector}}{these values are
-  assumed to represent dates without known errors.}
-  \item{\code{list}}{containing components "\code{value}" and "\code{error}",
-  these are used to define dates and corresponding errors.}
-  \item{\code{matrix} or \code{data.frame} with two or more columns}{the
-  first is assumed to contain the dates and the second the error values.
-  \emph{Note} that if \code{value} has columns named "\code{value}" and
-  "\code{error}", these columns will be used.}
- }
-}
-
 \section{Mean Ceramic Date}{
 
  The Mean Ceramic Date (MCD) is a point estimate of the occupation of an
@@ -206,7 +176,7 @@ Bellanger \emph{et al.} did not publish the data supporting their
 \examples{
 ## Mean Ceramic Date
 ## Coerce the zuni dataset to an abundance (count) matrix
-zuni_counts <- as_count(zuni)
+zuni_counts <- codex::as_count(zuni)
 
 ## Set the start and end dates for each ceramic type
 zuni_dates <- list(

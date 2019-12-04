@@ -95,7 +95,7 @@ setMethod(
 
     # New PermutationOrder object
     .PermutationOrder(
-      id = object[["id"]],
+      id = codex::get_id(object),
       rows = row_coords,
       columns = col_coords,
       method = "refined correspondence"
@@ -112,7 +112,8 @@ setMethod(
   signature = signature(object = "AbsoluteFrequencyMatrix", order = "PermutationOrder"),
   definition = function(object, order) {
     # Validation
-    compare_uuid(object[["id"]], order[["id"]])
+    if (codex::get_id(object) != order[["id"]])
+      stop("`object` and `order` do not match.")
 
     # Rearrange matrix
     new_matrix <- object[order[["rows"]], order[["columns"]]]
@@ -129,7 +130,8 @@ setMethod(
   signature = signature(object = "IncidenceMatrix", order = "PermutationOrder"),
   definition = function(object, order) {
     # Validation
-    compare_uuid(object[["id"]], order[["id"]])
+    if (codex::get_id(object) != order[["id"]])
+      stop("`object` and `order` do not match.")
 
     # Rearrange matrix
     new_matrix <- object[order[["rows"]], order[["columns"]]]

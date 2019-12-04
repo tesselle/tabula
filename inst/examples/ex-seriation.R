@@ -1,7 +1,7 @@
 ## Matrix seriation
 ## Replicates Desachy 2004 results
 ## Coerce dataset to abundance matrix
-compiegne_count <- as_count(compiegne)
+compiegne_count <- codex::as_count(compiegne)
 
 ## Get seriation order for columns on EPPM using the reciprocal averaging method
 ## Expected column order: N, A, C, K, P, L, B, E, I, M, D, G, O, J, F, H

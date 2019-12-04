@@ -1,6 +1,6 @@
 ## Abundance data
 ## Coerce dataset to a count matrix
-mississippi_count <- as_count(mississippi)
+mississippi_count <- codex::as_count(mississippi)
 
 ## Plot a Bertin diagram...
 ## ...without threshold
@@ -14,7 +14,7 @@ plot_bertin(mississippi_count, threshold = mean, scale = scale_01)
 
 ## Abundance data
 ## Coerce dataset to a count matrix (data from Desachy 2004)
-compiegne_count <- as_count(compiegne)
+compiegne_count <- codex::as_count(compiegne)
 
 ## Plot a Ford diagram...
 ## ...without threshold

@@ -54,8 +54,10 @@ setMethod(
 #' @noRd
 rarefactionHurlbert <- function(x, sample) {
   # Validation
-  check_type(x, expected = "numeric")
-  check_scalar(sample, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
+  if (!is.numeric(sample) || length(sample) != 1)
+    stop("`sample` must be a numeric scalar.")
   # Strictly positive whole numbers
   x <- trunc(x, digits = 0)[x > 0]
   sample <- trunc(sample, digits = 0)

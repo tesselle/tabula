@@ -37,7 +37,7 @@ setMethod(
     index <- apply(X = object, MARGIN = 1, FUN = fun,
                    unbiased = unbiased, improved = improved, k = k)
     .RichnessIndex(
-      id = object[["id"]],
+      id = codex::get_id(object),
       index = index,
       size = rowSums(object),
       method = method
@@ -63,7 +63,7 @@ setMethod(
     )
     index <- fun(object, unbiased = unbiased, improved = improved, k = k)
     .RichnessIndex(
-      id = object[["id"]],
+      id = codex::get_id(object),
       index = index,
       method = method
     )
@@ -143,8 +143,10 @@ switch_richness <- function(x) {
 # @rdname index-richness
 richnessACE <- function(x, k = 10, ...) {
   # Validation
-  check_type(x, expected = "numeric")
-  check_scalar(k, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
+  if (!is.numeric(k) || length(k) != 1)
+    stop("`k` must be a numeric scalar.")
 
   x <- x[x > 0] # Remove unobserved species
   S <- length(x) # Number of observed species
@@ -185,9 +187,12 @@ richnessACE <- function(x, k = 10, ...) {
 # @rdname index-richness
 richnessChao1 <- function(x, unbiased = FALSE, improved = FALSE, ...) {
   # Validation
-  check_type(x, expected = "numeric")
-  check_scalar(unbiased, expected = "logical")
-  check_scalar(improved, expected = "logical")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
+  if (!is.logical(unbiased) || length(unbiased) != 1)
+    stop("`unbiased` must be a logical scalar.")
+  if (!is.logical(improved) || length(improved) != 1)
+    stop("`improved` must be a logical scalar.")
 
   x <- x[x > 0] # Remove unobserved species
   S <- length(x) # Number of observed species
@@ -221,7 +226,8 @@ richnessChao1 <- function(x, unbiased = FALSE, improved = FALSE, ...) {
 # @rdname index-richness
 richnessMargalef <- function(x, ...) {
   # Validation
-  check_type(x, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
 
   x <- x[x > 0] # Remove unobserved species
   N <- sum(x) # Number of individuals
@@ -233,7 +239,8 @@ richnessMargalef <- function(x, ...) {
 # @rdname index-richness
 richnessMenhinick <- function(x, ...) {
   # Validation
-  check_type(x, expected = "numeric")
+  if (!is.numeric(x))
+    stop("`x` must be a numeric vector.")
 
   x <- x[x > 0] # Remove unobserved species
   N <- sum(x) # Number of individuals
@@ -246,8 +253,10 @@ richnessMenhinick <- function(x, ...) {
 # @rdname index-richness
 richnessICE <- function(x, k = 10, ...) {
   # Validation
-  check_type(x, expected = "logical")
-  check_scalar(k, expected = "numeric")
+  if (!is.logical(x))
+    stop("`x` must be a logical vector.")
+  if (!is.numeric(k) || length(k) != 1)
+    stop("`k` must be a numeric scalar.")
 
   q <- colSums(x) # Number of species in the assemblage
   q <- q[q > 0] # Remove unobserved species
@@ -291,9 +300,12 @@ richnessICE <- function(x, k = 10, ...) {
 # @rdname index-richness
 richnessChao2 <- function(x, unbiased = FALSE, improved = FALSE, ...) {
   # Validation
-  check_type(x, expected = "logical")
-  check_scalar(unbiased, expected = "logical")
-  check_scalar(improved, expected = "logical")
+  if (!is.logical(x))
+    stop("`x` must be a logical vector.")
+  if (!is.logical(unbiased) || length(unbiased) != 1)
+    stop("`unbiased` must be a logical scalar.")
+  if (!is.logical(improved) || length(improved) != 1)
+    stop("`improved` must be a logical scalar.")
 
   q <- colSums(x) # Number of species in the assemblage
   q <- q[q > 0] # Remove unobserved species

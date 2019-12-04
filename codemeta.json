@@ -15,7 +15,7 @@
   ],
   "issueTracker": "http://github.com/nfrerebeau/tabula/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "1.4.0",
+  "version": "2.0.0.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -198,6 +198,11 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "codex",
+      "name": "codex"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "ca",
       "name": "ca",
       "version": ">= 0.71",
@@ -292,11 +297,11 @@
       "sameAs": "https://doi.org/10.21105/joss.01821",
       "isPartOf": {
         "@type": "PublicationIssue",
-        "issueNumber": "4",
+        "issueNumber": "44",
         "datePublished": "2019",
         "isPartOf": {
           "@type": ["PublicationVolume", "Periodical"],
-          "volumeNumber": "39",
+          "volumeNumber": "4",
           "name": "Journal of Open Source Software"
         }
       }
