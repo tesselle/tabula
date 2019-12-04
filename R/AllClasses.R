@@ -116,21 +116,6 @@ NULL
     rows = "matrix",
     columns = "matrix",
     accumulation = "matrix"
-  ),
-  prototype = list(
-    id = "00000000-0000-4000-a000-000000000000",
-    counts = matrix(0, 0, 0),
-    level = numeric(1),
-    model = stats::lm(0 ~ 0),
-    rows = matrix(
-      0, 0, 4,
-      dimnames = list(NULL, c("date", "lower", "upper", "error"))
-    ),
-    columns = matrix(
-      0, 0, 4,
-      dimnames = list(NULL, c("date", "lower", "upper", "error"))
-    ),
-    accumulation = matrix(0, 0, 2, dimnames = list(NULL, c("date", "error")))
   )
 )
 
@@ -183,14 +168,6 @@ NULL
     lengths = "list",
     cutoff = "numeric",
     keep = "list"
-  ),
-  prototype = list(
-    id = "00000000-0000-4000-a000-000000000000",
-    rows = list(id = factor(), x = numeric(0), y = numeric(0)),
-    columns = list(id = factor(), x = numeric(0), y = numeric(0)),
-    lengths = list(numeric(0), numeric(0)),
-    cutoff = numeric(0),
-    keep = list(integer(0), integer(0))
   )
 )
 
@@ -225,80 +202,89 @@ NULL
     rows = "integer",
     columns = "integer",
     method = "character"
-  ),
-  prototype = list(
-    id = "00000000-0000-4000-a000-000000000000",
-    rows = integer(0),
-    columns = integer(0),
-    method = "unknown"
   )
 )
 
 # INITIALIZATION ===============================================================
 ## DateModel -------------------------------------------------------------------
-DateModel <- function(
-  id = generate_uuid(), counts = matrix(0, 0, 0),
-  level = numeric(1), model = stats::lm(0 ~ 0),
-  rows = matrix(0, 0, 4,
-                dimnames = list(NULL, c("date", "lower", "upper", "error"))),
-  columns = matrix(0, 0, 4,
-                   dimnames = list(NULL, c("date", "lower", "upper", "error"))),
-  accumulation = matrix(0, 0, 2, dimnames = list(NULL, c("date", "error")))
-) {
-  throw_message_class("SimilarityMatrix")
+setMethod(
+  f = "initialize",
+  signature = "DateModel",
+  definition = function(.Object, ..., id, counts, level, model,
+                        rows, columns, accumulation) {
 
-  .DateModel(
-    id = id,
-    counts = counts,
-    level = level,
-    model = model,
-    rows = rows,
-    columns = columns,
-    accumulation = accumulation
-  )
-}
+    mtx <- matrix(0, 0, 4, dimnames = list(NULL, c("date", "lower", "upper", "error")))
+    acc <- matrix(0, 0, 2, dimnames = list(NULL, c("date", "error")))
+
+    .Object@id <- if (missing(id)) generate_uuid() else id
+    .Object@counts <- if (missing(counts)) matrix(0, 0, 0) else counts
+    .Object@level <- if (missing(level)) numeric(1) else level
+    .Object@model <- if (missing(model)) stats::lm(0 ~ 0) else model
+    .Object@rows <- if (missing(rows)) mtx else rows
+    .Object@columns <- if (missing(columns)) mtx else columns
+    .Object@accumulation <- if (missing(accumulation)) acc else accumulation
+
+    .Object <- methods::callNextMethod()
+    methods::validObject(.Object)
+    .Object
+  }
+)
+
 ## BootCA ----------------------------------------------------------------------
-BootCA <- function(
-  id = generate_uuid(),
-  rows = list(id = factor(), x = numeric(0), y = numeric(0)),
-  columns = list(id = factor(), x = numeric(0), y = numeric(0)),
-  lengths = list(numeric(0), numeric(0)),
-  cutoff = c(0, 0), keep = list(integer(0), integer(0))
-) {
-  throw_message_class("BootCA")
+setMethod(
+  f = "initialize",
+  signature = "BootCA",
+  definition = function(.Object, ..., id, rows, columns, lengths,
+                        cutoff, keep) {
 
-  rows <- mapply(
-    FUN = function(x, type) type(x),
-    rows, list(as.factor, as.numeric, as.numeric),
-    SIMPLIFY = FALSE
-  )
-  columns <- mapply(
-    FUN = function(x, type) type(x),
-    columns, list(as.factor, as.numeric, as.numeric),
-    SIMPLIFY = FALSE
-  )
-  lengths <- lapply(X = lengths, FUN = as.numeric)
-  lengths <- mapply(FUN = `names<-`,
-                    lengths, list(unique(rows$id), unique(columns$id)),
-                    SIMPLIFY = FALSE)
-  # keep <- lapply(X = keep, FUN = as.integer)
-  .BootCA(
-    id = id,
-    rows = rows,
-    columns = columns,
-    lengths = lengths,
-    cutoff = as.numeric(cutoff),
-    keep = keep
-  )
-}
+    .Object@id <- if (missing(id)) generate_uuid() else id
+    .Object@rows <- if (missing(rows)) {
+      list(id = factor(), x = numeric(0), y = numeric(0))
+    } else {
+      mapply(
+        FUN = function(x, f) f(x),
+        rows, list(as.factor, as.numeric, as.numeric),
+        SIMPLIFY = FALSE
+      )
+    }
+    .Object@columns <- if (missing(columns)) {
+      list(id = factor(), x = numeric(0), y = numeric(0))
+    } else {
+      mapply(
+        FUN = function(x, f) f(x),
+        columns, list(as.factor, as.numeric, as.numeric),
+        SIMPLIFY = FALSE
+      )
+    }
+    .Object@lengths <- if (missing(lengths)) {
+      list(numeric(0), numeric(0))
+    } else {
+      mapply(FUN = `names<-`,
+             lengths, list(unique(rows$id), unique(columns$id)),
+             SIMPLIFY = FALSE)
+    }
+    .Object@cutoff <- if (missing(cutoff)) c(0, 0) else cutoff
+    .Object@keep <- if (missing(keep)) list(integer(0), integer(0)) else keep
+
+    .Object <- methods::callNextMethod()
+    methods::validObject(.Object)
+    .Object
+  }
+)
+
 ## PermutationOrder ------------------------------------------------------------
-PermutationOrder <- function(id = generate_uuid(), rows = integer(0),
-                             columns = integer(0), method = "unknown") {
-  throw_message_class("PermutationOrder")
-  .PermutationOrder(
-    id = as.character(id),
-    rows = as.integer(rows),
-    columns = as.integer(columns),
-    method = as.character(method)
-  )
-}
+setMethod(
+  f = "initialize",
+  signature = "PermutationOrder",
+  definition = function(.Object, ..., id, rows, columns, method) {
+
+    .Object@id <- if (missing(id)) generate_uuid() else id
+    .Object@rows <- if (missing(rows)) integer(0) else rows
+    .Object@columns <- if (missing(columns)) integer(0) else columns
+    .Object@method <- if (missing(method)) "unknown" else method
+
+    .Object <- methods::callNextMethod()
+    methods::validObject(.Object)
+    .Object
+  }
+)

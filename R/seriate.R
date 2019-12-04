@@ -13,6 +13,7 @@ setMethod(
 
     seriation(object, method = "reciprocal", EPPM = EPPM, margin = margin,
               stop = stop)
+
   }
 )
 
@@ -25,6 +26,7 @@ setMethod(
   definition = function(object, margin = c(1, 2), stop = 100) {
 
     seriation(object, method = "reciprocal", margin = margin, stop = stop)
+
   }
 )
 
@@ -38,6 +40,7 @@ setMethod(
   definition = function(object, margin = c(1, 2), ...) {
 
     seriation(object, method = "correspondence", margin = margin, ...)
+
   }
 )
 
@@ -50,6 +53,7 @@ setMethod(
   definition = function(object, margin = c(1, 2), ...) {
 
     seriation(object, method = "correspondence", margin = margin, ...)
+
   }
 )
 
@@ -90,7 +94,7 @@ setMethod(
     col_coords <- if (2 %in% margin) order(coords$columns[, 2]) else j
 
     # New PermutationOrder object
-    PermutationOrder(
+    .PermutationOrder(
       id = object[["id"]],
       rows = row_coords,
       columns = col_coords,

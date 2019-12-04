@@ -15,7 +15,7 @@ seriation <- function(object, method = c("correspondence", "reciprocal"),
   )
 
   # New PermutationOrder object
-  PermutationOrder(
+  .PermutationOrder(
     id = object[["id"]],
     rows = as.integer(index[[1]]),
     columns = as.integer(index[[2]]),
