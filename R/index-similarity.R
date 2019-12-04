@@ -56,10 +56,10 @@ similarityIndex <- function(object, method, ...) {
 
 #' @export
 #' @rdname similarity-method
-#' @aliases similarity,CountMatrix-method
+#' @aliases similarity,AbsoluteFrequencyMatrix-method
 setMethod(
   f = "similarity",
-  signature = signature(object = "CountMatrix"),
+  signature = signature(object = "AbsoluteFrequencyMatrix"),
   definition = function(object, method = c("brainerd", "bray", "jaccard",
                                            "morisita", "sorenson", "binomial"),
                         ...) {

@@ -12,25 +12,25 @@
 \alias{diversity}
 \alias{evenness}
 \alias{richness}
-\alias{refine,CountMatrix-method}
+\alias{refine,AbsoluteFrequencyMatrix-method}
 \alias{refine,DateModel-method}
-\alias{plotBar,CountMatrix-method}
-\alias{plotBar,FrequencyMatrix-method}
-\alias{plotMatrix,CountMatrix-method}
-\alias{plotMatrix,FrequencyMatrix-method}
+\alias{plotBar,AbsoluteFrequencyMatrix-method}
+\alias{plotBar,RelativeFrequencyMatrix-method}
+\alias{plotMatrix,AbsoluteFrequencyMatrix-method}
+\alias{plotMatrix,RelativeFrequencyMatrix-method}
 \alias{plotMatrix,IncidenceMatrix-method}
-\alias{plotRank,CountMatrix-method}
-\alias{plotRank,FrequencyMatrix-method}
-\alias{plotSpot,CountMatrix-method}
-\alias{plotSpot,FrequencyMatrix-method}
+\alias{plotRank,AbsoluteFrequencyMatrix-method}
+\alias{plotRank,RelativeFrequencyMatrix-method}
+\alias{plotSpot,AbsoluteFrequencyMatrix-method}
+\alias{plotSpot,RelativeFrequencyMatrix-method}
 \alias{plotSpot,SimilarityMatrix-method}
 \alias{plotSpot,OccurrenceMatrix-method}
-\alias{seriate,CountMatrix,missing-method}
+\alias{seriate,AbsoluteFrequencyMatrix,missing-method}
 \alias{seriate,IncidenceMatrix,missing-method}
-\alias{seriate,CountMatrix,BootCA-method}
-\alias{diversity,CountMatrix-method}
-\alias{evenness,CountMatrix-method}
-\alias{richness,CountMatrix-method}
+\alias{seriate,AbsoluteFrequencyMatrix,BootCA-method}
+\alias{diversity,AbsoluteFrequencyMatrix-method}
+\alias{evenness,AbsoluteFrequencyMatrix-method}
+\alias{richness,AbsoluteFrequencyMatrix-method}
 \alias{richness,IncidenceMatrix-method}
 \title{Deprecated Methods}
 \usage{
@@ -52,37 +52,37 @@ evenness(object, ...)
 
 richness(object, ...)
 
-\S4method{refine}{CountMatrix}(object, cutoff, n = 1000, axes = c(1,
-  2), ...)
+\S4method{refine}{AbsoluteFrequencyMatrix}(object, cutoff, n = 1000,
+  axes = c(1, 2), ...)
 
 \S4method{refine}{DateModel}(object, method = c("jackknife",
   "bootstrap"), n = 1000, ...)
 
-\S4method{plotBar}{CountMatrix}(object, level = FALSE, EPPM = FALSE,
-  center = TRUE, horizontal = FALSE)
-
-\S4method{plotBar}{FrequencyMatrix}(object, level = FALSE,
+\S4method{plotBar}{AbsoluteFrequencyMatrix}(object, level = FALSE,
   EPPM = FALSE, center = TRUE, horizontal = FALSE)
 
-\S4method{plotMatrix}{CountMatrix}(object, PVI = FALSE)
+\S4method{plotBar}{RelativeFrequencyMatrix}(object, level = FALSE,
+  EPPM = FALSE, center = TRUE, horizontal = FALSE)
 
-\S4method{plotMatrix}{FrequencyMatrix}(object, PVI = FALSE)
+\S4method{plotMatrix}{AbsoluteFrequencyMatrix}(object, PVI = FALSE)
+
+\S4method{plotMatrix}{RelativeFrequencyMatrix}(object, PVI = FALSE)
 
 \S4method{plotMatrix}{IncidenceMatrix}(object)
 
-\S4method{plotRank}{CountMatrix}(object, PVI = FALSE)
+\S4method{plotRank}{AbsoluteFrequencyMatrix}(object, PVI = FALSE)
 
-\S4method{plotRank}{FrequencyMatrix}(object, PVI = FALSE)
+\S4method{plotRank}{RelativeFrequencyMatrix}(object, PVI = FALSE)
 
-\S4method{plotSpot}{CountMatrix}(object, threshold = NULL)
+\S4method{plotSpot}{AbsoluteFrequencyMatrix}(object, threshold = NULL)
 
-\S4method{plotSpot}{FrequencyMatrix}(object, threshold = NULL)
+\S4method{plotSpot}{RelativeFrequencyMatrix}(object, threshold = NULL)
 
 \S4method{plotSpot}{SimilarityMatrix}(object)
 
 \S4method{plotSpot}{OccurrenceMatrix}(object)
 
-\S4method{seriate}{CountMatrix,missing}(object,
+\S4method{seriate}{AbsoluteFrequencyMatrix,missing}(object,
   method = c("correspondance", "reciprocal"), EPPM = FALSE,
   margin = c(1, 2), stop = 100, ...)
 
@@ -90,18 +90,20 @@ richness(object, ...)
   method = c("correspondance", "reciprocal"), margin = c(1, 2),
   stop = 100, ...)
 
-\S4method{seriate}{CountMatrix,BootCA}(object, subset, margin = c(1, 2),
-  ...)
+\S4method{seriate}{AbsoluteFrequencyMatrix,BootCA}(object, subset,
+  margin = c(1, 2), ...)
 
-\S4method{diversity}{CountMatrix}(object, method = c("berger",
-  "brillouin", "mcintosh", "shannon", "simpson"), simplify = FALSE, ...)
+\S4method{diversity}{AbsoluteFrequencyMatrix}(object,
+  method = c("berger", "brillouin", "mcintosh", "shannon", "simpson"),
+  simplify = FALSE, ...)
 
-\S4method{evenness}{CountMatrix}(object, method = c("brillouin",
-  "mcintosh", "shannon", "simpson"), simplify = FALSE, ...)
+\S4method{evenness}{AbsoluteFrequencyMatrix}(object,
+  method = c("brillouin", "mcintosh", "shannon", "simpson"),
+  simplify = FALSE, ...)
 
-\S4method{richness}{CountMatrix}(object, method = c("ace", "chao1",
-  "margalef", "menhinick", "none"), unbiased = FALSE, improved = FALSE,
-  k = 10, simplify = FALSE)
+\S4method{richness}{AbsoluteFrequencyMatrix}(object, method = c("ace",
+  "chao1", "margalef", "menhinick", "none"), unbiased = FALSE,
+  improved = FALSE, k = 10, simplify = FALSE)
 
 \S4method{richness}{IncidenceMatrix}(object, method = c("chao2", "ice"),
   unbiased = FALSE, improved = FALSE, k = 10, simplify = FALSE)

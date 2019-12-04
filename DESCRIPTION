@@ -54,6 +54,7 @@ Depends:
     R (>= 3.2)
 Imports:
     ca (>= 0.71),
+    codex,
     ggplot2 (>= 3.2.1),
     grDevices,
     methods,
@@ -80,7 +81,6 @@ Collate:
     'AllGenerics.R'
     'predicates.R'
     'check.R'
-    'coerce.R'
     'data.R'
     'date.R'
     'deprecate.R'

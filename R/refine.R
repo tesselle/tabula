@@ -4,10 +4,10 @@ NULL
 
 #' @export
 #' @rdname seriation
-#' @aliases refine_seriation,CountMatrix-method
+#' @aliases refine_seriation,AbsoluteFrequencyMatrix-method
 setMethod(
   f = "refine_seriation",
-  signature = signature(object = "CountMatrix"),
+  signature = signature(object = "AbsoluteFrequencyMatrix"),
   definition = function(object, cutoff, n = 1000, axes = c(1, 2), ...) {
     # Partial bootstrap CA
     hull_rows <- boot_hull(object, n = n, margin = 1, axes = axes, ...)

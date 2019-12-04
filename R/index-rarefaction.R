@@ -3,10 +3,10 @@ NULL
 
 #' @export
 #' @rdname richness-index
-#' @aliases rarefaction,CountMatrix-method
+#' @aliases rarefaction,AbsoluteFrequencyMatrix-method
 setMethod(
   f = "rarefaction",
-  signature = signature(object = "CountMatrix"),
+  signature = signature(object = "AbsoluteFrequencyMatrix"),
   definition = function(object, sample, method = c("hurlbert"),
                         simplify = FALSE, ...) {
     # Validation

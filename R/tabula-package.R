@@ -39,6 +39,7 @@
 # See https://github.com/tidyverse/magrittr/issues/29
 if(getRversion() >= "2.15.1") utils::globalVariables(c("."))
 
+#' @import codex
 #' @importFrom ca ca
 #' @importFrom ggplot2 ggplot aes coord_fixed element_blank element_rect
 #' element_text facet_wrap geom_line geom_path geom_point geom_tile labs

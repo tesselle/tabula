@@ -4,10 +4,10 @@ NULL
 
 #' @export
 #' @rdname date
-#' @aliases date_mcd,CountMatrix-method
+#' @aliases date_mcd,AbsoluteFrequencyMatrix-method
 setMethod(
   f = "date_mcd",
-  signature = signature(object = "CountMatrix"),
+  signature = signature(object = "AbsoluteFrequencyMatrix"),
   definition = function(object, dates, errors = NULL,
                         level = 0.95, n = 1000, ...) {
     # Validation
@@ -67,10 +67,10 @@ setMethod(
 
 #' @export
 #' @rdname date
-#' @aliases date_event,CountMatrix-method
+#' @aliases date_event,AbsoluteFrequencyMatrix-method
 setMethod(
   f = "date_event",
-  signature = signature(object = "CountMatrix"),
+  signature = signature(object = "AbsoluteFrequencyMatrix"),
   definition = function(object, level = 0.95, cutoff = 90, ...) {
     # Validation
     cutoff <- as.integer(cutoff)

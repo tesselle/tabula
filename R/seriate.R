@@ -5,10 +5,10 @@ NULL
 ## Reciprocal seriation --------------------------------------------------------
 #' @export
 #' @rdname seriation
-#' @aliases seriate_reciprocal,CountMatrix-method
+#' @aliases seriate_reciprocal,AbsoluteFrequencyMatrix-method
 setMethod(
   f = "seriate_reciprocal",
-  signature = signature(object = "CountMatrix"),
+  signature = signature(object = "AbsoluteFrequencyMatrix"),
   definition = function(object, EPPM = FALSE, margin = c(1, 2), stop = 100) {
 
     seriation(object, method = "reciprocal", EPPM = EPPM, margin = margin,
@@ -31,10 +31,10 @@ setMethod(
 ## CA seriation ----------------------------------------------------------------
 #' @export
 #' @rdname seriation
-#' @aliases seriate_correspondence,CountMatrix,missing-method
+#' @aliases seriate_correspondence,AbsoluteFrequencyMatrix,missing-method
 setMethod(
   f = "seriate_correspondence",
-  signature = signature(object = "CountMatrix", subset = "missing"),
+  signature = signature(object = "AbsoluteFrequencyMatrix", subset = "missing"),
   definition = function(object, margin = c(1, 2), ...) {
 
     seriation(object, method = "correspondence", margin = margin, ...)
@@ -56,10 +56,10 @@ setMethod(
 ## CA refined seriation --------------------------------------------------------
 #' @export
 #' @rdname seriation
-#' @aliases seriate_correspondence,CountMatrix,BootCA-method
+#' @aliases seriate_correspondence,AbsoluteFrequencyMatrix,BootCA-method
 setMethod(
   f = "seriate_correspondence",
-  signature = signature(object = "CountMatrix", subset = "BootCA"),
+  signature = signature(object = "AbsoluteFrequencyMatrix", subset = "BootCA"),
   definition = function(object, subset, margin = c(1, 2), ...) {
     # Validation
     margin <- as.integer(margin)
@@ -102,18 +102,18 @@ setMethod(
 # Permute matrix ===============================================================
 #' @export
 #' @rdname seriation
-#' @aliases permute,CountMatrix,PermutationOrder-method
+#' @aliases permute,AbsoluteFrequencyMatrix,PermutationOrder-method
 setMethod(
   f = "permute",
-  signature = signature(object = "CountMatrix", order = "PermutationOrder"),
+  signature = signature(object = "AbsoluteFrequencyMatrix", order = "PermutationOrder"),
   definition = function(object, order) {
     # Validation
     compare_uuid(object[["id"]], order[["id"]])
 
     # Rearrange matrix
     new_matrix <- object[order[["rows"]], order[["columns"]]]
-    # New CountMatrix object
-    .CountMatrix(new_matrix, id = order[["id"]])
+    # New AbsoluteFrequencyMatrix object
+    .AbsoluteFrequencyMatrix(new_matrix, id = order[["id"]])
   }
 )
 
@@ -129,7 +129,7 @@ setMethod(
 
     # Rearrange matrix
     new_matrix <- object[order[["rows"]], order[["columns"]]]
-    # New CountMatrix object
+    # New AbsoluteFrequencyMatrix object
     .IncidenceMatrix(new_matrix, id = order[["id"]])
   }
 )

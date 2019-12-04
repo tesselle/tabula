@@ -7,21 +7,23 @@
 \alias{index_heterogeneity-method}
 \alias{index_evenness}
 \alias{index_evenness-method}
-\alias{index_heterogeneity,CountMatrix-method}
-\alias{index_evenness,CountMatrix-method}
+\alias{index_heterogeneity,AbsoluteFrequencyMatrix-method}
+\alias{index_evenness,AbsoluteFrequencyMatrix-method}
 \title{Heterogeneity and Evenness}
 \usage{
 index_heterogeneity(object, ...)
 
 index_evenness(object, ...)
 
-\S4method{index_heterogeneity}{CountMatrix}(object, method = c("berger",
-  "brillouin", "mcintosh", "shannon", "simpson"), jackknife = TRUE,
-  bootstrap = TRUE, simulate = FALSE, level = 0.8, n = 1000, ...)
+\S4method{index_heterogeneity}{AbsoluteFrequencyMatrix}(object,
+  method = c("berger", "brillouin", "mcintosh", "shannon", "simpson"),
+  jackknife = TRUE, bootstrap = TRUE, simulate = FALSE,
+  level = 0.8, n = 1000, ...)
 
-\S4method{index_evenness}{CountMatrix}(object, method = c("shannon",
-  "brillouin", "mcintosh", "simpson"), jackknife = TRUE,
-  bootstrap = TRUE, simulate = FALSE, level = 0.8, n = 1000, ...)
+\S4method{index_evenness}{AbsoluteFrequencyMatrix}(object,
+  method = c("shannon", "brillouin", "mcintosh", "simpson"),
+  jackknife = TRUE, bootstrap = TRUE, simulate = FALSE,
+  level = 0.8, n = 1000, ...)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data (typically
