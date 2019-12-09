@@ -4,10 +4,10 @@ NULL
 
 #' @export
 #' @rdname plot_date
-#' @aliases plot_time,AbsoluteFrequencyMatrix-method
+#' @aliases plot_time,CountMatrix-method
 setMethod(
   f = "plot_time",
-  signature = signature(object = "AbsoluteFrequencyMatrix"),
+  signature = signature(object = "CountMatrix"),
   definition = function(object, highlight = NULL, level = 0.95,
                         roll = FALSE, window = 5, facet = TRUE, ...) {
     # Validation

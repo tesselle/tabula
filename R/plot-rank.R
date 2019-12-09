@@ -4,22 +4,22 @@ NULL
 
 #' @export
 #' @rdname plot_line
-#' @aliases plot_rank,AbsoluteFrequencyMatrix-method
+#' @aliases plot_rank,CountMatrix-method
 setMethod(
   f = "plot_rank",
-  signature = signature(object = "AbsoluteFrequencyMatrix"),
+  signature = signature(object = "CountMatrix"),
   definition = function(object, log = NULL, facet = TRUE) {
-    freq <- methods::as(object, "RelativeFrequencyMatrix")
+    freq <- methods::as(object, "AbundanceMatrix")
     plot_rank(freq, log = log, facet = facet)
   }
 )
 
 #' @export
 #' @rdname plot_line
-#' @aliases plot_rank,RelativeFrequencyMatrix-method
+#' @aliases plot_rank,AbundanceMatrix-method
 setMethod(
   f = "plot_rank",
-  signature = signature(object = "RelativeFrequencyMatrix"),
+  signature = signature(object = "AbundanceMatrix"),
   definition = function(object, log = NULL, facet = TRUE) {
     # Prepare data
     data <- prepare_rank(object)

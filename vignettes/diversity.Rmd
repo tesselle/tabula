@@ -1,5 +1,5 @@
 ---
-title: "2. Diversity Measures"
+title: "Diversity Measures"
 author: "N. Frerebeau"
 date: "`r Sys.Date()`"
 output:
@@ -9,7 +9,7 @@ output:
     toc: true
 bibliography: bibliography.bib
 vignette: >
-  %\VignetteIndexEntry{2. Diversity Measures}
+  %\VignetteIndexEntry{Diversity Measures}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 

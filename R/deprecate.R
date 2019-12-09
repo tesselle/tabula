@@ -3,10 +3,10 @@
 # ======================================================================= refine
 #' @export
 #' @rdname deprecated
-#' @aliases refine,AbsoluteFrequencyMatrix-method
+#' @aliases refine,CountMatrix-method
 setMethod(
   f = "refine",
-  signature = signature(object = "AbsoluteFrequencyMatrix"),
+  signature = signature(object = "CountMatrix"),
   definition = function(object, cutoff, n = 1000, axes = c(1, 2), ...) {
     .Deprecated(msg = "refine is deprecated. Use refine_seriation instead.")
     refine_seriation(object, cutoff, n, axes, ...)
@@ -29,10 +29,10 @@ setMethod(
 # ---------------------------------------------------------------------- plotBar
 #' @export
 #' @rdname deprecated
-#' @aliases plotBar,AbsoluteFrequencyMatrix-method
+#' @aliases plotBar,CountMatrix-method
 setMethod(
   f = "plotBar",
-  signature = signature(object = "AbsoluteFrequencyMatrix"),
+  signature = signature(object = "CountMatrix"),
   definition = function(object, level = FALSE, EPPM = FALSE,
                         center = TRUE, horizontal = FALSE) {
     .Deprecated(
@@ -134,13 +134,13 @@ setMethod(
 
 #' @export
 #' @rdname deprecated
-#' @aliases plotBar,RelativeFrequencyMatrix-method
+#' @aliases plotBar,AbundanceMatrix-method
 setMethod(
   f = "plotBar",
-  signature = signature(object = "RelativeFrequencyMatrix"),
+  signature = signature(object = "AbundanceMatrix"),
   definition = function(object, level = FALSE, EPPM = FALSE,
                         center = TRUE, horizontal = FALSE) {
-    count <- methods::as(object, "AbsoluteFrequencyMatrix")
+    count <- methods::as(object, "CountMatrix")
     plotBar(count, level = level, EPPM = EPPM,
             center = center, horizontal = horizontal)
   }
@@ -149,10 +149,10 @@ setMethod(
 # ------------------------------------------------------------------- plotMatrix
 #' @export
 #' @rdname deprecated
-#' @aliases plotMatrix,AbsoluteFrequencyMatrix-method
+#' @aliases plotMatrix,CountMatrix-method
 setMethod(
   f = "plotMatrix",
-  signature = signature(object = "AbsoluteFrequencyMatrix"),
+  signature = signature(object = "CountMatrix"),
   definition = function(object, PVI = FALSE) {
     .Deprecated(msg = "plotMatrix is deprecated. Use plot_heatmap instead.")
     plot_heatmap(object, PVI = PVI)
@@ -161,13 +161,13 @@ setMethod(
 
 #' @export
 #' @rdname deprecated
-#' @aliases plotMatrix,RelativeFrequencyMatrix-method
+#' @aliases plotMatrix,AbundanceMatrix-method
 setMethod(
   f = "plotMatrix",
-  signature = signature(object = "RelativeFrequencyMatrix"),
+  signature = signature(object = "AbundanceMatrix"),
   definition = function(object, PVI = FALSE) {
     .Deprecated(msg = "plotMatrix is deprecated. Use plot_heatmap instead.")
-    count <- methods::as(object, "AbsoluteFrequencyMatrix")
+    count <- methods::as(object, "CountMatrix")
     plot_heatmap(count, PVI = PVI)
   }
 )
@@ -187,10 +187,10 @@ setMethod(
 # --------------------------------------------------------------------- plotRank
 #' @export
 #' @rdname deprecated
-#' @aliases plotRank,AbsoluteFrequencyMatrix-method
+#' @aliases plotRank,CountMatrix-method
 setMethod(
   f = "plotRank",
-  signature = signature(object = "AbsoluteFrequencyMatrix"),
+  signature = signature(object = "CountMatrix"),
   definition = function(object, PVI = FALSE) {
     .Deprecated(msg = "plotRank is deprecated. Use plot_rank instead.")
     plot_rank(object)
@@ -199,10 +199,10 @@ setMethod(
 
 #' @export
 #' @rdname deprecated
-#' @aliases plotRank,RelativeFrequencyMatrix-method
+#' @aliases plotRank,AbundanceMatrix-method
 setMethod(
   f = "plotRank",
-  signature = signature(object = "RelativeFrequencyMatrix"),
+  signature = signature(object = "AbundanceMatrix"),
   definition = function(object, PVI = FALSE) {
     .Deprecated(msg = "plotRank is deprecated. Use plot_rank instead.")
     plot_rank(object)
@@ -212,22 +212,22 @@ setMethod(
 # --------------------------------------------------------------------- plotSpot
 #' @export
 #' @rdname deprecated
-#' @aliases plotSpot,AbsoluteFrequencyMatrix-method
+#' @aliases plotSpot,CountMatrix-method
 setMethod(
   f = "plotSpot",
-  signature = signature(object = "AbsoluteFrequencyMatrix"),
+  signature = signature(object = "CountMatrix"),
   definition = function(object, threshold = NULL) {
     .Deprecated(msg = "plotSpot is deprecated. Use plot_spot instead.")
-    freq <- methods::as(object, "RelativeFrequencyMatrix")
+    freq <- methods::as(object, "AbundanceMatrix")
     plot_spot(freq, threshold = threshold)
   }
 )
 #' @export
 #' @rdname deprecated
-#' @aliases plotSpot,RelativeFrequencyMatrix-method
+#' @aliases plotSpot,AbundanceMatrix-method
 setMethod(
   f = "plotSpot",
-  signature = signature(object = "RelativeFrequencyMatrix"),
+  signature = signature(object = "AbundanceMatrix"),
   definition = function(object, threshold = NULL) {
     .Deprecated(msg = "plotSpot is deprecated. Use plot_spot instead.")
     plot_spot(object, threshold = threshold)
@@ -262,7 +262,7 @@ setMethod(
 #' @rdname deprecated
 setMethod(
   f = "seriate",
-  signature = signature(object = "AbsoluteFrequencyMatrix", subset = "missing"),
+  signature = signature(object = "CountMatrix", subset = "missing"),
   definition = function(object, method = c("correspondance", "reciprocal"),
                         EPPM = FALSE, margin = c(1, 2), stop = 100, ...) {
     .Deprecated(msg = "seriate is deprecated. Use seriate_reciprocal or seriate_correspondence instead.")
@@ -285,7 +285,7 @@ setMethod(
 #' @rdname deprecated
 setMethod(
   f = "seriate",
-  signature = signature(object = "AbsoluteFrequencyMatrix", subset = "BootCA"),
+  signature = signature(object = "CountMatrix", subset = "BootCA"),
   definition = function(object, subset, margin = c(1, 2), ...) {
     .Deprecated(msg = "seriate is deprecated. Use seriate_correspondence instead.")
     seriate_correspondence(object, subset, margin = margin, ...)
@@ -298,7 +298,7 @@ setMethod(
 #' @rdname deprecated
 setMethod(
   f = "diversity",
-  signature = signature(object = "AbsoluteFrequencyMatrix"),
+  signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("berger", "brillouin", "mcintosh",
                                            "shannon", "simpson"),
                         simplify = FALSE, ...) {
@@ -322,7 +322,7 @@ setMethod(
 #' @rdname deprecated
 setMethod(
   f = "evenness",
-  signature = signature(object = "AbsoluteFrequencyMatrix"),
+  signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("brillouin", "mcintosh",
                                            "shannon", "simpson"),
                         simplify = FALSE, ...) {
@@ -343,7 +343,7 @@ setMethod(
 #' @rdname deprecated
 setMethod(
   f = "richness",
-  signature = signature(object = "AbsoluteFrequencyMatrix"),
+  signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("ace", "chao1",
                                            "margalef", "menhinick", "none"),
                         unbiased = FALSE, improved = FALSE, k = 10,

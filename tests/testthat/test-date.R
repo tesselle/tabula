@@ -16,7 +16,7 @@ test_that("Mean Ceramic Date", {
   keep_sites <- c("CS11", "CS12", "CS144", "CS195", "CS40", "LZ0219", "LZ0280",
                   "LZ0367", "LZ0508", "LZ0560", "LZ1076", "LZ1087")
   zuni2 <- zuni[rownames(zuni) %in% keep_sites, ]
-  zuni2 <- as(zuni2, "AbsoluteFrequencyMatrix")
+  zuni2 <- as(zuni2, "CountMatrix")
 
   dt <- date_mcd(zuni2, zuni_mid_dates)
   expect_equal(round(dt[, 2]), c(943, 1205, 1187, 1150, 782, 1148, 1156,
@@ -26,7 +26,7 @@ test_that("Mean Ceramic Date", {
 test_that("Time plot", {
   # Keep only decoration types that have a maximum frequency of at least 50
   keep <- apply(X = merzbach, MARGIN = 2, FUN = function(x) max(x) >= 50)
-  count_merzbach <- as(merzbach[, keep], "AbsoluteFrequencyMatrix")
+  count_merzbach <- as(merzbach[, keep], "CountMatrix")
   # Use the row names as time coordinates (roman numerals)
   set_dates(count_merzbach) <- rownames(merzbach)
   # Plot time vs abundance
@@ -47,7 +47,7 @@ test_that("Time plot", {
   expect_error(plot_time(count_merzbach), "Time coordinates are missing!")
 })
 test_that("Date plot", {
-  count_zuni <- as(zuni, "AbsoluteFrequencyMatrix")
+  count_zuni <- as(zuni, "CountMatrix")
   expect_warning(set_dates(count_zuni) <- list(value = c(X = 1097),
                                                error = c(X = 1119)))
 
@@ -64,7 +64,7 @@ test_that("Date plot", {
   expect_error(date_event(count_zuni), "No dates were found!")
 })
 test_that("Date model", {
-  count_zuni <- as(zuni, "AbsoluteFrequencyMatrix")
+  count_zuni <- as(zuni, "CountMatrix")
   suppressWarnings(set_dates(count_zuni) <- c(
     LZ0569 = 1097, LZ0279 = 1119, CS16 = 1328, LZ0066 = 1111,
     LZ0852 = 1216, LZ1209 = 1251, CS144 = 1262, LZ0563 = 1206,
@@ -89,7 +89,7 @@ test_that("Date model", {
   expect_error(plot_date(model, select = "X"), "Wrong selection")
 })
 test_that("Refine date model", {
-  count_zuni <- as(zuni, "AbsoluteFrequencyMatrix")
+  count_zuni <- as(zuni, "CountMatrix")
   suppressWarnings(set_dates(count_zuni) <- c(
     LZ0569 = 1097, LZ0279 = 1119, CS16 = 1328, LZ0066 = 1111,
     LZ0852 = 1216, LZ1209 = 1251, CS144 = 1262, LZ0563 = 1206,

@@ -3,10 +3,10 @@ NULL
 
 #' @export
 #' @rdname heterogeneity-index
-#' @aliases index_heterogeneity,AbsoluteFrequencyMatrix-method
+#' @aliases index_heterogeneity,CountMatrix-method
 setMethod(
   f = "index_heterogeneity",
-  signature = signature(object = "AbsoluteFrequencyMatrix"),
+  signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("berger", "brillouin", "mcintosh",
                                            "shannon", "simpson"),
                         jackknife = TRUE, bootstrap = TRUE, simulate = FALSE,
@@ -21,10 +21,10 @@ setMethod(
 
 #' @export
 #' @rdname heterogeneity-index
-#' @aliases index_evenness,AbsoluteFrequencyMatrix-method
+#' @aliases index_evenness,CountMatrix-method
 setMethod(
   f = "index_evenness",
-  signature = signature(object = "AbsoluteFrequencyMatrix"),
+  signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("shannon", "brillouin", "mcintosh",
                                            "simpson"),
                         jackknife = TRUE, bootstrap = TRUE, simulate = FALSE,

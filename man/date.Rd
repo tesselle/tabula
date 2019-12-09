@@ -9,8 +9,8 @@
 \alias{date_event-method}
 \alias{refine_dates}
 \alias{refine_dates-method}
-\alias{date_mcd,AbsoluteFrequencyMatrix-method}
-\alias{date_event,AbsoluteFrequencyMatrix-method}
+\alias{date_mcd,CountMatrix-method}
+\alias{date_event,CountMatrix-method}
 \alias{refine_dates,DateModel-method}
 \title{Date Archaeological Assemblages}
 \usage{
@@ -20,11 +20,11 @@ date_event(object, ...)
 
 refine_dates(object, ...)
 
-\S4method{date_mcd}{AbsoluteFrequencyMatrix}(object, dates,
-  errors = NULL, level = 0.95, n = 1000, ...)
+\S4method{date_mcd}{CountMatrix}(object, dates, errors = NULL,
+  level = 0.95, n = 1000, ...)
 
-\S4method{date_event}{AbsoluteFrequencyMatrix}(object, level = 0.95,
-  cutoff = 90, ...)
+\S4method{date_event}{CountMatrix}(object, level = 0.95, cutoff = 90,
+  ...)
 
 \S4method{refine_dates}{DateModel}(object, method = c("jackknife",
   "bootstrap"), n = 1000, ...)

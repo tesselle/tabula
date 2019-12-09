@@ -3,7 +3,7 @@ options("verbose" = FALSE)
 
 
 test_that("Reciprocal averaging", {
-  count <- as(compiegne, "AbsoluteFrequencyMatrix")
+  count <- as(compiegne, "CountMatrix")
 
   indices_row <- seriate_reciprocal(count, margin = 1)
   expect_equal(indices_row@rows, c(1, 2, 5, 3, 4))
@@ -19,7 +19,7 @@ test_that("Reciprocal averaging", {
   expect_warning(seriate_reciprocal(count, stop = 1, margin = 2))
 })
 test_that("Reciprocal averaging on EPPM", {
-  count <- as(compiegne, "AbsoluteFrequencyMatrix")
+  count <- as(compiegne, "CountMatrix")
   indices <- seriate_reciprocal(count, EPPM = TRUE, margin = 2)
   expected <- c("N", "A", "C", "K", "P", "L", "B", "E",
                 "I", "M", "D", "G", "O", "J", "F", "H")
@@ -38,7 +38,7 @@ test_that("Reciprocal ranking", {
   expect_equal(permute(incid, indices)@id, incid@id)
 })
 test_that("correspondence Analysis", {
-  count <- as(compiegne, "AbsoluteFrequencyMatrix")
+  count <- as(compiegne, "CountMatrix")
 
   indices <- seriate_correspondence(count, margin = c(1, 2))
   expect_equal(indices@rows, c(1, 2, 3, 4, 5))
@@ -46,14 +46,14 @@ test_that("correspondence Analysis", {
                c(14, 11, 1, 12, 3, 16, 5, 2, 15, 13, 7, 4, 6, 10, 9, 8))
 
   expect_s4_class(indices, "PermutationOrder")
-  expect_s4_class(permute(count, indices), "AbsoluteFrequencyMatrix")
+  expect_s4_class(permute(count, indices), "CountMatrix")
   expect_equal(permute(count, indices)@id, count@id)
 
-  count2 <- as(merzbach, "AbsoluteFrequencyMatrix")
+  count2 <- as(merzbach, "CountMatrix")
   expect_warning(seriate_correspondence(count2))
 })
 test_that("Refined correspondence Analysis", {
-  count <- as(zuni, "AbsoluteFrequencyMatrix")
+  count <- as(zuni, "CountMatrix")
 
   # Define cutoff as one standard deviation above the mean
   fun <- function(x) { mean(x) + sd(x) }
@@ -68,7 +68,7 @@ test_that("Refined correspondence Analysis", {
 
   indices <- seriate_correspondence(count, subset, margin = 1)
   expect_s4_class(indices, "PermutationOrder")
-  expect_s4_class(permute(count, indices), "AbsoluteFrequencyMatrix")
+  expect_s4_class(permute(count, indices), "CountMatrix")
 })
 
 

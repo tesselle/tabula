@@ -1,5 +1,5 @@
 ---
-title: "4. Dating Methods"
+title: "Dating Methods"
 author: "N. Frerebeau"
 date: "`r Sys.Date()`"
 output:
@@ -12,7 +12,7 @@ header-includes:
    - \usepackage{amssymb}
 bibliography: bibliography.bib
 vignette: >
-  %\VignetteIndexEntry{4. Dating Methods}
+  %\VignetteIndexEntry{Dating Methods}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 

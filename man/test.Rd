@@ -7,19 +7,17 @@
 \alias{test_diversity-method}
 \alias{test_fit}
 \alias{test_fit-method}
-\alias{test_fit,AbsoluteFrequencyMatrix-method}
-\alias{test_diversity,AbsoluteFrequencyMatrix-method}
+\alias{test_fit,CountMatrix-method}
+\alias{test_diversity,CountMatrix-method}
 \title{Tests on Abundance Data}
 \usage{
 test_diversity(object, ...)
 
 test_fit(object, ...)
 
-\S4method{test_fit}{AbsoluteFrequencyMatrix}(object, simplify = FALSE,
-  ...)
+\S4method{test_fit}{CountMatrix}(object, simplify = FALSE, ...)
 
-\S4method{test_diversity}{AbsoluteFrequencyMatrix}(object,
-  adjust = "holm", ...)
+\S4method{test_diversity}{CountMatrix}(object, adjust = "holm", ...)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data.}

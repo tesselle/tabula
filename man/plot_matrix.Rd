@@ -6,17 +6,17 @@
 \alias{matrigraphe}
 \alias{plot_heatmap}
 \alias{plot_heatmap-method}
-\alias{plot_heatmap,AbsoluteFrequencyMatrix-method}
-\alias{plot_heatmap,RelativeFrequencyMatrix-method}
+\alias{plot_heatmap,CountMatrix-method}
+\alias{plot_heatmap,AbundanceMatrix-method}
 \alias{plot_heatmap,IncidenceMatrix-method}
 \title{Heatmap}
 \usage{
 plot_heatmap(object, ...)
 
-\S4method{plot_heatmap}{AbsoluteFrequencyMatrix}(object, PVI = FALSE,
+\S4method{plot_heatmap}{CountMatrix}(object, PVI = FALSE,
   frequency = TRUE)
 
-\S4method{plot_heatmap}{RelativeFrequencyMatrix}(object)
+\S4method{plot_heatmap}{AbundanceMatrix}(object)
 
 \S4method{plot_heatmap}{IncidenceMatrix}(object)
 }

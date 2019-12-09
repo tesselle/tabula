@@ -94,7 +94,7 @@ prepare_heatmap <- function(object, PVI = FALSE, frequency = TRUE) {
 
   if (PVI) {
     # Coerce to count data for PVI computation
-    object <- methods::as(object, "AbsoluteFrequencyMatrix")
+    object <- methods::as(object, "CountMatrix")
 
     # Build long table from threshold
     data <- independance(object, method = "PVI")

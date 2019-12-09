@@ -4,10 +4,10 @@ NULL
 
 #' @export
 #' @rdname plot_matrix
-#' @aliases plot_heatmap,AbsoluteFrequencyMatrix-method
+#' @aliases plot_heatmap,CountMatrix-method
 setMethod(
   f = "plot_heatmap",
-  signature = signature(object = "AbsoluteFrequencyMatrix"),
+  signature = signature(object = "CountMatrix"),
   definition = function(object, PVI = FALSE, frequency = TRUE) {
     # Prepare data
     data <- prepare_heatmap(object, PVI, frequency)
@@ -40,10 +40,10 @@ setMethod(
 
 #' @export
 #' @rdname plot_matrix
-#' @aliases plot_heatmap,RelativeFrequencyMatrix-method
+#' @aliases plot_heatmap,AbundanceMatrix-method
 setMethod(
   f = "plot_heatmap",
-  signature = signature(object = "RelativeFrequencyMatrix"),
+  signature = signature(object = "AbundanceMatrix"),
   definition = function(object) {
     # Prepare data
     data <- prepare_heatmap(object, PVI = FALSE)

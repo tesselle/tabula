@@ -4,15 +4,14 @@
 \name{similarity}
 \alias{similarity}
 \alias{similarity-method}
-\alias{similarity,AbsoluteFrequencyMatrix-method}
+\alias{similarity,CountMatrix-method}
 \alias{similarity,IncidenceMatrix-method}
 \title{Similarity}
 \usage{
 similarity(object, ...)
 
-\S4method{similarity}{AbsoluteFrequencyMatrix}(object,
-  method = c("brainerd", "bray", "jaccard", "morisita", "sorenson",
-  "binomial"), ...)
+\S4method{similarity}{CountMatrix}(object, method = c("brainerd", "bray",
+  "jaccard", "morisita", "sorenson", "binomial"), ...)
 
 \S4method{similarity}{IncidenceMatrix}(object, method = c("jaccard",
   "sorenson"), ...)
