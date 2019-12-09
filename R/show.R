@@ -41,7 +41,7 @@ setMethod(
   signature = "DiversityIndex",
   definition = function(object) {
     cat(sprintf("<%s: %s>\n", class(object), object@method))
-    print(data.frame(index = object@index))
+    print(methods::as(object, "data.frame"))
   }
 )
 

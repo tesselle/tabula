@@ -226,7 +226,7 @@ Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
  DOI: \href{https://doi.org/10.1016/j.jas.2012.04.040}{10.1016/j.jas.2012.04.040}.
 }
 \seealso{
-\link{refine}, \link[ca]{ca}
+\link[ca]{ca}
 }
 \author{
 N. Frerebeau

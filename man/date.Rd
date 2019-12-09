@@ -80,9 +80,6 @@ assemblage.
 
 \code{refine_dates} checks the stability of a date model with resampling
 methods.
-
-\code{set_dates} and \code{get_dates} allow to get or set the dates of an
-object.
 }
 \note{
 Bellanger \emph{et al.} did not publish the data supporting their
@@ -242,7 +239,7 @@ Bellanger, L. & Husi, P. (2013). Mesurer et modéliser le temps inscrit dans
  New York: Academic Press.
 }
 \seealso{
-\link{refine}
+\link[codex]{set_dates}
 }
 \author{
 N. Frerebeau

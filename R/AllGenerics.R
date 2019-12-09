@@ -63,9 +63,6 @@ NULL
 #'
 #' \code{refine_dates} checks the stability of a date model with resampling
 #' methods.
-#'
-#' \code{set_dates} and \code{get_dates} allow to get or set the dates of an
-#' object.
 #' @param object A \eqn{m \times p}{m x p} matrix of count data (typically of
 #'  class \linkS4class{CountMatrix}).
 #' @param dates A length-\eqn{p} numeric vector giving the mid-date of each type
@@ -207,7 +204,7 @@ NULL
 #'
 #'  South, S. A. (1977). \emph{Method and Theory in Historical Archaeology}.
 #'  New York: Academic Press.
-#' @seealso \link{refine}
+#' @seealso \link[codex]{set_dates}
 #' @example inst/examples/ex-dating.R
 #' @author N. Frerebeau
 #' @family dating
@@ -972,7 +969,7 @@ setGeneric(
 #'  analysis-based ceramic seriation of regional data sets. \emph{Journal of
 #'  Archaeological Science}, 39(8), 2818-2827.
 #'  DOI: \href{https://doi.org/10.1016/j.jas.2012.04.040}{10.1016/j.jas.2012.04.040}.
-#' @seealso \link{refine}, \link[ca]{ca}
+#' @seealso \link[ca]{ca}
 #' @example inst/examples/ex-seriation.R
 #' @author N. Frerebeau
 #' @family seriation
