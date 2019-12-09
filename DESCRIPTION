@@ -80,6 +80,7 @@ Collate:
     'utilities.R'
     'AllClasses.R'
     'AllGenerics.R'
+    'coerce.R'
     'data.R'
     'date.R'
     'deprecate.R'
