@@ -204,7 +204,7 @@ NULL
 #'
 #'  South, S. A. (1977). \emph{Method and Theory in Historical Archaeology}.
 #'  New York: Academic Press.
-#' @seealso \link[codex]{set_dates}
+#' @seealso \link[codex:set_dates<-]{set_dates}
 #' @example inst/examples/ex-dating.R
 #' @author N. Frerebeau
 #' @family dating

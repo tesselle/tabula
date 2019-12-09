@@ -27,11 +27,14 @@ setMethod(
   definition = function(object) {
     fit <- object@model
     sum_up <- stats::summary.lm(fit)
-    cat("Modelled event date:",
-        "\n- Residual standard error: ", round(sum_up$sigma, digits = 2),
-        "\n- Multiple R-squared: ", round(sum_up$r.squared, 5),
-        "\n- Adjusted R-squared: ", round(sum_up$adj.r.squared, 5),
-        sep = "")
+    cat(
+      sprintf("<DateModel: %s>", object@id),
+      "Modelled event date:",
+      sprintf("- Residual standard error: %f", round(sum_up$sigma, digits = 2)),
+      sprintf("- Multiple R-squared: %f", round(sum_up$r.squared, 5)),
+      sprintf("- Adjusted R-squared: %f", round(sum_up$adj.r.squared, 5)),
+      sep = "\n"
+    )
   }
 )
 
@@ -40,7 +43,11 @@ setMethod(
   f = "show",
   signature = "DiversityIndex",
   definition = function(object) {
-    cat(sprintf("<%s: %s>\n", class(object), object@method))
+    cat(
+      sprintf("<%s: %s>", class(object), object@id),
+      sprintf("- Method: %s", object@method),
+      sep = "\n"
+    )
     print(methods::as(object, "data.frame"))
   }
 )
@@ -50,27 +57,16 @@ setMethod(
   f = "show",
   signature = "PermutationOrder",
   definition = function(object) {
-    m <- length(object@rows)
-    p <- length(object@columns)
-    k <- 20
-    rows <- if (m > k) {
-      paste0(paste0(object@rows[seq_len(k)], collapse = " "),
-             "... (", m-k, " more)")
-    } else {
-      object@rows
-    }
-    columns <- if (p > k) {
-      paste0(paste0(object@columns[seq_len(k)], collapse = " "),
-             "... (", p-k, " more)")
-    } else {
-      object@columns
-    }
-    cat("Permutation order for matrix seriation:", "\n",
-        "  Matrix ID:", object@id, "\n",
-        "  Row order:", rows, "\n",
-        "  Column order:", columns, "\n",
-        "  Method:", object@method,
-        sep = " "
+    k <- 50
+    rows <- strtrim(paste0(object@rows, collapse = " "), k)
+    columns <- strtrim(paste0(object@columns, collapse = " "), k)
+    cat(
+      sprintf("<PermutationOrder: %s>", object@id),
+      "Permutation order for matrix seriation:",
+      sprintf("- Row order: %s", paste0(rows, "...")),
+      sprintf("- Column order: %s", paste0(columns, "...")),
+      sprintf("- Method: %s", object@method),
+      sep = "\n"
     )
   }
 )

@@ -229,7 +229,30 @@ setMethod(
     .Object
   }
 )
+## DiversityIndex --------------------------------------------------------------
+setMethod(
+  f = "initialize",
+  signature = "DiversityIndex",
+  definition = function(.Object, ..., id, index, size, jackknife, boostrap,
+                        simulated, method) {
 
+    jack <- matrix(0, 0, 3, dimnames = list(NULL, c("mean", "bias", "error")))
+    boot <- matrix(0, 0, 5, dimnames = list(NULL, c("min","Q05", "mean", "Q95", "max")))
+    sim <- matrix(0, 0, 4, dimnames = list(NULL, c("size", "mean", "lower", "upper")))
+
+    .Object@id <- if (missing(id)) codex:::generate_uuid() else id
+    .Object@index <- if (missing(index)) numeric(0) else index
+    .Object@size <- if (missing(size)) integer(0) else as.integer(size)
+    .Object@jackknife <- if (missing(jackknife)) jack else jackknife
+    .Object@boostrap <- if (missing(boostrap)) boot else boostrap
+    .Object@simulated <- if (missing(simulated)) sim else simulated
+    .Object@method <- if (missing(method)) "unknown" else method
+
+    .Object <- methods::callNextMethod()
+    methods::validObject(.Object)
+    .Object
+  }
+)
 ## BootCA ----------------------------------------------------------------------
 setMethod(
   f = "initialize",
