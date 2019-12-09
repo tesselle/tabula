@@ -3,10 +3,10 @@ NULL
 
 #' @export
 #' @rdname richness-index
-#' @aliases index_richness,AbsoluteFrequencyMatrix-method
+#' @aliases index_richness,CountMatrix-method
 setMethod(
   f = "index_richness",
-  signature = signature(object = "AbsoluteFrequencyMatrix"),
+  signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("none", "margalef", "menhinick"),
                         jackknife = TRUE, bootstrap = TRUE, simulate = FALSE,
                         level = 0.80, n = 1000, ...) {
@@ -20,10 +20,10 @@ setMethod(
 
 #' @export
 #' @rdname richness-index
-#' @aliases index_composition,AbsoluteFrequencyMatrix-method
+#' @aliases index_composition,CountMatrix-method
 setMethod(
   f = "index_composition",
-  signature = signature(object = "AbsoluteFrequencyMatrix"),
+  signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("chao1", "ace"),
                         unbiased = FALSE, improved = FALSE, k = 10) {
     # Validation

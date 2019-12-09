@@ -8,7 +8,7 @@ birds_managed <- c(0, 0, 0, 2.9, 0, 0, 0, 10, 0, 0, 5.7, 2.5, 5.7, 8.6, 5.7,
 birds <- rbind(birds_unmanaged, birds_managed)
 
 test_that("Similiraty measure (count data)", {
-  count <- as(birds * 10, "AbsoluteFrequencyMatrix")
+  count <- as(birds * 10, "CountMatrix")
   method <- c("brainerd", "bray", "jaccard", "morisita", "sorenson")
 
   for (i in 1:length(method)) {
@@ -21,7 +21,7 @@ test_that("Similiraty measure (count data)", {
   expect_equal(length(similarity(count, method = "binomial")), ncol(count)^2)
 })
 test_that("Similiraty measure (frequency data)", {
-  freq <- as(birds, "RelativeFrequencyMatrix")
+  freq <- as(birds, "AbundanceMatrix")
   method <- c("bray", "jaccard", "morisita", "sorenson")
   expect_error(similarity(freq, method = "bray"))
 })

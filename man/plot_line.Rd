@@ -5,17 +5,15 @@
 \alias{plot_line}
 \alias{plot_rank}
 \alias{plot_rank-method}
-\alias{plot_rank,AbsoluteFrequencyMatrix-method}
-\alias{plot_rank,RelativeFrequencyMatrix-method}
+\alias{plot_rank,CountMatrix-method}
+\alias{plot_rank,AbundanceMatrix-method}
 \title{Line Plot}
 \usage{
 plot_rank(object, ...)
 
-\S4method{plot_rank}{AbsoluteFrequencyMatrix}(object, log = NULL,
-  facet = TRUE)
+\S4method{plot_rank}{CountMatrix}(object, log = NULL, facet = TRUE)
 
-\S4method{plot_rank}{RelativeFrequencyMatrix}(object, log = NULL,
-  facet = TRUE)
+\S4method{plot_rank}{AbundanceMatrix}(object, log = NULL, facet = TRUE)
 }
 \arguments{
 \item{object}{An object to be plotted.}

@@ -4,10 +4,10 @@ NULL
 
 #' @export
 #' @rdname plot_date
-#' @aliases plot_date,AbundanceMatrix-method
+#' @aliases plot_date,Matrix-method
 setMethod(
   f = "plot_date",
-  signature = signature(object = "AbundanceMatrix"),
+  signature = signature(object = "Matrix"),
   definition = function(object, select = NULL, sort = "dsc") {
     # Get dates
     dates <- rownames_to_column(codex::get_dates(object),

@@ -5,15 +5,15 @@
 \alias{turnover-index}
 \alias{turnover}
 \alias{turnover-method}
-\alias{turnover,AbsoluteFrequencyMatrix-method}
+\alias{turnover,CountMatrix-method}
 \alias{turnover,IncidenceMatrix-method}
 \title{Turnover}
 \usage{
 turnover(object, ...)
 
-\S4method{turnover}{AbsoluteFrequencyMatrix}(object,
-  method = c("whittaker", "cody", "routledge1", "routledge2",
-  "routledge3", "wilson"), simplify = FALSE, ...)
+\S4method{turnover}{CountMatrix}(object, method = c("whittaker", "cody",
+  "routledge1", "routledge2", "routledge3", "wilson"), simplify = FALSE,
+  ...)
 
 \S4method{turnover}{IncidenceMatrix}(object, method = c("whittaker",
   "cody", "routledge1", "routledge2", "routledge3", "wilson"),

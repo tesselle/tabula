@@ -4,22 +4,22 @@ NULL
 
 #' @export
 #' @rdname plot_spot
-#' @aliases plot_spot,AbsoluteFrequencyMatrix-method
+#' @aliases plot_spot,CountMatrix-method
 setMethod(
   f = "plot_spot",
-  signature = signature(object = "AbsoluteFrequencyMatrix"),
+  signature = signature(object = "CountMatrix"),
   definition = function(object, threshold = NULL) {
-    freq <- methods::as(object, "RelativeFrequencyMatrix")
+    freq <- methods::as(object, "AbundanceMatrix")
     plot_spot(freq, threshold = threshold)
   }
 )
 
 #' @export
 #' @rdname plot_spot
-#' @aliases plot_spot,RelativeFrequencyMatrix-method
+#' @aliases plot_spot,AbundanceMatrix-method
 setMethod(
   f = "plot_spot",
-  signature = signature(object = "RelativeFrequencyMatrix"),
+  signature = signature(object = "AbundanceMatrix"),
   definition = function(object, threshold = NULL) {
     # Prepare data
     data <- prepare_spot(object, threshold)

@@ -1,5 +1,5 @@
 ---
-title: "3. Seriation"
+title: "Seriation"
 author: "N. Frerebeau"
 date: "`r Sys.Date()`"
 output:
@@ -12,7 +12,7 @@ header-includes:
    - \usepackage{amssymb}
 bibliography: bibliography.bib
 vignette: >
-  %\VignetteIndexEntry{3. Seriation}
+  %\VignetteIndexEntry{Seriation}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -48,6 +48,73 @@ The mathematical assumptions state that the distribution of any historical or te
 * Exhibits the form of a unimodal curve.
 
 Theses assumptions create a distributional model and ordering is accomplished by arranging the matrix so that the class distributions approximate the required pattern. The resulting order is *inferred* to be chronological.
+
+# Visualization
+
+Several types of graphs are available in **tabula** which uses **ggplot2** for plotting informations. This makes it easy to customize diagrams (e.g. using themes and scales).
+
+## Spot plot
+Spot matrix allows direct examination of data (above/below some threshold):
+
+```{r plot-freq, fig.cap="Spot plot", fig.width=4, fig.height=6, fig.align="center"}
+## Plot frequencies with the column means as a threshold
+mississippi %>%
+  as_count() %>%
+  plot_spot(threshold = mean) +
+  ggplot2::labs(size = "Frequency", colour = "Mean") +
+  khroma::scale_colour_vibrant()
+```
+
+```{r plot-occ, fig.cap="Spot plot of co-occurrence", fig.width=6, fig.height=4, fig.align="center"}
+## Plot co-occurrence of types
+## (i.e. how many times (percent) each pairs of taxa occur together 
+## in at least one sample.)
+mississippi %>%
+  as_occurrence() %>%
+  plot_spot() +
+  ggplot2::labs(size = "", colour = "Co-occurrence") +
+  ggplot2::theme(legend.box = "horizontal") +
+  khroma::scale_colour_YlOrBr()
+```
+
+## Heatmap
+
+Abundance matrix can be displayed as a heatmap of relative abundances (frequency), or as percentages of the independence value (in french, "pourcentages de valeur d'indépendance", PVI).
+
+```{r plot-matrix, fig.cap="Heatmap", fig.width=7, fig.height=3.5, fig.align="center"}
+boves %>%
+  as_count() %>%
+  plot_heatmap() +
+  khroma::scale_fill_YlOrBr()
+```
+
+
+PVI is calculated for each cell as the percentage to the column theoretical independence value: PVI greater than $1$ represent positive deviations from the independence, whereas PVI smaller than $1$ represent negative deviations [@desachy2004]. The PVI matrix allows to explore deviations from independence (an intuitive graphical approach to $\chi^2$), in such a way that a high-contrast matrix has quite significant deviations, with a low risk of being due to randomness [@desachy2004].
+
+```{r plot-matrigraphe, fig.cap="Matrigraphe", fig.width=7, fig.height=3.5, fig.align="center"}
+## Reproduce B. Desachy's matrigraphe
+boves %>%
+  as_count() %>%
+  plot_heatmap(PVI = TRUE) +
+  khroma::scale_fill_BuRd(midpoint = 1)
+```
+
+## Bar plot
+@bertin1977 or @ford1962 (battleship curve) diagrams can also be plotted, with statistic threshold.
+
+```{r plot-bertin, fig.cap="Bertin diagram", fig.width=7, fig.height=7, fig.align="center"}
+mississippi %>%
+  as_count() %>%
+  plot_bertin(threshold = mean) +
+  khroma::scale_fill_bright()
+```
+
+```{r plot-ford, fig.cap="Ford diagram", fig.width=7, fig.height=3.5, fig.align="center"}
+boves %>%
+  as_count() %>%
+  plot_ford(EPPM = TRUE) +
+  khroma::scale_fill_contrast()
+```
 
 # Reciprocal ranking
 

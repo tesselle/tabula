@@ -68,67 +68,34 @@ remotes::install_github("nfrerebeau/tabula")
 ``` r
 # Load packages
 library(tabula)
+#> Loading required package: codex
 
 library(khroma)
 library(ggplot2)
 library(magrittr)
 ```
 
-**tabula** provides a set of S4 classes that extend the basic `matrix`
-data type. These new classes represent different special types of
-matrix.
+**tabula** uses a set of S4 classes that extend the basic `matrix` data
+type. These new classes represent different special types of matrix:
 
-  - Abundance matrix:
-      - `CountMatrix` represents count data,
-      - `FrequencyMatrix` represents relative frequency data.
+  - Numeric matrix:
+      - `CountMatrix` represents absolute frequency data,
+      - `AbundanceMatrix` represents relative frequency data,
+      - `OccurrenceMatrix` represents a co-occurrence matrix,
+      - `SimilarityMatrix` represents a (dis)similarity matrix,
   - Logical matrix:
-      - `IncidenceMatrix` represents presence/absence data.
-  - Other numeric matrix:
-      - `OccurrenceMatrix` represents a co-occurrence matrix.
-      - `SimilarityMatrix` represents a (dis)similarity matrix.
+      - `IncidenceMatrix` represents presence/absence data,
+      - `StratigraphicMatrix` represents stratigraphic relationships.
 
 *It assumes that you keep your data tidy*: each variable (type/taxa)
 must be saved in its own column and each observation (sample/case) must
 be saved in its own row.
 
-These new classes are of simple use, on the same way as the base
-`matrix`:
+These new classes are of simple use, please refer to the documentation
+of the [**codex**](https://github.com/nfrerebeau/codex) package where
+these classes are defined.
 
-``` r
-# Define a count data matrix
-quanti <- CountMatrix(data = sample(0:10, 100, TRUE),
-                      nrow = 10, ncol = 10)
-
-# Define a logical matrix
-# Data will be coerced with as.logical()
-quali <- IncidenceMatrix(data = sample(0:1, 100, TRUE),
-                         nrow = 10, ncol = 10)
-```
-
-**tabula** uses coercing mechanisms (with validation methods) for data
-type conversions:
-
-``` r
-## Create a count matrix
-A1 <- CountMatrix(data = sample(0:10, 100, TRUE),
-                  nrow = 10, ncol = 10)
-
-## Coerce counts to frequencies
-B <- as_frequency(A1)
-
-## Row sums are internally stored before coercing to a frequency matrix
-## (use totals() to get these values)
-## This allows to restore the source data
-A2 <- as_count(B)
-all(A1 == A2)
-#> [1] TRUE
-
-## Coerce to presence/absence
-C <- as_incidence(A1)
-
-## Coerce to a co-occurrence matrix
-D <- as_occurrence(A1)
-```
+### Visualization
 
 Several types of graphs are available in **tabula** which uses
 [**ggplot2**](https://github.com/tidyverse/ggplot2) for plotting
@@ -184,7 +151,7 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Correspondance analysis-based seriation
 (indices <- seriate_reciprocal(incidence, margin = c(1, 2)))
 #> Permutation order for matrix seriation: 
-#>    Matrix ID: 2b312a8d-5cc5-491c-ac5d-37eecd2f9bf2 
+#>    Matrix ID: 006f29b3-6379-40d6-befc-4243417d5e6a 
 #>    Row order: 1 4 20 3 9 16 19 10 13 2 11 7 17 5 6 18 14 15 8 12 
 #>    Column order: 1 16 9 4 8 14 3 20 13 2 6 18 7 17 5 11 19 12 15 10 
 #>    Method: reciprocal

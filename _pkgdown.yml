@@ -20,7 +20,6 @@ reference:
   - has_concept("test")
 - title: Classes
   contents:
-  - has_concept("matrix")
   - has_concept("class")
 - title: Getters and Setters
   contents:
@@ -38,8 +37,6 @@ navbar:
     href: reference/index.html
   - text: Articles
     menu:
-    - text: Matrix Classes
-      href: articles/matrix.html
     - text: Diversity Measures
       href: articles/diversity.html
     - text: Seriation Methods

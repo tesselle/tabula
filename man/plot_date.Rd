@@ -6,22 +6,21 @@
 \alias{plot_date-method}
 \alias{plot_time}
 \alias{plot_time-method}
-\alias{plot_date,AbundanceMatrix-method}
+\alias{plot_date,Matrix-method}
 \alias{plot_date,DateModel-method}
-\alias{plot_time,AbsoluteFrequencyMatrix-method}
+\alias{plot_time,CountMatrix-method}
 \title{Date and Time Plot}
 \usage{
 plot_date(object, ...)
 
 plot_time(object, ...)
 
-\S4method{plot_date}{AbundanceMatrix}(object, select = NULL,
-  sort = "dsc")
+\S4method{plot_date}{Matrix}(object, select = NULL, sort = "dsc")
 
 \S4method{plot_date}{DateModel}(object, type = c("activity", "tempo"),
   event = FALSE, select = 1, n = 500)
 
-\S4method{plot_time}{AbsoluteFrequencyMatrix}(object, highlight = NULL,
+\S4method{plot_time}{CountMatrix}(object, highlight = NULL,
   level = 0.95, roll = FALSE, window = 5, facet = TRUE, ...)
 }
 \arguments{

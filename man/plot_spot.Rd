@@ -4,17 +4,17 @@
 \name{plot_spot}
 \alias{plot_spot}
 \alias{plot_spot-method}
-\alias{plot_spot,AbsoluteFrequencyMatrix-method}
-\alias{plot_spot,RelativeFrequencyMatrix-method}
+\alias{plot_spot,CountMatrix-method}
+\alias{plot_spot,AbundanceMatrix-method}
 \alias{plot_spot,SimilarityMatrix-method}
 \alias{plot_spot,OccurrenceMatrix-method}
 \title{Spot Plot}
 \usage{
 plot_spot(object, ...)
 
-\S4method{plot_spot}{AbsoluteFrequencyMatrix}(object, threshold = NULL)
+\S4method{plot_spot}{CountMatrix}(object, threshold = NULL)
 
-\S4method{plot_spot}{RelativeFrequencyMatrix}(object, threshold = NULL)
+\S4method{plot_spot}{AbundanceMatrix}(object, threshold = NULL)
 
 \S4method{plot_spot}{SimilarityMatrix}(object)
 

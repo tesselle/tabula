@@ -10,18 +10,18 @@
 \alias{plot_bertin-method}
 \alias{plot_ford}
 \alias{plot_ford-method}
-\alias{plot_bertin,AbsoluteFrequencyMatrix-method}
-\alias{plot_ford,AbsoluteFrequencyMatrix-method}
+\alias{plot_bertin,CountMatrix-method}
+\alias{plot_ford,CountMatrix-method}
 \title{Bar Plot}
 \usage{
 plot_bertin(object, ...)
 
 plot_ford(object, ...)
 
-\S4method{plot_bertin}{AbsoluteFrequencyMatrix}(object, threshold = NULL,
+\S4method{plot_bertin}{CountMatrix}(object, threshold = NULL,
   scale = NULL)
 
-\S4method{plot_ford}{AbsoluteFrequencyMatrix}(object, EPPM = FALSE)
+\S4method{plot_ford}{CountMatrix}(object, EPPM = FALSE)
 }
 \arguments{
 \item{object}{An object to be plotted.}
