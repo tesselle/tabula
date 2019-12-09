@@ -1,3 +1,7 @@
+## tabula 1.5.0
+### Internals
+* Depend on {codex}.
+
 ## tabula 1.4.0 (release date: 2019-11-25)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3552904.svg)](https://doi.org/10.5281/zenodo.3552904)
 
