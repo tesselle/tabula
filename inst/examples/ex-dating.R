@@ -1,6 +1,6 @@
 ## Mean Ceramic Date
 ## Coerce the zuni dataset to an abundance (count) matrix
-zuni_counts <- codex::as_count(zuni)
+zuni_counts <- as_count(zuni)
 
 ## Set the start and end dates for each ceramic type
 zuni_dates <- list(

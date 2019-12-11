@@ -1,6 +1,6 @@
 ## Abundance data
 ## Coerce dataset to a count matrix (data from Desachy 2004)
-compiegne_count <- codex::as_count(compiegne)
+compiegne_count <- as_count(compiegne)
 
 ## Plot matrix diagram...
 ## ...without threshod (i.e. heatmap)
