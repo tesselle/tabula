@@ -239,7 +239,7 @@ Bellanger, L. & Husi, P. (2013). Mesurer et modéliser le temps inscrit dans
  New York: Academic Press.
 }
 \seealso{
-\link[codex:set_dates<-]{set_dates}
+\link[arkhe:set_dates<-]{set_dates}
 }
 \author{
 N. Frerebeau

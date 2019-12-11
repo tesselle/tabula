@@ -95,7 +95,7 @@ setMethod(
 
     # New PermutationOrder object
     .PermutationOrder(
-      id = codex::get_id(object),
+      id = arkhe::get_id(object),
       rows = row_coords,
       columns = col_coords,
       method = "refined correspondence"
@@ -112,7 +112,7 @@ setMethod(
   signature = signature(object = "CountMatrix", order = "PermutationOrder"),
   definition = function(object, order) {
     # Validation
-    if (codex::get_id(object) != order[["id"]])
+    if (arkhe::get_id(object) != order[["id"]])
       stop("`object` and `order` do not match.")
 
     # Rearrange matrix
@@ -130,7 +130,7 @@ setMethod(
   signature = signature(object = "IncidenceMatrix", order = "PermutationOrder"),
   definition = function(object, order) {
     # Validation
-    if (codex::get_id(object) != order[["id"]])
+    if (arkhe::get_id(object) != order[["id"]])
       stop("`object` and `order` do not match.")
 
     # Rearrange matrix

@@ -198,9 +198,9 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "codex",
-      "name": "codex",
-      "sameAs": "https://github.com/nfrerebeau/codex"
+      "identifier": "arkhe",
+      "name": "arkhe",
+      "sameAs": "https://github.com/nfrerebeau/arkhe"
     },
     {
       "@type": "SoftwareApplication",

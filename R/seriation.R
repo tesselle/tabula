@@ -16,7 +16,7 @@ seriation <- function(object, method = c("correspondence", "reciprocal"),
 
   # New PermutationOrder object
   .PermutationOrder(
-    id = codex::get_id(object),
+    id = arkhe::get_id(object),
     rows = as.integer(index[[1]]),
     columns = as.integer(index[[2]]),
     method = method

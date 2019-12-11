@@ -50,10 +50,10 @@ URL: http://tabula.archaeo.science,
     http://github.com/nfrerebeau/tabula,
     https://cran.r-project.org/package=tabula
 BugReports: http://github.com/nfrerebeau/tabula/issues
-Remotes: nfrerebeau/codex
+Remotes: nfrerebeau/arkhe
 Depends: 
     R (>= 3.2),
-    codex
+    arkhe
 Imports:
     ca (>= 0.71),
     ggplot2 (>= 3.2.1),

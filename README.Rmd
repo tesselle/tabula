@@ -78,7 +78,7 @@ library(magrittr)
 
 *It assumes that you keep your data tidy*: each variable (type/taxa) must be saved in its own column and each observation (sample/case) must be saved in its own row.
 
-These new classes are of simple use, please refer to the documentation of the [**codex**](https://github.com/nfrerebeau/codex) package where these classes are defined.
+These new classes are of simple use, please refer to the documentation of the [**arkhe**](https://github.com/nfrerebeau/arkhe) package where these classes are defined.
 
 ### Visualization
 

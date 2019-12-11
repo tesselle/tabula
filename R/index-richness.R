@@ -37,7 +37,7 @@ setMethod(
     index <- apply(X = object, MARGIN = 1, FUN = fun,
                    unbiased = unbiased, improved = improved, k = k)
     .RichnessIndex(
-      id = codex::get_id(object),
+      id = arkhe::get_id(object),
       index = index,
       size = rowSums(object),
       method = method
@@ -63,7 +63,7 @@ setMethod(
     )
     index <- fun(object, unbiased = unbiased, improved = improved, k = k)
     .RichnessIndex(
-      id = codex::get_id(object),
+      id = arkhe::get_id(object),
       index = index,
       method = method
     )

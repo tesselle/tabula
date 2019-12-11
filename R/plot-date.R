@@ -10,7 +10,7 @@ setMethod(
   signature = signature(object = "Matrix"),
   definition = function(object, select = NULL, sort = "dsc") {
     # Get dates
-    dates <- rownames_to_column(codex::get_dates(object),
+    dates <- rownames_to_column(arkhe::get_dates(object),
                                 factor = TRUE, id = "id")
 
     dates <- cbind.data.frame(

@@ -216,7 +216,7 @@ setMethod(
     mtx <- matrix(0, 0, 4, dimnames = list(NULL, c("date", "lower", "upper", "error")))
     acc <- matrix(0, 0, 2, dimnames = list(NULL, c("date", "error")))
 
-    .Object@id <- if (missing(id)) codex:::generate_uuid() else id
+    .Object@id <- if (missing(id)) arkhe:::generate_uuid() else id
     .Object@counts <- if (missing(counts)) matrix(0, 0, 0) else counts
     .Object@level <- if (missing(level)) numeric(1) else level
     .Object@model <- if (missing(model)) stats::lm(0 ~ 0) else model
@@ -240,7 +240,7 @@ setMethod(
     boot <- matrix(0, 0, 5, dimnames = list(NULL, c("min","Q05", "mean", "Q95", "max")))
     sim <- matrix(0, 0, 4, dimnames = list(NULL, c("size", "mean", "lower", "upper")))
 
-    .Object@id <- if (missing(id)) codex:::generate_uuid() else id
+    .Object@id <- if (missing(id)) arkhe:::generate_uuid() else id
     .Object@index <- if (missing(index)) numeric(0) else index
     .Object@size <- if (missing(size)) integer(0) else as.integer(size)
     .Object@jackknife <- if (missing(jackknife)) jack else jackknife
@@ -260,7 +260,7 @@ setMethod(
   definition = function(.Object, ..., id, rows, columns, lengths,
                         cutoff, keep) {
 
-    .Object@id <- if (missing(id)) codex:::generate_uuid() else id
+    .Object@id <- if (missing(id)) arkhe:::generate_uuid() else id
     if (missing(rows)) {
       rows <- list(id = factor(), x = numeric(0), y = numeric(0))
     } else {
@@ -295,7 +295,7 @@ setMethod(
   signature = "PermutationOrder",
   definition = function(.Object, ..., id, rows, columns, method) {
 
-    .Object@id <- if (missing(id)) codex:::generate_uuid() else id
+    .Object@id <- if (missing(id)) arkhe:::generate_uuid() else id
     .Object@rows <- if (missing(rows)) integer(0) else rows
     .Object@columns <- if (missing(columns)) integer(0) else columns
     .Object@method <- if (missing(method)) "unknown" else method

@@ -1,6 +1,6 @@
 ## tabula 1.5.0
 ### Internals
-* Depend on {codex}.
+* Depend on {arkhe}.
 
 ## tabula 1.4.0 (release date: 2019-11-25)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3552904.svg)](https://doi.org/10.5281/zenodo.3552904)
@@ -111,7 +111,7 @@
 ## tabula 1.0.0 (CRAN release date: 2018-12-03)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1881131.svg)](https://doi.org/10.5281/zenodo.1881131)
 
-* Initial version on CRAN
+* Initial version on CRAN.
 
 ### New classes and methods
 * `BootCA` this S4 class stores partial bootstrap CA-based seriation results.

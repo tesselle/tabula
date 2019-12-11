@@ -84,7 +84,7 @@ setMethod(
       stop("Cutoff value is below 50%, you can't be serious.", call. = FALSE)
 
     # Get dates
-    dates <- rownames_to_column(codex::get_dates(object),
+    dates <- rownames_to_column(arkhe::get_dates(object),
                                 factor = TRUE, id = "id")
     dates <- dates[!is.na(dates[[1]]), ]
 

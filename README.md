@@ -150,11 +150,11 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Get seriation order on rows and columns
 # Correspondance analysis-based seriation
 (indices <- seriate_reciprocal(incidence, margin = c(1, 2)))
-#> Permutation order for matrix seriation: 
-#>    Matrix ID: 006f29b3-6379-40d6-befc-4243417d5e6a 
-#>    Row order: 1 4 20 3 9 16 19 10 13 2 11 7 17 5 6 18 14 15 8 12 
-#>    Column order: 1 16 9 4 8 14 3 20 13 2 6 18 7 17 5 11 19 12 15 10 
-#>    Method: reciprocal
+#> <PermutationOrder: 4bffe51c-75f2-4bc3-a2d0-7c005a75b349>
+#> Permutation order for matrix seriation:
+#> - Row order: 1 4 20 3 9 16 19 10 13 2 11 7 17 5 6 18 14 15 8 12...
+#> - Column order: 1 16 9 4 8 14 3 20 13 2 6 18 7 17 5 11 19 12 15 10...
+#> - Method: reciprocal
 
 # Permute matrix rows and columns
 incidence2 <- permute(incidence, indices)
@@ -216,28 +216,29 @@ referred to as indices of *heterogeneity*):
 mississippi %>%
   as_count() %>%
   index_heterogeneity(method = "shannon")
-#> <HeterogeneityIndex: shannon>
-#>                 index
-#> 10-P-1      1.2027955
-#> 11-N-9      0.7646565
-#> 11-N-1      0.9293974
-#> 11-O-10     0.8228576
-#> 11-N-4      0.7901428
-#> 13-N-5      0.9998430
-#> 13-N-4      1.2051989
-#> 13-N-16     1.1776226
-#> 13-O-11     1.1533432
-#> 13-O-10     1.2884172
-#> 13-P-1      1.1725355
-#> 13-P-8      1.5296294
-#> 13-P-10     1.7952443
-#> 13-O-7      1.1627477
-#> 13-O-5      1.0718463
-#> 13-N-21     0.9205717
-#> 12-O-5      1.1751002
-#> Holden Lake 0.7307620
-#> 13-N-15     1.1270126
-#> 12-N-3      1.0270291
+#> <HeterogeneityIndex: 05b1f084-1042-4314-b597-72a5b9bb6d79>
+#> - Method: shannon
+#>             size     index
+#> 10-P-1       153 1.2027955
+#> 11-N-9       758 0.7646565
+#> 11-N-1      1303 0.9293974
+#> 11-O-10      638 0.8228576
+#> 11-N-4      1266 0.7901428
+#> 13-N-5        79 0.9998430
+#> 13-N-4       241 1.2051989
+#> 13-N-16      171 1.1776226
+#> 13-O-11      128 1.1533432
+#> 13-O-10      226 1.2884172
+#> 13-P-1       360 1.1725355
+#> 13-P-8       192 1.5296294
+#> 13-P-10       91 1.7952443
+#> 13-O-7      1233 1.1627477
+#> 13-O-5      1709 1.0718463
+#> 13-N-21      614 0.9205717
+#> 12-O-5       424 1.1751002
+#> Holden Lake  360 0.7307620
+#> 13-N-15     1300 1.1270126
+#> 12-N-3       983 1.0270291
 
 ## Test difference in Shannon diversity between assemblages
 ## (returns a matrix of adjusted p values)

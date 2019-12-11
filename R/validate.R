@@ -16,64 +16,64 @@ setValidity(
 
     errors <- list(
       # Check id
-      codex:::catch_conditions(codex:::check_uuid(id)),
+      arkhe:::catch_conditions(arkhe:::check_uuid(id)),
       # Check rows
-      codex:::catch_conditions(codex:::check_length(rows, 3)),
-      codex:::catch_conditions(codex:::check_lengths(rows)),
-      codex:::catch_conditions(codex:::check_names(rows, c("id", "x", "y"))),
-      codex:::catch_conditions(codex:::check_type(rows[[1]], "integer")),
-      codex:::catch_conditions(codex:::check_type(rows[[2]], "numeric")),
-      codex:::catch_conditions(codex:::check_type(rows[[3]], "numeric")),
+      arkhe:::catch_conditions(arkhe:::check_length(rows, 3)),
+      arkhe:::catch_conditions(arkhe:::check_lengths(rows)),
+      arkhe:::catch_conditions(arkhe:::check_names(rows, c("id", "x", "y"))),
+      arkhe:::catch_conditions(arkhe:::check_type(rows[[1]], "integer")),
+      arkhe:::catch_conditions(arkhe:::check_type(rows[[2]], "numeric")),
+      arkhe:::catch_conditions(arkhe:::check_type(rows[[3]], "numeric")),
       unlist(lapply(
         X = rows,
         FUN = function(x) {
-          c(codex:::catch_conditions(codex:::check_missing(x)),
-            codex:::catch_conditions(codex:::check_infinite(x)))
+          c(arkhe:::catch_conditions(arkhe:::check_missing(x)),
+            arkhe:::catch_conditions(arkhe:::check_infinite(x)))
         }
       )),
       # Check columns
-      codex:::catch_conditions(codex:::check_length(columns, 3)),
-      codex:::catch_conditions(codex:::check_lengths(columns)),
-      codex:::catch_conditions(codex:::check_names(columns, c("id", "x", "y"))),
-      codex:::catch_conditions(codex:::check_type(columns[[1]], "integer")),
-      codex:::catch_conditions(codex:::check_type(columns[[2]], "numeric")),
-      codex:::catch_conditions(codex:::check_type(columns[[3]], "numeric")),
+      arkhe:::catch_conditions(arkhe:::check_length(columns, 3)),
+      arkhe:::catch_conditions(arkhe:::check_lengths(columns)),
+      arkhe:::catch_conditions(arkhe:::check_names(columns, c("id", "x", "y"))),
+      arkhe:::catch_conditions(arkhe:::check_type(columns[[1]], "integer")),
+      arkhe:::catch_conditions(arkhe:::check_type(columns[[2]], "numeric")),
+      arkhe:::catch_conditions(arkhe:::check_type(columns[[3]], "numeric")),
       unlist(lapply(
         X = columns,
         FUN = function(x) {
-          c(codex:::catch_conditions(codex:::check_missing(x)),
-            codex:::catch_conditions(codex:::check_infinite(x)))
+          c(arkhe:::catch_conditions(arkhe:::check_missing(x)),
+            arkhe:::catch_conditions(arkhe:::check_infinite(x)))
         }
       )),
       # Check lenghts
-      codex:::catch_conditions(codex:::check_length(lengths, expected = 2)),
-      codex:::catch_conditions(codex:::check_type(lengths[[1]], "numeric")),
-      codex:::catch_conditions(codex:::check_type(lengths[[2]], "numeric")),
+      arkhe:::catch_conditions(arkhe:::check_length(lengths, expected = 2)),
+      arkhe:::catch_conditions(arkhe:::check_type(lengths[[1]], "numeric")),
+      arkhe:::catch_conditions(arkhe:::check_type(lengths[[2]], "numeric")),
       unlist(lapply(
         X = lengths,
         FUN = function(x) {
           c(# catch_conditions(check_names(x)),
-            codex:::catch_conditions(codex:::check_missing(x)),
-            codex:::catch_conditions(codex:::check_infinite(x)))
+            arkhe:::catch_conditions(arkhe:::check_missing(x)),
+            arkhe:::catch_conditions(arkhe:::check_infinite(x)))
         }
       )),
       # Check cutoff
-      codex:::catch_conditions(codex:::check_length(cutoff, 2)),
-      codex:::catch_conditions(codex:::check_missing(cutoff)),
-      codex:::catch_conditions(codex:::check_infinite(cutoff)),
+      arkhe:::catch_conditions(arkhe:::check_length(cutoff, 2)),
+      arkhe:::catch_conditions(arkhe:::check_missing(cutoff)),
+      arkhe:::catch_conditions(arkhe:::check_infinite(cutoff)),
       # Check keep
       unlist(lapply(
         X = keep,
         FUN = function(x) {
-          c(codex:::catch_conditions(codex:::check_type(x, expected = "integer")),
-            codex:::catch_conditions(codex:::check_missing(x)))
+          c(arkhe:::catch_conditions(arkhe:::check_type(x, expected = "integer")),
+            arkhe:::catch_conditions(arkhe:::check_missing(x)))
         }
       )),
-      codex:::catch_conditions(codex:::check_length(keep, 2))
+      arkhe:::catch_conditions(arkhe:::check_length(keep, 2))
     )
 
     # Return errors if any
-    codex:::check_class(object, errors)
+    arkhe:::check_class(object, errors)
   }
 )
 
@@ -93,37 +93,37 @@ setValidity(
 
     errors <- list(
       # Check id
-      codex:::catch_conditions(codex:::check_uuid(id)),
+      arkhe:::catch_conditions(arkhe:::check_uuid(id)),
       # Check counts
-      codex:::catch_conditions(codex:::check_type(counts, "numeric")),
-      codex:::catch_conditions(codex:::check_missing(counts)),
-      codex:::catch_conditions(codex:::check_infinite(counts)),
+      arkhe:::catch_conditions(arkhe:::check_type(counts, "numeric")),
+      arkhe:::catch_conditions(arkhe:::check_missing(counts)),
+      arkhe:::catch_conditions(arkhe:::check_infinite(counts)),
       # Check level
-      codex:::catch_conditions(codex:::check_scalar(level, "numeric")),
-      codex:::catch_conditions(codex:::check_missing(level)),
-      codex:::catch_conditions(codex:::check_infinite(level)),
+      arkhe:::catch_conditions(arkhe:::check_scalar(level, "numeric")),
+      arkhe:::catch_conditions(arkhe:::check_missing(level)),
+      arkhe:::catch_conditions(arkhe:::check_infinite(level)),
       # Check rows
-      codex:::catch_conditions(codex:::check_type(rows, "numeric")),
-      codex:::catch_conditions(codex:::check_missing(rows)),
-      codex:::catch_conditions(codex:::check_infinite(rows)),
-      codex:::catch_conditions(codex:::check_names(rows, c("date", "lower", "upper", "error"),
+      arkhe:::catch_conditions(arkhe:::check_type(rows, "numeric")),
+      arkhe:::catch_conditions(arkhe:::check_missing(rows)),
+      arkhe:::catch_conditions(arkhe:::check_infinite(rows)),
+      arkhe:::catch_conditions(arkhe:::check_names(rows, c("date", "lower", "upper", "error"),
                                                    margin = 2)),
       # Check columns
-      codex:::catch_conditions(codex:::check_type(columns, "numeric")),
-      codex:::catch_conditions(codex:::check_missing(columns)),
-      codex:::catch_conditions(codex:::check_infinite(columns)),
-      codex:::catch_conditions(codex:::check_names(columns, c("date", "lower", "upper", "error"),
+      arkhe:::catch_conditions(arkhe:::check_type(columns, "numeric")),
+      arkhe:::catch_conditions(arkhe:::check_missing(columns)),
+      arkhe:::catch_conditions(arkhe:::check_infinite(columns)),
+      arkhe:::catch_conditions(arkhe:::check_names(columns, c("date", "lower", "upper", "error"),
                                                    margin = 2)),
       # Check accumulation
-      codex:::catch_conditions(codex:::check_type(accumulation, "numeric")),
-      codex:::catch_conditions(codex:::check_missing(accumulation)),
-      codex:::catch_conditions(codex:::check_infinite(accumulation)),
-      codex:::catch_conditions(codex:::check_names(accumulation, c("date", "error"),
+      arkhe:::catch_conditions(arkhe:::check_type(accumulation, "numeric")),
+      arkhe:::catch_conditions(arkhe:::check_missing(accumulation)),
+      arkhe:::catch_conditions(arkhe:::check_infinite(accumulation)),
+      arkhe:::catch_conditions(arkhe:::check_names(accumulation, c("date", "error"),
                                                    margin = 2))
     )
 
     # Return errors if any
-    codex:::check_class(object, errors)
+    arkhe:::check_class(object, errors)
   }
 )
 
@@ -139,21 +139,21 @@ setValidity(
 
     errors <- list(
       # Check id
-      codex:::catch_conditions(codex:::check_uuid(id)),
+      arkhe:::catch_conditions(arkhe:::check_uuid(id)),
       # Check rows
-      codex:::catch_conditions(codex:::check_missing(rows)),
-      codex:::catch_conditions(codex:::check_numbers(rows, "positive",
+      arkhe:::catch_conditions(arkhe:::check_missing(rows)),
+      arkhe:::catch_conditions(arkhe:::check_numbers(rows, "positive",
                                                      strict = TRUE)),
       # Check columns
-      codex:::catch_conditions(codex:::check_missing(columns)),
-      codex:::catch_conditions(codex:::check_numbers(columns, "positive",
+      arkhe:::catch_conditions(arkhe:::check_missing(columns)),
+      arkhe:::catch_conditions(arkhe:::check_numbers(columns, "positive",
                                                      strict = TRUE)),
       # Check method
-      codex:::catch_conditions(codex:::check_scalar(method, "character")),
-      codex:::catch_conditions(codex:::check_missing(method))
+      arkhe:::catch_conditions(arkhe:::check_scalar(method, "character")),
+      arkhe:::catch_conditions(arkhe:::check_missing(method))
     )
 
     # Return errors if any
-    codex:::check_class(object, errors)
+    arkhe:::check_class(object, errors)
   }
 )
