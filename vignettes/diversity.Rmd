@@ -62,11 +62,11 @@ Table: Richness measures [@bobrowsky1989]. *: implemented.
 |   | Measure                           | Reference      |
 |:-:|:----------------------------------|:---------------|
 |   | $$ \hat{S}_{1} = \alpha - \left[ \ln \left( 1 - x \right) \right] $$ | @fisher1943 |
-| * | $$ \hat{S}_{2} = y_{0} \hat{\sigma} \sqrt{2 \pi} $$ | @preston1948 |
+|   | $$ \hat{S}_{2} = y_{0} \hat{\sigma} \sqrt{2 \pi} $$ | @preston1948 |
 |   | $$ \hat{S}_{3} = 2.07 \left( \frac{N}{m} \right)^{0.262} $$ | @preston1962, @preston1962a |
 |   | $$ \hat{S}_{4} = 2.07 \left( \frac{N}{m} \right)^{0.262} A^{0.262} $$ | @macarthur1965 |
 |   | $$ \hat{S}_{5} = k A^{d} $$ | @kilburn1966 |
-| * | $$ \hat{S}_{6} = \frac{a N}{1 + b N} $$ | @decaprariis1976 |
+|   | $$ \hat{S}_{6} = \frac{a N}{1 + b N} $$ | @decaprariis1976 |
 | * | $$ \hat{S}_{7} = \sum_{i = 1}^{S} 1 - \frac{{N - N_i} \choose n}{N \choose n} $$ | @hurlbert1971, @sander1968 |
 Table: Rarefaction measures [@bobrowsky1989]. *: implemented.
 

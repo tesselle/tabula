@@ -26,7 +26,7 @@ identifier of the corresponding matrix (UUID v4).}
 
 \item{\code{index}}{A \code{\link{numeric}} vector giving the diversity index values.}
 
-\item{\code{size}}{A \code{\link{numeric}} vector giving the sample sizes.}
+\item{\code{size}}{A \code{\link{integer}} vector giving the sample sizes.}
 
 \item{\code{jackknife}}{A numeric \code{\link{matrix}} vector giving the jackknifed
 estimates.}

@@ -38,7 +38,7 @@ index_diversity <- function(x, method, jackknife = TRUE, bootstrap = TRUE,
   .DiversityIndex(
     id = arkhe::get_id(x),
     index = idx,
-    size = rowSums(x),
+    size = as.integer(rowSums(x)),
     jackknife = jack,
     boostrap = boot,
     simulated = sim

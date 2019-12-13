@@ -39,7 +39,7 @@ setMethod(
     .RichnessIndex(
       id = arkhe::get_id(object),
       index = index,
-      size = rowSums(object),
+      size = as.integer(rowSums(object)),
       method = method
     )
   }
@@ -65,6 +65,7 @@ setMethod(
     .RichnessIndex(
       id = arkhe::get_id(object),
       index = index,
+      size = as.integer(sum(object)),
       method = method
     )
   }

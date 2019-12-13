@@ -9,7 +9,7 @@ NULL
 #' @slot id A \code{\link{character}} string specifying the unique
 #'  identifier of the corresponding matrix (UUID v4).
 #' @slot index A \code{\link{numeric}} vector giving the diversity index values.
-#' @slot size A \code{\link{numeric}} vector giving the sample sizes.
+#' @slot size A \code{\link{integer}} vector giving the sample sizes.
 #' @slot jackknife A numeric \code{\link{matrix}} vector giving the jackknifed
 #'  estimates.
 #' @slot boostrap A numeric \code{\link{matrix}} vector giving the boostraped
@@ -38,7 +38,7 @@ NULL
   slots = c(
     id = "character",
     index = "numeric",
-    size = "numeric",
+    size = "integer",
     jackknife = "matrix",
     boostrap = "matrix",
     simulated = "matrix",

@@ -2,6 +2,74 @@
 #' @include AllClasses.R utilities.R
 NULL
 
+# DiversityIndex ===============================================================
+setValidity(
+  Class = "DiversityIndex",
+  method = function(object) {
+    # Get data
+    id <- object@id
+    index <- object@index
+    size <- object@size
+    jackknife <- object@jackknife
+    boostrap <- object@boostrap
+    simulated <- object@simulated
+    method <- object@method
+
+    n <- length(index)
+
+    errors <- list(
+      # Check id
+      arkhe:::catch_conditions(arkhe:::check_uuid(id)),
+      # Check index
+      arkhe:::catch_conditions(arkhe:::check_missing(index)),
+      arkhe:::catch_conditions(arkhe:::check_infinite(index)),
+      # Check size
+      arkhe:::catch_conditions(arkhe:::check_missing(size)),
+      arkhe:::catch_conditions(arkhe:::check_infinite(size)),
+      arkhe:::catch_conditions(arkhe:::check_length(size, length(index))),
+      # Check method
+      arkhe:::catch_conditions(arkhe:::check_scalar(method, "character")),
+      arkhe:::catch_conditions(arkhe:::check_missing(method))
+    )
+    if (nrow(jackknife) > 0 && n > 0) {
+      errors <- append(
+        errors,
+        list(
+          # Check jackknife
+          arkhe:::catch_conditions(arkhe:::check_missing(jackknife)),
+          # arkhe:::catch_conditions(arkhe:::check_infinite(jackknife)),
+          arkhe:::catch_conditions(arkhe:::check_dimension(jackknife, c(n, 3)))
+        )
+      )
+    }
+    if (nrow(boostrap) > 0 && n > 0) {
+      errors <- append(
+        errors,
+        list(
+          # Check boostrap
+          arkhe:::catch_conditions(arkhe:::check_missing(boostrap)),
+          # arkhe:::catch_conditions(arkhe:::check_infinite(boostrap)),
+          arkhe:::catch_conditions(arkhe:::check_dimension(boostrap, c(n, 5)))
+        )
+      )
+    }
+    if (nrow(simulated) > 0 && n > 0) {
+      errors <- append(
+        errors,
+        list(
+          # Check simulated
+          arkhe:::catch_conditions(arkhe:::check_missing(simulated)),
+          arkhe:::catch_conditions(arkhe:::check_infinite(simulated))
+          # arkhe:::catch_conditions(arkhe:::check_dimension(simulated, c(n, 4)))
+        )
+      )
+    }
+
+    # Return errors if any
+    arkhe:::check_class(object, errors)
+  }
+)
+
 # BootCA =======================================================================
 setValidity(
   Class = "BootCA",
