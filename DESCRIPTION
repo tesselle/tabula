@@ -30,7 +30,7 @@ Authors@R:
       person(given = "Jean-Baptiste",
              family = "Fourvel",
              role = "ctb",
-             email = "jbfourvel@yahoo.com",
+             email = "fourvel@mmsh.univ-aix.fr",
              comment = c(ORCID = "https://orcid.org/0000-0002-1061-4642")))
 Maintainer: Nicolas Frerebeau
     <nicolas.frerebeau@u-bordeaux-montaigne.fr>
