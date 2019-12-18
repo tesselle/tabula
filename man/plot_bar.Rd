@@ -69,6 +69,7 @@ Plots a Bertin, Ford (battleship curve) or Dice-Leraas diagram.
 }
 
 \examples{
+\donttest{
 ## Abundance data
 ## Coerce dataset to a count matrix
 mississippi_count <- as_count(mississippi)
@@ -92,6 +93,7 @@ compiegne_count <- as_count(compiegne)
 plot_ford(compiegne_count)
 ## ...with EPPM
 plot_ford(compiegne_count, EPPM = TRUE)
+}
 }
 \references{
 Bertin, J. (1977). \emph{La graphique et le traitement graphique de

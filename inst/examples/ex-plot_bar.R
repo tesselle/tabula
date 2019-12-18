@@ -1,3 +1,4 @@
+\donttest{
 ## Abundance data
 ## Coerce dataset to a count matrix
 mississippi_count <- as_count(mississippi)
@@ -21,3 +22,4 @@ compiegne_count <- as_count(compiegne)
 plot_ford(compiegne_count)
 ## ...with EPPM
 plot_ford(compiegne_count, EPPM = TRUE)
+}
