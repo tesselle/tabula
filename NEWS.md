@@ -2,6 +2,10 @@
 ### Internals
 * Depend on {arkhe}.
 
+### Bugfixes & changes
+* CRAN package check error with long doubles disabled has been fixed (tested with R-hub `debian-gcc-devel-nold`).
+* CRAN package check notes have been fixed.
+
 ## tabula 1.4.0 (release date: 2019-11-25)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3552904.svg)](https://doi.org/10.5281/zenodo.3552904)
 
@@ -13,7 +17,7 @@
 * `index_evenness()` replaces `evenness()`.
 * `index_richness()` replaces `richness()`.
 * `index_composition()` allows to estimate asymptotic species richness.
-* `plot_diversity()` produces a diversity *vs.* sample size graph and allow to compare estimates with simulated assemblages.
+* `plot_diversity()` produces a diversity *vs* sample size graph and allow to compare estimates with simulated assemblages.
 * Add replacement methods for the `*Matrix` classes.
 
 ### Bugfixes & changes

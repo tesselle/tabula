@@ -9,7 +9,7 @@
 0 errors | 0 warnings | 1 note
 
 * Some links in the documentation point to articles behind paywalls that may return a 403 error.
-* CRAN package check error with long doubles disabled has been fixed.
+* CRAN package check error with long doubles disabled has been fixed (tested with R-hub debian-gcc-devel-nold).
 * CRAN package check notes have been fixed.
 
 ## Reverse dependencies
