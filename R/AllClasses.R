@@ -262,13 +262,13 @@ setMethod(
 
     .Object@id <- if (missing(id)) arkhe:::generate_uuid() else id
     if (missing(rows)) {
-      rows <- list(id = factor(), x = numeric(0), y = numeric(0))
+      rows <- list(id = character(0), x = numeric(0), y = numeric(0))
     } else {
       rows
     }
     .Object@rows <- rows
     if (missing(columns)) {
-      columns <- list(id = factor(), x = numeric(0), y = numeric(0))
+      columns <- list(id = character(0), x = numeric(0), y = numeric(0))
     } else {
       columns
     }

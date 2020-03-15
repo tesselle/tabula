@@ -33,11 +33,12 @@ setMethod(
     id_rows <- rep(names(hull_rows),
                    times = vapply(hull_rows, nrow, numeric(1)))
     rows <- do.call(rbind.data.frame, hull_rows)
-    rows <- cbind.data.frame(id = id_rows, rows)
+    rows <- data.frame(id = id_rows, rows, stringsAsFactors = FALSE)
+
     id_cols <- rep(names(hull_columns),
                    times = vapply(hull_columns, nrow, numeric(1)))
     cols <- do.call(rbind.data.frame, hull_columns)
-    cols <- cbind.data.frame(id = id_cols, cols)
+    cols <- data.frame(id = id_cols, cols, stringsAsFactors = FALSE)
 
     .BootCA(
       id = arkhe::get_id(object),

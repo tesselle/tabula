@@ -89,7 +89,7 @@ setValidity(
       arkhe:::catch_conditions(arkhe:::check_length(rows, 3)),
       arkhe:::catch_conditions(arkhe:::check_lengths(rows)),
       arkhe:::catch_conditions(arkhe:::check_names(rows, c("id", "x", "y"))),
-      arkhe:::catch_conditions(arkhe:::check_type(rows[[1]], "integer")),
+      arkhe:::catch_conditions(arkhe:::check_type(rows[[1]], "character")),
       arkhe:::catch_conditions(arkhe:::check_type(rows[[2]], "numeric")),
       arkhe:::catch_conditions(arkhe:::check_type(rows[[3]], "numeric")),
       unlist(lapply(
@@ -103,7 +103,7 @@ setValidity(
       arkhe:::catch_conditions(arkhe:::check_length(columns, 3)),
       arkhe:::catch_conditions(arkhe:::check_lengths(columns)),
       arkhe:::catch_conditions(arkhe:::check_names(columns, c("id", "x", "y"))),
-      arkhe:::catch_conditions(arkhe:::check_type(columns[[1]], "integer")),
+      arkhe:::catch_conditions(arkhe:::check_type(columns[[1]], "character")),
       arkhe:::catch_conditions(arkhe:::check_type(columns[[2]], "numeric")),
       arkhe:::catch_conditions(arkhe:::check_type(columns[[3]], "numeric")),
       unlist(lapply(
