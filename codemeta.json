@@ -15,7 +15,7 @@
   ],
   "issueTracker": "http://github.com/nfrerebeau/tabula/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",

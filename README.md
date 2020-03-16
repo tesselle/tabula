@@ -68,7 +68,7 @@ remotes::install_github("nfrerebeau/tabula")
 ``` r
 # Load packages
 library(tabula)
-#> Loading required package: codex
+#> Loading required package: arkhe
 
 library(khroma)
 library(ggplot2)
@@ -92,7 +92,7 @@ must be saved in its own column and each observation (sample/case) must
 be saved in its own row.
 
 These new classes are of simple use, please refer to the documentation
-of the [**codex**](https://github.com/nfrerebeau/codex) package where
+of the [**arkhe**](https://github.com/nfrerebeau/arkhe) package where
 these classes are defined.
 
 ### Visualization
@@ -150,7 +150,7 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Get seriation order on rows and columns
 # Correspondance analysis-based seriation
 (indices <- seriate_reciprocal(incidence, margin = c(1, 2)))
-#> <PermutationOrder: 4bffe51c-75f2-4bc3-a2d0-7c005a75b349>
+#> <PermutationOrder: 2116a2a1-18fa-4b40-b68b-37906e31a8c6>
 #> Permutation order for matrix seriation:
 #> - Row order: 1 4 20 3 9 16 19 10 13 2 11 7 17 5 6 18 14 15 8 12...
 #> - Column order: 1 16 9 4 8 14 3 20 13 2 6 18 7 17 5 11 19 12 15 10...
@@ -216,7 +216,7 @@ referred to as indices of *heterogeneity*):
 mississippi %>%
   as_count() %>%
   index_heterogeneity(method = "shannon")
-#> <HeterogeneityIndex: 05b1f084-1042-4314-b597-72a5b9bb6d79>
+#> <HeterogeneityIndex: bdd1c08f-43f6-4396-a7ae-484565a00345>
 #> - Method: shannon
 #>             size     index
 #> 10-P-1       153 1.2027955

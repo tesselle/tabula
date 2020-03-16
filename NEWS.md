@@ -1,4 +1,8 @@
-## tabula 1.5.0
+## tabula 1.5.1
+## Bugfixes & changes
+* CRAN pacakge check warning (r-devel) has been fixed (use a `stringsAsFactors = FALSE` default).
+
+## tabula 1.5.0 (CRAN release date: 2020-01-16)
 ### Internals
 * Depend on {arkhe}.
 

@@ -2,7 +2,7 @@
 #' \tabular{ll}{
 #'  \strong{Package:} \tab tabula \cr
 #'  \strong{Type:} \tab Package \cr
-#'  \strong{Version:} \tab 1.5.0 \cr
+#'  \strong{Version:} \tab 1.5.1 \cr
 #'  \strong{License:} \tab GPL-3 \cr
 #'  \strong{DOI:} \tab \href{https://doi.org/10.5281/zenodo.1489944}{10.5281/zenodo.1489944} \cr
 #'  \strong{JOSS:} \tab \href{https://doi.org/10.21105/joss.01821}{10.21105/joss.01821} \cr
