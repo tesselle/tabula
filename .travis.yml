@@ -12,7 +12,7 @@ jobs:
   include:
   - r: devel
   - r: release
-    env: VDIFFR_RUN_TESTS=false
+    env: VDIFFR_RUN_TESTS=true
     after_success:
     - Rscript -e 'covr::codecov()'
     before_deploy:
