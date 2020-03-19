@@ -3,6 +3,8 @@
 * CRAN pacakge check warning (r-devel) has been fixed (use a `stringsAsFactors = FALSE` default).
 
 ## tabula 1.5.0 (CRAN release date: 2020-01-16)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3612110.svg)](https://doi.org/10.5281/zenodo.3612110)
+
 ### Internals
 * Depend on {arkhe}.
 
