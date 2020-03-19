@@ -1,4 +1,6 @@
-## tabula 1.5.1
+## tabula 1.5.1 (CRAN release date: 2020-03-19)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3716163.svg)](https://doi.org/10.5281/zenodo.3716163)
+
 ## Bugfixes & changes
 * CRAN pacakge check warning (r-devel) has been fixed (use a `stringsAsFactors = FALSE` default).
 
