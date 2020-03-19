@@ -51,9 +51,10 @@ measures for the simulated assemblage.}
 }
 
 \seealso{
-Other class: \code{\link{BootCA-class}},
-  \code{\link{DateModel-class}},
-  \code{\link{PermutationOrder-class}}
+Other class: 
+\code{\link{BootCA-class}},
+\code{\link{DateModel-class}},
+\code{\link{PermutationOrder-class}}
 }
 \author{
 N. Frerebeau

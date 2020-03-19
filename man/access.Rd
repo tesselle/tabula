@@ -21,7 +21,8 @@ An object of the same sort as \code{object} with the new values assigned.
 Getters and setters to extract or replace parts of an object.
 }
 \seealso{
-Other mutator: \code{\link{subset}}
+Other mutator: 
+\code{\link{subset}()}
 }
 \author{
 N. Frerebeau

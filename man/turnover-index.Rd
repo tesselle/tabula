@@ -11,13 +11,19 @@
 \usage{
 turnover(object, ...)
 
-\S4method{turnover}{CountMatrix}(object, method = c("whittaker", "cody",
-  "routledge1", "routledge2", "routledge3", "wilson"), simplify = FALSE,
-  ...)
+\S4method{turnover}{CountMatrix}(
+  object,
+  method = c("whittaker", "cody", "routledge1", "routledge2", "routledge3", "wilson"),
+  simplify = FALSE,
+  ...
+)
 
-\S4method{turnover}{IncidenceMatrix}(object, method = c("whittaker",
-  "cody", "routledge1", "routledge2", "routledge3", "wilson"),
-  simplify = FALSE, ...)
+\S4method{turnover}{IncidenceMatrix}(
+  object,
+  method = c("whittaker", "cody", "routledge1", "routledge2", "routledge3", "wilson"),
+  simplify = FALSE,
+  ...
+)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
@@ -100,8 +106,10 @@ Cody, M. L. (1975). Towards a theory of continental species diversity: Bird
  DOI: \href{https://doi.org/10.2307/2259551}{10.2307/2259551}.
 }
 \seealso{
-Other diversity: \code{\link{heterogeneity-index}},
-  \code{\link{richness-index}}, \code{\link{similarity}}
+Other diversity: 
+\code{\link{heterogeneity-index}},
+\code{\link{richness-index}},
+\code{\link{similarity}()}
 }
 \author{
 N. Frerebeau

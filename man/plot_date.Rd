@@ -17,11 +17,23 @@ plot_time(object, ...)
 
 \S4method{plot_date}{Matrix}(object, select = NULL, sort = "dsc")
 
-\S4method{plot_date}{DateModel}(object, type = c("activity", "tempo"),
-  event = FALSE, select = 1, n = 500)
+\S4method{plot_date}{DateModel}(
+  object,
+  type = c("activity", "tempo"),
+  event = FALSE,
+  select = 1,
+  n = 500
+)
 
-\S4method{plot_time}{CountMatrix}(object, highlight = NULL,
-  level = 0.95, roll = FALSE, window = 5, facet = TRUE, ...)
+\S4method{plot_time}{CountMatrix}(
+  object,
+  highlight = NULL,
+  level = 0.95,
+  roll = FALSE,
+  window = 5,
+  facet = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{An object of class \linkS4class{DateModel} to be plotted.}
@@ -140,9 +152,12 @@ Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
 \seealso{
 \link{date_event}, \link{test}
 
-Other plot: \code{\link{plot_bar}},
-  \code{\link{plot_diversity}}, \code{\link{plot_line}},
-  \code{\link{plot_matrix}}, \code{\link{plot_spot}}
+Other plot: 
+\code{\link{plot_bar}},
+\code{\link{plot_diversity}()},
+\code{\link{plot_line}},
+\code{\link{plot_matrix}},
+\code{\link{plot_spot}()}
 }
 \author{
 N. Frerebeau

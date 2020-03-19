@@ -38,23 +38,17 @@ get_order(object)
 
 \S4method{get_order}{PermutationOrder}(object)
 
-\S4method{refine_seriation}{CountMatrix}(object, cutoff, n = 1000,
-  axes = c(1, 2), ...)
+\S4method{refine_seriation}{CountMatrix}(object, cutoff, n = 1000, axes = c(1, 2), ...)
 
-\S4method{seriate_reciprocal}{CountMatrix}(object, EPPM = FALSE,
-  margin = c(1, 2), stop = 100)
+\S4method{seriate_reciprocal}{CountMatrix}(object, EPPM = FALSE, margin = c(1, 2), stop = 100)
 
-\S4method{seriate_reciprocal}{IncidenceMatrix}(object, margin = c(1, 2),
-  stop = 100)
+\S4method{seriate_reciprocal}{IncidenceMatrix}(object, margin = c(1, 2), stop = 100)
 
-\S4method{seriate_correspondence}{CountMatrix,missing}(object,
-  margin = c(1, 2), ...)
+\S4method{seriate_correspondence}{CountMatrix,missing}(object, margin = c(1, 2), ...)
 
-\S4method{seriate_correspondence}{IncidenceMatrix,missing}(object,
-  margin = c(1, 2), ...)
+\S4method{seriate_correspondence}{IncidenceMatrix,missing}(object, margin = c(1, 2), ...)
 
-\S4method{seriate_correspondence}{CountMatrix,BootCA}(object, subset,
-  margin = c(1, 2), ...)
+\S4method{seriate_correspondence}{CountMatrix,BootCA}(object, subset, margin = c(1, 2), ...)
 
 \S4method{permute}{CountMatrix,PermutationOrder}(object, order)
 

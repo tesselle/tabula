@@ -22,18 +22,34 @@ index_composition(object, ...)
 
 rarefaction(object, ...)
 
-\S4method{rarefaction}{CountMatrix}(object, sample,
-  method = c("hurlbert"), simplify = FALSE, ...)
+\S4method{rarefaction}{CountMatrix}(object, sample, method = c("hurlbert"), simplify = FALSE, ...)
 
-\S4method{index_richness}{CountMatrix}(object, method = c("none",
-  "margalef", "menhinick"), jackknife = TRUE, bootstrap = TRUE,
-  simulate = FALSE, level = 0.8, n = 1000, ...)
+\S4method{index_richness}{CountMatrix}(
+  object,
+  method = c("none", "margalef", "menhinick"),
+  jackknife = TRUE,
+  bootstrap = TRUE,
+  simulate = FALSE,
+  level = 0.8,
+  n = 1000,
+  ...
+)
 
-\S4method{index_composition}{CountMatrix}(object, method = c("chao1",
-  "ace"), unbiased = FALSE, improved = FALSE, k = 10)
+\S4method{index_composition}{CountMatrix}(
+  object,
+  method = c("chao1", "ace"),
+  unbiased = FALSE,
+  improved = FALSE,
+  k = 10
+)
 
-\S4method{index_composition}{IncidenceMatrix}(object, method = c("chao2",
-  "ice"), unbiased = FALSE, improved = FALSE, k = 10)
+\S4method{index_composition}{IncidenceMatrix}(
+  object,
+  method = c("chao2", "ice"),
+  unbiased = FALSE,
+  improved = FALSE,
+  k = 10
+)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
@@ -212,8 +228,10 @@ Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
  \emph{The American Naturalist}, 102(925), 243-282.
 }
 \seealso{
-Other diversity: \code{\link{heterogeneity-index}},
-  \code{\link{similarity}}, \code{\link{turnover-index}}
+Other diversity: 
+\code{\link{heterogeneity-index}},
+\code{\link{similarity}()},
+\code{\link{turnover-index}}
 }
 \author{
 N. Frerebeau

@@ -4,7 +4,8 @@
 \name{compiegne}
 \alias{compiegne}
 \title{Compiègne ceramics}
-\format{A numeric matrix with 5 rows (chronological periods, numbered from
+\format{
+A numeric matrix with 5 rows (chronological periods, numbered from
  the oldest to the most recent from 1 to 5) and 16 variables (ceramic types):
  \describe{
   \item{A}{Red to white ceramics with fine sized inclusions.}
@@ -25,7 +26,8 @@
   \item{N}{Glazed ceramics.}
   \item{O}{Stamped ceramics.}
   \item{P}{Coated ceramics.}
- }}
+ }
+}
 \source{
 Lacroix, M. C. (1997). La céramique médiévale du site des Hallettes à
  Compiègne (Oise). \emph{Revue archéologique de Picardie}. Numéro spécial,
@@ -42,9 +44,11 @@ A dataset containing the ceramic counts from the Place des Hallettes in
  types.
 }
 \seealso{
-Other datasets: \code{\link{boves}},
-  \code{\link{merzbach}}, \code{\link{mississippi}},
-  \code{\link{zuni}}
+Other datasets: 
+\code{\link{boves}},
+\code{\link{merzbach}},
+\code{\link{mississippi}},
+\code{\link{zuni}}
 }
 \concept{datasets}
 \keyword{datasets}

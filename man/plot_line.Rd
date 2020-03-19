@@ -51,9 +51,12 @@ Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
  DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
 }
 \seealso{
-Other plot: \code{\link{plot_bar}},
-  \code{\link{plot_date}}, \code{\link{plot_diversity}},
-  \code{\link{plot_matrix}}, \code{\link{plot_spot}}
+Other plot: 
+\code{\link{plot_bar}},
+\code{\link{plot_date}()},
+\code{\link{plot_diversity}()},
+\code{\link{plot_matrix}},
+\code{\link{plot_spot}()}
 }
 \author{
 N. Frerebeau

@@ -57,9 +57,10 @@ point estimate of the accumulation dates and the corresponding error.}
 }
 
 \seealso{
-Other class: \code{\link{BootCA-class}},
-  \code{\link{DiversityIndex}},
-  \code{\link{PermutationOrder-class}}
+Other class: 
+\code{\link{BootCA-class}},
+\code{\link{DiversityIndex}},
+\code{\link{PermutationOrder-class}}
 }
 \author{
 N. Frerebeau

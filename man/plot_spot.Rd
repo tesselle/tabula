@@ -66,9 +66,12 @@ occ <- as_occurrence(mississippi)
 plot_spot(occ)
 }
 \seealso{
-Other plot: \code{\link{plot_bar}},
-  \code{\link{plot_date}}, \code{\link{plot_diversity}},
-  \code{\link{plot_line}}, \code{\link{plot_matrix}}
+Other plot: 
+\code{\link{plot_bar}},
+\code{\link{plot_date}()},
+\code{\link{plot_diversity}()},
+\code{\link{plot_line}},
+\code{\link{plot_matrix}}
 }
 \author{
 N. Frerebeau

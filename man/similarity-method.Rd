@@ -10,11 +10,13 @@
 \usage{
 similarity(object, ...)
 
-\S4method{similarity}{CountMatrix}(object, method = c("brainerd", "bray",
-  "jaccard", "morisita", "sorenson", "binomial"), ...)
+\S4method{similarity}{CountMatrix}(
+  object,
+  method = c("brainerd", "bray", "jaccard", "morisita", "sorenson", "binomial"),
+  ...
+)
 
-\S4method{similarity}{IncidenceMatrix}(object, method = c("jaccard",
-  "sorenson"), ...)
+\S4method{similarity}{IncidenceMatrix}(object, method = c("jaccard", "sorenson"), ...)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
@@ -121,9 +123,10 @@ Brainerd, G. W. (1951). The Place of Chronological Ordering in
  DOI: \href{https://doi.org/10.2307/276978}{10.2307/276978}.
 }
 \seealso{
-Other diversity: \code{\link{heterogeneity-index}},
-  \code{\link{richness-index}},
-  \code{\link{turnover-index}}
+Other diversity: 
+\code{\link{heterogeneity-index}},
+\code{\link{richness-index}},
+\code{\link{turnover-index}}
 }
 \author{
 N. Frerebeau

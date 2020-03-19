@@ -4,11 +4,13 @@
 \name{merzbach}
 \alias{merzbach}
 \title{Merzbach ceramics}
-\format{A numeric matrix with 8 rows (phases, numbered from VII to XIV)
+\format{
+A numeric matrix with 8 rows (phases, numbered from VII to XIV)
 and 36 variables (pottery motifs).
  \describe{
   \item{BT1, BT2, ...}{ Counts of a motif.}
- }}
+ }
+}
 \source{
 Crema, E. R., Kandler, A. & Shennan, S. (2016). Revealing Patterns of
  Cultural Transmission from Frequency Data: Equilibrium and Non-Equilibrium
@@ -28,9 +30,11 @@ A dataset containing the ceramic counts from the Merzbach assemblage
 (Germany). The data are grouped into eight phases.
 }
 \seealso{
-Other datasets: \code{\link{boves}},
-  \code{\link{compiegne}}, \code{\link{mississippi}},
-  \code{\link{zuni}}
+Other datasets: 
+\code{\link{boves}},
+\code{\link{compiegne}},
+\code{\link{mississippi}},
+\code{\link{zuni}}
 }
 \concept{datasets}
 \keyword{datasets}

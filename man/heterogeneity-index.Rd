@@ -15,13 +15,27 @@ index_heterogeneity(object, ...)
 
 index_evenness(object, ...)
 
-\S4method{index_heterogeneity}{CountMatrix}(object, method = c("berger",
-  "brillouin", "mcintosh", "shannon", "simpson"), jackknife = TRUE,
-  bootstrap = TRUE, simulate = FALSE, level = 0.8, n = 1000, ...)
+\S4method{index_heterogeneity}{CountMatrix}(
+  object,
+  method = c("berger", "brillouin", "mcintosh", "shannon", "simpson"),
+  jackknife = TRUE,
+  bootstrap = TRUE,
+  simulate = FALSE,
+  level = 0.8,
+  n = 1000,
+  ...
+)
 
-\S4method{index_evenness}{CountMatrix}(object, method = c("shannon",
-  "brillouin", "mcintosh", "simpson"), jackknife = TRUE,
-  bootstrap = TRUE, simulate = FALSE, level = 0.8, n = 1000, ...)
+\S4method{index_evenness}{CountMatrix}(
+  object,
+  method = c("shannon", "brillouin", "mcintosh", "simpson"),
+  jackknife = TRUE,
+  bootstrap = TRUE,
+  simulate = FALSE,
+  level = 0.8,
+  n = 1000,
+  ...
+)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data (typically
@@ -218,8 +232,10 @@ Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
 \code{\link{turnover}}
  \code{\link{similarity}}
 
-Other diversity: \code{\link{richness-index}},
-  \code{\link{similarity}}, \code{\link{turnover-index}}
+Other diversity: 
+\code{\link{richness-index}},
+\code{\link{similarity}()},
+\code{\link{turnover-index}}
 }
 \author{
 N. Frerebeau

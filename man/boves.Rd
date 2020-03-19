@@ -4,7 +4,8 @@
 \name{boves}
 \alias{boves}
 \title{Boves ceramics}
-\format{A numeric matrix with 8 rows and 13 variables (ceramic types):
+\format{
+A numeric matrix with 8 rows and 13 variables (ceramic types):
  \describe{
    \item{I}{}
    \item{IIa}{}
@@ -18,7 +19,8 @@
    \item{Vb}{}
    \item{VI}{}
    \item{VII}{}
- }}
+ }
+}
 \source{
 Racinet P. (2002). Le site castral et prioral de Boves du Xe au XVIIe
  siècle. Bilan des recherches 1996-2000. \emph{Revue archéologique de
@@ -33,9 +35,11 @@ A dataset containing the ceramic counts from the castle site of Boves
  10th to the 18th century and thirteen ceramic types.
 }
 \seealso{
-Other datasets: \code{\link{compiegne}},
-  \code{\link{merzbach}}, \code{\link{mississippi}},
-  \code{\link{zuni}}
+Other datasets: 
+\code{\link{compiegne}},
+\code{\link{merzbach}},
+\code{\link{mississippi}},
+\code{\link{zuni}}
 }
 \concept{datasets}
 \keyword{datasets}

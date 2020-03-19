@@ -45,9 +45,12 @@ merzbach \%>\%
 \link{index_heterogeneity}, \link{index_evenness},
  \link{index_richness}
 
-Other plot: \code{\link{plot_bar}},
-  \code{\link{plot_date}}, \code{\link{plot_line}},
-  \code{\link{plot_matrix}}, \code{\link{plot_spot}}
+Other plot: 
+\code{\link{plot_bar}},
+\code{\link{plot_date}()},
+\code{\link{plot_line}},
+\code{\link{plot_matrix}},
+\code{\link{plot_spot}()}
 }
 \author{
 N. Frerebeau

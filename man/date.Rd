@@ -20,14 +20,11 @@ date_event(object, ...)
 
 refine_dates(object, ...)
 
-\S4method{date_mcd}{CountMatrix}(object, dates, errors = NULL,
-  level = 0.95, n = 1000, ...)
+\S4method{date_mcd}{CountMatrix}(object, dates, errors = NULL, level = 0.95, n = 1000, ...)
 
-\S4method{date_event}{CountMatrix}(object, level = 0.95, cutoff = 90,
-  ...)
+\S4method{date_event}{CountMatrix}(object, level = 0.95, cutoff = 90, ...)
 
-\S4method{refine_dates}{DateModel}(object, method = c("jackknife",
-  "bootstrap"), n = 1000, ...)
+\S4method{refine_dates}{DateModel}(object, method = c("jackknife", "bootstrap"), n = 1000, ...)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data (typically of

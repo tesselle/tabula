@@ -8,7 +8,7 @@
 \title{tabula: Analysis, Seriation and Visualization of Archaeological
     Count Data}
 \description{
-\if{html}{\figure{logo.png}{options: align='right'}}
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
 An easy way to examine archaeological count data. This package 
     provides a convenient and reproducible toolkit for relative and absolute 

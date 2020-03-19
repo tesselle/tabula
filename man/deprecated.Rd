@@ -52,17 +52,13 @@ evenness(object, ...)
 
 richness(object, ...)
 
-\S4method{refine}{CountMatrix}(object, cutoff, n = 1000, axes = c(1,
-  2), ...)
+\S4method{refine}{CountMatrix}(object, cutoff, n = 1000, axes = c(1, 2), ...)
 
-\S4method{refine}{DateModel}(object, method = c("jackknife",
-  "bootstrap"), n = 1000, ...)
+\S4method{refine}{DateModel}(object, method = c("jackknife", "bootstrap"), n = 1000, ...)
 
-\S4method{plotBar}{CountMatrix}(object, level = FALSE, EPPM = FALSE,
-  center = TRUE, horizontal = FALSE)
+\S4method{plotBar}{CountMatrix}(object, level = FALSE, EPPM = FALSE, center = TRUE, horizontal = FALSE)
 
-\S4method{plotBar}{AbundanceMatrix}(object, level = FALSE,
-  EPPM = FALSE, center = TRUE, horizontal = FALSE)
+\S4method{plotBar}{AbundanceMatrix}(object, level = FALSE, EPPM = FALSE, center = TRUE, horizontal = FALSE)
 
 \S4method{plotMatrix}{CountMatrix}(object, PVI = FALSE)
 
@@ -82,29 +78,56 @@ richness(object, ...)
 
 \S4method{plotSpot}{OccurrenceMatrix}(object)
 
-\S4method{seriate}{CountMatrix,missing}(object,
-  method = c("correspondance", "reciprocal"), EPPM = FALSE,
-  margin = c(1, 2), stop = 100, ...)
+\S4method{seriate}{CountMatrix,missing}(
+  object,
+  method = c("correspondance", "reciprocal"),
+  EPPM = FALSE,
+  margin = c(1, 2),
+  stop = 100,
+  ...
+)
 
-\S4method{seriate}{IncidenceMatrix,missing}(object,
-  method = c("correspondance", "reciprocal"), margin = c(1, 2),
-  stop = 100, ...)
+\S4method{seriate}{IncidenceMatrix,missing}(
+  object,
+  method = c("correspondance", "reciprocal"),
+  margin = c(1, 2),
+  stop = 100,
+  ...
+)
 
-\S4method{seriate}{CountMatrix,BootCA}(object, subset, margin = c(1, 2),
-  ...)
+\S4method{seriate}{CountMatrix,BootCA}(object, subset, margin = c(1, 2), ...)
 
-\S4method{diversity}{CountMatrix}(object, method = c("berger",
-  "brillouin", "mcintosh", "shannon", "simpson"), simplify = FALSE, ...)
+\S4method{diversity}{CountMatrix}(
+  object,
+  method = c("berger", "brillouin", "mcintosh", "shannon", "simpson"),
+  simplify = FALSE,
+  ...
+)
 
-\S4method{evenness}{CountMatrix}(object, method = c("brillouin",
-  "mcintosh", "shannon", "simpson"), simplify = FALSE, ...)
+\S4method{evenness}{CountMatrix}(
+  object,
+  method = c("brillouin", "mcintosh", "shannon", "simpson"),
+  simplify = FALSE,
+  ...
+)
 
-\S4method{richness}{CountMatrix}(object, method = c("ace", "chao1",
-  "margalef", "menhinick", "none"), unbiased = FALSE, improved = FALSE,
-  k = 10, simplify = FALSE)
+\S4method{richness}{CountMatrix}(
+  object,
+  method = c("ace", "chao1", "margalef", "menhinick", "none"),
+  unbiased = FALSE,
+  improved = FALSE,
+  k = 10,
+  simplify = FALSE
+)
 
-\S4method{richness}{IncidenceMatrix}(object, method = c("chao2", "ice"),
-  unbiased = FALSE, improved = FALSE, k = 10, simplify = FALSE)
+\S4method{richness}{IncidenceMatrix}(
+  object,
+  method = c("chao2", "ice"),
+  unbiased = FALSE,
+  improved = FALSE,
+  k = 10,
+  simplify = FALSE
+)
 }
 \arguments{
 \item{object}{An object.}
@@ -130,8 +153,8 @@ Any unambiguous substring can be given.}
 \item{level}{A length-one \code{\link{numeric}} vector giving the
 confidence level to be drawn.}
 
-\item{EPPM}{A \code{\link{logical}} scalar: should the EPPM be drawn (see
-details)?}
+\item{EPPM}{A \code{\link{logical}} scalar: should the seriation be computed
+on EPPM instead of raw data?}
 
 \item{center}{A \code{\link{logical}} scalar: should the bar plot
 be centered? The default, \code{TRUE}, produces a Ford diagram, otherwise it
@@ -173,9 +196,6 @@ and "\code{xy}" or "\code{yx}" if both axes are to be logarithmic (base 10).}
 
 \item{facet}{A \code{\link{logical}} scalar: should a matrix of panels
 defined by case/sample be drawn?}
-
-\item{EPPM}{A \code{\link{logical}} scalar: should the seriation be computed
-on EPPM instead of raw data?}
 
 \item{sample}{A length-one \code{\link{numeric}} vector giving the sub-sample
 size.}

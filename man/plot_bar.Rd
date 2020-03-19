@@ -18,8 +18,7 @@ plot_bertin(object, ...)
 
 plot_ford(object, ...)
 
-\S4method{plot_bertin}{CountMatrix}(object, threshold = NULL,
-  scale = NULL)
+\S4method{plot_bertin}{CountMatrix}(object, threshold = NULL, scale = NULL)
 
 \S4method{plot_ford}{CountMatrix}(object, EPPM = FALSE)
 }
@@ -113,9 +112,12 @@ Bertin, J. (1977). \emph{La graphique et le traitement graphique de
  chronology}. Washington, DC: Pan American Union. Technical manual 1.
 }
 \seealso{
-Other plot: \code{\link{plot_date}},
-  \code{\link{plot_diversity}}, \code{\link{plot_line}},
-  \code{\link{plot_matrix}}, \code{\link{plot_spot}}
+Other plot: 
+\code{\link{plot_date}()},
+\code{\link{plot_diversity}()},
+\code{\link{plot_line}},
+\code{\link{plot_matrix}},
+\code{\link{plot_spot}()}
 }
 \author{
 N. Frerebeau

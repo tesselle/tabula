@@ -4,7 +4,8 @@
 \name{zuni}
 \alias{zuni}
 \title{Zuni ceramics}
-\format{A numeric matrix with 420 rows (assemblages) and 18 variables
+\format{
+A numeric matrix with 420 rows (assemblages) and 18 variables
  (ceramic types). The numbers in brackets correspond to the date range of
  each type (in AD years):
  \describe{
@@ -26,7 +27,8 @@
    \item{PINER}{Pinedale Black-on-red/Polychrome (1275-1325).}
    \item{HESH}{Heshotauthla Polychrome (1285-1400).}
    \item{KWAK}{Kwakina Polychrome (1285-1400).}
- }}
+ }
+}
 \source{
 Peeples, M. A., & Schachner, G. (2012). Refining correspondence
  analysis-based ceramic seriation of regional data sets. \emph{Journal of
@@ -41,9 +43,11 @@ A dataset containing ceramic counts from the Zuni region of the American
  Southwest.
 }
 \seealso{
-Other datasets: \code{\link{boves}},
-  \code{\link{compiegne}}, \code{\link{merzbach}},
-  \code{\link{mississippi}}
+Other datasets: 
+\code{\link{boves}},
+\code{\link{compiegne}},
+\code{\link{merzbach}},
+\code{\link{mississippi}}
 }
 \concept{datasets}
 \keyword{datasets}

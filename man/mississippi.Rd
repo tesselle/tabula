@@ -4,7 +4,8 @@
 \name{mississippi}
 \alias{mississippi}
 \title{Mississippi ceramics}
-\format{A numeric matrix with 20 rows and 10 variables (ceramic types):
+\format{
+A numeric matrix with 20 rows and 10 variables (ceramic types):
  \describe{
    \item{ParkinPunctate}{}
    \item{BartonKentMPI}{}
@@ -16,7 +17,8 @@
    \item{RhodesIncised}{}
    \item{VernonPaulApplique}{}
    \item{HullEngraved}{}
- }}
+ }
+}
 \source{
 Lipo, C. P., Madsen, M. E. & Dunnell, R. C. (2015). A
  Theoretically-Sufficient and Computationally-Practical Technique for
@@ -30,9 +32,11 @@ mississippi
 A dataset containing ceramic counts from the Mississippi region.
 }
 \seealso{
-Other datasets: \code{\link{boves}},
-  \code{\link{compiegne}}, \code{\link{merzbach}},
-  \code{\link{zuni}}
+Other datasets: 
+\code{\link{boves}},
+\code{\link{compiegne}},
+\code{\link{merzbach}},
+\code{\link{zuni}}
 }
 \concept{datasets}
 \keyword{datasets}
