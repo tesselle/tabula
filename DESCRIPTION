@@ -54,21 +54,21 @@ Depends:
     R (>= 3.2),
     arkhe
 Imports:
-    ca (>= 0.71),
-    ggplot2 (>= 3.2.1),
+    ca (>= 0.71.1),
+    ggplot2 (>= 3.3.0),
     grDevices,
     methods,
-    rlang (>= 0.4.0),
+    rlang (>= 0.4.5),
     stats,
     utils
 Suggests:
-    covr (>= 3.3.1),
+    covr (>= 3.5.0),
     khroma (>= 1.3.0),
     knitr,
     magrittr (>= 1.5),
     pbapply (>= 1.4-2),
     rmarkdown,
-    testthat (>= 2.2.1),
+    testthat (>= 2.3.2),
     vdiffr (>= 0.3.1)
 VignetteBuilder: 
     knitr
