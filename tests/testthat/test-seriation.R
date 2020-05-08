@@ -3,42 +3,41 @@ options("verbose" = FALSE)
 
 
 test_that("Reciprocal averaging", {
-  count <- as(compiegne, "CountMatrix")
+  count <- arkhe::as_count(compiegne)
 
-  indices_row <- seriate_reciprocal(count, margin = 1)
+  indices_row <- seriate_rank(count, margin = 1)
   expect_equal(indices_row@rows, c(1, 2, 5, 3, 4))
   expect_equal(indices_row@columns, 1:16)
   expect_equal(indices_row@id, count@id)
 
-  indices_col <- seriate_reciprocal(count, margin = 2)
+  indices_col <- seriate_rank(count, margin = 2)
   expect_equal(indices_col@rows, 1:5)
   expect_equal(indices_col@columns,
                c(14, 1, 11, 3, 16, 12, 5, 2, 15, 13, 4, 7, 6, 9, 10, 8))
   expect_equal(indices_col@id, count@id)
 
-  expect_warning(seriate_reciprocal(count, stop = 1, margin = 2))
+  expect_warning(seriate_rank(count, stop = 1, margin = 2))
 })
-test_that("Reciprocal averaging on EPPM", {
-  count <- as(compiegne, "CountMatrix")
-  indices <- seriate_reciprocal(count, EPPM = TRUE, margin = 2)
+test_that("Reciprocal ranking on EPPM", {
+  count <- arkhe::as_count(compiegne)
+  indices <- seriate_rank(count, EPPM = TRUE, margin = 2)
   expected <- c("N", "A", "C", "K", "P", "L", "B", "E",
                 "I", "M", "D", "G", "O", "J", "F", "H")
   expect_equal(LETTERS[indices@columns], expected)
 })
 test_that("Reciprocal ranking", {
-  incid <- as(compiegne, "IncidenceMatrix")
+  incid <- arkhe::as_incidence(compiegne)
 
-  indices <- seriate_reciprocal(incid, margin = c(1, 2))
+  indices <- seriate_rank(incid, margin = c(1, 2))
   expect_equal(indices@rows, c(1, 2, 3, 4, 5))
   expect_equal(indices@columns,
                c(1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 14, 15, 13, 16, 9))
 
   expect_s4_class(indices, "PermutationOrder")
   expect_s4_class(permute(incid, indices), "IncidenceMatrix")
-  expect_equal(permute(incid, indices)@id, incid@id)
 })
 test_that("correspondence Analysis", {
-  count <- as(compiegne, "CountMatrix")
+  count <- arkhe::as_count(compiegne)
 
   indices <- seriate_correspondence(count, margin = c(1, 2))
   expect_equal(indices@rows, c(1, 2, 3, 4, 5))
@@ -47,7 +46,6 @@ test_that("correspondence Analysis", {
 
   expect_s4_class(indices, "PermutationOrder")
   expect_s4_class(permute(count, indices), "CountMatrix")
-  expect_equal(permute(count, indices)@id, count@id)
 
   count2 <- as(merzbach, "CountMatrix")
   expect_warning(seriate_correspondence(count2))

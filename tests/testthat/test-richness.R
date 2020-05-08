@@ -27,7 +27,7 @@ test_that("Chao richness", {
   method <- c("chao2", "ice")
   for (i in method) {
     index <- index_composition(incid, method = i)
-    expect_s4_class(index, "RichnessIndex")
+    expect_s4_class(index, "CompositionIndex")
     expect_length(index@index, 1)
   }
 })

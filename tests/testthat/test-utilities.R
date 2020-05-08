@@ -24,15 +24,15 @@ test_that("NULL OR operator", {
 test_that("Row names to column", {
   mtx <- matrix(data = seq_len(260), nrow = 26, ncol = 2,
                 dimnames = list(LETTERS, NULL))
-  df <- as.data.frame(mtx)
 
   mtx2 <- rownames_to_column(mtx, factor = TRUE, id = "id")
   expect_identical(dim(mtx2), c(26L, 3L))
-  expect_identical(colnames(mtx2), c("id", "V1", "V2"))
+  expect_identical(colnames(mtx2), c("id", "col1", "col2"))
   expect_identical(unname(mtx2[, 1]), as.factor(LETTERS))
   expect_s3_class(mtx2, "data.frame")
 
-  df2 <- rownames_to_column(df, factor = FALSE, id = NULL)
+  df <- as.data.frame(mtx)
+  df2 <- rownames_to_column(df, factor = FALSE)
   expect_identical(dim(df2), c(26L, 3L))
   expect_identical(colnames(df2), c("id", "V1", "V2"))
   expect_identical(unname(df2[, 1]), LETTERS)

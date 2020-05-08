@@ -99,4 +99,3 @@ test_that("Berger-Parker dominance", {
   n <- c(394, 3487, 275, 683, 22, 1, 0, 1, 6, 8, 1, 1, 2)
   expect_equal(round(dominanceBerger(n), 3), 0.714)
 })
-

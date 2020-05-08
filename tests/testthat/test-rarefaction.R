@@ -9,12 +9,9 @@ test_that("Rarefaction", {
                       dimnames = list(c(1, 2), NULL))
   expected <- c(`1` = 6.56, `2` = NA)
 
-  index <- rarefaction(trap, sample = 13, simplify = FALSE)
-  expect_type(index, "list")
-  expect_equal(round(index[[1]], digits = 2), expected)
-
-  index <- rarefaction(trap, sample = 13, simplify = TRUE)
-  expect_equal(dim(index), c(2, 1))
+  index <- rarefaction(trap, sample = 13)
+  expect_type(index, "double")
+  expect_equal(round(index, digits = 2), expected)
 
   freq <- as(trap, "AbundanceMatrix")
   expect_error(rarefaction(freq, 13))
