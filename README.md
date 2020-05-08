@@ -151,10 +151,7 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 
 # Get seriation order on rows and columns
 # Correspondance analysis-based seriation
-(indices <- seriate_reciprocal(incidence, margin = c(1, 2)))
-#> Warning: '.local' is deprecated.
-#> Use 'seriate_rank' instead.
-#> See help("Deprecated")
+(indices <- seriate_rank(incidence, margin = c(1, 2)))
 #> <PermutationOrder>
 #> Permutation order for matrix seriation:
 #> - Row order: 1 4 20 3 9 16 19 10 13 2 11 7 17 5 6 18 14 15 8 12...
