@@ -77,12 +77,12 @@ $$
 $$
 
 ## Limitation
-The MCD is a point estimate: knowing the mid-date of an assemblage and not knowing the time span of accumulation might be short sighted. MCD offers a rough indication of the chronological position of an assemblage, but does not tell if an assemblage represents ten or 100 years.
+The MCD is a point estimate: knowing the mid-date of an assemblage and not knowing the time span of accumulation might be short sighted. **MCD offers a rough indication of the chronological position of an assemblage, but does not tell if an assemblage represents ten or 100 years.**
 
 ## Usage
 ```{r mcd-model, fig.width=7, fig.height=3.5, fig.align="center"}
 ## Coerce the zuni dataset to an abundance (count) matrix
-zuni_count <- as_count(zuni)
+zuni_counts <- as_count(zuni)
 
 ## Set the start and end dates for each ceramic type
 zuni_dates <- list(
@@ -96,19 +96,11 @@ zuni_dates <- list(
 
 ## Calculate date midpoint
 zuni_mid <- vapply(X = zuni_dates, FUN = mean, FUN.VALUE = numeric(1))
-zuni_error <- vapply(X = zuni_dates, FUN = diff, FUN.VALUE = numeric(1)) / 2
 
 ## Calculate MCD
 ## (we use a bootstrapping procedure to estimate the confidence interval)
-zuni_mcd <- date_mcd(zuni_count, dates = zuni_mid, errors = zuni_error)
+zuni_mcd <- date_mcd(zuni_counts, dates = zuni_mid)
 head(zuni_mcd)
-
-## Plot dates
-set_dates(zuni_count) <- list(value = zuni_mcd$date, error = zuni_mcd$error)
-plot_date(zuni_count, select = 1:15, sort = "asc") +
-  ggplot2::labs(title = "Mean Ceramic Date") +
-  ggplot2::theme_bw() +
-  ggplot2::theme(legend.position = "none")
 ```
 
 # Event & Accumulation Date
@@ -217,36 +209,33 @@ Predicted dates have to be interpreted with care: these dates are highly depende
 
 ## Usage
 ```{r event-model}
-## Bellanger et al. did not publish the data supporting their
-## demonstration: no replication of their results is possible. 
+## Bellanger et al. did not publish the data supporting their demonstration: 
+## no replication of their results is possible. 
 ## Here is a pseudo-replication using the zuni dataset and results of the 
 ## previous example.
-
-## Coerce the zuni dataset to an abundance (count) matrix
-zuni_count <- as_count(zuni)
 
 ## Randomly picks 100 assemblages and assume that they are reliably dated
 ## (this is NOT a real example)
 set.seed(12345)
-train_index <- sample(seq_len(nrow(zuni_count)), size = 100, replace = FALSE)
-train_dates <- zuni_mcd[train_index, 2]
-names(train_dates) <- zuni_mcd[train_index, 1]
-set_dates(zuni_count) <- train_dates
+dates <- zuni_mcd$date
+dates[sample(1:420, 320, FALSE)] <- NA
 
 ## Model the event and accumulation date for each assemblage
-model <- date_event(zuni_count, cutoff = 90)
+model <- date_event(zuni_counts, dates = dates, cutoff = 90)
 summary(model[["model"]])
 
-## Estimated event dates
-head(model[["rows"]])
+## Estimate event and accumulation dates
+event <- predict_event(model, zuni_counts, level = 0.95)
+head(event[["row_events"]])
+head(event[["accumulation"]])
 ```
 
 ```{r event-plot, fig.show="hold"}
 ## Activity plot
-plot_date(model, type = "activity", select = "LZ1105") +
+plot_date(event, type = "activity", event = TRUE, select = "LZ1105") +
   ggplot2::theme_bw()
 ## Tempo plot
-plot_date(model, type = "tempo", select = "LZ1105") +
+plot_date(event, type = "tempo", select = "LZ1105") +
   ggplot2::theme_bw()
 ```
 
@@ -254,12 +243,13 @@ Resampling methods can be used to check the stability of the resulting model. If
 
 ```{r event-refine}
 ## Check model variability
+## Warning: this may take a few seconds
 ## Jackknife fabrics
-refined_jack <- refine_dates(model, method = "jackknife", n = 1000)
+refined_jack <- refine_event(model, method = "jackknife")
 head(refined_jack)
 
 ## Bootstrap of assemblages
-refined_boot <- refine_dates(model, method = "bootstrap", n = 1000)
+refined_boot <- refine_event(model, method = "bootstrap", n = 1000)
 head(refined_boot)
 ```
 

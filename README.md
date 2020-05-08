@@ -123,9 +123,11 @@ statistic threshold (including B. Desachy’s
 [sériographe](https://doi.org/10.3406/pica.2004.2396)).
 
 ``` r
+# Bertin matrix with variables scaled to 0-1 and the variable mean as threshold
+scale_01 <- function(x) (x - min(x)) / (max(x) - min(x))
 mississippi %>%
   as_count() %>%
-  plot_bertin(threshold = mean) +
+  plot_bertin(threshold = mean, scale = scale_01) +
   khroma::scale_fill_vibrant()
 ```
 
@@ -150,11 +152,14 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 # Get seriation order on rows and columns
 # Correspondance analysis-based seriation
 (indices <- seriate_reciprocal(incidence, margin = c(1, 2)))
-#> <PermutationOrder: 2116a2a1-18fa-4b40-b68b-37906e31a8c6>
+#> Warning: '.local' is deprecated.
+#> Use 'seriate_rank' instead.
+#> See help("Deprecated")
+#> <PermutationOrder>
 #> Permutation order for matrix seriation:
 #> - Row order: 1 4 20 3 9 16 19 10 13 2 11 7 17 5 6 18 14 15 8 12...
 #> - Column order: 1 16 9 4 8 14 3 20 13 2 6 18 7 17 5 11 19 12 15 10...
-#> - Method: reciprocal
+#> - Method: reciprocal ranking
 
 # Permute matrix rows and columns
 incidence2 <- permute(incidence, indices)
@@ -187,7 +192,7 @@ probability density curves of archaeological assemblage dates (*event*,
 zuni_counts <- as_count(zuni)
 # Assume that some assemblages are reliably dated (this is NOT a real example)
 # The names of the vector entries must match the names of the assemblages
-set_dates(zuni_counts) <- c(
+zuni_dates <- c(
   LZ0569 = 1097, LZ0279 = 1119, CS16 = 1328, LZ0066 = 1111,
   LZ0852 = 1216, LZ1209 = 1251, CS144 = 1262, LZ0563 = 1206,
   LZ0329 = 1076, LZ0005Q = 859, LZ0322 = 1109, LZ0067 = 863,
@@ -195,12 +200,15 @@ set_dates(zuni_counts) <- c(
 )
 
 # Model the event date for each assemblage
-model <- date_event(zuni_counts, cutoff = 90)
+model <- date_event(zuni_counts, dates = zuni_dates, cutoff = 90)
+# Predict event and accumulation dates
+event <- predict_event(model, zuni_counts)
+
 # Plot activity and tempo distributions
-plot_date(model, type = "activity", select = "LZ1105") +
+plot_date(event, type = "activity", select = "LZ1105") +
   ggplot2::labs(title = "Activity plot") +
   ggplot2::theme_bw()
-plot_date(model, type = "tempo", select = "LZ1105") +
+plot_date(event, type = "tempo", select = "LZ1105") +
   ggplot2::labs(title = "Tempo plot") +
   ggplot2::theme_bw()
 ```
@@ -216,8 +224,7 @@ referred to as indices of *heterogeneity*):
 mississippi %>%
   as_count() %>%
   index_heterogeneity(method = "shannon")
-#> <HeterogeneityIndex: bdd1c08f-43f6-4396-a7ae-484565a00345>
-#> - Method: shannon
+#> <HeterogeneityIndex: shannon>
 #>             size     index
 #> 10-P-1       153 1.2027955
 #> 11-N-9       758 0.7646565
@@ -252,13 +259,19 @@ mississippi[1:5, ] %>%
 #> 11-N-4  0.000000e+00 7.116363e-01 7.961107e-05 0.7116363
 ```
 
-Note that `berger`, `mcintosh` and `simpson` methods return a
-*dominance* index, not the reciprocal form usually adopted, so that an
-increase in the value of the index accompanies a decrease in diversity.
-
 Corresponding *evenness* (i.e. a measure of how evenly individuals are
 distributed across the sample) can also be computed, as well as
 *richness* and *rarefaction*.
+
+``` r
+# Data from Conkey 1980, Kintigh 1989, p. 28
+altamira %>%
+  as_count() %>%
+  index_richness(method = "none", simulate = TRUE) %>% 
+  plot_diversity()
+```
+
+<img src="man/figures/README-sample-size-1.png" style="display: block; margin: auto;" />
 
 Several methods can be used to ascertain the degree of *turnover* in
 taxa composition along a gradient on qualitative (presence/absence)
@@ -281,26 +294,6 @@ mississippi %>%
 
 <img src="man/figures/README-similarity-brainerd-1.png" style="display: block; margin: auto;" />
 
-The Frequency Increment Test can be used to assess the detection and
-quantification of selective processes in the archaeological
-record\[2\].
-
-``` r
-## Keep only decoration types that have a maximum frequency of at least 50
-keep <- apply(X = merzbach, MARGIN = 2, FUN = function(x) max(x) >= 50)
-merzbach_count <- as_count(merzbach[, keep])
-
-## The data are grouped by phase
-## We use the row names as time coordinates (roman numerals)
-set_dates(merzbach_count) <- rownames(merzbach)
-## Plot time vs abundance and highlight selection
-plot_time(merzbach_count, highlight = "FIT", roll = TRUE) +
-  ggplot2::theme_bw() +
-  khroma::scale_color_contrast()
-```
-
-<img src="man/figures/README-plot-time-1.png" style="display: block; margin: auto;" />
-
 ## Contributing
 
 Please note that the **tabula** project is released with a [Contributor
@@ -310,6 +303,3 @@ By contributing to this project, you agree to abide by its terms.
 
 1.  Adapted from Dan Gopstein’s original
     [idea](https://dgopstein.github.io/articles/spot-matrix/).
-
-2.  Adapted from Ben Marwick’s original
-    [idea](https://github.com/benmarwick/signatselect/).

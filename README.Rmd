@@ -101,12 +101,13 @@ mississippi %>%
 Bertin or Ford (battleship curve) diagrams can be plotted, with statistic threshold (including B. Desachy's [sériographe](https://doi.org/10.3406/pica.2004.2396)). 
 
 ```{r bertin, fig.width=7, fig.height=5, fig.align="center", fig.show="hold"}
+# Bertin matrix with variables scaled to 0-1 and the variable mean as threshold
+scale_01 <- function(x) (x - min(x)) / (max(x) - min(x))
 mississippi %>%
   as_count() %>%
-  plot_bertin(threshold = mean) +
+  plot_bertin(threshold = mean, scale = scale_01) +
   khroma::scale_fill_vibrant()
 ```
-
 
 ```{r ford, fig.width=7, fig.height=3.5, fig.align="center", fig.show="hold"}
 compiegne %>%
@@ -149,7 +150,7 @@ This package provides an implementation of the chronological modeling method dev
 zuni_counts <- as_count(zuni)
 # Assume that some assemblages are reliably dated (this is NOT a real example)
 # The names of the vector entries must match the names of the assemblages
-set_dates(zuni_counts) <- c(
+zuni_dates <- c(
   LZ0569 = 1097, LZ0279 = 1119, CS16 = 1328, LZ0066 = 1111,
   LZ0852 = 1216, LZ1209 = 1251, CS144 = 1262, LZ0563 = 1206,
   LZ0329 = 1076, LZ0005Q = 859, LZ0322 = 1109, LZ0067 = 863,
@@ -157,12 +158,15 @@ set_dates(zuni_counts) <- c(
 )
 
 # Model the event date for each assemblage
-model <- date_event(zuni_counts, cutoff = 90)
+model <- date_event(zuni_counts, dates = zuni_dates, cutoff = 90)
+# Predict event and accumulation dates
+event <- predict_event(model, zuni_counts)
+
 # Plot activity and tempo distributions
-plot_date(model, type = "activity", select = "LZ1105") +
+plot_date(event, type = "activity", select = "LZ1105") +
   ggplot2::labs(title = "Activity plot") +
   ggplot2::theme_bw()
-plot_date(model, type = "tempo", select = "LZ1105") +
+plot_date(event, type = "tempo", select = "LZ1105") +
   ggplot2::labs(title = "Tempo plot") +
   ggplot2::theme_bw()
 ```
@@ -183,9 +187,15 @@ mississippi[1:5, ] %>%
   test_diversity()
 ```
 
-Note that `berger`, `mcintosh` and `simpson` methods return a *dominance* index, not the reciprocal form usually adopted, so that an increase in the value of the index accompanies a decrease in diversity.
-
 Corresponding *evenness* (i.e. a measure of how evenly individuals are distributed across the sample) can also be computed, as well as *richness* and *rarefaction*.
+
+```{r sample-size, fig.width=5, fig.height=5, fig.align="center"}
+# Data from Conkey 1980, Kintigh 1989, p. 28
+altamira %>%
+  as_count() %>%
+  index_richness(method = "none", simulate = TRUE) %>% 
+  plot_diversity()
+```
 
 Several methods can be used to ascertain the degree of *turnover* in taxa composition along a gradient on qualitative (presence/absence) data. It assumes that the order of the matrix rows (from *1* to *n*) follows the progression along the gradient/transect.
 
@@ -200,22 +210,6 @@ mississippi %>%
   plot_spot() +
   ggplot2::labs(size = "Similarity", colour = "Similarity") +
   khroma::scale_colour_iridescent()
-```
-
-The Frequency Increment Test can be used to assess the detection and quantification of selective processes in the archaeological record^[Adapted from Ben Marwick's original [idea](https://github.com/benmarwick/signatselect/).].
-
-```{r plot-time, fig.width=7, fig.height=3.5, fig.align="center"}
-## Keep only decoration types that have a maximum frequency of at least 50
-keep <- apply(X = merzbach, MARGIN = 2, FUN = function(x) max(x) >= 50)
-merzbach_count <- as_count(merzbach[, keep])
-
-## The data are grouped by phase
-## We use the row names as time coordinates (roman numerals)
-set_dates(merzbach_count) <- rownames(merzbach)
-## Plot time vs abundance and highlight selection
-plot_time(merzbach_count, highlight = "FIT", roll = TRUE) +
-  ggplot2::theme_bw() +
-  khroma::scale_color_contrast()
 ```
 
 ## Contributing

@@ -51,23 +51,23 @@ It is not always possible to ensure that all sample sizes are equal and the numb
 
 ### Definitions
 
-|   | Measure                           | Reference      |
-|:-:|:----------------------------------|:---------------|
-| * | $$ R_{1} = \frac{S - 1}{\ln N} $$ | @margalef1958  |
-|   | $$ R_{2} = \frac{S}{\log N} $$    | @odum1960      |
-| * | $$ R_{3} = \frac{S}{\sqrt{N}} $$  | @menhinick1964 |
-|   | $$ R_{4} = \frac{S}{\log A} $$    | @gleason1922   |
+| Measure                           | Reference        |
+|:----------------------------------|:-----------------|
+| $$ R_{1} = \frac{S - 1}{\ln N} $$ | @margalef1958 *  |
+| $$ R_{2} = \frac{S}{\log N} $$    | @odum1960        |
+| $$ R_{3} = \frac{S}{\sqrt{N}} $$  | @menhinick1964 * |
+| $$ R_{4} = \frac{S}{\log A} $$    | @gleason1922     |
 Table: Richness measures [@bobrowsky1989]. *: implemented.
 
-|   | Measure                           | Reference      |
-|:-:|:----------------------------------|:---------------|
-|   | $$ \hat{S}_{1} = \alpha - \left[ \ln \left( 1 - x \right) \right] $$ | @fisher1943 |
-|   | $$ \hat{S}_{2} = y_{0} \hat{\sigma} \sqrt{2 \pi} $$ | @preston1948 |
-|   | $$ \hat{S}_{3} = 2.07 \left( \frac{N}{m} \right)^{0.262} $$ | @preston1962, @preston1962a |
-|   | $$ \hat{S}_{4} = 2.07 \left( \frac{N}{m} \right)^{0.262} A^{0.262} $$ | @macarthur1965 |
-|   | $$ \hat{S}_{5} = k A^{d} $$ | @kilburn1966 |
-|   | $$ \hat{S}_{6} = \frac{a N}{1 + b N} $$ | @decaprariis1976 |
-| * | $$ \hat{S}_{7} = \sum_{i = 1}^{S} 1 - \frac{{N - N_i} \choose n}{N \choose n} $$ | @hurlbert1971, @sander1968 |
+| Measure                           | Reference      |
+|:----------------------------------|:---------------|
+| $$ \hat{S}_{1} = \alpha - \left[ \ln \left( 1 - x \right) \right] $$ | @fisher1943 |
+| $$ \hat{S}_{2} = y_{0} \hat{\sigma} \sqrt{2 \pi} $$ | @preston1948 |
+| $$ \hat{S}_{3} = 2.07 \left( \frac{N}{m} \right)^{0.262} $$ | @preston1962, @preston1962a |
+| $$ \hat{S}_{4} = 2.07 \left( \frac{N}{m} \right)^{0.262} A^{0.262} $$ | @macarthur1965 |
+| $$ \hat{S}_{5} = k A^{d} $$ | @kilburn1966 |
+| $$ \hat{S}_{6} = \frac{a N}{1 + b N} $$ | @decaprariis1976 |
+| $$ \hat{S}_{7} = \sum_{i = 1}^{S} 1 - \frac{{N - N_i} \choose n}{N \choose n} $$ | @hurlbert1971, @sander1968 * |
 Table: Rarefaction measures [@bobrowsky1989]. *: implemented.
 
 Where:
@@ -256,6 +256,13 @@ mississippi %>%
   index_evenness(method = "shannon")
 ```
 
+```{r refine}
+mississippi %>%
+  as_count() %>%
+  index_evenness(method = "shannon") %>%
+  refine_diversity(method = "jackknife")
+```
+
 # $\beta$-diversity
 
 ## Turnover
@@ -276,14 +283,14 @@ We denote the $m \times p$ incidence matrix by $X = \left[ x_{ij} \right] ~\fora
  \forall y_{ij} \in \lbrace 0,1 \rbrace
 \end{align}
 
-|   | Measure                           | Reference      |
-|:-:|:----------------------------------|:---------------|
-| * | $$ \beta_W = \frac{S}{\alpha} - 1 $$ | @whittaker1960 |
-| * | $$ \beta_C = \frac{g(H) + l(H)}{2} - 1 $$ | @cody1975 |
-| * | $$ \beta_R = \frac{S^2}{2 y_{\cdot \cdot} + S} - 1 $$ | @routledge1977 |
-| * | $$ \beta_I = \log x_{\cdot \cdot} - \frac{\sum_{j = 1}^{p} x_{\cdot j} \log x_{\cdot j}}{x_{\cdot \cdot}} - \frac{\sum_{i = 1}^{m} x_{i \cdot} \log x_{i \cdot}}{x_{\cdot \cdot}} $$ | @routledge1977 |
-| * | $$ \beta_E = \exp(\beta_I) - 1 $$ | @routledge1977 |
-| * | $$ \beta_T = \frac{g(H) + l(H)}{2\alpha} $$ | @wilson1984 |
+| Measure                           | Reference        |
+|:----------------------------------|:-----------------|
+| $$ \beta_W = \frac{S}{\alpha} - 1 $$ | @whittaker1960 * |
+| $$ \beta_C = \frac{g(H) + l(H)}{2} - 1 $$ | @cody1975 * |
+| $$ \beta_R = \frac{S^2}{2 y_{\cdot \cdot} + S} - 1 $$ | @routledge1977 * |
+| $$ \beta_I = \log x_{\cdot \cdot} - \frac{\sum_{j = 1}^{p} x_{\cdot j} \log x_{\cdot j}}{x_{\cdot \cdot}} - \frac{\sum_{i = 1}^{m} x_{i \cdot} \log x_{i \cdot}}{x_{\cdot \cdot}} $$ | @routledge1977 * |
+| $$ \beta_E = \exp(\beta_I) - 1 $$ | @routledge1977 * |
+| $$ \beta_T = \frac{g(H) + l(H)}{2\alpha} $$ | @wilson1984 * |
 Table: Turnover measures. *: implemented.
 
 Where:
@@ -300,22 +307,22 @@ Similarity between two samples $a$ and $b$ or between two types $x$ and $y$ can 
 
 These indices provide a scale of similarity from $0$-$1$ where $1$ is perfect similarity and $0$ is no similarity, with the exception of the Brainerd-Robinson index which is scaled between $0$ and $200$.
 
-|   | Measure                           | Reference      |
-|:-:|:----------------------------------|:---------------|
-| * | $$ C_J = \frac{o_j}{S_a + S_b - o_j} $$ | Jaccard |
-| * | $$ C_S = \frac{2 \times o_j}{S_a + S_b} $$ | Sorenson |
+| Measure                           | Reference       |
+|:----------------------------------|:----------------|
+| $$ C_J = \frac{o_j}{S_a + S_b - o_j} $$ | Jaccard * |
+| $$ C_S = \frac{2 \times o_j}{S_a + S_b} $$ | Sorenson * |
 Table: Qualitative similarity measures (between samples). *: implemented.
 
-|   | Measure                           | Reference      |
-|:-:|:----------------------------------|:---------------|
-| * | $$ C_{BR} = 200 - \sum_{j = 1}^{S} \left| \frac{a_j \times 100}{\sum_{j = 1}^{S} a_j} - \frac{b_j \times 100}{\sum_{j = 1}^{S} b_j} \right|$$ | @brainerd1951, @robinson1951 |
-| * | $$ C_N = \frac{2 \sum_{j = 1}^{S} \min(a_j, b_j)}{N_a + N_b} $$ | @bray1957, Sorenson |
-| * | $$ C_{MH} = \frac{2 \sum_{j = 1}^{S} a_j \times b_j}{(\frac{\sum_{j = 1}^{S} a_j^2}{N_a^2} + \frac{\sum_{j = 1}^{S} b_j^2}{N_b^2}) \times N_a \times N_b} $$ | Morisita-Horn |
+| Measure                           | Reference      |
+|:----------------------------------|:---------------|
+| $$ C_{BR} = 200 - \sum_{j = 1}^{S} \left| \frac{a_j \times 100}{\sum_{j = 1}^{S} a_j} - \frac{b_j \times 100}{\sum_{j = 1}^{S} b_j} \right|$$ | @brainerd1951, @robinson1951 * |
+| $$ C_N = \frac{2 \sum_{j = 1}^{S} \min(a_j, b_j)}{N_a + N_b} $$ | @bray1957, Sorenson * |
+| $$ C_{MH} = \frac{2 \sum_{j = 1}^{S} a_j \times b_j}{(\frac{\sum_{j = 1}^{S} a_j^2}{N_a^2} + \frac{\sum_{j = 1}^{S} b_j^2}{N_b^2}) \times N_a \times N_b} $$ | Morisita-Horn * |
 Table: Quantitative similarity measures (between samples). *: implemented.
 
-|   | Measure                           | Reference      |
-|:-:|:----------------------------------|:---------------|
-| * | $$ C_{Bi} = \frac{o_i - N \times p}{\sqrt{N \times p \times (1 - p)}} $$ | @kintigh2006 |
+| Measure                           | Reference      |
+|:----------------------------------|:---------------|
+| $$ C_{Bi} = \frac{o_i - N \times p}{\sqrt{N \times p \times (1 - p)}} $$ | @kintigh2006 * |
 Table: Quantitative similarity measures (between types). *: implemented.
 
 Where:
@@ -343,6 +350,17 @@ mississippi %>%
   similarity(method = "binomial") %>%
   plot_spot() +
   khroma::scale_colour_PRGn()
+```
+
+# Sample Size and Significance
+@kintigh1989
+
+```{r sample-size, fig.width=5, fig.height=5, fig.align="center"}
+# Data from Conkey 1980
+altamira %>%
+  as_count() %>%
+  index_richness(method = "none", simulate = TRUE) %>% 
+  plot_diversity()
 ```
 
 # Abundance models

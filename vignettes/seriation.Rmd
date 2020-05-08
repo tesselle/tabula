@@ -49,73 +49,6 @@ The mathematical assumptions state that the distribution of any historical or te
 
 Theses assumptions create a distributional model and ordering is accomplished by arranging the matrix so that the class distributions approximate the required pattern. The resulting order is *inferred* to be chronological.
 
-# Visualization
-
-Several types of graphs are available in **tabula** which uses **ggplot2** for plotting informations. This makes it easy to customize diagrams (e.g. using themes and scales).
-
-## Spot plot
-Spot matrix allows direct examination of data (above/below some threshold):
-
-```{r plot-freq, fig.cap="Spot plot", fig.width=4, fig.height=6, fig.align="center"}
-## Plot frequencies with the column means as a threshold
-mississippi %>%
-  as_count() %>%
-  plot_spot(threshold = mean) +
-  ggplot2::labs(size = "Frequency", colour = "Mean") +
-  khroma::scale_colour_vibrant()
-```
-
-```{r plot-occ, fig.cap="Spot plot of co-occurrence", fig.width=6, fig.height=4, fig.align="center"}
-## Plot co-occurrence of types
-## (i.e. how many times (percent) each pairs of taxa occur together 
-## in at least one sample.)
-mississippi %>%
-  as_occurrence() %>%
-  plot_spot() +
-  ggplot2::labs(size = "", colour = "Co-occurrence") +
-  ggplot2::theme(legend.box = "horizontal") +
-  khroma::scale_colour_YlOrBr()
-```
-
-## Heatmap
-
-Abundance matrix can be displayed as a heatmap of relative abundances (frequency), or as percentages of the independence value (in french, "pourcentages de valeur d'indépendance", PVI).
-
-```{r plot-matrix, fig.cap="Heatmap", fig.width=7, fig.height=3.5, fig.align="center"}
-boves %>%
-  as_count() %>%
-  plot_heatmap() +
-  khroma::scale_fill_YlOrBr()
-```
-
-
-PVI is calculated for each cell as the percentage to the column theoretical independence value: PVI greater than $1$ represent positive deviations from the independence, whereas PVI smaller than $1$ represent negative deviations [@desachy2004]. The PVI matrix allows to explore deviations from independence (an intuitive graphical approach to $\chi^2$), in such a way that a high-contrast matrix has quite significant deviations, with a low risk of being due to randomness [@desachy2004].
-
-```{r plot-matrigraphe, fig.cap="Matrigraphe", fig.width=7, fig.height=3.5, fig.align="center"}
-## Reproduce B. Desachy's matrigraphe
-boves %>%
-  as_count() %>%
-  plot_heatmap(PVI = TRUE) +
-  khroma::scale_fill_BuRd(midpoint = 1)
-```
-
-## Bar plot
-@bertin1977 or @ford1962 (battleship curve) diagrams can also be plotted, with statistic threshold.
-
-```{r plot-bertin, fig.cap="Bertin diagram", fig.width=7, fig.height=7, fig.align="center"}
-mississippi %>%
-  as_count() %>%
-  plot_bertin(threshold = mean) +
-  khroma::scale_fill_bright()
-```
-
-```{r plot-ford, fig.cap="Ford diagram", fig.width=7, fig.height=3.5, fig.align="center"}
-boves %>%
-  as_count() %>%
-  plot_ford(EPPM = TRUE) +
-  khroma::scale_fill_contrast()
-```
-
 # Reciprocal ranking
 
 Reciprocal ranking iteratively rearrange rows and/or columns according to their weighted rank in the data matrix until convergence [@ihm2005].
@@ -142,7 +75,7 @@ incidence1 <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 ## Get seriation order on rows and columns
 ## If no convergence is reached before the maximum number of iterations (100), 
 ## it stops with a warning.
-(indices <- seriate_reciprocal(incidence1, margin = c(1, 2), stop = 100))
+(indices <- seriate_rank(incidence1, margin = c(1, 2), stop = 100))
 
 ## Permute matrix rows and columns
 incidence2 <- permute(incidence1, indices)
@@ -160,7 +93,6 @@ The positive difference from the column mean percentage (in french "écart posit
 
 ```{r averaging, fig.width=7, fig.height=3.5, fig.show='hold'}
 ## Replicates Desachy 2004 results
-
 ## Coerce dataset to an abundance matrix
 compiegne_counts <- as_count(compiegne)
 
@@ -171,7 +103,7 @@ plot_ford(compiegne_counts, EPPM = TRUE) +
 
 ## Get seriation order for columns on EPPM using the reciprocal averaging method
 ## Expected column order: N, A, C, K, P, L, B, E, I, M, D, G, O, J, F, H
-compiegne_indices <- seriate_reciprocal(compiegne_counts, EPPM = TRUE, margin = 2)
+compiegne_indices <- seriate_rank(compiegne_counts, EPPM = TRUE, margin = 2)
 
 ## Permute columns
 compiegne_seriation <- permute(compiegne_counts, compiegne_indices)
@@ -188,20 +120,12 @@ plot_ford(compiegne_seriation, EPPM = TRUE) +
 correspondence Analysis (CA) is an effective method for the seriation of archaeological assemblages. The order of the rows and columns is given by the coordinates along one dimension of the CA space, assumed to account for temporal variation. The direction of temporal change within the correspondence analysis space is arbitrary: additional information is needed to determine the actual order in time.
 
 ```{r ca}
-## Coerce dataset to an abundance matrix
+## Coerce dataset to an count matrix
 zuni_counts <- as_count(zuni)
-
 ## correspondence analysis of the whole dataset
-corresp <- ca::ca(zuni_counts)
-coords <- ca::cacoord(corresp, type = "principal")
-
+corresp <- run_ca(zuni_counts)
 ## Plot CA results
-ggplot2::ggplot(mapping = ggplot2::aes(x = Dim1, y = Dim2)) +
-  ggplot2::geom_vline(xintercept = 0, linetype = 2) +
-  ggplot2::geom_hline(yintercept = 0, linetype = 2) +
-  ggplot2::geom_point(data = as.data.frame(coords$rows), color = "black") +
-  ggplot2::geom_point(data = as.data.frame(coords$columns), color = "red") +
-  ggplot2::coord_fixed() + 
+plot_ca(corresp, axes = c(1, 2), map = c("rows", "columns"))  + 
   ggplot2::theme_bw()
 ```
 
@@ -228,7 +152,6 @@ According to @peeples2012, "[this] point removal procedure [results in] a reduce
 
 ```{r refine, fig.show='hold'}
 ## Replicates Peeples and Schachner 2012 results
-
 ## Samples with convex hull maximum dimension length greater than the cutoff
 ## value will be marked for removal.
 ## Define cutoff as one standard deviation above the mean
@@ -236,33 +159,17 @@ fun <- function(x) { mean(x) + sd(x) }
 
 ## Get indices of samples to be kept
 ## Warning: this may take a few seconds!
-set.seed(123)
-(zuni_keep <- refine_seriation(zuni_counts, cutoff = fun, n = 1000))
+zuni_keep <- refine_ca(corresp, cutoff = fun, n = 1000)
 
 ## Plot convex hull
 ## blue: convex hull for samples; red: convex hull for types
 ### All bootstrap samples
-ggplot2::ggplot(mapping = ggplot2::aes(x = x, y = y, group = id)) +
-  ggplot2::geom_vline(xintercept = 0, linetype = 2) +
-  ggplot2::geom_hline(yintercept = 0, linetype = 2) +
-  ggplot2::geom_polygon(data = zuni_keep[["rows"]], 
-                        fill = "blue", alpha = 0.05) +
-  ggplot2::geom_polygon(data = zuni_keep[["columns"]], 
-                        fill = "red", alpha = 0.5) +
-  ggplot2::coord_fixed() + 
-  ggplot2::labs(title = "Whole dataset", x = "Dim. 1", y = "Dim. 2") + 
+plot_ca(zuni_keep) +
+  ggplot2::scale_fill_manual(values = c(columns = "red", rows = "blue")) + 
   ggplot2::theme_bw()
 ### Only retained samples
-ggplot2::ggplot(mapping = ggplot2::aes(x = x, y = y, group = id)) +
-  ggplot2::geom_vline(xintercept = 0, linetype = 2) +
-  ggplot2::geom_hline(yintercept = 0, linetype = 2) +
-  ggplot2::geom_polygon(data = subset(zuni_keep[["rows"]], 
-                                      id %in% names(zuni_keep[["keep"]][[1]])),
-                        fill = "blue", alpha = 0.05) +
-  ggplot2::geom_polygon(data = zuni_keep[["columns"]], 
-                        fill = "red", alpha = 0.5) +
-  ggplot2::coord_fixed() + 
-  ggplot2::labs(title = "Selected samples", x = "Dim. 1", y = "Dim. 2") + 
+plot_ca(zuni_keep, keep = "rows") +
+  ggplot2::scale_fill_manual(values = c(columns = "red", rows = "blue")) + 
   ggplot2::theme_bw()
 
 ## Histogram of convex hull maximum dimension length
