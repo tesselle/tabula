@@ -5,8 +5,8 @@
 
 [![Appveyor build
 status](https://ci.appveyor.com/api/projects/status/t1qmnis4ekqwslgs/branch/master?svg=true)](https://ci.appveyor.com/project/nfrerebeau/tabula/branch/master)
-[![Travis build
-Status](https://travis-ci.org/nfrerebeau/tabula.svg?branch=master)](https://travis-ci.org/nfrerebeau/tabula)
+[![R build
+status](https://github.com/nfrerebeau/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/nfrerebeau/tabula/actions)
 [![codecov](https://codecov.io/gh/nfrerebeau/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/nfrerebeau/tabula)
 
 [![CRAN
