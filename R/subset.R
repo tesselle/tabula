@@ -2,7 +2,7 @@
 #' @include AllClasses.R
 NULL
 
-# BootCA =======================================================================
+# ====================================================================== Extract
 #' @export
 #' @rdname subset
 #' @aliases [,BootCA-method
@@ -10,7 +10,8 @@ setMethod(
   f = "[",
   signature = "BootCA",
   definition = function(x, i, j, drop = TRUE) {
-    i <- match.arg(i, choices = c("rows", "columns"), several.ok = FALSE)
+    i <- match.arg(i, choices = c("row_chull", "column_chull"),
+                   several.ok = FALSE)
     data <- as.data.frame(methods::slot(x, i))
 
     if (missing(j)) {
@@ -32,9 +33,7 @@ setMethod(
   f = "[",
   signature = "DateModel",
   definition = function(x, i, j, drop = TRUE) {
-    i <- match.arg(i, choices = c("counts", "dates",
-                                  "rows", "columns", "accumulation",
-                                  "jackknife", "bootstrap"),
+    i <- match.arg(i, choices = c("data"),
                    several.ok = FALSE)
     data <- methods::slot(x, i)
 
@@ -54,7 +53,33 @@ setMethod(
   }
 )
 
-# ------------------------------------------------------------------------------
+#' @export
+#' @rdname subset
+#' @aliases [,DateEvent-method
+setMethod(
+  f = "[",
+  signature = "DateEvent",
+  definition = function(x, i, j, drop = TRUE) {
+    i <- match.arg(i, choices = c("data", "row_events", "column_events",
+                                  "accumulation"), several.ok = FALSE)
+    data <- methods::slot(x, i)
+
+    m <- nrow(data)
+    id <- rownames(data)
+    if (m != 0) {
+      if (missing(j)) {
+        j <- seq_len(m)
+      } else {
+        if (is.null(j)) j <- seq_along(m)
+        if (is.character(j) | is.factor(j)) j <- which(id %in% j)
+        if (is.numeric(j)) j <- as.integer(j)
+      }
+      data <- data[j, , drop = drop]
+    }
+    data
+  }
+)
+
 #' Extract Parts of an Object
 #'
 #' @inheritParams subset
@@ -77,6 +102,7 @@ setMethod(
   signature = "DiversityIndex",
   definition = extractSlot
 )
+
 #' @export
 #' @rdname subset
 #' @aliases [[,DateModel-method
@@ -85,6 +111,25 @@ setMethod(
   signature = "DateModel",
   definition = extractSlot
 )
+
+#' @export
+#' @rdname subset
+#' @aliases [[,DateEvent-method
+setMethod(
+  f = "[[",
+  signature = "DateEvent",
+  definition = extractSlot
+)
+
+#' @export
+#' @rdname subset
+#' @aliases [[,CA-method
+setMethod(
+  f = "[[",
+  signature = "CA",
+  definition = extractSlot
+)
+
 #' @export
 #' @rdname subset
 #' @aliases [[,BootCA-method
@@ -98,6 +143,7 @@ setMethod(
     data
   }
 )
+
 #' @export
 #' @rdname subset
 #' @aliases [[,PermutationOrder-method
@@ -106,12 +152,3 @@ setMethod(
   signature = "PermutationOrder",
   definition = extractSlot
 )
-
-#' @export
-#' @rdname seriation
-#' @aliases get_order,PermutationOrder-method
-setMethod("get_order", "PermutationOrder", function(object) {
-  list(rows = object@rows, columns = object@columns)
-})
-
-# Setters ======================================================================
