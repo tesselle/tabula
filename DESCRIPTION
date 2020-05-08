@@ -1,7 +1,7 @@
 Package: tabula
 Title: Analysis, Seriation and Visualization of Archaeological
     Count Data
-Version: 1.5.1.9000
+Version: 1.6.0
 Authors@R: 
     c(person(given = "Nicolas",
              family = "Frerebeau",
@@ -47,12 +47,14 @@ Description: An easy way to examine archaeological count data. This package
     rank vs. abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
 License: GPL-3
 URL: http://tabula.archaeo.science,
-    http://github.com/nfrerebeau/tabula,
+    https://github.com/nfrerebeau/tabula,
     https://cran.r-project.org/package=tabula
-BugReports: http://github.com/nfrerebeau/tabula/issues
+BugReports: https://github.com/nfrerebeau/tabula/issues
 Depends: 
     R (>= 3.2),
-    arkhe
+    arkhe (>= 1.0.0)
+Remotes:
+    nfrerebeau/arkhe
 Imports:
     ca (>= 0.71.1),
     ggplot2 (>= 3.3.0),
@@ -62,48 +64,57 @@ Imports:
     stats,
     utils
 Suggests:
-    covr (>= 3.5.0),
+    covr,
     khroma (>= 1.3.0),
     knitr,
-    magrittr (>= 1.5),
-    pbapply (>= 1.4-2),
+    magrittr,
     rmarkdown,
-    testthat (>= 2.3.2),
-    vdiffr (>= 0.3.1)
+    testthat,
+    vdiffr
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0
 Collate:
-    'utilities.R'
     'AllClasses.R'
     'AllGenerics.R'
     'coerce.R'
     'data.R'
-    'date.R'
+    'date_event.R'
+    'date_mcd.R'
     'deprecate.R'
-    'extract.R'
-    'index-diversity.R'
-    'index-heterogeneity.R'
-    'index-rarefaction.R'
-    'index-richness.R'
-    'index-similarity.R'
-    'index-turnover.R'
-    'plot-prepare.R'
-    'plot-bar.R'
-    'plot-date.R'
-    'plot-diversity.R'
-    'plot-matrix.R'
-    'plot-rank.R'
-    'plot-spot.R'
-    'plot-time.R'
-    'refine.R'
-    'seriation.R'
-    'seriate.R'
+    'index_diversity.R'
+    'index_evenness.R'
+    'index_heterogeneity.R'
+    'index_rarefaction.R'
+    'index_richness.R'
+    'index_similarity.R'
+    'index_turnover.R'
+    'initialize.R'
+    'mutators.R'
+    'permute.R'
+    'plot_bertin.R'
+    'plot_ca.R'
+    'plot_date.R'
+    'plot_diversity.R'
+    'plot_ford.R'
+    'plot_heatmap.R'
+    'plot_rank.R'
+    'plot_spot.R'
+    'plot_time.R'
+    'refine_ca.R'
+    'refine_dates.R'
+    'refine_diversity.R'
+    'run_ca.R'
+    'seriate_correspondence.R'
+    'seriate_rank.R'
     'show.R'
     'statistics.R'
+    'subset.R'
     'tabula-package.R'
-    'test.R'
+    'test_diversity.R'
+    'test_fit.R'
+    'utilities.R'
     'validate.R'
     'zzz.R'
