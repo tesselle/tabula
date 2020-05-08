@@ -45,6 +45,7 @@ A dataset containing the ceramic counts from the Place des Hallettes in
 }
 \seealso{
 Other datasets: 
+\code{\link{altamira}},
 \code{\link{boves}},
 \code{\link{merzbach}},
 \code{\link{mississippi}},

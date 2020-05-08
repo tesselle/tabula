@@ -33,6 +33,7 @@ A dataset containing ceramic counts from the Mississippi region.
 }
 \seealso{
 Other datasets: 
+\code{\link{altamira}},
 \code{\link{boves}},
 \code{\link{compiegne}},
 \code{\link{merzbach}},

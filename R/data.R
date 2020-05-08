@@ -1,3 +1,15 @@
+#' Altamira Engraved Bones
+#'
+#' A dataset of design elements in engraved bones from Altamira (Spain).
+#' @format A numeric matrix with 5 rows and 44 variables (designs):
+#' @references
+#'  Conkey, M. W. (1980). The Identification of prehistoric hunter-gatherer
+#'  aggregation sites: The case of Altamira. \emph{Current Anthropology}, 21(5),
+#'  609-630.
+#' @family datasets
+#' @keywords datasets
+"altamira"
+
 #' Boves ceramics
 #'
 #' A dataset containing the ceramic counts from the castle site of Boves

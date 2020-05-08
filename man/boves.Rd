@@ -36,6 +36,7 @@ A dataset containing the ceramic counts from the castle site of Boves
 }
 \seealso{
 Other datasets: 
+\code{\link{altamira}},
 \code{\link{compiegne}},
 \code{\link{merzbach}},
 \code{\link{mississippi}},

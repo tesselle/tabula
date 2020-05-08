@@ -1,3 +1,7 @@
+# The Madgalenian dataset from Conkey 1980, Kintigh 1989
+altamira <- read.csv("data-raw/altamira.csv", header = TRUE, row.names = 1,
+                        sep = ",", dec = ".") %>% as.matrix()
+usethis::use_data(altamira, overwrite = FALSE)
 # The Compiegne market dataset from Desachy 2004
 compiegne <- read.csv("data-raw/compiegne.csv", header = TRUE, row.names = 1,
                       sep = ",", dec = ".") %>% as.matrix()

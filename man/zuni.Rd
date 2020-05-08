@@ -44,6 +44,7 @@ A dataset containing ceramic counts from the Zuni region of the American
 }
 \seealso{
 Other datasets: 
+\code{\link{altamira}},
 \code{\link{boves}},
 \code{\link{compiegne}},
 \code{\link{merzbach}},

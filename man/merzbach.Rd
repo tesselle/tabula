@@ -31,6 +31,7 @@ A dataset containing the ceramic counts from the Merzbach assemblage
 }
 \seealso{
 Other datasets: 
+\code{\link{altamira}},
 \code{\link{boves}},
 \code{\link{compiegne}},
 \code{\link{mississippi}},
