@@ -1,18 +1,48 @@
+## tabula 1.6.0
+### New classes and methods
+* `CA`: S4 class to store the results of a correspondence analysis.
+* `DateEvent`: S4 class to store the event and accumulation times of archaeological assemblages.
+* `CompositionIndex`: S4 class that represent an asymptotic species richness.
+* `calculate_eppm` and `calculate_pvi` allow to calculate independance statistics.
+* `run_ca`, `predict_ca` and `plot_ca` allow to perform a correspondence analysis, predict projection for new rows and plot results.
+* `predict_event` allows to estimate the event and accumulation dates of an assemblage (returns a `DateEvent` object).
+* `refine_diversity` allows to perform bootstrap and jackknife resampling on a `DiversityIndex` object.
+* `refine_ca` replaces `refine_seriation`.
+* `refine_event` replaces `refine_dates`.
+* `seriate_rank` replaces `seriate_reciprocal`.
+
+### Bugfixes & changes
+* Remove all previously deprecated methods.
+* Deprecate `seriate_reciprocal` and `refine_seriation`.
+* `index_composition` now return a `CompositionIndex` object.
+* `DiversityIndex` lost `bootstrap` and `jackknife` slots.
+* `DateModel` lost `count`, `level`, `rows` and `columns` slots (moved to `DateEvent`).
+* `BootCA` now inherits from `CA`.
+* Rename `BootCA` slots `rows` and `columns` to `row_chull` and `column_chull`.
+
+### Enhancements
+* `date_mcd`, `date_event` and `plot_time` gained a new `dates` argument.
+* `index_heterogeneity`, `index_evenness` and `index_richness` gained a new `step` argument.
+
+### Internals
+* Depends on {arkhe} >= 1.0.0
+* Remove {pbapply} from suggested packages.
+
 ## tabula 1.5.1 (CRAN release date: 2020-03-19)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3716163.svg)](https://doi.org/10.5281/zenodo.3716163)
 
-## Bugfixes & changes
+### Bugfixes & changes
 * CRAN pacakge check warning (r-devel) has been fixed (use a `stringsAsFactors = FALSE` default).
 
 ## tabula 1.5.0 (CRAN release date: 2020-01-16)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3612110.svg)](https://doi.org/10.5281/zenodo.3612110)
 
-### Internals
-* Depend on {arkhe}.
-
 ### Bugfixes & changes
 * CRAN package check error with long doubles disabled has been fixed (tested with R-hub `debian-gcc-devel-nold`).
 * CRAN package check notes have been fixed.
+
+### Internals
+* Depend on {arkhe}.
 
 ## tabula 1.4.0 (release date: 2019-11-25)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3552904.svg)](https://doi.org/10.5281/zenodo.3552904)
@@ -20,7 +50,7 @@
 * Published in the [*Journal of Open Source Software*](https://doi.org/10.21105/joss.01821).
 
 ### New classes and methods
-* `DiversityIndex`, `HeterogeneityIndex`, `EvennessIndex` and `RichnessIndex` S4 classes represent diversity index.
+* `DiversityIndex`, `HeterogeneityIndex`, `EvennessIndex` and `RichnessIndex`: S4 classes that represent diversity index.
 * `index_heterogeneity()` replaces `diversity()`.
 * `index_evenness()` replaces `evenness()`.
 * `index_richness()` replaces `richness()`.
