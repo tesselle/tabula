@@ -8,28 +8,28 @@ setMethod(
   f = "rarefaction",
   signature = signature(object = "CountMatrix"),
   definition = function(object, sample, method = c("hurlbert"),
-                        simplify = FALSE, ...) {
-    # Validation
-    method <- match.arg(method, several.ok = TRUE)
-    E <- lapply(
-      X = method,
-      FUN = function(x, data, sample) {
-        index <- switch (
-          x,
-          hurlbert = rarefactionHurlbert,
-          stop(sprintf("There is no such method: %s.", method), call. = FALSE)
-        )
-        apply(X = object, MARGIN = 1, FUN = index, sample)
-      },
-      data = object,
-      sample = sample
-    )
-    names(E) <- method
-    if (simplify)
-      E <- simplify2array(E, higher = FALSE)
-    return(E)
+                        simplify = TRUE, ...) {
+    # Select method
+    fun <- switch_rarefaction(method)
+    # Coerce object to matrix
+    mtx <- arkhe::as_matrix(object)
+
+    apply(X = mtx, MARGIN = 1, FUN = fun, sample)
   }
 )
+
+switch_rarefaction <- function(x) {
+  # Validation
+  measures <- c("hurlbert")
+  x <- match.arg(x, choices = measures, several.ok = FALSE)
+
+  index <- switch (
+    x,
+    hurlbert = rarefactionHurlbert,
+    stop(sprintf("There is no such method: %s.", x), call. = FALSE)
+  )
+  return(index)
+}
 
 # ==============================================================================
 #' Rarefaction index

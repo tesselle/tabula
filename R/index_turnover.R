@@ -10,7 +10,7 @@ setMethod(
   definition = function(object, method = c("whittaker", "cody", "routledge1",
                                            "routledge2", "routledge3",
                                            "wilson"), simplify = FALSE, ...) {
-    object <- methods::as(object, "IncidenceMatrix")
+    object <- arkhe::as_incidence(object)
     turnover(object, method, simplify, ...)
   }
 )
@@ -25,6 +25,8 @@ setMethod(
                                            "routledge2", "routledge3",
                                            "wilson"), simplify = FALSE, ...) {
     method <- match.arg(method, several.ok = TRUE)
+    mtx <- arkhe::as_matrix(object)
+
     B <- lapply(
       X = method,
       FUN = function(x, data) {
@@ -39,11 +41,10 @@ setMethod(
         )
         index(object)
       },
-      data = object
+      data = mtx
     )
     names(B) <- method
-    if (simplify)
-      B <- simplify2array(B, higher = FALSE)
+    if (simplify) B <- simplify2array(B, higher = FALSE)
     return(B)
   }
 )

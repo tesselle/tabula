@@ -1,5 +1,5 @@
 # PLOT DIVERSITY
-#' @include AllGenerics.R AllClasses.R plot-prepare.R
+#' @include AllClasses.R AllGenerics.R
 NULL
 
 #' @export
@@ -18,9 +18,9 @@ setMethod(
     )
     # Simulated assemblages
     gg_sim <- NULL
-    if (length(object[["simulated"]]) != 0) {
+    if (length(object[["simulation"]]) != 0) {
       # Build a long table for ggplot2
-      refined <- object[["simulated"]]
+      refined <- object[["simulation"]]
       sim_stacked <- utils::stack(as.data.frame(refined), select = -c(1))
       sim <- cbind.data.frame(
         size = refined[, 1],
@@ -35,6 +35,13 @@ setMethod(
       )
     }
 
+    y_lab <- switch (
+      class(object),
+      HeterogeneityIndex = "Heterogeneity",
+      EvennessIndex = "Evenness",
+      RichnessIndex = "Richness",
+      "Diversity"
+    )
     # ggplot
     ggplot2::ggplot(data = count,
                     mapping = ggplot2::aes(x = .data$x, y = .data$y,
@@ -42,7 +49,8 @@ setMethod(
       ggplot2::geom_point() +
       gg_sim +
       ggplot2::scale_x_log10() +
-      ggplot2::labs(x = "Sample size", y = object[["method"]],
+      ggplot2::labs(x = "Sample size",
+                    y = paste(y_lab, object[["method"]], sep = ": "),
                     colour = "Simulation")
   }
 )

@@ -9,38 +9,28 @@ setMethod(
   signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("berger", "brillouin", "mcintosh",
                                            "shannon", "simpson"),
-                        jackknife = TRUE, bootstrap = TRUE, simulate = FALSE,
-                        level = 0.80, n = 1000, ...) {
+                        simulate = FALSE, quantiles = TRUE, level = 0.80,
+                        step = 1, n = 1000, ...) {
+    # Select method
     fun <- switch_heterogeneity(method)
-    index <- index_diversity(object, fun, jackknife, bootstrap, simulate,
-                             prob = NULL, level = level, n = n, ...)
+    # Coerce object to matrix
+    mtx <- arkhe::as_matrix(object)
+
+    index <- index_diversity(mtx, fun, simulate = simulate, prob = NULL,
+                             quantiles = quantiles, level = level,
+                             step = step, n = n, ...)
+
+    index <- methods::as(index, "HeterogeneityIndex")
+    index@id <- arkhe::get_id(object)
     index@method <- method[[1L]]
-    methods::as(index, "HeterogeneityIndex")
+    index
   }
 )
 
-#' @export
-#' @rdname heterogeneity-index
-#' @aliases index_evenness,CountMatrix-method
-setMethod(
-  f = "index_evenness",
-  signature = signature(object = "CountMatrix"),
-  definition = function(object, method = c("shannon", "brillouin", "mcintosh",
-                                           "simpson"),
-                        jackknife = TRUE, bootstrap = TRUE, simulate = FALSE,
-                        level = 0.80, n = 1000, ...) {
-    fun <- switch_evenness(method)
-    index <- index_diversity(object, fun, jackknife, bootstrap, simulate,
-                             prob = NULL, level = level, n = n, ...)
-    index@method <- method[[1L]]
-    methods::as(index, "EvennessIndex")
-  }
-)
-
-switch_heterogeneity <- function(x) {
+switch_heterogeneity <- function(x = c("berger", "brillouin", "mcintosh",
+                                       "shannon", "simpson")) {
   # Validation
-  measures <- c("berger", "brillouin", "mcintosh", "shannon", "simpson")
-  x <- match.arg(x, choices = measures, several.ok = FALSE)
+  x <- match.arg(x, several.ok = FALSE)
 
   index <- switch (
     x,
@@ -54,37 +44,28 @@ switch_heterogeneity <- function(x) {
   return(index)
 }
 
-switch_evenness <- function(x) {
-  # Validation
-  measures <- c("shannon", "brillouin", "mcintosh", "simpson")
-  x <- match.arg(x, choices = measures, several.ok = FALSE)
-
-  index <- switch (
-    x,
-    brillouin = evennessBrillouin,
-    mcintosh = evennessMcintosh,
-    shannon = evennessShannon,
-    simpson = evennessSimpson,
-    stop(sprintf("There is no such method: %s.", x), call. = FALSE)
-  )
-  return(index)
-}
-
 # ==============================================================================
 #' Diversity, dominance and evenness index
 #'
-#' \code{dominanceBerger} returns Berger-Parker dominance index.
-#' \code{diversityBrillouin} and \code{evennessBrillouin} return Brillouin
-#' diversity index and evenness.
-#' \code{dominanceMcintosh} and \code{evennessMcintosh} return McIntosh
-#' dominance index and evenness.
-#' \code{diversityShannon}, \code{evennessShannon}, \code{varianceShannon}
-#' return Shannon-Wiener diversity index, evenness and variance.
-#' \code{dominanceSimpson} and \code{evennessSimpson} return Simpson dominance
-#' index and evenness.
 #' @param x A \code{\link{numeric}} vector giving the number of individuals for
 #'  each class.
+#' @param na.rm A \code{\link{numeric}} scalar: should missing values (including
+#' \code{NaN}) be removed?
 #' @param ... Currently not used.
+#' @details
+#' \code{dominanceBerger} returns Berger-Parker dominance index.
+#'
+#' \code{diversityBrillouin} and \code{evennessBrillouin} return Brillouin
+#' diversity index and evenness.
+#'
+#' \code{dominanceMcintosh} and \code{evennessMcintosh} return McIntosh
+#' dominance index and evenness.
+#'
+#' \code{diversityShannon}, \code{evennessShannon}, \code{varianceShannon}
+#' return Shannon-Wiener diversity index, evenness and variance.
+#'
+#' \code{dominanceSimpson} and \code{evennessSimpson} return Simpson dominance
+#' index and evenness.
 #' @return A length-one \code{\link{numeric}} vector.
 #' @references
 #'  Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
@@ -112,12 +93,12 @@ switch_evenness <- function(x) {
 
 # Berger-Parker ----------------------------------------------------------------
 # @rdname index-heterogeneity
-dominanceBerger <- function(x, ...) {
+dominanceBerger <- function(x, na.rm = FALSE, ...) {
   # Validation
-  if (!is.numeric(x))
-    stop("`x` must be a numeric vector.")
-  # Remove zeros
-  x <- x[x > 0]
+  stopifnot(is.numeric(x))
+  x <- x[x > 0] # Remove zeros
+  if (na.rm) x <- stats::na.omit(x) # Remove NAs
+  if (anyNA(x)) return(NA)
 
   Nmax <- max(x)
   N <- sum(x)
@@ -127,24 +108,24 @@ dominanceBerger <- function(x, ...) {
 
 # Brillouin --------------------------------------------------------------------
 # @rdname index-heterogeneity
-diversityBrillouin <- function(x, ...) {
+diversityBrillouin <- function(x, na.rm = FALSE, ...) {
   # Validation
-  if (!is.numeric(x))
-    stop("`x` must be a numeric vector.")
-  # Remove zeros
-  x <- x[x > 0]
+  stopifnot(is.numeric(x))
+  x <- x[x > 0] # Remove zeros
+  if (na.rm) x <- stats::na.omit(x) # Remove NAs
+  if (anyNA(x)) return(NA)
 
   N <- sum(x)
   HB <- (lfactorial(N) - sum(lfactorial(x))) / N
   HB
 }
 # @rdname index-heterogeneity
-evennessBrillouin <- function(x, ...) {
+evennessBrillouin <- function(x, na.rm = FALSE, ...) {
   # Validation
-  if (!is.numeric(x))
-    stop("`x` must be a numeric vector.")
-  # Remove zeros
-  x <- x[x > 0]
+  stopifnot(is.numeric(x))
+  x <- x[x > 0] # Remove zeros
+  if (na.rm) x <- stats::na.omit(x) # Remove NAs
+  if (anyNA(x)) return(NA)
 
   HB <- diversityBrillouin(x)
   N <- sum(x)
@@ -159,12 +140,12 @@ evennessBrillouin <- function(x, ...) {
 
 # McIntosh ---------------------------------------------------------------------
 # @rdname index-heterogeneity
-dominanceMcintosh <- function(x, ...) {
+dominanceMcintosh <- function(x, na.rm = FALSE, ...) {
   # Validation
-  if (!is.numeric(x))
-    stop("`x` must be a numeric vector.")
-  # Remove zeros
-  x <- x[x > 0]
+  stopifnot(is.numeric(x))
+  x <- x[x > 0] # Remove zeros
+  if (na.rm) x <- stats::na.omit(x) # Remove NAs
+  if (anyNA(x)) return(NA)
 
   N <- sum(x)
   U <- sqrt(sum(x^2))
@@ -172,12 +153,12 @@ dominanceMcintosh <- function(x, ...) {
   D
 }
 # @rdname index-heterogeneity
-evennessMcintosh <- function(x, ...) {
+evennessMcintosh <- function(x, na.rm = FALSE, ...) {
   # Validation
-  if (!is.numeric(x))
-    stop("`x` must be a numeric vector.")
-  # Remove zeros
-  x <- x[x > 0]
+  stopifnot(is.numeric(x))
+  x <- x[x > 0] # Remove zeros
+  if (na.rm) x <- stats::na.omit(x) # Remove NAs
+  if (anyNA(x)) return(NA)
 
   N <- sum(x)
   S <- length(x) # richness = number of different species
@@ -188,12 +169,13 @@ evennessMcintosh <- function(x, ...) {
 
 # Shannon ----------------------------------------------------------------------
 # @rdname index-heterogeneity
-diversityShannon <- function(x, base = exp(1), zero.rm = TRUE, ...) {
+diversityShannon <- function(x, base = exp(1),
+                             zero.rm = TRUE, na.rm = FALSE, ...) {
   # Validation
-  if (!is.numeric(x))
-    stop("`x` must be a numeric vector.")
-  # Remove zeros
-  if (zero.rm) x <- x[x > 0]
+  stopifnot(is.numeric(x))
+  if (zero.rm) x <- x[x > 0] # Remove zeros
+  if (na.rm) x <- stats::na.omit(x) # Remove NAs
+  if (anyNA(x)) return(NA)
 
   N <- sum(x)
   S <- length(x) # richness = number of different species
@@ -205,24 +187,24 @@ diversityShannon <- function(x, base = exp(1), zero.rm = TRUE, ...) {
   H
 }
 # @rdname index-heterogeneity
-evennessShannon <- function(x, zero.rm = TRUE, ...) {
+evennessShannon <- function(x, zero.rm = TRUE, na.rm = FALSE, ...) {
   # Validation
-  if (!is.numeric(x))
-    stop("`x` must be a numeric vector.")
-  # Remove zeros
-  if (zero.rm) x <- x[x > 0]
+  stopifnot(is.numeric(x))
+  if (zero.rm) x <- x[x > 0] # Remove zeros
+  if (na.rm) x <- stats::na.omit(x) # Remove NAs
+  if (anyNA(x)) return(NA)
 
   S <- length(x)
   E <- diversityShannon(x, zero.rm = zero.rm) / log(S)
   E
 }
 # @rdname index-heterogeneity
-varianceShannon <- function(x, ...) {
+varianceShannon <- function(x, na.rm = FALSE, ...) {
   # Validation
-  if (!is.numeric(x))
-    stop("`x` must be a numeric vector.")
-  # Remove zeros
-  x <- x[x > 0]
+  stopifnot(is.numeric(x))
+  x <- x[x > 0] # Remove zeros
+  if (na.rm) x <- stats::na.omit(x) # Remove NAs
+  if (anyNA(x)) return(NA)
 
   N <- sum(x)
   S <- length(x) # richness = number of different species
@@ -235,24 +217,24 @@ varianceShannon <- function(x, ...) {
 
 # Simpson ----------------------------------------------------------------------
 # @rdname index-heterogeneity
-dominanceSimpson <- function(x, ...) {
+dominanceSimpson <- function(x, na.rm = FALSE, ...) {
   # Validation
-  if (!is.numeric(x))
-    stop("`x` must be a numeric vector.")
-  # Remove zeros
-  x <- x[x > 0]
+  stopifnot(is.numeric(x))
+  x <- x[x > 0] # Remove zeros
+  if (na.rm) x <- stats::na.omit(x) # Remove NAs
+  if (anyNA(x)) return(NA)
 
   N <- sum(x)
   D <- sum(x * (x - 1)) / (N* (N - 1)) # For discrete data
   D
 }
 # @rdname index-heterogeneity
-evennessSimpson <- function(x, ...) {
+evennessSimpson <- function(x, na.rm = FALSE, ...) {
   # Validation
-  if (!is.numeric(x))
-    stop("`x` must be a numeric vector.")
-  # Remove zeros
-  x <- x[x > 0]
+  stopifnot(is.numeric(x))
+  x <- x[x > 0] # Remove zeros
+  if (na.rm) x <- stats::na.omit(x) # Remove NAs
+  if (anyNA(x)) return(NA)
 
   D <- 1 / dominanceSimpson(x)
   S <- length(x[x > 0]) # richness = number of different species

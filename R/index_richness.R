@@ -8,13 +8,21 @@ setMethod(
   f = "index_richness",
   signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("none", "margalef", "menhinick"),
-                        jackknife = TRUE, bootstrap = TRUE, simulate = FALSE,
-                        level = 0.80, n = 1000, ...) {
+                        simulate = FALSE, quantiles = TRUE, level = 0.80,
+                        step = 1, n = 1000, ...) {
+    # Select method
     fun <- switch_richness(method)
-    index <- index_diversity(object, fun, jackknife, bootstrap, simulate,
-                             prob = NULL, level = level, n = n)
+    # Coerce object to matrix
+    mtx <- arkhe::as_matrix(object)
+
+    index <- index_diversity(mtx, fun, simulate = simulate, prob = NULL,
+                             quantiles = quantiles, level = level,
+                             step = step, n = n)
+
+    index <- methods::as(index, "RichnessIndex")
+    index@id <- arkhe::get_id(object)
     index@method <- method[[1L]]
-    methods::as(index, "RichnessIndex")
+    index
   }
 )
 
@@ -26,7 +34,7 @@ setMethod(
   signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("chao1", "ace"),
                         unbiased = FALSE, improved = FALSE, k = 10) {
-    # Validation
+    # Select method
     method <- match.arg(method, several.ok = FALSE)
     fun <- switch (
       method,
@@ -34,13 +42,18 @@ setMethod(
       chao1 = richnessChao1,
       stop(sprintf("There is no such method: %s.", method), call. = FALSE)
     )
-    index <- apply(X = object, MARGIN = 1, FUN = fun,
+    # Coerce object to matrix
+    mtx <- arkhe::as_matrix(object)
+
+    index <- apply(X = mtx, MARGIN = 1, FUN = fun,
                    unbiased = unbiased, improved = improved, k = k)
-    .RichnessIndex(
+
+    .CompositionIndex(
       id = arkhe::get_id(object),
+      data = mtx,
       index = index,
       size = as.integer(rowSums(object)),
-      method = method
+      method = method[[1L]]
     )
   }
 )
@@ -53,7 +66,7 @@ setMethod(
   signature = signature(object = "IncidenceMatrix"),
   definition = function(object, method = c("chao2", "ice"),
                         unbiased = FALSE, improved = FALSE, k = 10) {
-    # Validation
+    # Select method
     method <- match.arg(method, several.ok = FALSE)
     fun <- switch (
       method,
@@ -61,12 +74,16 @@ setMethod(
       ice = richnessICE,
       stop(sprintf("There is no such method: %s.", method), call. = FALSE)
     )
-    index <- fun(object, unbiased = unbiased, improved = improved, k = k)
-    .RichnessIndex(
+    # Coerce object to matrix
+    mtx <- arkhe::as_matrix(object)
+
+    index <- fun(mtx, unbiased = unbiased, improved = improved, k = k)
+    .CompositionIndex(
       id = arkhe::get_id(object),
+      data = mtx,
       index = index,
-      size = as.integer(sum(object)),
-      method = method
+      size = as.integer(rowSums(object)),
+      method = method[[1L]]
     )
   }
 )

@@ -1,7 +1,39 @@
 #' @include AllGenerics.R AllClasses.R
 NULL
 
-similarityIndex <- function(object, method, ...) {
+#' @export
+#' @rdname similarity-method
+#' @aliases similarity,CountMatrix-method
+setMethod(
+  f = "similarity",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, method = c("brainerd", "bray", "jaccard",
+                                           "morisita", "sorenson", "binomial"),
+                        ...) {
+    method <- match.arg(method, several.ok = FALSE)
+    S <- index_similarity(object, method)
+    S <- arkhe::as_similarity(S)
+    set_method(S) <- method
+    S
+  }
+)
+
+#' @export
+#' @rdname similarity-method
+#' @aliases similarity,IncidenceMatrix-method
+setMethod(
+  f = "similarity",
+  signature = signature(object = "IncidenceMatrix"),
+  definition = function(object, method = c("jaccard", "sorenson"), ...) {
+    method <- match.arg(method, several.ok = FALSE)
+    S <- index_similarity(object, method)
+    S <- arkhe::as_similarity(S)
+    set_method(S) <- method
+    S
+  }
+)
+
+index_similarity <- function(object, method, ...) {
   index <- switch (
     method,
     binomial = similarityBinomial,
@@ -53,34 +85,6 @@ similarityIndex <- function(object, method, ...) {
 
   C
 }
-
-#' @export
-#' @rdname similarity-method
-#' @aliases similarity,CountMatrix-method
-setMethod(
-  f = "similarity",
-  signature = signature(object = "CountMatrix"),
-  definition = function(object, method = c("brainerd", "bray", "jaccard",
-                                           "morisita", "sorenson", "binomial"),
-                        ...) {
-    method <- match.arg(method, several.ok = FALSE)
-    C <- similarityIndex(object, method)
-    .SimilarityMatrix(C, method = method)
-  }
-)
-
-#' @export
-#' @rdname similarity-method
-#' @aliases similarity,IncidenceMatrix-method
-setMethod(
-  f = "similarity",
-  signature = signature(object = "IncidenceMatrix"),
-  definition = function(object, method = c("jaccard", "sorenson"), ...) {
-    method <- match.arg(method, several.ok = FALSE)
-    C <- similarityIndex(object, method)
-    .SimilarityMatrix(C, method = method)
-  }
-)
 
 # ==============================================================================
 #' Similarity index
