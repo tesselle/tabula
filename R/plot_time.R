@@ -1,16 +1,19 @@
 # PLOT LINE
-#' @include AllGenerics.R AllClasses.R
+#' @include AllClasses.R AllGenerics.R
 NULL
 
 #' @export
 #' @rdname plot_date
-#' @aliases plot_time,CountMatrix-method
+#' @aliases plot_time,CountMatrix,numeric-method
 setMethod(
   f = "plot_time",
-  signature = signature(object = "CountMatrix"),
-  definition = function(object, highlight = NULL, level = 0.95,
+  signature = signature(object = "CountMatrix", dates = "numeric"),
+  definition = function(object, dates, highlight = NULL, level = 0.95,
                         roll = FALSE, window = 5, facet = TRUE, ...) {
     # Validation
+    if (length(dates) != nrow(object))
+      stop(sprintf("%s must be of length %d; not %d.",
+                   sQuote("dates"), nrow(object), length(dates)), call. = FALSE)
     highlight <- highlight %||% "none"
     highlight <- match.arg(highlight, choices = c("none", "FIT"),
                            several.ok = FALSE)
@@ -24,22 +27,15 @@ setMethod(
     row_names <- factor(x = row_names, levels = unique(row_names))
     # Get number of cases
     n <- length(row_names)
-    # Get time coordinates
-    time <- get_dates(object)[["value"]]
-    if (length(time) == 0)
-        stop("Time coordinates are missing!", call. = FALSE)
 
-    data_stacked <- utils::stack(as.data.frame(object))
-    data <- cbind.data.frame(row_names, time, data_stacked)
-    colnames(data) <- c("case", "time", "frequency", "type")
-    # Preserves the original ordering of the columns
-    data$type <- factor(data$type, levels = unique(data$type))
-
+    data_stacked <- arkhe::as_long(object, as_factor = TRUE)
+    data <- cbind.data.frame(dates = dates, data_stacked)
     # Remove zeros in case of log scale
-    data <- data[data$frequency > 0, ]
+    data <- data[data$data > 0, ]
 
     if (highlight == "FIT") {
-      signature <- as.data.frame(testFIT(object, time, roll = FALSE)[[1L]])
+      counts <- arkhe::as_matrix(object)
+      signature <- as.data.frame(testFIT(counts, dates, roll = FALSE)[[1L]])
       signature <- cbind.data.frame(
         type = factor(rownames(signature), levels = unique(rownames(signature))),
         signature = ifelse(signature$p.value <= alpha, "selection", "neutral")
@@ -50,7 +46,7 @@ setMethod(
 
       if (roll) {
         k <- (window - 1) / 2
-        fit <- testFIT(object, time, roll = roll, window = window)
+        fit <- testFIT(counts, dates, roll = roll, window = window)
         fit <- lapply(
           X = fit,
           FUN = function(x) {
@@ -62,12 +58,12 @@ setMethod(
         fit <- cbind.data.frame(
           type = fit$type,
           sub_signature = ifelse(fit$p.value <= alpha, "selection", "neutral"),
-          time = time[as.integer(id)]
+          dates = dates[as.integer(id)]
         )
 
-        data <- merge(x = data, y = fit, by = c("type", "time"),
+        data <- merge(x = data, y = fit, by = c("type", "dates"),
                       all.x = TRUE, all.y = FALSE)
-        data <- data[order(data$type, data$time), ]
+        data <- data[order(data$type, data$dates), ]
         data <- by(
           data,
           INDICES = data$type,
@@ -103,16 +99,16 @@ setMethod(
       }
     }
 
-    data <- data[order(data$type, data$time), ]
+    data <- data[order(data$type, data$dates), ]
 
     # ggplot
     colour <- ifelse(highlight == "FIT", "signature", "type")
-    aes_plot <- ggplot2::aes(x = .data$time, y = .data$frequency,
+    aes_plot <- ggplot2::aes(x = .data$dates, y = .data$data,
                              colour = .data[[colour]])
     if (facet) {
       facet <- ggplot2::facet_wrap(ggplot2::vars(.data$type), scales = "free_y")
       if (highlight != "FIT") {
-        aes_plot <- ggplot2::aes(x = .data$time, y = .data$frequency)
+        aes_plot <- ggplot2::aes(x = .data$dates, y = .data$data)
       }
     } else {
       facet <- NULL

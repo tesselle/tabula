@@ -1,13 +1,13 @@
 # PLOT DATES
-#' @include AllGenerics.R AllClasses.R
+#' @include AllClasses.R AllGenerics.R
 NULL
 
 #' @export
 #' @rdname plot_date
-#' @aliases plot_date,Matrix-method
+#' @aliases plot_date,DataMatrix-method
 setMethod(
   f = "plot_date",
-  signature = signature(object = "Matrix"),
+  signature = signature(object = "DataMatrix"),
   definition = function(object, select = NULL, sort = "dsc") {
     # Get dates
     dates <- rownames_to_column(arkhe::get_dates(object),
@@ -67,15 +67,26 @@ setMethod(
 #' @aliases plot_date,DateModel-method
 setMethod(
   f = "plot_date",
-  signature = c(object = "DateModel"),
+  signature = c(object = "DateEvent"),
   definition = function(object, type = c("activity", "tempo"),
                         event = FALSE, select = 1, n = 500) {
     # Validation
     type <- match.arg(type, several.ok = FALSE)
     n <- as.integer(n)
 
+    # Get data
+    rows <- as.data.frame(object[["row_events"]])
+    row_dates <- rows$date
+    row_lower <- rows$lower
+    row_upper <- rows$upper
+    row_errors <- rows$error
+    columns <- as.data.frame(object[["column_events"]])
+    col_dates <- columns$date
+    col_errors <- columns$error
+    date_range <- seq(from = min(row_lower), to = max(row_upper),
+                      length.out = n)
     # Selection
-    cases <- rownames(object@rows)
+    cases <- rownames(rows)
     index <- if (is.null(select)) {
       seq_along(cases)
     } else if (is.character(select)) {
@@ -86,18 +97,6 @@ setMethod(
     k <- length(index)
     if (k == 0)
       stop("Wrong selection.", call. = FALSE)
-
-    # Get data
-    rows <- as.data.frame(object@rows)
-    row_dates <- rows$date
-    row_lower <- rows$lower
-    row_upper <- rows$upper
-    row_errors <- rows$error
-    columns <- as.data.frame(object@columns)
-    col_dates <- columns$date
-    col_errors <- columns$error
-    date_range <- seq(from = min(row_lower), to = max(row_upper),
-                      length.out = n)
 
     # Event date
     plot_event <- NULL
@@ -112,15 +111,15 @@ setMethod(
       colnames(date_event) <- cases[index]
 
       # Build a long table for ggplot2
-      row_stacked <- utils::stack(as.data.frame(date_event))
+      row_stacked <- wide2long(date_event)
       row_data <- cbind.data.frame(date = date_range, row_stacked)
-      colnames(row_data) <- c("date", "density", "assemblage")
+      colnames(row_data) <- c("date", "density", "assemblage", "type")
       plot_event <- ggplot2::geom_line(data = row_data, color = "black")
     }
 
     # Accumulation time
     # Weighted sum of the fabric dates
-    counts <- object@counts[index, , drop = FALSE]
+    counts <- object[["data"]][index, , drop = FALSE]
     freq <- counts / rowSums(counts)
     # Tempo vs activity plot
     fun <- switch(
@@ -145,9 +144,9 @@ setMethod(
     )
 
     # Build a long table for ggplot2
-    col_stacked <- utils::stack(as.data.frame(date_acc))
+    col_stacked <- wide2long(date_acc)
     col_data <- cbind.data.frame(date = date_range, col_stacked)
-    colnames(col_data) <- c("date", "density", "assemblage")
+    colnames(col_data) <- c("date", "density", "assemblage", "type")
 
     # ggplot
     plot_accumulation <- switch(
