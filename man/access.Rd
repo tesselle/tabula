@@ -5,12 +5,7 @@
 \alias{access}
 \alias{get}
 \alias{set}
-\alias{get_id}
-\alias{get_id-method}
 \title{Get or Set Parts of an Object}
-\usage{
-get_id(object)
-}
 \arguments{
 \item{object}{An object from which to get or set element(s).}
 }

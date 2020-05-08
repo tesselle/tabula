@@ -4,7 +4,7 @@
 \name{PermutationOrder-class}
 \alias{PermutationOrder-class}
 \alias{.PermutationOrder}
-\title{Permutation order}
+\title{Permutation Order}
 \description{
 An S4 class to represent a permutation order.
 }
@@ -39,7 +39,8 @@ Numeric values are coerced to \code{\link{integer}} as by
 \seealso{
 Other class: 
 \code{\link{BootCA-class}},
-\code{\link{DateModel-class}},
+\code{\link{CA-class}},
+\code{\link{DateClass}},
 \code{\link{DiversityIndex}}
 }
 \author{

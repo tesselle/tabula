@@ -7,13 +7,12 @@
 \alias{.DiversityIndex}
 \alias{HeterogeneityIndex-class}
 \alias{.HeterogeneityIndex}
-\alias{HeterogeneityIndex}
 \alias{EvennessIndex-class}
 \alias{.EvennessIndex}
-\alias{EvennessIndex}
 \alias{RichnessIndex-class}
 \alias{.RichnessIndex}
-\alias{RichnessIndex}
+\alias{CompositionIndex-class}
+\alias{.CompositionIndex}
 \title{Diversity Index}
 \description{
 An S4 class to represent a diversity measure.
@@ -28,16 +27,10 @@ identifier of the corresponding matrix (UUID v4).}
 
 \item{\code{size}}{A \code{\link{integer}} vector giving the sample sizes.}
 
-\item{\code{jackknife}}{A numeric \code{\link{matrix}} vector giving the jackknifed
-estimates.}
-
-\item{\code{boostrap}}{A numeric \code{\link{matrix}} vector giving the boostraped
-estimates.}
-
-\item{\code{simulated}}{A numeric \code{\link{matrix}} vector giving the diversity
+\item{\code{simulation}}{A numeric \code{\link{matrix}} vector giving the diversity
 measures for the simulated assemblage.}
 
-\item{\code{method}}{A \code{\link{character}} string indicating the method used.}
+\item{\code{method}}{A \code{\link{character}} string specifying the method used.}
 }}
 
 \section{Subset}{
@@ -53,7 +46,8 @@ measures for the simulated assemblage.}
 \seealso{
 Other class: 
 \code{\link{BootCA-class}},
-\code{\link{DateModel-class}},
+\code{\link{CA-class}},
+\code{\link{DateClass}},
 \code{\link{PermutationOrder-class}}
 }
 \author{

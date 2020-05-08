@@ -4,7 +4,7 @@
 \name{BootCA-class}
 \alias{BootCA-class}
 \alias{.BootCA}
-\title{Partial bootstrap CA}
+\title{Partial Bootstrap CA}
 \description{
 An S4 class to store partial bootstrap correspondence analysis results.
 }
@@ -55,7 +55,8 @@ of the samples and variables to be kept, respectively.}
 
 \seealso{
 Other class: 
-\code{\link{DateModel-class}},
+\code{\link{CA-class}},
+\code{\link{DateClass}},
 \code{\link{DiversityIndex}},
 \code{\link{PermutationOrder-class}}
 }
