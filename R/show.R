@@ -2,6 +2,15 @@
 #' @include AllClasses.R
 NULL
 
+# CorrespondenceAnalysis =======================================================
+setMethod(
+  f = "show",
+  signature = "CA",
+  definition = function(object) {
+    cat("<CA>")
+  }
+)
+
 # BootCA =======================================================================
 setMethod(
   f = "show",
@@ -12,11 +21,13 @@ setMethod(
     keep <- lengths(object@keep)
     total <- lengths(object@lengths)
     pc <- round(keep * 100 / total)
-    cat("Partial bootstrap CA seriation refinement:",
-        "\n- Cutoff values: ", cut,
-        "\n- Rows to keep: ", keep[1], " of ", total[1], " (", pc[1], "%)",
-        "\n- Columns to keep: ", keep[2], " of ", total[2], " (", pc[2], "%)",
-        sep = "")
+    cat(
+      "<BootCA>",
+      "Partial bootstrap CA seriation refinement:",
+      sprintf("- Cutoff values: %s", cut),
+      sprintf("- Rows to keep: %d of %d (%g%%)", keep[1], total[1], pc[1]),
+      sprintf("- Columns to keep: %d of %d (%g%%)", keep[2], total[2], pc[2]),
+      sep = "\n")
   }
 )
 
@@ -26,15 +37,19 @@ setMethod(
   signature = "DateModel",
   definition = function(object) {
     fit <- object@model
-    sum_up <- stats::summary.lm(fit)
-    cat(
-      sprintf("<DateModel: %s>", object@id),
-      "Modelled event date:",
-      sprintf("- Residual standard error: %f", round(sum_up$sigma, digits = 2)),
-      sprintf("- Multiple R-squared: %f", round(sum_up$r.squared, 5)),
-      sprintf("- Adjusted R-squared: %f", round(sum_up$adj.r.squared, 5)),
-      sep = "\n"
-    )
+    if (class(fit) == "S4") {
+      cat("<DateModel>")
+    } else {
+      sum_up <- stats::summary.lm(fit)
+      cat(
+        "<DateModel>",
+        "Modelled event date:",
+        sprintf("- Residual standard error: %f", round(sum_up$sigma, 2)),
+        sprintf("- Multiple R-squared: %f", round(sum_up$r.squared, 5)),
+        sprintf("- Adjusted R-squared: %f", round(sum_up$adj.r.squared, 5)),
+        sep = "\n"
+      )
+    }
   }
 )
 
@@ -43,11 +58,7 @@ setMethod(
   f = "show",
   signature = "DiversityIndex",
   definition = function(object) {
-    cat(
-      sprintf("<%s: %s>", class(object), object@id),
-      sprintf("- Method: %s", object@method),
-      sep = "\n"
-    )
+    cat(sprintf("<%s: %s>\n", class(object), object[["method"]]))
     print(methods::as(object, "data.frame"))
   }
 )
@@ -61,7 +72,7 @@ setMethod(
     rows <- strtrim(paste0(object@rows, collapse = " "), k)
     columns <- strtrim(paste0(object@columns, collapse = " "), k)
     cat(
-      sprintf("<PermutationOrder: %s>", object@id),
+      "<PermutationOrder>",
       "Permutation order for matrix seriation:",
       sprintf("- Row order: %s", paste0(rows, "...")),
       sprintf("- Column order: %s", paste0(columns, "...")),

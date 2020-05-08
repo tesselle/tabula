@@ -3,19 +3,22 @@
 #' Helpers
 #'
 #' \code{compact} removes elements from a list or vector.
-#' \code{detect} xxx.
-#' \code{count} xxx.
-#' \code{extract} extracts string form another string based on a pattern.
+#' \code{detect} finds values in a list or vector according to a given
+#' predicate.
+#' \code{count} counts values in a list or vector according to a given
+#' predicate.
+#' \code{extract} extracts a string form another string based on a pattern.
 #'
-#' %o% allows for function composition.
-#' %||% allows to define a default value.
+#' \code{\%o\%} allows for function composition.
+#' \code{\%||\%} allows to define a default value.
 #' @param x,y An object.
 #' @param f,g A \code{\link{function}}. In \code{compact}, \code{detect}
-#'  and \code{count} \code{f} must be a logical predicate.
+#'  and \code{count} \code{f} must be a \code{\link{logical}} predicate.
 #' @param pattern A \code{\link{character}} string containing a regular
 #'  expression.
 #' @references
 #'  Wickham, H. (2014). \emph{Advanced R}. London: Chapman & Hall. The R Series.
+#' @family utilities
 #' @keywords internal utilities
 #' @noRd
 `%||%` <- function(x, y) {
@@ -46,45 +49,59 @@ extract <- function(x, pattern) {
 #'  columns.
 #' @param id A \code{\link{character}} string giving the name of the newly
 #'  created column.
-#' @return A data.frame
+#' @return A \code{\link{data.frame}}
 #' @author N. Frerebeau
 #' @family utilities
 #' @keywords internal utilities
 #' @noRd
-make_rownames <- function(x) {
-  if (!is.matrix(x) && !is.data.frame(x))
-    stop("A matrix or data.frame is expected.", call. = FALSE)
-  if (is.null(rownames(x))) {
-    rownames(x) <- seq_len(nrow(x))
-  }
-  x
-}
-make_colnames <- function(x) {
-  if (!is.matrix(x) && !is.data.frame(x))
-    stop("A matrix or data.frame is expected.", call. = FALSE)
-  if (is.null(colnames(x))) {
-    colnames(x) <- paste0("V", seq_len(ncol(x)))
-  }
-  x
-}
-make_dimnames <- function(x) {
-  x <- make_rownames(x)
-  x <- make_colnames(x)
-  x
-}
 rownames_to_column <- function(x, factor = TRUE, id = "id") {
   if (!is.matrix(x) && !is.data.frame(x))
     stop("A matrix or data.frame is expected.", call. = FALSE)
 
-  x <- make_dimnames(x)
-
+  if (is.null(colnames(x))) {
+    colnames(x) <- paste0("col", seq_len(ncol(x)))
+  }
   row_names <- rownames(x)
+  if (is.null(row_names)) {
+    row_names <- paste0("row", seq_len(nrow(x)))
+  }
   if (factor) {
     row_names <- factor(x = row_names, levels = row_names)
   }
-  y <- cbind.data.frame(row_names, x, stringsAsFactors = FALSE)
 
-  id <- if (is.null(id)) "id" else id[[1L]]
-  colnames(y) <- c(id, colnames(x))
-  y
+  z <- cbind.data.frame(row_names, x, stringsAsFactors = FALSE)
+  colnames(z) <- c(id, colnames(x))
+  rownames(z) <- NULL
+  z
+}
+
+#' Build a Long Data Frame
+#'
+#' Stacks vector from a \code{\link{data.frame}}.
+#' @param x A \code{\link{matrix}} or \code{\link{data.frame}}
+#' @param value A \code{\link{character}} string specifying the name of the
+#'  column containing the result of concatenating \code{x}.
+#' @param factor A \code{\link{logical}} scalar: should row and columns names be
+#'  coerced to factors? The default (\code{TRUE}) preserves the original
+#'  ordering.
+#' @return A \code{\link{data.frame}} withe the following variables:
+#'  "\code{case}", "\code{value}" and "\code{type}".
+#' @author N. Frerebeau
+#' @family utilities
+#' @keywords internal utilities
+#' @noRd
+wide2long <- function(x, value = "data", factor = TRUE) {
+  x <- as.data.frame(x)
+  row_names <- rownames(x)
+  col_names <- rownames(x)
+
+  stacked <- utils::stack(x)
+  long <- cbind.data.frame(stacked, row_names)
+  colnames(long) <- c(value, "type", "case")
+  if (factor) {
+    # Preserves the original ordering of the rows and columns
+    long$case <- factor(long$case, levels = unique(long$case))
+    long$type <- factor(long$type, levels = unique(long$type))
+  }
+  long
 }

@@ -1,49 +1,55 @@
-# HELPERS
+# PLOT FORD
+#' @include AllClasses.R AllGenerics.R
+NULL
 
-#' Independance
-#'
-#' @param x A \eqn{m \times p}{m x p} \code{\link{numeric}} matrix.
-#' @param method A \code{\link{character}} string giving the method to be used.
-#'  This must be one of "\code{EPPM}" or "\code{PVI}" (see details). Any
-#'  unambiguous substring can be given.
-#' @details
-#'  Computes for each cell of a numeric matrix one of the following thresholds:
-#'  \describe{
-#'   \item{EPPM}{The positive deviation from the column mean percentage (in
-#'    french "écart positif au pourcentage moyen", EPPM)}
-#'   \item{PVI}{The percentage of independence value (in french,
-#'   "pourcentage de valeur d'indépendance", PVI).}
-#'  }
-#' @return A \eqn{m \times p}{m x p} \code{\link{numeric}} matrix.
-#' @author N. Frerebeau
-#' @keywords internal
-#' @noRd
-independance <- function(x, method = c("EPPM", "PVI")) {
-  # Validation
-  method <- match.arg(method, several.ok = FALSE)
-  if (!is.matrix(x) || !is.numeric(x))
-    stop("A numeric matrix is expected.", call. = FALSE)
-
-  # Independance
-  values <- apply(
-    X = x, MARGIN = 1, FUN = function(x, column_total, grand_total) {
-      sum(x) * column_total / grand_total
-    },
-    column_total = colSums(x),
-    grand_total = sum(x)
-  )
-  # Threshold
-  if (method == "EPPM") {
+#' @export
+#' @rdname statistic
+#' @aliases calculate_eppm,CountMatrix-method
+setMethod(
+  f = "calculate_eppm",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object) {
+    x <- arkhe::as_matrix(object)
+    # Independance
+    values <- apply(
+      X = x, MARGIN = 1, FUN = function(x, column_total, grand_total) {
+        sum(x) * column_total / grand_total
+      },
+      column_total = colSums(x),
+      grand_total = sum(x)
+    )
+    # Threshold
     threshold <- (x - t(values)) / rowSums(x)
     threshold[threshold < 0] <- 0
-  }
-  if (method == "PVI") {
-    threshold <- x / t(values)
-  }
 
-  dimnames(threshold) <- dimnames(x)
-  return(threshold)
-}
+    dimnames(threshold) <- dimnames(x)
+    threshold
+  }
+)
+
+#' @export
+#' @rdname statistic
+#' @aliases calculate_pvi,CountMatrix-method
+setMethod(
+  f = "calculate_pvi",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object) {
+    x <- arkhe::as_matrix(object)
+    # Independance
+    values <- apply(
+      X = x, MARGIN = 1, FUN = function(x, column_total, grand_total) {
+        sum(x) * column_total / grand_total
+      },
+      column_total = colSums(x),
+      grand_total = sum(x)
+    )
+    # Threshold
+    threshold <- x / t(values)
+
+    dimnames(threshold) <- dimnames(x)
+    threshold
+  }
+)
 
 #' Binomial Coefficient
 #'
@@ -132,18 +138,17 @@ jackknife <- function(x, do, ...) {
 #'  }
 #' @keywords internal
 #' @noRd
-bootstrap <- function(x, do, n = 1000, ...) {
-
-  replicates <- stats::rmultinom(n, size = sum(x), prob = x / sum(x))
+bootstrap <- function(x, do, probs = c(0.05, 0.95), n = 1000, ...) {
+  total <- sum(x)
+  replicates <- stats::rmultinom(n, size = total, prob = x / total)
   boot_values <- apply(X = replicates, MARGIN = 2, FUN = do, ...)
+  Q <- stats::quantile(boot_values, probs = probs)
+  quant <- paste0("Q", round(probs * 100, 0))
 
-  list(
-    min = min(boot_values),
-    Q05 = stats::quantile(boot_values, probs = 0.05),
-    mean = mean(boot_values),
-    Q95 = stats::quantile(boot_values, probs = 0.95),
-    max = max(boot_values)
-  )
+  results <- list(min(boot_values), mean(boot_values), max(boot_values))
+  results <- append(results, as.list(Q))
+  names(results) <- c("min", "mean", "max", quant)
+  results
 }
 
 #' Confidence Interval for a Proportion
