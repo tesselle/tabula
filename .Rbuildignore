@@ -12,7 +12,6 @@
 ^doc$
 ^docs$
 ^Meta$
-^\man\figures\README-.*\.png$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.github$
