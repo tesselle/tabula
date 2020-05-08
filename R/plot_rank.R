@@ -1,5 +1,5 @@
 # PLOT RANK
-#' @include AllGenerics.R AllClasses.R
+#' @include AllClasses.R AllGenerics.R
 NULL
 
 #' @export
@@ -36,10 +36,10 @@ setMethod(
     }
     if (facet) {
       facet <- ggplot2::facet_wrap(ggplot2::vars(.data$case), ncol = n)
-      aes_plot <- ggplot2::aes(x = .data$rank, y = .data$frequency)
+      aes_plot <- ggplot2::aes(x = .data$rank, y = .data$data)
     } else {
       facet <- NULL
-      aes_plot <- ggplot2::aes(x = .data$rank, y = .data$frequency,
+      aes_plot <- ggplot2::aes(x = .data$rank, y = .data$data,
                                colour = .data$case)
     }
     ggplot2::ggplot(data = data, mapping = aes_plot) +
@@ -49,3 +49,24 @@ setMethod(
       log_x + log_y + facet
   }
 )
+
+# Prepare data for rank plot
+# Must return a data.frame
+prepare_rank <- function(object) {
+  # Build a long table for ggplot2 (preserve original ordering)
+  data <- arkhe::as_long(object, as_factor = TRUE)
+  # Remove zeros in case of log scale
+  data <- data[data$data > 0, ]
+
+  data <- by(
+    data,
+    INDICES = data$case,
+    FUN = function(x) {
+      data <- x[order(x$data, decreasing = TRUE), ]
+      data <- cbind.data.frame(rank = seq_len(nrow(data)), data)
+      data
+    }
+  )
+  data <- do.call(rbind.data.frame, data)
+  data
+}

@@ -1,5 +1,5 @@
 # PLOT MATRIX
-#' @include AllGenerics.R AllClasses.R
+#' @include AllClasses.R AllGenerics.R
 NULL
 
 #' @export
@@ -10,10 +10,11 @@ setMethod(
   signature = signature(object = "CountMatrix"),
   definition = function(object, PVI = FALSE, frequency = TRUE) {
     # Prepare data
-    data <- prepare_heatmap(object, PVI, frequency)
+    data <- prepare_heatmap(object, PVI = PVI, frequency = frequency)
 
     # ggplot
-    fill <- ifelse(PVI, "PVI", "Frequency")
+    fill <- ifelse(PVI, "PVI", "data")
+    fill_lab <- ifelse(PVI, "PVI", "Frequency")
     aes_plot <- ggplot2::aes(x = .data$x, y = .data$y, fill = .data[[fill]])
     ggplot2::ggplot(data = data, mapping = aes_plot) +
       ggplot2::geom_tile() +
@@ -33,7 +34,7 @@ setMethod(
         axis.ticks = ggplot2::element_blank(),
         axis.title = ggplot2::element_blank(),
         panel.grid = ggplot2::element_blank()) +
-      ggplot2::labs(x = "Type", y = "Case", fill = fill) +
+      ggplot2::labs(x = "Type", y = "Case", fill = fill_lab) +
       ggplot2::coord_fixed()
   }
 )
@@ -49,7 +50,7 @@ setMethod(
     data <- prepare_heatmap(object, PVI = FALSE)
 
     # ggplot
-    aes_plot <- ggplot2::aes(x = .data$x, y = .data$y, fill = .data$Frequency)
+    aes_plot <- ggplot2::aes(x = .data$x, y = .data$y, fill = .data$data)
     ggplot2::ggplot(data = data, mapping = aes_plot) +
       ggplot2::geom_tile() +
       ggplot2::scale_x_continuous(
@@ -84,7 +85,7 @@ setMethod(
     data <- prepare_heatmap(object, PVI = FALSE, frequency = FALSE)
 
     # ggplot
-    aes_plot <- ggplot2::aes(x = .data$x, y = .data$y, fill = .data$Frequency)
+    aes_plot <- ggplot2::aes(x = .data$x, y = .data$y, fill = .data$data)
     ggplot2::ggplot(data = data, mapping = aes_plot) +
       ggplot2::geom_tile(color = "black") +
       ggplot2::scale_x_discrete(position = "top") +
@@ -99,3 +100,30 @@ setMethod(
       ggplot2::coord_fixed()
   }
 )
+
+# Prepare data for Heatmap plot
+# Must return a data.frame
+prepare_heatmap <- function(object, PVI = FALSE, frequency = TRUE) {
+  # Get row names and coerce to factor (preserve original ordering)
+  row_names <- rownames(object)
+  row_names <- factor(x = row_names, levels = unique(row_names))
+
+  if (PVI) {
+    # /!\ PVI computation needs count data
+    # Build long table from threshold
+    data <- calculate_pvi(object)
+    data <- wide2long(data, value = "PVI")
+  } else {
+    # Build long table from data
+    data <- if (frequency) arkhe::as_abundance(object) else object
+    data <- arkhe::as_long(data, as_factor = TRUE)
+  }
+
+  # Tile centers
+  data <- cbind.data.frame(
+    data,
+    x = as.numeric(data$type),
+    y = as.numeric(data$case)
+  )
+  data
+}

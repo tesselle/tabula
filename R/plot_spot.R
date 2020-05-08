@@ -1,5 +1,5 @@
 # PLOT SPOT
-#' @include AllGenerics.R AllClasses.R
+#' @include AllClasses.R AllGenerics.R
 NULL
 
 #' @export
@@ -27,9 +27,9 @@ setMethod(
     # ggplot
     aes_plot <- ggplot2::aes(x = .data$type, y = .data$case)
     aes_point <- if (is.null(threshold)) {
-      ggplot2::aes(size = .data$value)
+      ggplot2::aes(size = .data$data)
     } else {
-      ggplot2::aes(size = .data$value, colour = .data$threshold)
+      ggplot2::aes(size = .data$data, colour = .data$threshold)
     }
 
     ggplot2::ggplot(data = data, mapping = aes_plot) +
@@ -67,7 +67,7 @@ setMethod(
 
     # ggplot
     aes_plot <- ggplot2::aes(x = .data$type, y = .data$case)
-    aes_point <- ggplot2::aes(size = .data$value, colour = .data$value)
+    aes_point <- ggplot2::aes(size = .data$data, colour = .data$data)
 
     ggplot2::ggplot(data = data, mapping = aes_plot) +
       ggplot2::geom_point(mapping = ggplot2::aes(size = .data$max),
@@ -104,8 +104,8 @@ setMethod(
 
     # ggplot
     aes_plot <- ggplot2::aes(x = .data$type, y = .data$case)
-    aes_point <- ggplot2::aes(size = .data$value * 0.8,
-                              colour = .data$value)
+    aes_point <- ggplot2::aes(size = .data$data * 0.8,
+                              colour = .data$data)
 
     ggplot2::ggplot(data = data, mapping = aes_plot) +
       ggplot2::geom_point(ggplot2::aes(size = 1), colour = "black",
@@ -128,3 +128,35 @@ setMethod(
       ggplot2::coord_fixed()
   }
 )
+
+# Prepare data for Spot plot
+# Must return a data.frame
+prepare_spot <- function(object, threshold = NULL, diag = TRUE) {
+  # Build a long table for ggplot2 (preserve original ordering)
+  data <- object #* 0.8
+  data <- arkhe::as_long(data, as_factor = TRUE)
+
+  if (!diag) {
+    data <- data[data$type != data$case, ]
+  }
+  if (nrow(object) == ncol(object)) {
+    max_value <- unique(diag(object))
+    if (max_value == 0) max_value <- max(data$data)
+    data <- cbind.data.frame(max = max_value, data)
+  }
+  if (is.function(threshold)) {
+    data <- by(
+      data,
+      INDICES = data$type,
+      FUN = function(x, fun) {
+        data <- cbind.data.frame(thresh = fun(x$data), x)
+        data
+      },
+      fun = threshold
+    )
+    data <- do.call(rbind.data.frame, data)
+    threshold <- ifelse(data$data > data$thresh, "above", "below")
+    data <- cbind.data.frame(threshold = threshold, data)
+  }
+  return(data)
+}

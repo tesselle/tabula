@@ -1,45 +1,6 @@
-# PLOT BAR
-#' @include AllGenerics.R AllClasses.R plot-prepare.R
+# PLOT FORD
+#' @include AllClasses.R AllGenerics.R
 NULL
-
-#' @export
-#' @rdname plot_bar
-#' @aliases plot_bertin,CountMatrix-method
-setMethod(
-  f = "plot_bertin",
-  signature = signature(object = "CountMatrix"),
-  definition = function(object, threshold = NULL, scale = NULL) {
-    # Prepare data
-    data <- prepare_bertin(object, threshold = threshold, scale = scale)
-
-    # ggplot
-    aes_plot <- ggplot2::aes(x = .data$case, y = .data$frequency)
-    aes_col <- if (is.null(threshold)) {
-      NULL
-    } else {
-      ggplot2::aes(fill = .data$threshold)
-    }
-
-    ggplot2::ggplot(data = data, mapping = aes_plot) +
-      ggplot2::geom_col(mapping = aes_col, colour = "black") +
-      ggplot2::scale_x_discrete(position = "top") +
-      ggplot2::facet_grid(rows = ggplot2::vars(.data$type), scales = "free_y") +
-      ggplot2::theme(
-        axis.text.x = ggplot2::element_text(angle = 90, hjust = 0),
-        axis.text.y = ggplot2::element_blank(),
-        axis.title = ggplot2::element_blank(),
-        axis.ticks = ggplot2::element_blank(),
-        legend.key = ggplot2::element_rect(fill = "white"),
-        panel.background = ggplot2::element_rect(fill = "white"),
-        panel.grid = ggplot2::element_blank(),
-        strip.text.y = ggplot2::element_text(angle = 0, hjust = 0),
-        strip.text.x = ggplot2::element_text(angle = 90, hjust = 0,
-                                             vjust = 0.5),
-        strip.background = ggplot2::element_rect(fill = "white")
-      ) +
-      ggplot2::labs(x = "Case", y = "Frequency", fill = "Threshold")
-  }
-)
 
 #' @export
 #' @rdname plot_bar
@@ -88,3 +49,32 @@ setMethod(
       ggplot2::coord_flip()
   }
 )
+
+# Prepare data for Ford plot
+# Must return a data.frame
+prepare_ford <- function(object, EPPM = FALSE) {
+  # Build a long table for ggplot2 (preserve original ordering)
+  data <- arkhe::as_abundance(object)
+  data <- arkhe::as_long(data, as_factor = TRUE)
+  data$case <- factor(data$case, levels = rev(unique(data$case)))
+
+  if (EPPM) {
+    # Build long table from threshold
+    threshold <- calculate_eppm(object)
+    threshold <- wide2long(threshold, value = "EPPM")
+
+    # Join data and threshold
+    data <- merge(data, threshold, by = c("case", "type"), all = TRUE)
+    data$data <- data$data - data$EPPM
+    data_stacked <- utils::stack(data[, !(names(data) %in% c("case", "type"))])
+    data <- cbind.data.frame(data$case, data$type, data_stacked)
+    colnames(data) <- c("case", "type", "data", "threshold")
+  }
+
+  k <- nrow(data)
+  z <- c(rep(1, k), rep(-1, k)) / 2
+  data <- rbind.data.frame(data, data)
+  data$data <- data$data * z
+
+  return(data)
+}
