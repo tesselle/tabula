@@ -44,7 +44,7 @@ seriation_rank <- function(x, margin = 1, stop = 100, EPPM = FALSE) {
   margin <- as.integer(margin)
   stop <- as.integer(stop)
 
-  data <- arkhe::as_matrix(x)
+  data <- as.matrix(x)
   if (EPPM) data <- calculate_eppm(x)
 
   # Compute ranks

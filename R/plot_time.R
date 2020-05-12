@@ -34,8 +34,7 @@ setMethod(
     data <- data[data$data > 0, ]
 
     if (highlight == "FIT") {
-      counts <- arkhe::as_matrix(object)
-      signature <- as.data.frame(testFIT(counts, dates, roll = FALSE)[[1L]])
+      signature <- as.data.frame(testFIT(object, dates, roll = FALSE)[[1L]])
       signature <- cbind.data.frame(
         type = factor(rownames(signature), levels = unique(rownames(signature))),
         signature = ifelse(signature$p.value <= alpha, "selection", "neutral")
@@ -46,7 +45,7 @@ setMethod(
 
       if (roll) {
         k <- (window - 1) / 2
-        fit <- testFIT(counts, dates, roll = roll, window = window)
+        fit <- testFIT(object, dates, roll = roll, window = window)
         fit <- lapply(
           X = fit,
           FUN = function(x) {

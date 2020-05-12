@@ -25,7 +25,7 @@ setMethod(
                                            "routledge2", "routledge3",
                                            "wilson"), simplify = FALSE, ...) {
     method <- match.arg(method, several.ok = TRUE)
-    mtx <- arkhe::as_matrix(object)
+    mtx <- as.matrix(object)
 
     B <- lapply(
       X = method,

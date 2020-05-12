@@ -8,19 +8,18 @@ setMethod(
   f = "test_diversity",
   signature = signature(object = "CountMatrix"),
   definition = function(object, adjust = "holm", ...) {
-    counts <- arkhe::as_matrix(object)
     # Calculate the number of individuals
-    N <- apply(X = counts, MARGIN = 1, FUN = sum)
+    N <- apply(X = object, MARGIN = 1, FUN = sum)
     # Calculate Shannon diversity
-    H <- apply(X = counts, MARGIN = 1, FUN = diversityShannon, ...)
+    H <- apply(X = object, MARGIN = 1, FUN = diversityShannon, ...)
     # Calculate Shannon variance
-    V <- apply(X = counts, MARGIN = 1, FUN = varianceShannon, ...)
+    V <- apply(X = object, MARGIN = 1, FUN = varianceShannon, ...)
     # Get the names of the assemblages
-    row_names <- rownames(counts)
+    row_names <- rownames(object)
     if (length(row_names) != 0) {
       row_names <- factor(row_names, levels = unique(row_names))
     } else {
-      row_names <- factor(seq_len(nrow(counts)))
+      row_names <- factor(seq_len(nrow(object)))
     }
     # Compute t test
     compare <- function(i, j) {

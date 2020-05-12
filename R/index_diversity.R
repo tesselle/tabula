@@ -37,7 +37,7 @@ index_diversity <- function(x, method, simulate = FALSE, quantiles = TRUE,
   }
 
   .DiversityIndex(
-    data = x,
+    data = as.matrix(x),
     index = idx,
     size = as.integer(rowSums(x)),
     simulation = sim
@@ -45,10 +45,10 @@ index_diversity <- function(x, method, simulate = FALSE, quantiles = TRUE,
 }
 
 
-#' @param x A \code{\link{numeric}} vector giving the sample size.
+#' @param x A \code{\link{numeric}} matrix.
 #' @param prob A length-\eqn{p} \code{\link{numeric}} vector giving the of
 #'  probability of the \eqn{p} taxa/types (see below). If \code{NULL} (the
-#'  default), probabilities are estimated from the whole dataset.
+#'  default), probabilities are estimated from \code{x}.
 #' @param level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
 #' @param quantiles A \code{\link{logical}} scalar: should sample quantiles
@@ -62,16 +62,11 @@ index_diversity <- function(x, method, simulate = FALSE, quantiles = TRUE,
 simulate_diversity <- function(x, method, prob = NULL, quantiles = TRUE,
                                level = 0.80, step = 1, n = 1000, ...) {
   # Specify the probability for the classes
-  if (is.null(prob) && is.matrix(x)) {
+  if (is.null(prob))
     prob <- colSums(x) / sum(x)
-  }
   # Sample size
-  if (is.matrix(x)) {
-    size <- max(rowSums(x))
-    sample_sizes <- seq(from = 1, to = size * 1.05, by = step)
-  } else {
-    sample_sizes <- x
-  }
+  size <- max(rowSums(x))
+  sample_sizes <- seq(from = 1, to = size * 1.05, by = step)
 
   m <- length(sample_sizes)
   k <- seq_len(m)

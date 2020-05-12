@@ -11,10 +11,8 @@ setMethod(
                         simplify = TRUE, ...) {
     # Select method
     fun <- switch_rarefaction(method)
-    # Coerce object to matrix
-    mtx <- arkhe::as_matrix(object)
 
-    apply(X = mtx, MARGIN = 1, FUN = fun, sample)
+    apply(X = object, MARGIN = 1, FUN = fun, sample)
   }
 )
 

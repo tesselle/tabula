@@ -33,7 +33,7 @@ setMethod(
     # Validation
     margin <- as.integer(margin)
     # Get data
-    counts <- arkhe::as_matrix(object)
+    counts <- as.matrix(object)
 
     # Original sequences
     m <- nrow(counts)

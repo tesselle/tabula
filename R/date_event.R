@@ -46,7 +46,7 @@ setMethod(
 
     .DateModel(
       id = arkhe::get_id(object),
-      data = arkhe::as_matrix(object),
+      data = as.matrix(object),
       dates = dates_ok,
       model = fit,
       dimension = keep_dim
@@ -91,13 +91,12 @@ setMethod(
     # TODO: check predicted dates consistency
 
     # Accumulation time point estimate
-    counts <- arkhe::as_matrix(data)
     date_range <- range(row_event[, c("lower", "upper")])
-    acc_estimate <- predict_accumulation(counts, col_event, date_range)
+    acc_estimate <- predict_accumulation(data, col_event, date_range)
 
     .DateEvent(
       id = arkhe::get_id(data),
-      data = counts,
+      data = as.matrix(data),
       level = level,
       row_events = row_event,
       column_events = col_event,

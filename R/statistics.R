@@ -9,20 +9,19 @@ setMethod(
   f = "calculate_eppm",
   signature = signature(object = "CountMatrix"),
   definition = function(object) {
-    x <- arkhe::as_matrix(object)
     # Independance
     values <- apply(
-      X = x, MARGIN = 1, FUN = function(x, column_total, grand_total) {
+      X = object, MARGIN = 1, FUN = function(x, column_total, grand_total) {
         sum(x) * column_total / grand_total
       },
-      column_total = colSums(x),
-      grand_total = sum(x)
+      column_total = colSums(object),
+      grand_total = sum(object)
     )
     # Threshold
-    threshold <- (x - t(values)) / rowSums(x)
+    threshold <- (object - t(values)) / rowSums(object)
     threshold[threshold < 0] <- 0
 
-    dimnames(threshold) <- dimnames(x)
+    dimnames(threshold) <- dimnames(object)
     threshold
   }
 )
@@ -34,19 +33,18 @@ setMethod(
   f = "calculate_pvi",
   signature = signature(object = "CountMatrix"),
   definition = function(object) {
-    x <- arkhe::as_matrix(object)
     # Independance
     values <- apply(
-      X = x, MARGIN = 1, FUN = function(x, column_total, grand_total) {
+      X = object, MARGIN = 1, FUN = function(x, column_total, grand_total) {
         sum(x) * column_total / grand_total
       },
-      column_total = colSums(x),
-      grand_total = sum(x)
+      column_total = colSums(object),
+      grand_total = sum(object)
     )
     # Threshold
-    threshold <- x / t(values)
+    threshold <- object / t(values)
 
-    dimnames(threshold) <- dimnames(x)
+    dimnames(threshold) <- dimnames(object)
     threshold
   }
 )

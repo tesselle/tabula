@@ -16,8 +16,7 @@ setMethod(
     if (length(time) == 0)
       stop("No dates were found!", call. = FALSE)
 
-    counts <- arkhe::as_matrix(object)
-    results <- testFIT(counts, time, roll = FALSE)[[1L]]
+    results <- testFIT(object, time, roll = FALSE)[[1L]]
 
     # Check results
     failed <- apply(X = results, MARGIN = 1, FUN = anyNA)
@@ -36,6 +35,7 @@ setMethod(
 
 testFIT <- function(x, time, roll = FALSE, window = 3, ...) {
   # Validation
+  x <- as.matrix(x)
   roll <- as.logical(roll)[1L]
   window <- as.integer(window)[1L]
 

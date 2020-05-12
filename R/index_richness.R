@@ -12,10 +12,8 @@ setMethod(
                         step = 1, n = 1000, ...) {
     # Select method
     fun <- switch_richness(method)
-    # Coerce object to matrix
-    mtx <- arkhe::as_matrix(object)
 
-    index <- index_diversity(mtx, fun, simulate = simulate, prob = NULL,
+    index <- index_diversity(object, fun, simulate = simulate, prob = NULL,
                              quantiles = quantiles, level = level,
                              step = step, n = n)
 
@@ -42,15 +40,12 @@ setMethod(
       chao1 = richnessChao1,
       stop(sprintf("There is no such method: %s.", method), call. = FALSE)
     )
-    # Coerce object to matrix
-    mtx <- arkhe::as_matrix(object)
-
-    index <- apply(X = mtx, MARGIN = 1, FUN = fun,
+    index <- apply(X = object, MARGIN = 1, FUN = fun,
                    unbiased = unbiased, improved = improved, k = k)
 
     .CompositionIndex(
       id = arkhe::get_id(object),
-      data = mtx,
+      data = as.matrix(object),
       index = index,
       size = as.integer(rowSums(object)),
       method = method[[1L]]
@@ -74,13 +69,11 @@ setMethod(
       ice = richnessICE,
       stop(sprintf("There is no such method: %s.", method), call. = FALSE)
     )
-    # Coerce object to matrix
-    mtx <- arkhe::as_matrix(object)
 
-    index <- fun(mtx, unbiased = unbiased, improved = improved, k = k)
+    index <- fun(object, unbiased = unbiased, improved = improved, k = k)
     .CompositionIndex(
       id = arkhe::get_id(object),
-      data = mtx,
+      data = as.matrix(object),
       index = index,
       size = as.integer(rowSums(object)),
       method = method[[1L]]
@@ -270,6 +263,7 @@ richnessMenhinick <- function(x, ...) {
 # Incidence data ---------------------------------------------------------------
 # @rdname index-richness
 richnessICE <- function(x, k = 10, ...) {
+  x <- as.matrix(x)
   # Validation
   if (!is.logical(x))
     stop("`x` must be a logical vector.")
@@ -317,6 +311,7 @@ richnessICE <- function(x, k = 10, ...) {
 
 # @rdname index-richness
 richnessChao2 <- function(x, unbiased = FALSE, improved = FALSE, ...) {
+  x <- as.matrix(x)
   # Validation
   if (!is.logical(x))
     stop("`x` must be a logical vector.")

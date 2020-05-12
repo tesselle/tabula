@@ -13,10 +13,8 @@ setMethod(
                         step = 1, n = 1000, ...) {
     # Select method
     fun <- switch_heterogeneity(method)
-    # Coerce object to matrix
-    mtx <- arkhe::as_matrix(object)
 
-    index <- index_diversity(mtx, fun, simulate = simulate, prob = NULL,
+    index <- index_diversity(object, fun, simulate = simulate, prob = NULL,
                              quantiles = quantiles, level = level,
                              step = step, n = n, ...)
 

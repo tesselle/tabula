@@ -9,7 +9,7 @@ setMethod(
   f = "run_ca",
   signature = signature(object = "CountMatrix"),
   definition = function(object, dimensions = NULL, ...) {
-    data <- arkhe::as_matrix(object)
+    data <- as.matrix(object)
     # /!\ Important: we need to clean the data before processing
     # Empty rows/columns must be removed to avoid error in svd()
     empty_rows <- rowSums(data) == 0
@@ -83,7 +83,7 @@ setMethod(
   f = "predict_ca",
   signature = signature(object = "CA", data = "CountMatrix"),
   definition = function(object, data, ...) {
-    data <- arkhe::as_matrix(data)
+    # data <- as.matrix(data)
     data <- data[, object[["column_names"]]]
 
     ## Get CA standard coordinates (SVD)

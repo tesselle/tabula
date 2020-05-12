@@ -34,15 +34,12 @@ setMethod(
       }
       dates_mcd
     }
-
-    # Coerce object to matrix
-    counts <- arkhe::as_matrix(object)
     # Calculate MCD
-    mcd_dates <- mcd(counts, dates, errors)
+    mcd_dates <- mcd(object, dates, errors)
 
     # Bootstrap confidence interval
     mcd_errors <- apply(
-      X = counts,
+      X = object,
       MARGIN = 1,
       FUN = function(x, dates, level, n) {
         sim <- stats::rmultinom(n, size = sum(x), prob = x)
