@@ -56,7 +56,6 @@ setMethod(
 
     j <- seq_len(min(dimensions, ndim, na.rm = TRUE))
     .CA(
-      id = arkhe::get_id(object),
       data = data_clean,
       row_names = row_names,
       row_coordinates = row_coords[, j],

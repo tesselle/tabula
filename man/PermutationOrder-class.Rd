@@ -11,9 +11,6 @@ An S4 class to represent a permutation order.
 \section{Slots}{
 
 \describe{
-\item{\code{id}}{A \code{\link{character}} string specifying the unique
-identifier of the corresponding matrix (UUID v4).}
-
 \item{\code{rows}}{An \code{\link{integer}} vector giving the rows permutation.}
 
 \item{\code{columns}}{An \code{\link{integer}} vector giving the columns permutation.}

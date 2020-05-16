@@ -19,7 +19,6 @@ setMethod(
                              step = step, n = n, ...)
 
     index <- methods::as(index, "EvennessIndex")
-    index@id <- arkhe::get_id(object)
     index@method <- method[[1L]]
     index
   }

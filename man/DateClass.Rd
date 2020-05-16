@@ -15,9 +15,6 @@ S4 classes to store the event and accumulation times of archaeological
 \section{Slots}{
 
 \describe{
-\item{\code{id}}{A \code{\link{character}} string specifying the unique
-identifier of the corresponding matrix (UUID v4).}
-
 \item{\code{data}}{A \code{\link{numeric}} \code{\link{matrix}} of count data.}
 
 \item{\code{dates}}{A \code{\link{numeric}} vector of dates.}

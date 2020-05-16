@@ -5,8 +5,6 @@ NULL
 #' Diversity Index
 #'
 #' An S4 class to represent a diversity measure.
-#' @slot id A \code{\link{character}} string specifying the unique
-#'  identifier of the corresponding matrix (UUID v4).
 #' @slot index A \code{\link{numeric}} vector giving the diversity index values.
 #' @slot size A \code{\link{integer}} vector giving the sample sizes.
 #' @slot simulation A numeric \code{\link{matrix}} vector giving the diversity
@@ -31,7 +29,6 @@ NULL
 .DiversityIndex <- setClass(
   Class = "DiversityIndex",
   slots = c(
-    id = "character",
     data = "matrix",
     index = "numeric",
     size = "integer",
@@ -69,8 +66,6 @@ NULL
 #'
 #' S4 classes to store the event and accumulation times of archaeological
 #'  assemblages.
-#' @slot id A \code{\link{character}} string specifying the unique
-#'  identifier of the corresponding matrix (UUID v4).
 #' @slot data A \code{\link{numeric}} \code{\link{matrix}} of count data.
 #' @slot dates A \code{\link{numeric}} vector of dates.
 #' @slot model A \code{\link[stats:lm]{multiple linear model}}: the Gaussian
@@ -126,7 +121,6 @@ NULL
 .DateModel <- setClass(
   Class = "DateModel",
   slots = c(
-    id = "character",
     data = "matrix",
     dates = "numeric",
     model = "lm",
@@ -138,7 +132,6 @@ NULL
 .DateEvent <- setClass(
   Class = "DateEvent",
   slots = c(
-    id = "character",
     data = "matrix",
     level = "numeric",
     row_events = "matrix",
@@ -158,7 +151,6 @@ NULL
 .CA <- setClass(
   Class = "CA",
   slots = c(
-    id = "character",
     data = "matrix",
     singular_values = "numeric",
     row_names = "character",
@@ -181,8 +173,6 @@ NULL
 #' Partial Bootstrap CA
 #'
 #' An S4 class to store partial bootstrap correspondence analysis results.
-#' @slot id A \code{\link{character}} string specifying the unique
-#'  identifier of the corresponding matrix (UUID v4).
 #' @slot rows A list of length three giving the vertices coordinates
 #'  (\code{x}, \code{y}) of the samples convex hull and a identifier
 #'  (\code{id}) to link each row to a sample.
@@ -233,8 +223,6 @@ NULL
 #' Permutation Order
 #'
 #' An S4 class to represent a permutation order.
-#' @slot id A \code{\link{character}} string specifying the unique
-#'  identifier of the corresponding matrix (UUID v4).
 #' @slot rows An \code{\link{integer}} vector giving the rows permutation.
 #' @slot columns An \code{\link{integer}} vector giving the columns permutation.
 #' @slot method A \code{\link{character}} string indicating the seriation
@@ -256,7 +244,6 @@ NULL
 .PermutationOrder <- setClass(
   Class = "PermutationOrder",
   slots = c(
-    id = "character",
     rows = "integer",
     columns = "integer",
     method = "character"

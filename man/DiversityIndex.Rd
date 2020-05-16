@@ -20,9 +20,6 @@ An S4 class to represent a diversity measure.
 \section{Slots}{
 
 \describe{
-\item{\code{id}}{A \code{\link{character}} string specifying the unique
-identifier of the corresponding matrix (UUID v4).}
-
 \item{\code{index}}{A \code{\link{numeric}} vector giving the diversity index values.}
 
 \item{\code{size}}{A \code{\link{integer}} vector giving the sample sizes.}

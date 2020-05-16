@@ -11,9 +11,6 @@ An S4 class to store partial bootstrap correspondence analysis results.
 \section{Slots}{
 
 \describe{
-\item{\code{id}}{A \code{\link{character}} string specifying the unique
-identifier of the corresponding matrix (UUID v4).}
-
 \item{\code{rows}}{A list of length three giving the vertices coordinates
 (\code{x}, \code{y}) of the samples convex hull and a identifier
 (\code{id}) to link each row to a sample.}

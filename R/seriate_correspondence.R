@@ -62,7 +62,6 @@ setMethod(
 
     # New PermutationOrder object
     .PermutationOrder(
-      id = arkhe::get_id(object),
       rows = row_coords,
       columns = col_coords,
       method = "refined correspondence"
@@ -102,7 +101,6 @@ seriation_correspondence <- function(x, margin, axes = 1, ...) {
 
   # New PermutationOrder object
   .PermutationOrder(
-    id = arkhe::get_id(x),
     rows = as.integer(row_coords),
     columns = as.integer(col_coords),
     method = "correspondance"

@@ -18,7 +18,6 @@ setMethod(
                              step = step, n = n)
 
     index <- methods::as(index, "RichnessIndex")
-    index@id <- arkhe::get_id(object)
     index@method <- method[[1L]]
     index
   }
@@ -44,7 +43,6 @@ setMethod(
                    unbiased = unbiased, improved = improved, k = k)
 
     .CompositionIndex(
-      id = arkhe::get_id(object),
       data = as.matrix(object),
       index = index,
       size = as.integer(rowSums(object)),
@@ -72,7 +70,6 @@ setMethod(
 
     index <- fun(object, unbiased = unbiased, improved = improved, k = k)
     .CompositionIndex(
-      id = arkhe::get_id(object),
       data = as.matrix(object),
       index = index,
       size = as.integer(rowSums(object)),

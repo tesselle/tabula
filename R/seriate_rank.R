@@ -83,7 +83,6 @@ seriation_rank <- function(x, margin = 1, stop = 100, EPPM = FALSE) {
 
   # New PermutationOrder object
   .PermutationOrder(
-    id = arkhe::get_id(x),
     rows = as.integer(index[[1]]),
     columns = as.integer(index[[2]]),
     method = "reciprocal ranking"

@@ -8,13 +8,11 @@ test_that("Reciprocal averaging", {
   indices_row <- seriate_rank(count, margin = 1)
   expect_equal(indices_row@rows, c(1, 2, 5, 3, 4))
   expect_equal(indices_row@columns, 1:16)
-  expect_equal(indices_row@id, count@id)
 
   indices_col <- seriate_rank(count, margin = 2)
   expect_equal(indices_col@rows, 1:5)
   expect_equal(indices_col@columns,
                c(14, 1, 11, 3, 16, 12, 5, 2, 15, 13, 4, 7, 6, 9, 10, 8))
-  expect_equal(indices_col@id, count@id)
 
   expect_warning(seriate_rank(count, stop = 1, margin = 2))
 })
@@ -62,7 +60,6 @@ test_that("correspondence Analysis", {
   # /!\ Fails on noLD platforms unless a tolerance is set in expect_equal
   # eps <- if (capabilities("long.double")) .Machine$double.eps^0.5 else 0.1
   # expect_equal(round(subset@cutoff, 3), c(2.243, 0.379), tolerance = eps)
-  # expect_equal(subset@id, count@id)
   #
   # indices <- seriate_correspondence(count, subset, margin = 1)
   # expect_s4_class(indices, "PermutationOrder")

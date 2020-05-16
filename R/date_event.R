@@ -45,7 +45,6 @@ setMethod(
     fit <- stats::lm(date ~ ., data = contexts)
 
     .DateModel(
-      id = arkhe::get_id(object),
       data = as.matrix(object),
       dates = dates_ok,
       model = fit,
@@ -95,7 +94,6 @@ setMethod(
     acc_estimate <- predict_accumulation(data, col_event, date_range)
 
     .DateEvent(
-      id = arkhe::get_id(data),
       data = as.matrix(data),
       level = level,
       row_events = row_event,
