@@ -46,7 +46,7 @@ Description: An easy way to examine archaeological count data. This package
     The package make it easy to visualize count data and statistical thresholds: 
     rank vs. abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
 License: GPL-3
-URL: http://tabula.archaeo.science,
+URL: https://tabula.archaeo.science,
     https://github.com/nfrerebeau/tabula,
     https://cran.r-project.org/package=tabula
 BugReports: https://github.com/nfrerebeau/tabula/issues
@@ -56,11 +56,11 @@ Depends:
 Remotes:
     nfrerebeau/arkhe
 Imports:
-    ca (>= 0.71.1),
-    ggplot2 (>= 3.3.0),
+    ca,
+    ggplot2,
     grDevices,
     methods,
-    rlang (>= 0.4.5),
+    rlang,
     stats,
     utils
 Suggests:

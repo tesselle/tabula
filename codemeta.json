@@ -11,7 +11,8 @@
   "relatedLink": [
     "http://tabula.archaeo.science",
     "https://cran.r-project.org/package=tabula",
-    "https://CRAN.R-project.org/package=tabula"
+    "https://CRAN.R-project.org/package=tabula",
+    "https://tabula.archaeo.science"
   ],
   "issueTracker": "https://github.com/nfrerebeau/tabula/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
@@ -196,7 +197,6 @@
       "@type": "SoftwareApplication",
       "identifier": "ca",
       "name": "ca",
-      "version": ">= 0.71.1",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -209,7 +209,6 @@
       "@type": "SoftwareApplication",
       "identifier": "ggplot2",
       "name": "ggplot2",
-      "version": ">= 3.3.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -232,7 +231,6 @@
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
-      "version": ">= 0.4.5",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -298,5 +296,5 @@
       }
     }
   ],
-  "fileSize": "823.748KB"
+  "fileSize": "821.324KB"
 }

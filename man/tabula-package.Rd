@@ -35,7 +35,7 @@ An easy way to examine archaeological count data. This package
 \seealso{
 Useful links:
 \itemize{
-  \item \url{http://tabula.archaeo.science}
+  \item \url{https://tabula.archaeo.science}
   \item \url{https://github.com/nfrerebeau/tabula}
   \item \url{https://cran.r-project.org/package=tabula}
   \item Report bugs at \url{https://github.com/nfrerebeau/tabula/issues}
