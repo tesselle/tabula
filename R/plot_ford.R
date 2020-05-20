@@ -60,7 +60,7 @@ prepare_ford <- function(object, EPPM = FALSE) {
 
   if (EPPM) {
     # Build long table from threshold
-    threshold <- calculate_eppm(object)
+    threshold <- eppm(object)
     threshold <- wide2long(threshold, value = "EPPM")
 
     # Join data and threshold

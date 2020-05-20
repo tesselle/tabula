@@ -79,7 +79,7 @@ Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
  DOI: \href{https://doi.org/10.3406/pica.2004.2396}{10.3406/pica.2004.2396}.
 }
 \seealso{
-\link{calculate_pvi}
+\link{pvi}
 
 Other plot: 
 \code{\link{plot_bar}},

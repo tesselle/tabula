@@ -56,6 +56,7 @@ Feder, A. F., Kryazhimskiy, S. & Plotkin, J. B. (2014). Identifying
 }
 \seealso{
 Other statistics: 
+\code{\link{independance}},
 \code{\link{refine}},
 \code{\link{test_diversity}()}
 }

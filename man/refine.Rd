@@ -185,6 +185,7 @@ Bellanger, L., Tomassone, R. & Husi, P. (2008). A Statistical Approach for
  \link{index_evenness}, \link{index_richness}, \link{seriate_correspondence}
 
 Other statistics: 
+\code{\link{independance}},
 \code{\link{test_diversity}()},
 \code{\link{test_fit}()}
 }

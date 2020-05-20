@@ -2,8 +2,8 @@ context("Statistics")
 
 test_that("Compute thresholds", {
   counts <- arkhe::as_count(compiegne)
-  expect_type(calculate_eppm(counts), "double") # matrix
-  expect_type(calculate_pvi(counts), "double") # matrix
+  expect_type(eppm(counts), "double") # matrix
+  expect_type(pvi(counts), "double") # matrix
 })
 test_that("Binomial coefficient", {
   expect_equal(combination(4, 3), 4)

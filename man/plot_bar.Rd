@@ -111,7 +111,7 @@ Bertin, J. (1977). \emph{La graphique et le traitement graphique de
  chronology}. Washington, DC: Pan American Union. Technical manual 1.
 }
 \seealso{
-\link{calculate_eppm}
+\link{eppm}
 
 Other plot: 
 \code{\link{plot_date}()},

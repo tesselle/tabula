@@ -45,7 +45,7 @@ seriation_rank <- function(x, margin = 1, stop = 100, EPPM = FALSE) {
   stop <- as.integer(stop)
 
   data <- as.matrix(x)
-  if (EPPM) data <- calculate_eppm(x)
+  if (EPPM) data <- eppm(x)
 
   # Compute ranks
   # margin = 1 : on rows

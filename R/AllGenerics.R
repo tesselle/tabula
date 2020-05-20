@@ -80,23 +80,23 @@ NULL
 #' @seealso \link{plot_ford}, \link{plot_heatmap}, \link{seriate_rank}
 #' @author N. Frerebeau
 #' @docType methods
-#' @family statistic
-#' @name statistic
-#' @rdname statistic
+#' @family statistics
+#' @name independance
+#' @rdname independance
 NULL
 
-#' @rdname statistic
-#' @aliases calculate_eppm-method
+#' @rdname independance
+#' @aliases eppm-method
 setGeneric(
-  name = "calculate_eppm",
-  def = function(object, ...) standardGeneric("calculate_eppm")
+  name = "eppm",
+  def = function(object, ...) standardGeneric("eppm")
 )
 
-#' @rdname statistic
-#' @aliases calculate_pvi-method
+#' @rdname independance
+#' @aliases pvi-method
 setGeneric(
-  name = "calculate_pvi",
-  def = function(object, ...) standardGeneric("calculate_pvi")
+  name = "pvi",
+  def = function(object, ...) standardGeneric("pvi")
 )
 
 # ====================================================== Correspondence Analysis
@@ -598,7 +598,7 @@ setGeneric(
 #'  value by case. High-light all bars representing a value above some sample
 #'  threshold for that variable."
 # @section Ford Diagram:
-#' @inheritSection statistic EPPM
+#' @inheritSection independance EPPM
 #' @return
 #'  A \code{\link[ggplot2]{ggplot}} object.
 #' @references
@@ -619,7 +619,7 @@ setGeneric(
 #'  chronology}. Washington, DC: Pan American Union. Technical manual 1.
 #' @example inst/examples/ex-plot_bar.R
 #' @author N. Frerebeau
-#' @seealso \link{calculate_eppm}
+#' @seealso \link{eppm}
 #' @family plot
 #' @docType methods
 #' @name plot_bar
@@ -655,7 +655,7 @@ setGeneric(
 #'  If \code{PVI} is \code{FALSE}, it plots a heatmap of relative abundances
 #'  (frequency), otherwise percentages of the independence value are drawn (in
 #'  french, "pourcentages de valeur d'indépendance", PVI).
-#' @inheritSection statistic PVI
+#' @inheritSection independance PVI
 #' @return
 #'  A \code{\link[ggplot2]{ggplot}} object.
 #' @references
@@ -665,7 +665,7 @@ setGeneric(
 #'  DOI: \href{https://doi.org/10.3406/pica.2004.2396}{10.3406/pica.2004.2396}.
 #' @example inst/examples/ex-plot_matrix.R
 #' @author N. Frerebeau
-#' @seealso \link{calculate_pvi}
+#' @seealso \link{pvi}
 #' @family plot
 #' @docType methods
 #' @name plot_matrix

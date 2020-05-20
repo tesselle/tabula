@@ -111,7 +111,7 @@ prepare_heatmap <- function(object, PVI = FALSE, frequency = TRUE) {
   if (PVI) {
     # /!\ PVI computation needs count data
     # Build long table from threshold
-    data <- calculate_pvi(object)
+    data <- pvi(object)
     data <- wide2long(data, value = "PVI")
   } else {
     # Build long table from data

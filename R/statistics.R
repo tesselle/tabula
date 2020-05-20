@@ -3,10 +3,10 @@
 NULL
 
 #' @export
-#' @rdname statistic
-#' @aliases calculate_eppm,CountMatrix-method
+#' @rdname independance
+#' @aliases eppm,CountMatrix-method
 setMethod(
-  f = "calculate_eppm",
+  f = "eppm",
   signature = signature(object = "CountMatrix"),
   definition = function(object) {
     # Independance
@@ -27,10 +27,10 @@ setMethod(
 )
 
 #' @export
-#' @rdname statistic
-#' @aliases calculate_pvi,CountMatrix-method
+#' @rdname independance
+#' @aliases pvi,CountMatrix-method
 setMethod(
-  f = "calculate_pvi",
+  f = "pvi",
   signature = signature(object = "CountMatrix"),
   definition = function(object) {
     # Independance
