@@ -3,6 +3,8 @@
 
 # tabula <img width=120px src="man/figures/logo.png" align="right" />
 
+<!-- badges: start -->
+
 [![R build
 status](https://github.com/nfrerebeau/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/nfrerebeau/tabula/actions)
 [![codecov](https://codecov.io/gh/nfrerebeau/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/nfrerebeau/tabula)
@@ -17,12 +19,14 @@ Downloads](http://cranlogs.r-pkg.org/badges/tabula)](https://cran.r-project.org/
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 
 [![DOI
 Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
 [![DOI
 JOSS](https://joss.theoj.org/papers/10.21105/joss.01821/status.svg)](https://doi.org/10.21105/joss.01821)
+<!-- badges: end -->
 
 ## Overview
 
@@ -57,7 +61,7 @@ install.packages("tabula")
 Or install the development version from GitHub with:
 
 ``` r
-# install.packages("devtools")
+# install.packages("remotes")
 remotes::install_github("nfrerebeau/tabula")
 ```
 
@@ -73,25 +77,14 @@ library(ggplot2)
 library(magrittr)
 ```
 
-**tabula** uses a set of S4 classes that extend the basic `matrix` data
-type. These new classes represent different special types of matrix:
-
-  - Numeric matrix:
-      - `CountMatrix` represents absolute frequency data,
-      - `AbundanceMatrix` represents relative frequency data,
-      - `OccurrenceMatrix` represents a co-occurrence matrix,
-      - `SimilarityMatrix` represents a (dis)similarity matrix,
-  - Logical matrix:
-      - `IncidenceMatrix` represents presence/absence data,
-      - `StratigraphicMatrix` represents stratigraphic relationships.
+**tabula** uses a set of S4 classes that represent different special
+types of matrix. Please refer to the documentation of the
+[**arkhe**](https://github.com/nfrerebeau/arkhe) package where these
+classes are defined.
 
 *It assumes that you keep your data tidy*: each variable (type/taxa)
 must be saved in its own column and each observation (sample/case) must
 be saved in its own row.
-
-These new classes are of simple use, please refer to the documentation
-of the [**arkhe**](https://github.com/nfrerebeau/arkhe) package where
-these classes are defined.
 
 ### Visualization
 
@@ -212,8 +205,8 @@ plot_date(event, type = "tempo", select = "LZ1105") +
 
 ### Analysis
 
-*Diversity* can be measured according to several indices (sometimes
-referred to as indices of *heterogeneity*):
+*Diversity* can be measured according to several indices (referred to as
+indices of *heterogeneity* – see `vignette("diversity")`):
 
 ``` r
 mississippi %>%
