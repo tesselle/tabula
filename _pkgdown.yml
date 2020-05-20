@@ -1,0 +1,58 @@
+url: http://tabula.archaeo.science
+development:
+  mode: auto
+
+template:
+  opengraph:
+    twitter:
+      creator: "@nfrerebeau"
+      card: summary_large_image
+
+reference:
+- title: Diversity Measures
+  contents:
+  - has_concept("diversity")
+- title: Dating Methods
+  contents:
+  - has_concept("dating")
+- title: Seriation Methods
+  contents:
+  - has_concept("seriation")
+- title: Visualization Methods
+  contents:
+  - has_concept("plot")
+- title: Tests
+  contents:
+  - has_concept("test")
+- title: Classes
+  contents:
+  - has_concept("class")
+- title: Getters and Setters
+  contents:
+  - has_concept("mutator")
+- title: Data
+  contents:
+  - has_concept("datasets")
+
+navbar:
+  type: default
+  left:
+  - icon: fa-home fa-lg
+    href: index.html
+  - text: Reference
+    href: reference/index.html
+  - text: Articles
+    menu:
+    - text: Diversity Measures
+      href: articles/diversity.html
+    - text: Seriation Methods
+      href: articles/seriation.html
+    - text: Dating Methods
+      href: articles/dating.html
+    - text: Bibliography
+      href: articles/bibliography.html
+    - text: Changelog
+      href: news/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/nfrerebeau/tabula
