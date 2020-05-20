@@ -3,7 +3,7 @@
 NULL
 
 #' @export
-#' @rdname date
+#' @rdname event
 #' @aliases date_event,CountMatrix,numeric-method
 setMethod(
   f = "date_event",
@@ -54,7 +54,7 @@ setMethod(
 )
 
 #' @export
-#' @rdname date
+#' @rdname event
 #' @aliases predict_event,DateModel,missing-method
 setMethod(
   f = "predict_event",
@@ -67,7 +67,7 @@ setMethod(
 )
 
 #' @export
-#' @rdname date
+#' @rdname event
 #' @aliases predict_event,DateModel,CountMatrix-method
 setMethod(
   f = "predict_event",

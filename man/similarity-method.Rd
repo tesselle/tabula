@@ -125,7 +125,6 @@ Brainerd, G. W. (1951). The Place of Chronological Ordering in
 \seealso{
 Other diversity: 
 \code{\link{heterogeneity-index}},
-\code{\link{refine}},
 \code{\link{richness-index}},
 \code{\link{turnover-index}}
 }

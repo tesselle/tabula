@@ -12,18 +12,18 @@ reference:
 - title: Diversity Measures
   contents:
   - has_concept("diversity")
-- title: Dating Methods
+- title: Dating
   contents:
   - has_concept("dating")
-- title: Seriation Methods
+- title: Seriation
   contents:
   - has_concept("seriation")
-- title: Visualization Methods
+- title: Visualization
   contents:
   - has_concept("plot")
-- title: Tests
+- title: Statistics
   contents:
-  - has_concept("test")
+  - has_concept("statistics")
 - title: Classes
   contents:
   - has_concept("class")
@@ -51,8 +51,8 @@ navbar:
       href: articles/dating.html
     - text: Bibliography
       href: articles/bibliography.html
-    - text: Changelog
-      href: news/index.html
+  - text: Changelog
+    href: news/index.html
   right:
   - icon: fa-github fa-lg
     href: https://github.com/nfrerebeau/tabula

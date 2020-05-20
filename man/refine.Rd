@@ -184,13 +184,11 @@ Bellanger, L., Tomassone, R. & Husi, P. (2008). A Statistical Approach for
 \link{date_event}, \link{index_heterogeneity},
  \link{index_evenness}, \link{index_richness}, \link{seriate_correspondence}
 
-Other diversity: 
-\code{\link{heterogeneity-index}},
-\code{\link{richness-index}},
-\code{\link{similarity}()},
-\code{\link{turnover-index}}
+Other statistics: 
+\code{\link{test_diversity}()},
+\code{\link{test_fit}()}
 }
 \author{
 N. Frerebeau
 }
-\concept{diversity}
+\concept{statistics}

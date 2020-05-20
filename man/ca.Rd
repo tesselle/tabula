@@ -70,3 +70,4 @@ plot_ca(ca, map = c("rows", "columns"))
 \author{
 N. Frerebeau
 }
+\concept{mutlivariate}

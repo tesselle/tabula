@@ -1,4 +1,4 @@
-# PLOT FORD
+# STATISTICS
 #' @include AllClasses.R AllGenerics.R
 NULL
 

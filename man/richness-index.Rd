@@ -234,7 +234,6 @@ Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
 
 Other diversity: 
 \code{\link{heterogeneity-index}},
-\code{\link{refine}},
 \code{\link{similarity}()},
 \code{\link{turnover-index}}
 }

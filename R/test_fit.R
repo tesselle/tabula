@@ -2,7 +2,7 @@
 NULL
 
 #' @export
-#' @rdname test
+#' @rdname test_fit
 #' @aliases test_fit,CountMatrix-method
 setMethod(
   f = "test_fit",

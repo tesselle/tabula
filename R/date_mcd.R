@@ -3,7 +3,7 @@
 NULL
 
 #' @export
-#' @rdname date
+#' @rdname date_mcd
 #' @aliases date_mcd,CountMatrix,numeric-method
 setMethod(
   f = "date_mcd",

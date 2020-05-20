@@ -238,7 +238,6 @@ Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
  \link{turnover}
 
 Other diversity: 
-\code{\link{refine}},
 \code{\link{richness-index}},
 \code{\link{similarity}()},
 \code{\link{turnover-index}}

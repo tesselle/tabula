@@ -121,6 +121,7 @@ setGeneric(
 #' @seealso \link{refine_ca}, \link{seriate_correspondence}
 #' @example inst/examples/ex-ca.R
 #' @author N. Frerebeau
+#' @family mutlivariate
 #' @docType methods
 #' @name ca
 #' @rdname ca
@@ -148,33 +149,21 @@ setGeneric(
 )
 
 # ========================================================================= Date
-#' Date Archaeological Assemblages
+#' Mean Ceramic Date
 #'
-#' @description
-#'  \code{date_mcd} estimates the Mean Ceramic Date of an assemblage.
-#'
-#'  \code{date_event} fit a date event model.
-#'
-#'  \code{predict_event} estimates the event and accumulation dates of an
-#'  assemblage.
+#' Estimates the Mean Ceramic Date of an assemblage.
 #' @param object A \linkS4class{CountMatrix} or a \linkS4class{DateModel}
 #'  object.
-#' @param data A \linkS4class{CountMatrix} object for which to predict
-#'  event and accumulation dates.
 #' @param dates A \code{\link{numeric}} vector of dates. If named,
 #'  the names must match the row names of \code{object}.
 #' @param errors A \code{\link{numeric}} vector giving the absolute error of
 #'  \code{dates}.
 #' @param level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
-#' @param cutoff An \code{\link{integer}} giving the cumulative percentage of
-#'  variance used to select CA factorial components for linear model fitting
-#'  (see details). All compounds with a cumulative percentage of variance of
-#'  less than the \code{cutoff} value will be retained.
 #' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
 #'  replications.
-#' @param ... Further arguments to be passed to internal methods.
-#' @section Mean Ceramic Date:
+#' @param ... Currently not used.
+#' @details
 #'  The Mean Ceramic Date (MCD) is a point estimate of the occupation of an
 #'  archaeological site (South 1977). The MCD is estimated as the weighted mean
 #'  of the date midpoints of the ceramic types (based on absolute dates or the
@@ -188,7 +177,51 @@ setGeneric(
 #'  upper and lower boundaries of the confidence interval associated with each
 #'  MCD are then returned. Confidence interval are not estimated for assemblages
 #'  with only a single type (\code{NA}s are returned).
-#' @section Event and Accumulation Dates:
+#' @return
+#'  \code{date_mcd} returns a \code{\link{data.frame}} with the following
+#'  columns:
+#'  \describe{
+#'   \item{id}{An identifier to link each row to an assemblage.}
+#'   \item{date}{The Mean Ceramic Date.}
+#'   \item{error}{The error on the MCD.}
+#'   \item{lower}{The lower boundary of the confidence interval.}
+#'   \item{upper}{The upper boundary of the confidence interval.}
+#'  }
+#' @references
+#'  South, S. A. (1977). \emph{Method and Theory in Historical Archaeology}.
+#'  New York: Academic Press.
+#' @example inst/examples/ex-dating.R
+#' @author N. Frerebeau
+#' @family dating
+#' @docType methods
+#' @rdname date_mcd
+#' @aliases date_mcd-method
+setGeneric(
+  name = "date_mcd",
+  def = function(object, dates, ...) standardGeneric("date_mcd")
+)
+
+#' Event and Accumulation Dates
+#'
+#' @description
+#'  \code{date_event} fit a date event model.
+#'
+#'  \code{predict_event} estimates the event and accumulation dates of an
+#'  assemblage.
+#' @param object A \linkS4class{CountMatrix} or a \linkS4class{DateModel}
+#'  object.
+#' @param data A \linkS4class{CountMatrix} object for which to predict
+#'  event and accumulation dates.
+#' @param dates A \code{\link{numeric}} vector of dates. If named,
+#'  the names must match the row names of \code{object}.
+#' @param level A length-one \code{\link{numeric}} vector giving the
+#'  confidence level.
+#' @param cutoff An \code{\link{integer}} giving the cumulative percentage of
+#'  variance used to select CA factorial components for linear model fitting
+#'  (see details). All compounds with a cumulative percentage of variance of
+#'  less than the \code{cutoff} value will be retained.
+#' @param ... Further arguments to be passed to internal methods.
+#' @details
 #'  This is an implementation of the chronological modeling method proposed by
 #'  Bellanger and Husi (2012, 2013).
 #'
@@ -214,21 +247,9 @@ setGeneric(
 #'  implementation must be considered \strong{experimental}.
 #'  \code{date_event} may be subject to major changes in a future release.
 #' @return
-#'  \code{date_mcd} returns a \code{\link{data.frame}} with the following
-#'  columns:
-#'  \describe{
-#'   \item{id}{An identifier to link each row to an assemblage.}
-#'   \item{date}{The Mean Ceramic Date.}
-#'   \item{error}{The error on the MCD.}
-#'   \item{lower}{The lower boundary of the confidence interval.}
-#'   \item{upper}{The upper boundary of the confidence interval.}
-#'  }
-#'
 #'  \code{date_event} returns an object of class \linkS4class{DateModel}.
 #'
 #'  \code{predict_event} returns an object of class \linkS4class{DateEvent}.
-#'
-#'  \code{refine_event} returns a \code{\link{data.frame}}.
 #' @references
 #'  Bellanger, L. & Husi, P. (2013). Mesurer et modéliser le temps inscrit dans
 #'  la matière à partir d'une source matérielle : la céramique médiévale.
@@ -256,33 +277,23 @@ setGeneric(
 #'  for Seriation of Sagalassos Tablewares. In Doerr, M. & Apostolis, S. (eds.),
 #'  \emph{The Digital Heritage of Archaeology}. Athens: Hellenic Ministry of
 #'  Culture.
-#'
-#'  South, S. A. (1977). \emph{Method and Theory in Historical Archaeology}.
-#'  New York: Academic Press.
 #' @seealso \link{refine_event}
 #' @example inst/examples/ex-dating.R
 #' @author N. Frerebeau
 #' @family dating
 #' @docType methods
-#' @name date
-#' @rdname date
+#' @name event
+#' @rdname event
 NULL
 
-#' @rdname date
-#' @aliases date_mcd-method
-setGeneric(
-  name = "date_mcd",
-  def = function(object, dates, ...) standardGeneric("date_mcd")
-)
-
-#' @rdname date
+#' @rdname event
 #' @aliases date_event-method
 setGeneric(
   name = "date_event",
   def = function(object, dates, ...) standardGeneric("date_event")
 )
 
-#' @rdname date
+#' @rdname event
 #' @aliases predict_event-method
 setGeneric(
   name = "predict_event",
@@ -997,7 +1008,7 @@ setGeneric(
 #'  \link{index_evenness}, \link{index_richness}, \link{seriate_correspondence}
 #' @example inst/examples/ex-refine.R
 #' @author N. Frerebeau
-#' @family diversity
+#' @family statistics
 #' @docType methods
 #' @name refine
 #' @rdname refine
@@ -1222,25 +1233,43 @@ setGeneric(
 )
 
 # ========================================================================= Test
-#' Tests on Abundance Data
+#' Diversity Test
 #'
+#' Compares Shannon diversity between samples.
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
 #' @param adjust A \code{\link{character}} string specifying the method for
 #'  adjusting \eqn{p} values (see \code{\link[stats]{p.adjust}}).
-#' @param simplify A \code{\link{logical}} scalar: should the result be
-#'  simplified to a matrix?
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
-#'  The following methods are available:
-#'  \describe{
-#'   \item{\code{test_diversity}}{Compare Shannon diversity between samples.
-#'   This test produces two sided pairwise comparisons: it returns a matrix of
-#'   adjusted \eqn{p} values.}
-#'   \item{\code{test_fit}}{The Frequency Increment Test (Feder et al. 2014).
-#'   This test rejects neutrality if the distribution of normalized variant
-#'   frequency increments exhibits a mean that deviates significantly from
-#'   zero.}
-#'  }
+#'  This test produces two sided pairwise comparisons: it returns a matrix of
+#'  adjusted \eqn{p} values.
+#' @return
+#'  A \code{\link{numeric}} matrix.
+#' @example inst/examples/ex-test.R
+#' @author N. Frerebeau
+#' @references
+#'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
+#'  Princeton, NJ: Princeton University Press.
+#'  DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+#' @family statistics
+#' @docType methods
+#' @rdname test_diversity
+#' @aliases test_diversity-method
+setGeneric(
+  name = "test_diversity",
+  def = function(object, ...) standardGeneric("test_diversity")
+)
+
+#' Frequency Increment Test
+#'
+#' @param object A \eqn{m \times p}{m x p} matrix of count data.
+#' @param simplify A \code{\link{logical}} scalar: should the result be
+#'  simplified to a matrix?
+#' @param ... Currently not used.
+#' @details
+#'  The Frequency Increment Test (FIT) rejects neutrality if the distribution
+#'  of normalized variant frequency increments exhibits a mean that deviates
+#'  significantly from zero.
 #' @return
 #'  If \code{simplify} is \code{FALSE}, returns a list (default), else returns
 #'  a matrix.
@@ -1251,23 +1280,9 @@ setGeneric(
 #'  Signatures of Selection in Genetic Time Series. \emph{Genetics}, 196(2),
 #'  509-522.
 #'  DOI: \href{https://doi.org/10.1534/genetics.113.158220}{10.1534/genetics.113.158220}.
-#'
-#'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
-#'  Princeton, NJ: Princeton University Press.
-#'  DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
-#' @family test
-#' @name test
-#' @rdname test
-NULL
-
-#' @rdname test
-#' @aliases test_diversity-method
-setGeneric(
-  name = "test_diversity",
-  def = function(object, ...) standardGeneric("test_diversity")
-)
-
-#' @rdname test
+#' @family statistics
+#' @docType methods
+#' @rdname test_fit
 #' @aliases test_fit-method
 setGeneric(
   name = "test_fit",

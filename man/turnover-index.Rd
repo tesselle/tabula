@@ -108,7 +108,6 @@ Cody, M. L. (1975). Towards a theory of continental species diversity: Bird
 \seealso{
 Other diversity: 
 \code{\link{heterogeneity-index}},
-\code{\link{refine}},
 \code{\link{richness-index}},
 \code{\link{similarity}()}
 }
