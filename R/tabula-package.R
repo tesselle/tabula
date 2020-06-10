@@ -13,7 +13,7 @@
 #' \tabular{ll}{
 #'  Jean-Baptiste Fourvel \tab \emph{CNRS, France} \cr
 #'  Nicolas Frerebeau \tab \emph{Université Bordeaux Montaigne, France} \cr
-#'  Brice Lebrun \tab \emph{Aix-Marseille Université, France} \cr
+#'  Brice Lebrun \tab \emph{Université Bordeaux Montaigne, France} \cr
 #'  Ben Marwick \tab \emph{University of Washington, USA} \cr
 #'  Matthew Peeples \tab \emph{Arizona State University, USA} \cr
 #'  Anne Philippe \tab \emph{Université de Nantes, France} \cr
