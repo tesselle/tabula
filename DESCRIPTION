@@ -7,31 +7,32 @@ Authors@R:
              family = "Frerebeau",
              role = c("aut", "cre"),
              email = "nicolas.frerebeau@u-bordeaux-montaigne.fr",
-             comment = c(ORCID = "https://orcid.org/0000-0001-5759-4944")),
+             comment = c(ORCID = "0000-0001-5759-4944")),
       person(given = "Brice",
              family = "Lebrun",
              role = "ctb",
              email = "brice.lebrun@u-bordeaux-montaigne.fr",
-             comment = c(ORCID = "https://orcid.org/0000-0001-7503-8685")),
+             comment = c(ORCID = "0000-0001-7503-8685")),
       person(given = "Matthew",
              family = "Peeples",
              role = "ctb",
              email = "matthew.peeples@asu.edu",
-             comment = c(ORCID = "https://orcid.org/0000-0003-4496-623X")),
+             comment = c(ORCID = "0000-0003-4496-623X")),
       person(given = "Ben",
              family = "Marwick",
              role = "ctb",
              email = "bmarwick@uw.edu",
-             comment = c(ORCID = "https://orcid.org/0000-0001-7879-4531")),
+             comment = c(ORCID = "0000-0001-7879-4531")),
       person(given = "Anne",
              family = "Philippe",
              role = "ctb",
-             email = "anne.philippe@univ-nantes.fr"),
+             email = "anne.philippe@univ-nantes.fr",
+             comment = c(ORCID = "0000-0002-5331-5087")),
       person(given = "Jean-Baptiste",
              family = "Fourvel",
              role = "ctb",
              email = "fourvel@mmsh.univ-aix.fr",
-             comment = c(ORCID = "https://orcid.org/0000-0002-1061-4642")))
+             comment = c(ORCID = "0000-0002-1061-4642")))
 Maintainer: Nicolas Frerebeau
     <nicolas.frerebeau@u-bordeaux-montaigne.fr>
 Description: An easy way to examine archaeological count data. This package 
@@ -52,7 +53,7 @@ URL: https://tabula.archaeo.science,
 BugReports: https://github.com/nfrerebeau/tabula/issues
 Depends: 
     R (>= 3.3),
-    arkhe (>= 1.0.0)
+    arkhe (> 0.2.2)
 Remotes:
     nfrerebeau/arkhe
 Imports:
@@ -65,7 +66,7 @@ Imports:
     utils
 Suggests:
     covr,
-    khroma (>= 1.3.0),
+    khroma,
     knitr,
     magrittr,
     rmarkdown,
@@ -75,7 +76,7 @@ VignetteBuilder:
     knitr
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Collate:
     'AllClasses.R'
     'AllGenerics.R'

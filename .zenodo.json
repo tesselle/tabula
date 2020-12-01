@@ -28,6 +28,7 @@
             "name": "Marwick, Ben"
         },
         {
+            "orcid": "0000-0002-5331-5087",
             "affiliation": "Universit\u00e9 de Nantes",
             "type": "Other",
             "name": "Philippe, Anne"
@@ -53,10 +54,5 @@
     ],
     "upload_type": "software",
     "license": "GPL-3.0+",
-    "access_right": "open",
-    "communities": [
-        {
-            "identifier": "archaeo"
-        }
-    ]
+    "access_right": "open"
 }

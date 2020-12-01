@@ -20,10 +20,9 @@
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "3.6.3",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 3.6.3 (2020-02-29)",
+  "runtimePlatform": "R version 4.0.3 (2020-10-10)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -65,7 +64,8 @@
       "@type": "Person",
       "givenName": "Anne",
       "familyName": "Philippe",
-      "email": "anne.philippe@univ-nantes.fr"
+      "email": "anne.philippe@univ-nantes.fr",
+      "@id": "https://orcid.org/0000-0002-5331-5087"
     },
     {
       "@type": "Person",
@@ -103,7 +103,6 @@
       "@type": "SoftwareApplication",
       "identifier": "khroma",
       "name": "khroma",
-      "version": ">= 1.3.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -184,7 +183,7 @@
       "@type": "SoftwareApplication",
       "identifier": "arkhe",
       "name": "arkhe",
-      "version": ">= 1.0.0",
+      "version": "> 0.2.2",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -250,17 +249,9 @@
       "name": "utils"
     }
   ],
-  "releaseNotes": "https://github.com/nfrerebeau/tabula/blob/master/NEWS.md",
   "readme": "https://github.com/nfrerebeau/tabula/blob/master/README.md",
-  "contIntegration": [
-    "https://ci.appveyor.com/project/nfrerebeau/tabula/branch/master",
-    "https://travis-ci.org/nfrerebeau/tabula",
-    "https://codecov.io/gh/nfrerebeau/tabula"
-  ],
-  "developmentStatus": [
-    "https://www.repostatus.org/#active",
-    "https://www.tidyverse.org/lifecycle/#maturing"
-  ],
+  "contIntegration": ["https://travis-ci.org/nfrerebeau/tabula", "https://codecov.io/gh/nfrerebeau/tabula"],
+  "developmentStatus": ["https://www.repostatus.org/#active", "https://www.tidyverse.org/lifecycle/#stable"],
   "keywords": [
     "archaeology",
     "archaeometry",
@@ -296,5 +287,5 @@
       }
     }
   ],
-  "fileSize": "875.731KB"
+  "fileSize": "5041.162KB"
 }
