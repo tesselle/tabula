@@ -30,10 +30,8 @@ setMethod(
     } else {
       as.numeric(select)
     }
-    k <- length(index)
-    if (k == 0)
-      stop("Wrong selection.", call. = FALSE)
 
+    if (length(index) == 0) stop("Wrong selection.", call. = FALSE)
     dates <- dates[index, ]
 
     if (!is.null(sort)) {

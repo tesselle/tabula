@@ -134,7 +134,7 @@ setMethod(
 prepare_spot <- function(object, threshold = NULL, diag = TRUE) {
   # Build a long table for ggplot2 (preserve original ordering)
   data <- object #* 0.8
-  data <- arkhe::as_long(data, as_factor = TRUE)
+  data <- arkhe::as_long(data, factor = TRUE)
 
   if (!diag) {
     data <- data[data$type != data$case, ]

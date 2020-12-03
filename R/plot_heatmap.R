@@ -116,7 +116,7 @@ prepare_heatmap <- function(object, PVI = FALSE, frequency = TRUE) {
   } else {
     # Build long table from data
     data <- if (frequency) arkhe::as_abundance(object) else object
-    data <- arkhe::as_long(data, as_factor = TRUE)
+    data <- arkhe::as_long(data, factor = TRUE)
   }
 
   # Tile centers

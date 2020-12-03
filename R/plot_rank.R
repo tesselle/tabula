@@ -54,7 +54,7 @@ setMethod(
 # Must return a data.frame
 prepare_rank <- function(object) {
   # Build a long table for ggplot2 (preserve original ordering)
-  data <- arkhe::as_long(object, as_factor = TRUE)
+  data <- arkhe::as_long(object, factor = TRUE)
   # Remove zeros in case of log scale
   data <- data[data$data > 0, ]
 

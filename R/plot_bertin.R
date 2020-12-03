@@ -45,7 +45,7 @@ setMethod(
 # Must return a data.frame
 prepare_bertin <- function(object, threshold = NULL, scale = NULL) {
   # Build a long table for ggplot2 (preserve original ordering)
-  data <- arkhe::as_long(object, as_factor = TRUE)
+  data <- arkhe::as_long(object, factor = TRUE)
 
   # Scale variables
   if (is.function(scale)) {

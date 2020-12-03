@@ -28,7 +28,7 @@ setMethod(
     # Get number of cases
     n <- length(row_names)
 
-    data_stacked <- arkhe::as_long(object, as_factor = TRUE)
+    data_stacked <- arkhe::as_long(object, factor = TRUE)
     data <- cbind.data.frame(dates = dates, data_stacked)
     # Remove zeros in case of log scale
     data <- data[data$data > 0, ]
