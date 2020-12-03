@@ -86,7 +86,7 @@ setMethod(
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
-extractSlot <- function(x, i) {
+extract_slot <- function(x, i) {
   class_name <- class(x)
   i <- match.arg(i, choices = methods::slotNames(class_name),
                  several.ok = FALSE)
@@ -100,7 +100,7 @@ extractSlot <- function(x, i) {
 setMethod(
   f = "[[",
   signature = "DiversityIndex",
-  definition = extractSlot
+  definition = extract_slot
 )
 
 #' @export
@@ -109,7 +109,7 @@ setMethod(
 setMethod(
   f = "[[",
   signature = "DateModel",
-  definition = extractSlot
+  definition = extract_slot
 )
 
 #' @export
@@ -118,7 +118,7 @@ setMethod(
 setMethod(
   f = "[[",
   signature = "DateEvent",
-  definition = extractSlot
+  definition = extract_slot
 )
 
 #' @export
@@ -127,7 +127,7 @@ setMethod(
 setMethod(
   f = "[[",
   signature = "CA",
-  definition = extractSlot
+  definition = extract_slot
 )
 
 #' @export
@@ -137,7 +137,7 @@ setMethod(
   f = "[[",
   signature = "BootCA",
   definition = function(x, i) {
-    data <- extractSlot(x, i)
+    data <- extract_slot(x, i)
     if (i %in% c("rows", "columns"))
       data <- as.data.frame(data)
     data
@@ -150,5 +150,5 @@ setMethod(
 setMethod(
   f = "[[",
   signature = "PermutationOrder",
-  definition = extractSlot
+  definition = extract_slot
 )

@@ -9,9 +9,7 @@ setMethod(
   signature = signature(object = "CountMatrix", order = "PermutationOrder"),
   definition = function(object, order) {
     # Rearrange matrix
-    new_matrix <- object[order[["rows"]], order[["columns"]]]
-    # New CountMatrix object
-    arkhe::as_count(new_matrix)
+    object[order[["rows"]], order[["columns"]]]
   }
 )
 
@@ -23,8 +21,6 @@ setMethod(
   signature = signature(object = "IncidenceMatrix", order = "PermutationOrder"),
   definition = function(object, order) {
     # Rearrange matrix
-    new_matrix <- object[order[["rows"]], order[["columns"]]]
-    # New CountMatrix object
-    arkhe::as_incidence(new_matrix)
+    object[order[["rows"]], order[["columns"]]]
   }
 )
