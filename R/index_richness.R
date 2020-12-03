@@ -9,13 +9,14 @@ setMethod(
   signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("none", "margalef", "menhinick"),
                         simulate = FALSE, quantiles = TRUE, level = 0.80,
-                        step = 1, n = 1000, ...) {
+                        step = 1, n = 1000,
+                        progress = getOption("tabula.progress"), ...) {
     # Select method
     fun <- switch_richness(method)
 
     index <- index_diversity(object, fun, simulate = simulate, prob = NULL,
                              quantiles = quantiles, level = level,
-                             step = step, n = n)
+                             step = step, n = n, progress = progress)
 
     index <- methods::as(index, "RichnessIndex")
     index@method <- method[[1L]]

@@ -22,7 +22,14 @@ refine_diversity(object, ...)
 
 refine_event(object, ...)
 
-\S4method{refine_ca}{CA}(object, cutoff, n = 1000, axes = c(1, 2), ...)
+\S4method{refine_ca}{CA}(
+  object,
+  cutoff,
+  n = 1000,
+  axes = c(1, 2),
+  progress = getOption("tabula.progress"),
+  ...
+)
 
 \S4method{refine_event}{DateModel}(
   object,
@@ -30,6 +37,7 @@ refine_event(object, ...)
   level = 0.95,
   probs = c(0.05, 0.95),
   n = 1000,
+  progress = getOption("tabula.progress"),
   ...
 )
 
@@ -63,6 +71,9 @@ replications (see below).}
 
 \item{axes}{A \code{\link{numeric}} vector giving the subscripts of the CA
 axes to be used (see below).}
+
+\item{progress}{A \code{\link{logical}} scalar: should a progress bar be
+displayed?}
 
 \item{method}{A \code{\link{character}} string specifying the resampling
 method to be used. This must be one of "\code{jackknife}",

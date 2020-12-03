@@ -14,16 +14,19 @@ NULL
 #'  default), probabilities are estimated from the whole dataset.
 #' @param level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
+#' @param step An \code{\link{integer}}.
 #' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
 #' replications.
+#' @param progress A \code{\link{logical}} scalar: should a progress bar be
+#'  displayed?
 #' @param ... Further parameters to be passed to \code{method}.
 #' @return A \code{\link{list}}.
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
 index_diversity <- function(x, method, simulate = FALSE, quantiles = TRUE,
-                            prob = NULL, level = 0.80,
-                            step = 1, n = 1000, ...) {
+                            prob = NULL, level = 0.80, step = 1, n = 1000,
+                            progress = getOption("tabula.progress"), ...) {
 
   # Heterogeneity
   idx <- apply(X = x, MARGIN = 1, FUN = method, ...)
@@ -33,7 +36,8 @@ index_diversity <- function(x, method, simulate = FALSE, quantiles = TRUE,
   sim <- matrix(0, 0, 0)
   if (simulate) {
     sim <- simulate_diversity(x, method, prob = prob, quantiles = quantiles,
-                              level = level, step = step, n = n)
+                              level = level, step = step, n = n,
+                              progress = progress)
   }
 
   .DiversityIndex(
@@ -46,21 +50,26 @@ index_diversity <- function(x, method, simulate = FALSE, quantiles = TRUE,
 
 
 #' @param x A \code{\link{numeric}} matrix.
+#' @param method A \code{\link{function}}.
 #' @param prob A length-\eqn{p} \code{\link{numeric}} vector giving the of
 #'  probability of the \eqn{p} taxa/types (see below). If \code{NULL} (the
 #'  default), probabilities are estimated from \code{x}.
-#' @param level A length-one \code{\link{numeric}} vector giving the
-#'  confidence level.
 #' @param quantiles A \code{\link{logical}} scalar: should sample quantiles
 #'  be used as confidence interval? If \code{TRUE} (the default),
 #'  sample quantiles are used as described in Kintigh (1989), else quantiles of
 #'  the normal distribution are used.
+#' @param level A length-one \code{\link{numeric}} vector giving the
+#'  confidence level.
+#' @param step An \code{\link{integer}}.
 #' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
-#' replications.
+#'  replications.
+#' @param progress A \code{\link{logical}} scalar: should a progress bar be
+#'  displayed?
 #' @keywords internal
 #' @noRd
 simulate_diversity <- function(x, method, prob = NULL, quantiles = TRUE,
-                               level = 0.80, step = 1, n = 1000, ...) {
+                               level = 0.80, step = 1, n = 1000,
+                               progress = getOption("tabula.progress"), ...) {
   # Specify the probability for the classes
   if (is.null(prob))
     prob <- colSums(x) / sum(x)
@@ -73,16 +82,17 @@ simulate_diversity <- function(x, method, prob = NULL, quantiles = TRUE,
 
   simulated <- vector(mode = "list", length = m)
 
-  if (interactive())
-    pbar <- utils::txtProgressBar(min = 0, max = m, initial = 0,
-                                  char = "=", style = 3)
+  progress_bar <- interactive() && progress
+  if (progress_bar) pbar <- utils::txtProgressBar(max = m, style = 3)
+
   for (i in k) {
     simulated[[i]] <- sim(size = sample_sizes[[i]], prob = prob,
                           method = method, n = n, level = level,
                           quantiles = quantiles, ...)
-    if (interactive()) utils::setTxtProgressBar(pbar, i)
+    if (progress_bar) utils::setTxtProgressBar(pbar, i)
   }
-  if (interactive()) close(pbar)
+
+  if (progress_bar) close(pbar)
 
   simulated <- do.call(rbind, simulated)
   simulated <- cbind(size = sample_sizes, simulated)

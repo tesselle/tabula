@@ -8,13 +8,16 @@ NULL
 setMethod(
   f = "refine_ca",
   signature = signature(object = "CA"),
-  definition = function(object, cutoff, n = 1000, axes = c(1, 2), ...) {
+  definition = function(object, cutoff, n = 1000, axes = c(1, 2),
+                        progress = getOption("tabula.progress"), ...) {
     data <- object
+
     # Partial bootstrap CA
-    hull_rows <- boot_ca(data, fun = compute_ca_chull, n = n, margin = 1,
-                         axes = axes)
-    hull_columns <- boot_ca(data, fun = compute_ca_chull, n = n, margin = 2,
-                            axes = axes, ...)
+    hull_rows <- boot_ca(data, fun = compute_ca_chull, margin = 1, n = n,
+                         progress = progress, axes = axes)
+    hull_columns <- boot_ca(data, fun = compute_ca_chull, margin = 2, n = n,
+                            progress = progress, axes = axes, ...)
+
     # Get convex hull maximal dimension length for each sample
     length_rows <- vapply(
       X = hull_rows,
@@ -26,12 +29,15 @@ setMethod(
       FUN = function(x) max(stats::dist(x, method = "euclidean")),
       FUN.VALUE = double(1)
     )
+
     # Get cutoff values
     limit_rows <- cutoff(length_rows)
     limit_columns <- cutoff(length_columns)
+
     # Samples to be kept
     keep_rows <- which(length_rows < limit_rows)
     keep_columns <- which(length_columns < limit_columns)
+
     # Bind hull vertices in a data.frame
     id_rows <- rep(names(hull_rows),
                    times = vapply(hull_rows, nrow, numeric(1)))
@@ -62,12 +68,16 @@ setMethod(
 #'  indicates columns.
 #' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
 #'  replications.
+#' @param progress A \code{\link{logical}} scalar: should a progress bar be
+#'  displayed?
 #' @param ... Further parameters to be passed to \code{fun}.
 #' @return A \code{\link{list}}.
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
-boot_ca <- function(x, fun, margin = 1, n = 1000, ...) {
+boot_ca <- function(x, fun, margin = 1, n = 1000,
+                    progress = getOption("tabula.progress"), ...) {
+
   arg <- deparse(substitute(fun))
   if (!is.function(fun))
     stop(sprintf("%s must be a function.", sQuote(arg)))
@@ -78,10 +88,11 @@ boot_ca <- function(x, fun, margin = 1, n = 1000, ...) {
 
   m <- nrow(data)
   k <- seq_len(m)
-
   boot <- vector(mode = "list", length = m)
-  progress_bar <- utils::txtProgressBar(min = 0, max = m, initial = 0,
-                                        char = "=", style = 3)
+
+  progress_bar <- interactive() && progress
+  if (progress_bar) pbar <- utils::txtProgressBar(max = m, style = 3)
+
   for (i in k) {
     # n random replicates
     sample <- data[i, , drop = TRUE]
@@ -89,11 +100,14 @@ boot_ca <- function(x, fun, margin = 1, n = 1000, ...) {
 
     # Compute new CA coordinates
     coords <- crossprod(replicates / colSums(replicates), svd)
+
     # Apply on new CA coordinates
     boot[[i]] <- fun(x = coords, ...)
-    utils::setTxtProgressBar(progress_bar, i)
+    if (progress_bar) utils::setTxtProgressBar(pbar, i)
   }
-  close(progress_bar)
+
+  if (progress_bar) close(pbar)
+
   names(boot) <- rownames(data)
   boot
 }

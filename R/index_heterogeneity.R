@@ -10,13 +10,14 @@ setMethod(
   definition = function(object, method = c("berger", "brillouin", "mcintosh",
                                            "shannon", "simpson"),
                         simulate = FALSE, quantiles = TRUE, level = 0.80,
-                        step = 1, n = 1000, ...) {
+                        step = 1, n = 1000,
+                        progress = getOption("tabula.progress"), ...) {
     # Select method
     fun <- switch_heterogeneity(method)
 
     index <- index_diversity(object, fun, simulate = simulate, prob = NULL,
                              quantiles = quantiles, level = level,
-                             step = step, n = n, ...)
+                             step = step, n = n, progress = progress, ...)
 
     index <- methods::as(index, "HeterogeneityIndex")
     index@method <- method[[1L]]

@@ -9,7 +9,8 @@ setMethod(
   f = "refine_event",
   signature = signature(object = "DateModel"),
   definition = function(object, method = c("jackknife", "bootstrap"),
-                        level = 0.95, probs = c(0.05, 0.95), n = 1000, ...) {
+                        level = 0.95, probs = c(0.05, 0.95), n = 1000,
+                        progress = getOption("tabula.progress"), ...) {
     # Validation
     method <- match.arg(method, several.ok = FALSE)
 
@@ -22,15 +23,19 @@ setMethod(
     event <- predict_event(object, level = 0.95)
     ca <- run_ca(arkhe::as_count(fit_data))
 
-    # Check model with resampling methods
+    ## Check model with resampling methods
     ## Jackknife fabrics
     if ("jackknife" %in% method) {
-      jack_coef <- jack_date2(fit_data, fit_dates, cutoff = 100)
+      jack_coef <- jack_date2(fit_data, fit_dates, cutoff = 100,
+                              progress = progress)
+
       # Change lm coefficients
       fit_model$coefficients <- jack_coef[c(1, fit_dim + 1)]
+
       # Predict event date for each context
       jack_event <- predict_events(fit_model, ca[["row_coordinates"]], level)
       results <- as.data.frame(jack_event)
+
       # Compute jaccknife bias
       results$bias <- (ncol(fit_data) - 1) *
         (results$date - event[["row_event"]][, "date"])
@@ -38,6 +43,7 @@ setMethod(
     ## Bootstrap assemblages
     if ("bootstrap" %in% method) {
       results <- boot_ca(ca, fun = compute_date_boot, margin = 1, n = n,
+                         progress = progress,
                          axes = fit_dim, model = fit_model, level = level,
                          probs = probs)
       results <- do.call(rbind, results)
@@ -87,24 +93,24 @@ compute_date_boot <- function(x, axes, model, level, probs = c(0.05, 0.95)) {
 #'
 #' Compute date event jackknifed statistics for each replicated sample.
 #' @param x A \code{\link{numeric}} matrix of count data.
-#' @param date A \code{\link{numeric}} vector of known dates.
-#' @param model A \code{\link[stats:lm]{linear model}} in which coefficients
-#'  will be replaced by the jackknife estimates.
-#' @param keep An \code{\link{integer}} giving the number of CA factors to keep
-#'  for new data prediction.
-#' @param level A length-one \code{\link{numeric}} vector giving the
-#'  confidence level.
+#' @param dates A \code{\link{numeric}} vector of known dates.
+#' @param cutoff A \code{\link{numeric}} value.
+#' @param progress A \code{\link{logical}} scalar: should a progress bar be
+#'  displayed?
 #' @param ... Further arguments to be passed to \code{\link[ca]{ca}}.
 #' @return A \code{\link{numeric}} vector of linear model coefficients.
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
-jack_date2 <- function(x, dates, cutoff = 90, ...){
+jack_date2 <- function(x, dates, cutoff = 90,
+                       progress = getOption("tabula.progress"), ...){
   m <- ncol(x)
   k <- seq_len(m)
   jack <- vector(mode = "list", length = m)
-  progress_bar <- utils::txtProgressBar(min = 0, max = m, initial = 0,
-                                        char = "=", style = 3)
+
+  progress_bar <- interactive() && progress
+  if (progress_bar) pbar <- utils::txtProgressBar(max = m, style = 3)
+
   for (j in k) {
     counts <- arkhe::as_count(x[, -j, drop = FALSE])
     # Removing a column may lead to rows filled only with zeros
@@ -113,9 +119,11 @@ jack_date2 <- function(x, dates, cutoff = 90, ...){
       date_event(counts, dates = dates, cutoff = cutoff)
     )
     jack[[j]] <- stats::coef(model[["model"]]) # Get model coefficients
-    utils::setTxtProgressBar(progress_bar, j)
+    if (progress_bar) utils::setTxtProgressBar(pbar, j)
   }
-  close(progress_bar)
+
+  if (progress_bar) close(pbar)
+
   jack <- do.call(rbind, jack)
   jack <- apply(X = jack, MARGIN = 2, FUN = mean)
   jack

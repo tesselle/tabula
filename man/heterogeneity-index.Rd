@@ -24,6 +24,7 @@ index_evenness(object, ...)
   level = 0.8,
   step = 1,
   n = 1000,
+  progress = getOption("tabula.progress"),
   ...
 )
 
@@ -35,6 +36,7 @@ index_evenness(object, ...)
   level = 0.8,
   step = 1,
   n = 1000,
+  progress = getOption("tabula.progress"),
   ...
 )
 }
@@ -64,6 +66,9 @@ sample size. Only used if \code{simulate} is \code{TRUE}.}
 
 \item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
 replications. Only used if \code{simulate} is \code{TRUE}.}
+
+\item{progress}{A \code{\link{logical}} scalar: should a progress bar be
+displayed?}
 }
 \value{
 \code{index_heterogeneity} and \code{index_evenness} return a

@@ -2,7 +2,7 @@
 #' @include AllClasses.R
 NULL
 
-# ====================================================================== Extract
+# Extract ======================================================================
 #' Get or Set Parts of an Object
 #'
 #' Getters and setters to extract or replace parts of an object.
@@ -19,7 +19,7 @@ NULL
 #' @aliases get set
 NULL
 
-# ------------------------------------------------------------------------------
+# Subset -----------------------------------------------------------------------
 #' Extract or Replace Parts of an Object
 #'
 #' Operators acting on objects to extract or replace parts.
@@ -46,7 +46,7 @@ NULL
 #' @rdname subset
 NULL
 
-# ==================================================================== Statistic
+# Statistic ====================================================================
 #' Independance
 #'
 #' @param object A \linkS4class{CountMatrix} object.
@@ -99,7 +99,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("pvi")
 )
 
-# ====================================================== Correspondence Analysis
+# Correspondence Analysis ======================================================
 #' Correspondence Analysis
 #'
 #' Performs a correspondence analysis.
@@ -148,7 +148,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("plot_ca")
 )
 
-# ========================================================================= Date
+# Date =========================================================================
 #' Mean Ceramic Date
 #'
 #' Estimates the Mean Ceramic Date of an assemblage.
@@ -300,7 +300,7 @@ setGeneric(
   def = function(object, data, ...) standardGeneric("predict_event")
 )
 
-# ==================================================================== Diversity
+# Diversity ====================================================================
 #' Heterogeneity and Evenness
 #'
 #' @description
@@ -324,6 +324,8 @@ setGeneric(
 #'  sample size. Only used if \code{simulate} is \code{TRUE}.
 #' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
 #'  replications. Only used if \code{simulate} is \code{TRUE}.
+#' @param progress A \code{\link{logical}} scalar: should a progress bar be
+#'  displayed?
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  \emph{Diversity} measurement assumes that all individuals in a specific
@@ -449,7 +451,8 @@ setGeneric(
   def = function(object, ...) standardGeneric("index_evenness")
 )
 
-# ========================================================================= Plot
+# Plot =========================================================================
+# Time Plot --------------------------------------------------------------------
 #' Date and Time Plot
 #'
 #' \code{plot_date} produces an activity or tempo plot.
@@ -551,7 +554,7 @@ setGeneric(
   def = function(object, dates, ...) standardGeneric("plot_time")
 )
 
-# ------------------------------------------------------------------------------
+# Diversity Plot ---------------------------------------------------------------
 #' Diversity Plot
 #'
 #' @param object A \linkS4class{DiversityIndex} object to be plotted.
@@ -573,7 +576,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("plot_diversity")
 )
 
-# ------------------------------------------------------------------------------
+# Bar Plot ---------------------------------------------------------------------
 #' Bar Plot
 #'
 #' Plots a Bertin, Ford (battleship curve) or Dice-Leraas diagram.
@@ -641,7 +644,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("plot_ford")
 )
 
-# ------------------------------------------------------------------------------
+# Heatmap ----------------------------------------------------------------------
 #' Heatmap
 #'
 #' Plots a heatmap.
@@ -679,7 +682,7 @@ setGeneric(
   name = "plot_heatmap",
   def = function(object, ...) standardGeneric("plot_heatmap")
 )
-# ------------------------------------------------------------------------------
+# Line Plot --------------------------------------------------------------------
 #' Line Plot
 #'
 #' \code{plot_rank} plots a rank \emph{vs} relative abundance diagram.
@@ -711,7 +714,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("plot_rank")
 )
 
-# ------------------------------------------------------------------------------
+# Spot Plot --------------------------------------------------------------------
 #' Spot Plot
 #'
 #' Plots a spot matrix.
@@ -745,7 +748,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("plot_spot")
 )
 
-# ===================================================================== Richness
+# Richness =====================================================================
 #' Richness and Rarefaction
 #'
 #' @description
@@ -781,6 +784,8 @@ setGeneric(
 #'  sample size. Only used if \code{simulate} is \code{TRUE}.
 #' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
 #'  replications. Only used if \code{simulate} is \code{TRUE}.
+#' @param progress A \code{\link{logical}} scalar: should a progress bar be
+#'  displayed?
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
 #' @param ... Further arguments to be passed to internal methods.
@@ -908,7 +913,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("rarefaction")
 )
 
-# ======================================================================= Refine
+# Refine =======================================================================
 #' Bootstrap and Jackknife Resampling
 #'
 #' @description
@@ -933,6 +938,8 @@ setGeneric(
 #'  axes to be used (see below).
 #' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
 #' replications (see below).
+#' @param progress A \code{\link{logical}} scalar: should a progress bar be
+#'  displayed?
 #' @param ... Currently not used.
 #' @section Correspondence Analysis Refining:
 #'  \code{refine_ca} allows to identify samples that are subject to
@@ -1035,7 +1042,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("refine_event")
 )
 
-# ====================================================================== Seriate
+# Seriate ======================================================================
 #' Matrix Seriation
 #'
 #' @description
@@ -1167,7 +1174,7 @@ setGeneric(
   def = function(object) standardGeneric("get_order")
 )
 
-# =================================================================== Similarity
+# Similarity ===================================================================
 #' Similarity
 #'
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
@@ -1232,7 +1239,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("similarity")
 )
 
-# ========================================================================= Test
+# Test =========================================================================
 #' Diversity Test
 #'
 #' Compares Shannon diversity between samples.
@@ -1289,7 +1296,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("test_fit")
 )
 
-# ===================================================================== Turnover
+# Turnover =====================================================================
 #' Turnover
 #'
 #' Returns the degree of turnover in taxa composition along a gradient or
@@ -1350,7 +1357,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("turnover")
 )
 
-# =================================================================== Deprecated
+# Deprecated ===================================================================
 #' Deprecated Methods
 #'
 #' @param object An object.
