@@ -55,7 +55,8 @@ setMethod(
 )
 
 print_var <- function(object, axis = 1) {
-  variance <- round(object[["eigenvalues"]][axis, 2], 1)
+  eig <- arkhe::get_eigenvalues(object)
+  variance <- round(eig[axis, 2], 1)
   sprintf("CA%d (%g%%)", axis, variance)
 }
 
@@ -67,19 +68,20 @@ prepare_ca <- function(object, axes = c(1, 2), map = c("rows", "columns"),
   row_data <- col_data <- NULL
   if ("rows" %in% map) {
     row_data <- data.frame(
-      object[["row_coordinates"]][, axes],
+      arkhe::get_coordinates(object, margin = 1, sup = TRUE)[, axes],
       legend = "rows",
       stringsAsFactors = FALSE
     )
   }
   if ("columns" %in% map) {
     col_data <- data.frame(
-      object[["column_coordinates"]][, axes],
+      arkhe::get_coordinates(object, margin = 2, sup = TRUE)[, axes],
       legend = "columns",
       stringsAsFactors = FALSE
     )
   }
   data <- rbind.data.frame(row_data, col_data)
+  print(data)
   colnames(data) <- c("x", "y", "legend")
   # data <- rownames_to_column(data, id = "label")
   data

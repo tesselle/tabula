@@ -101,13 +101,8 @@ setGeneric(
 # Correspondence Analysis ======================================================
 #' Correspondence Analysis
 #'
-#' Performs a correspondence analysis (or reciprocal averaging).
-#' @param object A \linkS4class{CountMatrix} object.
-#' @param data A \linkS4class{CountMatrix} object for which to predict
-#'  CA coordinates.
-#' @param dimensions An \code{\link{integer}} value giving the number of
-#'  dimensions kept in the results. If \code{NULL} (the default), all
-#'  dimensions are kept.
+#' Plots results of a correspondence analysis (or reciprocal averaging).
+#' @param object A \linkS4class{CA} object.
 #' @param axes A length-two \code{\link{numeric}} vector specifying the
 #'  components to plot.
 #' @param map A \code{\link{character}} vector specifying the graph to plot.
@@ -125,20 +120,6 @@ setGeneric(
 #' @name ca
 #' @rdname ca
 NULL
-
-#' @rdname ca
-#' @aliases run_ca-method
-setGeneric(
-  name = "run_ca",
-  def = function(object, ...) standardGeneric("run_ca")
-)
-
-#' @rdname ca
-#' @aliases predict_ca-method
-setGeneric(
-  name = "predict_ca",
-  def = function(object, data, ...) standardGeneric("predict_ca")
-)
 
 #' @rdname ca
 #' @aliases plot_ca-method
@@ -464,10 +445,6 @@ setGeneric(
 #'  giving the selection of the assemblage that are drawn.
 #' @param n A length-one non-negative \code{\link{numeric}} vector giving the
 #'  desired length of the vector of quantiles for density computation.
-#' @param sort A \code{\link{character}} string indicating whether the dates
-#'  should be sorted. It can be one of "\code{asc}" or "\code{dsc}" (default).
-#'  Any unambiguous substring can be given. If \code{NULL} no sorting is
-#'  performed.
 #' @param event A \code{\link{logical}} scalar: should the distribution of the
 #'  event date be displayed? Only used if type is "\code{activity}".
 #' @param highlight A \code{\link{character}} string indicating the type of
@@ -1118,7 +1095,7 @@ setGeneric(
 #'  analysis-based ceramic seriation of regional data sets. \emph{Journal of
 #'  Archaeological Science}, 39(8), 2818-2827.
 #'  \doi{10.1016/j.jas.2012.04.040}.
-#' @seealso \link{refine_ca}, \link{run_ca}
+#' @seealso \link{refine_ca}, \link[arkhe]{ca}
 #' @example inst/examples/ex-seriation.R
 #' @author N. Frerebeau
 #' @family seriation
@@ -1255,6 +1232,7 @@ setGeneric(
 #' Frequency Increment Test
 #'
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
+#' @param dates A \code{\link{numeric}} vector of dates.
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix?
 #' @param ... Currently not used.

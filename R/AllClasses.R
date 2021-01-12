@@ -71,6 +71,7 @@ NULL
 #' @slot model A \code{\link[stats:lm]{multiple linear model}}: the Gaussian
 #'  multiple linear regression model fitted for event date estimation and
 #'  prediction.
+#' @slot cutoff An \code{\link{integer}} vector giving the cutoff value.
 #' @slot dimension An \code{\link{integer}} vector giving the CA dimensions
 #'  kept.
 #' @slot level A length-one \code{\link{numeric}} vector giving the
@@ -124,6 +125,7 @@ NULL
     data = "matrix",
     dates = "numeric",
     model = "lm",
+    cutoff = "integer",
     dimension = "integer"
   )
 )
@@ -137,35 +139,6 @@ NULL
     row_events = "matrix",
     column_events = "matrix",
     accumulation = "matrix"
-  )
-)
-
-# CorrespondenceAnalysis =======================================================
-#' Correspondence Analysis
-#'
-#' An S4 class to store correspondence analysis results.
-#' @author N. Frerebeau
-#' @family class
-#' @docType class
-#' @aliases CA-class
-.CA <- setClass(
-  Class = "CA",
-  slots = c(
-    data = "matrix",
-    singular_values = "numeric",
-    row_names = "character",
-    row_coordinates = "matrix",
-    row_contribution = "matrix",
-    row_distances = "numeric",
-    row_inertia = "numeric",
-    row_svd = "matrix",
-    column_names = "character",
-    column_coordinates = "matrix",
-    column_contribution = "matrix",
-    column_distances = "numeric",
-    column_inertia = "numeric",
-    column_svd = "matrix",
-    eigenvalues = "numeric"
   )
 )
 

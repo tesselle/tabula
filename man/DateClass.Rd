@@ -23,6 +23,8 @@ S4 classes to store the event and accumulation times of archaeological
 multiple linear regression model fitted for event date estimation and
 prediction.}
 
+\item{\code{cutoff}}{An \code{\link{integer}} vector giving the cutoff value.}
+
 \item{\code{dimension}}{An \code{\link{integer}} vector giving the CA dimensions
 kept.}
 
@@ -74,7 +76,6 @@ point estimate of the accumulation dates and the corresponding error.}
 \seealso{
 Other class: 
 \code{\link{BootCA-class}},
-\code{\link{CA-class}},
 \code{\link{DiversityIndex}},
 \code{\link{PermutationOrder-class}}
 }

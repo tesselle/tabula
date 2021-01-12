@@ -123,7 +123,7 @@ correspondence Analysis (CA) is an effective method for the seriation of archaeo
 ## Coerce dataset to an count matrix
 zuni_counts <- as_count(zuni)
 ## correspondence analysis of the whole dataset
-corresp <- run_ca(zuni_counts)
+corresp <- arkhe::ca(zuni_counts)
 ## Plot CA results
 plot_ca(corresp, axes = c(1, 2), map = c("rows", "columns"))  + 
   ggplot2::theme_bw()

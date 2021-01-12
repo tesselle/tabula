@@ -36,7 +36,6 @@ Numeric values are coerced to \code{\link{integer}} as by
 \seealso{
 Other class: 
 \code{\link{BootCA-class}},
-\code{\link{CA-class}},
 \code{\link{DateClass}},
 \code{\link{DiversityIndex}}
 }

@@ -61,7 +61,7 @@ setMethod(
 
 #' Apply Function Over Bootstrap Replicates
 #'
-#' @param x A \linkS4class{CA} object.
+#' @param x A \linkS4class[arkhe]{CA} object.
 #' @param fun A \code{\link{function}}.
 #' @param margin A length-one \code{\link{numeric}} vector giving the subscripts
 #'  which the function will be applied over: \code{1} indicates rows, \code{2}
@@ -80,11 +80,10 @@ boot_ca <- function(x, fun, margin = 1, n = 1000,
 
   arg <- deparse(substitute(fun))
   if (!is.function(fun))
-    stop(sprintf("%s must be a function.", sQuote(arg)))
+    stop(sprintf("%s must be a function.", sQuote(arg)), call. = FALSE)
 
   ## Get CA standard coordinates (SVD)
-  svd <- if (margin == 1) x[["column_svd"]] else x[["row_svd"]]
-  data <- if (margin == 1)  x[["data"]] else t(x[["data"]])
+  data <- x[["data"]]
 
   m <- nrow(data)
   k <- seq_len(m)
@@ -99,7 +98,7 @@ boot_ca <- function(x, fun, margin = 1, n = 1000,
     replicates <- stats::rmultinom(n = n, size = sum(sample), prob = sample)
 
     # Compute new CA coordinates
-    coords <- crossprod(replicates / colSums(replicates), svd)
+    coords <- arkhe::predict(x, data, margin = margin)
 
     # Apply on new CA coordinates
     boot[[i]] <- fun(x = coords, ...)

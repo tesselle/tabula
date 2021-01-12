@@ -10,7 +10,7 @@ setMethod(
   signature = signature(object = "CountMatrix", dates = "numeric"),
   definition = function(object, dates, highlight = NULL, level = 0.95,
                         roll = FALSE, window = 5, facet = TRUE, ...) {
-    # Validation
+    ## Validation
     if (length(dates) != nrow(object))
       stop(sprintf("%s must be of length %d; not %d.",
                    sQuote("dates"), nrow(object), length(dates)), call. = FALSE)
@@ -20,18 +20,18 @@ setMethod(
     if (highlight == "FIT") facet <- TRUE # Override default
     alpha <- 1 - level
 
-    # Prepare data
+    ## Prepare data
     gg_roll <- NULL
-    # Get row names and coerce to factor (preserve original ordering)
+    ## Get row names and coerce to factor (preserve original ordering)
     row_names <- rownames(object)
     row_names <- factor(x = row_names, levels = unique(row_names))
-    # Get number of cases
+    ## Get number of cases
     n <- length(row_names)
 
     data_stacked <- arkhe::as_long(object, factor = TRUE)
     data <- cbind.data.frame(dates = dates, data_stacked)
-    # Remove zeros in case of log scale
-    data <- data[data$data > 0, ]
+    ## Remove zeros in case of log scale
+    data <- data[data$value > 0, ]
 
     if (highlight == "FIT") {
       signature <- as.data.frame(testFIT(object, dates, roll = FALSE)[[1L]])
@@ -100,14 +100,14 @@ setMethod(
 
     data <- data[order(data$type, data$dates), ]
 
-    # ggplot
+    ## ggplot
     colour <- ifelse(highlight == "FIT", "signature", "type")
-    aes_plot <- ggplot2::aes(x = .data$dates, y = .data$data,
+    aes_plot <- ggplot2::aes(x = .data$dates, y = .data$value,
                              colour = .data[[colour]])
     if (facet) {
       facet <- ggplot2::facet_wrap(ggplot2::vars(.data$type), scales = "free_y")
       if (highlight != "FIT") {
-        aes_plot <- ggplot2::aes(x = .data$dates, y = .data$data)
+        aes_plot <- ggplot2::aes(x = .data$dates, y = .data$value)
       }
     } else {
       facet <- NULL

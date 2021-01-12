@@ -43,7 +43,6 @@ measures for the simulated assemblage.}
 \seealso{
 Other class: 
 \code{\link{BootCA-class}},
-\code{\link{CA-class}},
 \code{\link{DateClass}},
 \code{\link{PermutationOrder-class}}
 }

@@ -2,15 +2,6 @@
 #' @include AllClasses.R
 NULL
 
-# CorrespondenceAnalysis =======================================================
-setMethod(
-  f = "show",
-  signature = "CA",
-  definition = function(object) {
-    cat("<CA>")
-  }
-)
-
 # BootCA =======================================================================
 setMethod(
   f = "show",

@@ -13,7 +13,7 @@ setMethod(
     data <- prepare_heatmap(object, PVI = PVI, frequency = frequency)
 
     # ggplot
-    fill <- ifelse(PVI, "PVI", "data")
+    fill <- ifelse(PVI, "PVI", "value")
     fill_lab <- ifelse(PVI, "PVI", "Frequency")
     aes_plot <- ggplot2::aes(x = .data$x, y = .data$y, fill = .data[[fill]])
     ggplot2::ggplot(data = data, mapping = aes_plot) +
@@ -50,7 +50,7 @@ setMethod(
     data <- prepare_heatmap(object, PVI = FALSE)
 
     # ggplot
-    aes_plot <- ggplot2::aes(x = .data$x, y = .data$y, fill = .data$data)
+    aes_plot <- ggplot2::aes(x = .data$x, y = .data$y, fill = .data$value)
     ggplot2::ggplot(data = data, mapping = aes_plot) +
       ggplot2::geom_tile() +
       ggplot2::scale_x_continuous(
@@ -85,7 +85,7 @@ setMethod(
     data <- prepare_heatmap(object, PVI = FALSE, frequency = FALSE)
 
     # ggplot
-    aes_plot <- ggplot2::aes(x = .data$x, y = .data$y, fill = .data$data)
+    aes_plot <- ggplot2::aes(x = .data$x, y = .data$y, fill = .data$value)
     ggplot2::ggplot(data = data, mapping = aes_plot) +
       ggplot2::geom_tile(color = "black") +
       ggplot2::scale_x_discrete(position = "top") +

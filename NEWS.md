@@ -1,3 +1,5 @@
+* Add a {ggplot2} `geom` and `stat` to create convex hull polygons.
+
 ## tabula 1.6.0
 ### New classes and methods
 * `CA`: S4 class to store the results of a correspondence analysis.
@@ -25,7 +27,7 @@
 * `index_heterogeneity`, `index_evenness` and `index_richness` gained a new `step` argument.
 
 ### Internals
-* Depends on {arkhe} >= 1.0.0
+* Depends on {arkhe} > 0.2.2
 * Remove {pbapply} from suggested packages.
 
 ## tabula 1.5.1 (CRAN release date: 2020-03-19)

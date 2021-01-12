@@ -46,7 +46,7 @@ test_that("correspondence Analysis", {
   expect_s4_class(permute(count, indices), "CountMatrix")
 
   count2 <- as(merzbach, "CountMatrix")
-  expect_warning(seriate_correspondence(count2))
+  expect_error(seriate_correspondence(count2), "Empty columns detected.")
 })
 # test_that("Refined correspondence Analysis", {
   # count <- as(zuni, "CountMatrix")

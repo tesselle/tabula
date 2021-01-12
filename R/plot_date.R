@@ -4,64 +4,6 @@ NULL
 
 #' @export
 #' @rdname plot_date
-#' @aliases plot_date,DataMatrix-method
-setMethod(
-  f = "plot_date",
-  signature = signature(object = "DataMatrix"),
-  definition = function(object, select = NULL, sort = "dsc") {
-    # Get dates
-    dates <- rownames_to_column(arkhe::get_dates(object),
-                                factor = TRUE, id = "id")
-
-    dates <- cbind.data.frame(
-      dates,
-      y = seq_len(nrow(dates)),
-      min = dates$value - dates$error,
-      max = dates$value + dates$error
-    )
-    dates <- dates[stats::complete.cases(dates), ]
-
-    # Selection
-    cases <- dates[["id"]]
-    index <- if (is.null(select)) {
-      seq_along(cases)
-    } else if (is.character(select)) {
-      which(cases %in% select)
-    } else {
-      as.numeric(select)
-    }
-
-    if (length(index) == 0) stop("Wrong selection.", call. = FALSE)
-    dates <- dates[index, ]
-
-    if (!is.null(sort)) {
-      sort <- match.arg(sort, choices = c("asc", "dsc"), several.ok = FALSE)
-      dates <- switch (
-        sort,
-        asc = dates[order(dates$value), ],
-        dsc = dates[order(dates$value, decreasing = TRUE), ]
-      )
-      dates[["y"]] <- seq_len(nrow(dates))
-    }
-
-    # Set error bar height
-    error_height <- ifelse(dates$error == 0, 0, 0.5)
-
-    aes_plot <- ggplot2::aes(color = .data$id, fill = .data$id)
-    aes_point <- ggplot2::aes(x = .data$value, y = .data$y)
-    aes_err <- ggplot2::aes(xmin = .data$min, xmax = .data$max, y = .data$y)
-    ggplot2::ggplot(data = dates, mapping = aes_plot) +
-      ggplot2::geom_errorbarh(mapping = aes_err, height = error_height) +
-      ggplot2::geom_point(mapping = aes_point, shape = 21, size = 2) +
-      ggplot2::scale_y_continuous(breaks = dates$y, labels = dates$id) +
-      ggplot2::theme(axis.title.y = ggplot2::element_blank()) +
-      ggplot2::labs(x = "Date", y = "",
-                    fill = "Assemblage", color = "Assemblage")
-  }
-)
-
-#' @export
-#' @rdname plot_date
 #' @aliases plot_date,DateModel-method
 setMethod(
   f = "plot_date",

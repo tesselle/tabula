@@ -10,6 +10,6 @@ merzbach_count <- as_count(merzbach[, keep])
 
 ## The data are grouped by phase
 ## We use the row names as time coordinates (roman numerals)
-set_dates(merzbach_count) <- rownames(merzbach)
+merzbach_date <- as.numeric(utils::as.roman(rownames(merzbach)))
 
-fit <- test_fit(merzbach_count, simplify = TRUE)
+fit <- test_fit(merzbach_count, dates = merzbach_date, simplify = TRUE)

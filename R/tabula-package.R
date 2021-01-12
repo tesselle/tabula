@@ -40,7 +40,6 @@
 if(getRversion() >= "2.15.1") utils::globalVariables(c("."))
 
 #' @import arkhe
-#' @importFrom ca ca
 #' @importFrom ggplot2 ggplot aes coord_fixed element_blank element_rect
 #' element_text facet_wrap geom_line geom_path geom_point geom_tile labs
 #' scale_size_area scale_x_continuous scale_x_discrete scale_x_log10

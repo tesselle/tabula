@@ -9,34 +9,39 @@ setMethod(
   f = "date_event",
   signature = signature(object = "CountMatrix", dates = "numeric"),
   definition = function(object, dates, cutoff = 90, ...) {
-    # Validation
+    ## Validation
     cutoff <- as.integer(cutoff)
     if (cutoff < 50)
       stop("Cutoff value is below 50%, you can't be serious.", call. = FALSE)
+
     if (length(dates) != nrow(object)) {
       index <- match(names(dates), rownames(object))
-      if (length(index) < length(dates))
-        stop(sprintf("Names of %s do not match.", sQuote("dates"),
-                     nrow(object), length(dates)), call. = FALSE)
+      if (length(index) < length(dates)) {
+        msg <- sprintf("Names of %s do not match.", sQuote("dates"))
+        stop(msg, call. = FALSE)
+      }
+
       dates_ok <- rep(NA, times = nrow(object))
       dates_ok[index] <- dates
     } else {
       dates_ok <- dates
     }
 
-    # Correspondance analysis
-    results_CA <- run_ca(object, ...)
-    eig <- results_CA[["eigenvalue"]]
+    ## Correspondance analysis
+    results_CA <- arkhe::ca(object, ...)
+    eig <- arkhe::get_eigenvalues(results_CA)
     keep_dim <- which(eig[, 3] <= cutoff)
 
-    row_coord <- results_CA[["row_coordinates"]][, keep_dim]
-    col_coord <- results_CA[["column_coordinates"]][, keep_dim]
+    row_coord <- arkhe::get_coordinates(results_CA, margin = 1, sup = FALSE)
+    row_coord <- row_coord[, keep_dim]
+    col_coord <- arkhe::get_coordinates(results_CA, margin = 2, sup = FALSE)
+    col_coord <- col_coord[, keep_dim]
 
-    # CA computation may lead to rows/column removal (if filled only with zeros)
-    # We need to remove corresponding dates
-    dates_ok <- dates_ok[rowSums(object) != 0]
+    ## CA computation may lead to rows/column removal (if filled only with zeros)
+    ## We need to remove corresponding dates
+    ## dates_ok <- dates_ok[rowSums(object) != 0]
 
-    # Event date
+    ## Event date
     names(dates_ok) <- rownames(row_coord)
     contexts <- cbind.data.frame(date = dates_ok, row_coord)
     ## Remove missing dates
@@ -48,6 +53,7 @@ setMethod(
       data = as.matrix(object),
       dates = dates_ok,
       model = fit,
+      cutoff = cutoff,
       dimension = keep_dim
     )
   }
@@ -77,9 +83,9 @@ setMethod(
     fit_model <- object[["model"]]
 
     ## Correspondance analysis
-    results_CA <- run_ca(data)
-    row_coord <- results_CA[["row_coordinates"]]
-    col_coord <- results_CA[["column_coordinates"]]
+    results_CA <- arkhe::ca(data)
+    row_coord <- arkhe::get_coordinates(results_CA, margin = 1, sup = FALSE)
+    col_coord <- arkhe::get_coordinates(results_CA, margin = 2, sup = FALSE)
 
     ## Predict event date for each context
     row_event <- predict_events(fit_model, row_coord, level = level)

@@ -15,8 +15,6 @@
 \alias{[[,DateModel-method}
 \alias{[[,DateEvent,ANY,ANY-method}
 \alias{[[,DateEvent-method}
-\alias{[[,CA,ANY,ANY-method}
-\alias{[[,CA-method}
 \alias{[[,BootCA,ANY,ANY-method}
 \alias{[[,BootCA-method}
 \alias{[[,PermutationOrder,ANY,ANY-method}
@@ -34,8 +32,6 @@
 \S4method{[[}{DateModel,ANY,ANY}(x, i)
 
 \S4method{[[}{DateEvent,ANY,ANY}(x, i)
-
-\S4method{[[}{CA,ANY,ANY}(x, i)
 
 \S4method{[[}{BootCA,ANY,ANY}(x, i)
 

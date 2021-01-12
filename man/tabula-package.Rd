@@ -20,7 +20,7 @@ An easy way to examine archaeological count data. This package
     richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), 
     turnover and similarity (Brainerd-Robinson, etc.). 
     The package make it easy to visualize count data and statistical thresholds: 
-    rank vs. abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
+    rank vs abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
 }
 \details{
 \tabular{ll}{

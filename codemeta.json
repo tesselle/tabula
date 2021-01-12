@@ -5,7 +5,7 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "tabula",
-  "description": "An easy way to examine archaeological count data. This package \n    provides a convenient and reproducible toolkit for relative and absolute \n    dating and analysis of (chronological) patterns. It includes functions for \n    matrix seriation (reciprocal ranking, CA-based seriation), chronological \n    modeling and dating of archaeological assemblages and/or objects. \n    Beyond these, the package provides several tests and measures of diversity: \n    heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), \n    richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), \n    turnover and similarity (Brainerd-Robinson, etc.). \n    The package make it easy to visualize count data and statistical thresholds: \n    rank vs. abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.",
+  "description": "An easy way to examine archaeological count data. This package \n    provides a convenient and reproducible toolkit for relative and absolute \n    dating and analysis of (chronological) patterns. It includes functions for \n    matrix seriation (reciprocal ranking, CA-based seriation), chronological \n    modeling and dating of archaeological assemblages and/or objects. \n    Beyond these, the package provides several tests and measures of diversity: \n    heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), \n    richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), \n    turnover and similarity (Brainerd-Robinson, etc.). \n    The package make it easy to visualize count data and statistical thresholds: \n    rank vs abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.",
   "name": "tabula: Analysis, Seriation and Visualization of Archaeological\n    Count Data",
   "codeRepository": "https://github.com/nfrerebeau/tabula",
   "relatedLink": [
@@ -16,7 +16,7 @@
   ],
   "issueTracker": "https://github.com/nfrerebeau/tabula/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "1.6.0",
+  "version": "1.5.1.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -194,18 +194,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "ca",
-      "name": "ca",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=ca"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "ggplot2",
       "name": "ggplot2",
       "provider": {
@@ -250,7 +238,7 @@
     }
   ],
   "readme": "https://github.com/nfrerebeau/tabula/blob/master/README.md",
-  "contIntegration": ["https://travis-ci.org/nfrerebeau/tabula", "https://codecov.io/gh/nfrerebeau/tabula"],
+  "contIntegration": "https://codecov.io/gh/nfrerebeau/tabula",
   "developmentStatus": ["https://www.repostatus.org/#active", "https://www.tidyverse.org/lifecycle/#stable"],
   "keywords": [
     "archaeology",
@@ -287,5 +275,6 @@
       }
     }
   ],
-  "fileSize": "5041.162KB"
+  "fileSize": "5030.116KB",
+  "releaseNotes": "https://github.com/nfrerebeau/tabula/blob/master/NEWS.md"
 }

@@ -123,15 +123,6 @@ setMethod(
 
 #' @export
 #' @rdname subset
-#' @aliases [[,CA-method
-setMethod(
-  f = "[[",
-  signature = "CA",
-  definition = extract_slot
-)
-
-#' @export
-#' @rdname subset
 #' @aliases [[,BootCA-method
 setMethod(
   f = "[[",

@@ -27,9 +27,9 @@ setMethod(
     # ggplot
     aes_plot <- ggplot2::aes(x = .data$type, y = .data$case)
     aes_point <- if (is.null(threshold)) {
-      ggplot2::aes(size = .data$data)
+      ggplot2::aes(size = .data$value)
     } else {
-      ggplot2::aes(size = .data$data, colour = .data$threshold)
+      ggplot2::aes(size = .data$value, colour = .data$threshold)
     }
 
     ggplot2::ggplot(data = data, mapping = aes_plot) +
@@ -67,7 +67,7 @@ setMethod(
 
     # ggplot
     aes_plot <- ggplot2::aes(x = .data$type, y = .data$case)
-    aes_point <- ggplot2::aes(size = .data$data, colour = .data$data)
+    aes_point <- ggplot2::aes(size = .data$value, colour = .data$value)
 
     ggplot2::ggplot(data = data, mapping = aes_plot) +
       ggplot2::geom_point(mapping = ggplot2::aes(size = .data$max),
@@ -100,12 +100,13 @@ setMethod(
   definition = function(object) {
     # Prepare data
     data <- prepare_spot(object, threshold = NULL, diag = FALSE)
+    data$value <- data$value / arkhe::get_totals(object)
     row_names <- unique(data$case)
 
     # ggplot
     aes_plot <- ggplot2::aes(x = .data$type, y = .data$case)
-    aes_point <- ggplot2::aes(size = .data$data * 0.8,
-                              colour = .data$data)
+    aes_point <- ggplot2::aes(size = .data$value * 0.8,
+                              colour = .data$value)
 
     ggplot2::ggplot(data = data, mapping = aes_plot) +
       ggplot2::geom_point(ggplot2::aes(size = 1), colour = "black",
@@ -141,7 +142,7 @@ prepare_spot <- function(object, threshold = NULL, diag = TRUE) {
   }
   if (nrow(object) == ncol(object)) {
     max_value <- unique(diag(object))
-    if (max_value == 0) max_value <- max(data$data)
+    if (max_value == 0) max_value <- max(data$value)
     data <- cbind.data.frame(max = max_value, data)
   }
   if (is.function(threshold)) {
@@ -149,13 +150,13 @@ prepare_spot <- function(object, threshold = NULL, diag = TRUE) {
       data,
       INDICES = data$type,
       FUN = function(x, fun) {
-        data <- cbind.data.frame(thresh = fun(x$data), x)
+        data <- cbind.data.frame(thresh = fun(x$value), x)
         data
       },
       fun = threshold
     )
     data <- do.call(rbind.data.frame, data)
-    threshold <- ifelse(data$data > data$thresh, "above", "below")
+    threshold <- ifelse(data$value > data$thresh, "above", "below")
     data <- cbind.data.frame(threshold = threshold, data)
   }
   return(data)

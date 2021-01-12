@@ -9,12 +9,14 @@
 \usage{
 test_fit(object, ...)
 
-\S4method{test_fit}{CountMatrix}(object, simplify = FALSE, ...)
+\S4method{test_fit}{CountMatrix}(object, dates, simplify = FALSE, ...)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
 
 \item{...}{Currently not used.}
+
+\item{dates}{A \code{\link{numeric}} vector of dates.}
 
 \item{simplify}{A \code{\link{logical}} scalar: should the result be
 simplified to a matrix?}
@@ -44,9 +46,9 @@ merzbach_count <- as_count(merzbach[, keep])
 
 ## The data are grouped by phase
 ## We use the row names as time coordinates (roman numerals)
-set_dates(merzbach_count) <- rownames(merzbach)
+merzbach_date <- as.numeric(utils::as.roman(rownames(merzbach)))
 
-fit <- test_fit(merzbach_count, simplify = TRUE)
+fit <- test_fit(merzbach_count, dates = merzbach_date, simplify = TRUE)
 }
 \references{
 Feder, A. F., Kryazhimskiy, S. & Plotkin, J. B. (2014). Identifying

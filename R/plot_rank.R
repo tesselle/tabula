@@ -36,10 +36,10 @@ setMethod(
     }
     if (facet) {
       facet <- ggplot2::facet_wrap(ggplot2::vars(.data$case), ncol = n)
-      aes_plot <- ggplot2::aes(x = .data$rank, y = .data$data)
+      aes_plot <- ggplot2::aes(x = .data$rank, y = .data$value)
     } else {
       facet <- NULL
-      aes_plot <- ggplot2::aes(x = .data$rank, y = .data$data,
+      aes_plot <- ggplot2::aes(x = .data$rank, y = .data$value,
                                colour = .data$case)
     }
     ggplot2::ggplot(data = data, mapping = aes_plot) +
@@ -56,13 +56,13 @@ prepare_rank <- function(object) {
   # Build a long table for ggplot2 (preserve original ordering)
   data <- arkhe::as_long(object, factor = TRUE)
   # Remove zeros in case of log scale
-  data <- data[data$data > 0, ]
+  data <- data[data$value > 0, ]
 
   data <- by(
     data,
     INDICES = data$case,
     FUN = function(x) {
-      data <- x[order(x$data, decreasing = TRUE), ]
+      data <- x[order(x$value, decreasing = TRUE), ]
       data <- cbind.data.frame(rank = seq_len(nrow(data)), data)
       data
     }

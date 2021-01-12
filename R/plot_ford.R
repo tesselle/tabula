@@ -28,7 +28,7 @@ setMethod(
       labs
     }
 
-    aes_plot <- ggplot2::aes(x = .data$case, y = .data$data)
+    aes_plot <- ggplot2::aes(x = .data$case, y = .data$value)
     aes_col <- if (EPPM) ggplot2::aes(fill = .data$threshold) else NULL
     ggplot2::ggplot(data = data, mapping = aes_plot) +
       ggplot2::geom_col(mapping = aes_col, width = 1,
@@ -65,16 +65,16 @@ prepare_ford <- function(object, EPPM = FALSE) {
 
     # Join data and threshold
     data <- merge(data, threshold, by = c("case", "type"), all = TRUE)
-    data$data <- data$data - data$EPPM
+    data$value <- data$value - data$EPPM
     data_stacked <- utils::stack(data[, !(names(data) %in% c("case", "type"))])
     data <- cbind.data.frame(data$case, data$type, data_stacked)
-    colnames(data) <- c("case", "type", "data", "threshold")
+    colnames(data) <- c("case", "type", "value", "threshold")
   }
 
   k <- nrow(data)
   z <- c(rep(1, k), rep(-1, k)) / 2
   data <- rbind.data.frame(data, data)
-  data$data <- data$data * z
+  data$value <- data$value * z
 
   return(data)
 }

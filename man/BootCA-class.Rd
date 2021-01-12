@@ -52,7 +52,6 @@ of the samples and variables to be kept, respectively.}
 
 \seealso{
 Other class: 
-\code{\link{CA-class}},
 \code{\link{DateClass}},
 \code{\link{DiversityIndex}},
 \code{\link{PermutationOrder-class}}

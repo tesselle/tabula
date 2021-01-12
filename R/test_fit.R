@@ -7,16 +7,14 @@ NULL
 setMethod(
   f = "test_fit",
   signature = signature(object = "CountMatrix"),
-  definition = function(object, simplify = FALSE, ...) {
-    # Validation
+  definition = function(object, dates, simplify = FALSE, ...) {
+    ## Validation
+    if (length(dates) != nrow(object))
+      stop(sprintf("%s must be of length %d; not %d.",
+                   sQuote("dates"), nrow(object), length(dates)), call. = FALSE)
     simplify <- as.logical(simplify)[1L]
 
-    # Get time coordinates
-    time <- get_dates(object)[["value"]]
-    if (length(time) == 0)
-      stop("No dates were found!", call. = FALSE)
-
-    results <- testFIT(object, time, roll = FALSE)[[1L]]
+    results <- testFIT(object, dates, roll = FALSE)[[1L]]
 
     # Check results
     failed <- apply(X = results, MARGIN = 1, FUN = anyNA)

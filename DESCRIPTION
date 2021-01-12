@@ -1,7 +1,7 @@
 Package: tabula
 Title: Analysis, Seriation and Visualization of Archaeological
     Count Data
-Version: 1.6.0
+Version: 1.5.1.9000
 Authors@R: 
     c(person(given = "Nicolas",
              family = "Frerebeau",
@@ -45,11 +45,10 @@ Description: An easy way to examine archaeological count data. This package
     richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), 
     turnover and similarity (Brainerd-Robinson, etc.). 
     The package make it easy to visualize count data and statistical thresholds: 
-    rank vs. abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
+    rank vs abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
 License: GPL-3
 URL: https://tabula.archaeo.science,
-    https://github.com/nfrerebeau/tabula,
-    https://cran.r-project.org/package=tabula
+    https://github.com/nfrerebeau/tabula
 BugReports: https://github.com/nfrerebeau/tabula/issues
 Depends: 
     R (>= 3.3),
@@ -57,7 +56,6 @@ Depends:
 Remotes:
     nfrerebeau/arkhe
 Imports:
-    ca,
     ggplot2,
     grDevices,
     methods,
@@ -107,7 +105,6 @@ Collate:
     'refine_ca.R'
     'refine_dates.R'
     'refine_diversity.R'
-    'run_ca.R'
     'seriate_correspondence.R'
     'seriate_rank.R'
     'show.R'

@@ -13,7 +13,7 @@ setMethod(
     data <- prepare_bertin(object, threshold = threshold, scale = scale)
 
     # ggplot
-    aes_plot <- ggplot2::aes(x = .data$case, y = .data$data)
+    aes_plot <- ggplot2::aes(x = .data$case, y = .data$value)
     aes_col <- if (is.null(threshold)) {
       NULL
     } else {
@@ -53,7 +53,7 @@ prepare_bertin <- function(object, threshold = NULL, scale = NULL) {
       data,
       INDICES = data$type,
       FUN = function(x, fun) {
-        x$data <- fun(x$data)
+        x$value <- fun(x$value)
         x
       },
       fun = scale
@@ -67,13 +67,13 @@ prepare_bertin <- function(object, threshold = NULL, scale = NULL) {
       data,
       INDICES = data$type,
       FUN = function(x, fun) {
-        x$threshold_value <- fun(x$data)
+        x$threshold_value <- fun(x$value)
         x
       },
       fun = threshold
     )
     data <- do.call(rbind.data.frame, data)
-    threshold <- ifelse(data$data > data$threshold_value, "above", "below")
+    threshold <- ifelse(data$value > data$threshold_value, "above", "below")
     data <- cbind.data.frame(threshold, data)
   }
   data

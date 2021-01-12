@@ -1,9 +1,9 @@
 context("Plots")
 
-test_count <- as(mississippi, "CountMatrix")
-test_freq <- as(mississippi, "AbundanceMatrix")
-test_incid <- as(mississippi, "IncidenceMatrix")
-test_occ <- as(mississippi, "OccurrenceMatrix")
+test_count <- arkhe::as_count(mississippi)
+test_freq <- arkhe::as_abundance(mississippi)
+test_incid <- arkhe::as_incidence(mississippi)
+test_occ <- arkhe::as_occurrence(mississippi)
 test_sim <- similarity(test_count)
 
 test_that("Bertin plot", {
@@ -22,7 +22,6 @@ test_that("Bertin plot", {
 test_that("Ford plot", {
   # Count data
   for (i in c(TRUE, FALSE)) {
-    # Count data
     gg_ford <- plot_ford(test_count, EPPM = i)
     vdiffr::expect_doppelganger(paste0("ford_count_EPPM-", i), gg_ford)
   }
@@ -91,21 +90,6 @@ test_that("Time plot", {
   # Errors
   expect_error(plot_time(counts, dates, highlight = "FIT",
                          roll = TRUE, window = 2), "must be an odd integer")
-})
-test_that("Date plot", {
-  count_zuni <- as(zuni, "CountMatrix")
-  expect_warning(set_dates(count_zuni) <- list(value = c(X = 1097),
-                                               error = c(X = 1119)))
-
-  set_dates(count_zuni) <- list(value = c(LZ0569 = 1097, LZ0279 = 1119),
-                                error = c(LZ0569 = 30, LZ0279 = 30))
-
-  expect_s3_class(plot_date(count_zuni, select = NULL), "ggplot")
-  expect_s3_class(plot_date(count_zuni, select = "LZ0569"), "ggplot")
-  gg_date <- plot_date(count_zuni, select = c(1, 2))
-  vdiffr::expect_doppelganger("date", gg_date)
-
-  expect_error(plot_date(count_zuni, select = "X"), "Wrong selection")
 })
 test_that("Date model", {
   dates <- c(

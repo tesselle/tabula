@@ -58,7 +58,7 @@ remotes::install_github("nfrerebeau/tabula")
 ## Usage
 
 ```{r packages-load}
-# Load packages
+## Load packages
 library(tabula)
 
 library(khroma)
@@ -77,9 +77,9 @@ Several types of graphs are available in **tabula** which uses [**ggplot2**](htt
 Spot matrix^[Adapted from Dan Gopstein's original [idea](https://dgopstein.github.io/articles/spot-matrix/).] allows direct examination of data:
 
 ```{r plot-occ, fig.width=6, fig.height=4, fig.align="center"}
-# Plot co-occurrence of types
-# (i.e. how many times (percent) each pairs of taxa occur together 
-# in at least one sample.)
+## Plot co-occurrence of types
+## (i.e. how many times (percent) each pairs of taxa occur together 
+## in at least one sample.)
 mississippi %>%
   as_occurrence() %>%
   plot_spot() +
@@ -91,7 +91,7 @@ mississippi %>%
 Bertin or Ford (battleship curve) diagrams can be plotted, with statistic threshold (including B. Desachy's [sériographe](https://doi.org/10.3406/pica.2004.2396)). 
 
 ```{r bertin, fig.width=7, fig.height=5, fig.align="center", fig.show="hold"}
-# Bertin matrix with variables scaled to 0-1 and the variable mean as threshold
+## Bertin matrix with variables scaled to 0-1 and the variable mean as threshold
 scale_01 <- function(x) (x - min(x)) / (max(x) - min(x))
 mississippi %>%
   as_count() %>%
@@ -108,21 +108,21 @@ compiegne %>%
 ### Seriation
 
 ```{r seriate-incidence}
-# Build an incidence matrix with random data
+## Build an incidence matrix with random data
 set.seed(12345)
 incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
                              nrow = 20)
 
-# Get seriation order on rows and columns
-# Correspondance analysis-based seriation
+## Get seriation order on rows and columns
+## Correspondance analysis-based seriation
 (indices <- seriate_rank(incidence, margin = c(1, 2)))
 
-# Permute matrix rows and columns
+## Permute matrix rows and columns
 incidence2 <- permute(incidence, indices)
 ```
 
 ```{r permute-incidence, fig.width=3.5, fig.height=3.5, fig.show="hold"}
-# Plot matrix
+## Plot matrix
 plot_heatmap(incidence) + 
   ggplot2::labs(title = "Original matrix") +
   ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
@@ -136,10 +136,10 @@ plot_heatmap(incidence2) +
 This package provides an implementation of the chronological modeling method developed by Bellanger and Husi ([2012](https://doi.org/10.1016/j.jas.2011.06.031)). This method is slightly modified here and allows the construction of different probability density curves of archaeological assemblage dates (*event*, *activity* and *tempo*). Note that this implementation is experimental (see `help(date_event)`).
 
 ```{r date, fig.width=3.5, fig.height=3.5, fig.show="hold"}
-# Coerce dataset to abundance (count) matrix
+## Coerce dataset to abundance (count) matrix
 zuni_counts <- as_count(zuni)
-# Assume that some assemblages are reliably dated (this is NOT a real example)
-# The names of the vector entries must match the names of the assemblages
+## Assume that some assemblages are reliably dated (this is NOT a real example)
+## The names of the vector entries must match the names of the assemblages
 zuni_dates <- c(
   LZ0569 = 1097, LZ0279 = 1119, CS16 = 1328, LZ0066 = 1111,
   LZ0852 = 1216, LZ1209 = 1251, CS144 = 1262, LZ0563 = 1206,
@@ -147,12 +147,12 @@ zuni_dates <- c(
   LZ0578 = 1180, LZ0227 = 1104, LZ0610 = 1074
 )
 
-# Model the event date for each assemblage
+## Model the event date for each assemblage
 model <- date_event(zuni_counts, dates = zuni_dates, cutoff = 90)
-# Predict event and accumulation dates
+## Predict event and accumulation dates
 event <- predict_event(model, zuni_counts)
 
-# Plot activity and tempo distributions
+## Plot activity and tempo distributions
 plot_date(event, type = "activity", select = "LZ1105") +
   ggplot2::labs(title = "Activity plot") +
   ggplot2::theme_bw()
@@ -180,7 +180,7 @@ mississippi[1:5, ] %>%
 Corresponding *evenness* (i.e. a measure of how evenly individuals are distributed across the sample) can also be computed, as well as *richness* and *rarefaction*.
 
 ```{r sample-size, fig.width=5, fig.height=5, fig.align="center"}
-# Data from Conkey 1980, Kintigh 1989, p. 28
+## Data from Conkey 1980, Kintigh 1989, p. 28
 altamira %>%
   as_count() %>%
   index_richness(method = "none", simulate = TRUE) %>% 

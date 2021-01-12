@@ -21,19 +21,22 @@ setMethod(
     fit_dim <- object[["dimension"]]
 
     event <- predict_event(object, level = 0.95)
-    ca <- run_ca(arkhe::as_count(fit_data))
+    cts_data <- arkhe::as_count(fit_data)
+    results_CA <- arkhe::ca(cts_data, ...)
 
     ## Check model with resampling methods
     ## Jackknife fabrics
-    if ("jackknife" %in% method) {
-      jack_coef <- jack_date2(fit_data, fit_dates, cutoff = 100,
-                              progress = progress)
+    if (method == "jackknife") {
+      # TODO: check cutoff value
+      jack_coef <- compute_date_jack(cts_data, fit_dates, cutoff = 150,
+                                     progress = progress)
 
       # Change lm coefficients
       fit_model$coefficients <- jack_coef[c(1, fit_dim + 1)]
 
       # Predict event date for each context
-      jack_event <- predict_events(fit_model, ca[["row_coordinates"]], level)
+      row_coord <- arkhe::get_coordinates(results_CA, margin = 1, sup = FALSE)
+      jack_event <- predict_events(fit_model, row_coord, level)
       results <- as.data.frame(jack_event)
 
       # Compute jaccknife bias
@@ -41,11 +44,18 @@ setMethod(
         (results$date - event[["row_event"]][, "date"])
     }
     ## Bootstrap assemblages
-    if ("bootstrap" %in% method) {
-      results <- boot_ca(ca, fun = compute_date_boot, margin = 1, n = n,
-                         progress = progress,
-                         axes = fit_dim, model = fit_model, level = level,
-                         probs = probs)
+    if (method == "bootstrap") {
+      results <- boot_ca(
+        results_CA,
+        fun = compute_date_boot,
+        margin = 1,
+        n = n,
+        progress = progress,
+        axes = fit_dim,
+        model = fit_model,
+        level = level,
+        probs = probs
+      )
       results <- do.call(rbind, results)
       results <- as.data.frame(results)
     }
@@ -77,9 +87,9 @@ setMethod(
 #' @keywords internal
 #' @noRd
 compute_date_boot <- function(x, axes, model, level, probs = c(0.05, 0.95)) {
-  # New CA coordinates
+  ## New CA coordinates
   coords <- x[, axes]
-  # Gaussian multiple linear regression model
+  ## Gaussian multiple linear regression model
   event <- predict_events(model, coords, level)[, "date"]
   Q <- stats::quantile(event, probs = probs, names = FALSE)
 
@@ -102,8 +112,8 @@ compute_date_boot <- function(x, axes, model, level, probs = c(0.05, 0.95)) {
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
-jack_date2 <- function(x, dates, cutoff = 90,
-                       progress = getOption("tabula.progress"), ...){
+compute_date_jack <- function(x, dates, cutoff = 90,
+                              progress = getOption("tabula.progress"), ...) {
   m <- ncol(x)
   k <- seq_len(m)
   jack <- vector(mode = "list", length = m)
@@ -112,18 +122,16 @@ jack_date2 <- function(x, dates, cutoff = 90,
   if (progress_bar) pbar <- utils::txtProgressBar(max = m, style = 3)
 
   for (j in k) {
-    counts <- arkhe::as_count(x[, -j, drop = FALSE])
-    # Removing a column may lead to rows filled only with zeros
-    # Suppress warnings from run_ca
-    model <- suppressWarnings(
-      date_event(counts, dates = dates, cutoff = cutoff)
-    )
+    counts <- x[, -j, drop = FALSE]
+    ## Removing a column may lead to rows filled only with zeros
+    ## TODO: warning
+    if (any(rowSums(counts) == 0)) next
+    model <- date_event(counts, dates = dates, cutoff = cutoff)
     jack[[j]] <- stats::coef(model[["model"]]) # Get model coefficients
     if (progress_bar) utils::setTxtProgressBar(pbar, j)
   }
 
   if (progress_bar) close(pbar)
-
   jack <- do.call(rbind, jack)
   jack <- apply(X = jack, MARGIN = 2, FUN = mean)
   jack
