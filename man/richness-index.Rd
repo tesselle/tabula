@@ -185,31 +185,29 @@ Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
 
  Chao, A. (1987). Estimating the Population Size for Capture-Recapture Data
  with Unequal Catchability. \emph{Biometrics} 43(4), 783-791.
- DOI: \href{https://doi.org/10.2307/2531532}{10.2307/2531532}.
+ \doi{10.2307/2531532}.
 
  Chao, A. & Chiu, C.-H. (2016). Species Richness: Estimation and Comparison.
  \emph{In} Balakrishnan, N., Colton, T., Everitt, B., Piegorsch, B., Ruggeri,
  F. & Teugels, J. L. (Eds.), \emph{Wiley StatsRef: Statistics Reference Online}.
  Chichester, UK: John Wiley & Sons, Ltd., 1-26.
- DOI: \href{https://doi.org/10.1002/9781118445112.stat03432.pub2}{10.1002/9781118445112.stat03432.pub2}
+ \doi{10.1002/9781118445112.stat03432.pub2}
 
  Chao, A. & Lee, S.-M. (1992). Estimating the Number of Classes via Sample
  Coverage. \emph{Journal of the American Statistical Association}, 87(417),
- 210-217.
- DOI: \href{https://doi.org/10.1080/01621459.1992.10475194}{10.1080/01621459.1992.10475194}.
+ 210-217. \doi{10.1080/01621459.1992.10475194}.
 
  Chiu, C.-H., Wang, Y.-T., Walther, B. A. & Chao, A. (2014). An improved
  nonparametric lower bound of species richness via a modified good-turing
  frequency formula. \emph{Biometrics}, 70(3), 671-682.
- DOI: \href{https://doi.org/10.1111/biom.12200}{10.1111/biom.12200}.
+ \doi{10.1111/biom.12200}.
 
  Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
  Alternative Parameters. \emph{Ecology}, 52(4), 577-586.
- DOI: \href{https://doi.org/10.2307/1934145}{10.2307/1934145}.
+ \doi{10.2307/1934145}.
 
  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
- Princeton, NJ: Princeton University Press.
- DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+ Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 
  Kintigh, K. W. (1989). Sample Size, Significance, and Measures of
  Diversity. In Leonard, R. D. and Jones, G. T., \emph{Quantifying Diversity
@@ -224,11 +222,11 @@ Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
 
  Menhinick, E. F. (1964). A Comparison of Some Species-Individuals Diversity
  Indices Applied to Samples of Field Insects. \emph{Ecology}, 45(4), 859-861.
- DOI: \href{https://doi.org/10.2307/1934933}{10.2307/1934933}.
+ \doi{10.2307/1934933}.
 
  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
  Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
- DOI: \href{https://doi.org/10.2307/1932674}{10.2307/1932674}.
+ \doi{10.2307/1932674}.
 
  Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
  \emph{The American Naturalist}, 102(925), 243-282.

@@ -1,7 +1,7 @@
 # CLASSES DEFINITION AND INITIALIZATION
 NULL
 
-# =============================================================== DiversityIndex
+# DiversityIndex ===============================================================
 #' Diversity Index
 #'
 #' An S4 class to represent a diversity measure.
@@ -61,7 +61,7 @@ NULL
   contains = "DiversityIndex"
 )
 
-# ==================================================================== DateModel
+# DateModel ====================================================================
 #' Date Model
 #'
 #' S4 classes to store the event and accumulation times of archaeological
@@ -140,7 +140,7 @@ NULL
   )
 )
 
-# ======================================================= CorrespondenceAnalysis
+# CorrespondenceAnalysis =======================================================
 #' Correspondence Analysis
 #'
 #' An S4 class to store correspondence analysis results.
@@ -165,11 +165,11 @@ NULL
     column_distances = "numeric",
     column_inertia = "numeric",
     column_svd = "matrix",
-    eigenvalues = "matrix"
+    eigenvalues = "numeric"
   )
 )
 
-# ======================================================================= BootCA
+# BootCA =======================================================================
 #' Partial Bootstrap CA
 #'
 #' An S4 class to store partial bootstrap correspondence analysis results.
@@ -219,7 +219,7 @@ NULL
   contains = "CA"
 )
 
-# ============================================================= PermutationOrder
+# PermutationOrder =============================================================
 #' Permutation Order
 #'
 #' An S4 class to represent a permutation order.

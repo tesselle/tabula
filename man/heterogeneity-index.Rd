@@ -198,14 +198,14 @@ index_heterogeneity(fishes, "berger") # 0.71 0.63 0.50 0.60 0.51
 \references{
 Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
  in Deep-Sea Sediments. \emph{Science}, 168(3937), 1345-1347.
- DOI: \href{https://doi.org/10.1126/science.168.3937.1345}{10.1126/science.168.3937.1345}.
+ \doi{10.1126/science.168.3937.1345}.
 
  Brillouin, L. (1956). \emph{Science and information theory}. New York:
  Academic Press.
 
  Kintigh, K. W. (1984). Measuring Archaeological Diversity by Comparison
  with Simulated Assemblages. \emph{American Antiquity}, 49(1), 44-54.
- DOI: \href{https://doi.org/10.2307/280511}{10.2307/280511}.
+ \doi{10.2307/280511}.
 
  Kintigh, K. W. (1989). Sample Size, Significance, and Measures of
  Diversity. In Leonard, R. D. and Jones, G. T., \emph{Quantifying Diversity
@@ -214,29 +214,29 @@ Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
 
  Laxton, R. R. (1978). The measure of diversity. \emph{Journal of Theoretical
  Biology}, 70(1), 51-67.
- DOI: \href{https://doi.org/10.1016/0022-5193(78)90302-8}{10.1016/0022-5193(78)90302-8}.
+ \doi{10.1016/0022-5193(78)90302-8}.
 
  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
  Princeton, NJ: Princeton University Press.
- DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+ \doi{10.1007/978-94-015-7358-0}.
 
  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
  Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
- DOI: \href{https://doi.org/10.2307/1932674}{10.2307/1932674}.
+ \doi{10.2307/1932674}.
 
  Peet, R. K. (1974). The Measurement of Species Diversity. \emph{Annual
  Review of Ecology and Systematics}, 5(1), 285-307.
- DOI: \href{https://doi.org/10.1146/annurev.es.05.110174.001441}{10.1146/annurev.es.05.110174.001441}.
+ \doi{10.1146/annurev.es.05.110174.001441}.
 
  Pielou, E. C. (1975). \emph{Ecological Diversity}. New York: Wiley.
- DOI: \href{https://doi.org/10.4319/lo.1977.22.1.0174b}{10.4319/lo.1977.22.1.0174b}
+ \doi{10.4319/lo.1977.22.1.0174b}
 
  Shannon, C. E. (1948). A Mathematical Theory of Communication. \emph{The
  Bell System Technical Journal}, 27, 379-423.
- DOI: \href{https://doi.org/10.1002/j.1538-7305.1948.tb01338.x}{10.1002/j.1538-7305.1948.tb01338.x}.
+ \doi{10.1002/j.1538-7305.1948.tb01338.x}.
 
  Simpson, E. H. (1949). Measurement of Diversity. \emph{Nature}, 163(4148),
- 688-688. DOI: \href{https://doi.org/10.1038/163688a0}{10.1038/163688a0}.
+ 688-688. \doi{10.1038/163688a0}.
 }
 \seealso{
 \link{plot_diversity}, \link{refine_diversity}, \link{similarity},

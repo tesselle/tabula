@@ -51,8 +51,7 @@ fit <- test_fit(merzbach_count, simplify = TRUE)
 \references{
 Feder, A. F., Kryazhimskiy, S. & Plotkin, J. B. (2014). Identifying
  Signatures of Selection in Genetic Time Series. \emph{Genetics}, 196(2),
- 509-522.
- DOI: \href{https://doi.org/10.1534/genetics.113.158220}{10.1534/genetics.113.158220}.
+ 509-522. \doi{10.1534/genetics.113.158220}.
 }
 \seealso{
 Other statistics: 

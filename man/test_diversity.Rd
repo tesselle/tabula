@@ -48,8 +48,7 @@ fit <- test_fit(merzbach_count, simplify = TRUE)
 }
 \references{
 Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
- Princeton, NJ: Princeton University Press.
- DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+ Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 }
 \seealso{
 Other statistics: 

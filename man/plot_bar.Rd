@@ -104,8 +104,7 @@ Bertin, J. (1977). \emph{La graphique et le traitement graphique de
 
  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
  graphique pour tableaux de comptages. \emph{Revue archéologique de
- Picardie}, 3(1), 39-56.
- DOI: \href{https://doi.org/10.3406/pica.2004.2396}{10.3406/pica.2004.2396}.
+ Picardie}, 3(1), 39-56. \doi{10.3406/pica.2004.2396}.
 
  Ford, J. A. (1962). \emph{A quantitative method for deriving cultural
  chronology}. Washington, DC: Pan American Union. Technical manual 1.

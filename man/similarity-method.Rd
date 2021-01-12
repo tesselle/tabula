@@ -103,11 +103,11 @@ similarity(birds, "morisita") # 0.81
 \references{
 Brainerd, G. W. (1951). The Place of Chronological Ordering in
  Archaeological Analysis. \emph{American Antiquity}, 16(04), 301-313.
- DOI: \href{https://doi.org/10.2307/276979}{10.2307/276979}.
+ \doi{10.2307/276979}.
 
  Bray, J. R. & Curtis, J. T. (1957). An Ordination of the Upland Forest
  Communities of Southern Wisconsin. \emph{Ecological Monographs}, 27(4),
- 325-349. DOI: \href{https://doi.org/10.2307/1942268}{10.2307/1942268}.
+ 325-349. \doi{10.2307/1942268}.
 
  Kintigh, K. (2006). Ceramic Dating and Type Associations. In J. Hantman and
  R. Most (eds.), \emph{Managing Archaeological Data: Essays in Honor of
@@ -115,12 +115,10 @@ Brainerd, G. W. (1951). The Place of Chronological Ordering in
  State University, p. 17-26.
 
  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
- Princeton, NJ: Princeton University Press.
- DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+ Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 
  Robinson, W. S. (1951). A Method for Chronologically Ordering Archaeological
- Deposits. \emph{American Antiquity}, 16(04), 293-301.
- DOI: \href{https://doi.org/10.2307/276978}{10.2307/276978}.
+ Deposits. \emph{American Antiquity}, 16(04), 293-301. \doi{10.2307/276978}.
 }
 \seealso{
 Other diversity: 

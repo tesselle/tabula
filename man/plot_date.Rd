@@ -153,12 +153,11 @@ plot_time(counts, dates, highlight = "FIT", roll = TRUE)
 \references{
 Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
- Archaeological Science}, 39(4), 777-790.
- DOI: \href{https://doi.org/10.1016/j.jas.2011.06.031}{10.1016/j.jas.2011.06.031}.
+ Archaeological Science}, 39(4), 777-790. \doi{10.1016/j.jas.2011.06.031}.
 
  Dye, T. S. (2016). Long-Term Rhythms in the Development of Hawaiian
  Social Stratification. \emph{Journal of Archaeological Science}, 71, 1-9.
- DOI: \href{https://doi.org/10.1016/j.jas.2016.05.006}{10.1016/j.jas.2016.05.006}.
+ \doi{10.1016/j.jas.2016.05.006}.
 
  Philippe, A. & Vibet, M.-A. (2017). Analysis of Archaeological Phases using
  the CRAN Package ArchaeoPhases. HAL,

@@ -171,22 +171,20 @@ utils::vignette("seriation", package = "tabula")
 \references{
 Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
  graphique pour tableaux de comptages. \emph{Revue archéologique de
- Picardie}, 3(1), 39-56.
- DOI: \href{https://doi.org/10.3406/pica.2004.2396}{10.3406/pica.2004.2396}.
+ Picardie}, 3(1), 39-56. \doi{10.3406/pica.2004.2396}.
 
  Dunnell, R. C. (1970). Seriation Method and Its Evaluation. \emph{American
- Antiquity}, 35(03), 305-319.
- DOI: \href{https://doi.org/10.2307/278341}{10.2307/278341}.
+ Antiquity}, 35(03), 305-319. \doi{10.2307/278341}.
 
  Ihm, P. (2005). A Contribution to the History of Seriation in Archaeology.
  In C. Weihs & W. Gaul (Eds.), \emph{Classification: The Ubiquitous
  Challenge}. Berlin Heidelberg: Springer, p. 307-316.
- DOI: \href{https://doi.org/10.1007/3-540-28084-7_34}{10.1007/3-540-28084-7_34}.
+ \doi{10.1007/3-540-28084-7_34}.
 
  Peeples, M. A., & Schachner, G. (2012). Refining correspondence
  analysis-based ceramic seriation of regional data sets. \emph{Journal of
  Archaeological Science}, 39(8), 2818-2827.
- DOI: \href{https://doi.org/10.1016/j.jas.2012.04.040}{10.1016/j.jas.2012.04.040}.
+ \doi{10.1016/j.jas.2012.04.040}.
 }
 \seealso{
 \link{refine_ca}, \link{run_ca}

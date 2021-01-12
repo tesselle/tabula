@@ -74,8 +74,7 @@ NULL
 #' @references
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
 #'  graphique pour tableaux de comptages. \emph{Revue archéologique de
-#'  Picardie}, 3(1), 39-56.
-#'  DOI: \href{https://doi.org/10.3406/pica.2004.2396}{10.3406/pica.2004.2396}.
+#'  Picardie}, 3(1), 39-56. \doi{10.3406/pica.2004.2396}.
 #' @return A \code{\link{numeric}} matrix.
 #' @seealso \link{plot_ford}, \link{plot_heatmap}, \link{seriate_rank}
 #' @author N. Frerebeau
@@ -102,7 +101,7 @@ setGeneric(
 # Correspondence Analysis ======================================================
 #' Correspondence Analysis
 #'
-#' Performs a correspondence analysis.
+#' Performs a correspondence analysis (or reciprocal averaging).
 #' @param object A \linkS4class{CountMatrix} object.
 #' @param data A \linkS4class{CountMatrix} object for which to predict
 #'  CA coordinates.
@@ -258,8 +257,7 @@ setGeneric(
 #'
 #'  Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
 #'  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
-#'  Archaeological Science}, 39(4), 777-790.
-#'  DOI: \href{https://doi.org/10.1016/j.jas.2011.06.031}{10.1016/j.jas.2011.06.031}.
+#'  Archaeological Science}, 39(4), 777-790. \doi{10.1016/j.jas.2011.06.031}.
 #'
 #'  Bellanger, L., Tomassone, R. & Husi, P. (2008). A Statistical Approach for
 #'  Dating Archaeological Contexts. \emph{Journal of Data Science}, 6, 135-154.
@@ -270,8 +268,7 @@ setGeneric(
 #'
 #'  Bellanger, L., Husi, P. & Tomassone, R. (2006). Statistical Aspects of
 #'  Pottery Quantification for the Dating of Some Archaeological Contexts.
-#'  \emph{Archaeometry}, 48(1), 169-183.
-#'  DOI: \href{https://doi.org/10.1111/j.1475-4754.2006.00249.x}{10.1111/j.1475-4754.2006.00249.x}.
+#'  \emph{Archaeometry}, 48(1), 169-183. \doi{10.1111/j.1475-4754.2006.00249.x}.
 #'
 #'  Poblome, J. & Groenen, P. J. F. (2003). Constrained Correspondence Analysis
 #'  for Seriation of Sagalassos Tablewares. In Doerr, M. & Apostolis, S. (eds.),
@@ -388,14 +385,14 @@ setGeneric(
 #' @references
 #'  Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
 #'  in Deep-Sea Sediments. \emph{Science}, 168(3937), 1345-1347.
-#'  DOI: \href{https://doi.org/10.1126/science.168.3937.1345}{10.1126/science.168.3937.1345}.
+#'  \doi{10.1126/science.168.3937.1345}.
 #'
 #'  Brillouin, L. (1956). \emph{Science and information theory}. New York:
 #'  Academic Press.
 #'
 #'  Kintigh, K. W. (1984). Measuring Archaeological Diversity by Comparison
 #'  with Simulated Assemblages. \emph{American Antiquity}, 49(1), 44-54.
-#'  DOI: \href{https://doi.org/10.2307/280511}{10.2307/280511}.
+#'  \doi{10.2307/280511}.
 #'
 #'  Kintigh, K. W. (1989). Sample Size, Significance, and Measures of
 #'  Diversity. In Leonard, R. D. and Jones, G. T., \emph{Quantifying Diversity
@@ -404,29 +401,29 @@ setGeneric(
 #'
 #'  Laxton, R. R. (1978). The measure of diversity. \emph{Journal of Theoretical
 #'  Biology}, 70(1), 51-67.
-#'  DOI: \href{https://doi.org/10.1016/0022-5193(78)90302-8}{10.1016/0022-5193(78)90302-8}.
+#'  \doi{10.1016/0022-5193(78)90302-8}.
 #'
 #'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
 #'  Princeton, NJ: Princeton University Press.
-#'  DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+#'  \doi{10.1007/978-94-015-7358-0}.
 #'
 #'  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
 #'  Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
-#'  DOI: \href{https://doi.org/10.2307/1932674}{10.2307/1932674}.
+#'  \doi{10.2307/1932674}.
 #'
 #'  Peet, R. K. (1974). The Measurement of Species Diversity. \emph{Annual
 #'  Review of Ecology and Systematics}, 5(1), 285-307.
-#'  DOI: \href{https://doi.org/10.1146/annurev.es.05.110174.001441}{10.1146/annurev.es.05.110174.001441}.
+#'  \doi{10.1146/annurev.es.05.110174.001441}.
 #'
 #'  Pielou, E. C. (1975). \emph{Ecological Diversity}. New York: Wiley.
-#'  DOI: \href{https://doi.org/10.4319/lo.1977.22.1.0174b}{10.4319/lo.1977.22.1.0174b}
+#'  \doi{10.4319/lo.1977.22.1.0174b}
 #'
 #'  Shannon, C. E. (1948). A Mathematical Theory of Communication. \emph{The
 #'  Bell System Technical Journal}, 27, 379-423.
-#'  DOI: \href{https://doi.org/10.1002/j.1538-7305.1948.tb01338.x}{10.1002/j.1538-7305.1948.tb01338.x}.
+#'  \doi{10.1002/j.1538-7305.1948.tb01338.x}.
 #'
 #'  Simpson, E. H. (1949). Measurement of Diversity. \emph{Nature}, 163(4148),
-#'  688-688. DOI: \href{https://doi.org/10.1038/163688a0}{10.1038/163688a0}.
+#'  688-688. \doi{10.1038/163688a0}.
 #' @example inst/examples/ex-diversity.R
 #' @author N. Frerebeau
 #' @family diversity
@@ -520,12 +517,11 @@ setGeneric(
 #' @references
 #'  Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
 #'  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
-#'  Archaeological Science}, 39(4), 777-790.
-#'  DOI: \href{https://doi.org/10.1016/j.jas.2011.06.031}{10.1016/j.jas.2011.06.031}.
+#'  Archaeological Science}, 39(4), 777-790. \doi{10.1016/j.jas.2011.06.031}.
 #'
 #'  Dye, T. S. (2016). Long-Term Rhythms in the Development of Hawaiian
 #'  Social Stratification. \emph{Journal of Archaeological Science}, 71, 1-9.
-#'  DOI: \href{https://doi.org/10.1016/j.jas.2016.05.006}{10.1016/j.jas.2016.05.006}.
+#'  \doi{10.1016/j.jas.2016.05.006}.
 #'
 #'  Philippe, A. & Vibet, M.-A. (2017). Analysis of Archaeological Phases using
 #'  the CRAN Package ArchaeoPhases. HAL,
@@ -615,8 +611,7 @@ setGeneric(
 #'
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
 #'  graphique pour tableaux de comptages. \emph{Revue archéologique de
-#'  Picardie}, 3(1), 39-56.
-#'  DOI: \href{https://doi.org/10.3406/pica.2004.2396}{10.3406/pica.2004.2396}.
+#'  Picardie}, 3(1), 39-56. \doi{10.3406/pica.2004.2396}.
 #'
 #'  Ford, J. A. (1962). \emph{A quantitative method for deriving cultural
 #'  chronology}. Washington, DC: Pan American Union. Technical manual 1.
@@ -664,8 +659,7 @@ setGeneric(
 #' @references
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
 #'  graphique pour tableaux de comptages. \emph{Revue archéologique de
-#'  Picardie}, 3(1), 39-56.
-#'  DOI: \href{https://doi.org/10.3406/pica.2004.2396}{10.3406/pica.2004.2396}.
+#'  Picardie}, 3(1), 39-56. \doi{10.3406/pica.2004.2396}.
 #' @example inst/examples/ex-plot_matrix.R
 #' @author N. Frerebeau
 #' @seealso \link{pvi}
@@ -697,8 +691,7 @@ setGeneric(
 #'  A \code{\link[ggplot2]{ggplot}} object.
 #' @references
 #'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
-#'  Princeton, NJ: Princeton University Press.
-#'  DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+#'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 #' @example inst/examples/ex-plot_rank.R
 #' @author N. Frerebeau
 #' @family plot
@@ -836,31 +829,29 @@ setGeneric(
 #'
 #'  Chao, A. (1987). Estimating the Population Size for Capture-Recapture Data
 #'  with Unequal Catchability. \emph{Biometrics} 43(4), 783-791.
-#'  DOI: \href{https://doi.org/10.2307/2531532}{10.2307/2531532}.
+#'  \doi{10.2307/2531532}.
 #'
 #'  Chao, A. & Chiu, C.-H. (2016). Species Richness: Estimation and Comparison.
 #'  \emph{In} Balakrishnan, N., Colton, T., Everitt, B., Piegorsch, B., Ruggeri,
 #'  F. & Teugels, J. L. (Eds.), \emph{Wiley StatsRef: Statistics Reference Online}.
 #'  Chichester, UK: John Wiley & Sons, Ltd., 1-26.
-#'  DOI: \href{https://doi.org/10.1002/9781118445112.stat03432.pub2}{10.1002/9781118445112.stat03432.pub2}
+#'  \doi{10.1002/9781118445112.stat03432.pub2}
 #'
 #'  Chao, A. & Lee, S.-M. (1992). Estimating the Number of Classes via Sample
 #'  Coverage. \emph{Journal of the American Statistical Association}, 87(417),
-#'  210-217.
-#'  DOI: \href{https://doi.org/10.1080/01621459.1992.10475194}{10.1080/01621459.1992.10475194}.
+#'  210-217. \doi{10.1080/01621459.1992.10475194}.
 #'
 #'  Chiu, C.-H., Wang, Y.-T., Walther, B. A. & Chao, A. (2014). An improved
 #'  nonparametric lower bound of species richness via a modified good-turing
 #'  frequency formula. \emph{Biometrics}, 70(3), 671-682.
-#'  DOI: \href{https://doi.org/10.1111/biom.12200}{10.1111/biom.12200}.
+#'  \doi{10.1111/biom.12200}.
 #'
 #'  Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
 #'  Alternative Parameters. \emph{Ecology}, 52(4), 577-586.
-#'  DOI: \href{https://doi.org/10.2307/1934145}{10.2307/1934145}.
+#'  \doi{10.2307/1934145}.
 #'
 #'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
-#'  Princeton, NJ: Princeton University Press.
-#'  DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+#'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 #'
 #'  Kintigh, K. W. (1989). Sample Size, Significance, and Measures of
 #'  Diversity. In Leonard, R. D. and Jones, G. T., \emph{Quantifying Diversity
@@ -875,11 +866,11 @@ setGeneric(
 #'
 #'  Menhinick, E. F. (1964). A Comparison of Some Species-Individuals Diversity
 #'  Indices Applied to Samples of Field Insects. \emph{Ecology}, 45(4), 859-861.
-#'  DOI: \href{https://doi.org/10.2307/1934933}{10.2307/1934933}.
+#'  \doi{10.2307/1934933}.
 #'
 #'  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
 #'  Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
-#'  DOI: \href{https://doi.org/10.2307/1932674}{10.2307/1932674}.
+#'  \doi{10.2307/1932674}.
 #'
 #'  Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
 #'  \emph{The American Naturalist}, 102(925), 243-282.
@@ -1009,8 +1000,7 @@ setGeneric(
 #'
 #'  Peeples, M. A., & Schachner, G. (2012). Refining correspondence
 #'  analysis-based ceramic seriation of regional data sets. \emph{Journal of
-#'  Archaeological Science}, 39(8), 2818-2827.
-#'  DOI: \href{https://doi.org/10.1016/j.jas.2012.04.040}{10.1016/j.jas.2012.04.040}.
+#'  Archaeological Science}, 39(8), 2818-2827. \doi{10.1016/j.jas.2012.04.040}.
 #' @seealso \link{date_event}, \link{index_heterogeneity},
 #'  \link{index_evenness}, \link{index_richness}, \link{seriate_correspondence}
 #' @example inst/examples/ex-refine.R
@@ -1114,22 +1104,20 @@ setGeneric(
 #' @references
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
 #'  graphique pour tableaux de comptages. \emph{Revue archéologique de
-#'  Picardie}, 3(1), 39-56.
-#'  DOI: \href{https://doi.org/10.3406/pica.2004.2396}{10.3406/pica.2004.2396}.
+#'  Picardie}, 3(1), 39-56. \doi{10.3406/pica.2004.2396}.
 #'
 #'  Dunnell, R. C. (1970). Seriation Method and Its Evaluation. \emph{American
-#'  Antiquity}, 35(03), 305-319.
-#'  DOI: \href{https://doi.org/10.2307/278341}{10.2307/278341}.
+#'  Antiquity}, 35(03), 305-319. \doi{10.2307/278341}.
 #'
 #'  Ihm, P. (2005). A Contribution to the History of Seriation in Archaeology.
 #'  In C. Weihs & W. Gaul (Eds.), \emph{Classification: The Ubiquitous
 #'  Challenge}. Berlin Heidelberg: Springer, p. 307-316.
-#'  DOI: \href{https://doi.org/10.1007/3-540-28084-7_34}{10.1007/3-540-28084-7_34}.
+#'  \doi{10.1007/3-540-28084-7_34}.
 #'
 #'  Peeples, M. A., & Schachner, G. (2012). Refining correspondence
 #'  analysis-based ceramic seriation of regional data sets. \emph{Journal of
 #'  Archaeological Science}, 39(8), 2818-2827.
-#'  DOI: \href{https://doi.org/10.1016/j.jas.2012.04.040}{10.1016/j.jas.2012.04.040}.
+#'  \doi{10.1016/j.jas.2012.04.040}.
 #' @seealso \link{refine_ca}, \link{run_ca}
 #' @example inst/examples/ex-seriation.R
 #' @author N. Frerebeau
@@ -1210,11 +1198,11 @@ setGeneric(
 #' @references
 #'  Brainerd, G. W. (1951). The Place of Chronological Ordering in
 #'  Archaeological Analysis. \emph{American Antiquity}, 16(04), 301-313.
-#'  DOI: \href{https://doi.org/10.2307/276979}{10.2307/276979}.
+#'  \doi{10.2307/276979}.
 #'
 #'  Bray, J. R. & Curtis, J. T. (1957). An Ordination of the Upland Forest
 #'  Communities of Southern Wisconsin. \emph{Ecological Monographs}, 27(4),
-#'  325-349. DOI: \href{https://doi.org/10.2307/1942268}{10.2307/1942268}.
+#'  325-349. \doi{10.2307/1942268}.
 #'
 #'  Kintigh, K. (2006). Ceramic Dating and Type Associations. In J. Hantman and
 #'  R. Most (eds.), \emph{Managing Archaeological Data: Essays in Honor of
@@ -1222,12 +1210,10 @@ setGeneric(
 #'  State University, p. 17-26.
 #'
 #'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
-#'  Princeton, NJ: Princeton University Press.
-#'  DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+#'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 #'
 #'  Robinson, W. S. (1951). A Method for Chronologically Ordering Archaeological
-#'  Deposits. \emph{American Antiquity}, 16(04), 293-301.
-#'  DOI: \href{https://doi.org/10.2307/276978}{10.2307/276978}.
+#'  Deposits. \emph{American Antiquity}, 16(04), 293-301. \doi{10.2307/276978}.
 #' @example inst/examples/ex-similarity.R
 #' @author N. Frerebeau
 #' @family diversity
@@ -1256,8 +1242,7 @@ setGeneric(
 #' @author N. Frerebeau
 #' @references
 #'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
-#'  Princeton, NJ: Princeton University Press.
-#'  DOI: \href{https://doi.org/10.1007/978-94-015-7358-0}{10.1007/978-94-015-7358-0}.
+#'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 #' @family statistics
 #' @docType methods
 #' @rdname test_diversity
@@ -1285,8 +1270,7 @@ setGeneric(
 #' @references
 #'  Feder, A. F., Kryazhimskiy, S. & Plotkin, J. B. (2014). Identifying
 #'  Signatures of Selection in Genetic Time Series. \emph{Genetics}, 196(2),
-#'  509-522.
-#'  DOI: \href{https://doi.org/10.1534/genetics.113.158220}{10.1534/genetics.113.158220}.
+#'  509-522. \doi{10.1534/genetics.113.158220}.
 #' @family statistics
 #' @docType methods
 #' @rdname test_fit
@@ -1332,16 +1316,15 @@ setGeneric(
 #'  Cambridge, MA: Harvard University Press, p. 214-257.
 #'
 #'  Routledge, R. D. (1977). On Whittaker's Components of Diversity.
-#'  \emph{Ecology}, 58(5), 1120-1127.
-#'  DOI: \href{https://doi.org/10.2307/1936932}{10.2307/1936932}.
+#'  \emph{Ecology}, 58(5), 1120-1127. \doi{10.2307/1936932}.
 #'
 #'  Whittaker, R. H. (1960). Vegetation of the Siskiyou Mountains, Oregon and
 #'  California. \emph{Ecological Monographs}, 30(3), 279-338.
-#'  DOI: \href{https://doi.org/10.2307/1943563}{10.2307/1943563}.
+#'  \doi{10.2307/1943563}.
 #'
 #'  Wilson, M. V., & Shmida, A. (1984). Measuring Beta Diversity with
 #'  Presence-Absence Data. \emph{The Journal of Ecology}, 72(3), 1055-1064.
-#'  DOI: \href{https://doi.org/10.2307/2259551}{10.2307/2259551}.
+#'  \doi{10.2307/2259551}.
 #' @example inst/examples/ex-turnover.R
 #' @author N. Frerebeau
 #' @family diversity

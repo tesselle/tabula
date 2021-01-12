@@ -37,7 +37,6 @@ Useful links:
 \itemize{
   \item \url{https://tabula.archaeo.science}
   \item \url{https://github.com/nfrerebeau/tabula}
-  \item \url{https://cran.r-project.org/package=tabula}
   \item Report bugs at \url{https://github.com/nfrerebeau/tabula/issues}
 }
 

@@ -94,16 +94,15 @@ Cody, M. L. (1975). Towards a theory of continental species diversity: Bird
  Cambridge, MA: Harvard University Press, p. 214-257.
 
  Routledge, R. D. (1977). On Whittaker's Components of Diversity.
- \emph{Ecology}, 58(5), 1120-1127.
- DOI: \href{https://doi.org/10.2307/1936932}{10.2307/1936932}.
+ \emph{Ecology}, 58(5), 1120-1127. \doi{10.2307/1936932}.
 
  Whittaker, R. H. (1960). Vegetation of the Siskiyou Mountains, Oregon and
  California. \emph{Ecological Monographs}, 30(3), 279-338.
- DOI: \href{https://doi.org/10.2307/1943563}{10.2307/1943563}.
+ \doi{10.2307/1943563}.
 
  Wilson, M. V., & Shmida, A. (1984). Measuring Beta Diversity with
  Presence-Absence Data. \emph{The Journal of Ecology}, 72(3), 1055-1064.
- DOI: \href{https://doi.org/10.2307/2259551}{10.2307/2259551}.
+ \doi{10.2307/2259551}.
 }
 \seealso{
 Other diversity: 

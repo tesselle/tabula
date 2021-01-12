@@ -53,7 +53,7 @@ dimensions kept in the results. If \code{NULL} (the default), all
 dimensions are kept.}
 }
 \description{
-Performs a correspondence analysis.
+Performs a correspondence analysis (or reciprocal averaging).
 }
 \examples{
 ## Coerce dataset to a count matrix

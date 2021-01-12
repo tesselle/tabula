@@ -60,8 +60,7 @@ Computes for each cell of a numeric matrix one of the following statistic.
 \references{
 Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
  graphique pour tableaux de comptages. \emph{Revue archéologique de
- Picardie}, 3(1), 39-56.
- DOI: \href{https://doi.org/10.3406/pica.2004.2396}{10.3406/pica.2004.2396}.
+ Picardie}, 3(1), 39-56. \doi{10.3406/pica.2004.2396}.
 }
 \seealso{
 \link{plot_ford}, \link{plot_heatmap}, \link{seriate_rank}

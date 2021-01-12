@@ -149,8 +149,7 @@ Bellanger, L. & Husi, P. (2013). Mesurer et modéliser le temps inscrit dans
 
  Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
  Interpreting Archaeological Contexts Using Pottery. \emph{Journal of
- Archaeological Science}, 39(4), 777-790.
- DOI: \href{https://doi.org/10.1016/j.jas.2011.06.031}{10.1016/j.jas.2011.06.031}.
+ Archaeological Science}, 39(4), 777-790. \doi{10.1016/j.jas.2011.06.031}.
 
  Bellanger, L., Tomassone, R. & Husi, P. (2008). A Statistical Approach for
  Dating Archaeological Contexts. \emph{Journal of Data Science}, 6, 135-154.
@@ -161,8 +160,7 @@ Bellanger, L. & Husi, P. (2013). Mesurer et modéliser le temps inscrit dans
 
  Bellanger, L., Husi, P. & Tomassone, R. (2006). Statistical Aspects of
  Pottery Quantification for the Dating of Some Archaeological Contexts.
- \emph{Archaeometry}, 48(1), 169-183.
- DOI: \href{https://doi.org/10.1111/j.1475-4754.2006.00249.x}{10.1111/j.1475-4754.2006.00249.x}.
+ \emph{Archaeometry}, 48(1), 169-183. \doi{10.1111/j.1475-4754.2006.00249.x}.
 
  Poblome, J. & Groenen, P. J. F. (2003). Constrained Correspondence Analysis
  for Seriation of Sagalassos Tablewares. In Doerr, M. & Apostolis, S. (eds.),
