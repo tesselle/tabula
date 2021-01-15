@@ -5,7 +5,8 @@
 
 <!-- badges: start -->
 
-[![R build status](https://github.com/nfrerebeau/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/nfrerebeau/tabula/actions)
+[![R build
+status](https://github.com/nfrerebeau/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/nfrerebeau/tabula/actions)
 [![codecov](https://codecov.io/gh/nfrerebeau/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/nfrerebeau/tabula)
 
 <!--[![CRAN Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula)
@@ -64,7 +65,7 @@ remotes::install_github("nfrerebeau/tabula")
 ## Usage
 
 ``` r
-# Load packages
+## Load packages
 library(tabula)
 #> Loading required package: arkhe
 
@@ -92,9 +93,9 @@ themes and scales).
 Spot matrix\[1\] allows direct examination of data:
 
 ``` r
-# Plot co-occurrence of types
-# (i.e. how many times (percent) each pairs of taxa occur together 
-# in at least one sample.)
+## Plot co-occurrence of types
+## (i.e. how many times (percent) each pairs of taxa occur together 
+## in at least one sample.)
 mississippi %>%
   as_occurrence() %>%
   plot_spot() +
@@ -110,7 +111,7 @@ statistic threshold (including B. Desachy’s
 [sériographe](https://doi.org/10.3406/pica.2004.2396)).
 
 ``` r
-# Bertin matrix with variables scaled to 0-1 and the variable mean as threshold
+## Bertin matrix with variables scaled to 0-1 and the variable mean as threshold
 scale_01 <- function(x) (x - min(x)) / (max(x) - min(x))
 mississippi %>%
   as_count() %>%
@@ -124,7 +125,6 @@ mississippi %>%
 compiegne %>%
   as_count() %>%
   plot_ford()
-#> 0 dates were set.
 ```
 
 <img src="man/figures/README-ford-1.png" style="display: block; margin: auto;" />
@@ -132,13 +132,13 @@ compiegne %>%
 ### Seriation
 
 ``` r
-# Build an incidence matrix with random data
+## Build an incidence matrix with random data
 set.seed(12345)
 incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
                              nrow = 20)
 
-# Get seriation order on rows and columns
-# Correspondance analysis-based seriation
+## Get seriation order on rows and columns
+## Correspondance analysis-based seriation
 (indices <- seriate_rank(incidence, margin = c(1, 2)))
 #> <PermutationOrder>
 #> Permutation order for matrix seriation:
@@ -146,12 +146,12 @@ incidence <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
 #> - Column order: 1 16 9 4 8 14 3 20 13 2 6 18 7 17 5 11 19 12 15 10...
 #> - Method: reciprocal ranking
 
-# Permute matrix rows and columns
+## Permute matrix rows and columns
 incidence2 <- permute(incidence, indices)
 ```
 
 ``` r
-# Plot matrix
+## Plot matrix
 plot_heatmap(incidence) + 
   ggplot2::labs(title = "Original matrix") +
   ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
@@ -173,10 +173,10 @@ probability density curves of archaeological assemblage dates (*event*,
 (see `help(date_event)`).
 
 ``` r
-# Coerce dataset to abundance (count) matrix
+## Coerce dataset to abundance (count) matrix
 zuni_counts <- as_count(zuni)
-# Assume that some assemblages are reliably dated (this is NOT a real example)
-# The names of the vector entries must match the names of the assemblages
+## Assume that some assemblages are reliably dated (this is NOT a real example)
+## The names of the vector entries must match the names of the assemblages
 zuni_dates <- c(
   LZ0569 = 1097, LZ0279 = 1119, CS16 = 1328, LZ0066 = 1111,
   LZ0852 = 1216, LZ1209 = 1251, CS144 = 1262, LZ0563 = 1206,
@@ -184,12 +184,12 @@ zuni_dates <- c(
   LZ0578 = 1180, LZ0227 = 1104, LZ0610 = 1074
 )
 
-# Model the event date for each assemblage
+## Model the event date for each assemblage
 model <- date_event(zuni_counts, dates = zuni_dates, cutoff = 90)
-# Predict event and accumulation dates
+## Predict event and accumulation dates
 event <- predict_event(model, zuni_counts)
 
-# Plot activity and tempo distributions
+## Plot activity and tempo distributions
 plot_date(event, type = "activity", select = "LZ1105") +
   ggplot2::labs(title = "Activity plot") +
   ggplot2::theme_bw()
@@ -231,17 +231,6 @@ mississippi %>%
 #> Holden Lake  360 0.7307620
 #> 13-N-15     1300 1.1270126
 #> 12-N-3       983 1.0270291
-
-## Test difference in Shannon diversity between assemblages
-## (returns a matrix of adjusted p values)
-mississippi[1:5, ] %>%
-  as_count() %>%
-  test_diversity()
-#>               10-P-1       11-N-9       11-N-1   11-O-10
-#> 11-N-9  0.000000e+00           NA           NA        NA
-#> 11-N-1  3.609626e-08 8.538298e-05           NA        NA
-#> 11-O-10 2.415845e-13 4.735511e-01 2.860461e-02        NA
-#> 11-N-4  0.000000e+00 7.116363e-01 7.961107e-05 0.7116363
 ```
 
 Corresponding *evenness* (i.e. a measure of how evenly individuals are
@@ -249,7 +238,7 @@ distributed across the sample) can also be computed, as well as
 *richness* and *rarefaction*.
 
 ``` r
-# Data from Conkey 1980, Kintigh 1989, p. 28
+## Data from Conkey 1980, Kintigh 1989, p. 28
 altamira %>%
   as_count() %>%
   index_richness(method = "none", simulate = TRUE) %>% 

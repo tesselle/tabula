@@ -169,12 +169,6 @@ plot_date(event, type = "tempo", select = "LZ1105") +
 mississippi %>%
   as_count() %>%
   index_heterogeneity(method = "shannon")
-
-## Test difference in Shannon diversity between assemblages
-## (returns a matrix of adjusted p values)
-mississippi[1:5, ] %>%
-  as_count() %>%
-  test_diversity()
 ```
 
 Corresponding *evenness* (i.e. a measure of how evenly individuals are distributed across the sample) can also be computed, as well as *richness* and *rarefaction*.
