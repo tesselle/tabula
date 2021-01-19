@@ -7,17 +7,10 @@ NULL
 setMethod(
   f = "index_richness",
   signature = signature(object = "CountMatrix"),
-  definition = function(object, method = c("none", "margalef", "menhinick"),
-                        simulate = FALSE, quantiles = TRUE, level = 0.80,
-                        step = 1, n = 1000,
-                        progress = getOption("tabula.progress"), ...) {
-    # Select method
-    fun <- switch_richness(method)
-
-    index <- index_diversity(object, fun, simulate = simulate, prob = NULL,
-                             quantiles = quantiles, level = level,
-                             step = step, n = n, progress = progress)
-
+  definition = function(object, method = c("none", "margalef",
+                                           "menhinick"), ...) {
+    fun <- switch_richness(method) # Select method
+    index <- index_diversity(object, fun, ...)
     index <- methods::as(index, "RichnessIndex")
     index@method <- method[[1L]]
     index
@@ -45,9 +38,10 @@ setMethod(
 
     .CompositionIndex(
       data = as.matrix(object),
-      index = index,
+      values = index,
       size = as.integer(rowSums(object)),
-      method = method[[1L]]
+      method = method[[1L]],
+      index = fun
     )
   }
 )
@@ -72,17 +66,22 @@ setMethod(
     index <- fun(object, unbiased = unbiased, improved = improved, k = k)
     .CompositionIndex(
       data = as.matrix(object),
-      index = index,
+      values = index,
       size = as.integer(rowSums(object)),
-      method = method[[1L]]
+      method = method[[1L]],
+      index = fun
     )
   }
 )
 
+# Index ========================================================================
 switch_richness <- function(x) {
   # Validation
-  measures <- c("margalef", "menhinick", "none")
-  x <- match.arg(x, choices = measures, several.ok = FALSE)
+  x <- match.arg(
+    arg = x,
+    choices = c("margalef", "menhinick", "none"),
+    several.ok = FALSE
+  )
 
   index <- switch (
     x,
@@ -91,10 +90,10 @@ switch_richness <- function(x) {
     none = function(x, ...) { sum(x > 0) },
     stop(sprintf("There is no such method: %s.", x), call. = FALSE)
   )
+
   return(index)
 }
 
-# ==============================================================================
 #' Richness index
 #'
 #' Abundance data:

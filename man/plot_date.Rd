@@ -149,7 +149,7 @@ Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and
 
 Other plot: 
 \code{\link{plot_bar}},
-\code{\link{plot_diversity}()},
+\code{\link{plot_diversity}},
 \code{\link{plot_line}},
 \code{\link{plot_matrix}},
 \code{\link{plot_spot}()}

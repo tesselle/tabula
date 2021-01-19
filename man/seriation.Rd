@@ -9,8 +9,6 @@
 \alias{seriate_correspondence}
 \alias{permute}
 \alias{permute-method}
-\alias{get_order}
-\alias{get_order-method}
 \alias{get_order,PermutationOrder-method}
 \alias{permute,CountMatrix,PermutationOrder-method}
 \alias{permute,IncidenceMatrix,PermutationOrder-method}
@@ -28,9 +26,7 @@ seriate_correspondence(object, subset, ...)
 
 permute(object, order, ...)
 
-get_order(object)
-
-\S4method{get_order}{PermutationOrder}(object)
+\S4method{get_order}{PermutationOrder}(x)
 
 \S4method{permute}{CountMatrix,PermutationOrder}(object, order)
 
@@ -47,7 +43,7 @@ get_order(object)
 \S4method{seriate_rank}{IncidenceMatrix}(object, margin = c(1, 2), stop = 100)
 }
 \arguments{
-\item{object}{An \eqn{m \times p}{m x p} data matrix (typically an object
+\item{object, x}{An \eqn{m \times p}{m x p} data matrix (typically an object
 of class \linkS4class{CountMatrix} or \linkS4class{IncidenceMatrix}.}
 
 \item{...}{Further arguments to be passed to internal methods.}

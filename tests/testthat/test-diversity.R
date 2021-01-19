@@ -14,7 +14,7 @@ test_that("Heterogeneity", {
   for (i in method) {
     index <- index_heterogeneity(count, method = i)
     expect_s4_class(index, "HeterogeneityIndex")
-    expect_length(index@index, 2)
+    expect_length(index@values, 2)
   }
 })
 
@@ -25,7 +25,7 @@ test_that("Evenness", {
   for (i in method) {
     index <- index_evenness(count, method = i)
     expect_s4_class(index, "EvennessIndex")
-    expect_length(index@index, 2)
+    expect_length(index@values, 2)
   }
 })
 

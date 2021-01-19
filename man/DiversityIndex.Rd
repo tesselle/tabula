@@ -20,7 +20,9 @@ An S4 class to represent a diversity measure.
 \section{Slots}{
 
 \describe{
-\item{\code{index}}{A \code{\link{numeric}} vector giving the diversity index values.}
+\item{\code{data}}{A \code{\link{numeric}} \code{\link{matrix}} of count data.}
+
+\item{\code{values}}{A \code{\link{numeric}} vector giving the diversity index values.}
 
 \item{\code{size}}{A \code{\link{integer}} vector giving the sample sizes.}
 
@@ -28,6 +30,8 @@ An S4 class to represent a diversity measure.
 measures for the simulated assemblage.}
 
 \item{\code{method}}{A \code{\link{character}} string specifying the method used.}
+
+\item{\code{index}}{A \code{\link{function}}.}
 }}
 
 \section{Subset}{

@@ -2,11 +2,17 @@
 #' @include AllClasses.R
 NULL
 
+# S4 dispatch to base S3 generic ===============================================
+setGeneric("simulate")
+if (!isGeneric("plot"))
+  setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
+
 # Extract ======================================================================
+## Mutators --------------------------------------------------------------------
 #' Get or Set Parts of an Object
 #'
 #' Getters and setters to extract or replace parts of an object.
-#' @param object An object from which to get or set element(s).
+#' @param x An object from which to get or set element(s).
 # @param value A possible value for the element(s) of \code{object} (see below).
 #' @return
 #'  An object of the same sort as \code{object} with the new values assigned.
@@ -14,12 +20,26 @@ NULL
 #' @author N. Frerebeau
 #' @docType methods
 #' @family mutator
-#' @name access
-#' @rdname access
+#' @name mutator
+#' @rdname mutator
 #' @aliases get set
 NULL
 
-# Subset -----------------------------------------------------------------------
+if (!isGeneric("get_method")) {
+  setGeneric(
+    name = "get_method",
+    def = function(x) standardGeneric("get_method")
+  )
+}
+
+#' @rdname mutator
+#' @aliases get_order-method
+setGeneric(
+  name = "get_order",
+  def = function(x) standardGeneric("get_order")
+)
+
+## Subset ----------------------------------------------------------------------
 #' Extract or Replace Parts of an Object
 #'
 #' Operators acting on objects to extract or replace parts.
@@ -129,6 +149,7 @@ setGeneric(
 )
 
 # Date =========================================================================
+## Mean Ceramic Date -----------------------------------------------------------
 #' Mean Ceramic Date
 #'
 #' Estimates the Mean Ceramic Date of an assemblage.
@@ -181,6 +202,7 @@ setGeneric(
   def = function(object, dates, ...) standardGeneric("date_mcd")
 )
 
+## Event Model -----------------------------------------------------------------
 #' Event and Accumulation Dates
 #'
 #' @description
@@ -279,6 +301,7 @@ setGeneric(
 )
 
 # Diversity ====================================================================
+## Heterogeneity ---------------------------------------------------------------
 #' Heterogeneity and Evenness
 #'
 #' @description
@@ -289,21 +312,6 @@ setGeneric(
 #'  a \linkS4class{CountMatrix} object).
 #' @param method A \code{\link{character}} string specifying the index to be
 #'  computed (see details). Any unambiguous substring can be given.
-#' @param simulate A \code{\link{logical}} scalar: simulated assemblages
-#'  be computed?
-#' @param quantiles A \code{\link{logical}} scalar: should sample quantiles
-#'  be used as confidence interval? If \code{TRUE} (the default),
-#'  sample quantiles are used as described in Kintigh (1989), else quantiles of
-#'  the normal distribution are used. Only used if \code{simulate} is
-#'  \code{TRUE}.
-#' @param level A length-one \code{\link{numeric}} vector giving the
-#'  confidence level. Only used if \code{simulate} is \code{TRUE}.
-#' @param step A non-negative \code{\link{integer}} giving the increment of the
-#'  sample size. Only used if \code{simulate} is \code{TRUE}.
-#' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
-#'  replications. Only used if \code{simulate} is \code{TRUE}.
-#' @param progress A \code{\link{logical}} scalar: should a progress bar be
-#'  displayed?
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  \emph{Diversity} measurement assumes that all individuals in a specific
@@ -408,7 +416,7 @@ setGeneric(
 #' @example inst/examples/ex-diversity.R
 #' @author N. Frerebeau
 #' @family diversity
-#' @seealso \link{plot_diversity}, \link{refine_diversity}, \link{similarity},
+#' @seealso \link{plot_diversity}, \link{refine}, \link{similarity},
 #'  \link{turnover}
 #' @docType methods
 #' @name heterogeneity-index
@@ -429,8 +437,156 @@ setGeneric(
   def = function(object, ...) standardGeneric("index_evenness")
 )
 
+## Richness --------------------------------------------------------------------
+#' Richness and Rarefaction
+#'
+#' @description
+#'  \code{index_richness} returns sample richness. \code{index_composition}
+#'  returns asymptotic species richness.
+#'
+#'  \code{rarefaction} returns Hurlbert's unbiased estimate of Sander's
+#'  rarefaction.
+#' @param object A \eqn{m \times p}{m x p} matrix of count data.
+#' @param method A \code{\link{character}} string or vector of strings
+#'  specifying the index to be computed (see details).
+#'  Any unambiguous substring can be given.
+#' @param unbiased A \code{\link{logical}} scalar. Should the bias-corrected
+#'  estimator be used? Only used with "\code{chao1}" or "\code{chao2}"
+#'  (improved) estimator.
+#' @param improved A \code{\link{logical}} scalar. Should the improved
+#'  estimator be used? Only used with "\code{chao1}" or "\code{chao2}".
+#' @param sample A length-one \code{\link{numeric}} vector giving the sub-sample
+#'  size.
+#' @param k A length-one \code{\link{numeric}} vector giving the threshold
+#'  between rare/infrequent and abundant/frequent species. Only used if
+#'  \code{method} is "\code{ace}" or "\code{ice}".
+#' @param simplify A \code{\link{logical}} scalar: should the result be
+#'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
+#' @param ... Further arguments to be passed to internal methods.
+#' @details
+#'  The number of different taxa, provides an instantly comprehensible
+#'  expression of diversity. While the number of taxa within a sample
+#'  is easy to ascertain, as a term, it makes little sense: some taxa
+#'  may not have been seen, or there may not be a fixed number of taxa
+#'  (e.g. in an open system; Peet 1974). As an alternative, \emph{richness}
+#'  (\eqn{S}) can be used for the concept of taxa number (McIntosh 1967).
+#'
+#'  It is not always possible to ensure that all sample sizes are equal
+#'  and the number of different taxa increases with sample size and
+#'  sampling effort (Magurran 1988). Then, \emph{rarefaction} (\eqn{E(S)}) is
+#'  the number of taxa expected if all samples were of a standard size (i.e.
+#'  taxa per fixed number of individuals). Rarefaction assumes that imbalances
+#'  between taxa are due to sampling and not to differences in actual
+#'  abundances.
+#'
+#'  The following richness measures are available for count data:
+#'  \describe{
+#'   \item{margalef}{Margalef richness index.}
+#'   \item{menhinick}{Menhinick richness index.}
+#'   \item{none}{Returns the number of observed taxa/types.}
+#'  }
+#'
+#' @section Asymptotic Species Richness:
+#'  The following measures are available for count data:
+#'  \describe{
+#'   \item{ace}{Abundance-based Coverage Estimator.}
+#'   \item{chao1}{(improved/unbiased) Chao1 estimator.}
+#'  }
+#'
+#'  The following measures are available for replicated incidence data:
+#'  \describe{
+#'   \item{ice}{Incidence-based Coverage Estimator.}
+#'   \item{chao2}{(improved/unbiased) Chao2 estimator.}
+#'  }
+#' @return
+#'  \code{index_richness} and \code{index_composition} return a
+#'  \linkS4class{DiversityIndex} object.
+#'
+#'  If \code{simplify} is \code{FALSE}, then \code{rarefaction} returns a list
+#'  (default), else return a matrix.
+#' @references
+#'  Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
+#'  Population. \emph{Scandinavian Journal of Statistics}, 11(4), 265-270.
+#'
+#'  Chao, A. (1987). Estimating the Population Size for Capture-Recapture Data
+#'  with Unequal Catchability. \emph{Biometrics} 43(4), 783-791.
+#'  \doi{10.2307/2531532}.
+#'
+#'  Chao, A. & Chiu, C.-H. (2016). Species Richness: Estimation and Comparison.
+#'  \emph{In} Balakrishnan, N., Colton, T., Everitt, B., Piegorsch, B., Ruggeri,
+#'  F. & Teugels, J. L. (Eds.), \emph{Wiley StatsRef: Statistics Reference Online}.
+#'  Chichester, UK: John Wiley & Sons, Ltd., 1-26.
+#'  \doi{10.1002/9781118445112.stat03432.pub2}
+#'
+#'  Chao, A. & Lee, S.-M. (1992). Estimating the Number of Classes via Sample
+#'  Coverage. \emph{Journal of the American Statistical Association}, 87(417),
+#'  210-217. \doi{10.1080/01621459.1992.10475194}.
+#'
+#'  Chiu, C.-H., Wang, Y.-T., Walther, B. A. & Chao, A. (2014). An improved
+#'  nonparametric lower bound of species richness via a modified good-turing
+#'  frequency formula. \emph{Biometrics}, 70(3), 671-682.
+#'  \doi{10.1111/biom.12200}.
+#'
+#'  Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
+#'  Alternative Parameters. \emph{Ecology}, 52(4), 577-586.
+#'  \doi{10.2307/1934145}.
+#'
+#'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
+#'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
+#'
+#'  Kintigh, K. W. (1989). Sample Size, Significance, and Measures of
+#'  Diversity. In Leonard, R. D. and Jones, G. T., \emph{Quantifying Diversity
+#'  in Archaeology}. New Directions in Archaeology. Cambridge:
+#'  Cambridge University Press, p. 25-36.
+#'
+#'  Magurran, A E. & Brian J. McGill (2011). \emph{Biological Diversity:
+#'  Frontiers in Measurement and Assessment}. Oxford: Oxford University Press.
+#'
+#'  Margalef, R. (1958). Information Theory in Ecology. \emph{General Systems},
+#'  3, 36-71.
+#'
+#'  Menhinick, E. F. (1964). A Comparison of Some Species-Individuals Diversity
+#'  Indices Applied to Samples of Field Insects. \emph{Ecology}, 45(4), 859-861.
+#'  \doi{10.2307/1934933}.
+#'
+#'  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
+#'  Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
+#'  \doi{10.2307/1932674}.
+#'
+#'  Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
+#'  \emph{The American Naturalist}, 102(925), 243-282.
+#' @seealso \link{plot_diversity}, \link{refine}
+#' @example inst/examples/ex-richness.R
+#' @author N. Frerebeau
+#' @family diversity
+#' @docType methods
+#' @name richness-index
+#' @rdname richness-index
+NULL
+
+#' @rdname richness-index
+#' @aliases index_richness-method
+setGeneric(
+  name = "index_richness",
+  def = function(object, ...) standardGeneric("index_richness")
+)
+
+#' @rdname richness-index
+#' @aliases index_composition-method
+setGeneric(
+  name = "index_composition",
+  def = function(object, ...) standardGeneric("index_composition")
+)
+
+#' @rdname richness-index
+#' @aliases rarefaction-method
+setGeneric(
+  name = "rarefaction",
+  def = function(object, ...) standardGeneric("rarefaction")
+)
+
 # Plot =========================================================================
-# Time Plot --------------------------------------------------------------------
+## Time Plot -------------------------------------------------------------------
 #' Date and Time Plot
 #'
 #' \code{plot_date} produces an activity or tempo plot.
@@ -527,11 +683,10 @@ setGeneric(
   def = function(object, dates, ...) standardGeneric("plot_time")
 )
 
-# Diversity Plot ---------------------------------------------------------------
+## Diversity Plot --------------------------------------------------------------
 #' Diversity Plot
 #'
-#' @param object A \linkS4class{DiversityIndex} object to be plotted.
-#' @param ... Currently not used.
+#' @param x A \linkS4class{DiversityIndex} object to be plotted.
 #' @example inst/examples/ex-plot_diversity.R
 #' @author N. Frerebeau
 #' @family plot
@@ -542,14 +697,7 @@ setGeneric(
 #' @rdname plot_diversity
 NULL
 
-#' @rdname plot_diversity
-#' @aliases plot_diversity-method
-setGeneric(
-  name = "plot_diversity",
-  def = function(object, ...) standardGeneric("plot_diversity")
-)
-
-# Bar Plot ---------------------------------------------------------------------
+## Bar Plot --------------------------------------------------------------------
 #' Bar Plot
 #'
 #' Plots a Bertin, Ford (battleship curve) or Dice-Leraas diagram.
@@ -616,7 +764,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("plot_ford")
 )
 
-# Heatmap ----------------------------------------------------------------------
+## Heatmap ---------------------------------------------------------------------
 #' Heatmap
 #'
 #' Plots a heatmap.
@@ -653,7 +801,7 @@ setGeneric(
   name = "plot_heatmap",
   def = function(object, ...) standardGeneric("plot_heatmap")
 )
-# Line Plot --------------------------------------------------------------------
+## Line Plot -------------------------------------------------------------------
 #' Line Plot
 #'
 #' \code{plot_rank} plots a rank \emph{vs} relative abundance diagram.
@@ -684,7 +832,7 @@ setGeneric(
   def = function(object, ...) standardGeneric("plot_rank")
 )
 
-# Spot Plot --------------------------------------------------------------------
+## Spot Plot -------------------------------------------------------------------
 #' Spot Plot
 #'
 #' Plots a spot matrix.
@@ -718,169 +866,6 @@ setGeneric(
   def = function(object, ...) standardGeneric("plot_spot")
 )
 
-# Richness =====================================================================
-#' Richness and Rarefaction
-#'
-#' @description
-#'  \code{index_richness} returns sample richness. \code{index_composition}
-#'  returns asymptotic species richness.
-#'
-#'  \code{rarefaction} returns Hurlbert's unbiased estimate of Sander's
-#'  rarefaction.
-#' @param object A \eqn{m \times p}{m x p} matrix of count data.
-#' @param method A \code{\link{character}} string or vector of strings
-#'  specifying the index to be computed (see details).
-#'  Any unambiguous substring can be given.
-#' @param unbiased A \code{\link{logical}} scalar. Should the bias-corrected
-#'  estimator be used? Only used with "\code{chao1}" or "\code{chao2}"
-#'  (improved) estimator.
-#' @param improved A \code{\link{logical}} scalar. Should the improved
-#'  estimator be used? Only used with "\code{chao1}" or "\code{chao2}".
-#' @param sample A length-one \code{\link{numeric}} vector giving the sub-sample
-#'  size.
-#' @param k A length-one \code{\link{numeric}} vector giving the threshold
-#'  between rare/infrequent and abundant/frequent species. Only used if
-#'  \code{method} is "\code{ace}" or "\code{ice}".
-#' @param simulate A \code{\link{logical}} scalar: simulated assemblages
-#'  be computed?
-#' @param quantiles A \code{\link{logical}} scalar: should sample quantiles
-#'  be used as confidence interval? If \code{TRUE} (the default),
-#'  sample quantiles are used as described in Kintigh (1989), else quantiles of
-#'  the normal distribution are used. Only used if \code{simulate} is
-#'  \code{TRUE}.
-#' @param level A length-one \code{\link{numeric}} vector giving the
-#'  confidence level. Only used if \code{simulate} is \code{TRUE}.
-#' @param step A non-negative \code{\link{integer}} giving the increment of the
-#'  sample size. Only used if \code{simulate} is \code{TRUE}.
-#' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
-#'  replications. Only used if \code{simulate} is \code{TRUE}.
-#' @param progress A \code{\link{logical}} scalar: should a progress bar be
-#'  displayed?
-#' @param simplify A \code{\link{logical}} scalar: should the result be
-#'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
-#' @param ... Further arguments to be passed to internal methods.
-#' @details
-#'  The number of different taxa, provides an instantly comprehensible
-#'  expression of diversity. While the number of taxa within a sample
-#'  is easy to ascertain, as a term, it makes little sense: some taxa
-#'  may not have been seen, or there may not be a fixed number of taxa
-#'  (e.g. in an open system; Peet 1974). As an alternative, \emph{richness}
-#'  (\eqn{S}) can be used for the concept of taxa number (McIntosh 1967).
-#'
-#'  It is not always possible to ensure that all sample sizes are equal
-#'  and the number of different taxa increases with sample size and
-#'  sampling effort (Magurran 1988). Then, \emph{rarefaction} (\eqn{E(S)}) is
-#'  the number of taxa expected if all samples were of a standard size (i.e.
-#'  taxa per fixed number of individuals). Rarefaction assumes that imbalances
-#'  between taxa are due to sampling and not to differences in actual
-#'  abundances.
-#'
-#'  The following richness measures are available for count data:
-#'  \describe{
-#'   \item{margalef}{Margalef richness index.}
-#'   \item{menhinick}{Menhinick richness index.}
-#'   \item{none}{Returns the number of observed taxa/types.}
-#'  }
-#'
-#' @section Asymptotic Species Richness:
-#'  The following measures are available for count data:
-#'  \describe{
-#'   \item{ace}{Abundance-based Coverage Estimator.}
-#'   \item{chao1}{(improved/unbiased) Chao1 estimator.}
-#'  }
-#'
-#'  The following measures are available for replicated incidence data:
-#'  \describe{
-#'   \item{ice}{Incidence-based Coverage Estimator.}
-#'   \item{chao2}{(improved/unbiased) Chao2 estimator.}
-#'  }
-#' @return
-#'  \code{index_richness} and \code{index_composition} return a
-#'  \linkS4class{DiversityIndex} object.
-#'
-#'  If \code{simplify} is \code{FALSE}, then \code{rarefaction} returns a list
-#'  (default), else return a matrix.
-#' @references
-#'  Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
-#'  Population. \emph{Scandinavian Journal of Statistics}, 11(4), 265-270.
-#'
-#'  Chao, A. (1987). Estimating the Population Size for Capture-Recapture Data
-#'  with Unequal Catchability. \emph{Biometrics} 43(4), 783-791.
-#'  \doi{10.2307/2531532}.
-#'
-#'  Chao, A. & Chiu, C.-H. (2016). Species Richness: Estimation and Comparison.
-#'  \emph{In} Balakrishnan, N., Colton, T., Everitt, B., Piegorsch, B., Ruggeri,
-#'  F. & Teugels, J. L. (Eds.), \emph{Wiley StatsRef: Statistics Reference Online}.
-#'  Chichester, UK: John Wiley & Sons, Ltd., 1-26.
-#'  \doi{10.1002/9781118445112.stat03432.pub2}
-#'
-#'  Chao, A. & Lee, S.-M. (1992). Estimating the Number of Classes via Sample
-#'  Coverage. \emph{Journal of the American Statistical Association}, 87(417),
-#'  210-217. \doi{10.1080/01621459.1992.10475194}.
-#'
-#'  Chiu, C.-H., Wang, Y.-T., Walther, B. A. & Chao, A. (2014). An improved
-#'  nonparametric lower bound of species richness via a modified good-turing
-#'  frequency formula. \emph{Biometrics}, 70(3), 671-682.
-#'  \doi{10.1111/biom.12200}.
-#'
-#'  Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
-#'  Alternative Parameters. \emph{Ecology}, 52(4), 577-586.
-#'  \doi{10.2307/1934145}.
-#'
-#'  Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
-#'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
-#'
-#'  Kintigh, K. W. (1989). Sample Size, Significance, and Measures of
-#'  Diversity. In Leonard, R. D. and Jones, G. T., \emph{Quantifying Diversity
-#'  in Archaeology}. New Directions in Archaeology. Cambridge:
-#'  Cambridge University Press, p. 25-36.
-#'
-#'  Magurran, A E. & Brian J. McGill (2011). \emph{Biological Diversity:
-#'  Frontiers in Measurement and Assessment}. Oxford: Oxford University Press.
-#'
-#'  Margalef, R. (1958). Information Theory in Ecology. \emph{General Systems},
-#'  3, 36-71.
-#'
-#'  Menhinick, E. F. (1964). A Comparison of Some Species-Individuals Diversity
-#'  Indices Applied to Samples of Field Insects. \emph{Ecology}, 45(4), 859-861.
-#'  \doi{10.2307/1934933}.
-#'
-#'  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
-#'  Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
-#'  \doi{10.2307/1932674}.
-#'
-#'  Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
-#'  \emph{The American Naturalist}, 102(925), 243-282.
-#' @seealso \link{plot_diversity}, \link{refine_diversity}
-#' @example inst/examples/ex-richness.R
-#' @author N. Frerebeau
-#' @family diversity
-#' @docType methods
-#' @name richness-index
-#' @rdname richness-index
-NULL
-
-#' @rdname richness-index
-#' @aliases index_richness-method
-setGeneric(
-  name = "index_richness",
-  def = function(object, ...) standardGeneric("index_richness")
-)
-
-#' @rdname richness-index
-#' @aliases index_composition-method
-setGeneric(
-  name = "index_composition",
-  def = function(object, ...) standardGeneric("index_composition")
-)
-
-#' @rdname richness-index
-#' @aliases rarefaction-method
-setGeneric(
-  name = "rarefaction",
-  def = function(object, ...) standardGeneric("rarefaction")
-)
-
 # Refine =======================================================================
 #' Bootstrap and Jackknife Resampling
 #'
@@ -896,6 +881,11 @@ setGeneric(
 #' @param method A \code{\link{character}} string specifying the resampling
 #'  method to be used. This must be one of "\code{jackknife}",
 #'  "\code{bootstrap}" (see below). Any unambiguous substring can be given.
+#' @param quantiles A \code{\link{logical}} scalar: should sample quantiles
+#'  be used as confidence interval? If \code{TRUE} (the default),
+#'  sample quantiles are used as described in Kintigh (1989), else quantiles of
+#'  the normal distribution are used. Only used if \code{simulate} is
+#'  \code{TRUE}.
 #' @param level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
 #' @param probs A \code{\link{numeric}} vector of probabilities with values in
@@ -904,6 +894,8 @@ setGeneric(
 #'  a single numeric value (see below).
 #' @param axes A \code{\link{numeric}} vector giving the subscripts of the CA
 #'  axes to be used (see below).
+#' @param step A non-negative \code{\link{integer}} giving the increment of the
+#'  sample size. Only used if \code{simulate} is \code{TRUE}.
 #' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
 #' replications (see below).
 #' @param progress A \code{\link{logical}} scalar: should a progress bar be
@@ -963,8 +955,7 @@ setGeneric(
 #'   \item{Q95}{Sample quantile to 0.95 probability.}
 #'  }
 #' @return
-#'  \code{refine_diversity} and \code{refine_event} return a
-#'   \code{\link{data.frame}}.
+#'  \code{bootstrap} and \code{jackknife} return a \code{\link{data.frame}}.
 #'
 #'  \code{refine_ca} returns a \linkS4class{BootCA} object.
 #' @note
@@ -989,17 +980,24 @@ setGeneric(
 NULL
 
 #' @rdname refine
+#' @aliases bootstrap-method
+setGeneric(
+  name = "bootstrap",
+  def = function(object, ...) standardGeneric("bootstrap")
+)
+
+#' @rdname refine
+#' @aliases jackknife-method
+setGeneric(
+  name = "jackknife",
+  def = function(object, ...) standardGeneric("jackknife")
+)
+
+#' @rdname refine
 #' @aliases refine_ca-method
 setGeneric(
   name = "refine_ca",
   def = function(object, ...) standardGeneric("refine_ca")
-)
-
-#' @rdname refine
-#' @aliases refine_diversity-method
-setGeneric(
-  name = "refine_diversity",
-  def = function(object, ...) standardGeneric("refine_diversity")
 )
 
 #' @rdname refine
@@ -1018,7 +1016,7 @@ setGeneric(
 #'  \code{permute} rearranges a data matrix according to a permutation order.
 #'
 #'  \code{get_order} returns the seriation order for rows and columns.
-#' @param object An \eqn{m \times p}{m x p} data matrix (typically an object
+#' @param object,x An \eqn{m \times p}{m x p} data matrix (typically an object
 #'  of class \linkS4class{CountMatrix} or \linkS4class{IncidenceMatrix}.
 #' @param subset A \linkS4class{BootCA} object giving the subset of
 #'  \code{object} to be used.
@@ -1130,13 +1128,6 @@ setGeneric(
 setGeneric(
   name = "permute",
   def = function(object, order, ...) standardGeneric("permute")
-)
-
-#' @rdname seriation
-#' @aliases get_order-method
-setGeneric(
-  name = "get_order",
-  def = function(object) standardGeneric("get_order")
 )
 
 # Similarity ===================================================================

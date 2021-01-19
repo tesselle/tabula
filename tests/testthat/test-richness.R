@@ -10,7 +10,7 @@ test_that("Richness", {
   for (i in method) {
     index <- index_richness(trap, method = i)
     expect_s4_class(index, "RichnessIndex")
-    expect_length(index@index, 2)
+    expect_length(index@values, 2)
   }
 
   # Frequency data
@@ -28,7 +28,7 @@ test_that("Chao richness", {
   for (i in method) {
     index <- index_composition(incid, method = i)
     expect_s4_class(index, "CompositionIndex")
-    expect_length(index@index, 1)
+    expect_length(index@values, 1)
   }
 })
 # Indices ======================================================================

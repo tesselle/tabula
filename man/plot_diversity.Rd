@@ -3,18 +3,13 @@
 \docType{methods}
 \name{plot_diversity}
 \alias{plot_diversity}
-\alias{plot_diversity-method}
-\alias{plot_diversity,DiversityIndex-method}
+\alias{plot,DiversityIndex,missing-method}
 \title{Diversity Plot}
 \usage{
-plot_diversity(object, ...)
-
-\S4method{plot_diversity}{DiversityIndex}(object)
+\S4method{plot}{DiversityIndex,missing}(x)
 }
 \arguments{
-\item{object}{A \linkS4class{DiversityIndex} object to be plotted.}
-
-\item{...}{Currently not used.}
+\item{x}{A \linkS4class{DiversityIndex} object to be plotted.}
 }
 \description{
 Diversity Plot
@@ -22,23 +17,20 @@ Diversity Plot
 \examples{
 library(magrittr)
 
-merzbach \%>\%
-  as_count() \%>\%
-  index_evenness(method = "shannon", simulate = FALSE) \%>\%
-  plot_diversity()
-
 \donttest{
 ## Assemblage diversity size comparison
 ## Warning: this may take a few seconds!
-merzbach \%>\%
+altamira \%>\%
   as_count() \%>\%
-  index_evenness(method = "shannon", simulate = TRUE) \%>\%
-  plot_diversity()
+  index_evenness(method = "shannon") \%>\%
+  simulate() \%>\%
+  plot()
 
-merzbach \%>\%
+altamira \%>\%
   as_count() \%>\%
-  index_richness(method = "none", simulate = TRUE) \%>\%
-  plot_diversity()
+  index_richness(method = "none") \%>\%
+  simulate() \%>\%
+  plot()
 }
 }
 \seealso{

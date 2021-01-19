@@ -50,7 +50,7 @@ Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
 Other plot: 
 \code{\link{plot_bar}},
 \code{\link{plot_date}()},
-\code{\link{plot_diversity}()},
+\code{\link{plot_diversity}},
 \code{\link{plot_matrix}},
 \code{\link{plot_spot}()}
 }

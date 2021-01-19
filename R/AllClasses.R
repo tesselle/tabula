@@ -5,11 +5,13 @@ NULL
 #' Diversity Index
 #'
 #' An S4 class to represent a diversity measure.
-#' @slot index A \code{\link{numeric}} vector giving the diversity index values.
+#' @slot data A \code{\link{numeric}} \code{\link{matrix}} of count data.
+#' @slot values A \code{\link{numeric}} vector giving the diversity index values.
 #' @slot size A \code{\link{integer}} vector giving the sample sizes.
 #' @slot simulation A numeric \code{\link{matrix}} vector giving the diversity
 #'  measures for the simulated assemblage.
 #' @slot method A \code{\link{character}} string specifying the method used.
+#' @slot index A \code{\link{function}}.
 #' @section Subset:
 #'  In the code snippets below, \code{x} is a \code{DiversityIndex} object.
 #'  \describe{
@@ -30,10 +32,11 @@ NULL
   Class = "DiversityIndex",
   slots = c(
     data = "matrix",
-    index = "numeric",
+    values = "numeric",
     size = "integer",
     simulation = "matrix",
-    method = "character"
+    method = "character",
+    index = "function"
   )
 )
 #' @rdname DiversityIndex

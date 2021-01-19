@@ -24,17 +24,7 @@ rarefaction(object, ...)
 
 \S4method{rarefaction}{CountMatrix}(object, sample, method = c("hurlbert"), simplify = TRUE, ...)
 
-\S4method{index_richness}{CountMatrix}(
-  object,
-  method = c("none", "margalef", "menhinick"),
-  simulate = FALSE,
-  quantiles = TRUE,
-  level = 0.8,
-  step = 1,
-  n = 1000,
-  progress = getOption("tabula.progress"),
-  ...
-)
+\S4method{index_richness}{CountMatrix}(object, method = c("none", "margalef", "menhinick"), ...)
 
 \S4method{index_composition}{CountMatrix}(
   object,
@@ -66,27 +56,6 @@ Any unambiguous substring can be given.}
 
 \item{simplify}{A \code{\link{logical}} scalar: should the result be
 simplified to a matrix? The default value, \code{FALSE}, returns a list.}
-
-\item{simulate}{A \code{\link{logical}} scalar: simulated assemblages
-be computed?}
-
-\item{quantiles}{A \code{\link{logical}} scalar: should sample quantiles
-be used as confidence interval? If \code{TRUE} (the default),
-sample quantiles are used as described in Kintigh (1989), else quantiles of
-the normal distribution are used. Only used if \code{simulate} is
-\code{TRUE}.}
-
-\item{level}{A length-one \code{\link{numeric}} vector giving the
-confidence level. Only used if \code{simulate} is \code{TRUE}.}
-
-\item{step}{A non-negative \code{\link{integer}} giving the increment of the
-sample size. Only used if \code{simulate} is \code{TRUE}.}
-
-\item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
-replications. Only used if \code{simulate} is \code{TRUE}.}
-
-\item{progress}{A \code{\link{logical}} scalar: should a progress bar be
-displayed?}
 
 \item{unbiased}{A \code{\link{logical}} scalar. Should the bias-corrected
 estimator be used? Only used with "\code{chao1}" or "\code{chao2}"
@@ -232,7 +201,7 @@ Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
  \emph{The American Naturalist}, 102(925), 243-282.
 }
 \seealso{
-\link{plot_diversity}, \link{refine_diversity}
+\link{plot_diversity}, \link{refine}
 
 Other diversity: 
 \code{\link{heterogeneity-index}},

@@ -61,7 +61,7 @@ Operators acting on objects to extract or replace parts.
 }
 \seealso{
 Other mutator: 
-\code{\link{access}}
+\code{\link{mutator}}
 }
 \author{
 N. Frerebeau

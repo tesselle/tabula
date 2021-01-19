@@ -83,8 +83,6 @@ Collate:
     'date_event.R'
     'date_mcd.R'
     'deprecate.R'
-    'index_diversity.R'
-    'index_evenness.R'
     'index_heterogeneity.R'
     'index_rarefaction.R'
     'index_richness.R'

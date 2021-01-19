@@ -9,7 +9,7 @@ setAs(
   def = function(from) {
     data.frame(
       size = from@size,
-      index = from@index,
+      index = from@values,
       stringsAsFactors = FALSE
     )
   }

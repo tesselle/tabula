@@ -8,27 +8,59 @@ setMethod(
   f = "index_heterogeneity",
   signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("berger", "brillouin", "mcintosh",
-                                           "shannon", "simpson"),
-                        simulate = FALSE, quantiles = TRUE, level = 0.80,
-                        step = 1, n = 1000,
-                        progress = getOption("tabula.progress"), ...) {
-    # Select method
-    fun <- switch_heterogeneity(method)
-
-    index <- index_diversity(object, fun, simulate = simulate, prob = NULL,
-                             quantiles = quantiles, level = level,
-                             step = step, n = n, progress = progress, ...)
-
+                                           "shannon", "simpson"), ...) {
+    fun <- switch_heterogeneity(method) # Select method
+    index <- index_diversity(object, fun, ...)
     index <- methods::as(index, "HeterogeneityIndex")
     index@method <- method[[1L]]
     index
   }
 )
 
-switch_heterogeneity <- function(x = c("berger", "brillouin", "mcintosh",
-                                       "shannon", "simpson")) {
+#' @export
+#' @rdname heterogeneity-index
+#' @aliases index_evenness,CountMatrix-method
+setMethod(
+  f = "index_evenness",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, method = c("shannon", "brillouin", "mcintosh",
+                                           "simpson"), ...) {
+    fun <- switch_evenness(method) # Select method
+    index <- index_diversity(object, fun, ...)
+    index <- methods::as(index, "EvennessIndex")
+    index@method <- method[[1L]]
+    index
+  }
+)
+
+# Index ========================================================================
+#' @param x A \code{\link{numeric}} \code{\link{matrix}}.
+#' @param method A \code{\link{function}}.
+#' @param ... Further parameters to be passed to \code{method}.
+#' @return A \code{\link{list}}.
+#' @author N. Frerebeau
+#' @keywords internal
+#' @noRd
+index_diversity <- function(x, method, ...) {
+
+  idx <- apply(X = x, MARGIN = 1, FUN = method, ...)
+  names(idx) <- rownames(x)
+
+  .DiversityIndex(
+    data = as.matrix(x),
+    values = idx,
+    size = as.integer(rowSums(x)),
+    simulation = matrix(0, 0, 0),
+    index = method
+  )
+}
+switch_heterogeneity <- function(x) {
   # Validation
-  x <- match.arg(x, several.ok = FALSE)
+  x <- match.arg(
+    arg = x,
+    choices = c("berger", "brillouin", "mcintosh", "shannon", "simpson"),
+    several.ok = FALSE
+  )
 
   index <- switch (
     x,
@@ -39,10 +71,29 @@ switch_heterogeneity <- function(x = c("berger", "brillouin", "mcintosh",
     simpson = dominanceSimpson,
     stop(sprintf("There is no such method: %s.", x), call. = FALSE)
   )
+
+  return(index)
+}
+switch_evenness <- function(x) {
+  # Validation
+  x <- match.arg(
+    arg = x,
+    choices = c("shannon", "brillouin", "mcintosh", "simpson"),
+    several.ok = FALSE
+  )
+
+  index <- switch (
+    x,
+    brillouin = evennessBrillouin,
+    mcintosh = evennessMcintosh,
+    shannon = evennessShannon,
+    simpson = evennessSimpson,
+    stop(sprintf("There is no such method: %s.", x), call. = FALSE)
+  )
+
   return(index)
 }
 
-# ==============================================================================
 #' Diversity, dominance and evenness index
 #'
 #' @param x A \code{\link{numeric}} vector giving the number of individuals for
@@ -89,7 +140,7 @@ switch_heterogeneity <- function(x = c("berger", "brillouin", "mcintosh",
 #' @keywords internal
 #' @noRd
 
-# Berger-Parker ----------------------------------------------------------------
+## Berger-Parker ---------------------------------------------------------------
 # @rdname index-heterogeneity
 dominanceBerger <- function(x, na.rm = FALSE, ...) {
   # Validation
@@ -104,7 +155,7 @@ dominanceBerger <- function(x, na.rm = FALSE, ...) {
   d
 }
 
-# Brillouin --------------------------------------------------------------------
+## Brillouin -------------------------------------------------------------------
 # @rdname index-heterogeneity
 diversityBrillouin <- function(x, na.rm = FALSE, ...) {
   # Validation
@@ -136,7 +187,7 @@ evennessBrillouin <- function(x, na.rm = FALSE, ...) {
   E
 }
 
-# McIntosh ---------------------------------------------------------------------
+## McIntosh --------------------------------------------------------------------
 # @rdname index-heterogeneity
 dominanceMcintosh <- function(x, na.rm = FALSE, ...) {
   # Validation
@@ -165,7 +216,7 @@ evennessMcintosh <- function(x, na.rm = FALSE, ...) {
   E
 }
 
-# Shannon ----------------------------------------------------------------------
+## Shannon ---------------------------------------------------------------------
 # @rdname index-heterogeneity
 diversityShannon <- function(x, base = exp(1),
                              zero.rm = TRUE, na.rm = FALSE, ...) {
@@ -213,7 +264,7 @@ varianceShannon <- function(x, na.rm = FALSE, ...) {
   var
 }
 
-# Simpson ----------------------------------------------------------------------
+## Simpson ---------------------------------------------------------------------
 # @rdname index-heterogeneity
 dominanceSimpson <- function(x, na.rm = FALSE, ...) {
   # Validation
@@ -240,7 +291,7 @@ evennessSimpson <- function(x, na.rm = FALSE, ...) {
   E
 }
 
-# Chao -------------------------------------------------------------------------
+## Chao ------------------------------------------------------------------------
 # Chao index
 #
 # @param n A \code{\link{numeric}} vector.

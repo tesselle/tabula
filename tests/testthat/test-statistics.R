@@ -21,7 +21,7 @@ test_that("Confidence interval for a proportion", {
   expect_error(confidence_proportion(LETTERS))
 })
 test_that("Jackknife estimation", {
-  jack <- jackknife(1:10, sum)
+  jack <- stats_jackknife(1:10, sum)
   expect_type(jack, "list")
   expect_type(jack$values, "double")
   expect_type(jack$bias, "double")

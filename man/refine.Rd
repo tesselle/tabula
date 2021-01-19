@@ -4,21 +4,26 @@
 \docType{methods}
 \name{refine}
 \alias{refine}
+\alias{bootstrap}
+\alias{bootstrap-method}
+\alias{jackknife}
+\alias{jackknife-method}
 \alias{refine_ca}
 \alias{refine_ca-method}
-\alias{refine_diversity}
-\alias{refine_diversity-method}
 \alias{refine_event}
 \alias{refine_event-method}
 \alias{refine_ca,CA-method}
 \alias{refine_event,DateModel-method}
-\alias{refine_diversity,HeterogeneityIndex-method}
-\alias{refine_diversity,EvennessIndex-method}
+\alias{bootstrap,DiversityIndex-method}
+\alias{jackknife,DiversityIndex-method}
+\alias{simulate,DiversityIndex-method}
 \title{Bootstrap and Jackknife Resampling}
 \usage{
-refine_ca(object, ...)
+bootstrap(object, ...)
 
-refine_diversity(object, ...)
+jackknife(object, ...)
+
+refine_ca(object, ...)
 
 refine_event(object, ...)
 
@@ -41,19 +46,17 @@ refine_event(object, ...)
   ...
 )
 
-\S4method{refine_diversity}{HeterogeneityIndex}(
-  object,
-  method = c("jackknife", "bootstrap"),
-  probs = c(0.05, 0.95),
-  n = 1000,
-  ...
-)
+\S4method{bootstrap}{DiversityIndex}(object, probs = c(0.05, 0.95), n = 1000)
 
-\S4method{refine_diversity}{EvennessIndex}(
+\S4method{jackknife}{DiversityIndex}(object)
+
+\S4method{simulate}{DiversityIndex}(
   object,
-  method = c("jackknife", "bootstrap"),
-  probs = c(0.05, 0.95),
+  quantiles = TRUE,
+  level = 0.8,
+  step = 1,
   n = 1000,
+  progress = getOption("tabula.progress"),
   ...
 )
 }
@@ -84,10 +87,18 @@ confidence level.}
 
 \item{probs}{A \code{\link{numeric}} vector of probabilities with values in
 \eqn{[0,1]} (see \code{\link[stats:quantile]{quantile}}).}
+
+\item{quantiles}{A \code{\link{logical}} scalar: should sample quantiles
+be used as confidence interval? If \code{TRUE} (the default),
+sample quantiles are used as described in Kintigh (1989), else quantiles of
+the normal distribution are used. Only used if \code{simulate} is
+\code{TRUE}.}
+
+\item{step}{A non-negative \code{\link{integer}} giving the increment of the
+sample size. Only used if \code{simulate} is \code{TRUE}.}
 }
 \value{
-\code{refine_diversity} and \code{refine_event} return a
-  \code{\link{data.frame}}.
+\code{bootstrap} and \code{jackknife} return a \code{\link{data.frame}}.
 
  \code{refine_ca} returns a \linkS4class{BootCA} object.
 }
@@ -173,14 +184,14 @@ birds <- CountMatrix(
   nrow = 2, byrow = TRUE, dimnames = list(c("oakwood", "spruce"), NULL))
 
 ## Shannon diversity
-heterogeneity <- index_heterogeneity(birds, "shannon")
-refine_diversity(heterogeneity, method = "bootstrap")
-refine_diversity(heterogeneity, method = "jackknife")
+h <- index_heterogeneity(birds, "shannon")
+bootstrap(h)
+jackknife(h)
 
 ## Shannon evenness
-evenness <- index_evenness(birds, "shannon")
-refine_diversity(evenness, method = "bootstrap")
-refine_diversity(evenness, method = "jackknife")
+e <- index_evenness(birds, "shannon")
+bootstrap(e)
+jackknife(e)
 }
 \references{
 Bellanger, L., Tomassone, R. & Husi, P. (2008). A Statistical Approach for

@@ -100,7 +100,7 @@ combination <- function(n, k) {
 #'  }
 #' @keywords internal
 #' @noRd
-jackknife <- function(x, do, ...) {
+stats_jackknife <- function(x, do, ...) {
   n <- length(x)
   hat <- do(x, ...)
   jack_values <- vapply(
@@ -136,7 +136,7 @@ jackknife <- function(x, do, ...) {
 #'  }
 #' @keywords internal
 #' @noRd
-bootstrap <- function(x, do, probs = c(0.05, 0.95), n = 1000, ...) {
+stats_bootstrap <- function(x, do, probs = c(0.05, 0.95), n = 1000, ...) {
   total <- sum(x)
   replicates <- stats::rmultinom(n, size = total, prob = x / total)
   boot_values <- apply(X = replicates, MARGIN = 2, FUN = do, ...)

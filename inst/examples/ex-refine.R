@@ -7,11 +7,11 @@ birds <- CountMatrix(
   nrow = 2, byrow = TRUE, dimnames = list(c("oakwood", "spruce"), NULL))
 
 ## Shannon diversity
-heterogeneity <- index_heterogeneity(birds, "shannon")
-refine_diversity(heterogeneity, method = "bootstrap")
-refine_diversity(heterogeneity, method = "jackknife")
+h <- index_heterogeneity(birds, "shannon")
+bootstrap(h)
+jackknife(h)
 
 ## Shannon evenness
-evenness <- index_evenness(birds, "shannon")
-refine_diversity(evenness, method = "bootstrap")
-refine_diversity(evenness, method = "jackknife")
+e <- index_evenness(birds, "shannon")
+bootstrap(e)
+jackknife(e)
