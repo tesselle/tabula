@@ -118,36 +118,6 @@ setGeneric(
   def = function(object, ...) standardGeneric("pvi")
 )
 
-# Correspondence Analysis ======================================================
-#' Correspondence Analysis
-#'
-#' Plots results of a correspondence analysis (or reciprocal averaging).
-#' @param object A \linkS4class{CA} object.
-#' @param axes A length-two \code{\link{numeric}} vector specifying the
-#'  components to plot.
-#' @param map A \code{\link{character}} vector specifying the graph to plot.
-#'  It must be one or both of "\code{rows}" or "\code{columns}".
-#'  Any unambiguous substring can be given.
-#' @param keep A \code{\link{character}} vector specifying the subset to plot.
-#'  It must be \code{NULL} or one or both of "\code{rows}" or "\code{columns}".
-#'  (see \code{\link{refine_ca}}).
-#' @param ... Currently not used.
-#' @seealso \link{refine_ca}, \link{seriate_correspondence}
-#' @example inst/examples/ex-ca.R
-#' @author N. Frerebeau
-#' @family mutlivariate
-#' @docType methods
-#' @name ca
-#' @rdname ca
-NULL
-
-#' @rdname ca
-#' @aliases plot_ca-method
-setGeneric(
-  name = "plot_ca",
-  def = function(object, ...) standardGeneric("plot_ca")
-)
-
 # Date =========================================================================
 ## Mean Ceramic Date -----------------------------------------------------------
 #' Mean Ceramic Date
@@ -159,10 +129,6 @@ setGeneric(
 #'  the names must match the row names of \code{object}.
 #' @param errors A \code{\link{numeric}} vector giving the absolute error of
 #'  \code{dates}.
-#' @param level A length-one \code{\link{numeric}} vector giving the
-#'  confidence level.
-#' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
-#'  replications.
 #' @param ... Currently not used.
 #' @details
 #'  The Mean Ceramic Date (MCD) is a point estimate of the occupation of an
@@ -176,22 +142,14 @@ setGeneric(
 #'  is created, with the same sample size, by resampling the original
 #'  assemblage with replacement. MCDs are calculated for each replicates and
 #'  upper and lower boundaries of the confidence interval associated with each
-#'  MCD are then returned. Confidence interval are not estimated for assemblages
-#'  with only a single type (\code{NA}s are returned).
+#'  MCD are then returned.
 #' @return
-#'  \code{date_mcd} returns a \code{\link{data.frame}} with the following
-#'  columns:
-#'  \describe{
-#'   \item{id}{An identifier to link each row to an assemblage.}
-#'   \item{date}{The Mean Ceramic Date.}
-#'   \item{error}{The error on the MCD.}
-#'   \item{lower}{The lower boundary of the confidence interval.}
-#'   \item{upper}{The upper boundary of the confidence interval.}
-#'  }
+#'  \code{date_mcd} returns a \linkS4class{DateMCD} object.
 #' @references
 #'  South, S. A. (1977). \emph{Method and Theory in Historical Archaeology}.
 #'  New York: Academic Press.
-#' @example inst/examples/ex-dating.R
+#' @seealso \link{refine}
+#' @example inst/examples/ex-date_mcd.R
 #' @author N. Frerebeau
 #' @family dating
 #' @docType methods
@@ -199,7 +157,8 @@ setGeneric(
 #' @aliases date_mcd-method
 setGeneric(
   name = "date_mcd",
-  def = function(object, dates, ...) standardGeneric("date_mcd")
+  def = function(object, dates, ...) standardGeneric("date_mcd"),
+  valueClass = "DateMCD"
 )
 
 ## Event Model -----------------------------------------------------------------
@@ -277,8 +236,8 @@ setGeneric(
 #'  for Seriation of Sagalassos Tablewares. In Doerr, M. & Apostolis, S. (eds.),
 #'  \emph{The Digital Heritage of Archaeology}. Athens: Hellenic Ministry of
 #'  Culture.
-#' @seealso \link{refine_event}
-#' @example inst/examples/ex-dating.R
+#' @seealso \link{refine}
+#' @example inst/examples/ex-date_event.R
 #' @author N. Frerebeau
 #' @family dating
 #' @docType methods
@@ -290,14 +249,16 @@ NULL
 #' @aliases date_event-method
 setGeneric(
   name = "date_event",
-  def = function(object, dates, ...) standardGeneric("date_event")
+  def = function(object, dates, ...) standardGeneric("date_event"),
+  valueClass = "DateModel"
 )
 
 #' @rdname event
 #' @aliases predict_event-method
 setGeneric(
   name = "predict_event",
-  def = function(object, data, ...) standardGeneric("predict_event")
+  def = function(object, data, ...) standardGeneric("predict_event"),
+  valueClass = "DateEvent"
 )
 
 # Diversity ====================================================================
@@ -857,23 +818,13 @@ setGeneric(
 # Refine =======================================================================
 #' Bootstrap and Jackknife Resampling
 #'
-#' @description
-#'  \code{refine_ca} performs a partial bootstrap correspondence analysis.
-#'
-#'  \code{refine_date} checks the stability of a \linkS4class{DateModel} object.
-#'
-#'  \code{refine_diversity} checks the stability of a
-#'  \linkS4class{DiversityIndex} object.
+#' Checks model with resampling methods.
 #' @param object A \linkS4class{CA}, \linkS4class{DateModel} or
 #'  \linkS4class{DiversityIndex} object.
-#' @param method A \code{\link{character}} string specifying the resampling
-#'  method to be used. This must be one of "\code{jackknife}",
-#'  "\code{bootstrap}" (see below). Any unambiguous substring can be given.
 #' @param quantiles A \code{\link{logical}} scalar: should sample quantiles
 #'  be used as confidence interval? If \code{TRUE} (the default),
 #'  sample quantiles are used as described in Kintigh (1989), else quantiles of
-#'  the normal distribution are used. Only used if \code{simulate} is
-#'  \code{TRUE}.
+#'  the normal distribution are used.
 #' @param level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
 #' @param probs A \code{\link{numeric}} vector of probabilities with values in
@@ -891,7 +842,7 @@ setGeneric(
 #' @param ... Currently not used.
 # @section Diversity Measures:
 #' @section Correspondence Analysis:
-#'  \code{refine_ca} allows to identify samples that are subject to
+#'  \code{bootstrap} allows to identify samples that are subject to
 #'  sampling error or samples that have underlying structural relationships
 #'  and might be influencing the ordering along the CA space.
 #'
@@ -904,13 +855,6 @@ setGeneric(
 #'  [results in] a reduced dataset where the position of individuals within the
 #'  CA are highly stable and which produces an ordering consistent with the
 #'  assumptions of frequency seriation."
-#'
-#'  If the results of \code{\link{refine}} is used as an input argument in
-#'  \code{seriate}, a correspondence analysis is performed on the subset of
-#'  \code{object} which matches the samples to be kept. Then excluded samples
-#'  are projected onto the dimensions of the CA coordinate space using the row
-#'  transition formulae. Finally, row coordinates onto the first dimension
-#'  give the seriation order.
 #' @section Date Model:
 #'  If \code{jackknife} is used, one type/fabric is removed at a
 #'  time and all statistics are recalculated. In this way, one can assess
@@ -933,6 +877,7 @@ setGeneric(
 #'  each of the original assemblage with replacement. Then, examination of the
 #'  bootstrap statistics makes it possible to pinpoint assemblages that require
 #'  further investigation.
+#'
 #'  A five columns \code{\link{data.frame}} is returned, giving the bootstrap
 #'  distribution statistics for each replicated assemblage (in rows)
 #'  with the following columns:
@@ -946,7 +891,7 @@ setGeneric(
 #' @return
 #'  \code{bootstrap} and \code{jackknife} return a \code{\link{data.frame}}.
 #'
-#'  \code{refine_ca} returns a \linkS4class{BootCA} object.
+#'  \code{bootstrap} returns a \linkS4class{BootCA} object.
 #' @note
 #'  Refining method can lead to much longer execution times and larger output
 #'  objects. To monitor the execution of these re-sampling procedures, a
@@ -979,36 +924,19 @@ setGeneric(
 #' @aliases jackknife-method
 setGeneric(
   name = "jackknife",
-  def = function(object, ...) standardGeneric("jackknife")
-)
-
-#' @rdname refine
-#' @aliases refine_ca-method
-setGeneric(
-  name = "refine_ca",
-  def = function(object, ...) standardGeneric("refine_ca")
-)
-
-#' @rdname refine
-#' @aliases refine_event-method
-setGeneric(
-  name = "refine_event",
-  def = function(object, ...) standardGeneric("refine_event")
+  def = function(object, ...) standardGeneric("jackknife"),
+  valueClass = "data.frame"
 )
 
 # Seriate ======================================================================
 #' Matrix Seriation
 #'
 #' @description
-#'  \code{seriate_*} computes a permutation order for rows and/or columns.
-#'
-#'  \code{permute} rearranges a data matrix according to a permutation order.
-#'
-#'  \code{get_order} returns the seriation order for rows and columns.
+#'  * \code{seriate_*} computes a permutation order for rows and/or columns.
+#'  * \code{permute} rearranges a data matrix according to a permutation order.
+#'  * \code{get_order} returns the seriation order for rows and columns.
 #' @param object,x An \eqn{m \times p}{m x p} data matrix (typically an object
 #'  of class \linkS4class{CountMatrix} or \linkS4class{IncidenceMatrix}.
-#' @param subset A \linkS4class{BootCA} object giving the subset of
-#'  \code{object} to be used.
 #' @param order A \linkS4class{PermutationOrder} object giving the permutation
 #'  order for rows and columns.
 #' @param EPPM A \code{\link{logical}} scalar: should the seriation be computed
@@ -1017,6 +945,8 @@ setGeneric(
 #'  rearrangement will be applied over: \code{1} indicates rows, \code{2}
 #'  indicates columns, \code{c(1, 2)} indicates rows then columns,
 #'  \code{c(2, 1)} indicates columns then rows.
+#' @param axes An \code{\link{integer}} giving the CA dimension to be used for
+#'  permutation.
 #' @param stop An \code{\link{integer}} giving the stopping rule
 #'  (i.e. maximum number of iterations) to avoid infinite loop.
 #' @param ... Further arguments to be passed to internal methods.
@@ -1045,14 +975,14 @@ setGeneric(
 #'
 #'  The following seriation methods are available:
 #'  \describe{
-#'   \item{correspondence}{Correspondence analysis-based seriation.
-#'   Correspondence analysis (CA) is an effective method for the seriation of
-#'   archaeological assemblages. The order of the rows and columns is given by
-#'   the coordinates along one dimension of the CA space, assumed to account
-#'   for temporal variation. The direction of temporal change within the
-#'   correspondence analysis space is arbitrary: additional information is
-#'   needed to determine the actual order in time.}
-#'   \item{reciprocal}{Reciprocal ranking seriation. These procedures
+#'   \item{\code{seriate_average}}{Correspondence analysis-based seriation
+#'   (average ranking). Correspondence analysis (CA) is an effective method for
+#'   the seriation of archaeological assemblages. The order of the rows and
+#'   columns is given by the coordinates along one dimension of the CA space,
+#'   assumed to account for temporal variation. The direction of temporal change
+#'   within the correspondence analysis space is arbitrary: additional
+#'   information is needed to determine the actual order in time.}
+#'   \item{\code{seriate_rank}}{Reciprocal ranking seriation. These procedures
 #'   iteratively rearrange rows and/or columns according to their weighted rank
 #'   in the data matrix until convergence.
 #'   Note that this procedure could enter into an infinite loop.
@@ -1063,7 +993,7 @@ setGeneric(
 #' @return
 #'  \code{seriate_*} returns a \linkS4class{PermutationOrder} object.
 #'
-#'  \code{permute} returns either a \linkS4class{CountMatrix} or an
+#'  \code{permute} returns either a permuted \linkS4class{CountMatrix} or an
 #'  \linkS4class{IncidenceMatrix} (the same as \code{object}).
 #' @references
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
@@ -1082,7 +1012,7 @@ setGeneric(
 #'  analysis-based ceramic seriation of regional data sets. \emph{Journal of
 #'  Archaeological Science}, 39(8), 2818-2827.
 #'  \doi{10.1016/j.jas.2012.04.040}.
-#' @seealso \link{refine_ca}, \link[arkhe]{ca}
+#' @seealso \link{refine}, \link[arkhe]{ca}
 #' @example inst/examples/ex-seriation.R
 #' @author N. Frerebeau
 #' @family seriation
@@ -1092,17 +1022,19 @@ setGeneric(
 NULL
 
 #' @rdname seriation
-#' @aliases seriate_rank-method
+#' @aliases seriate_average-method
 setGeneric(
-  name = "seriate_rank",
-  def = function(object, ...) standardGeneric("seriate_rank")
+  name = "seriate_average",
+  def = function(object, ...) standardGeneric("seriate_average"),
+  valueClass = "PermutationOrder"
 )
 
 #' @rdname seriation
 #' @aliases seriate_rank-method
 setGeneric(
-  name = "seriate_correspondence",
-  def = function(object, subset, ...) standardGeneric("seriate_correspondence")
+  name = "seriate_rank",
+  def = function(object, ...) standardGeneric("seriate_rank"),
+  valueClass = "PermutationOrder"
 )
 
 # @rdname seriation
@@ -1333,6 +1265,13 @@ setGeneric(
 #' @name deprecate
 #' @rdname deprecate
 NULL
+
+#' @rdname deprecate
+#' @aliases seriate_correspondence-method
+setGeneric(
+  name = "seriate_correspondence",
+  def = function(object, ...) standardGeneric("seriate_correspondence")
+)
 
 #' @rdname deprecate
 #' @aliases seriate_reciprocal-method

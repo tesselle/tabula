@@ -66,11 +66,11 @@ $$ y_{j} = \sum_{i = 1}^{m} i \frac{c_{ij}}{c_{\cdot j}} $$
 These two steps are repeated until convergence.
 Note that this procedure could enter into an infinite loop.
 
-```{r ranking, fig.show='hold'}
+```{r reciprocal, fig.show='hold'}
 ## Build an incidence matrix with random data
 set.seed(12345)
-incidence1 <- IncidenceMatrix(data = sample(0:1, 400, TRUE, c(0.6, 0.4)),
-                              nrow = 20)
+bin <- sample(0:1, 400, TRUE, c(0.6, 0.4))
+incidence1 <- IncidenceMatrix(data = bin, nrow = 20)
 
 ## Get seriation order on rows and columns
 ## If no convergence is reached before the maximum number of iterations (100), 
@@ -91,25 +91,25 @@ plot_heatmap(incidence2) +
 
 The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence [@desachy2004]. As independence can be interpreted as the absence of relationships between types and the chronological order of the assemblages, EPPM is a useful graphical tool to explore significance of relationship between rows and columns related to seriation [@desachy2004].
 
-```{r averaging, fig.width=7, fig.height=3.5, fig.show='hold'}
+```{r average, fig.width=7, fig.height=3.5, fig.show='hold'}
 ## Replicates Desachy 2004 results
 ## Coerce dataset to an abundance matrix
-compiegne_counts <- as_count(compiegne)
+ccounts1 <- as_count(compiegne)
 
 ## Plot original data matrix
-plot_ford(compiegne_counts, EPPM = TRUE) +
+plot_ford(ccounts1, EPPM = TRUE) +
   ggplot2::labs(title = "Original dataset") +
   khroma::scale_fill_bright()
 
 ## Get seriation order for columns on EPPM using the reciprocal averaging method
 ## Expected column order: N, A, C, K, P, L, B, E, I, M, D, G, O, J, F, H
-compiegne_indices <- seriate_rank(compiegne_counts, EPPM = TRUE, margin = 2)
+(cindices <- seriate_rank(ccounts1, EPPM = TRUE, margin = 2))
 
 ## Permute columns
-compiegne_seriation <- permute(compiegne_counts, compiegne_indices)
+ccounts2 <- permute(ccounts1, cindices)
 
 ## Plot new matrix
-plot_ford(compiegne_seriation, EPPM = TRUE) +
+plot_ford(ccounts2, EPPM = TRUE) +
   ggplot2::labs(title = "Reordered dataset") +
   khroma::scale_fill_bright()
 ```
@@ -121,27 +121,36 @@ correspondence Analysis (CA) is an effective method for the seriation of archaeo
 
 ```{r ca}
 ## Coerce dataset to an count matrix
-zuni_counts <- as_count(zuni)
+zcounts1 <- as_count(zuni)
 ## correspondence analysis of the whole dataset
-corresp <- arkhe::ca(zuni_counts)
+corresp <- arkhe::ca(zcounts1)
+
+## Get row (blue) and column (red) coordinates
+rcoords <- arkhe::get_coordinates(corresp, margin = 1)
+ccoords <- arkhe::get_coordinates(corresp, margin = 2)
+
 ## Plot CA results
-plot_ca(corresp, axes = c(1, 2), map = c("rows", "columns"))  + 
+ggplot2::ggplot(mapping = ggplot2::aes(x = CA1, y = CA2)) +
+  ggplot2::geom_point(data = rcoords, colour = "blue", shape = 6) +
+  ggplot2::geom_point(data = ccoords, colour = "red", shape = 15) +
+  ggplot2::geom_vline(xintercept = 0, size = 0.5, linetype = "dashed") +
+  ggplot2::geom_hline(yintercept = 0, size = 0.5, linetype = "dashed") +
+  ggplot2::coord_fixed() + 
   ggplot2::theme_bw()
 ```
 
 ```{r ca-seriation, fig.width=7, fig.height=7}
 ## Get row permutations from CA coordinates
-zuni_indices <- zuni_counts %>%
-  seriate_correspondence(margin = 1)
+(zindices <- seriate_average(zcounts1, margin = 1))
 
 ## Permute data matrix
-zuni_seriation <- permute(zuni_counts, zuni_indices)
+zcounts2 <- permute(zcounts1, zindices)
 
 ## Plot Ford diagram
 ## Warning: this may take a few seconds!
-plot_ford(zuni_seriation) +
-  ggplot2::theme(axis.text = ggplot2::element_blank(),
-                 axis.ticks = ggplot2::element_blank())
+plot_ford(zcounts2) +
+  ggplot2::labs(title = "Reordered dataset") +
+  ggplot2::theme(axis.text.y = ggplot2::element_blank())
 ```
 
 ## Refining
@@ -159,34 +168,41 @@ fun <- function(x) { mean(x) + sd(x) }
 
 ## Get indices of samples to be kept
 ## Warning: this may take a few seconds!
-zuni_keep <- refine_ca(corresp, cutoff = fun, n = 1000)
+(zuni_keep <- bootstrap(corresp, cutoff = fun, n = 1000))
 
 ## Plot convex hull
 ## blue: convex hull for samples; red: convex hull for types
 ### All bootstrap samples
-plot_ca(zuni_keep) +
-  ggplot2::scale_fill_manual(values = c(columns = "red", rows = "blue")) + 
+rchull <- zuni_keep[["row_chull"]]
+ggplot2::ggplot(data = rchull, mapping = ggplot2::aes(x = x, y = y, group = id)) +
+  ggplot2::geom_polygon(fill = "blue", alpha = 0.1) +
+  ggplot2::geom_vline(xintercept = 0, size = 0.5, linetype = "dashed") +
+  ggplot2::geom_hline(yintercept = 0, size = 0.5, linetype = "dashed") +
+  ggplot2::coord_fixed() + 
+  ggplot2::labs(x = "", y = "") +
   ggplot2::theme_bw()
+
 ### Only retained samples
-plot_ca(zuni_keep, keep = "rows") +
-  ggplot2::scale_fill_manual(values = c(columns = "red", rows = "blue")) + 
+rchull_sub <- subset(rchull, id %in% zuni_keep[["keep"]][[1]])
+ggplot2::ggplot(data = rchull_sub, mapping = ggplot2::aes(x = x, y = y, group = id)) +
+  ggplot2::geom_polygon(fill = "blue", alpha = 0.1) +
+  ggplot2::geom_vline(xintercept = 0, size = 0.5, linetype = "dashed") +
+  ggplot2::geom_hline(yintercept = 0, size = 0.5, linetype = "dashed") +
+  ggplot2::coord_fixed() + 
+  ggplot2::labs(x = "", y = "") +
   ggplot2::theme_bw()
 
 ## Histogram of convex hull maximum dimension length
-hull_length <- cbind.data.frame(length = zuni_keep[["lengths"]][[1]])
+hull_length <- data.frame(length = zuni_keep[["lengths"]][[1]])
 ggplot2::ggplot(data = hull_length, mapping = ggplot2::aes(x = length)) +
   ggplot2::geom_histogram(breaks = seq(0, 4.5, by = 0.5), fill = "grey70") +
   ggplot2::geom_vline(xintercept = fun(hull_length$length), colour = "red") +
-  ggplot2::labs(title = "Convex hull max. dim.", 
-                x = "Maximum length", y = "Count") + 
+  ggplot2::labs(
+    title = "Convex hull max. dim.", 
+    x = "Maximum length", 
+    y = "Count"
+  ) + 
   ggplot2::theme_bw()
-```
-
-If the results of `refine_seriation` is used as an input argument in `seriate`, a correspondence analysis is performed on the subset of `object` which matches the samples to be kept. Then excluded samples are projected onto the dimensions of the CA coordinate space using the row transition formulae. Finally, row coordinates onto the first dimension give the seriation order.
-
-```{r refine-ca}
-## Get CA-based seriation order
-(zuni_refined <- seriate_correspondence(zuni_counts, zuni_keep, margin = 1))
 ```
 
 # References

@@ -8,12 +8,10 @@
 \alias{bootstrap-method}
 \alias{jackknife}
 \alias{jackknife-method}
-\alias{refine_ca}
-\alias{refine_ca-method}
-\alias{refine_event}
-\alias{refine_event-method}
-\alias{refine_ca,CA-method}
-\alias{refine_event,DateModel-method}
+\alias{bootstrap,CA-method}
+\alias{jackknife,DateModel-method}
+\alias{bootstrap,DateModel-method}
+\alias{bootstrap,DateMCD-method}
 \alias{bootstrap,DiversityIndex-method}
 \alias{jackknife,DiversityIndex-method}
 \alias{simulate,DiversityIndex-method}
@@ -23,11 +21,7 @@ bootstrap(object, ...)
 
 jackknife(object, ...)
 
-refine_ca(object, ...)
-
-refine_event(object, ...)
-
-\S4method{refine_ca}{CA}(
+\S4method{bootstrap}{CA}(
   object,
   cutoff,
   n = 1000,
@@ -36,15 +30,18 @@ refine_event(object, ...)
   ...
 )
 
-\S4method{refine_event}{DateModel}(
+\S4method{jackknife}{DateModel}(object, level = 0.95, progress = getOption("tabula.progress"), ...)
+
+\S4method{bootstrap}{DateModel}(
   object,
-  method = c("jackknife", "bootstrap"),
   level = 0.95,
   probs = c(0.05, 0.95),
   n = 1000,
   progress = getOption("tabula.progress"),
   ...
 )
+
+\S4method{bootstrap}{DateMCD}(object, probs = c(0.05, 0.95), n = 1000, ...)
 
 \S4method{bootstrap}{DiversityIndex}(object, probs = c(0.05, 0.95), n = 1000)
 
@@ -78,10 +75,6 @@ axes to be used (see below).}
 \item{progress}{A \code{\link{logical}} scalar: should a progress bar be
 displayed?}
 
-\item{method}{A \code{\link{character}} string specifying the resampling
-method to be used. This must be one of "\code{jackknife}",
-"\code{bootstrap}" (see below). Any unambiguous substring can be given.}
-
 \item{level}{A length-one \code{\link{numeric}} vector giving the
 confidence level.}
 
@@ -91,8 +84,7 @@ confidence level.}
 \item{quantiles}{A \code{\link{logical}} scalar: should sample quantiles
 be used as confidence interval? If \code{TRUE} (the default),
 sample quantiles are used as described in Kintigh (1989), else quantiles of
-the normal distribution are used. Only used if \code{simulate} is
-\code{TRUE}.}
+the normal distribution are used.}
 
 \item{step}{A non-negative \code{\link{integer}} giving the increment of the
 sample size. Only used if \code{simulate} is \code{TRUE}.}
@@ -100,16 +92,28 @@ sample size. Only used if \code{simulate} is \code{TRUE}.}
 \value{
 \code{bootstrap} and \code{jackknife} return a \code{\link{data.frame}}.
 
- \code{refine_ca} returns a \linkS4class{BootCA} object.
+ \code{bootstrap} returns a \linkS4class{BootCA} object.
 }
 \description{
-\code{refine_ca} performs a partial bootstrap correspondence analysis.
-
- \code{refine_date} checks the stability of a \linkS4class{DateModel} object.
-
- \code{refine_diversity} checks the stability of a
- \linkS4class{DiversityIndex} object.
+Checks model with resampling methods.
 }
+\section{Functions}{
+\itemize{
+\item \code{bootstrap,CA-method}: Performs a partial bootstrap correspondence analysis.
+
+\item \code{jackknife,DateModel-method}: Jackknifes fabrics.
+
+\item \code{bootstrap,DateModel-method}: Bootstraps assemblages.
+
+\item \code{bootstrap,DateMCD-method}: Bootstrap Mean Ceramic Date confidence intervals.
+
+\item \code{bootstrap,DiversityIndex-method}: TODO.
+
+\item \code{jackknife,DiversityIndex-method}: TODO.
+
+\item \code{simulate,DiversityIndex-method}: TODO.
+}}
+
 \note{
 Refining method can lead to much longer execution times and larger output
  objects. To monitor the execution of these re-sampling procedures, a
@@ -117,7 +121,7 @@ Refining method can lead to much longer execution times and larger output
 }
 \section{Correspondence Analysis}{
 
- \code{refine_ca} allows to identify samples that are subject to
+ \code{bootstrap} allows to identify samples that are subject to
  sampling error or samples that have underlying structural relationships
  and might be influencing the ordering along the CA space.
 
@@ -130,13 +134,6 @@ Refining method can lead to much longer execution times and larger output
  [results in] a reduced dataset where the position of individuals within the
  CA are highly stable and which produces an ordering consistent with the
  assumptions of frequency seriation."
-
- If the results of \code{\link{refine}} is used as an input argument in
- \code{seriate}, a correspondence analysis is performed on the subset of
- \code{object} which matches the samples to be kept. Then excluded samples
- are projected onto the dimensions of the CA coordinate space using the row
- transition formulae. Finally, row coordinates onto the first dimension
- give the seriation order.
 }
 
 \section{Date Model}{
@@ -162,6 +159,7 @@ Refining method can lead to much longer execution times and larger output
  each of the original assemblage with replacement. Then, examination of the
  bootstrap statistics makes it possible to pinpoint assemblages that require
  further investigation.
+
  A five columns \code{\link{data.frame}} is returned, giving the bootstrap
  distribution statistics for each replicated assemblage (in rows)
  with the following columns:

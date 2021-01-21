@@ -4,13 +4,12 @@ NULL
 
 #' @export
 #' @rdname date_mcd
-#' @aliases date_mcd,CountMatrix,numeric-method
+#' @aliases date_mcd,AbundanceMatrix,numeric-method
 setMethod(
   f = "date_mcd",
   signature = signature(object = "CountMatrix", dates = "numeric"),
-  definition = function(object, dates, errors = NULL,
-                        level = 0.95, n = 1000, ...) {
-    # Validation
+  definition = function(object, dates, errors = NULL, ...) {
+    ## Validation
     if (length(dates) != ncol(object))
       stop(sprintf("%s must be of length %d; not %d.", sQuote("dates"),
                    ncol(object), length(dates)), call. = FALSE)
@@ -18,43 +17,36 @@ setMethod(
       stop(sprintf("%s must be of length %d; not %d.", sQuote("errors"),
                    ncol(object), length(errors)), call. = FALSE)
 
-    mcd <- function(count, dates, errors = NULL) {
-      # Build a matrix of dates
-      i <- nrow(count)
-      j <- ncol(count)
-      dates <- matrix(data = dates, nrow = i, ncol = j, byrow = TRUE)
-      # Calculate relative frequencies
-      freq <- count / rowSums(count)
-      # Calculate date
-      dates_mcd <- list(date = rowSums(freq * dates))
-      # Calculate errors
-      if (!is.null(errors)) {
-        dates_mcd <- append(dates_mcd,
-                            list(error = sqrt(rowSums((freq * errors)^2))))
-      }
-      dates_mcd
-    }
-    # Calculate MCD
+    ## Calculate MCD
     mcd_dates <- mcd(object, dates, errors)
 
-    # Bootstrap confidence interval
-    mcd_errors <- apply(
-      X = object,
-      MARGIN = 1,
-      FUN = function(x, dates, level, n) {
-        sim <- stats::rmultinom(n, size = sum(x), prob = x)
-        sim <- t(sim)
-        temp <- mcd(sim, dates)[[1L]]
-        ci <- try(stats::t.test(temp, conf.level = level)$conf.int,
-                  silent = TRUE)
-        if (inherits(ci, "try-error")) c(NA_real_, NA_real_) else ci
-      },
-      dates, level, n
-    )
-    rownames(mcd_errors) <- c("lower", "upper")
+    ## Calculate errors
+    if (!is.null(errors)) {
+      errors_mcd <- sqrt(rowSums((object * errors)^2))
+    } else {
+      errors_mcd <- rep(0, length.out = length(mcd_dates))
+    }
 
-    results <- cbind.data.frame(mcd_dates, t(mcd_errors))
-    rownames(results) <- rownames(object)
-    results
+    .DateMCD(
+      data = as.matrix(object),
+      dates = dates,
+      mcd_values = mcd_dates,
+      mcd_errors = errors_mcd
+    )
   }
 )
+
+mcd <- function(count, dates, errors = NULL) {
+  ## Build a matrix of dates
+  i <- nrow(count)
+  j <- ncol(count)
+  dates <- matrix(data = dates, nrow = i, ncol = j, byrow = TRUE)
+
+  ## Calculate relative frequencies
+  freq <- count / rowSums(count, na.rm = TRUE)
+
+  ## Calculate date
+  dates_mcd <- rowSums(freq * dates, na.rm = TRUE)
+
+  return(dates_mcd)
+}

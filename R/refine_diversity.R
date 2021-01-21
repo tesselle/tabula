@@ -3,7 +3,7 @@ NULL
 
 # Bootstrap ====================================================================
 #' @export
-#' @rdname refine
+#' @describeIn refine TODO.
 #' @aliases bootstrap,DiversityIndex-method
 setMethod(
   f = "bootstrap",
@@ -17,14 +17,13 @@ setMethod(
       probs = probs,
       n = n
     )
-    results <- do.call(rbind, results)
-    return(results)
+    as.data.frame(t(results))
   }
 )
 
 # Jackknife ====================================================================
 #' @export
-#' @rdname refine
+#' @describeIn refine TODO.
 #' @aliases jackknife,DiversityIndex-method
 setMethod(
   f = "jackknife",
@@ -37,13 +36,13 @@ setMethod(
       do = object[["index"]]
     )
     results <- do.call(rbind, results)
-    return(results)
+    as.data.frame(results)
   }
 )
 
 # Simulate =====================================================================
 #' @export
-#' @rdname refine
+#' @describeIn refine TODO.
 #' @aliases simulate,DiversityIndex-method
 setMethod(
   f = "simulate",

@@ -128,6 +128,46 @@ rownames_to_column <- function(x, factor = TRUE, id = "id") {
   z
 }
 
+#' Subset
+#'
+#' Subset a matrix by matching names.
+#' @param x A \code{\link{matrix}}.
+#' @param y A named \code{\link{vector}}.
+#' @return A \code{\link{matrix}}.
+#' @author N. Frerebeau
+#' @family utilities
+#' @keywords internal utilities
+#' @noRd
+subset_by_names <- function(x, y) {
+  if (!is.null(names(y)) && !is.null(rownames(x))) {
+    index <- match(names(y), rownames(x))
+    if (length(index) < length(y)) {
+      warning("Some names do not match.", call. = FALSE)
+    }
+    x <- x[index, , drop = FALSE]
+  } else if (nrow(x) != length(y)) {
+    x <- x[seq_along(y), ]
+  }
+  x
+}
+bind_by_names <- function(x, y) {
+  if (!is.null(names(y)) && !is.null(rownames(x))) {
+    z <- merge(
+      x = data.frame(y),
+      y = as.data.frame(x),
+      by = 0,
+      all.x = FALSE,
+      all.y = TRUE,
+      sort = FALSE
+    )
+    z <- z[, -c(1)] # Remove extra column from merge
+  } else if (nrow(x) == length(y)) {
+    z <- data.frame(y, x)
+  } else {
+    stop("Names are missing.", call. = FALSE)
+  }
+  z
+}
 
 #' Build a Long Data Frame
 #'

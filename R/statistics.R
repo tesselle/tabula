@@ -118,6 +118,7 @@ stats_jackknife <- function(x, do, ...) {
   list(values = jack_values, mean = jack_mean,
        bias = jack_bias, error = jack_error)
 }
+
 #' Bootstrap Estimation
 #'
 #' @param x A vector.
@@ -129,24 +130,29 @@ stats_jackknife <- function(x, do, ...) {
 #' @return A list with the following elements:
 #'  \describe{
 #'   \item{min}{Minimum value.}
-#'   \item{Q05}{Sample quantile to 0.05 probability.}
-#'   \item{mean}{Mean value (event date).}
-#'   \item{Q95}{Sample quantile to 0.95 probability.}
+#'   \item{mean}{Mean value.}
 #'   \item{max}{Maximum value.}
+#'   \item{Q*}{Sample quantile to * probability.}
 #'  }
 #' @keywords internal
 #' @noRd
-stats_bootstrap <- function(x, do, probs = c(0.05, 0.95), n = 1000, ...) {
+stats_bootstrap <- function(x, do, probs = c(0.05, 0.95),
+                            n = 1000, ...) {
   total <- sum(x)
   replicates <- stats::rmultinom(n, size = total, prob = x / total)
   boot_values <- apply(X = replicates, MARGIN = 2, FUN = do, ...)
-  Q <- stats::quantile(boot_values, probs = probs)
+
+  Q <- stats::quantile(boot_values, probs = probs, names = FALSE)
   quant <- paste0("Q", round(probs * 100, 0))
 
-  results <- list(min(boot_values), mean(boot_values), max(boot_values))
-  results <- append(results, as.list(Q))
+  results <- c(
+    min(boot_values),
+    mean(boot_values),
+    max(boot_values),
+    Q
+  )
   names(results) <- c("min", "mean", "max", quant)
-  results
+  return(results)
 }
 
 #' Confidence Interval for a Proportion

@@ -98,6 +98,34 @@ NULL
   )
 )
 
+# DateMCD ======================================================================
+#' Mean Ceramic Date
+#'
+#' S4 classes to store the Mean Ceramic Date of archaeological assemblages.
+#' @slot data A \code{\link{numeric}} matrix of count data.
+#' @slot dates A \code{\link{numeric}} vector of dates.
+#' @slot mcd_values A \code{\link{numeric}} vector of errors.
+#' @slot mcd_errors A \code{\link{numeric}} vector of errors.
+#' @section Subset:
+#'  In the code snippets below, \code{x} is a \code{DateMCD} object.
+#'  \describe{
+#'   \item{\code{x[[i]]}}{Extracts informations from a slot selected by
+#'   subscript \code{i}. \code{i} is a length-one \code{\link{character}}
+#'   vector. Returns the corresponding slot values.}
+#'  }
+#' @author N. Frerebeau
+#' @family class
+#' @docType class
+#' @aliases DateMCD-class
+.DateMCD <- setClass(
+  Class = "DateMCD",
+  slots = c(
+    data = "matrix",
+    dates = "numeric",
+    mcd_values = "numeric",
+    mcd_errors = "numeric"
+  )
+)
 
 # DateModel ====================================================================
 #' Date Model
@@ -114,14 +142,6 @@ NULL
 #'  kept.
 #' @slot level A length-one \code{\link{numeric}} vector giving the
 #'  confidence level.
-#' @slot mcd A three columns \code{\link{numeric}} matrix giving the
-#'  Mean Ceramic Date for each archaeological assemblage, with the following
-#'  columns:
-#'  \describe{
-#'   \item{date}{The event date estimation.}
-#'   \item{lower}{The lower boundary of the confidence interval.}
-#'   \item{upper}{The upper boundary of the confidence interval.}
-#'  }
 #' @slot row_events A four columns \code{\link{numeric}} matrix giving the
 #'  predicted event dates for each archaeological assemblage, with the following
 #'  columns:

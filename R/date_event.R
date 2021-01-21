@@ -14,19 +14,6 @@ setMethod(
     if (cutoff < 50)
       stop("Cutoff value is below 50%, you can't be serious.", call. = FALSE)
 
-    if (length(dates) != nrow(object)) {
-      index <- match(names(dates), rownames(object))
-      if (length(index) < length(dates)) {
-        msg <- sprintf("Names of %s do not match.", sQuote("dates"))
-        stop(msg, call. = FALSE)
-      }
-
-      dates_ok <- rep(NA, times = nrow(object))
-      dates_ok[index] <- dates
-    } else {
-      dates_ok <- dates
-    }
-
     ## Correspondance analysis
     results_CA <- arkhe::ca(object, ...)
     eig <- arkhe::get_eigenvalues(results_CA)
@@ -34,24 +21,20 @@ setMethod(
 
     row_coord <- arkhe::get_coordinates(results_CA, margin = 1, sup = FALSE)
     row_coord <- row_coord[, keep_dim]
-    col_coord <- arkhe::get_coordinates(results_CA, margin = 2, sup = FALSE)
-    col_coord <- col_coord[, keep_dim]
 
-    ## CA computation may lead to rows/column removal (if filled only with zeros)
-    ## We need to remove corresponding dates
-    ## dates_ok <- dates_ok[rowSums(object) != 0]
+    ## CA computation may rise error (if rows/columns filled only with zeros)
+    ## FIXME: we may need to remove corresponding dates
 
     ## Event date
-    names(dates_ok) <- rownames(row_coord)
-    contexts <- cbind.data.frame(date = dates_ok, row_coord)
-    ## Remove missing dates
-    contexts <- contexts[!is.na(dates_ok), ]
+    contexts <- bind_by_names(row_coord, dates)
+    colnames(contexts)[1] <- "date"
+
     ## Gaussian multiple linear regression model
-    fit <- stats::lm(date ~ ., data = contexts)
+    fit <- stats::lm(date ~ ., data = contexts, na.action = stats::na.omit)
 
     .DateModel(
       data = as.matrix(object),
-      dates = dates_ok,
+      dates = contexts$date,
       model = fit,
       cutoff = cutoff,
       dimension = keep_dim

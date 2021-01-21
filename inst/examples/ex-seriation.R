@@ -13,6 +13,6 @@ compiegne_new <- permute(compiegne_count, compiegne_indices)
 plot_ford(compiegne_new, EPPM = FALSE)
 
 ## See the vignette:
-\donttest{
-utils::vignette("seriation", package = "tabula")
+\dontrun{
+utils::vignette("seriation")
 }

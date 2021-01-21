@@ -1,34 +1,35 @@
-* Add a {ggplot2} `geom` and `stat` to create convex hull polygons.
-
 ## tabula 1.6.0
 ### New classes and methods
 * `CA`: S4 class to store the results of a correspondence analysis.
 * `DateEvent`: S4 class to store the event and accumulation times of archaeological assemblages.
 * `CompositionIndex`: S4 class that represent an asymptotic species richness.
-* `calculate_eppm` and `calculate_pvi` allow to calculate independance statistics.
-* `run_ca`, `predict_ca` and `plot_ca` allow to perform a correspondence analysis, predict projection for new rows and plot results.
-* `predict_event` allows to estimate the event and accumulation dates of an assemblage (returns a `DateEvent` object).
-* `refine_diversity` allows to perform bootstrap and jackknife resampling on a `DiversityIndex` object.
-* `refine_ca` replaces `refine_seriation`.
-* `refine_event` replaces `refine_dates`.
-* `seriate_rank` replaces `seriate_reciprocal`.
+* `IncrementTest`: S4 class that represent a Frequency Increment Test results.
+* `eppm()` and `pvi()` allow to calculate independence statistics.
+* `predict_event()` allows to estimate the event and accumulation dates of an assemblage (returns a `DateEvent` object).
+* `bootstrap()` and `jackknife()` allow to perform bootstrap and jackknife resampling on a `CA`, `DiversityIndex` object.
+* `simulate()` allows to measure diversity in simulated assemblages (from a `DiversityIndex` object).
+* `seriate_average()` replaces `seriate_correspondance()`.
+* `seriate_rank()` replaces `seriate_reciprocal()`.
 
 ### Bugfixes & changes
 * Remove all previously deprecated methods.
-* Deprecate `seriate_reciprocal` and `refine_seriation`.
-* `index_composition` now return a `CompositionIndex` object.
-* `DiversityIndex` lost `bootstrap` and `jackknife` slots.
+* Remove `seriate_correspondance()` method for `CountMatrix` and `BootCA`.
+* Deprecate `seriate_reciprocal()` and `refine_seriation()` and `refine_dates()`,
+* `index_composition()` now return a `CompositionIndex` object.
+* `date_mcd()` now returns an `DateMCD` object.
+* `test_fit()` now returns an `IncrementTest` object.
+* `DiversityIndex` lost `bootstrap()` and `jackknife()` slots.
 * `DateModel` lost `count`, `level`, `rows` and `columns` slots (moved to `DateEvent`).
-* `BootCA` now inherits from `CA`.
+* `BootCA` now inherits from `arkhe::CA`.
 * Rename `BootCA` slots `rows` and `columns` to `row_chull` and `column_chull`.
 
 ### Enhancements
-* `date_mcd`, `date_event` and `plot_time` gained a new `dates` argument.
-* `index_heterogeneity`, `index_evenness` and `index_richness` gained a new `step` argument.
+* `date_mcd()`, `date_event()` and `plot_time()` gained a new `dates` argument.
 
 ### Internals
 * Depends on {arkhe} > 0.2.2
 * Remove {pbapply} from suggested packages.
+* Rewrite `plot_ford()` and `plot_bertin()`.
 
 ## tabula 1.5.1 (CRAN release date: 2020-03-19)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3716163.svg)](https://doi.org/10.5281/zenodo.3716163)

@@ -45,6 +45,6 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("."))
 #' labs scale_size_area scale_x_continuous scale_x_discrete scale_x_log10
 #' scale_y_continuous scale_y_discrete scale_y_log10 theme theme_gray
 #' @importFrom methods as callNextMethod new setClass setClassUnion setGeneric
-#' setMethod validObject
+#' setMethod validObject .valueClassTest
 #' @importFrom rlang .data
 NULL

@@ -152,7 +152,7 @@ zuni_dates <- c(
 ## Model the event date for each assemblage
 model <- date_event(zuni_counts, dates = zuni_dates, cutoff = 90)
 ## Predict event and accumulation dates
-event <- predict_event(model, zuni_counts)
+event <- predict_event(model)
 
 ## Plot activity and tempo distributions
 plot_date(event, type = "activity", select = "LZ1105") +

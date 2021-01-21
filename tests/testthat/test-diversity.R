@@ -7,7 +7,6 @@ birds <- matrix(c(1.4, 4.3, 2.9, 8.6, 4.2, 15.7, 2.0, 50, 1, 11.4, 11.4, 4.3,
                   2.9, 0, 0, 2.9, 0, 0, 5.7, 0, 2.9, 0, 2.9),
                 nrow = 2, byrow = TRUE)
 
-# Heterogeneity index ==========================================================
 test_that("Heterogeneity", {
   count <- as(birds, "CountMatrix")
   method <- c("berger", "brillouin", "mcintosh", "shannon", "simpson")
@@ -18,7 +17,6 @@ test_that("Heterogeneity", {
   }
 })
 
-# Evenness =====================================================================
 test_that("Evenness", {
   count <- as(birds, "CountMatrix")
   method <- c("brillouin", "mcintosh", "shannon", "simpson")
@@ -27,6 +25,18 @@ test_that("Evenness", {
     expect_s4_class(index, "EvennessIndex")
     expect_length(index@values, 2)
   }
+})
+
+test_that("Shannon diversity test", {
+  # Data from Magurran 1988, p. 145-149
+  birds <- CountMatrix(
+    data = c(35, 26, 25, 21, 16, 11, 6, 5, 3, 3,
+             3, 3, 3, 2, 2, 2, 1, 1, 1, 1, 0, 0,
+             30, 30, 3, 65, 20, 11, 0, 4, 2, 14,
+             0, 3, 9, 0, 0, 5, 0, 0, 0, 0, 1, 1),
+    nrow = 2, byrow = TRUE, dimnames = list(c("oakwood", "spruce"), NULL))
+
+  expect_equal(round(test_diversity(birds)[1, 1], 5), 0.00046)
 })
 
 # Indices ======================================================================

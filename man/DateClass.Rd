@@ -31,15 +31,6 @@ kept.}
 \item{\code{level}}{A length-one \code{\link{numeric}} vector giving the
 confidence level.}
 
-\item{\code{mcd}}{A three columns \code{\link{numeric}} matrix giving the
-Mean Ceramic Date for each archaeological assemblage, with the following
-columns:
-\describe{
- \item{date}{The event date estimation.}
- \item{lower}{The lower boundary of the confidence interval.}
- \item{upper}{The upper boundary of the confidence interval.}
-}}
-
 \item{\code{row_events}}{A four columns \code{\link{numeric}} matrix giving the
 predicted event dates for each archaeological assemblage, with the following
 columns:
@@ -76,6 +67,7 @@ point estimate of the accumulation dates and the corresponding error.}
 \seealso{
 Other class: 
 \code{\link{BootCA-class}},
+\code{\link{DateMCD-class}},
 \code{\link{DiversityIndex}},
 \code{\link{IncrementTest-class}},
 \code{\link{PermutationOrder-class}}

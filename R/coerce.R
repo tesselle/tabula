@@ -26,3 +26,15 @@ as.data.frame.IncrementTest <- function(x, ..., stringsAsFactors = default.strin
     stringsAsFactors = FALSE
   )
 }
+
+#' @method as.data.frame DateMCD
+#' @export
+as.data.frame.DateMCD <- function(x, ..., stringsAsFactors = default.stringsAsFactors()) {
+  data.frame(
+    id = rownames(x@data),
+    date = x@mcd_values,
+    error = x@mcd_errors,
+    row.names = NULL,
+    stringsAsFactors = FALSE
+  )
+}

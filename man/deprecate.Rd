@@ -3,6 +3,8 @@
 \docType{methods}
 \name{deprecate}
 \alias{deprecate}
+\alias{seriate_correspondence}
+\alias{seriate_correspondence-method}
 \alias{seriate_reciprocal}
 \alias{seriate_reciprocal-method}
 \alias{refine_seriation}
@@ -12,6 +14,8 @@
 \alias{refine_seriation,CountMatrix-method}
 \title{Deprecated Methods}
 \usage{
+seriate_correspondence(object, ...)
+
 seriate_reciprocal(object, ...)
 
 refine_seriation(object, ...)

@@ -114,6 +114,15 @@ setMethod(
 
 #' @export
 #' @rdname subset
+#' @aliases [[,DateMCD-method
+setMethod(
+  f = "[[",
+  signature = "DateMCD",
+  definition = extract_slot
+)
+
+#' @export
+#' @rdname subset
 #' @aliases [[,DateModel-method
 setMethod(
   f = "[[",

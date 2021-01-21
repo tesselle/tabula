@@ -1,8 +1,8 @@
 ## Mean Ceramic Date
 ## Coerce the zuni dataset to an abundance (count) matrix
-zuni_counts <- as_count(zuni)
+counts <- as_count(zuni)
 ## Set the start and end dates for each ceramic type
-zuni_dates <- list(
+dates <- list(
   LINO = c(600, 875), KIAT = c(850, 950), RED = c(900, 1050),
   GALL = c(1025, 1125), ESC = c(1050, 1150), PUBW = c(1050, 1150),
   RES = c(1000, 1200), TULA = c(1175, 1300), PINE = c(1275, 1350),
@@ -11,15 +11,11 @@ zuni_dates <- list(
   PINER = c(1275, 1325), HESH = c(1275, 1450), KWAK = c(1275, 1450)
 )
 ## Calculate date midpoints
-zuni_mid <- vapply(X = zuni_dates, FUN = mean, FUN.VALUE = numeric(1))
+mid <- vapply(X = dates, FUN = mean, FUN.VALUE = numeric(1))
 
 ## Calculate MCD
-## (we use a bootstrapping procedure to estimate the confidence interval)
-zuni_mcd <- date_mcd(zuni_counts, dates = zuni_mid)
-head(zuni_mcd)
+## (we use a bootstrapping procedure to )
+mcd <- date_mcd(counts, dates = mid)
 
-## Event and accumulation dates (Bellanger et al.)
-## See the vignette:
-\donttest{
-utils::vignette("dating", package = "tabula")
-}
+## Bootstrap resampling
+boot <- bootstrap(mcd)

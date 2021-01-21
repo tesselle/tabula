@@ -5,11 +5,12 @@
 \alias{date_mcd}
 \alias{date_mcd-method}
 \alias{date_mcd,CountMatrix,numeric-method}
+\alias{date_mcd,AbundanceMatrix,numeric-method}
 \title{Mean Ceramic Date}
 \usage{
 date_mcd(object, dates, ...)
 
-\S4method{date_mcd}{CountMatrix,numeric}(object, dates, errors = NULL, level = 0.95, n = 1000, ...)
+\S4method{date_mcd}{CountMatrix,numeric}(object, dates, errors = NULL, ...)
 }
 \arguments{
 \item{object}{A \linkS4class{CountMatrix} or a \linkS4class{DateModel}
@@ -22,23 +23,9 @@ the names must match the row names of \code{object}.}
 
 \item{errors}{A \code{\link{numeric}} vector giving the absolute error of
 \code{dates}.}
-
-\item{level}{A length-one \code{\link{numeric}} vector giving the
-confidence level.}
-
-\item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
-replications.}
 }
 \value{
-\code{date_mcd} returns a \code{\link{data.frame}} with the following
- columns:
- \describe{
-  \item{id}{An identifier to link each row to an assemblage.}
-  \item{date}{The Mean Ceramic Date.}
-  \item{error}{The error on the MCD.}
-  \item{lower}{The lower boundary of the confidence interval.}
-  \item{upper}{The upper boundary of the confidence interval.}
- }
+\code{date_mcd} returns a \linkS4class{DateMCD} object.
 }
 \description{
 Estimates the Mean Ceramic Date of an assemblage.
@@ -55,15 +42,14 @@ The Mean Ceramic Date (MCD) is a point estimate of the occupation of an
  is created, with the same sample size, by resampling the original
  assemblage with replacement. MCDs are calculated for each replicates and
  upper and lower boundaries of the confidence interval associated with each
- MCD are then returned. Confidence interval are not estimated for assemblages
- with only a single type (\code{NA}s are returned).
+ MCD are then returned.
 }
 \examples{
 ## Mean Ceramic Date
 ## Coerce the zuni dataset to an abundance (count) matrix
-zuni_counts <- as_count(zuni)
+counts <- as_count(zuni)
 ## Set the start and end dates for each ceramic type
-zuni_dates <- list(
+dates <- list(
   LINO = c(600, 875), KIAT = c(850, 950), RED = c(900, 1050),
   GALL = c(1025, 1125), ESC = c(1050, 1150), PUBW = c(1050, 1150),
   RES = c(1000, 1200), TULA = c(1175, 1300), PINE = c(1275, 1350),
@@ -72,24 +58,22 @@ zuni_dates <- list(
   PINER = c(1275, 1325), HESH = c(1275, 1450), KWAK = c(1275, 1450)
 )
 ## Calculate date midpoints
-zuni_mid <- vapply(X = zuni_dates, FUN = mean, FUN.VALUE = numeric(1))
+mid <- vapply(X = dates, FUN = mean, FUN.VALUE = numeric(1))
 
 ## Calculate MCD
-## (we use a bootstrapping procedure to estimate the confidence interval)
-zuni_mcd <- date_mcd(zuni_counts, dates = zuni_mid)
-head(zuni_mcd)
+## (we use a bootstrapping procedure to )
+mcd <- date_mcd(counts, dates = mid)
 
-## Event and accumulation dates (Bellanger et al.)
-## See the vignette:
-\donttest{
-utils::vignette("dating", package = "tabula")
-}
+## Bootstrap resampling
+boot <- bootstrap(mcd)
 }
 \references{
 South, S. A. (1977). \emph{Method and Theory in Historical Archaeology}.
  New York: Academic Press.
 }
 \seealso{
+\link{refine}
+
 Other dating: 
 \code{\link{event}}
 }

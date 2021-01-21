@@ -3,19 +3,21 @@
 NULL
 
 #' @export
-#' @rdname refine
-#' @aliases refine_ca,CA-method
+#' @describeIn refine Performs a partial bootstrap correspondence analysis.
+#' @aliases bootstrap,CA-method
 setMethod(
-  f = "refine_ca",
+  f = "bootstrap",
   signature = signature(object = "CA"),
   definition = function(object, cutoff, n = 1000, axes = c(1, 2),
                         progress = getOption("tabula.progress"), ...) {
-    data <- object
+    ## Validation
+    if (!is.function(cutoff))
+      stop(sprintf("%s must be a function.", sQuote("cutoff")), call. = FALSE)
 
     # Partial bootstrap CA
-    hull_rows <- boot_ca(data, fun = compute_ca_chull, margin = 1, n = n,
+    hull_rows <- boot_ca(object, fun = compute_ca_chull, margin = 1, n = n,
                          progress = progress, axes = axes)
-    hull_columns <- boot_ca(data, fun = compute_ca_chull, margin = 2, n = n,
+    hull_columns <- boot_ca(object, fun = compute_ca_chull, margin = 2, n = n,
                             progress = progress, axes = axes, ...)
 
     # Get convex hull maximal dimension length for each sample
@@ -39,29 +41,31 @@ setMethod(
     keep_columns <- which(length_columns < limit_columns)
 
     # Bind hull vertices in a data.frame
-    id_rows <- rep(names(hull_rows),
+    id_rows <- rep(seq_along(hull_rows),
                    times = vapply(hull_rows, nrow, numeric(1)))
     rows <- do.call(rbind.data.frame, hull_rows)
     rows <- data.frame(id = id_rows, rows, stringsAsFactors = FALSE)
 
-    id_cols <- rep(names(hull_columns),
+    id_cols <- rep(seq_along(hull_columns),
                    times = vapply(hull_columns, nrow, numeric(1)))
     cols <- do.call(rbind.data.frame, hull_columns)
     cols <- data.frame(id = id_cols, cols, stringsAsFactors = FALSE)
 
-    results <- methods::as(data, "BootCA")
-    results@row_chull <- rows
-    results@column_chull <- cols
-    results@lengths <- list(length_rows, length_columns)
-    results@cutoff <- c(limit_rows, limit_columns)
-    results@keep <- list(keep_rows, keep_columns)
-    results
+    methods::new(
+      "BootCA",
+      object,
+      row_chull = rows,
+      column_chull = cols,
+      lengths = list(row = length_rows, column = length_columns),
+      cutoff = c(row = limit_rows, column = limit_columns),
+      keep = list(row = keep_rows, column = keep_columns)
+    )
   }
 )
 
 #' Apply Function Over Bootstrap Replicates
 #'
-#' @param x A \linkS4class[arkhe]{CA} object.
+#' @param x A \linkS4class{CA} object.
 #' @param fun A \code{\link{function}}.
 #' @param margin A length-one \code{\link{numeric}} vector giving the subscripts
 #'  which the function will be applied over: \code{1} indicates rows, \code{2}
@@ -78,12 +82,10 @@ setMethod(
 boot_ca <- function(x, fun, margin = 1, n = 1000,
                     progress = getOption("tabula.progress"), ...) {
 
-  arg <- deparse(substitute(fun))
-  if (!is.function(fun))
-    stop(sprintf("%s must be a function.", sQuote(arg)), call. = FALSE)
-
   ## Get CA standard coordinates (SVD)
-  data <- x[["data"]]
+  svd <- if (margin == 1) x[["column_coordinates"]] else x[["row_coordinates"]]
+  data <- if (margin == 1)  x[["data"]] else t(x[["data"]])
+  colnames(svd) <- paste0("CA", seq_len(ncol(svd)))
 
   m <- nrow(data)
   k <- seq_len(m)
@@ -94,11 +96,11 @@ boot_ca <- function(x, fun, margin = 1, n = 1000,
 
   for (i in k) {
     # n random replicates
-    sample <- data[i, , drop = TRUE]
-    replicates <- stats::rmultinom(n = n, size = sum(sample), prob = sample)
+    spl <- data[i, , drop = TRUE]
+    replicates <- stats::rmultinom(n = n, size = sum(spl), prob = spl)
 
     # Compute new CA coordinates
-    coords <- arkhe::predict(x, data, margin = margin)
+    coords <- crossprod(replicates / colSums(replicates), svd)
 
     # Apply on new CA coordinates
     boot[[i]] <- fun(x = coords, ...)
@@ -117,7 +119,7 @@ boot_ca <- function(x, fun, margin = 1, n = 1000,
 #' @param x A \code{\link{numeric}} matrix of bootstrap replicates.
 #' @param axes A length-two \code{\link{numeric}} vector giving the subscripts
 #'  of the CA components to use.
-#' @return A \code{\link{data.frame}}.
+#' @return A \code{\link{matrix}}.
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
@@ -128,5 +130,5 @@ compute_ca_chull <- function(x, axes) {
   hull <- x[c(points, points[1]), axes]
   colnames(hull) <- c("x", "y")
 
-  return(as.data.frame(hull))
+  return(hull)
 }

@@ -48,6 +48,7 @@ measures for the simulated assemblage.}
 Other class: 
 \code{\link{BootCA-class}},
 \code{\link{DateClass}},
+\code{\link{DateMCD-class}},
 \code{\link{IncrementTest-class}},
 \code{\link{PermutationOrder-class}}
 }

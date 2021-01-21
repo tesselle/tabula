@@ -3,63 +3,111 @@
 NULL
 
 #' @export
-#' @rdname refine
-#' @aliases refine_event,DateModel-method
+#' @describeIn refine Jackknifes fabrics.
+#' @aliases jackknife,DateModel-method
 setMethod(
-  f = "refine_event",
+  f = "jackknife",
   signature = signature(object = "DateModel"),
-  definition = function(object, method = c("jackknife", "bootstrap"),
-                        level = 0.95, probs = c(0.05, 0.95), n = 1000,
+  definition = function(object, level = 0.95,
                         progress = getOption("tabula.progress"), ...) {
-    # Validation
-    method <- match.arg(method, several.ok = FALSE)
-
-    # Get data
+    ## Get data
     fit_model <- object[["model"]]
     fit_data <- object[["data"]]
     fit_dates <- object[["dates"]]
     fit_dim <- object[["dimension"]]
 
-    event <- predict_event(object, level = 0.95)
+    event <- predict_event(object, level = level)
+    cts_data <- arkhe::as_count(fit_data)
+
+    ## TODO: check cutoff value
+    jack_coef <- compute_date_jack(cts_data, fit_dates, cutoff = 150,
+                                   progress = progress)
+
+    ## Change lm coefficients
+    fit_model$coefficients <- jack_coef[c(1, fit_dim + 1)]
+
+    ## Predict event date for each context
+    results_CA <- arkhe::ca(cts_data, ...)
+    row_coord <- arkhe::get_coordinates(results_CA, margin = 1, sup = FALSE)
+
+    jack_event <- predict_events(fit_model, row_coord, level)
+    results <- as.data.frame(jack_event)
+
+    ## Compute jaccknife bias
+    results$bias <- (ncol(fit_data) - 1) *
+      (results$date - event[["row_event"]][, "date"])
+
+    return(results)
+  }
+)
+
+#' @export
+#' @describeIn refine Bootstraps assemblages.
+#' @aliases bootstrap,DateModel-method
+setMethod(
+  f = "bootstrap",
+  signature = signature(object = "DateModel"),
+  definition = function(object, level = 0.95, probs = c(0.05, 0.95), n = 1000,
+                        progress = getOption("tabula.progress"), ...) {
+    ## Get data
+    fit_model <- object[["model"]]
+    fit_data <- object[["data"]]
+    fit_dim <- object[["dimension"]]
+
     cts_data <- arkhe::as_count(fit_data)
     results_CA <- arkhe::ca(cts_data, ...)
 
-    ## Check model with resampling methods
-    ## Jackknife fabrics
-    if (method == "jackknife") {
-      # TODO: check cutoff value
-      jack_coef <- compute_date_jack(cts_data, fit_dates, cutoff = 150,
-                                     progress = progress)
-
-      # Change lm coefficients
-      fit_model$coefficients <- jack_coef[c(1, fit_dim + 1)]
-
-      # Predict event date for each context
-      row_coord <- arkhe::get_coordinates(results_CA, margin = 1, sup = FALSE)
-      jack_event <- predict_events(fit_model, row_coord, level)
-      results <- as.data.frame(jack_event)
-
-      # Compute jaccknife bias
-      results$bias <- (ncol(fit_data) - 1) *
-        (results$date - event[["row_event"]][, "date"])
-    }
     ## Bootstrap assemblages
-    if (method == "bootstrap") {
-      results <- boot_ca(
-        results_CA,
-        fun = compute_date_boot,
-        margin = 1,
-        n = n,
-        progress = progress,
-        axes = fit_dim,
-        model = fit_model,
-        level = level,
-        probs = probs
-      )
-      results <- do.call(rbind, results)
-      results <- as.data.frame(results)
-    }
-    results
+    results <- boot_ca(
+      results_CA,
+      fun = compute_date_boot,
+      margin = 1,
+      n = n,
+      progress = progress,
+      axes = fit_dim,
+      model = fit_model,
+      level = level,
+      probs = probs
+    )
+    results <- do.call(rbind, results)
+    results <- as.data.frame(results)
+
+    return(results)
+  }
+)
+
+#' @export
+#' @describeIn refine Bootstrap Mean Ceramic Date confidence intervals.
+#' @aliases bootstrap,DateMCD-method
+setMethod(
+  f = "bootstrap",
+  signature = signature(object = "DateMCD"),
+  definition = function(object, probs = c(0.05, 0.95), n = 1000, ...) {
+
+    results <- apply(
+      X = object[["data"]],
+      MARGIN = 1,
+      FUN = function(x, dates, probs, n) {
+        sim <- stats::rmultinom(n, size = sum(x), prob = x)
+        temp <- mcd(t(sim), dates)
+
+        Q <- stats::quantile(temp, probs = probs, names = FALSE)
+        quant <- paste0("Q", round(probs * 100, 0))
+
+        x <- c(min(temp), mean(temp), max(temp), Q)
+        names(x) <- c("min", "mean", "max", quant)
+        x
+        # ci <- try(
+        #   expr = stats::t.test(temp, conf.level = level)$conf.int,
+        #   silent = TRUE
+        # )
+        # if (inherits(ci, "try-error")) c(NA_real_, NA_real_) else ci
+      },
+      dates = object[["dates"]],
+      probs = probs,
+      n = n
+    )
+    as.data.frame(t(results))
   }
 )
 

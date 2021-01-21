@@ -7,6 +7,8 @@ test_occ <- arkhe::as_occurrence(mississippi)
 test_sim <- similarity(test_count)
 
 test_that("Bertin plot", {
+  skip_if_not_installed("vdiffr")
+
   # Count data
   # No threshold, no scale
   gg_bertin <- plot_bertin(test_count)
@@ -19,6 +21,8 @@ test_that("Bertin plot", {
   vdiffr::expect_doppelganger("bertin_scale", gg_bertin_scale)
 })
 test_that("Ford plot", {
+  skip_if_not_installed("vdiffr")
+
   # Count data
   for (i in c(TRUE, FALSE)) {
     gg_ford <- plot_ford(test_count, EPPM = i)
@@ -26,6 +30,8 @@ test_that("Ford plot", {
   }
 })
 test_that("Matrix plot", {
+  skip_if_not_installed("vdiffr")
+
   for (i in c(TRUE, FALSE)) {
     # Count data
     gg_mtx_count <- plot_heatmap(test_count, PVI = i)
@@ -39,6 +45,8 @@ test_that("Matrix plot", {
   vdiffr::expect_doppelganger("mtx_incid", gg_mtx_incid)
 })
 test_that("Rank plot", {
+  skip_if_not_installed("vdiffr")
+
   for (i in c(TRUE, FALSE)) {
     # Count data
     gg_rank_count <- plot_rank(test_count, facet = i)
@@ -54,6 +62,8 @@ test_that("Rank plot", {
   }
 })
 test_that("Spot plot - Abundance", {
+  skip_if_not_installed("vdiffr")
+
   # Count data, no threshold
   gg_spot_count <- plot_spot(test_count)
   vdiffr::expect_doppelganger("spot_count", gg_spot_count)
@@ -62,14 +72,20 @@ test_that("Spot plot - Abundance", {
   vdiffr::expect_doppelganger("spot_freq", gg_spot_freq)
 })
 test_that("Spot plot - Similarity", {
+  skip_if_not_installed("vdiffr")
+
   gg_spot_sim <- plot_spot(test_sim)
   vdiffr::expect_doppelganger("spot_sim", gg_spot_sim)
 })
 test_that("Spot plot - Co-Occurrence", {
+  skip_if_not_installed("vdiffr")
+
   gg_spot_occ <- plot_spot(test_occ)
   vdiffr::expect_doppelganger("spot_occ", gg_spot_occ)
 })
 test_that("Time plot", {
+  skip_if_not_installed("vdiffr")
+
   # Keep only decoration types that have a maximum frequency of at least 50
   keep <- apply(X = merzbach, MARGIN = 2, FUN = function(x) max(x) >= 50)
   counts <- as(merzbach[, keep], "CountMatrix")
@@ -91,33 +107,5 @@ test_that("Time plot", {
   }
 
   # Errors
-  expect_error(plot_time(freq, roll = TRUE, window = 2),
-               "must be an odd integer")
-})
-test_that("Date model", {
-  dates <- c(
-    LZ0569 = 1097, LZ0279 = 1119, CS16 = 1328, LZ0066 = 1111,
-    LZ0852 = 1216, LZ1209 = 1251, CS144 = 1262, LZ0563 = 1206,
-    LZ0329 = 1076, LZ0005Q = 859, LZ0322 = 1109, LZ0067 = 863,
-    LZ0578 = 1180, LZ0227 = 1104, LZ0610 = 1074
-  )
-  counts <- zuni[rownames(zuni) %in% names(dates), ]
-  counts <- arkhe::as_count(counts)
-
-  model <- date_event(counts, dates, cutoff = 90)
-  expect_s4_class(model, "DateModel")
-  event <- predict_event(model, counts)
-
-  for (i in c(TRUE, FALSE)) {
-    gg_date_act <- plot_date(event, type = "activity", event = i,
-                             select = c(1, 2))
-    vdiffr::expect_doppelganger(paste0("date_activity_event-", i), gg_date_act)
-  }
-  gg_date_tempo <- plot_date(event, type = "tempo", select = 1)
-  vdiffr::expect_doppelganger("date_tempo", gg_date_tempo)
-
-  # Errors
-  expect_error(date_event(counts, dates, cutoff = 10),
-               "Cutoff value is below 50%")
-  expect_error(plot_date(event, select = "X"), "Wrong selection")
+  expect_error(plot_time(freq, roll = TRUE, window = 2), "odd integer")
 })

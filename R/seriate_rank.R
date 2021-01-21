@@ -8,7 +8,7 @@ setMethod(
   f = "seriate_rank",
   signature = signature(object = "CountMatrix"),
   definition = function(object, EPPM = FALSE, margin = c(1, 2), stop = 100) {
-    seriation_rank(object, margin = margin, stop = stop, EPPM = EPPM)
+    seriate_rank2(object, margin = margin, stop = stop, EPPM = EPPM)
   }
 )
 
@@ -19,7 +19,7 @@ setMethod(
   f = "seriate_rank",
   signature = signature(object = "IncidenceMatrix"),
   definition = function(object, margin = c(1, 2), stop = 100) {
-    seriation_rank(object, margin = margin, stop = stop, EPPM = FALSE)
+    seriate_rank2(object, margin = margin, stop = stop, EPPM = FALSE)
   }
 )
 
@@ -35,11 +35,9 @@ setMethod(
 #'  \code{c(2, 1)} indicates columns then rows.
 #' @return A \linkS4class{PermutationOrder} object.
 #' @author N. Frerebeau
-#' @family seriation methods
-#' @name seriation-rank
 #' @keywords internal
 #' @noRd
-seriation_rank <- function(x, margin = 1, stop = 100, EPPM = FALSE) {
+seriate_rank2 <- function(x, margin = 1, stop = 100, EPPM = FALSE) {
   # Validation
   margin <- as.integer(margin)
   stop <- as.integer(stop)

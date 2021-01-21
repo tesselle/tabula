@@ -13,6 +13,8 @@
 \alias{[[,DiversityIndex-method}
 \alias{[[,IncrementTest,ANY,ANY-method}
 \alias{[[,IncrementTest-method}
+\alias{[[,DateMCD,ANY,ANY-method}
+\alias{[[,DateMCD-method}
 \alias{[[,DateModel,ANY,ANY-method}
 \alias{[[,DateModel-method}
 \alias{[[,DateEvent,ANY,ANY-method}
@@ -32,6 +34,8 @@
 \S4method{[[}{DiversityIndex,ANY,ANY}(x, i)
 
 \S4method{[[}{IncrementTest,ANY,ANY}(x, i)
+
+\S4method{[[}{DateMCD,ANY,ANY}(x, i)
 
 \S4method{[[}{DateModel,ANY,ANY}(x, i)
 
