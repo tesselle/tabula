@@ -23,16 +23,7 @@ plot_time(object, dates, ...)
   n = 500
 )
 
-\S4method{plot_time}{CountMatrix,numeric}(
-  object,
-  dates,
-  highlight = NULL,
-  level = 0.95,
-  roll = FALSE,
-  window = 5,
-  facet = TRUE,
-  ...
-)
+\S4method{plot_time}{CountMatrix,numeric}(object, dates, facet = FALSE)
 }
 \arguments{
 \item{object}{An object of class \linkS4class{DateModel} to be plotted.}
@@ -53,20 +44,6 @@ giving the selection of the assemblage that are drawn.}
 
 \item{n}{A length-one non-negative \code{\link{numeric}} vector giving the
 desired length of the vector of quantiles for density computation.}
-
-\item{highlight}{A \code{\link{character}} string indicating the type of
-plot. It must be one of "\code{FIT}" or \code{NULL} (default).
-Any unambiguous substring can be given.}
-
-\item{level}{A length-one \code{\link{numeric}} vector giving the
-confidence level.}
-
-\item{roll}{A \code{\link{logical}} scalar: should each time series be
-subsetted to look for episodes of selection?
-Only used if \code{highlight} is "\code{FIT}" (see details).}
-
-\item{window}{An odd \code{\link{integer}} giving the size of the rolling
-window. Only used if \code{roll} is \code{TRUE}.}
 
 \item{facet}{A \code{\link{logical}} scalar: should a matrix of panels
 defined by type/taxon be drawn? Only used if \code{highlight} is
@@ -121,14 +98,13 @@ Displaying FIT results on an abundance \emph{vs.} time diagram is
 ## Keep only decoration types that have a maximum frequency of at least 50
 keep <- apply(X = merzbach, MARGIN = 2, FUN = function(x) max(x) >= 50)
 counts <- as_count(merzbach[, keep])
-
-## The data are grouped by phase
+## Group by phase
 ## We use the row names as time coordinates (roman numerals)
 dates <- as.numeric(utils::as.roman(rownames(counts)))
-## Plot time vs abundance
+
+## Plot abundance vs time
 plot_time(counts, dates)
-## Plot time vs abundance and highlight selection
-plot_time(counts, dates, highlight = "FIT", roll = TRUE)
+plot_time(counts, dates, facet = TRUE)
 }
 \references{
 Bellanger, L. & Husi, P. (2012). Statistical Tool for Dating and

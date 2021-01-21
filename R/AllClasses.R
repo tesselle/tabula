@@ -5,10 +5,10 @@ NULL
 #' Diversity Index
 #'
 #' An S4 class to represent a diversity measure.
-#' @slot data A \code{\link{numeric}} \code{\link{matrix}} of count data.
+#' @slot data A \code{\link{numeric}} matrix of count data.
 #' @slot values A \code{\link{numeric}} vector giving the diversity index values.
 #' @slot size A \code{\link{integer}} vector giving the sample sizes.
-#' @slot simulation A numeric \code{\link{matrix}} vector giving the diversity
+#' @slot simulation A \code{\link{numeric}} matrix giving the diversity
 #'  measures for the simulated assemblage.
 #' @slot method A \code{\link{character}} string specifying the method used.
 #' @slot index A \code{\link{function}}.
@@ -64,12 +64,47 @@ NULL
   contains = "DiversityIndex"
 )
 
+# IncrementTest ================================================================
+#' Frequency Increment Test
+#'
+#' An S4 class to represent a Frequency Increment Test results.
+#' @slot data A \code{\link{numeric}} matrix of count data.
+#' @slot dates A \code{\link{numeric}} vector of dates.
+#' @slot statistic A \code{\link{numeric}} vector giving the values of the
+#'  t-statistic.
+#' @slot parameter An \code{\link{integer}} giving the degrees of freedom for
+#'  the t-statistic.
+#' @slot p_value A \code{\link{numeric}} vector giving the the p-value for the
+#'  test.
+#' @section Subset:
+#'  In the code snippets below, \code{x} is a \code{IncrementTest} object.
+#'  \describe{
+#'   \item{\code{x[[i]]}}{Extracts informations from a slot selected by
+#'   subscript \code{i}. \code{i} is a length-one \code{\link{character}}
+#'   vector. Returns the corresponding slot values.}
+#'  }
+#' @author N. Frerebeau
+#' @family class
+#' @docType class
+#' @aliases IncrementTest-class
+.IncrementTest <- setClass(
+  Class = "IncrementTest",
+  slots = c(
+    data = "matrix",
+    dates = "numeric",
+    statistic = "numeric",
+    parameter = "integer",
+    p_value = "numeric"
+  )
+)
+
+
 # DateModel ====================================================================
 #' Date Model
 #'
 #' S4 classes to store the event and accumulation times of archaeological
 #'  assemblages.
-#' @slot data A \code{\link{numeric}} \code{\link{matrix}} of count data.
+#' @slot data A \code{\link{numeric}} matrix of count data.
 #' @slot dates A \code{\link{numeric}} vector of dates.
 #' @slot model A \code{\link[stats:lm]{multiple linear model}}: the Gaussian
 #'  multiple linear regression model fitted for event date estimation and
@@ -223,5 +258,10 @@ NULL
     rows = "integer",
     columns = "integer",
     method = "character"
+  ),
+  prototype = list(
+    rows = integer(0),
+    columns = integer(0),
+    method = "none"
   )
 )

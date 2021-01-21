@@ -105,6 +105,15 @@ setMethod(
 
 #' @export
 #' @rdname subset
+#' @aliases [[,IncrementTest-method
+setMethod(
+  f = "[[",
+  signature = "IncrementTest",
+  definition = extract_slot
+)
+
+#' @export
+#' @rdname subset
 #' @aliases [[,DateModel-method
 setMethod(
   f = "[[",

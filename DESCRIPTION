@@ -83,6 +83,7 @@ Collate:
     'date_event.R'
     'date_mcd.R'
     'deprecate.R'
+    'ggplot2.R'
     'index_heterogeneity.R'
     'index_rarefaction.R'
     'index_richness.R'

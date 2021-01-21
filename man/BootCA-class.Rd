@@ -54,6 +54,7 @@ of the samples and variables to be kept, respectively.}
 Other class: 
 \code{\link{DateClass}},
 \code{\link{DiversityIndex}},
+\code{\link{IncrementTest-class}},
 \code{\link{PermutationOrder-class}}
 }
 \author{

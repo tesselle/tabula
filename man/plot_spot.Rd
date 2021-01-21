@@ -12,18 +12,18 @@
 \usage{
 plot_spot(object, ...)
 
-\S4method{plot_spot}{CountMatrix}(object, threshold = NULL)
+\S4method{plot_spot}{CountMatrix}(object, threshold = NULL, ...)
 
-\S4method{plot_spot}{AbundanceMatrix}(object, threshold = NULL)
+\S4method{plot_spot}{AbundanceMatrix}(object, threshold = NULL, ...)
 
-\S4method{plot_spot}{SimilarityMatrix}(object)
+\S4method{plot_spot}{SimilarityMatrix}(object, ...)
 
-\S4method{plot_spot}{OccurrenceMatrix}(object)
+\S4method{plot_spot}{OccurrenceMatrix}(object, ...)
 }
 \arguments{
 \item{object}{An object to be plotted.}
 
-\item{...}{Currently not used.}
+\item{...}{Extra parameters to be passed to \code{threshold}.}
 
 \item{threshold}{A \code{\link{function}} that takes a numeric vector as
 argument and returns a numeric threshold value.
@@ -49,16 +49,16 @@ Adapted from Dan Gopstein's original
 ## Plot spot diagram...
 
 ## ...of count data...
-mississippi_count <- as_count(mississippi)
+counts <- as_count(mississippi)
 ### ...without threshod
-plot_spot(mississippi_count)
+plot_spot(counts)
 ### ...with the  column means as threshold
-plot_spot(mississippi_count, threshold = mean)
+plot_spot(counts, threshold = mean)
 ### ...with the column medians as threshold
-plot_spot(mississippi_count, threshold = median)
+plot_spot(counts, threshold = median)
 
 ## ...of a similarity matrix
-sim <- similarity(mississippi_count, method = "brainerd")
+sim <- similarity(counts, method = "brainerd")
 plot_spot(sim)
 
 ## ...of a co-occurrence matrix

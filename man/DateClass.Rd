@@ -15,7 +15,7 @@ S4 classes to store the event and accumulation times of archaeological
 \section{Slots}{
 
 \describe{
-\item{\code{data}}{A \code{\link{numeric}} \code{\link{matrix}} of count data.}
+\item{\code{data}}{A \code{\link{numeric}} matrix of count data.}
 
 \item{\code{dates}}{A \code{\link{numeric}} vector of dates.}
 
@@ -77,6 +77,7 @@ point estimate of the accumulation dates and the corresponding error.}
 Other class: 
 \code{\link{BootCA-class}},
 \code{\link{DiversityIndex}},
+\code{\link{IncrementTest-class}},
 \code{\link{PermutationOrder-class}}
 }
 \author{

@@ -20,13 +20,13 @@ An S4 class to represent a diversity measure.
 \section{Slots}{
 
 \describe{
-\item{\code{data}}{A \code{\link{numeric}} \code{\link{matrix}} of count data.}
+\item{\code{data}}{A \code{\link{numeric}} matrix of count data.}
 
 \item{\code{values}}{A \code{\link{numeric}} vector giving the diversity index values.}
 
 \item{\code{size}}{A \code{\link{integer}} vector giving the sample sizes.}
 
-\item{\code{simulation}}{A numeric \code{\link{matrix}} vector giving the diversity
+\item{\code{simulation}}{A \code{\link{numeric}} matrix giving the diversity
 measures for the simulated assemblage.}
 
 \item{\code{method}}{A \code{\link{character}} string specifying the method used.}
@@ -48,6 +48,7 @@ measures for the simulated assemblage.}
 Other class: 
 \code{\link{BootCA-class}},
 \code{\link{DateClass}},
+\code{\link{IncrementTest-class}},
 \code{\link{PermutationOrder-class}}
 }
 \author{

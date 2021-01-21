@@ -120,7 +120,7 @@ on EPPM instead of raw data?}
  }
 }
 
-\section{Correspondence Analysis Refining}{
+\section{Correspondence Analysis}{
 
  \code{refine_ca} allows to identify samples that are subject to
  sampling error or samples that have underlying structural relationships

@@ -10,8 +10,23 @@ setMethod(
   signature = signature(object = "CountMatrix"),
   definition = function(object, EPPM = FALSE) {
     ## Prepare data
-    object_long <- prepare_ford(object, EPPM = EPPM)
-    vertex <- prepare_ford_vertex(object_long)
+    data_long <- prepare_ford(object)
+    vertex_data <- prepare_ford_vertex(data_long)
+
+    if (EPPM) {
+      eppm_data <- eppm(object)
+      eppm_long <- arkhe::as_long(eppm_data, factor = FALSE)
+      eppm_long$x <- data_long$x
+      eppm_long$y <- data_long$y
+      eppm_long$type <- "EPPM"
+      vertex_eppm <- prepare_ford_vertex(eppm_long)
+      gg_eppm <- ggplot2::geom_polygon(
+        mapping = ggplot2::aes(fill = .data$fill),
+        data = vertex_eppm
+      )
+    } else {
+      gg_eppm <- NULL
+    }
 
     ## ggplot
     ## A function that given the scale limits returns a vector of breaks
@@ -29,44 +44,31 @@ setMethod(
       labs
     }
 
-    aes_fill <- if (EPPM) ggplot2::aes(fill = .data$fill) else NULL
-    ford <- ggplot2::ggplot(data = vertex) +
+    ford <- ggplot2::ggplot() +
       ggplot2::aes(
         x = .data$x,
         y = .data$y,
         group = .data$group
       ) +
-      aes_fill +
-      ggplot2::geom_polygon() +
+      ggplot2::geom_polygon(data = vertex_data) +
+      gg_eppm +
+      ggplot2::labs(x = "Type", y = "Case", fill = "Value") +
       ggplot2::scale_x_continuous(
         expand = c(0, 0),
         breaks = scale_breaks,
         labels = scale_labels,
         sec.axis = ggplot2::sec_axis(
           trans = ~ .,
-          breaks = unique(object_long$x),
+          breaks = unique(data_long$x),
           labels = colnames(object)
         )
       ) +
       ggplot2::scale_y_continuous(
         expand = c(0, 0),
-        breaks = rev(seq_len(nrow(object))),
-        labels = rownames(object)
+        breaks = seq_len(nrow(object)),
+        labels = rev(rownames(object))
       ) +
-      ggplot2::theme(
-        axis.title = ggplot2::element_blank(),
-        axis.ticks.y = ggplot2::element_blank(),
-        axis.ticks.x.top = ggplot2::element_blank(),
-        axis.text.x.top = ggplot2::element_text(
-          angle = 90,
-          hjust = 0,
-          vjust = 0.5
-        ),
-        legend.key = ggplot2::element_rect(fill = "white"),
-        panel.background = ggplot2::element_rect(fill = "white"),
-        panel.grid = ggplot2::element_blank()
-      ) +
-      ggplot2::labs(x = "Type", y = "Case", fill = "Value")
+      theme_tabula()
 
     return(ford)
   }
@@ -76,7 +78,7 @@ setMethod(
 #' @return A data.frame.
 #' @keywords internal
 #' @noRd
-prepare_ford <- function(x, EPPM = FALSE) {
+prepare_ford <- function(x) {
   ## Relative frequencies
   freq <- arkhe::as_abundance(x)
 
@@ -91,18 +93,8 @@ prepare_ford <- function(x, EPPM = FALSE) {
 
   m <- nrow(freq)
   data$x <- rep(cum_max, each = m)
-  data$y <- m + 1 - as.integer(data$case) # Reverse levels order
-  data$type <- "data"
-
-  if (EPPM) {
-    eppm_data <- eppm(x)
-    eppm_long <- arkhe::as_long(eppm_data, factor = TRUE)
-    eppm_long$x <- data$x
-    eppm_long$y <- data$y
-    eppm_long$type <- "EPPM"
-
-    data <- rbind(data, eppm_long)
-  }
+  data$y <- m + 1 - as.integer(data$row) # Reverse levels order
+  data$type <- "frequency"
 
   return(data)
 }

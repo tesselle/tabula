@@ -28,6 +28,7 @@ setMethod(
       ) +
       aes_fill +
       ggplot2::geom_polygon(colour = "black") +
+      ggplot2::labs(x = "Case", y = "Frequency", fill = "Threshold") +
       ggplot2::scale_x_continuous(
         expand = c(0, 0),
         breaks = seq_len(nrow(object)),
@@ -36,23 +37,11 @@ setMethod(
       ) +
       ggplot2::scale_y_continuous(
         expand = c(0, 0),
-        breaks = rev(seq_len(ncol(object))) + 0.5,
-        labels = colnames(object),
+        breaks = seq_len(ncol(object)) + 0.5,
+        labels = rev(colnames(object)),
         position = "right"
       ) +
-      ggplot2::theme(
-        axis.title = ggplot2::element_blank(),
-        axis.ticks = ggplot2::element_blank(),
-        axis.text.x.top = ggplot2::element_text(
-          angle = 90,
-          hjust = 0,
-          vjust = 0.5
-        ),
-        legend.key = ggplot2::element_rect(fill = "white"),
-        panel.background = ggplot2::element_rect(fill = "white"),
-        panel.grid = ggplot2::element_blank()
-      ) +
-      ggplot2::labs(x = "Case", y = "Frequency", fill = "Threshold")
+      theme_tabula()
 
     return(bertin)
   }
@@ -83,8 +72,8 @@ prepare_bertin <- function(x, threshold = NULL, scale = NULL) {
 
   ## /!\ Bertin plot flips x and y axis /!\
   m <- ncol(x)
-  data$x <- as.integer(data$case)
-  data$y <- m + 1 - as.integer(data$type) # Reverse levels order
+  data$x <- as.integer(data$row)
+  data$y <- m + 1 - as.integer(data$column) # Reverse levels order
   if (!is.function(scale)) { data$value <- scale_01(data$value) }
 
   return(data)

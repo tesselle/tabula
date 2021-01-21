@@ -6,6 +6,9 @@ counts <- as_count(merzbach[, keep])
 ## We use the row names as time coordinates (roman numerals)
 dates <- as.numeric(utils::as.roman(rownames(counts)))
 
-## Plot abundance vs time
-plot_time(counts, dates)
-plot_time(counts, dates, facet = TRUE)
+## Frequency Increment Test
+freq <- test_fit(counts, dates)
+
+## Plot time vs abundance and highlight selection
+plot_time(freq)
+plot_time(freq, roll = TRUE, window = 5)

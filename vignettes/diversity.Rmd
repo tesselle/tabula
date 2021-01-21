@@ -359,8 +359,10 @@ mississippi %>%
 # Data from Conkey 1980
 altamira %>%
   as_count() %>%
-  index_richness(method = "none", simulate = TRUE) %>% 
-  plot()
+  index_richness(method = "none") %>% 
+  simulate() %>% 
+  plot() +
+  ggplot2::theme_bw()
 ```
 
 # Abundance models
@@ -370,7 +372,7 @@ Ranks *vs* abundance plot can be used for abundance models (model fitting will b
 ```{r plot-rank, fig.width=7, fig.height=5, fig.align="center"}
 mississippi %>%
   as_count() %>%
-  plot_rank(log = "xy", facet = FALSE) +
+  plot_rank(log = "xy") +
   ggplot2::theme_bw() +
   khroma::scale_color_discreterainbow()
 ```

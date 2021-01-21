@@ -79,7 +79,7 @@ Bellanger \emph{et al.} did not publish the data supporting their
  implementation must be considered \strong{experimental}.
  \code{date_event} may be subject to major changes in a future release.
 }
-\section{Date Model Checking}{
+\section{Date Model}{
 
  If \code{jackknife} is used, one type/fabric is removed at a
  time and all statistics are recalculated. In this way, one can assess

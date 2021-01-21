@@ -242,7 +242,7 @@ setGeneric(
 #'  This method relies on strong archaeological and statistical assumptions.
 #'  Use it only if you know what you are doing (see references below and the
 #'  vignette: \code{utils::vignette("dating", package = "tabula")}).
-#' @inheritSection refine Date Model Checking
+#' @inheritSection refine Date Model
 #' @note
 #'  Bellanger \emph{et al.} did not publish the data supporting their
 #'  demonstration: no replication of their results is possible and this
@@ -603,16 +603,6 @@ setGeneric(
 #'  desired length of the vector of quantiles for density computation.
 #' @param event A \code{\link{logical}} scalar: should the distribution of the
 #'  event date be displayed? Only used if type is "\code{activity}".
-#' @param highlight A \code{\link{character}} string indicating the type of
-#'  plot. It must be one of "\code{FIT}" or \code{NULL} (default).
-#'  Any unambiguous substring can be given.
-#' @param level A length-one \code{\link{numeric}} vector giving the
-#'  confidence level.
-#' @param roll A \code{\link{logical}} scalar: should each time series be
-#'  subsetted to look for episodes of selection?
-#'  Only used if \code{highlight} is "\code{FIT}" (see details).
-#' @param window An odd \code{\link{integer}} giving the size of the rolling
-#'  window. Only used if \code{roll} is \code{TRUE}.
 #' @param facet A \code{\link{logical}} scalar: should a matrix of panels
 #'  defined by type/taxon be drawn? Only used if \code{highlight} is
 #'  \code{NULL}.
@@ -771,8 +761,6 @@ setGeneric(
 #' @param object An object to be plotted.
 #' @param PVI A \code{\link{logical}} scalar: should the PVI be drawn instead of
 #'  frequencies (see details)?
-#' @param frequency A \code{\link{logical}} scalar: should relative frequencies
-#'  be drawn? If \code{FALSE}, raw data are plotted.
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  If \code{PVI} is \code{FALSE}, it plots a heatmap of relative abundances
@@ -840,7 +828,7 @@ setGeneric(
 #' @param threshold A \code{\link{function}} that takes a numeric vector as
 #'  argument and returns a numeric threshold value.
 #'  If \code{NULL} (the default), no threshold is computed.
-#' @param ... Currently not used.
+#' @param ... Extra parameters to be passed to \code{threshold}.
 #' @details
 #'  The spot matrix can be considered as a variant of the
 #'  \link[=plot_bertin]{Bertin diagram} where the data are first transformed to
@@ -901,7 +889,8 @@ setGeneric(
 #' @param progress A \code{\link{logical}} scalar: should a progress bar be
 #'  displayed?
 #' @param ... Currently not used.
-#' @section Correspondence Analysis Refining:
+# @section Diversity Measures:
+#' @section Correspondence Analysis:
 #'  \code{refine_ca} allows to identify samples that are subject to
 #'  sampling error or samples that have underlying structural relationships
 #'  and might be influencing the ordering along the CA space.
@@ -922,7 +911,7 @@ setGeneric(
 #'  are projected onto the dimensions of the CA coordinate space using the row
 #'  transition formulae. Finally, row coordinates onto the first dimension
 #'  give the seriation order.
-#' @section Date Model Checking:
+#' @section Date Model:
 #'  If \code{jackknife} is used, one type/fabric is removed at a
 #'  time and all statistics are recalculated. In this way, one can assess
 #'  whether certain type/fabric has a substantial influence on the date
@@ -1070,7 +1059,7 @@ setGeneric(
 #'   If no convergence is reached before the maximum number of iterations, it
 #'   stops with a warning.}
 #'  }
-#' @inheritSection refine Correspondence Analysis Refining
+#' @inheritSection refine Correspondence Analysis
 #' @return
 #'  \code{seriate_*} returns a \linkS4class{PermutationOrder} object.
 #'
@@ -1194,6 +1183,7 @@ setGeneric(
 )
 
 # Test =========================================================================
+## Diversity Test --------------------------------------------------------------
 #' Diversity Test
 #'
 #' Compares Shannon diversity between samples.
@@ -1220,12 +1210,18 @@ setGeneric(
   def = function(object, ...) standardGeneric("test_diversity")
 )
 
+## Frequency Increment Test ----------------------------------------------------
 #' Frequency Increment Test
 #'
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
 #' @param dates A \code{\link{numeric}} vector of dates.
-#' @param simplify A \code{\link{logical}} scalar: should the result be
-#'  simplified to a matrix?
+#' @param level A length-one \code{\link{numeric}} vector giving the
+#'  confidence level.
+#' @param roll A \code{\link{logical}} scalar: should each time series be
+#'  subsetted to look for episodes of selection?
+#'  Only used if \code{highlight} is "\code{FIT}" (see details).
+#' @param window An odd \code{\link{integer}} giving the size of the rolling
+#'  window. Only used if \code{roll} is \code{TRUE}.
 #' @param ... Currently not used.
 #' @details
 #'  The Frequency Increment Test (FIT) rejects neutrality if the distribution
@@ -1234,7 +1230,7 @@ setGeneric(
 #' @return
 #'  If \code{simplify} is \code{FALSE}, returns a list (default), else returns
 #'  a matrix.
-#' @example inst/examples/ex-test.R
+#' @example inst/examples/ex-test_fit.R
 #' @author N. Frerebeau
 #' @references
 #'  Feder, A. F., Kryazhimskiy, S. & Plotkin, J. B. (2014). Identifying
@@ -1242,6 +1238,10 @@ setGeneric(
 #'  509-522. \doi{10.1534/genetics.113.158220}.
 #' @family statistics
 #' @docType methods
+#' @name test_fit
+#' @rdname test_fit
+NULL
+
 #' @rdname test_fit
 #' @aliases test_fit-method
 setGeneric(

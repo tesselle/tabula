@@ -73,24 +73,24 @@ If \code{EPPM} is \code{TRUE} and if a relative abundance is greater than
 \donttest{
 ## Abundance data
 ## Coerce dataset to a count matrix
-mississippi_count <- as_count(mississippi)
+counts1 <- as_count(mississippi)
 
 ## Plot a Bertin diagram...
 ## ...without threshold
-plot_bertin(mississippi_count, threshold = NULL)
+plot_bertin(counts1)
 ## ...with variables scaled to 0-1 and the variable mean as threshold
 scale_01 <- function(x) (x - min(x)) / (max(x) - min(x))
-plot_bertin(mississippi_count, threshold = mean, scale = scale_01)
+plot_bertin(counts1, threshold = mean, scale = scale_01)
 
 ## Abundance data
 ## Coerce dataset to a count matrix (data from Desachy 2004)
-compiegne_count <- as_count(compiegne)
+counts2 <- as_count(compiegne)
 
 ## Plot a Ford diagram...
 ## ...without threshold
-plot_ford(compiegne_count)
+plot_ford(counts2)
 ## ...with EPPM
-plot_ford(compiegne_count, EPPM = TRUE)
+plot_ford(counts2, EPPM = TRUE)
 }
 }
 \references{

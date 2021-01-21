@@ -15,7 +15,6 @@ test_that("Bertin plot", {
   gg_bertin_threshold <- plot_bertin(test_count, threshold = mean)
   vdiffr::expect_doppelganger("bertin_threshold", gg_bertin_threshold)
   # No threshold, scale
-  scale_01 <- function(x) (x - min(x)) / (max(x) - min(x))
   gg_bertin_scale <- plot_bertin(test_count, scale = scale_01)
   vdiffr::expect_doppelganger("bertin_scale", gg_bertin_scale)
 })
@@ -76,20 +75,24 @@ test_that("Time plot", {
   counts <- as(merzbach[, keep], "CountMatrix")
   # Use the row names as time coordinates (roman numerals)
   dates <- as.numeric(as.roman(rownames(counts)))
+
   # Plot time vs abundance
   for (i in c(TRUE, FALSE)) {
     gg_time_facet <- plot_time(counts, dates, facet = i)
     vdiffr::expect_doppelganger(paste0("time_facet-", i), gg_time_facet)
   }
+
   # Plot time vs abundance and highlight selection
+  # Frequency Increment Test
+  freq <- test_fit(counts, dates)
   for (i in c(TRUE, FALSE)) {
-    gg_time_roll <- plot_time(counts, dates, highlight = "FIT", roll = i)
+    gg_time_roll <- plot_time(freq, roll = i, window = 5)
     vdiffr::expect_doppelganger(paste0("time_FIT_roll-", i), gg_time_roll)
   }
 
   # Errors
-  expect_error(plot_time(counts, dates, highlight = "FIT",
-                         roll = TRUE, window = 2), "must be an odd integer")
+  expect_error(plot_time(freq, roll = TRUE, window = 2),
+               "must be an odd integer")
 })
 test_that("Date model", {
   dates <- c(

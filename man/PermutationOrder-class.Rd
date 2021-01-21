@@ -37,7 +37,8 @@ Numeric values are coerced to \code{\link{integer}} as by
 Other class: 
 \code{\link{BootCA-class}},
 \code{\link{DateClass}},
-\code{\link{DiversityIndex}}
+\code{\link{DiversityIndex}},
+\code{\link{IncrementTest-class}}
 }
 \author{
 N. Frerebeau

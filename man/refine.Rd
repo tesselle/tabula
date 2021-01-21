@@ -115,7 +115,7 @@ Refining method can lead to much longer execution times and larger output
  objects. To monitor the execution of these re-sampling procedures, a
  progress bar will be displayed.
 }
-\section{Correspondence Analysis Refining}{
+\section{Correspondence Analysis}{
 
  \code{refine_ca} allows to identify samples that are subject to
  sampling error or samples that have underlying structural relationships
@@ -139,7 +139,7 @@ Refining method can lead to much longer execution times and larger output
  give the seriation order.
 }
 
-\section{Date Model Checking}{
+\section{Date Model}{
 
  If \code{jackknife} is used, one type/fabric is removed at a
  time and all statistics are recalculated. In this way, one can assess

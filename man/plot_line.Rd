@@ -11,9 +11,9 @@
 \usage{
 plot_rank(object, ...)
 
-\S4method{plot_rank}{CountMatrix}(object, log = NULL, facet = TRUE)
+\S4method{plot_rank}{CountMatrix}(object, log = NULL, facet = FALSE)
 
-\S4method{plot_rank}{AbundanceMatrix}(object, log = NULL, facet = TRUE)
+\S4method{plot_rank}{AbundanceMatrix}(object, log = NULL, facet = FALSE)
 }
 \arguments{
 \item{object}{An object to be plotted.}
@@ -36,11 +36,11 @@ A \code{\link[ggplot2]{ggplot}} object.
 \examples{
 ## Abundance matrix
 ## Coerce datasets to a count matrix (data from Desachy 2004)
-compiegne_count <- as_count(compiegne)
+counts <- as_count(compiegne)
 
 ## Plot rank vs abundance
-plot_rank(compiegne_count)
-plot_rank(compiegne_count, facet = FALSE)
+plot_rank(counts)
+plot_rank(counts, facet = TRUE)
 }
 \references{
 Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.

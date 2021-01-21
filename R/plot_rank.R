@@ -8,7 +8,7 @@ NULL
 setMethod(
   f = "plot_rank",
   signature = signature(object = "CountMatrix"),
-  definition = function(object, log = NULL, facet = TRUE) {
+  definition = function(object, log = NULL, facet = FALSE) {
     freq <- methods::as(object, "AbundanceMatrix")
     plot_rank(freq, log = log, facet = facet)
   }
@@ -20,13 +20,11 @@ setMethod(
 setMethod(
   f = "plot_rank",
   signature = signature(object = "AbundanceMatrix"),
-  definition = function(object, log = NULL, facet = TRUE) {
-    # Prepare data
+  definition = function(object, log = NULL, facet = FALSE) {
+    ## Prepare data
     data <- prepare_rank(object)
-    # Get number of cases
-    n <- nrow(object)
 
-    # ggplot
+    ## ggplot
     log_x <- log_y <- NULL
     if (!is.null(log)) {
       if (log == "x" || log == "xy" || log == "yx")
@@ -35,38 +33,45 @@ setMethod(
         log_y <- ggplot2::scale_y_log10()
     }
     if (facet) {
-      facet <- ggplot2::facet_wrap(ggplot2::vars(.data$case), ncol = n)
-      aes_plot <- ggplot2::aes(x = .data$rank, y = .data$value)
+      facet <- ggplot2::facet_wrap(
+        facets = ggplot2::vars(.data$row),
+        ncol = nrow(object)
+      )
+      aes_plot <- ggplot2::aes(x = .data$x, y = .data$y)
     } else {
       facet <- NULL
-      aes_plot <- ggplot2::aes(x = .data$rank, y = .data$value,
-                               colour = .data$case)
+      aes_plot <- ggplot2::aes(x = .data$x, y = .data$y, colour = .data$row)
     }
     ggplot2::ggplot(data = data, mapping = aes_plot) +
-      ggplot2::geom_point() + ggplot2::geom_line() +
-      ggplot2::labs(x = "Rank", y = "Frequency",
-                    colour = "Assemblage", fill = "Assemblage") +
+      ggplot2::geom_point() +
+      ggplot2::geom_line() +
+      ggplot2::labs(
+        x = "Rank",
+        y = "Frequency",
+        colour = "Assemblage"
+      ) +
       log_x + log_y + facet
   }
 )
 
-# Prepare data for rank plot
-# Must return a data.frame
+## Prepare data for rank plot
+## Must return a data.frame
 prepare_rank <- function(object) {
-  # Build a long table for ggplot2 (preserve original ordering)
+  ## Get rank
+  rk <- apply(
+    X = object,
+    MARGIN = 1,
+    FUN = function(x) rank(-x)
+  )
+
+  ## Build a long table for ggplot2 (preserve original ordering)
   data <- arkhe::as_long(object, factor = TRUE)
-  # Remove zeros in case of log scale
+
+  data$x <- as.vector(t(rk))
+  data$y <- data$value
+
+  ## Remove zeros in case of log scale
   data <- data[data$value > 0, ]
 
-  data <- by(
-    data,
-    INDICES = data$case,
-    FUN = function(x) {
-      data <- x[order(x$value, decreasing = TRUE), ]
-      data <- cbind.data.frame(rank = seq_len(nrow(data)), data)
-      data
-    }
-  )
-  data <- do.call(rbind.data.frame, data)
-  data
+  return(data)
 }

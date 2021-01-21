@@ -8,34 +8,21 @@ NULL
 setMethod(
   f = "plot_heatmap",
   signature = signature(object = "CountMatrix"),
-  definition = function(object, PVI = FALSE, frequency = TRUE) {
-    # Prepare data
-    data <- prepare_heatmap(object, PVI = PVI, frequency = frequency)
+  definition = function(object, PVI = FALSE) {
+    ## Prepare data
+    data <- prepare_heatmap(object, PVI = PVI)
 
-    # ggplot
-    fill <- ifelse(PVI, "PVI", "value")
+    ## ggplot
     fill_lab <- ifelse(PVI, "PVI", "Frequency")
-    aes_plot <- ggplot2::aes(x = .data$x, y = .data$y, fill = .data[[fill]])
-    ggplot2::ggplot(data = data, mapping = aes_plot) +
+
+    ggplot2::ggplot(data = data) +
+      ggplot2::aes(x = .data$x, y = .data$y, fill = .data$value) +
       ggplot2::geom_tile() +
-      ggplot2::scale_x_continuous(
-        position = "top",
-        expand = c(0, 0),
-        limits = range(data$x) + c(-0.5, 0.5),
-        breaks = unique(data$x),
-        labels = unique(data$type)) +
-      ggplot2::scale_y_continuous(
-        expand = c(0, 0),
-        trans = "reverse",
-        breaks = unique(data$y),
-        labels = unique(data$case)) +
-      ggplot2::theme(
-        axis.text.x = ggplot2::element_text(angle = 90, hjust = 0),
-        axis.ticks = ggplot2::element_blank(),
-        axis.title = ggplot2::element_blank(),
-        panel.grid = ggplot2::element_blank()) +
       ggplot2::labs(x = "Type", y = "Case", fill = fill_lab) +
-      ggplot2::coord_fixed()
+      ggplot2::coord_fixed() +
+      scale_x_matrix(object) +
+      scale_y_matrix(object) +
+      theme_tabula()
   }
 )
 
@@ -50,27 +37,14 @@ setMethod(
     data <- prepare_heatmap(object, PVI = FALSE)
 
     # ggplot
-    aes_plot <- ggplot2::aes(x = .data$x, y = .data$y, fill = .data$value)
-    ggplot2::ggplot(data = data, mapping = aes_plot) +
+    ggplot2::ggplot(data = data) +
+      ggplot2::aes(x = .data$x, y = .data$y, fill = .data$value) +
       ggplot2::geom_tile() +
-      ggplot2::scale_x_continuous(
-        position = "top",
-        expand = c(0, 0),
-        limits = range(data$x) + c(-0.5, 0.5),
-        breaks = unique(data$x),
-        labels = unique(data$type)) +
-      ggplot2::scale_y_continuous(
-        expand = c(0, 0),
-        trans = "reverse",
-        breaks = unique(data$y),
-        labels = unique(data$case)) +
-      ggplot2::theme(
-        axis.text.x = ggplot2::element_text(angle = 90, hjust = 0),
-        axis.ticks = ggplot2::element_blank(),
-        axis.title = ggplot2::element_blank(),
-        panel.grid = ggplot2::element_blank()) +
       ggplot2::labs(x = "Type", y = "Case", fill = "Frequency") +
-      ggplot2::coord_fixed()
+      ggplot2::coord_fixed() +
+      scale_x_matrix(object) +
+      scale_y_matrix(object) +
+      theme_tabula()
   }
 )
 
@@ -82,48 +56,31 @@ setMethod(
   signature = signature(object = "IncidenceMatrix"),
   definition = function(object) {
     # Prepare data
-    data <- prepare_heatmap(object, PVI = FALSE, frequency = FALSE)
+    data <- prepare_heatmap(object, PVI = FALSE)
 
     # ggplot
-    aes_plot <- ggplot2::aes(x = .data$x, y = .data$y, fill = .data$value)
-    ggplot2::ggplot(data = data, mapping = aes_plot) +
+    ggplot2::ggplot(data = data) +
+      ggplot2::aes(x = .data$x, y = .data$y, fill = .data$value) +
       ggplot2::geom_tile(color = "black") +
-      ggplot2::scale_x_discrete(position = "top") +
-      ggplot2::scale_y_discrete(limits = rev(levels(data$y))) +
-      ggplot2::theme(
-        axis.text.x = ggplot2::element_text(angle = 90, hjust = 0),
-        axis.ticks = ggplot2::element_blank(),
-        axis.title = ggplot2::element_blank(),
-        panel.background = ggplot2::element_rect(fill = "white"),
-        panel.grid = ggplot2::element_blank()) +
       ggplot2::labs(x = "Type", y = "Case", fill = "Value") +
-      ggplot2::coord_fixed()
+      ggplot2::coord_fixed() +
+      scale_x_matrix(object) +
+      scale_y_matrix(object) +
+      theme_tabula()
   }
 )
 
-# Prepare data for Heatmap plot
-# Must return a data.frame
-prepare_heatmap <- function(object, PVI = FALSE, frequency = TRUE) {
-  # Get row names and coerce to factor (preserve original ordering)
-  row_names <- rownames(object)
-  row_names <- factor(x = row_names, levels = unique(row_names))
+## Prepare data for heatmap plot
+## Must return a data.frame
+prepare_heatmap <- function(object, PVI = FALSE) {
+  ## /!\ PVI computation needs count data
+  data <- if (PVI) pvi(object) else object
 
-  if (PVI) {
-    # /!\ PVI computation needs count data
-    # Build long table from threshold
-    data <- pvi(object)
-    data <- wide2long(data, value = "PVI")
-  } else {
-    # Build long table from data
-    data <- if (frequency) arkhe::as_abundance(object) else object
-    data <- arkhe::as_long(data, factor = TRUE)
-  }
+  ## Build long table from data
+  data <- arkhe::as_long(data, factor = TRUE)
+  ## Tile centers
+  data$x = as.numeric(data$column)
+  data$y = as.numeric(data$row)
 
-  # Tile centers
-  data <- cbind.data.frame(
-    data,
-    x = as.numeric(data$type),
-    y = as.numeric(data$case)
-  )
-  data
+  return(data)
 }

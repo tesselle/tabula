@@ -40,3 +40,7 @@ test_that("Row names to column", {
 
   expect_error(rownames_to_column(LETTERS, factor = TRUE, id = NULL))
 })
+# test_that("Rolling window", {
+#   mtx <- matrix(data = seq_len(100), nrow = 20)
+#   roll_index <- roll(mtx, window = 3)
+# })

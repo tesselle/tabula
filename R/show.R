@@ -50,7 +50,17 @@ setMethod(
   signature = "DiversityIndex",
   definition = function(object) {
     cat(sprintf("<%s: %s>\n", class(object), object[["method"]]))
-    print(methods::as(object, "data.frame"))
+    print(as.data.frame(object))
+  }
+)
+
+# IncrementTest ===============================================================
+setMethod(
+  f = "show",
+  signature = "IncrementTest",
+  definition = function(object) {
+    cat(sprintf("<%s: %s>\n", class(object)))
+    print(as.data.frame(object))
   }
 )
 
@@ -60,14 +70,13 @@ setMethod(
   signature = "PermutationOrder",
   definition = function(object) {
     k <- 50
-    rows <- strtrim(paste0(object@rows, collapse = " "), k)
-    columns <- strtrim(paste0(object@columns, collapse = " "), k)
+    rows <- strtrim(paste0(object[["rows"]], collapse = " "), k)
+    columns <- strtrim(paste0(object[["columns"]], collapse = " "), k)
     cat(
-      "<PermutationOrder>",
+      sprintf("<%s: %s>", class(object), object[["method"]]),
       "Permutation order for matrix seriation:",
       sprintf("- Row order: %s", paste0(rows, "...")),
       sprintf("- Column order: %s", paste0(columns, "...")),
-      sprintf("- Method: %s", object@method),
       sep = "\n"
     )
   }

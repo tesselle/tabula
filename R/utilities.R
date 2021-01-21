@@ -63,6 +63,36 @@ roll_sum <- function(x, n = 2) {
   utils::tail(cumsum(x) - cumsum(c(rep(0, n), utils::head(x, -n))), -n + 1)
 }
 
+#' Indices of a rolling window
+#'
+#' @param x An object.
+#' @param window A \code{\link{integer}} scalar giving the window size.
+#' @return A \code{\link{list}} with the following components:
+#'  \describe{
+#'   \item{i}{A \code{\link{integer}} vector of indices.}
+#'   \item{w}{A \code{\link{integer}} vector of indices giving the indice of
+#'   the window mid-point.}
+#'  }
+#' @keywords internal
+#' @noRd
+roll <- function(x, window = 3) {
+  ## Validation
+  if (window %% 2 == 0)
+    stop(sprintf("%s must be an odd integer.", sQuote("window")), call. = FALSE)
+
+  n <- if (is.matrix(x) || is.data.frame(x)) nrow(x) else length(x)
+  i <- seq_len(n) # Indices of the rows
+
+  ## Matrix of rolling-window indices of length w
+  w <- stats::embed(i, window)[, window:1]
+  inds <- as.vector(t(w)) # Flatten indices
+
+  ## Window mid-point
+  m <- w[, ceiling(window / 2)]
+
+  list(i = inds, w = rep(m, each = window))
+}
+
 #' Row and Column Names
 #'
 #' \code{rownames_to_column} converts row names to an explicit column.
@@ -97,6 +127,7 @@ rownames_to_column <- function(x, factor = TRUE, id = "id") {
   rownames(z) <- NULL
   z
 }
+
 
 #' Build a Long Data Frame
 #'

@@ -22,21 +22,21 @@ setMethod(
     if (length(x[["simulation"]]) != 0) {
       # Build a long table for ggplot2
       refined <- x[["simulation"]]
-      sim_stacked <- utils::stack(as.data.frame(refined), select = -c(1))
+      sim_stacked <- arkhe::as_long(refined[, -c(1)], factor = TRUE)
       sim <- cbind.data.frame(
         size = refined[, 1],
         sim_stacked,
-        type = ifelse(sim_stacked[["ind"]] == "mean", "mean", "conf. int.")
+        type = ifelse(sim_stacked[["column"]] == "mean", "mean", "conf. int.")
       )
-      sim <- stats::na.omit(sim)
       gg_sim <- ggplot2::geom_path(
         mapping = ggplot2::aes(
           x = .data$size,
-          y = .data$values,
+          y = .data$value,
           colour = .data$type,
-          group = .data$ind
+          group = .data$column
         ),
         data = sim,
+        na.rm = TRUE,
         inherit.aes = FALSE
       )
     }
