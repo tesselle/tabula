@@ -6,8 +6,8 @@
 <!-- badges: start -->
 
 [![R build
-status](https://github.com/nfrerebeau/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/nfrerebeau/tabula/actions)
-[![codecov](https://codecov.io/gh/nfrerebeau/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/nfrerebeau/tabula)
+status](https://github.com/tesselle/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/tesselle/tabula/actions)
+[![codecov](https://codecov.io/gh/tesselle/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/tesselle/tabula)
 
 <!--[![CRAN Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula)
 [![CRAN checks](https://cranchecks.info/badges/worst/tabula)](https://cran.r-project.org/web/checks/check_results_tabula.html)
@@ -55,11 +55,11 @@ You can install the released version of **tabula** from
 install.packages("tabula")
 ```
 
-Or install the development version from GitHub with:
+And the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("nfrerebeau/tabula")
+remotes::install_github("tesselle/tabula")
 ```
 
 ## Usage
@@ -187,7 +187,7 @@ zuni_dates <- c(
 ## Model the event date for each assemblage
 model <- date_event(zuni_counts, dates = zuni_dates, cutoff = 90)
 ## Predict event and accumulation dates
-event <- predict_event(model, zuni_counts)
+event <- predict_event(model)
 
 ## Plot activity and tempo distributions
 plot_date(event, type = "activity", select = "LZ1105") +
@@ -242,7 +242,8 @@ altamira %>%
   as_count() %>%
   index_richness(method = "none") %>% 
   simulate() %>% 
-  plot()
+  plot() +
+  ggplot2::theme_bw()
 ```
 
 <img src="man/figures/README-sample-size-1.png" style="display: block; margin: auto;" />
@@ -271,7 +272,7 @@ mississippi %>%
 
 Please note that the **tabula** project is released with a [Contributor
 Code of
-Conduct](https://github.com/nfrerebeau/tabula/blob/master/.github/CODE_OF_CONDUCT.md).
+Conduct](https://github.com/tesselle/tabula/blob/master/.github/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
 
 [1] Adapted from Dan Gopstein’s original

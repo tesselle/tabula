@@ -7,14 +7,15 @@
   "identifier": "tabula",
   "description": "An easy way to examine archaeological count data. This package \n    provides a convenient and reproducible toolkit for relative and absolute \n    dating and analysis of (chronological) patterns. It includes functions for \n    matrix seriation (reciprocal ranking, CA-based seriation), chronological \n    modeling and dating of archaeological assemblages and/or objects. \n    Beyond these, the package provides several tests and measures of diversity: \n    heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), \n    richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), \n    turnover and similarity (Brainerd-Robinson, etc.). \n    The package make it easy to visualize count data and statistical thresholds: \n    rank vs abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.",
   "name": "tabula: Analysis, Seriation and Visualization of Archaeological\n    Count Data",
-  "codeRepository": "https://github.com/nfrerebeau/tabula",
+  "codeRepository": "https://github.com/tesselle/tabula",
   "relatedLink": [
     "http://tabula.archaeo.science",
     "https://cran.r-project.org/package=tabula",
     "https://CRAN.R-project.org/package=tabula",
-    "https://tabula.archaeo.science"
+    "https://tabula.archaeo.science",
+    "https://tabula.tesselle.org"
   ],
-  "issueTracker": "https://github.com/nfrerebeau/tabula/issues",
+  "issueTracker": "https://github.com/tesselle/tabula/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
   "version": "1.5.1.9000",
   "programmingLanguage": {
@@ -190,7 +191,13 @@
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://github.com/nfrerebeau/arkhe"
+      "sameAs": "https://CRAN.R-project.org/package=arkhe"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "dimensio",
+      "name": "dimensio",
+      "sameAs": "https://github.com/tesselle/arkhe\n    tesselle/dimensio"
     },
     {
       "@type": "SoftwareApplication",
@@ -237,8 +244,7 @@
       "name": "utils"
     }
   ],
-  "readme": "https://github.com/nfrerebeau/tabula/blob/master/README.md",
-  "contIntegration": "https://codecov.io/gh/nfrerebeau/tabula",
+  "contIntegration": "https://codecov.io/gh/tesselle/tabula",
   "developmentStatus": ["https://www.repostatus.org/#active", "https://www.tidyverse.org/lifecycle/#stable"],
   "keywords": [
     "archaeology",
@@ -275,6 +281,6 @@
       }
     }
   ],
-  "fileSize": "2833.044KB",
-  "releaseNotes": "https://github.com/nfrerebeau/tabula/blob/master/NEWS.md"
+  "fileSize": "2700.989KB",
+  "releaseNotes": "https://github.com/tesselle/tabula/blob/master/NEWS.md"
 }
