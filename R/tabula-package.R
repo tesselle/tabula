@@ -35,11 +35,8 @@
 #' @keywords internal
 "_PACKAGE"
 
-# Quiets concerns of R CMD check: the .'s that appear in pipelines
-# See https://github.com/tidyverse/magrittr/issues/29
-if(getRversion() >= "2.15.1") utils::globalVariables(c("."))
-
 #' @import arkhe
+#' @import dimensio
 #' @importFrom ggplot2 ggplot aes coord_fixed element_blank element_rect
 #' element_text facet_wrap geom_line geom_path geom_point geom_polygon geom_tile
 #' labs scale_size_area scale_x_continuous scale_x_discrete scale_x_log10

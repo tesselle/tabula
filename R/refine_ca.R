@@ -82,10 +82,9 @@ setMethod(
 boot_ca <- function(x, fun, margin = 1, n = 1000,
                     progress = getOption("tabula.progress"), ...) {
 
-  ## Get CA standard coordinates (SVD)
-  svd <- if (margin == 1) x[["column_coordinates"]] else x[["row_coordinates"]]
-  data <- if (margin == 1)  x[["data"]] else t(x[["data"]])
-  colnames(svd) <- paste0("CA", seq_len(ncol(svd)))
+  ## Get original data
+  data <- dimensio::get_data(x)
+  data <- if (margin == 1) data else t(data)
 
   m <- nrow(data)
   k <- seq_len(m)
@@ -96,11 +95,12 @@ boot_ca <- function(x, fun, margin = 1, n = 1000,
 
   for (i in k) {
     # n random replicates
-    spl <- data[i, , drop = TRUE]
+    spl <- data[i, ]
     replicates <- stats::rmultinom(n = n, size = sum(spl), prob = spl)
+    replicates <- if (margin == 1) t(replicates) else replicates
 
     # Compute new CA coordinates
-    coords <- crossprod(replicates / colSums(replicates), svd)
+    coords <- dimensio::predict(x, replicates, margin = margin)
 
     # Apply on new CA coordinates
     boot[[i]] <- fun(x = coords, ...)

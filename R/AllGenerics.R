@@ -949,6 +949,7 @@ setGeneric(
 #'  permutation.
 #' @param stop An \code{\link{integer}} giving the stopping rule
 #'  (i.e. maximum number of iterations) to avoid infinite loop.
+#' @inheritParams dimensio::ca
 #' @param ... Further arguments to be passed to internal methods.
 #' @section Seriation:
 #'  The matrix seriation problem in archaeology is based on three conditions
@@ -1012,7 +1013,7 @@ setGeneric(
 #'  analysis-based ceramic seriation of regional data sets. \emph{Journal of
 #'  Archaeological Science}, 39(8), 2818-2827.
 #'  \doi{10.1016/j.jas.2012.04.040}.
-#' @seealso \link{refine}, \link[arkhe]{ca}
+#' @seealso \link{refine}, \link[dimensio]{ca}
 #' @example inst/examples/ex-seriation.R
 #' @author N. Frerebeau
 #' @family seriation

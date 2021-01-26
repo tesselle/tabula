@@ -123,11 +123,11 @@ correspondence Analysis (CA) is an effective method for the seriation of archaeo
 ## Coerce dataset to an count matrix
 zcounts1 <- as_count(zuni)
 ## correspondence analysis of the whole dataset
-corresp <- arkhe::ca(zcounts1)
+corresp <- dimensio::ca(zcounts1)
 
 ## Get row (blue) and column (red) coordinates
-rcoords <- arkhe::get_coordinates(corresp, margin = 1)
-ccoords <- arkhe::get_coordinates(corresp, margin = 2)
+rcoords <- dimensio::get_coordinates(corresp, margin = 1)
+ccoords <- dimensio::get_coordinates(corresp, margin = 2)
 
 ## Plot CA results
 ggplot2::ggplot(mapping = ggplot2::aes(x = CA1, y = CA2)) +

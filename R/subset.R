@@ -144,13 +144,8 @@ setMethod(
 #' @aliases [[,BootCA-method
 setMethod(
   f = "[[",
-  signature = "BootCA",
-  definition = function(x, i) {
-    data <- extract_slot(x, i)
-    if (i %in% c("rows", "columns"))
-      data <- as.data.frame(data)
-    data
-  }
+  signature = c("BootCA", "ANY", "missing"),
+  definition = extract_slot
 )
 
 #' @export

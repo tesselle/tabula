@@ -57,7 +57,7 @@ setMethod(
   signature = signature(object = "CountMatrix"),
   definition = function(object, cutoff, n = 1000, axes = c(1, 2), ...) {
     .Deprecated(new = "bootstrap")
-    object <- arkhe::ca(object)
+    object <- dimensio::ca(object)
     bootstrap(object, cutoff, n, axes, ...)
   }
 )

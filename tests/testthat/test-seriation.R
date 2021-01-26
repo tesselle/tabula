@@ -62,11 +62,11 @@ test_that("Average Ranking", {
 test_that("Refined Correspondence Analysis", {
   skip_on_cran()
 
-  count <- arkhe::as_count(zuni)
+  counts <- arkhe::as_count(zuni)
 
   ## Define cutoff as one standard deviation above the mean
   fun <- function(x) { mean(x) + sd(x) }
-  corresp <- arkhe::ca(count)
+  corresp <- dimensio::ca(counts)
   subset <- with_seed(12345, bootstrap(corresp, cutoff = fun))
 
   ## /!\ Fails on noLD platforms unless a tolerance is set in expect_equal

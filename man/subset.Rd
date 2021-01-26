@@ -19,7 +19,7 @@
 \alias{[[,DateModel-method}
 \alias{[[,DateEvent,ANY,ANY-method}
 \alias{[[,DateEvent-method}
-\alias{[[,BootCA,ANY,ANY-method}
+\alias{[[,BootCA,ANY,missing-method}
 \alias{[[,BootCA-method}
 \alias{[[,PermutationOrder,ANY,ANY-method}
 \alias{[[,PermutationOrder-method}
@@ -41,7 +41,7 @@
 
 \S4method{[[}{DateEvent,ANY,ANY}(x, i)
 
-\S4method{[[}{BootCA,ANY,ANY}(x, i)
+\S4method{[[}{BootCA,ANY,missing}(x, i)
 
 \S4method{[[}{PermutationOrder,ANY,ANY}(x, i)
 }

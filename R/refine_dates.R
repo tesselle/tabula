@@ -27,8 +27,8 @@ setMethod(
     fit_model$coefficients <- jack_coef[c(1, fit_dim + 1)]
 
     ## Predict event date for each context
-    results_CA <- arkhe::ca(cts_data, ...)
-    row_coord <- arkhe::get_coordinates(results_CA, margin = 1, sup = FALSE)
+    results_CA <- dimensio::ca(cts_data, ...)
+    row_coord <- dimensio::get_coordinates(results_CA, margin = 1, sup = FALSE)
 
     jack_event <- predict_events(fit_model, row_coord, level)
     results <- as.data.frame(jack_event)
@@ -55,7 +55,7 @@ setMethod(
     fit_dim <- object[["dimension"]]
 
     cts_data <- arkhe::as_count(fit_data)
-    results_CA <- arkhe::ca(cts_data, ...)
+    results_CA <- dimensio::ca(cts_data, ...)
 
     ## Bootstrap assemblages
     results <- boot_ca(

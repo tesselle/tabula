@@ -15,11 +15,11 @@ setMethod(
       stop("Cutoff value is below 50%, you can't be serious.", call. = FALSE)
 
     ## Correspondance analysis
-    results_CA <- arkhe::ca(object, ...)
-    eig <- arkhe::get_eigenvalues(results_CA)
+    results_CA <- dimensio::ca(object, ...)
+    eig <- dimensio::get_eigenvalues(results_CA)
     keep_dim <- which(eig[, 3] <= cutoff)
 
-    row_coord <- arkhe::get_coordinates(results_CA, margin = 1, sup = FALSE)
+    row_coord <- dimensio::get_coordinates(results_CA, margin = 1, sup = FALSE)
     row_coord <- row_coord[, keep_dim]
 
     ## CA computation may rise error (if rows/columns filled only with zeros)
@@ -66,9 +66,9 @@ setMethod(
     fit_model <- object[["model"]]
 
     ## Correspondance analysis
-    results_CA <- arkhe::ca(data)
-    row_coord <- arkhe::get_coordinates(results_CA, margin = 1, sup = FALSE)
-    col_coord <- arkhe::get_coordinates(results_CA, margin = 2, sup = FALSE)
+    results_CA <- dimensio::ca(data)
+    row_coord <- dimensio::get_coordinates(results_CA, margin = 1, sup = FALSE)
+    col_coord <- dimensio::get_coordinates(results_CA, margin = 2, sup = FALSE)
 
     ## Predict event date for each context
     row_event <- predict_events(fit_model, row_coord, level = level)
