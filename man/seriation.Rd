@@ -15,7 +15,6 @@
 \alias{get_order,PermutationOrder-method}
 \alias{permute,CountMatrix,PermutationOrder-method}
 \alias{permute,IncidenceMatrix,PermutationOrder-method}
-\alias{ca,CountMatrix-method}
 \alias{seriate_average,CountMatrix-method}
 \alias{seriate_average,IncidenceMatrix-method}
 \alias{seriate_rank,CountMatrix-method}
@@ -38,8 +37,6 @@ permute(object, order, ...)
 
 \S4method{permute}{IncidenceMatrix,PermutationOrder}(object, order)
 
-\S4method{ca}{CountMatrix}(object, rank = NULL, sup_row = NULL, sup_col = NULL)
-
 \S4method{seriate_average}{CountMatrix}(object, margin = c(1, 2), axes = 1, ...)
 
 \S4method{seriate_average}{IncidenceMatrix}(object, margin = c(1, 2), axes = 1, ...)
@@ -61,16 +58,6 @@ order for rows and columns.}
 rearrangement will be applied over: \code{1} indicates rows, \code{2}
 indicates columns, \code{c(1, 2)} indicates rows then columns,
 \code{c(2, 1)} indicates columns then rows.}
-
-\item{rank}{An \code{\link{integer}} value specifying the maximal number of
-components to be kept in the results. If \code{NULL} (the default),
-\eqn{min(m, p) - 1} components will be returned.}
-
-\item{sup_row}{A \code{\link{numeric}} or \code{\link{logical}} vector
-specifying the indices of the supplementary rows.}
-
-\item{sup_col}{A \code{\link{numeric}} or \code{\link{logical}} vector
-specifying the indices of the supplementary columns.}
 
 \item{axes}{An \code{\link{integer}} giving the CA dimension to be used for
 permutation.}

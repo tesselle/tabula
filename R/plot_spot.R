@@ -125,20 +125,19 @@ setMethod(
 # Must return a data.frame
 prepare_spot <- function(object, threshold = NULL, diag = TRUE,
                          upper = TRUE, ...) {
-  max_value <- unique(diag(object))
+  max_value <- max(diag(object))
   max_value <- ifelse(max_value == 0, max(object), max_value)
-
-  if (!upper) {
-    object[upper.tri(object)] <- NA
-  }
-  if (!diag) {
-    object[row(object) == col(object)] <- NA
-  }
 
   # Build a long table for ggplot2 (preserve original ordering)
   data <- arkhe::as_long(object, factor = TRUE)
-  data <- stats::na.omit(data)
   data$max <- max_value
+
+  if (!upper) {
+    data <- data[!upper.tri(object), ]
+  }
+  if (!diag) {
+    data <- data[data$row != data$column, ]
+  }
 
   ## Compute threshold, if any
   if (is.function(threshold)) {

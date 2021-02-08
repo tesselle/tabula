@@ -19,7 +19,7 @@ setMethod(
     eig <- dimensio::get_eigenvalues(results_CA)
     keep_dim <- which(eig[, 3] <= cutoff)
 
-    row_coord <- dimensio::get_coordinates(results_CA, margin = 1, sup = FALSE)
+    row_coord <- dimensio::get_coordinates(results_CA, margin = 1)
     row_coord <- row_coord[, keep_dim]
 
     ## CA computation may rise error (if rows/columns filled only with zeros)
@@ -33,7 +33,7 @@ setMethod(
     fit <- stats::lm(date ~ ., data = contexts, na.action = stats::na.omit)
 
     .DateModel(
-      data = as.matrix(object),
+      data = object,
       dates = contexts$date,
       model = fit,
       cutoff = cutoff,
@@ -67,8 +67,8 @@ setMethod(
 
     ## Correspondance analysis
     results_CA <- dimensio::ca(data)
-    row_coord <- dimensio::get_coordinates(results_CA, margin = 1, sup = FALSE)
-    col_coord <- dimensio::get_coordinates(results_CA, margin = 2, sup = FALSE)
+    row_coord <- dimensio::get_coordinates(results_CA, margin = 1)
+    col_coord <- dimensio::get_coordinates(results_CA, margin = 2)
 
     ## Predict event date for each context
     row_event <- predict_events(fit_model, row_coord, level = level)

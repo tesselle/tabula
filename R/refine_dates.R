@@ -17,18 +17,17 @@ setMethod(
     fit_dim <- object[["dimension"]]
 
     event <- predict_event(object, level = level)
-    cts_data <- arkhe::as_count(fit_data)
 
     ## TODO: check cutoff value
-    jack_coef <- compute_date_jack(cts_data, fit_dates, cutoff = 150,
+    jack_coef <- compute_date_jack(fit_data, fit_dates, cutoff = 150,
                                    progress = progress)
 
     ## Change lm coefficients
     fit_model$coefficients <- jack_coef[c(1, fit_dim + 1)]
 
     ## Predict event date for each context
-    results_CA <- dimensio::ca(cts_data, ...)
-    row_coord <- dimensio::get_coordinates(results_CA, margin = 1, sup = FALSE)
+    results_CA <- dimensio::ca(fit_data, ...)
+    row_coord <- dimensio::get_coordinates(results_CA, margin = 1)
 
     jack_event <- predict_events(fit_model, row_coord, level)
     results <- as.data.frame(jack_event)

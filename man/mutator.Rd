@@ -5,11 +5,15 @@
 \alias{mutator}
 \alias{get}
 \alias{set}
+\alias{get_method}
+\alias{get_method-method}
 \alias{get_order}
 \alias{get_order-method}
 \alias{get_method,DiversityIndex-method}
 \title{Get or Set Parts of an Object}
 \usage{
+get_method(x)
+
 get_order(x)
 
 \S4method{get_method}{DiversityIndex}(x)

@@ -4,7 +4,7 @@ test_count <- arkhe::as_count(mississippi)
 test_freq <- arkhe::as_abundance(mississippi)
 test_incid <- arkhe::as_incidence(mississippi)
 test_occ <- arkhe::as_occurrence(mississippi)
-test_sim <- similarity(test_count)
+test_sim <- similarity(test_count, method = "brainerd")
 
 test_that("Bertin plot", {
   skip_if_not_installed("vdiffr")
@@ -32,11 +32,9 @@ test_that("Ford plot", {
 test_that("Matrix plot", {
   skip_if_not_installed("vdiffr")
 
-  for (i in c(TRUE, FALSE)) {
-    # Count data
-    gg_mtx_count <- plot_heatmap(test_count, PVI = i)
-    vdiffr::expect_doppelganger(paste0("mtx_count_PVI-", i), gg_mtx_count)
-  }
+  # Count data
+  gg_mtx_count <- plot_heatmap(test_count)
+  vdiffr::expect_doppelganger("mtx_count", gg_mtx_count)
   # Frequency data
   gg_mtx_freq <- plot_heatmap(test_freq)
   vdiffr::expect_doppelganger("mtx_freq", gg_mtx_freq)

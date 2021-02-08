@@ -117,7 +117,7 @@ plot_ford(ccounts2, EPPM = TRUE) +
 # correspondence analysis
 ## Seriation
 
-correspondence Analysis (CA) is an effective method for the seriation of archaeological assemblages. The order of the rows and columns is given by the coordinates along one dimension of the CA space, assumed to account for temporal variation. The direction of temporal change within the correspondence analysis space is arbitrary: additional information is needed to determine the actual order in time.
+Correspondence Analysis (CA) is an effective method for the seriation of archaeological assemblages. The order of the rows and columns is given by the coordinates along one dimension of the CA space, assumed to account for temporal variation. The direction of temporal change within the correspondence analysis space is arbitrary: additional information is needed to determine the actual order in time.
 
 ```{r ca}
 ## Coerce dataset to an count matrix
@@ -125,17 +125,8 @@ zcounts1 <- as_count(zuni)
 ## correspondence analysis of the whole dataset
 corresp <- dimensio::ca(zcounts1)
 
-## Get row (blue) and column (red) coordinates
-rcoords <- dimensio::get_coordinates(corresp, margin = 1)
-ccoords <- dimensio::get_coordinates(corresp, margin = 2)
-
 ## Plot CA results
-ggplot2::ggplot(mapping = ggplot2::aes(x = CA1, y = CA2)) +
-  ggplot2::geom_point(data = rcoords, colour = "blue", shape = 6) +
-  ggplot2::geom_point(data = ccoords, colour = "red", shape = 15) +
-  ggplot2::geom_vline(xintercept = 0, size = 0.5, linetype = "dashed") +
-  ggplot2::geom_hline(yintercept = 0, size = 0.5, linetype = "dashed") +
-  ggplot2::coord_fixed() + 
+dimensio::plot(corresp) +
   ggplot2::theme_bw()
 ```
 
@@ -174,7 +165,8 @@ fun <- function(x) { mean(x) + sd(x) }
 ## blue: convex hull for samples; red: convex hull for types
 ### All bootstrap samples
 rchull <- zuni_keep[["row_chull"]]
-ggplot2::ggplot(data = rchull, mapping = ggplot2::aes(x = x, y = y, group = id)) +
+ggplot2::ggplot(data = rchull) +
+  ggplot2::aes(x = x, y = y, group = id) +
   ggplot2::geom_polygon(fill = "blue", alpha = 0.1) +
   ggplot2::geom_vline(xintercept = 0, size = 0.5, linetype = "dashed") +
   ggplot2::geom_hline(yintercept = 0, size = 0.5, linetype = "dashed") +
@@ -184,7 +176,8 @@ ggplot2::ggplot(data = rchull, mapping = ggplot2::aes(x = x, y = y, group = id))
 
 ### Only retained samples
 rchull_sub <- subset(rchull, id %in% zuni_keep[["keep"]][[1]])
-ggplot2::ggplot(data = rchull_sub, mapping = ggplot2::aes(x = x, y = y, group = id)) +
+ggplot2::ggplot(data = rchull_sub) +
+  ggplot2::aes(x = x, y = y, group = id) +
   ggplot2::geom_polygon(fill = "blue", alpha = 0.1) +
   ggplot2::geom_vline(xintercept = 0, size = 0.5, linetype = "dashed") +
   ggplot2::geom_hline(yintercept = 0, size = 0.5, linetype = "dashed") +
@@ -194,7 +187,8 @@ ggplot2::ggplot(data = rchull_sub, mapping = ggplot2::aes(x = x, y = y, group = 
 
 ## Histogram of convex hull maximum dimension length
 hull_length <- data.frame(length = zuni_keep[["lengths"]][[1]])
-ggplot2::ggplot(data = hull_length, mapping = ggplot2::aes(x = length)) +
+ggplot2::ggplot(data = hull_length) +
+  ggplot2::aes(x = length) +
   ggplot2::geom_histogram(breaks = seq(0, 4.5, by = 0.5), fill = "grey70") +
   ggplot2::geom_vline(xintercept = fun(hull_length$length), colour = "red") +
   ggplot2::labs(

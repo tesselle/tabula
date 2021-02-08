@@ -25,12 +25,12 @@ if (!isGeneric("plot"))
 #' @aliases get set
 NULL
 
-if (!isGeneric("get_method")) {
-  setGeneric(
-    name = "get_method",
-    def = function(x) standardGeneric("get_method")
-  )
-}
+#' @rdname mutator
+#' @aliases get_method-method
+setGeneric(
+  name = "get_method",
+  def = function(x) standardGeneric("get_method")
+)
 
 #' @rdname mutator
 #' @aliases get_order-method
@@ -744,6 +744,7 @@ setGeneric(
   name = "plot_heatmap",
   def = function(object, ...) standardGeneric("plot_heatmap")
 )
+
 ## Line Plot -------------------------------------------------------------------
 #' Line Plot
 #'
@@ -947,7 +948,6 @@ setGeneric(
 #'  permutation.
 #' @param stop An \code{\link{integer}} giving the stopping rule
 #'  (i.e. maximum number of iterations) to avoid infinite loop.
-#' @inheritParams dimensio::ca
 #' @param ... Further arguments to be passed to internal methods.
 #' @section Seriation:
 #'  The matrix seriation problem in archaeology is based on three conditions

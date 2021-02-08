@@ -75,7 +75,7 @@ index_similarity <- function(object, method, ...) {
   C <- t(C)
   C[lower.tri(C, diag = FALSE)] <- beta
 
-  sim <- as.dist(C)
+  sim <- stats::as.dist(C)
   attr(sim, "method") <- method
   sim
 }

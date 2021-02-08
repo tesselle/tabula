@@ -32,12 +32,8 @@ counts <- as_count(compiegne)
 freq <- as_abundance(compiegne)
 
 ## Plot matrix diagram...
-## ...without threshod (i.e. heatmap)
 plot_heatmap(counts)
 plot_heatmap(freq)
-## ...with PVI as threshold (i.e. Bruno Desachy's matrigraphe)
-plot_heatmap(counts, PVI = TRUE) +
-  ggplot2::scale_fill_gradient2(midpoint = 1)
 
 ## Presence/absence data
 inc <- sample(0:1, size = 100, replace = TRUE)

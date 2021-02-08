@@ -3,11 +3,8 @@
 \docType{methods}
 \name{subset}
 \alias{subset}
-\alias{[,BootCA,ANY,ANY-method}
 \alias{[,BootCA-method}
-\alias{[,DateModel,ANY,ANY-method}
 \alias{[,DateModel-method}
-\alias{[,DateEvent,ANY,ANY-method}
 \alias{[,DateEvent-method}
 \alias{[[,DiversityIndex,ANY,ANY-method}
 \alias{[[,DiversityIndex-method}
@@ -25,11 +22,11 @@
 \alias{[[,PermutationOrder-method}
 \title{Extract or Replace Parts of an Object}
 \usage{
-\S4method{[}{BootCA,ANY,ANY}(x, i, j, drop = TRUE)
+\S4method{[}{BootCA}(x, i, j, drop = TRUE)
 
-\S4method{[}{DateModel,ANY,ANY}(x, i, j, drop = TRUE)
+\S4method{[}{DateModel}(x, i, j, drop = TRUE)
 
-\S4method{[}{DateEvent,ANY,ANY}(x, i, j, drop = TRUE)
+\S4method{[}{DateEvent}(x, i, j, drop = TRUE)
 
 \S4method{[[}{DiversityIndex,ANY,ANY}(x, i)
 
