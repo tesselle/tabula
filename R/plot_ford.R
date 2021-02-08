@@ -4,29 +4,14 @@ NULL
 
 #' @export
 #' @rdname plot_bar
-#' @aliases plot_ford,CountMatrix-method
+#' @aliases plot_ford,matrix-method
 setMethod(
   f = "plot_ford",
-  signature = signature(object = "CountMatrix"),
-  definition = function(object, EPPM = FALSE) {
+  signature = signature(object = "matrix"),
+  definition = function(object) {
     ## Prepare data
-    data_long <- prepare_ford(object)
-    vertex_data <- prepare_ford_vertex(data_long)
-
-    if (EPPM) {
-      eppm_data <- eppm(object)
-      eppm_long <- arkhe::as_long(eppm_data, factor = FALSE)
-      eppm_long$x <- data_long$x
-      eppm_long$y <- data_long$y
-      eppm_long$type <- "EPPM"
-      vertex_eppm <- prepare_ford_vertex(eppm_long)
-      gg_eppm <- ggplot2::geom_polygon(
-        mapping = ggplot2::aes(fill = .data$fill),
-        data = vertex_eppm
-      )
-    } else {
-      gg_eppm <- NULL
-    }
+    object_long <- prepare_ford(object)
+    vertex <- prepare_ford_vertex(object_long)
 
     ## ggplot
     ## A function that given the scale limits returns a vector of breaks
@@ -50,16 +35,14 @@ setMethod(
         y = .data$y,
         group = .data$group
       ) +
-      ggplot2::geom_polygon(data = vertex_data) +
-      gg_eppm +
-      ggplot2::labs(x = "Type", y = "Case", fill = "Value") +
+      ggplot2::geom_polygon(data = vertex) +
       ggplot2::scale_x_continuous(
         expand = c(0, 0),
         breaks = scale_breaks,
         labels = scale_labels,
         sec.axis = ggplot2::sec_axis(
           trans = ~ .,
-          breaks = unique(data_long$x),
+          breaks = unique(object_long$x),
           labels = colnames(object)
         )
       ) +
@@ -70,6 +53,35 @@ setMethod(
       ) +
       theme_tabula()
 
+    return(ford)
+  }
+)
+
+#' @export
+#' @rdname plot_bar
+#' @aliases plot_ford,CountMatrix-method
+setMethod(
+  f = "plot_ford",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, EPPM = FALSE) {
+
+    if (EPPM) {
+      object_long <- prepare_ford(object)
+      eppm_data <- eppm(object)
+      eppm_long <- arkhe::as_long(eppm_data, factor = FALSE)
+      eppm_long$x <- object_long$x
+      eppm_long$y <- object_long$y
+      eppm_long$type <- "EPPM"
+      vertex_eppm <- prepare_ford_vertex(eppm_long)
+      gg_eppm <- ggplot2::geom_polygon(
+        mapping = ggplot2::aes(fill = .data$value),
+        data = vertex_eppm
+      )
+    } else {
+      gg_eppm <- NULL
+    }
+
+    ford <- methods::callNextMethod(object) + gg_eppm
     return(ford)
   }
 )
@@ -112,7 +124,7 @@ prepare_ford_vertex <- function(x) {
       x = temp$x + temp$value * c(-1, 1, 1, -1),
       y = temp$y + 0.5 * c(1, 1, -1, -1),
       group = paste0(id, i),
-      fill = id
+      value = id
     )
   }
 

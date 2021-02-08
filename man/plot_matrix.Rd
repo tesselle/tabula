@@ -6,26 +6,17 @@
 \alias{matrigraphe}
 \alias{plot_heatmap}
 \alias{plot_heatmap-method}
-\alias{plot_heatmap,CountMatrix-method}
-\alias{plot_heatmap,AbundanceMatrix-method}
-\alias{plot_heatmap,IncidenceMatrix-method}
+\alias{plot_heatmap,matrix-method}
 \title{Heatmap}
 \usage{
 plot_heatmap(object, ...)
 
-\S4method{plot_heatmap}{CountMatrix}(object, PVI = FALSE)
-
-\S4method{plot_heatmap}{AbundanceMatrix}(object)
-
-\S4method{plot_heatmap}{IncidenceMatrix}(object)
+\S4method{plot_heatmap}{matrix}(object)
 }
 \arguments{
 \item{object}{An object to be plotted.}
 
 \item{...}{Further arguments to be passed to internal methods.}
-
-\item{PVI}{A \code{\link{logical}} scalar: should the PVI be drawn instead of
-frequencies (see details)?}
 }
 \value{
 A \code{\link[ggplot2]{ggplot}} object.
@@ -33,24 +24,6 @@ A \code{\link[ggplot2]{ggplot}} object.
 \description{
 Plots a heatmap.
 }
-\details{
-If \code{PVI} is \code{FALSE}, it plots a heatmap of relative abundances
- (frequency), otherwise percentages of the independence value are drawn (in
- french, "pourcentages de valeur d'indépendance", PVI).
-}
-\section{PVI}{
-
- \code{PVI} is calculated for each cell as the percentage to the column
- theoretical independence value: \code{PVI} greater than \eqn{1} represent
- positive deviations from the independence, whereas \code{PVI} smaller than
- \eqn{1} represent negative deviations (Desachy 2004).
-
- The \code{PVI} matrix allows to explore deviations from independence
- (an intuitive graphical approach to \eqn{\chi^2}{Chi-squared}),
- in such a way that a high-contrast matrix has quite significant deviations,
- with a low risk of being due to randomness (Desachy 2004).
-}
-
 \examples{
 ## Abundance data (data from Desachy 2004)
 ## Coerce dataset to absolute frequencies

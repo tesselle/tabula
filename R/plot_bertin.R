@@ -4,14 +4,13 @@ NULL
 
 #' @export
 #' @rdname plot_bar
-#' @aliases plot_bertin,CountMatrix-method
+#' @aliases plot_bertin,matrix-method
 setMethod(
   f = "plot_bertin",
-  signature = signature(object = "CountMatrix"),
+  signature = signature(object = "matrix"),
   definition = function(object, threshold = NULL, scale = NULL) {
     ## Prepare data
     object_long <- prepare_bertin(object, threshold = threshold, scale = scale)
-    # return(object_long)
     vertex <- prepare_bertin_vertex(object_long)
 
     ## ggplot

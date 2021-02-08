@@ -10,11 +10,7 @@ setMethod(
   definition = function(object, method = c("brainerd", "bray", "jaccard",
                                            "morisita", "sorenson", "binomial"),
                         ...) {
-    method <- match.arg(method, several.ok = FALSE)
-    S <- index_similarity(object, method)
-    S <- arkhe::as_similarity(S)
-    set_method(S) <- method
-    S
+    index_similarity(object, method)
   }
 )
 
@@ -25,11 +21,7 @@ setMethod(
   f = "similarity",
   signature = signature(object = "IncidenceMatrix"),
   definition = function(object, method = c("jaccard", "sorenson"), ...) {
-    method <- match.arg(method, several.ok = FALSE)
-    S <- index_similarity(object, method)
-    S <- arkhe::as_similarity(S)
-    set_method(S) <- method
-    S
+    index_similarity(object, method)
   }
 )
 
@@ -83,7 +75,9 @@ index_similarity <- function(object, method, ...) {
   C <- t(C)
   C[lower.tri(C, diag = FALSE)] <- beta
 
-  C
+  sim <- as.dist(C)
+  attr(sim, "method") <- method
+  sim
 }
 
 # ==============================================================================

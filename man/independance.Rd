@@ -57,6 +57,18 @@ Computes for each cell of a numeric matrix one of the following statistic.
  with a low risk of being due to randomness (Desachy 2004).
 }
 
+\examples{
+## Abundance data
+## Coerce dataset to a count matrix (data from Desachy 2004)
+counts <- as_count(compiegne)
+
+## Compute EPPM
+counts_eppm <- eppm(counts)
+
+## Compute PVI
+counts_pvi <- pvi(counts)
+plot_heatmap(counts_eppm)
+}
 \references{
 Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
  graphique pour tableaux de comptages. \emph{Revue archéologique de

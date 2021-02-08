@@ -10,7 +10,8 @@
 \alias{plot_bertin-method}
 \alias{plot_ford}
 \alias{plot_ford-method}
-\alias{plot_bertin,CountMatrix-method}
+\alias{plot_bertin,matrix-method}
+\alias{plot_ford,matrix-method}
 \alias{plot_ford,CountMatrix-method}
 \title{Bar Plot}
 \usage{
@@ -18,12 +19,14 @@ plot_bertin(object, ...)
 
 plot_ford(object, ...)
 
-\S4method{plot_bertin}{CountMatrix}(object, threshold = NULL, scale = NULL)
+\S4method{plot_bertin}{matrix}(object, threshold = NULL, scale = NULL)
+
+\S4method{plot_ford}{matrix}(object)
 
 \S4method{plot_ford}{CountMatrix}(object, EPPM = FALSE)
 }
 \arguments{
-\item{object}{An object to be plotted.}
+\item{object}{An abundance matrix to be plotted.}
 
 \item{...}{Currently not used.}
 

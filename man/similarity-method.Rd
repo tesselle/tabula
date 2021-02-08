@@ -27,8 +27,7 @@ similarity(object, ...)
 used (see details). Any unambiguous substring can be given.}
 }
 \value{
-\code{similarity} returns a symmetric matrix of class
- \linkS4class{SimilarityMatrix}.
+\code{similarity} returns a \code{\link[stats]{dist}} object.
 }
 \description{
 Similarity

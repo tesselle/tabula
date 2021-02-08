@@ -4,24 +4,13 @@ NULL
 
 #' @export
 #' @rdname plot_line
-#' @aliases plot_rank,CountMatrix-method
+#' @aliases plot_rank,matrix-method
 setMethod(
   f = "plot_rank",
-  signature = signature(object = "CountMatrix"),
-  definition = function(object, log = NULL, facet = FALSE) {
-    freq <- methods::as(object, "AbundanceMatrix")
-    plot_rank(freq, log = log, facet = facet)
-  }
-)
-
-#' @export
-#' @rdname plot_line
-#' @aliases plot_rank,AbundanceMatrix-method
-setMethod(
-  f = "plot_rank",
-  signature = signature(object = "AbundanceMatrix"),
+  signature = signature(object = "matrix"),
   definition = function(object, log = NULL, facet = FALSE) {
     ## Prepare data
+    object <- object / rowSums(object)
     data <- prepare_rank(object)
 
     ## ggplot

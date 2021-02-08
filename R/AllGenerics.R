@@ -96,6 +96,7 @@ NULL
 #'  graphique pour tableaux de comptages. \emph{Revue archéologique de
 #'  Picardie}, 3(1), 39-56. \doi{10.3406/pica.2004.2396}.
 #' @return A \code{\link{numeric}} matrix.
+#' @example inst/examples/ex-independance.R
 #' @seealso \link{plot_ford}, \link{plot_heatmap}, \link{seriate_rank}
 #' @author N. Frerebeau
 #' @docType methods
@@ -652,7 +653,7 @@ NULL
 #' Bar Plot
 #'
 #' Plots a Bertin, Ford (battleship curve) or Dice-Leraas diagram.
-#' @param object An object to be plotted.
+#' @param object An abundance matrix to be plotted.
 #' @param threshold A \code{\link{function}} that takes a numeric vector as
 #'  argument and returns a numeric threshold value (see below).
 #'  If \code{NULL} (the default), no threshold is computed.
@@ -720,14 +721,7 @@ setGeneric(
 #'
 #' Plots a heatmap.
 #' @param object An object to be plotted.
-#' @param PVI A \code{\link{logical}} scalar: should the PVI be drawn instead of
-#'  frequencies (see details)?
 #' @param ... Further arguments to be passed to internal methods.
-#' @details
-#'  If \code{PVI} is \code{FALSE}, it plots a heatmap of relative abundances
-#'  (frequency), otherwise percentages of the independence value are drawn (in
-#'  french, "pourcentages de valeur d'indépendance", PVI).
-#' @inheritSection independance PVI
 #' @return
 #'  A \code{\link[ggplot2]{ggplot}} object.
 #' @references
@@ -754,7 +748,7 @@ setGeneric(
 #' Line Plot
 #'
 #' \code{plot_rank} plots a rank \emph{vs} relative abundance diagram.
-#' @param object An object to be plotted.
+#' @param object An abundance matrix to be plotted.
 #' @param log A \code{\link{character}} string which contains "\code{x}" if the
 #' x axis is to be logarithmic, "\code{y}" if the y axis is to be logarithmic
 #' and "\code{xy}" or "\code{yx}" if both axes are to be logarithmic (base 10).
@@ -785,10 +779,14 @@ setGeneric(
 #' Spot Plot
 #'
 #' Plots a spot matrix.
-#' @param object An object to be plotted.
+#' @param object An abundance matrix to be plotted.
 #' @param threshold A \code{\link{function}} that takes a numeric vector as
 #'  argument and returns a numeric threshold value.
 #'  If \code{NULL} (the default), no threshold is computed.
+#' @param diag A \code{\link{logical}} scalar indicating whether the diagonal of
+#'  the matrix should be plotted.
+#' @param upper A \code{\link{logical}} scalar indicating whether the upper
+#'  triangle of the matrix should be plotted.
 #' @param ... Extra parameters to be passed to \code{threshold}.
 #' @details
 #'  The spot matrix can be considered as a variant of the
@@ -1083,8 +1081,7 @@ setGeneric(
 #'   \item{sorenson}{Sorenson qualitative index.}
 #'  }
 #' @return
-#'  \code{similarity} returns a symmetric matrix of class
-#'  \linkS4class{SimilarityMatrix}.
+#'  \code{similarity} returns a \code{\link[stats]{dist}} object.
 #' @references
 #'  Brainerd, G. W. (1951). The Place of Chronological Ordering in
 #'  Archaeological Analysis. \emph{American Antiquity}, 16(04), 301-313.

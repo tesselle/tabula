@@ -4,25 +4,15 @@ NULL
 
 #' @export
 #' @rdname plot_spot
-#' @aliases plot_spot,CountMatrix-method
+#' @aliases plot_spot,matrix-method
 setMethod(
   f = "plot_spot",
-  signature = signature(object = "CountMatrix"),
-  definition = function(object, threshold = NULL, ...) {
-    freq <- methods::as(object, "AbundanceMatrix")
-    plot_spot(freq, threshold = threshold, ...)
-  }
-)
-
-#' @export
-#' @rdname plot_spot
-#' @aliases plot_spot,AbundanceMatrix-method
-setMethod(
-  f = "plot_spot",
-  signature = signature(object = "AbundanceMatrix"),
-  definition = function(object, threshold = NULL, ...) {
+  signature = signature(object = "matrix"),
+  definition = function(object, threshold = NULL,
+                        diag = TRUE, upper = TRUE, ...) {
     ## Prepare data
-    data <- prepare_spot(object, threshold, ...)
+    data <- object / rowSums(object)
+    data <- prepare_spot(data, threshold, diag = diag, upper = upper, ...)
 
     ## ggplot
     if (is.null(threshold)) {
@@ -44,12 +34,6 @@ setMethod(
         show.legend = FALSE
       ) +
       ggplot2::geom_point(mapping = aes_point) +
-      ggplot2::labs(
-        x = "Type",
-        y = "Case",
-        colour = "Threshold",
-        size = "Frequency"
-      ) +
       ggplot2::coord_fixed() +
       ggplot2::scale_size_area() +
       scale_x_matrix(object) +
@@ -60,14 +44,16 @@ setMethod(
 
 #' @export
 #' @rdname plot_spot
-#' @aliases plot_spot,SimilarityMatrix-method
+#' @aliases plot_spot,dist-method
 setMethod(
   f = "plot_spot",
-  signature = signature(object = "SimilarityMatrix"),
-  definition = function(object, ...) {
+  signature = signature(object = "dist"),
+  definition = function(object, diag = FALSE, upper = FALSE, ...) {
     ## Prepare data
-    data <- prepare_spot(object, threshold = NULL, diag = FALSE, ...)
-    index_name <- arkhe::get_method(object)
+    index_name <- attr(object, "method")
+    object <- as.matrix(object)
+    data <- prepare_spot(object, threshold = NULL, diag = diag,
+                         upper = upper, ...)
 
     ## ggplot
     aes_point <- ggplot2::aes(size = .data$value, colour = .data$value)
@@ -105,9 +91,10 @@ setMethod(
 setMethod(
   f = "plot_spot",
   signature = signature(object = "OccurrenceMatrix"),
-  definition = function(object, ...) {
+  definition = function(object, diag = FALSE, upper = FALSE, ...) {
     ## Prepare data
-    data <- prepare_spot(object, threshold = NULL, diag = FALSE, ...)
+    data <- prepare_spot(object, threshold = NULL, diag = diag,
+                         upper = upper, ...)
     data$value <- data$value / arkhe::get_totals(object)
 
     ## ggplot
@@ -126,12 +113,6 @@ setMethod(
         show.legend = FALSE
       ) +
       ggplot2::geom_point(mapping = aes_point) +
-      ggplot2::labs(
-        x = "Type",
-        y = "Case",
-        colour = "Co-occurrence",
-        size = "Co-occurrence"
-      ) +
       ggplot2::coord_fixed() +
       ggplot2::scale_size_area() +
       scale_x_matrix(object) +
@@ -142,18 +123,22 @@ setMethod(
 
 # Prepare data for Spot plot
 # Must return a data.frame
-prepare_spot <- function(object, threshold = NULL, diag = TRUE, ...) {
+prepare_spot <- function(object, threshold = NULL, diag = TRUE,
+                         upper = TRUE, ...) {
+  max_value <- unique(diag(object))
+  max_value <- ifelse(max_value == 0, max(object), max_value)
+
+  if (!upper) {
+    object[upper.tri(object)] <- NA
+  }
+  if (!diag) {
+    object[row(object) == col(object)] <- NA
+  }
+
   # Build a long table for ggplot2 (preserve original ordering)
   data <- arkhe::as_long(object, factor = TRUE)
-
-  if (!diag) {
-    data <- data[data$column != data$row, ]
-  }
-  if (nrow(object) == ncol(object)) {
-    max_value <- unique(diag(object))
-    if (max_value == 0) max_value <- max(data$value)
-    data$max <- max_value
-  }
+  data <- stats::na.omit(data)
+  data$max <- max_value
 
   ## Compute threshold, if any
   if (is.function(threshold)) {

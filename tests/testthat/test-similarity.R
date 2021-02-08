@@ -13,11 +13,11 @@ test_that("Similiraty measure (count data)", {
 
   for (i in 1:length(method)) {
     index <- similarity(count, method = method[i])
-    expect_s4_class(index, "SimilarityMatrix")
+    expect_s3_class(index, "dist")
     expect_equal(length(index), nrow(count)^2, info = method[i])
   }
 
-  expect_s4_class(similarity(count, method = "binomial"), "SimilarityMatrix")
+  expect_s3_class(similarity(count, method = "binomial"), "dist")
   expect_equal(length(similarity(count, method = "binomial")), ncol(count)^2)
 })
 test_that("Similiraty measure (frequency data)", {
@@ -32,7 +32,7 @@ test_that("Similiraty measure (presence/absence data)", {
 
   for (i in 1:length(method1)) {
     index <- similarity(bin, method = method1[i])
-    expect_s4_class(index, "SimilarityMatrix")
+    expect_s3_class(index, "dist")
     expect_equal(length(index), nrow(bin) * 2)
     expect_error(similarity(bin, method = method2[i]), info = method[i])
   }

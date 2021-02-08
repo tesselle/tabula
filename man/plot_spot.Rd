@@ -4,30 +4,33 @@
 \name{plot_spot}
 \alias{plot_spot}
 \alias{plot_spot-method}
-\alias{plot_spot,CountMatrix-method}
-\alias{plot_spot,AbundanceMatrix-method}
-\alias{plot_spot,SimilarityMatrix-method}
+\alias{plot_spot,matrix-method}
+\alias{plot_spot,dist-method}
 \alias{plot_spot,OccurrenceMatrix-method}
 \title{Spot Plot}
 \usage{
 plot_spot(object, ...)
 
-\S4method{plot_spot}{CountMatrix}(object, threshold = NULL, ...)
+\S4method{plot_spot}{matrix}(object, threshold = NULL, diag = TRUE, upper = TRUE, ...)
 
-\S4method{plot_spot}{AbundanceMatrix}(object, threshold = NULL, ...)
+\S4method{plot_spot}{dist}(object, diag = FALSE, upper = FALSE, ...)
 
-\S4method{plot_spot}{SimilarityMatrix}(object, ...)
-
-\S4method{plot_spot}{OccurrenceMatrix}(object, ...)
+\S4method{plot_spot}{OccurrenceMatrix}(object, diag = FALSE, upper = FALSE, ...)
 }
 \arguments{
-\item{object}{An object to be plotted.}
+\item{object}{An abundance matrix to be plotted.}
 
 \item{...}{Extra parameters to be passed to \code{threshold}.}
 
 \item{threshold}{A \code{\link{function}} that takes a numeric vector as
 argument and returns a numeric threshold value.
 If \code{NULL} (the default), no threshold is computed.}
+
+\item{diag}{A \code{\link{logical}} scalar indicating whether the diagonal of
+the matrix should be plotted.}
+
+\item{upper}{A \code{\link{logical}} scalar indicating whether the upper
+triangle of the matrix should be plotted.}
 }
 \value{
 A \code{\link[ggplot2]{ggplot}} object.

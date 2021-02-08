@@ -1,6 +1,9 @@
 # CLASSES DEFINITION AND INITIALIZATION
 NULL
 
+# Register S3 classes ==========================================================
+setOldClass("dist")
+
 # DiversityIndex ===============================================================
 #' Diversity Index
 #'
