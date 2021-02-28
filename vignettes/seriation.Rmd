@@ -94,6 +94,7 @@ The positive difference from the column mean percentage (in french "écart posit
 ```{r average, fig.width=7, fig.height=3.5, fig.show='hold'}
 ## Replicates Desachy 2004 results
 ## Coerce dataset to an abundance matrix
+data("compiegne", package = "folio")
 ccounts1 <- as_count(compiegne)
 
 ## Plot original data matrix
@@ -121,6 +122,7 @@ Correspondence Analysis (CA) is an effective method for the seriation of archaeo
 
 ```{r ca}
 ## Coerce dataset to an count matrix
+data("zuni", package = "folio")
 zcounts1 <- as_count(zuni)
 ## correspondence analysis of the whole dataset
 corresp <- dimensio::ca(zcounts1)

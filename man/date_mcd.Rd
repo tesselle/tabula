@@ -47,7 +47,9 @@ The Mean Ceramic Date (MCD) is a point estimate of the occupation of an
 \examples{
 ## Mean Ceramic Date
 ## Coerce the zuni dataset to an abundance (count) matrix
+data("zuni", package = "folio")
 counts <- as_count(zuni)
+
 ## Set the start and end dates for each ceramic type
 dates <- list(
   LINO = c(600, 875), KIAT = c(850, 950), RED = c(900, 1050),
@@ -57,6 +59,7 @@ dates <- list(
   SJ = c(1200, 1300), LSJ = c(1250, 1300), SPR = c(1250, 1300),
   PINER = c(1275, 1325), HESH = c(1275, 1450), KWAK = c(1275, 1450)
 )
+
 ## Calculate date midpoints
 mid <- vapply(X = dates, FUN = mean, FUN.VALUE = numeric(1))
 

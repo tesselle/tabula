@@ -1,6 +1,10 @@
 context("Date & Time")
 
 test_that("Mean Ceramic Date", {
+  # Load dataset
+  skip_if_not_installed("folio")
+  data("zuni", package = "folio")
+
   ## Set dates
   zuni_dates <- list(
     LINO = c(600, 875), KIAT = c(850, 950), RED = c(900, 1050),
@@ -24,6 +28,10 @@ test_that("Mean Ceramic Date", {
   expect_equal(round(dt@mcd_values, 0), expected, check.attributes = FALSE)
 })
 test_that("Refine Date Model", {
+  # Load dataset
+  skip_if_not_installed("folio")
+  data("zuni", package = "folio")
+
   dates <- c(
     LZ0569 = 1097, LZ0279 = 1119, CS16 = 1328, LZ0066 = 1111,
     LZ0852 = 1216, LZ1209 = 1251, CS144 = 1262, LZ0563 = 1206,

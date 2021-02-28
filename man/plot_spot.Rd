@@ -50,6 +50,7 @@ Adapted from Dan Gopstein's original
 }
 \examples{
 ## Plot spot diagram...
+data("mississippi", package = "folio")
 
 ## ...of count data...
 counts <- as_count(mississippi)

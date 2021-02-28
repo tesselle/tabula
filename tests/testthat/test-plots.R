@@ -1,13 +1,10 @@
 context("Plots")
 
-test_count <- arkhe::as_count(mississippi)
-test_freq <- arkhe::as_abundance(mississippi)
-test_incid <- arkhe::as_incidence(mississippi)
-test_occ <- arkhe::as_occurrence(mississippi)
-test_sim <- similarity(test_count, method = "brainerd")
-
 test_that("Bertin plot", {
   skip_if_not_installed("vdiffr")
+  skip_if_not_installed("folio")
+  data("mississippi", package = "folio")
+  test_count <- arkhe::as_count(mississippi)
 
   # Count data
   # No threshold, no scale
@@ -22,6 +19,9 @@ test_that("Bertin plot", {
 })
 test_that("Ford plot", {
   skip_if_not_installed("vdiffr")
+  skip_if_not_installed("folio")
+  data("mississippi", package = "folio")
+  test_count <- arkhe::as_count(mississippi)
 
   # Count data
   for (i in c(TRUE, FALSE)) {
@@ -31,6 +31,11 @@ test_that("Ford plot", {
 })
 test_that("Matrix plot", {
   skip_if_not_installed("vdiffr")
+  skip_if_not_installed("folio")
+  data("mississippi", package = "folio")
+  test_count <- arkhe::as_count(mississippi)
+  test_freq <- arkhe::as_abundance(mississippi)
+  test_incid <- arkhe::as_incidence(mississippi)
 
   # Count data
   gg_mtx_count <- plot_heatmap(test_count)
@@ -44,6 +49,10 @@ test_that("Matrix plot", {
 })
 test_that("Rank plot", {
   skip_if_not_installed("vdiffr")
+  skip_if_not_installed("folio")
+  data("mississippi", package = "folio")
+  test_count <- arkhe::as_count(mississippi)
+  test_freq <- arkhe::as_abundance(mississippi)
 
   for (i in c(TRUE, FALSE)) {
     # Count data
@@ -61,6 +70,10 @@ test_that("Rank plot", {
 })
 test_that("Spot plot - Abundance", {
   skip_if_not_installed("vdiffr")
+  skip_if_not_installed("folio")
+  data("mississippi", package = "folio")
+  test_count <- arkhe::as_count(mississippi)
+  test_freq <- arkhe::as_abundance(mississippi)
 
   # Count data, no threshold
   gg_spot_count <- plot_spot(test_count)
@@ -71,18 +84,27 @@ test_that("Spot plot - Abundance", {
 })
 test_that("Spot plot - Similarity", {
   skip_if_not_installed("vdiffr")
+  skip_if_not_installed("folio")
+  data("merzbach", package = "folio")
+  test_count <- arkhe::as_count(mississippi)
+  test_sim <- similarity(test_count, method = "brainerd")
 
   gg_spot_sim <- plot_spot(test_sim)
   vdiffr::expect_doppelganger("spot_sim", gg_spot_sim)
 })
 test_that("Spot plot - Co-Occurrence", {
   skip_if_not_installed("vdiffr")
+  skip_if_not_installed("folio")
+  data("merzbach", package = "folio")
+  test_occ <- arkhe::as_occurrence(mississippi)
 
   gg_spot_occ <- plot_spot(test_occ)
   vdiffr::expect_doppelganger("spot_occ", gg_spot_occ)
 })
 test_that("Time plot", {
   skip_if_not_installed("vdiffr")
+  skip_if_not_installed("folio")
+  data("merzbach", package = "folio")
 
   # Keep only decoration types that have a maximum frequency of at least 50
   keep <- apply(X = merzbach, MARGIN = 2, FUN = function(x) max(x) >= 50)

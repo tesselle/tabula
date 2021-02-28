@@ -60,6 +60,7 @@ Computes for each cell of a numeric matrix one of the following statistic.
 \examples{
 ## Abundance data
 ## Coerce dataset to a count matrix (data from Desachy 2004)
+data("compiegne", package = "folio")
 counts <- as_count(compiegne)
 
 ## Compute EPPM

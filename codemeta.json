@@ -102,6 +102,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "folio",
+      "name": "folio",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=folio"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "khroma",
       "name": "khroma",
       "provider": {
@@ -281,6 +293,7 @@
       }
     }
   ],
-  "fileSize": "2700.989KB",
-  "releaseNotes": "https://github.com/tesselle/tabula/blob/master/NEWS.md"
+  "fileSize": "2487.572KB",
+  "releaseNotes": "https://github.com/tesselle/tabula/blob/master/NEWS.md",
+  "readme": "https://github.com/tesselle/tabula/blob/master/README.md"
 }

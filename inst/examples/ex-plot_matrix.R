@@ -1,4 +1,5 @@
 ## Abundance data (data from Desachy 2004)
+data("compiegne", package = "folio")
 ## Coerce dataset to absolute frequencies
 counts <- as_count(compiegne)
 ## Coerce dataset to relative frequencies

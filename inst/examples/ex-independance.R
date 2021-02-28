@@ -1,5 +1,6 @@
 ## Abundance data
 ## Coerce dataset to a count matrix (data from Desachy 2004)
+data("compiegne", package = "folio")
 counts <- as_count(compiegne)
 
 ## Compute EPPM

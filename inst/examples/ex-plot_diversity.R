@@ -3,13 +3,15 @@ library(magrittr)
 \donttest{
 ## Assemblage diversity size comparison
 ## Warning: this may take a few seconds!
-altamira %>%
+data("chevelon", package = "folio")
+
+chevelon %>%
   as_count() %>%
   index_evenness(method = "shannon") %>%
   simulate() %>%
   plot()
 
-altamira %>%
+chevelon %>%
   as_count() %>%
   index_richness(method = "none") %>%
   simulate() %>%

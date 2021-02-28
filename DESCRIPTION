@@ -66,6 +66,7 @@ Imports:
     utils
 Suggests:
     covr,
+    folio,
     khroma,
     knitr,
     magrittr,
@@ -81,7 +82,6 @@ Collate:
     'AllClasses.R'
     'AllGenerics.R'
     'coerce.R'
-    'data.R'
     'date_event.R'
     'date_mcd.R'
     'deprecate.R'

@@ -2,7 +2,8 @@ context("Seriation")
 
 test_that("Reciprocal Ranking - Counts", {
   skip_on_cran()
-
+  skip_if_not_installed("folio")
+  data("compiegne", package = "folio")
   counts <- arkhe::as_count(compiegne)
 
   ## Permute rows
@@ -22,8 +23,10 @@ test_that("Reciprocal Ranking - Counts", {
 })
 test_that("Reciprocal Ranking on EPPM - Counts", {
   skip_on_cran()
-
+  skip_if_not_installed("folio")
+  data("compiegne", package = "folio")
   counts <- arkhe::as_count(compiegne)
+
   indices <- seriate_rank(counts, EPPM = TRUE, margin = 2)
 
   expected <- c("N", "A", "C", "K", "P", "L", "B", "E",
@@ -32,8 +35,10 @@ test_that("Reciprocal Ranking on EPPM - Counts", {
 })
 test_that("Reciprocal Ranking - Incidence", {
   skip_on_cran()
-
+  skip_if_not_installed("folio")
+  data("compiegne", package = "folio")
   incid <- arkhe::as_incidence(compiegne)
+
   indices <- seriate_rank(incid, margin = c(1, 2))
 
   exp_row <- c(1, 2, 3, 4, 5)
@@ -45,8 +50,10 @@ test_that("Reciprocal Ranking - Incidence", {
 })
 test_that("Average Ranking", {
   skip_on_cran()
-
+  skip_if_not_installed("folio")
+  data("compiegne", package = "folio")
   counts <- arkhe::as_count(compiegne)
+
   indices <- seriate_average(counts, margin = c(1, 2))
 
   exp_row <- c(1, 2, 3, 4, 5)
@@ -61,7 +68,8 @@ test_that("Average Ranking", {
 })
 test_that("Refined Correspondence Analysis", {
   skip_on_cran()
-
+  skip_if_not_installed("folio")
+  data("zuni", package = "folio")
   counts <- arkhe::as_count(zuni)
 
   ## Define cutoff as one standard deviation above the mean

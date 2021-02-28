@@ -82,6 +82,7 @@ The MCD is a point estimate: knowing the mid-date of an assemblage and not knowi
 ## Usage
 ```{r mcd-model, fig.width=7, fig.height=3.5, fig.align="center"}
 ## Coerce the zuni dataset to an abundance (count) matrix
+data("zuni", package = "folio")
 zuni_counts <- as_count(zuni)
 
 ## Set the start and end dates for each ceramic type

@@ -1,6 +1,7 @@
 \donttest{
 ## Abundance data
 ## Coerce dataset to a count matrix
+data("mississippi", package = "folio")
 counts1 <- as_count(mississippi)
 
 ## Plot a Bertin diagram...
@@ -12,6 +13,7 @@ plot_bertin(counts1, threshold = mean, scale = scale_01)
 
 ## Abundance data
 ## Coerce dataset to a count matrix (data from Desachy 2004)
+data("compiegne", package = "folio")
 counts2 <- as_count(compiegne)
 
 ## Plot a Ford diagram...
