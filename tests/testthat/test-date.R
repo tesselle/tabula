@@ -27,7 +27,7 @@ test_that("Mean Ceramic Date", {
                 1248, 1248, 1262, 1250, 1249)
   expect_equal(round(dt@mcd_values, 0), expected, check.attributes = FALSE)
 })
-test_that("Refine Date Model", {
+test_that("Date Model", {
   # Load dataset
   skip_if_not_installed("folio")
   data("zuni", package = "folio")
@@ -42,27 +42,19 @@ test_that("Refine Date Model", {
   model <- date_event(counts, dates, cutoff = 90)
   event <- predict_event(model)
 
-  # Jackknife
-  refined_jack <- jackknife(model)
-  expect_s3_class(refined_jack, "data.frame")
-
-  # Jackknife
-  refined_boot <- bootstrap(model)
-  expect_s3_class(refined_boot, "data.frame")
-
   # Errors
   expect_error(date_event(counts, dates, cutoff = 10), "below 50%")
-  expect_error(plot_date(event, select = "X"), "Wrong selection")
+  expect_error(plot_date(model, select = "X"), "Wrong selection")
 
   skip_if_not_installed("vdiffr")
   # Event plot
   for (i in c(TRUE, FALSE)) {
-    gg_date_act <- plot_date(event, type = "activity", event = i,
+    gg_date_act <- plot_date(model, type = "activity", event = i,
                              select = "LZ1105")
     vdiffr::expect_doppelganger(paste0("date_activity_event-", i), gg_date_act)
   }
 
   # Activity plot
-  gg_date_tempo <- plot_date(event, type = "tempo", select = "LZ1105")
+  gg_date_tempo <- plot_date(model, type = "tempo", select = "LZ1105")
   vdiffr::expect_doppelganger("date_tempo", gg_date_tempo)
 })

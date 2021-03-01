@@ -22,13 +22,7 @@ test_that("Confidence interval for a proportion", {
 })
 test_that("Jackknife estimation", {
   jack <- stats_jackknife(1:10, sum)
-  expect_type(jack, "list")
-  expect_type(jack$values, "double")
-  expect_type(jack$bias, "double")
-  expect_type(jack$error, "double")
-  expect_type(jack$values, "double")
-  expect_equal(jack$values, c(54, 53, 52, 51, 50, 49, 48, 47, 46, 45))
-  expect_length(jack$values, 10)
+  expect_equal(round(jack, 2), c(mean = 49.50, bias = -49.50, error = 8.62))
 })
 test_that("FIT test", {
   ## Data from Feder et al. 2014 (table S2)

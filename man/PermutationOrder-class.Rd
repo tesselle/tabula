@@ -35,11 +35,11 @@ Numeric values are coerced to \code{\link{integer}} as by
 
 \seealso{
 Other class: 
-\code{\link{BootCA-class}},
-\code{\link{DateClass}},
+\code{\link{DateEvent-class}},
 \code{\link{DateMCD-class}},
 \code{\link{DiversityIndex}},
-\code{\link{IncrementTest-class}}
+\code{\link{IncrementTest-class}},
+\code{\link{RefineCA-class}}
 }
 \author{
 N. Frerebeau

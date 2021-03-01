@@ -7,10 +7,9 @@ NULL
 #' @export
 as.data.frame.DiversityIndex <- function(x, ..., stringsAsFactors = default.stringsAsFactors()) {
   data.frame(
-    id = rownames(x@data),
     size = x@size,
     index = x@values,
-    row.names = NULL,
+    row.names = x@names,
     stringsAsFactors = FALSE
   )
 }
@@ -19,10 +18,9 @@ as.data.frame.DiversityIndex <- function(x, ..., stringsAsFactors = default.stri
 #' @export
 as.data.frame.IncrementTest <- function(x, ..., stringsAsFactors = default.stringsAsFactors()) {
   data.frame(
-    id = colnames(x@data),
     t = x@statistic,
     p.value = x@p_value,
-    row.names = NULL,
+    row.names = colnames(x@data),
     stringsAsFactors = FALSE
   )
 }
@@ -31,10 +29,9 @@ as.data.frame.IncrementTest <- function(x, ..., stringsAsFactors = default.strin
 #' @export
 as.data.frame.DateMCD <- function(x, ..., stringsAsFactors = default.stringsAsFactors()) {
   data.frame(
-    id = rownames(x@data),
     date = x@mcd_values,
     error = x@mcd_errors,
-    row.names = NULL,
+    row.names = rownames(x@data),
     stringsAsFactors = FALSE
   )
 }

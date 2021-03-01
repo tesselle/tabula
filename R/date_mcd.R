@@ -4,7 +4,7 @@ NULL
 
 #' @export
 #' @rdname date_mcd
-#' @aliases date_mcd,AbundanceMatrix,numeric-method
+#' @aliases date_mcd,CountMatrix,numeric-method
 setMethod(
   f = "date_mcd",
   signature = signature(object = "CountMatrix", dates = "numeric"),
@@ -18,7 +18,12 @@ setMethod(
                    ncol(object), length(errors)), call. = FALSE)
 
     ## Calculate MCD
-    mcd_dates <- mcd(object, dates, errors)
+    mcd_dates <- apply(
+      X = object,
+      MARGIN = 1,
+      FUN = mcd,
+      dates = dates
+    )
 
     ## Calculate errors
     if (!is.null(errors)) {
@@ -36,17 +41,39 @@ setMethod(
   }
 )
 
-mcd <- function(count, dates, errors = NULL) {
-  ## Build a matrix of dates
-  i <- nrow(count)
-  j <- ncol(count)
-  dates <- matrix(data = dates, nrow = i, ncol = j, byrow = TRUE)
+#' @export
+#' @rdname date_mcd
+#' @aliases bootstrap_mcd,CountMatrix,numeric-method
+setMethod(
+  f = "bootstrap_mcd",
+  signature = signature(object = "CountMatrix", dates = "numeric"),
+  definition = function(object, dates, probs = c(0.05, 0.95), n = 1000) {
+    results <- apply(
+      X = object,
+      MARGIN = 1,
+      FUN = stats_bootstrap,
+      do = mcd,
+      probs = probs,
+      n = n,
+      dates = dates
+    )
+    as.data.frame(t(results))
+  }
+)
 
+#' Mean Ceramic Date
+#'
+#' @param counts A \code{\link{numeric}} vector.
+#' @param dates A \code{\link{numeric}} vector.
+#' @return A \code{\link{numeric}} value.
+#' @keywords internal
+#' @noRd
+mcd <- function(counts, dates) {
   ## Calculate relative frequencies
-  freq <- count / rowSums(count, na.rm = TRUE)
+  freq <- counts / sum(counts, na.rm = TRUE)
 
   ## Calculate date
-  dates_mcd <- rowSums(freq * dates, na.rm = TRUE)
+  dates_mcd <- sum(freq * dates, na.rm = TRUE)
 
-  return(dates_mcd)
+  dates_mcd
 }

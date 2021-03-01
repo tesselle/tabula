@@ -32,11 +32,11 @@ S4 classes to store the Mean Ceramic Date of archaeological assemblages.
 
 \seealso{
 Other class: 
-\code{\link{BootCA-class}},
-\code{\link{DateClass}},
+\code{\link{DateEvent-class}},
 \code{\link{DiversityIndex}},
 \code{\link{IncrementTest-class}},
-\code{\link{PermutationOrder-class}}
+\code{\link{PermutationOrder-class}},
+\code{\link{RefineCA-class}}
 }
 \author{
 N. Frerebeau

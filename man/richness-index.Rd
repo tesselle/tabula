@@ -6,17 +6,32 @@
 \alias{richness-index}
 \alias{index_richness}
 \alias{index_richness-method}
+\alias{simulate_richness}
+\alias{simulate_richness-method}
+\alias{bootstrap_richness}
+\alias{bootstrap_richness-method}
+\alias{jackknife_richness}
+\alias{jackknife_richness-method}
 \alias{index_composition}
 \alias{index_composition-method}
 \alias{rarefaction}
 \alias{rarefaction-method}
 \alias{rarefaction,CountMatrix-method}
 \alias{index_richness,CountMatrix-method}
+\alias{simulate_richness,CountMatrix-method}
+\alias{bootstrap_richness,CountMatrix-method}
+\alias{jackknife_richness,CountMatrix-method}
 \alias{index_composition,CountMatrix-method}
 \alias{index_composition,IncidenceMatrix-method}
 \title{Richness and Rarefaction}
 \usage{
 index_richness(object, ...)
+
+simulate_richness(object, ...)
+
+bootstrap_richness(object, ...)
+
+jackknife_richness(object, ...)
 
 index_composition(object, ...)
 
@@ -25,6 +40,27 @@ rarefaction(object, ...)
 \S4method{rarefaction}{CountMatrix}(object, sample, method = c("hurlbert"), simplify = TRUE, ...)
 
 \S4method{index_richness}{CountMatrix}(object, method = c("none", "margalef", "menhinick"), ...)
+
+\S4method{simulate_richness}{CountMatrix}(
+  object,
+  method = c("none", "margalef", "menhinick"),
+  quantiles = TRUE,
+  level = 0.8,
+  step = 1,
+  n = 1000,
+  progress = getOption("tabula.progress"),
+  ...
+)
+
+\S4method{bootstrap_richness}{CountMatrix}(
+  object,
+  method = c("none", "margalef", "menhinick"),
+  probs = c(0.05, 0.95),
+  n = 1000,
+  ...
+)
+
+\S4method{jackknife_richness}{CountMatrix}(object, method = c("none", "margalef", "menhinick"), ...)
 
 \S4method{index_composition}{CountMatrix}(
   object,
@@ -57,6 +93,26 @@ Any unambiguous substring can be given.}
 \item{simplify}{A \code{\link{logical}} scalar: should the result be
 simplified to a matrix? The default value, \code{FALSE}, returns a list.}
 
+\item{quantiles}{A \code{\link{logical}} scalar: should sample quantiles
+be used as confidence interval? If \code{TRUE} (the default),
+sample quantiles are used as described in Kintigh (1989), else quantiles of
+the normal distribution are used.}
+
+\item{level}{A length-one \code{\link{numeric}} vector giving the
+confidence level.}
+
+\item{step}{A non-negative \code{\link{integer}} giving the increment of the
+sample size. Only used if \code{simulate} is \code{TRUE}.}
+
+\item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
+replications.}
+
+\item{progress}{A \code{\link{logical}} scalar: should a progress bar be
+displayed?}
+
+\item{probs}{A \code{\link{numeric}} vector of probabilities with values in
+\eqn{[0,1]} (see \code{\link[stats:quantile]{quantile}}).}
+
 \item{unbiased}{A \code{\link{logical}} scalar. Should the bias-corrected
 estimator be used? Only used with "\code{chao1}" or "\code{chao2}"
 (improved) estimator.}
@@ -69,8 +125,10 @@ between rare/infrequent and abundant/frequent species. Only used if
 \code{method} is "\code{ace}" or "\code{ice}".}
 }
 \value{
-\code{index_richness} and \code{index_composition} return a
- \linkS4class{DiversityIndex} object.
+\code{index_richness}, \code{simulate_richness} and \code{index_composition}
+ return a \linkS4class{DiversityIndex} object.
+
+ \code{bootstrap_*} and \code{jackknife_*} return a \code{data.frame}.
 
  If \code{simplify} is \code{FALSE}, then \code{rarefaction} returns a list
  (default), else return a matrix.
@@ -81,6 +139,9 @@ between rare/infrequent and abundant/frequent species. Only used if
 
  \code{rarefaction} returns Hurlbert's unbiased estimate of Sander's
  rarefaction.
+
+ \code{bootstrap_*} and \code{jackknife_*} perform bootstrap/jackknife
+ resampling.
 }
 \details{
 The number of different taxa, provides an instantly comprehensible
@@ -201,7 +262,7 @@ Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
  \emph{The American Naturalist}, 102(925), 243-282.
 }
 \seealso{
-\link{plot_diversity}, \link{refine}
+\link{plot_diversity}
 
 Other diversity: 
 \code{\link{heterogeneity-index}},

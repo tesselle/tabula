@@ -48,16 +48,3 @@ setMethod(
     seriate_rank2(object, margin = margin, stop = stop, EPPM = FALSE)
   }
 )
-
-#' @export
-#' @rdname deprecate
-#' @aliases refine_seriation,CountMatrix-method
-setMethod(
-  f = "refine_seriation",
-  signature = signature(object = "CountMatrix"),
-  definition = function(object, cutoff, n = 1000, axes = c(1, 2), ...) {
-    .Deprecated(new = "bootstrap")
-    object <- dimensio::ca(object)
-    bootstrap(object, cutoff, n, axes, ...)
-  }
-)

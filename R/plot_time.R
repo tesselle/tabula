@@ -59,7 +59,7 @@ setMethod(
     sign_fit <- as.data.frame(object)
     sign_fit$sign <- ifelse(sign_fit$p.value <= alpha, "selection", "neutral")
 
-    data <- merge(x = data, y = sign_fit, by.x = "column", by.y = "id",
+    data <- merge(x = data, y = sign_fit, by.x = "column", by.y = 0,
                   all.x = TRUE, all.y = FALSE)
 
     if (roll) {

@@ -3,42 +3,29 @@
 \docType{methods}
 \name{subset}
 \alias{subset}
-\alias{[,BootCA-method}
-\alias{[,DateModel-method}
-\alias{[,DateEvent-method}
 \alias{[[,DiversityIndex,ANY,ANY-method}
 \alias{[[,DiversityIndex-method}
 \alias{[[,IncrementTest,ANY,ANY-method}
 \alias{[[,IncrementTest-method}
 \alias{[[,DateMCD,ANY,ANY-method}
 \alias{[[,DateMCD-method}
-\alias{[[,DateModel,ANY,ANY-method}
-\alias{[[,DateModel-method}
-\alias{[[,DateEvent,ANY,ANY-method}
+\alias{[[,DateEvent,ANY,missing-method}
 \alias{[[,DateEvent-method}
-\alias{[[,BootCA,ANY,missing-method}
-\alias{[[,BootCA-method}
+\alias{[[,RefineCA,ANY,missing-method}
+\alias{[[,RefineCA-method}
 \alias{[[,PermutationOrder,ANY,ANY-method}
 \alias{[[,PermutationOrder-method}
 \title{Extract or Replace Parts of an Object}
 \usage{
-\S4method{[}{BootCA}(x, i, j, drop = TRUE)
-
-\S4method{[}{DateModel}(x, i, j, drop = TRUE)
-
-\S4method{[}{DateEvent}(x, i, j, drop = TRUE)
-
 \S4method{[[}{DiversityIndex,ANY,ANY}(x, i)
 
 \S4method{[[}{IncrementTest,ANY,ANY}(x, i)
 
 \S4method{[[}{DateMCD,ANY,ANY}(x, i)
 
-\S4method{[[}{DateModel,ANY,ANY}(x, i)
+\S4method{[[}{DateEvent,ANY,missing}(x, i)
 
-\S4method{[[}{DateEvent,ANY,ANY}(x, i)
-
-\S4method{[[}{BootCA,ANY,missing}(x, i)
+\S4method{[[}{RefineCA,ANY,missing}(x, i)
 
 \S4method{[[}{PermutationOrder,ANY,ANY}(x, i)
 }
@@ -46,17 +33,8 @@
 \item{x}{An object from which to extract element(s) or in which to replace
 element(s).}
 
-\item{i, j}{Indices specifying elements to extract or replace. Indices are
-\code{\link{numeric}}, \code{\link{integer}} or \code{\link{character}}
-vectors or empty (missing) or \code{NULL}. Numeric values are coerced to
-\code{\link{integer}} as by \code{\link{as.integer}} (and hence truncated
-towards zero). Character vectors will be matched to the name of the
-elements. An empty index (a comma separated blank) indicates that all
-entries in that dimension are selected.}
-
-\item{drop}{A \code{\link{logical}} scalar: should the result be coerced to
-the lowest possible dimension? This only works for extracting elements,
-not for the replacement.}
+\item{i}{A \code{\link{character}} string specifying elements to extract.
+Any unambiguous substring can be given (see details).}
 }
 \value{
 A subsetted object.

@@ -14,7 +14,6 @@ setOldClass("dist")
 #' @slot simulation A \code{\link{numeric}} matrix giving the diversity
 #'  measures for the simulated assemblage.
 #' @slot method A \code{\link{character}} string specifying the method used.
-#' @slot index A \code{\link{function}}.
 #' @section Subset:
 #'  In the code snippets below, \code{x} is a \code{DiversityIndex} object.
 #'  \describe{
@@ -34,12 +33,11 @@ NULL
 .DiversityIndex <- setClass(
   Class = "DiversityIndex",
   slots = c(
-    data = "matrix",
+    names = "character",
     values = "numeric",
     size = "integer",
     simulation = "matrix",
-    method = "character",
-    index = "function"
+    method = "character"
   )
 )
 #' @rdname DiversityIndex
@@ -174,53 +172,38 @@ NULL
 #' @author N. Frerebeau
 #' @family class
 #' @docType class
-#' @name DateClass
-#' @rdname DateClass
-NULL
-
-#' @rdname DateClass
-#' @aliases DateModel-class
-.DateModel <- setClass(
-  Class = "DateModel",
-  slots = c(
-    data = "matrix",
-    dates = "numeric",
-    model = "lm",
-    cutoff = "integer",
-    dimension = "integer"
-  )
-)
-#' @rdname DateClass
 #' @aliases DateEvent-class
 .DateEvent <- setClass(
   Class = "DateEvent",
   slots = c(
-    data = "matrix",
-    level = "numeric",
-    row_events = "matrix",
-    column_events = "matrix",
-    accumulation = "matrix"
-  )
+    dates = "numeric",
+    model = "lm",
+    cutoff = "integer",
+    keep = "integer"
+  ),
+  contains = "CA"
 )
 
-# BootCA =======================================================================
+# RefineCA =======================================================================
 #' Partial Bootstrap CA
 #'
 #' An S4 class to store partial bootstrap correspondence analysis results.
-#' @slot rows A list of length three giving the vertices coordinates
+#' @slot row_chull A list of length three giving the vertices coordinates
 #'  (\code{x}, \code{y}) of the samples convex hull and a identifier
 #'  (\code{id}) to link each row to a sample.
-#' @slot columns A list of length three giving the vertices coordinates
+#' @slot column_chull A list of length three giving the vertices coordinates
 #'  (\code{x}, \code{y}) of the variables convex hull and a identifier
 #'  (\code{id}) to link each row to a variable.
-#' @slot lengths A list of two named \code{\link{numeric}} vectors giving the
+#' @slot row_lengths A list of two named \code{\link{numeric}} vectors giving the
+#'  convex hull maximum dimension length of samples and variables, respectively.
+#' @slot column_lengths A list of two named \code{\link{numeric}} vectors giving the
 #'  convex hull maximum dimension length of samples and variables, respectively.
 #' @slot cutoff A length-two \code{\link{numeric}} vector giving the cutoff
 #'  value for samples and variables selection, respectively.
 #' @slot keep A list of two \code{\link{integer}} vectors giving the subscript
 #'  of the samples and variables to be kept, respectively.
 #' @section Subset:
-#'  In the code snippets below, \code{x} is a \code{BootCA} object.
+#'  In the code snippets below, \code{x} is a \code{RefineCA} object.
 #'  \describe{
 #'   \item{\code{x[i, j, drop]}}{Extracts informations from a slot selected by
 #'   subscript \code{i} thru \code{j} (see examples). \code{i} should be one of
@@ -240,15 +223,17 @@ NULL
 #' @author N. Frerebeau
 #' @family class
 #' @docType class
-#' @aliases BootCA-class
-.BootCA <- setClass(
-  Class = "BootCA",
+#' @aliases RefineCA-class
+.RefineCA <- setClass(
+  Class = "RefineCA",
   slots = c(
-    row_chull = "data.frame",
-    column_chull = "data.frame",
-    lengths = "list",
-    cutoff = "numeric",
-    keep = "list"
+    row_chull = "matrix",
+    row_length = "numeric",
+    row_keep = "numeric",
+    column_chull = "matrix",
+    column_length = "numeric",
+    column_keep = "numeric",
+    cutoff = "numeric"
   ),
   contains = "CA"
 )

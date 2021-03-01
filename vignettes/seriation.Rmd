@@ -121,9 +121,13 @@ plot_ford(ccounts2, EPPM = TRUE) +
 Correspondence Analysis (CA) is an effective method for the seriation of archaeological assemblages. The order of the rows and columns is given by the coordinates along one dimension of the CA space, assumed to account for temporal variation. The direction of temporal change within the correspondence analysis space is arbitrary: additional information is needed to determine the actual order in time.
 
 ```{r ca}
+## Load packages
+library(dimensio)
+library(folio)
+
 ## Coerce dataset to an count matrix
-data("zuni", package = "folio")
 zcounts1 <- as_count(zuni)
+
 ## correspondence analysis of the whole dataset
 corresp <- dimensio::ca(zcounts1)
 
@@ -161,12 +165,13 @@ fun <- function(x) { mean(x) + sd(x) }
 
 ## Get indices of samples to be kept
 ## Warning: this may take a few seconds!
-(zuni_keep <- bootstrap(corresp, cutoff = fun, n = 1000))
+(zuni_keep <- refine_seriation(corresp, cutoff = fun, n = 1000))
 
 ## Plot convex hull
 ## blue: convex hull for samples; red: convex hull for types
 ### All bootstrap samples
-rchull <- zuni_keep[["row_chull"]]
+rchull <- as.data.frame(zuni_keep[["rows"]][["chull"]])
+
 ggplot2::ggplot(data = rchull) +
   ggplot2::aes(x = x, y = y, group = id) +
   ggplot2::geom_polygon(fill = "blue", alpha = 0.1) +
@@ -177,7 +182,7 @@ ggplot2::ggplot(data = rchull) +
   ggplot2::theme_bw()
 
 ### Only retained samples
-rchull_sub <- subset(rchull, id %in% zuni_keep[["keep"]][[1]])
+rchull_sub <- subset(rchull, id %in% zuni_keep[["rows"]][["keep"]])
 ggplot2::ggplot(data = rchull_sub) +
   ggplot2::aes(x = x, y = y, group = id) +
   ggplot2::geom_polygon(fill = "blue", alpha = 0.1) +
@@ -188,7 +193,7 @@ ggplot2::ggplot(data = rchull_sub) +
   ggplot2::theme_bw()
 
 ## Histogram of convex hull maximum dimension length
-hull_length <- data.frame(length = zuni_keep[["lengths"]][[1]])
+hull_length <- data.frame(length = zuni_keep[["rows"]][["length"]])
 ggplot2::ggplot(data = hull_length) +
   ggplot2::aes(x = length) +
   ggplot2::geom_histogram(breaks = seq(0, 4.5, by = 0.5), fill = "grey70") +

@@ -5,35 +5,39 @@ NULL
 # BootCA =======================================================================
 setMethod(
   f = "show",
-  signature = "BootCA",
+  signature = "RefineCA",
   definition = function(object) {
-    cut <- paste(round(object@cutoff, digits = 2), c("(rows)", "(columns)"),
+    cut <- paste("(rows)", "(columns)",
+                 round(object@cutoff, digits = 2),
                  collapse = " - ", sep = " ")
-    keep <- lengths(object@keep)
-    total <- lengths(object@lengths)
-    pc <- round(keep * 100 / total)
+    row_keep <- length(object@row_keep)
+    row_total <- length(object@row_length)
+    row_pc <- round(row_keep * 100 / row_total)
+    col_keep <- length(object@column_keep)
+    col_total <- length(object@column_length)
+    col_pc <- round(col_keep * 100 / col_total)
     cat(
-      "<BootCA>",
+      "<RefineCA>",
       "Partial bootstrap CA seriation refinement:",
       sprintf("- Cutoff values: %s", cut),
-      sprintf("- Rows to keep: %d of %d (%g%%)", keep[1], total[1], pc[1]),
-      sprintf("- Columns to keep: %d of %d (%g%%)", keep[2], total[2], pc[2]),
+      sprintf("- Rows to keep: %d of %d (%g%%)", row_keep, row_total, row_pc),
+      sprintf("- Columns to keep: %d of %d (%g%%)", col_keep, col_total, col_pc),
       sep = "\n")
   }
 )
 
-# DateModel ====================================================================
+# DateEvent ====================================================================
 setMethod(
   f = "show",
-  signature = "DateModel",
+  signature = "DateEvent",
   definition = function(object) {
     fit <- object@model
     if (class(fit) == "S4") {
-      cat("<DateModel>")
+      cat("<DateEvent>")
     } else {
       sum_up <- stats::summary.lm(fit)
       cat(
-        "<DateModel>",
+        "<DateEvent>",
         "Modelled event date:",
         sprintf("- Residual standard error: %f", round(sum_up$sigma, 2)),
         sprintf("- Multiple R-squared: %f", round(sum_up$r.squared, 5)),

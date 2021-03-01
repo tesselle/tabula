@@ -37,11 +37,11 @@ test.}
 
 \seealso{
 Other class: 
-\code{\link{BootCA-class}},
-\code{\link{DateClass}},
+\code{\link{DateEvent-class}},
 \code{\link{DateMCD-class}},
 \code{\link{DiversityIndex}},
-\code{\link{PermutationOrder-class}}
+\code{\link{PermutationOrder-class}},
+\code{\link{RefineCA-class}}
 }
 \author{
 N. Frerebeau

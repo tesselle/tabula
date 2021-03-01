@@ -15,12 +15,12 @@ setMethod(
     n <- as.integer(n)
 
     # Get data
-    rows <- as.data.frame(object[["row_events"]])
+    rows <- predict_event(object, margin = 1)
     row_dates <- rows$date
     row_lower <- rows$lower
     row_upper <- rows$upper
     row_errors <- rows$error
-    columns <- as.data.frame(object[["column_events"]])
+    columns <- predict_event(object, margin = 2)
     col_dates <- columns$date
     col_errors <- columns$error
     date_range <- seq(from = min(row_lower), to = max(row_upper),
@@ -52,9 +52,9 @@ setMethod(
 
       # Build a long table for ggplot2
       row_stacked <- wide2long(date_event)
-      row_data <- cbind.data.frame(date = date_range, row_stacked)
-      colnames(row_data) <- c("date", "density", "assemblage", "type")
-      plot_event <- ggplot2::geom_line(data = row_data, color = "black")
+      row_stacked$date <- date_range
+      colnames(row_stacked) <- c("density", "assemblage", "type", "date")
+      plot_event <- ggplot2::geom_line(data = row_stacked, color = "black")
     }
 
     # Accumulation time

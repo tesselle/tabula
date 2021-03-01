@@ -1,22 +1,70 @@
 #' @include AllGenerics.R AllClasses.R
 NULL
 
+# Richness =====================================================================
 #' @export
 #' @rdname richness-index
 #' @aliases index_richness,CountMatrix-method
 setMethod(
   f = "index_richness",
   signature = signature(object = "CountMatrix"),
-  definition = function(object, method = c("none", "margalef",
-                                           "menhinick"), ...) {
+  definition = function(object, method = c("none", "margalef", "menhinick"),
+                        ...) {
     fun <- switch_richness(method) # Select method
-    index <- index_diversity(object, fun, ...)
-    index <- methods::as(index, "RichnessIndex")
-    index@method <- method[[1L]]
-    index
+    index <- index_diversity(object, fun)
+    .RichnessIndex(index, method = method)
+  }
+)
+#' @export
+#' @rdname richness-index
+#' @aliases simulate_richness,CountMatrix-method
+setMethod(
+  f = "simulate_richness",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, method = c("none", "margalef", "menhinick"),
+                        quantiles = TRUE, level = 0.80, step = 1, n = 1000,
+                        progress = getOption("tabula.progress"), ...) {
+    fun <- switch_richness(method) # Select method
+    index <- simulate_diversity(
+      object,
+      method = fun,
+      quantiles = quantiles,
+      level = level,
+      step = step,
+      n = n,
+      progress = progress
+    )
+    .RichnessIndex(index, method = method)
   }
 )
 
+#' @export
+#' @rdname richness-index
+#' @aliases bootstrap_richness,CountMatrix-method
+setMethod(
+  f = "bootstrap_richness",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, method = c("none", "margalef", "menhinick"),
+                        probs = c(0.05, 0.95), n = 1000, ...) {
+    fun <- switch_richness(method) # Select method
+    bootstrap_diversity(object, method = fun, probs = probs, n = n)
+  }
+)
+
+#' @export
+#' @rdname richness-index
+#' @aliases jackknife_richness,CountMatrix-method
+setMethod(
+  f = "jackknife_richness",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, method = c("none", "margalef", "menhinick"),
+                        ...) {
+    fun <- switch_richness(method) # Select method
+    jackknife_diversity(object, method = fun)
+  }
+)
+
+# Composition ==================================================================
 #' @export
 #' @rdname richness-index
 #' @aliases index_composition,CountMatrix-method
@@ -37,11 +85,10 @@ setMethod(
                    unbiased = unbiased, improved = improved, k = k)
 
     .CompositionIndex(
-      data = as.matrix(object),
+      names = rownames(object),
       values = index,
       size = as.integer(rowSums(object)),
-      method = method[[1L]],
-      index = fun
+      method = method[[1L]]
     )
   }
 )
@@ -65,33 +112,23 @@ setMethod(
 
     index <- fun(object, unbiased = unbiased, improved = improved, k = k)
     .CompositionIndex(
-      data = as.matrix(object),
+      names = rownames(object),
       values = index,
       size = as.integer(rowSums(object)),
-      method = method[[1L]],
-      index = fun
+      method = method[[1L]]
     )
   }
 )
 
 # Index ========================================================================
 switch_richness <- function(x) {
-  # Validation
-  x <- match.arg(
-    arg = x,
-    choices = c("margalef", "menhinick", "none"),
-    several.ok = FALSE
-  )
-
-  index <- switch (
+  switch (
     x,
     margalef = richnessMargalef,
     menhinick = richnessMenhinick,
     none = function(x, ...) { sum(x > 0) },
     stop(sprintf("There is no such method: %s.", x), call. = FALSE)
   )
-
-  return(index)
 }
 
 #' Richness index

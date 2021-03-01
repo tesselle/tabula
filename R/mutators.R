@@ -5,6 +5,24 @@ NULL
 # ====================================================================== Getters
 #' @export
 #' @rdname mutator
+#' @aliases get_index,HeterogeneityIndex-method
+setMethod(
+  f = "get_index",
+  signature = "HeterogeneityIndex",
+  definition = function(x) switch_heterogeneity(x@method)
+)
+
+#' @export
+#' @rdname mutator
+#' @aliases get_index,EvennessIndex-method
+setMethod(
+  f = "get_index",
+  signature = "EvennessIndex",
+  definition = function(x) switch_evenness(x@method)
+)
+
+#' @export
+#' @rdname mutator
 #' @aliases get_method,DiversityIndex-method
 setMethod(
   f = "get_method",

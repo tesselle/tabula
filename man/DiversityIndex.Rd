@@ -30,8 +30,6 @@ An S4 class to represent a diversity measure.
 measures for the simulated assemblage.}
 
 \item{\code{method}}{A \code{\link{character}} string specifying the method used.}
-
-\item{\code{index}}{A \code{\link{function}}.}
 }}
 
 \section{Subset}{
@@ -46,11 +44,11 @@ measures for the simulated assemblage.}
 
 \seealso{
 Other class: 
-\code{\link{BootCA-class}},
-\code{\link{DateClass}},
+\code{\link{DateEvent-class}},
 \code{\link{DateMCD-class}},
 \code{\link{IncrementTest-class}},
-\code{\link{PermutationOrder-class}}
+\code{\link{PermutationOrder-class}},
+\code{\link{RefineCA-class}}
 }
 \author{
 N. Frerebeau

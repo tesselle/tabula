@@ -1,12 +1,12 @@
 context("Show")
 
-test_that("BootCA", {
-  A <- methods::new("BootCA")
-  expect_output(show(A), "BootCA")
+test_that("RefineCA", {
+  A <- methods::new("RefineCA")
+  expect_output(show(A), "RefineCA")
 })
-test_that("DateModel", {
-  A <- methods::new("DateModel")
-  expect_output(show(A), "DateModel")
+test_that("DateEvent", {
+  A <- methods::new("DateEvent")
+  expect_output(show(A), "DateEvent")
 })
 test_that("PermutationOrder", {
   A <- methods::new("PermutationOrder")

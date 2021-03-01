@@ -7,24 +7,17 @@
 \alias{seriate_correspondence-method}
 \alias{seriate_reciprocal}
 \alias{seriate_reciprocal-method}
-\alias{refine_seriation}
-\alias{refine_seriation-method}
 \alias{seriate_reciprocal,CountMatrix-method}
 \alias{seriate_reciprocal,IncidenceMatrix-method}
-\alias{refine_seriation,CountMatrix-method}
 \title{Deprecated Methods}
 \usage{
 seriate_correspondence(object, ...)
 
 seriate_reciprocal(object, ...)
 
-refine_seriation(object, ...)
-
 \S4method{seriate_reciprocal}{CountMatrix}(object, EPPM = FALSE, margin = c(1, 2), stop = 100)
 
 \S4method{seriate_reciprocal}{IncidenceMatrix}(object, margin = c(1, 2), stop = 100)
-
-\S4method{refine_seriation}{CountMatrix}(object, cutoff, n = 1000, axes = c(1, 2), ...)
 }
 \arguments{
 \item{object}{An object.}
@@ -41,15 +34,6 @@ indicates columns, \code{c(1, 2)} indicates rows then columns,
 
 \item{stop}{An \code{\link{integer}} giving the stopping rule
 (i.e. maximum number of iterations) to avoid infinite loop.}
-
-\item{cutoff}{A function that takes a numeric vector as argument and returns
-a single numeric value (see below).}
-
-\item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
-replications (see below).}
-
-\item{axes}{A \code{\link{numeric}} vector giving the subscripts of the CA
-axes to be used (see below).}
 }
 \description{
 Deprecated Methods

@@ -166,7 +166,6 @@ bind_by_names <- function(x, y) {
   } else {
     stop("Names are missing.", call. = FALSE)
   }
-  z
 }
 
 #' Build a Long Data Frame

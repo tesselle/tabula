@@ -2,84 +2,7 @@
 #' @include AllClasses.R
 NULL
 
-# ====================================================================== Extract
-#' @export
-#' @rdname subset
-#' @aliases [,BootCA-method
-setMethod(
-  f = "[",
-  signature = "BootCA",
-  definition = function(x, i, j, drop = TRUE) {
-    i <- match.arg(i, choices = c("row_chull", "column_chull"),
-                   several.ok = FALSE)
-    data <- as.data.frame(methods::slot(x, i))
-
-    if (missing(j)) {
-      j <- seq_len(nrow(data))
-    } else {
-      if (is.null(j)) j <- seq_len(nrow(data))
-      if (is.character(j) | is.factor(j)) j <- which(data$id %in% j)
-      if (is.numeric(j)) j <- as.integer(j)
-    }
-    data <- data[j, , drop = drop]
-    data
-  }
-)
-
-#' @export
-#' @rdname subset
-#' @aliases [,DateModel-method
-setMethod(
-  f = "[",
-  signature = "DateModel",
-  definition = function(x, i, j, drop = TRUE) {
-    i <- match.arg(i, choices = c("data"),
-                   several.ok = FALSE)
-    data <- methods::slot(x, i)
-
-    m <- nrow(data)
-    id <- rownames(data)
-    if (m != 0) {
-      if (missing(j)) {
-        j <- seq_len(m)
-      } else {
-        if (is.null(j)) j <- seq_along(m)
-        if (is.character(j) | is.factor(j)) j <- which(id %in% j)
-        if (is.numeric(j)) j <- as.integer(j)
-      }
-      data <- data[j, , drop = drop]
-    }
-    data
-  }
-)
-
-#' @export
-#' @rdname subset
-#' @aliases [,DateEvent-method
-setMethod(
-  f = "[",
-  signature = "DateEvent",
-  definition = function(x, i, j, drop = TRUE) {
-    i <- match.arg(i, choices = c("data", "row_events", "column_events",
-                                  "accumulation"), several.ok = FALSE)
-    data <- methods::slot(x, i)
-
-    m <- nrow(data)
-    id <- rownames(data)
-    if (m != 0) {
-      if (missing(j)) {
-        j <- seq_len(m)
-      } else {
-        if (is.null(j)) j <- seq_along(m)
-        if (is.character(j) | is.factor(j)) j <- which(id %in% j)
-        if (is.numeric(j)) j <- as.integer(j)
-      }
-      data <- data[j, , drop = drop]
-    }
-    data
-  }
-)
-
+# Extract ======================================================================
 #' Extract Parts of an Object
 #'
 #' @inheritParams subset
@@ -123,29 +46,37 @@ setMethod(
 
 #' @export
 #' @rdname subset
-#' @aliases [[,DateModel-method
-setMethod(
-  f = "[[",
-  signature = "DateModel",
-  definition = extract_slot
-)
-
-#' @export
-#' @rdname subset
 #' @aliases [[,DateEvent-method
 setMethod(
   f = "[[",
-  signature = "DateEvent",
+  signature = c(x = "DateEvent", i = "ANY", j = "missing"),
   definition = extract_slot
 )
 
 #' @export
 #' @rdname subset
-#' @aliases [[,BootCA-method
+#' @aliases [[,RefineCA-method
 setMethod(
   f = "[[",
-  signature = c("BootCA", "ANY", "missing"),
-  definition = extract_slot
+  signature = c(x = "RefineCA", i = "ANY", j = "missing"),
+  definition = function(x, i) {
+    i <- match.arg(i, choices = c("rows", "columns", "cutoff"),
+                   several.ok = FALSE)
+    switch (
+      i,
+      rows = list(
+        "chull" = x@row_chull,
+        "length" = x@row_length,
+        "keep" = x@row_keep
+      ),
+      columns = list(
+        "chull" = x@column_chull,
+        "length" = x@column_length,
+        "keep" = x@column_keep
+      ),
+      cutoff = x@cutoff
+    )
+  }
 )
 
 #' @export

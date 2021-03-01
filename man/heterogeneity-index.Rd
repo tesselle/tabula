@@ -5,17 +5,56 @@
 \alias{heterogeneity-index}
 \alias{index_heterogeneity}
 \alias{index_heterogeneity-method}
+\alias{bootstrap_heterogeneity}
+\alias{bootstrap_heterogeneity-method}
+\alias{jackknife_heterogeneity}
+\alias{jackknife_heterogeneity-method}
 \alias{index_evenness}
 \alias{index_evenness-method}
+\alias{simulate_evenness}
+\alias{simulate_evenness-method}
+\alias{bootstrap_evenness}
+\alias{bootstrap_evenness-method}
+\alias{jackknife_evenness}
+\alias{jackknife_evenness-method}
 \alias{index_heterogeneity,CountMatrix-method}
+\alias{bootstrap_heterogeneity,CountMatrix-method}
+\alias{jackknife_heterogeneity,CountMatrix-method}
 \alias{index_evenness,CountMatrix-method}
+\alias{simulate_evenness,CountMatrix-method}
+\alias{bootstrap_evenness,CountMatrix-method}
+\alias{jackknife_evenness,CountMatrix-method}
 \title{Heterogeneity and Evenness}
 \usage{
 index_heterogeneity(object, ...)
 
+bootstrap_heterogeneity(object, ...)
+
+jackknife_heterogeneity(object, ...)
+
 index_evenness(object, ...)
 
+simulate_evenness(object, ...)
+
+bootstrap_evenness(object, ...)
+
+jackknife_evenness(object, ...)
+
 \S4method{index_heterogeneity}{CountMatrix}(
+  object,
+  method = c("berger", "brillouin", "mcintosh", "shannon", "simpson"),
+  ...
+)
+
+\S4method{bootstrap_heterogeneity}{CountMatrix}(
+  object,
+  method = c("berger", "brillouin", "mcintosh", "shannon", "simpson"),
+  probs = c(0.05, 0.95),
+  n = 1000,
+  ...
+)
+
+\S4method{jackknife_heterogeneity}{CountMatrix}(
   object,
   method = c("berger", "brillouin", "mcintosh", "shannon", "simpson"),
   ...
@@ -24,6 +63,31 @@ index_evenness(object, ...)
 \S4method{index_evenness}{CountMatrix}(
   object,
   method = c("shannon", "brillouin", "mcintosh", "simpson"),
+  ...
+)
+
+\S4method{simulate_evenness}{CountMatrix}(
+  object,
+  method = c("shannon", "brillouin", "mcintosh", "simpson"),
+  quantiles = TRUE,
+  level = 0.8,
+  step = 1,
+  n = 1000,
+  progress = getOption("tabula.progress"),
+  ...
+)
+
+\S4method{bootstrap_evenness}{CountMatrix}(
+  object,
+  method = c("berger", "brillouin", "mcintosh", "shannon", "simpson"),
+  probs = c(0.05, 0.95),
+  n = 1000,
+  ...
+)
+
+\S4method{jackknife_evenness}{CountMatrix}(
+  object,
+  method = c("berger", "brillouin", "mcintosh", "shannon", "simpson"),
   ...
 )
 }
@@ -35,15 +99,40 @@ a \linkS4class{CountMatrix} object).}
 
 \item{method}{A \code{\link{character}} string specifying the index to be
 computed (see details). Any unambiguous substring can be given.}
+
+\item{probs}{A \code{\link{numeric}} vector of probabilities with values in
+\eqn{[0,1]} (see \code{\link[stats:quantile]{quantile}}).}
+
+\item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
+replications.}
+
+\item{quantiles}{A \code{\link{logical}} scalar: should sample quantiles
+be used as confidence interval? If \code{TRUE} (the default),
+sample quantiles are used as described in Kintigh (1989), else quantiles of
+the normal distribution are used.}
+
+\item{level}{A length-one \code{\link{numeric}} vector giving the
+confidence level.}
+
+\item{step}{A non-negative \code{\link{integer}} giving the increment of the
+sample size. Only used if \code{simulate} is \code{TRUE}.}
+
+\item{progress}{A \code{\link{logical}} scalar: should a progress bar be
+displayed?}
 }
 \value{
-\code{index_heterogeneity} and \code{index_evenness} return a
- \linkS4class{DiversityIndex} object.
+\code{index_heterogeneity}, \code{index_evenness} and
+ \code{simulate_evenness} return a \linkS4class{DiversityIndex} object.
+
+ \code{bootstrap_*} and \code{jackknife_*} return a \code{data.frame}.
 }
 \description{
 \code{index_heterogeneity} returns an heterogeneity or dominance index.
 
  \code{index_evenness} returns an evenness measure.
+
+ \code{bootstrap_*} and \code{jackknife_*} perform bootstrap/jackknife
+ resampling.
 }
 \details{
 \emph{Diversity} measurement assumes that all individuals in a specific
@@ -103,70 +192,21 @@ computed (see details). Any unambiguous substring can be given.}
 Ramanujan approximation is used for \eqn{x!} computation if \eqn{x > 170}.
 }
 \examples{
+## Coerce dataset to a count matrix
+data("chevelon", package = "folio")
+chevelon <- as_count(chevelon)
+
 ## Shannon diversity index
-## Data from Magurran 1988, p. 145-149
-data("birds", package = "folio")
-birds <- as_count(birds)
+(index_h <- index_heterogeneity(chevelon, method = "shannon"))
+(index_e <- index_evenness(chevelon, method = "shannon"))
 
-index_heterogeneity(birds, "shannon") # 2.40 2.06
-index_evenness(birds, "shannon") # 0.80 0.78
+## Bootstrap resampling
+(boot_h <- bootstrap_heterogeneity(chevelon, method = "shannon"))
+(boot_e <- bootstrap_evenness(chevelon, method = "shannon"))
 
-
-## Brillouin diversity index
-## Data from Magurran 1988, p. 150-151
-moths <- CountMatrix(
-  data = c(17, 15, 11, 4, 4, 3, 3, 3, 2, 2, 1, 1, 1),
-  nrow = 1,
-  byrow = TRUE
-)
-
-index_heterogeneity(moths, "brillouin") # 1.88
-index_evenness(moths, "brillouin") # 0.83
-
-## Simpson dominance index
-## Data from Magurran 1988, p. 152-153
-trees <- CountMatrix(
-  data = c(752, 276, 194, 126, 121, 97, 95, 83, 72, 44,
-            39,  16,  15,  13,   9,  9,  9,  8,  7,  4,
-             2,   2,   1,   1,   1),
-  nrow = 1,
-  byrow = TRUE
-)
-
-index_heterogeneity(trees, "simpson") # 1.19
-index_evenness(trees, "simpson") # 0.21
-
-## McIntosh dominance index
-## Data from Magurran 1988, p. 154-155
-invertebrates <- CountMatrix(
-  data = c(254, 153, 90, 69, 68, 58, 51, 45, 40, 39,
-            25,  23, 19, 18, 16, 14, 14, 11, 11, 11,
-            11,  10,  6,  6,  6,  6,  5,  3,  3,  3,
-             3,   3,  1,  1,  1,  1,  1,  1),
-  nrow = 1,
-  byrow = TRUE
-)
-
-index_heterogeneity(invertebrates, "mcintosh") # 0.71
-index_evenness(invertebrates, "mcintosh") # 0.82
-
-## Berger-Parker dominance index
-## Data from Magurran 1988, p. 156-157
-fishes <- CountMatrix(
-  data = c(394, 3487, 275,  683,   22,   1,    0,   1,   6,   8,
-             1,    1,   2, 1642, 5681, 196, 1348,  12,   0,   1,
-            48,   21,   1,    5,    7,   3,   90, 320, 180,  46,
-             2,    0,   0,    1,    0,   0,    2,   1,   5, 126,
-            17,  115, 436,   27,    0,   0,    3,   1,   0,   0,
-             1,    0,  32,    0,    0,   5,    0,   0,   0,   0,
-            13,    9,   0,    0,    4),
-  nrow = 5,
-  byrow = TRUE,
-  dimnames = list(c("station 1", "station 2", "station 3",
-                    "station 4", "station 5"), NULL)
-)
-
-index_heterogeneity(fishes, "berger") # 0.71 0.63 0.50 0.60 0.51
+## Jackknife resampling
+(jack_h <- jackknife_heterogeneity(chevelon, method = "shannon"))
+(jack_e <- jackknife_evenness(chevelon, method = "shannon"))
 }
 \references{
 Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
@@ -212,8 +252,7 @@ Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
  688-688. \doi{10.1038/163688a0}.
 }
 \seealso{
-\link{plot_diversity}, \link{refine}, \link{similarity},
- \link{turnover}
+\link{plot_diversity}, \link{similarity}, \link{turnover}
 
 Other diversity: 
 \code{\link{richness-index}},

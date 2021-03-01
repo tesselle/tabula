@@ -75,13 +75,13 @@ test_that("Refined Correspondence Analysis", {
   ## Define cutoff as one standard deviation above the mean
   fun <- function(x) { mean(x) + sd(x) }
   corresp <- dimensio::ca(counts)
-  subset <- with_seed(12345, bootstrap(corresp, cutoff = fun))
+  sub <- with_seed(12345, refine_seriation(corresp, cutoff = fun, n = 30))
 
   ## /!\ Fails on noLD platforms unless a tolerance is set in expect_equal
   eps <- if (capabilities("long.double")) .Machine$double.eps^0.5 else 0.1
   expect_equal(
-    object = round(subset@cutoff, 3),
-    expected = c(2.243, 0.379),
+    object = round(sub@cutoff, 3),
+    expected = c(1.781, 0.246),
     check.attributes = FALSE,
     tolerance = eps
   )

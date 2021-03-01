@@ -91,7 +91,7 @@ combination <- function(n, k) {
 #' @param do A \code{\link{function}} that takes \code{x} as an argument
 #'  and returns a single numeric value.
 #' @param ... Extra arguments passed to \code{do}.
-#' @return A list with the following elements:
+#' @return A \code{numeric} vector with the following elements:
 #'  \describe{
 #'   \item{values}{The \eqn{n} leave-one-out values.}
 #'   \item{mean}{The jackknife estimate of mean.}
@@ -99,10 +99,10 @@ combination <- function(n, k) {
 #'   \item{error}{he jackknife estimate of standard error.}
 #'  }
 #' @keywords internal
-#' @noRd
 stats_jackknife <- function(x, do, ...) {
   n <- length(x)
   hat <- do(x, ...)
+
   jack_values <- vapply(
     X = seq_len(n),
     FUN = function(i, x, do, ...) {
@@ -111,12 +111,14 @@ stats_jackknife <- function(x, do, ...) {
     FUN.VALUE = double(1),
     x, do, ...
   )
+
   jack_mean <- mean(jack_values)
   jack_bias <- (n - 1) * (jack_mean - hat)
   jack_error <- sqrt(((n - 1) / n) * sum((jack_values - jack_mean)^2))
 
-  list(values = jack_values, mean = jack_mean,
-       bias = jack_bias, error = jack_error)
+  results <- c(jack_mean, jack_bias, jack_error)
+  names(results) <- c("mean", "bias", "error")
+  results
 }
 
 #' Bootstrap Estimation
@@ -124,10 +126,14 @@ stats_jackknife <- function(x, do, ...) {
 #' @param x A vector.
 #' @param do A \code{\link{function}} that takes \code{x} as an argument
 #'  and returns a single numeric value.
+#' @param probs A \code{\link{numeric}} vector of probabilities with values in
+#'  \eqn{[0,1]} (see \code{\link[stats:quantile]{quantile}}).
 #' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
 #' replications.
+#' @param na.rm A \code{\link{logical}} scalar: should missing values be removed
+#' from \code{x} before the quantiles are computed?
 #' @param ... Extra arguments passed to \code{do}.
-#' @return A list with the following elements:
+#' @return A \code{numeric} vector with the following elements:
 #'  \describe{
 #'   \item{min}{Minimum value.}
 #'   \item{mean}{Mean value.}
@@ -135,14 +141,13 @@ stats_jackknife <- function(x, do, ...) {
 #'   \item{Q*}{Sample quantile to * probability.}
 #'  }
 #' @keywords internal
-#' @noRd
 stats_bootstrap <- function(x, do, probs = c(0.05, 0.95),
-                            n = 1000, ...) {
+                            n = 1000, na.rm = FALSE, ...) {
   total <- sum(x)
   replicates <- stats::rmultinom(n, size = total, prob = x / total)
   boot_values <- apply(X = replicates, MARGIN = 2, FUN = do, ...)
 
-  Q <- stats::quantile(boot_values, probs = probs, names = FALSE)
+  Q <- stats::quantile(boot_values, probs = probs, na.rm = na.rm, names = FALSE)
   quant <- paste0("Q", round(probs * 100, 0))
 
   results <- c(
@@ -152,7 +157,7 @@ stats_bootstrap <- function(x, do, probs = c(0.05, 0.95),
     Q
   )
   names(results) <- c("min", "mean", "max", quant)
-  return(results)
+  results
 }
 
 #' Confidence Interval for a Proportion

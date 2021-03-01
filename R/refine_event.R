@@ -3,110 +3,63 @@
 NULL
 
 #' @export
-#' @describeIn refine Jackknifes fabrics.
-#' @aliases jackknife,DateModel-method
+#' @rdname event
+#' @aliases jackknife_event,DateEvent-method
 setMethod(
-  f = "jackknife",
-  signature = signature(object = "DateModel"),
+  f = "jackknife_event",
+  signature = signature(object = "DateEvent"),
   definition = function(object, level = 0.95,
                         progress = getOption("tabula.progress"), ...) {
     ## Get data
-    fit_model <- object[["model"]]
     fit_data <- object[["data"]]
     fit_dates <- object[["dates"]]
-    fit_dim <- object[["dimension"]]
-
-    event <- predict_event(object, level = level)
+    n <- ncol(fit_data)
 
     ## TODO: check cutoff value
-    jack_coef <- compute_date_jack(fit_data, fit_dates, cutoff = 150,
-                                   progress = progress)
+    jack_values <- compute_date_jack(fit_data, fit_dates, cutoff = 150,
+                                     progress = progress)
+    jack_mean <- rowMeans(jack_values)
 
-    ## Change lm coefficients
-    fit_model$coefficients <- jack_coef[c(1, fit_dim + 1)]
-
-    ## Predict event date for each context
-    results_CA <- dimensio::ca(fit_data, ...)
-    row_coord <- dimensio::get_coordinates(results_CA, margin = 1)
-
-    jack_event <- predict_events(fit_model, row_coord, level)
-    results <- as.data.frame(jack_event)
-
-    ## Compute jaccknife bias
-    results$bias <- (ncol(fit_data) - 1) *
-      (results$date - event[["row_event"]][, "date"])
-
-    return(results)
+    ## Compute jackknife statistics
+    event <- predict_event(object, margin = 1, level = level)
+    data.frame(
+      mean = jack_mean,
+      bias = (n - 1) * (jack_mean - event$date),
+      error = sqrt(((n - 1) / n) * rowSums((jack_values - jack_mean)^2)),
+      row.names = rownames(event)
+    )
   }
 )
 
 #' @export
-#' @describeIn refine Bootstraps assemblages.
-#' @aliases bootstrap,DateModel-method
+#' @rdname event
+#' @aliases bootstrap_event,DateEvent-method
 setMethod(
-  f = "bootstrap",
-  signature = signature(object = "DateModel"),
+  f = "bootstrap_event",
+  signature = signature(object = "DateEvent"),
   definition = function(object, level = 0.95, probs = c(0.05, 0.95), n = 1000,
                         progress = getOption("tabula.progress"), ...) {
     ## Get data
     fit_model <- object[["model"]]
-    fit_data <- object[["data"]]
     fit_dim <- object[["dimension"]]
 
-    cts_data <- arkhe::as_count(fit_data)
-    results_CA <- dimensio::ca(cts_data, ...)
+    ## Partial bootstrap CA
+    ca_res <- dimensio::bootstrap(object, n = n)
+    ca_rep_row <- dimensio::get_replications(ca_res, margin = 1)
 
     ## Bootstrap assemblages
-    results <- boot_ca(
-      results_CA,
-      fun = compute_date_boot,
-      margin = 1,
-      n = n,
-      progress = progress,
+    event_rows <- apply(
+      X = ca_rep_row,
+      MARGIN = 1,
+      FUN = function(x, axes, model, level, probs) {
+        compute_date_boot(t(x), axes, model, level, probs)
+      },
       axes = fit_dim,
       model = fit_model,
       level = level,
       probs = probs
     )
-    results <- do.call(rbind, results)
-    results <- as.data.frame(results)
-
-    return(results)
-  }
-)
-
-#' @export
-#' @describeIn refine Bootstrap Mean Ceramic Date confidence intervals.
-#' @aliases bootstrap,DateMCD-method
-setMethod(
-  f = "bootstrap",
-  signature = signature(object = "DateMCD"),
-  definition = function(object, probs = c(0.05, 0.95), n = 1000, ...) {
-
-    results <- apply(
-      X = object[["data"]],
-      MARGIN = 1,
-      FUN = function(x, dates, probs, n) {
-        sim <- stats::rmultinom(n, size = sum(x), prob = x)
-        temp <- mcd(t(sim), dates)
-
-        Q <- stats::quantile(temp, probs = probs, names = FALSE)
-        quant <- paste0("Q", round(probs * 100, 0))
-
-        x <- c(min(temp), mean(temp), max(temp), Q)
-        names(x) <- c("min", "mean", "max", quant)
-        x
-        # ci <- try(
-        #   expr = stats::t.test(temp, conf.level = level)$conf.int,
-        #   silent = TRUE
-        # )
-        # if (inherits(ci, "try-error")) c(NA_real_, NA_real_) else ci
-      },
-      dates = object[["dates"]],
-      probs = probs,
-      n = n
-    )
-    as.data.frame(t(results))
+    as.data.frame(t(event_rows))
   }
 )
 
@@ -134,10 +87,10 @@ setMethod(
 #' @keywords internal
 #' @noRd
 compute_date_boot <- function(x, axes, model, level, probs = c(0.05, 0.95)) {
-  ## New CA coordinates
-  coords <- x[, axes]
+  ## Remove missing values
+  coords <- stats::na.omit(x[, axes])
   ## Gaussian multiple linear regression model
-  event <- predict_events(model, coords, level)[, "date"]
+  event <- compute_event(model, coords, level)[, 1]
   Q <- stats::quantile(event, probs = probs, names = FALSE)
 
   distrib <- c(min(event), mean(event), max(event), Q)
@@ -174,12 +127,10 @@ compute_date_jack <- function(x, dates, cutoff = 90,
     ## TODO: warning
     if (any(rowSums(counts) == 0)) next
     model <- date_event(counts, dates = dates, cutoff = cutoff)
-    jack[[j]] <- stats::coef(model[["model"]]) # Get model coefficients
+    jack[[j]] <- predict_event(model, counts, margin = 1)$date
     if (progress_bar) utils::setTxtProgressBar(pbar, j)
   }
 
   if (progress_bar) close(pbar)
-  jack <- do.call(rbind, jack)
-  jack <- apply(X = jack, MARGIN = 2, FUN = mean)
-  jack
+  do.call(cbind, jack)
 }

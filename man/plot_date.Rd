@@ -26,7 +26,7 @@ plot_time(object, dates, ...)
 \S4method{plot_time}{CountMatrix,numeric}(object, dates, facet = FALSE)
 }
 \arguments{
-\item{object}{An object of class \linkS4class{DateModel} to be plotted.}
+\item{object}{An object of class \linkS4class{DateEvent} to be plotted.}
 
 \item{...}{Further arguments to be passed to internal methods.}
 

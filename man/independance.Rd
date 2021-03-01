@@ -79,7 +79,6 @@ Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
 \link{plot_ford}, \link{plot_heatmap}, \link{seriate_rank}
 
 Other statistics: 
-\code{\link{refine}},
 \code{\link{test_diversity}()},
 \code{\link{test_fit}()}
 }

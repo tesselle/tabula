@@ -1,6 +1,8 @@
+# HETEROGENEITY INDEX
 #' @include AllGenerics.R AllClasses.R
 NULL
 
+# Heterogeneity ================================================================
 #' @export
 #' @rdname heterogeneity-index
 #' @aliases index_heterogeneity,CountMatrix-method
@@ -10,13 +12,39 @@ setMethod(
   definition = function(object, method = c("berger", "brillouin", "mcintosh",
                                            "shannon", "simpson"), ...) {
     fun <- switch_heterogeneity(method) # Select method
-    index <- index_diversity(object, fun, ...)
-    index <- methods::as(index, "HeterogeneityIndex")
-    index@method <- method[[1L]]
-    index
+    index <- index_diversity(object, fun)
+    .HeterogeneityIndex(index, method = method)
   }
 )
 
+#' @export
+#' @rdname heterogeneity-index
+#' @aliases bootstrap_heterogeneity,CountMatrix-method
+setMethod(
+  f = "bootstrap_heterogeneity",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, method = c("berger", "brillouin", "mcintosh",
+                                           "shannon", "simpson"),
+                        probs = c(0.05, 0.95), n = 1000, ...) {
+    fun <- switch_heterogeneity(method) # Select method
+    bootstrap_diversity(object, method = fun, probs = probs, n = n)
+  }
+)
+
+#' @export
+#' @rdname heterogeneity-index
+#' @aliases jackknife_heterogeneity,CountMatrix-method
+setMethod(
+  f = "jackknife_heterogeneity",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, method = c("berger", "brillouin", "mcintosh",
+                                           "shannon", "simpson"), ...) {
+    fun <- switch_heterogeneity(method) # Select method
+    jackknife_diversity(object, method = fun)
+  }
+)
+
+# Evenness =====================================================================
 #' @export
 #' @rdname heterogeneity-index
 #' @aliases index_evenness,CountMatrix-method
@@ -26,43 +54,65 @@ setMethod(
   definition = function(object, method = c("shannon", "brillouin", "mcintosh",
                                            "simpson"), ...) {
     fun <- switch_evenness(method) # Select method
-    index <- index_diversity(object, fun, ...)
-    index <- methods::as(index, "EvennessIndex")
-    index@method <- method[[1L]]
-    index
+    index <- index_diversity(object, fun)
+    .EvennessIndex(index, method = method)
+  }
+)
+
+#' @export
+#' @rdname heterogeneity-index
+#' @aliases simulate_evenness,CountMatrix-method
+setMethod(
+  f = "simulate_evenness",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, method = c("shannon", "brillouin", "mcintosh",
+                                           "simpson"),
+                        quantiles = TRUE, level = 0.80, step = 1, n = 1000,
+                        progress = getOption("tabula.progress"), ...) {
+    fun <- switch_heterogeneity(method) # Select method
+    index <- simulate_diversity(
+      object,
+      method = fun,
+      quantiles = quantiles,
+      level = level,
+      step = step,
+      n = n,
+      progress = progress
+    )
+    .EvennessIndex(index, method = method)
+  }
+)
+
+#' @export
+#' @rdname heterogeneity-index
+#' @aliases bootstrap_evenness,CountMatrix-method
+setMethod(
+  f = "bootstrap_evenness",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, method = c("berger", "brillouin", "mcintosh",
+                                           "shannon", "simpson"),
+                        probs = c(0.05, 0.95), n = 1000, ...) {
+    fun <- switch_heterogeneity(method) # Select method
+    bootstrap_diversity(object, method = fun, probs = probs, n = n)
+  }
+)
+
+#' @export
+#' @rdname heterogeneity-index
+#' @aliases jackknife_evenness,CountMatrix-method
+setMethod(
+  f = "jackknife_evenness",
+  signature = signature(object = "CountMatrix"),
+  definition = function(object, method = c("berger", "brillouin", "mcintosh",
+                                           "shannon", "simpson"), ...) {
+    fun <- switch_heterogeneity(method) # Select method
+    jackknife_diversity(object, method = fun)
   }
 )
 
 # Index ========================================================================
-#' @param x A \code{\link{numeric}} \code{\link{matrix}}.
-#' @param method A \code{\link{function}}.
-#' @param ... Further parameters to be passed to \code{method}.
-#' @return A \code{\link{list}}.
-#' @author N. Frerebeau
-#' @keywords internal
-#' @noRd
-index_diversity <- function(x, method, ...) {
-
-  idx <- apply(X = x, MARGIN = 1, FUN = method, ...)
-  names(idx) <- rownames(x)
-
-  .DiversityIndex(
-    data = as.matrix(x),
-    values = idx,
-    size = as.integer(rowSums(x)),
-    simulation = matrix(0, 0, 0),
-    index = method
-  )
-}
 switch_heterogeneity <- function(x) {
-  # Validation
-  x <- match.arg(
-    arg = x,
-    choices = c("berger", "brillouin", "mcintosh", "shannon", "simpson"),
-    several.ok = FALSE
-  )
-
-  index <- switch (
+  switch (
     x,
     berger = dominanceBerger,
     brillouin = diversityBrillouin,
@@ -71,18 +121,9 @@ switch_heterogeneity <- function(x) {
     simpson = dominanceSimpson,
     stop(sprintf("There is no such method: %s.", x), call. = FALSE)
   )
-
-  return(index)
 }
 switch_evenness <- function(x) {
-  # Validation
-  x <- match.arg(
-    arg = x,
-    choices = c("shannon", "brillouin", "mcintosh", "simpson"),
-    several.ok = FALSE
-  )
-
-  index <- switch (
+  switch (
     x,
     brillouin = evennessBrillouin,
     mcintosh = evennessMcintosh,
@@ -90,8 +131,6 @@ switch_evenness <- function(x) {
     simpson = evennessSimpson,
     stop(sprintf("There is no such method: %s.", x), call. = FALSE)
   )
-
-  return(index)
 }
 
 #' Diversity, dominance and evenness index

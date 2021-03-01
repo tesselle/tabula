@@ -26,6 +26,13 @@ if (!isGeneric("plot"))
 NULL
 
 #' @rdname mutator
+#' @aliases get_index-method
+setGeneric(
+  name = "get_index",
+  def = function(x) standardGeneric("get_index")
+)
+
+#' @rdname mutator
 #' @aliases get_method-method
 setGeneric(
   name = "get_method",
@@ -45,17 +52,8 @@ setGeneric(
 #' Operators acting on objects to extract or replace parts.
 #' @param x An object from which to extract element(s) or in which to replace
 #'  element(s).
-#' @param i,j Indices specifying elements to extract or replace. Indices are
-#'  \code{\link{numeric}}, \code{\link{integer}} or \code{\link{character}}
-#'  vectors or empty (missing) or \code{NULL}. Numeric values are coerced to
-#'  \code{\link{integer}} as by \code{\link{as.integer}} (and hence truncated
-#'  towards zero). Character vectors will be matched to the name of the
-#'  elements. An empty index (a comma separated blank) indicates that all
-#'  entries in that dimension are selected.
-#' @param drop A \code{\link{logical}} scalar: should the result be coerced to
-#'  the lowest possible dimension? This only works for extracting elements,
-#'  not for the replacement.
-# @param value A possible value for \code{x}.
+#' @param i A \code{\link{character}} string specifying elements to extract.
+#'  Any unambiguous substring can be given (see details).
 #' @return
 #'  A subsetted object.
 # @example inst/examples/ex-mutator.R
@@ -124,12 +122,13 @@ setGeneric(
 #' Mean Ceramic Date
 #'
 #' Estimates the Mean Ceramic Date of an assemblage.
-#' @param object A \linkS4class{CountMatrix} or a \linkS4class{DateModel}
+#' @param object A \linkS4class{CountMatrix} or a \linkS4class{DateEvent}
 #'  object.
 #' @param dates A \code{\link{numeric}} vector of dates. If named,
 #'  the names must match the row names of \code{object}.
 #' @param errors A \code{\link{numeric}} vector giving the absolute error of
 #'  \code{dates}.
+#' @inheritParams stats_bootstrap
 #' @param ... Currently not used.
 #' @details
 #'  The Mean Ceramic Date (MCD) is a point estimate of the occupation of an
@@ -146,10 +145,11 @@ setGeneric(
 #'  MCD are then returned.
 #' @return
 #'  \code{date_mcd} returns a \linkS4class{DateMCD} object.
+#'
+#'  \code{bootstrap_mcd} returns a \code{data.frame}.
 #' @references
 #'  South, S. A. (1977). \emph{Method and Theory in Historical Archaeology}.
 #'  New York: Academic Press.
-#' @seealso \link{refine}
 #' @example inst/examples/ex-date_mcd.R
 #' @author N. Frerebeau
 #' @family dating
@@ -162,15 +162,23 @@ setGeneric(
   valueClass = "DateMCD"
 )
 
+#' @rdname date_mcd
+#' @aliases bootstrap_mcd-method
+setGeneric(
+  name = "bootstrap_mcd",
+  def = function(object, dates, ...) standardGeneric("bootstrap_mcd"),
+  valueClass = "data.frame"
+)
+
 ## Event Model -----------------------------------------------------------------
 #' Event and Accumulation Dates
 #'
 #' @description
 #'  \code{date_event} fit a date event model.
 #'
-#'  \code{predict_event} estimates the event and accumulation dates of an
-#'  assemblage.
-#' @param object A \linkS4class{CountMatrix} or a \linkS4class{DateModel}
+#'  \code{predict_event} and \code{predict_accumulation} estimates the event and
+#'  accumulation dates of an assemblage.
+#' @param object A \linkS4class{CountMatrix} or a \linkS4class{DateEvent}
 #'  object.
 #' @param data A \linkS4class{CountMatrix} object for which to predict
 #'  event and accumulation dates.
@@ -182,6 +190,12 @@ setGeneric(
 #'  variance used to select CA factorial components for linear model fitting
 #'  (see details). All compounds with a cumulative percentage of variance of
 #'  less than the \code{cutoff} value will be retained.
+#' @param margin A \code{\link{numeric}} vector giving the subscripts which the
+#'  prediction will be applied over: \code{1} indicates rows, \code{2}
+#'  indicates columns.
+#' @param progress A \code{\link{logical}} scalar: should a progress bar be
+#'  displayed?
+#' @inheritParams stats_bootstrap
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  This is an implementation of the chronological modeling method proposed by
@@ -202,16 +216,46 @@ setGeneric(
 #'  This method relies on strong archaeological and statistical assumptions.
 #'  Use it only if you know what you are doing (see references below and the
 #'  vignette: \code{utils::vignette("dating", package = "tabula")}).
-#' @inheritSection refine Date Model
+#' @section Date Model:
+#'  If \code{jackknife_event} is used, one type/fabric is removed at a
+#'  time and all statistics are recalculated. In this way, one can assess
+#'  whether certain type/fabric has a substantial influence on the date
+#'  estimate.
+#'  A three columns \code{data.frame} is returned, giving the results of
+#'  the resampling procedure (jackknifing fabrics) for each assemblage (in rows)
+#'  with the following columns:
+#'  \describe{
+#'   \item{mean}{The jackknife mean (event date).}
+#'   \item{bias}{The jackknife estimate of bias.}
+#'   \item{error}{The standard error of predicted means.}
+#'  }
+#'
+#'  If \code{bootstrap_event} is used, a large number of new
+#'  bootstrap assemblages is created, with the same sample size, by resampling
+#'  each of the original assemblage with replacement. Then, examination of the
+#'  bootstrap statistics makes it possible to pinpoint assemblages that require
+#'  further investigation.
+#'
+#'  A five columns \code{\link{data.frame}} is returned, giving the bootstrap
+#'  distribution statistics for each replicated assemblage (in rows)
+#'  with the following columns:
+#'  \describe{
+#'   \item{min}{Minimum value.}
+#'   \item{mean}{Mean value (event date).}
+#'   \item{max}{Maximum value.}
+#'   \item{Q5}{Sample quantile to 0.05 probability.}
+#'   \item{Q95}{Sample quantile to 0.95 probability.}
+#'  }
 #' @note
 #'  Bellanger \emph{et al.} did not publish the data supporting their
 #'  demonstration: no replication of their results is possible and this
 #'  implementation must be considered \strong{experimental}.
 #'  \code{date_event} may be subject to major changes in a future release.
 #' @return
-#'  \code{date_event} returns an object of class \linkS4class{DateModel}.
+#'  \code{date_event} returns a \linkS4class{DateEvent} object.
 #'
-#'  \code{predict_event} returns an object of class \linkS4class{DateEvent}.
+#'  \code{predict_event}, \code{predict_accumulation}, \code{bootstrap_event}
+#'  and \code{jackknife_event} return a \code{data.frame}.
 #' @references
 #'  Bellanger, L. & Husi, P. (2013). Mesurer et modéliser le temps inscrit dans
 #'  la matière à partir d'une source matérielle : la céramique médiévale.
@@ -237,7 +281,6 @@ setGeneric(
 #'  for Seriation of Sagalassos Tablewares. In Doerr, M. & Apostolis, S. (eds.),
 #'  \emph{The Digital Heritage of Archaeology}. Athens: Hellenic Ministry of
 #'  Culture.
-#' @seealso \link{refine}
 #' @example inst/examples/ex-date_event.R
 #' @author N. Frerebeau
 #' @family dating
@@ -251,7 +294,7 @@ NULL
 setGeneric(
   name = "date_event",
   def = function(object, dates, ...) standardGeneric("date_event"),
-  valueClass = "DateModel"
+  valueClass = "DateEvent"
 )
 
 #' @rdname event
@@ -259,7 +302,30 @@ setGeneric(
 setGeneric(
   name = "predict_event",
   def = function(object, data, ...) standardGeneric("predict_event"),
-  valueClass = "DateEvent"
+  valueClass = "data.frame"
+)
+
+#' @rdname event
+#' @aliases predict_accumulation-method
+setGeneric(
+  name = "predict_accumulation",
+  def = function(object, data, ...) standardGeneric("predict_accumulation"),
+  valueClass = "data.frame"
+)
+
+#' @rdname event
+#' @aliases bootstrap_event-method
+setGeneric(
+  name = "bootstrap_event",
+  def = function(object, ...) standardGeneric("bootstrap_event")
+)
+
+#' @rdname event
+#' @aliases jackknife_event-method
+setGeneric(
+  name = "jackknife_event",
+  def = function(object, ...) standardGeneric("jackknife_event"),
+  valueClass = "data.frame"
 )
 
 # Diversity ====================================================================
@@ -270,10 +336,24 @@ setGeneric(
 #'  \code{index_heterogeneity} returns an heterogeneity or dominance index.
 #'
 #'  \code{index_evenness} returns an evenness measure.
+#'
+#'  \code{bootstrap_*} and \code{jackknife_*} perform bootstrap/jackknife
+#'  resampling.
 #' @param object A \eqn{m \times p}{m x p} matrix of count data (typically
 #'  a \linkS4class{CountMatrix} object).
 #' @param method A \code{\link{character}} string specifying the index to be
 #'  computed (see details). Any unambiguous substring can be given.
+#' @param quantiles A \code{\link{logical}} scalar: should sample quantiles
+#'  be used as confidence interval? If \code{TRUE} (the default),
+#'  sample quantiles are used as described in Kintigh (1989), else quantiles of
+#'  the normal distribution are used.
+#' @param level A length-one \code{\link{numeric}} vector giving the
+#'  confidence level.
+#' @param step A non-negative \code{\link{integer}} giving the increment of the
+#'  sample size. Only used if \code{simulate} is \code{TRUE}.
+#' @param progress A \code{\link{logical}} scalar: should a progress bar be
+#'  displayed?
+#' @inheritParams stats_bootstrap
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  \emph{Diversity} measurement assumes that all individuals in a specific
@@ -329,8 +409,10 @@ setGeneric(
 #'  so that an increase in the value of the index accompanies a decrease in
 #'  diversity.
 #' @return
-#'  \code{index_heterogeneity} and \code{index_evenness} return a
-#'  \linkS4class{DiversityIndex} object.
+#'  \code{index_heterogeneity}, \code{index_evenness} and
+#'  \code{simulate_evenness} return a \linkS4class{DiversityIndex} object.
+#'
+#'  \code{bootstrap_*} and \code{jackknife_*} return a \code{data.frame}.
 #' @note
 #'  Ramanujan approximation is used for \eqn{x!} computation if \eqn{x > 170}.
 #' @references
@@ -378,8 +460,7 @@ setGeneric(
 #' @example inst/examples/ex-diversity.R
 #' @author N. Frerebeau
 #' @family diversity
-#' @seealso \link{plot_diversity}, \link{refine}, \link{similarity},
-#'  \link{turnover}
+#' @seealso \link{plot_diversity}, \link{similarity}, \link{turnover}
 #' @docType methods
 #' @name heterogeneity-index
 #' @rdname heterogeneity-index
@@ -389,14 +470,56 @@ NULL
 #' @aliases index_heterogeneity-method
 setGeneric(
   name = "index_heterogeneity",
-  def = function(object, ...) standardGeneric("index_heterogeneity")
+  def = function(object, ...) standardGeneric("index_heterogeneity"),
+  valueClass = "HeterogeneityIndex"
+)
+
+#' @rdname heterogeneity-index
+#' @aliases bootstrap_heterogeneity-method
+setGeneric(
+  name = "bootstrap_heterogeneity",
+  def = function(object, ...) standardGeneric("bootstrap_heterogeneity"),
+  valueClass = "data.frame"
+)
+
+#' @rdname heterogeneity-index
+#' @aliases jackknife_heterogeneity-method
+setGeneric(
+  name = "jackknife_heterogeneity",
+  def = function(object, ...) standardGeneric("jackknife_heterogeneity"),
+  valueClass = "data.frame"
 )
 
 #' @rdname heterogeneity-index
 #' @aliases index_evenness-method
 setGeneric(
   name = "index_evenness",
-  def = function(object, ...) standardGeneric("index_evenness")
+  def = function(object, ...) standardGeneric("index_evenness"),
+  valueClass = "EvennessIndex"
+)
+
+#' @rdname heterogeneity-index
+#' @aliases simulate_evenness-method
+setGeneric(
+  name = "simulate_evenness",
+  def = function(object, ...) standardGeneric("simulate_evenness"),
+  valueClass = "EvennessIndex"
+)
+
+#' @rdname heterogeneity-index
+#' @aliases bootstrap_evenness-method
+setGeneric(
+  name = "bootstrap_evenness",
+  def = function(object, ...) standardGeneric("bootstrap_evenness"),
+  valueClass = "data.frame"
+)
+
+#' @rdname heterogeneity-index
+#' @aliases jackknife_evenness-method
+setGeneric(
+  name = "jackknife_evenness",
+  def = function(object, ...) standardGeneric("jackknife_evenness"),
+  valueClass = "data.frame"
 )
 
 ## Richness --------------------------------------------------------------------
@@ -408,10 +531,21 @@ setGeneric(
 #'
 #'  \code{rarefaction} returns Hurlbert's unbiased estimate of Sander's
 #'  rarefaction.
+#'
+#'  \code{bootstrap_*} and \code{jackknife_*} perform bootstrap/jackknife
+#'  resampling.
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
 #' @param method A \code{\link{character}} string or vector of strings
 #'  specifying the index to be computed (see details).
 #'  Any unambiguous substring can be given.
+#' @param quantiles A \code{\link{logical}} scalar: should sample quantiles
+#'  be used as confidence interval? If \code{TRUE} (the default),
+#'  sample quantiles are used as described in Kintigh (1989), else quantiles of
+#'  the normal distribution are used.
+#' @param level A length-one \code{\link{numeric}} vector giving the
+#'  confidence level.
+#' @param step A non-negative \code{\link{integer}} giving the increment of the
+#'  sample size. Only used if \code{simulate} is \code{TRUE}.
 #' @param unbiased A \code{\link{logical}} scalar. Should the bias-corrected
 #'  estimator be used? Only used with "\code{chao1}" or "\code{chao2}"
 #'  (improved) estimator.
@@ -422,8 +556,11 @@ setGeneric(
 #' @param k A length-one \code{\link{numeric}} vector giving the threshold
 #'  between rare/infrequent and abundant/frequent species. Only used if
 #'  \code{method} is "\code{ace}" or "\code{ice}".
+#' @param progress A \code{\link{logical}} scalar: should a progress bar be
+#'  displayed?
 #' @param simplify A \code{\link{logical}} scalar: should the result be
 #'  simplified to a matrix? The default value, \code{FALSE}, returns a list.
+#' @inheritParams stats_bootstrap
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  The number of different taxa, provides an instantly comprehensible
@@ -461,8 +598,10 @@ setGeneric(
 #'   \item{chao2}{(improved/unbiased) Chao2 estimator.}
 #'  }
 #' @return
-#'  \code{index_richness} and \code{index_composition} return a
-#'  \linkS4class{DiversityIndex} object.
+#'  \code{index_richness}, \code{simulate_richness} and \code{index_composition}
+#'  return a \linkS4class{DiversityIndex} object.
+#'
+#'  \code{bootstrap_*} and \code{jackknife_*} return a \code{data.frame}.
 #'
 #'  If \code{simplify} is \code{FALSE}, then \code{rarefaction} returns a list
 #'  (default), else return a matrix.
@@ -517,7 +656,7 @@ setGeneric(
 #'
 #'  Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
 #'  \emph{The American Naturalist}, 102(925), 243-282.
-#' @seealso \link{plot_diversity}, \link{refine}
+#' @seealso \link{plot_diversity}
 #' @example inst/examples/ex-richness.R
 #' @author N. Frerebeau
 #' @family diversity
@@ -530,7 +669,32 @@ NULL
 #' @aliases index_richness-method
 setGeneric(
   name = "index_richness",
-  def = function(object, ...) standardGeneric("index_richness")
+  def = function(object, ...) standardGeneric("index_richness"),
+  valueClass = "RichnessIndex"
+)
+
+#' @rdname richness-index
+#' @aliases simulate_richness-method
+setGeneric(
+  name = "simulate_richness",
+  def = function(object, ...) standardGeneric("simulate_richness"),
+  valueClass = "RichnessIndex"
+)
+
+#' @rdname richness-index
+#' @aliases bootstrap_richness-method
+setGeneric(
+  name = "bootstrap_richness",
+  def = function(object, ...) standardGeneric("bootstrap_richness"),
+  valueClass = "data.frame"
+)
+
+#' @rdname richness-index
+#' @aliases jackknife_richness-method
+setGeneric(
+  name = "jackknife_richness",
+  def = function(object, ...) standardGeneric("jackknife_richness"),
+  valueClass = "data.frame"
 )
 
 #' @rdname richness-index
@@ -554,7 +718,7 @@ setGeneric(
 #' \code{plot_date} produces an activity or tempo plot.
 #'
 #' \code{plot_time} produces an abundance \emph{vs.} time diagram.
-#' @param object An object of class \linkS4class{DateModel} to be plotted.
+#' @param object An object of class \linkS4class{DateEvent} to be plotted.
 #' @param dates A \code{\link{numeric}} vector of dates.
 #' @param type A \code{\link{character}} string indicating the type of plot.
 #'  It must be one of "\code{activity}" (default) or "\code{tempo}".
@@ -814,119 +978,6 @@ setGeneric(
   def = function(object, ...) standardGeneric("plot_spot")
 )
 
-# Refine =======================================================================
-#' Bootstrap and Jackknife Resampling
-#'
-#' Checks model with resampling methods.
-#' @param object A \linkS4class{CA}, \linkS4class{DateModel} or
-#'  \linkS4class{DiversityIndex} object.
-#' @param quantiles A \code{\link{logical}} scalar: should sample quantiles
-#'  be used as confidence interval? If \code{TRUE} (the default),
-#'  sample quantiles are used as described in Kintigh (1989), else quantiles of
-#'  the normal distribution are used.
-#' @param level A length-one \code{\link{numeric}} vector giving the
-#'  confidence level.
-#' @param probs A \code{\link{numeric}} vector of probabilities with values in
-#'  \eqn{[0,1]} (see \code{\link[stats:quantile]{quantile}}).
-#' @param cutoff A function that takes a numeric vector as argument and returns
-#'  a single numeric value (see below).
-#' @param axes A \code{\link{numeric}} vector giving the subscripts of the CA
-#'  axes to be used (see below).
-#' @param step A non-negative \code{\link{integer}} giving the increment of the
-#'  sample size. Only used if \code{simulate} is \code{TRUE}.
-#' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
-#' replications (see below).
-#' @param progress A \code{\link{logical}} scalar: should a progress bar be
-#'  displayed?
-#' @param ... Currently not used.
-# @section Diversity Measures:
-#' @section Correspondence Analysis:
-#'  \code{bootstrap} allows to identify samples that are subject to
-#'  sampling error or samples that have underlying structural relationships
-#'  and might be influencing the ordering along the CA space.
-#'
-#'  This relies on a partial bootstrap approach to CA-based seriation where each
-#'  sample is replicated \code{n} times. The maximum dimension length of
-#'  the convex hull around the sample point cloud allows to remove samples for
-#'  a given \code{cutoff} value.
-#'
-#'  According to Peebles and Schachner (2012), "[this] point removal procedure
-#'  [results in] a reduced dataset where the position of individuals within the
-#'  CA are highly stable and which produces an ordering consistent with the
-#'  assumptions of frequency seriation."
-#' @section Date Model:
-#'  If \code{jackknife} is used, one type/fabric is removed at a
-#'  time and all statistics are recalculated. In this way, one can assess
-#'  whether certain type/fabric has a substantial influence on the date
-#'  estimate.
-#'  A six columns \code{\link{data.frame}} is returned, giving the results of
-#'  the resampling procedure (jackknifing fabrics) for each assemblage (in rows)
-#'  with the following columns:
-#'  \describe{
-#'   \item{id}{An identifier to link each row to an assemblage.}
-#'   \item{date}{The jackknife event date estimate.}
-#'   \item{lower}{The lower boundary of the associated prediction interval.}
-#'   \item{upper}{The upper boundary of the associated prediction interval.}
-#'   \item{error}{The standard error of predicted means.}
-#'   \item{bias}{The jackknife estimate of bias.}
-#'  }
-#'
-#'  If \code{bootstrap} is used, a large number of new
-#'  bootstrap assemblages is created, with the same sample size, by resampling
-#'  each of the original assemblage with replacement. Then, examination of the
-#'  bootstrap statistics makes it possible to pinpoint assemblages that require
-#'  further investigation.
-#'
-#'  A five columns \code{\link{data.frame}} is returned, giving the bootstrap
-#'  distribution statistics for each replicated assemblage (in rows)
-#'  with the following columns:
-#'  \describe{
-#'   \item{min}{Minimum value.}
-#'   \item{mean}{Mean value (event date).}
-#'   \item{max}{Maximum value.}
-#'   \item{Q5}{Sample quantile to 0.05 probability.}
-#'   \item{Q95}{Sample quantile to 0.95 probability.}
-#'  }
-#' @return
-#'  \code{bootstrap} and \code{jackknife} return a \code{\link{data.frame}}.
-#'
-#'  \code{bootstrap} returns a \linkS4class{BootCA} object.
-#' @note
-#'  Refining method can lead to much longer execution times and larger output
-#'  objects. To monitor the execution of these re-sampling procedures, a
-#'  progress bar will be displayed.
-#' @references
-#'  Bellanger, L., Tomassone, R. & Husi, P. (2008). A Statistical Approach for
-#'  Dating Archaeological Contexts. \emph{Journal of Data Science}, 6, 135-154.
-#'
-#'  Peeples, M. A., & Schachner, G. (2012). Refining correspondence
-#'  analysis-based ceramic seriation of regional data sets. \emph{Journal of
-#'  Archaeological Science}, 39(8), 2818-2827. \doi{10.1016/j.jas.2012.04.040}.
-#' @seealso \link{date_event}, \link{index_heterogeneity},
-#'  \link{index_evenness}, \link{index_richness}, \link{seriate_correspondence}
-#' @example inst/examples/ex-refine.R
-#' @author N. Frerebeau
-#' @family statistics
-#' @docType methods
-#' @name refine
-#' @rdname refine
-NULL
-
-#' @rdname refine
-#' @aliases bootstrap-method
-setGeneric(
-  name = "bootstrap",
-  def = function(object, ...) standardGeneric("bootstrap")
-)
-
-#' @rdname refine
-#' @aliases jackknife-method
-setGeneric(
-  name = "jackknife",
-  def = function(object, ...) standardGeneric("jackknife"),
-  valueClass = "data.frame"
-)
-
 # Seriate ======================================================================
 #' Matrix Seriation
 #'
@@ -944,10 +995,16 @@ setGeneric(
 #'  rearrangement will be applied over: \code{1} indicates rows, \code{2}
 #'  indicates columns, \code{c(1, 2)} indicates rows then columns,
 #'  \code{c(2, 1)} indicates columns then rows.
-#' @param axes An \code{\link{integer}} giving the CA dimension to be used for
-#'  permutation.
+#' @param axes An \code{\link{integer}} vector giving the subscripts of the CA
+#'  axes to be used.
 #' @param stop An \code{\link{integer}} giving the stopping rule
 #'  (i.e. maximum number of iterations) to avoid infinite loop.
+#' @param cutoff A function that takes a numeric vector as argument and returns
+#'  a single numeric value (see below).
+#' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
+#' replications.
+#' @param progress A \code{\link{logical}} scalar: should a progress bar be
+#'  displayed?
 #' @param ... Further arguments to be passed to internal methods.
 #' @section Seriation:
 #'  The matrix seriation problem in archaeology is based on three conditions
@@ -988,12 +1045,30 @@ setGeneric(
 #'   If no convergence is reached before the maximum number of iterations, it
 #'   stops with a warning.}
 #'  }
-#' @inheritSection refine Correspondence Analysis
+#' @section Correspondence Analysis:
+#'  \code{refine_seriation} allows to identify samples that are subject to
+#'  sampling error or samples that have underlying structural relationships
+#'  and might be influencing the ordering along the CA space.
+#'
+#'  This relies on a partial bootstrap approach to CA-based seriation where each
+#'  sample is replicated \code{n} times. The maximum dimension length of
+#'  the convex hull around the sample point cloud allows to remove samples for
+#'  a given \code{cutoff} value.
+#'
+#'  According to Peebles and Schachner (2012), "[this] point removal procedure
+#'  [results in] a reduced dataset where the position of individuals within the
+#'  CA are highly stable and which produces an ordering consistent with the
+#'  assumptions of frequency seriation."
 #' @return
 #'  \code{seriate_*} returns a \linkS4class{PermutationOrder} object.
 #'
+#'  \code{refine_seriation} returns a \linkS4class{RefineCA} object.
+#'
 #'  \code{permute} returns either a permuted \linkS4class{CountMatrix} or an
 #'  \linkS4class{IncidenceMatrix} (the same as \code{object}).
+#' @note
+#'  Refining method can lead to much longer execution times and larger output
+#'  objects.
 #' @references
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
 #'  graphique pour tableaux de comptages. \emph{Revue archéologique de
@@ -1011,7 +1086,7 @@ setGeneric(
 #'  analysis-based ceramic seriation of regional data sets. \emph{Journal of
 #'  Archaeological Science}, 39(8), 2818-2827.
 #'  \doi{10.1016/j.jas.2012.04.040}.
-#' @seealso \link{refine}, \link[dimensio]{ca}
+#' @seealso \link{refine_seriation}, \link[dimensio]{ca}
 #' @example inst/examples/ex-seriation.R
 #' @author N. Frerebeau
 #' @family seriation
@@ -1048,6 +1123,14 @@ setGeneric(
 setGeneric(
   name = "permute",
   def = function(object, order, ...) standardGeneric("permute")
+)
+
+#' @rdname seriation
+#' @aliases refine_seriation-method
+setGeneric(
+  name = "refine_seriation",
+  def = function(object, ...) standardGeneric("refine_seriation"),
+  valueClass = "RefineCA"
 )
 
 # Similarity ===================================================================
@@ -1243,12 +1326,6 @@ setGeneric(
 #' Deprecated Methods
 #'
 #' @param object An object.
-#' @param cutoff A function that takes a numeric vector as argument and returns
-#'  a single numeric value (see below).
-#' @param axes A \code{\link{numeric}} vector giving the subscripts of the CA
-#'  axes to be used (see below).
-#' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
-#' replications (see below).
 #' @param EPPM A \code{\link{logical}} scalar: should the seriation be computed
 #'  on EPPM instead of raw data?
 #' @param margin A \code{\link{numeric}} vector giving the subscripts which the
@@ -1276,11 +1353,4 @@ setGeneric(
 setGeneric(
   name = "seriate_reciprocal",
   def = function(object, ...) standardGeneric("seriate_reciprocal")
-)
-
-#' @rdname deprecate
-#' @aliases refine_seriation-method
-setGeneric(
-  name = "refine_seriation",
-  def = function(object, ...) standardGeneric("refine_seriation")
 )

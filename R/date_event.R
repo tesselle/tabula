@@ -8,13 +8,14 @@ NULL
 setMethod(
   f = "date_event",
   signature = signature(object = "CountMatrix", dates = "numeric"),
-  definition = function(object, dates, cutoff = 90, ...) {
+  definition = function(object, dates, cutoff = 90, level = 0.95, ...) {
     ## Validation
     cutoff <- as.integer(cutoff)
     if (cutoff < 50)
       stop("Cutoff value is below 50%, you can't be serious.", call. = FALSE)
 
     ## Correspondance analysis
+    ## CA computation may rise error (if rows/columns filled only with zeros)
     results_CA <- dimensio::ca(object, ...)
     eig <- dimensio::get_eigenvalues(results_CA)
     keep_dim <- which(eig[, 3] <= cutoff)
@@ -22,73 +23,88 @@ setMethod(
     row_coord <- dimensio::get_coordinates(results_CA, margin = 1)
     row_coord <- row_coord[, keep_dim]
 
-    ## CA computation may rise error (if rows/columns filled only with zeros)
-    ## FIXME: we may need to remove corresponding dates
-
-    ## Event date
+    ## Gaussian multiple linear regression model
     contexts <- bind_by_names(row_coord, dates)
     colnames(contexts)[1] <- "date"
-
-    ## Gaussian multiple linear regression model
     fit <- stats::lm(date ~ ., data = contexts, na.action = stats::na.omit)
 
-    .DateModel(
-      data = object,
+    .DateEvent(
+      results_CA,
+      dimension = keep_dim,
       dates = contexts$date,
       model = fit,
       cutoff = cutoff,
-      dimension = keep_dim
+      keep = keep_dim
     )
   }
 )
 
+# Event ========================================================================
 #' @export
 #' @rdname event
-#' @aliases predict_event,DateModel,missing-method
+#' @aliases predict_event,DateEvent,missing-method
 setMethod(
   f = "predict_event",
-  signature = signature(object = "DateModel", data = "missing"),
-  definition = function(object, level = 0.95, ...) {
+  signature = signature(object = "DateEvent", data = "missing"),
+  definition = function(object, margin = 1, level = 0.95) {
     data <- object[["data"]]
     data <- arkhe::as_count(data)
-    predict_event(object = object, data = data, level = level, ...)
+    methods::callGeneric(object = object, data = data, margin = margin,
+                         level = level)
   }
 )
 
 #' @export
 #' @rdname event
-#' @aliases predict_event,DateModel,CountMatrix-method
+#' @aliases predict_event,DateEvent,CountMatrix-method
 setMethod(
   f = "predict_event",
-  signature = signature(object = "DateModel", data = "CountMatrix"),
-  definition = function(object, data, level = 0.95, ...) {
-
-    fit_model <- object[["model"]]
-
+  signature = signature(object = "DateEvent", data = "CountMatrix"),
+  definition = function(object, data, margin = 1, level = 0.95) {
     ## Correspondance analysis
-    results_CA <- dimensio::ca(data)
-    row_coord <- dimensio::get_coordinates(results_CA, margin = 1)
-    col_coord <- dimensio::get_coordinates(results_CA, margin = 2)
+    ca_coord <- dimensio::predict(object, data, margin = margin)
 
-    ## Predict event date for each context
-    row_event <- predict_events(fit_model, row_coord, level = level)
-    ## Predict event dates for each fabric
-    col_event <- predict_events(fit_model, col_coord, level = level)
+    ## Predict event date
+    fit_model <- object[["model"]]
+    ca_event <- compute_event(fit_model, ca_coord, level = level)
 
     # FIXME: error propagation
     # TODO: check predicted dates consistency
 
+    as.data.frame(ca_event)
+  }
+)
+
+# Accumulation =================================================================
+#' @export
+#' @rdname event
+#' @aliases predict_accumulation,DateEvent,missing-method
+setMethod(
+  f = "predict_accumulation",
+  signature = signature(object = "DateEvent", data = "missing"),
+  definition = function(object, level = 0.95) {
+    data <- object[["data"]]
+    data <- arkhe::as_count(data)
+    methods::callGeneric(object = object, data = data, level = level)
+  }
+)
+
+#' @export
+#' @rdname event
+#' @aliases predict_accumulation,DateEvent,CountMatrix-method
+setMethod(
+  f = "predict_accumulation",
+  signature = signature(object = "DateEvent", data = "CountMatrix"),
+  definition = function(object, data, level = 0.95) {
+    ## Predict event date
+    row_event <- predict_event(object, data, margin = 1, level = level)
+    col_event <- predict_event(object, data, margin = 2, level = level)
+
     # Accumulation time point estimate
     date_range <- range(row_event[, c("lower", "upper")])
-    acc_estimate <- predict_accumulation(data, col_event, date_range)
+    acc_estimate <- compute_accumulation(data, col_event, date_range)
 
-    .DateEvent(
-      data = as.matrix(data),
-      level = level,
-      row_events = row_event,
-      column_events = col_event,
-      accumulation = acc_estimate
-    )
+    as.data.frame(acc_estimate)
   }
 )
 
@@ -106,7 +122,7 @@ setMethod(
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
-predict_events <- function(fit, data, level) {
+compute_event <- function(fit, data, level) {
   data <- as.data.frame(data)
   date_predict <- stats::predict.lm(fit, data, se.fit = TRUE,
                                     interval = "confidence", level = level)
@@ -133,7 +149,7 @@ predict_events <- function(fit, data, level) {
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
-predict_accumulation <- function(count, event, range) {
+compute_accumulation <- function(count, event, range) {
   col_dates <- event[, "date", drop = TRUE]
   col_errors <- event[, "error", drop = TRUE]
   date_range <- seq(from = min(range), to = max(range), length.out = 500)
@@ -141,10 +157,12 @@ predict_accumulation <- function(count, event, range) {
   # Point estimate of accumulation time
   ## Weighted sum of the fabric dates
   acc_mean <- apply(
-    X = count, MARGIN = 1,
+    X = count,
+    MARGIN = 1,
     FUN = function(weights, dates) {
       stats::weighted.mean(x = dates, w = weights)
-    }, dates = col_dates
+    },
+    dates = col_dates
   )
 
   # FIXME: error propagation

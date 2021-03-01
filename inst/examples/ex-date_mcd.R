@@ -17,8 +17,8 @@ dates <- list(
 mid <- vapply(X = dates, FUN = mean, FUN.VALUE = numeric(1))
 
 ## Calculate MCD
-## (we use a bootstrapping procedure to )
-mcd <- date_mcd(counts, dates = mid)
+mc_dates <- date_mcd(counts, dates = mid)
 
 ## Bootstrap resampling
-boot <- bootstrap(mcd)
+boot <- bootstrap_mcd(counts, dates = mid)
+head(boot)
