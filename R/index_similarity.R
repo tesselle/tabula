@@ -1,3 +1,4 @@
+# SIMILARITY
 #' @include AllGenerics.R AllClasses.R
 NULL
 
@@ -10,6 +11,7 @@ setMethod(
   definition = function(object, method = c("brainerd", "bray", "jaccard",
                                            "morisita", "sorenson", "binomial"),
                         ...) {
+    method <- match.arg(method, several.ok = FALSE)
     index_similarity(object, method)
   }
 )
@@ -21,26 +23,30 @@ setMethod(
   f = "similarity",
   signature = signature(object = "IncidenceMatrix"),
   definition = function(object, method = c("jaccard", "sorenson"), ...) {
+    method <- match.arg(method, several.ok = FALSE)
     index_similarity(object, method)
   }
 )
 
 index_similarity <- function(object, method, ...) {
-  index <- switch (
-    method,
-    binomial = similarityBinomial,
-    brainerd = similarityBrainerd,
-    bray = similarityBray,
-    jaccard = similarityJaccard,
-    morisita = similarityMorisita,
-    sorenson = similaritySorenson,
-    stop(sprintf("There is no such method: %s.", method), call. = FALSE)
-  )
+  fun <- switch_similarity(method) # Select method
 
   # Pairwise comparison
   by_row <- method != "binomial"
-  m <- if (by_row) nrow(object) else ncol(object)
-  labels <- if (by_row) rownames(object) else colnames(object)
+  if (by_row) { # Sample/case comparisons
+    m <- nrow(object)
+    labels <- rownames(object)
+    beta <- function(x, f) {
+      f(object[x[1], ], object[x[2], ])
+    }
+  } else { # Taxa/type comparisons
+    m <- ncol(object)
+    labels <- colnames(object)
+    beta <- function(x, f) {
+      f(object[, x[1]], object[, x[2]])
+    }
+  }
+
   diag_value <- switch (
     method,
     "brainerd" = 200,
@@ -48,39 +54,35 @@ index_similarity <- function(object, method, ...) {
     1
   )
 
-  if (by_row) {
-    # Sample/case comparisons
-    beta <- apply(
-      X = utils::combn(seq_len(m), 2),
-      MARGIN = 2,
-      FUN = function(x) {
-        index(object[x[1], ], object[x[2], ])
-      }
-    )
-  } else {
-    # Taxa/type comparisons
-    beta <- apply(
-      X = utils::combn(seq_len(m), 2),
-      MARGIN = 2,
-      FUN = function(x) {
-        index(object[, x[1]], object[, x[2]])
-      }
-    )
-  }
+  cbn <- utils::combn(seq_len(m), 2)
+  index <- apply(X = cbn, MARGIN = 2, FUN = beta, f = fun)
 
   # Matrix of results
-  C <- matrix(data = diag_value, nrow = m, ncol = m,
-              dimnames = list(labels, labels))
-  C[lower.tri(C, diag = FALSE)] <- beta
-  C <- t(C)
-  C[lower.tri(C, diag = FALSE)] <- beta
+  mtx <- matrix(data = diag_value, nrow = m, ncol = m,
+                dimnames = list(labels, labels))
+  mtx[lower.tri(mtx, diag = FALSE)] <- index
+  mtx <- t(mtx)
+  mtx[lower.tri(mtx, diag = FALSE)] <- index
 
-  sim <- stats::as.dist(C)
+  sim <- stats::as.dist(mtx)
   attr(sim, "method") <- method
   sim
 }
 
-# ==============================================================================
+# Index ========================================================================
+switch_similarity <- function(x) {
+  index <- switch (
+    x,
+    binomial = similarityBinomial,
+    brainerd = similarityBrainerd,
+    bray = similarityBray,
+    jaccard = similarityJaccard,
+    morisita = similarityMorisita,
+    sorenson = similaritySorenson,
+    stop(sprintf("There is no such method: %s.", x), call. = FALSE)
+  )
+}
+
 #' Similarity index
 #'
 #' @description

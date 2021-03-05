@@ -11,6 +11,7 @@ setMethod(
   signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("berger", "brillouin", "mcintosh",
                                            "shannon", "simpson"), ...) {
+    method <- match.arg(method, several.ok = FALSE)
     fun <- switch_heterogeneity(method) # Select method
     index <- index_diversity(object, fun)
     .HeterogeneityIndex(index, method = method)
@@ -26,6 +27,7 @@ setMethod(
   definition = function(object, method = c("berger", "brillouin", "mcintosh",
                                            "shannon", "simpson"),
                         probs = c(0.05, 0.95), n = 1000, ...) {
+    method <- match.arg(method, several.ok = FALSE)
     fun <- switch_heterogeneity(method) # Select method
     bootstrap_diversity(object, method = fun, probs = probs, n = n)
   }
@@ -39,6 +41,7 @@ setMethod(
   signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("berger", "brillouin", "mcintosh",
                                            "shannon", "simpson"), ...) {
+    method <- match.arg(method, several.ok = FALSE)
     fun <- switch_heterogeneity(method) # Select method
     jackknife_diversity(object, method = fun)
   }
@@ -53,6 +56,7 @@ setMethod(
   signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("shannon", "brillouin", "mcintosh",
                                            "simpson"), ...) {
+    method <- match.arg(method, several.ok = FALSE)
     fun <- switch_evenness(method) # Select method
     index <- index_diversity(object, fun)
     .EvennessIndex(index, method = method)
@@ -69,6 +73,7 @@ setMethod(
                                            "simpson"),
                         quantiles = TRUE, level = 0.80, step = 1, n = 1000,
                         progress = getOption("tabula.progress"), ...) {
+    method <- match.arg(method, several.ok = FALSE)
     fun <- switch_heterogeneity(method) # Select method
     index <- simulate_diversity(
       object,
@@ -92,6 +97,7 @@ setMethod(
   definition = function(object, method = c("berger", "brillouin", "mcintosh",
                                            "shannon", "simpson"),
                         probs = c(0.05, 0.95), n = 1000, ...) {
+    method <- match.arg(method, several.ok = FALSE)
     fun <- switch_heterogeneity(method) # Select method
     bootstrap_diversity(object, method = fun, probs = probs, n = n)
   }
@@ -105,6 +111,7 @@ setMethod(
   signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("berger", "brillouin", "mcintosh",
                                            "shannon", "simpson"), ...) {
+    method <- match.arg(method, several.ok = FALSE)
     fun <- switch_heterogeneity(method) # Select method
     jackknife_diversity(object, method = fun)
   }

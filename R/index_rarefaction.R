@@ -9,24 +9,19 @@ setMethod(
   signature = signature(object = "CountMatrix"),
   definition = function(object, sample, method = c("hurlbert"),
                         simplify = TRUE, ...) {
-    # Select method
-    fun <- switch_rarefaction(method)
+    method <- match.arg(method, several.ok = FALSE)
+    fun <- switch_rarefaction(method) # Select method
 
     apply(X = object, MARGIN = 1, FUN = fun, sample)
   }
 )
 
 switch_rarefaction <- function(x) {
-  # Validation
-  measures <- c("hurlbert")
-  x <- match.arg(x, choices = measures, several.ok = FALSE)
-
-  index <- switch (
+  switch (
     x,
     hurlbert = rarefactionHurlbert,
     stop(sprintf("There is no such method: %s.", x), call. = FALSE)
   )
-  return(index)
 }
 
 # ==============================================================================

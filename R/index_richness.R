@@ -10,6 +10,7 @@ setMethod(
   signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("none", "margalef", "menhinick"),
                         ...) {
+    method <- match.arg(method, several.ok = FALSE)
     fun <- switch_richness(method) # Select method
     index <- index_diversity(object, fun)
     .RichnessIndex(index, method = method)
@@ -24,6 +25,7 @@ setMethod(
   definition = function(object, method = c("none", "margalef", "menhinick"),
                         quantiles = TRUE, level = 0.80, step = 1, n = 1000,
                         progress = getOption("tabula.progress"), ...) {
+    method <- match.arg(method, several.ok = FALSE)
     fun <- switch_richness(method) # Select method
     index <- simulate_diversity(
       object,
@@ -46,6 +48,7 @@ setMethod(
   signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("none", "margalef", "menhinick"),
                         probs = c(0.05, 0.95), n = 1000, ...) {
+    method <- match.arg(method, several.ok = FALSE)
     fun <- switch_richness(method) # Select method
     bootstrap_diversity(object, method = fun, probs = probs, n = n)
   }
@@ -59,6 +62,7 @@ setMethod(
   signature = signature(object = "CountMatrix"),
   definition = function(object, method = c("none", "margalef", "menhinick"),
                         ...) {
+    method <- match.arg(method, several.ok = FALSE)
     fun <- switch_richness(method) # Select method
     jackknife_diversity(object, method = fun)
   }

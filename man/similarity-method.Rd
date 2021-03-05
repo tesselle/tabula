@@ -70,9 +70,9 @@ ceramics <- CountMatrix(
            0, 0, 18, 0, 14),
   nrow = 9, byrow = TRUE
 )
-dimnames(ceramics) <- list(c("Atsinna", "Cienega", "Mirabal", "PdMuertos",
-                             "Hesh", "LowPesc", "BoxS", "Ojo Bon", "S170"),
-                           c("DLH-1", "DLH-2a", "DLH-2b", "DLH-2c", "DLH-4"))
+rownames(ceramics) <- c("Atsinna", "Cienega", "Mirabal", "PdMuertos",
+                        "Hesh", "LowPesc", "BoxS", "Ojo Bon", "S170")
+colnames(ceramics) <- c("DLH-1", "DLH-2a", "DLH-2b", "DLH-2c", "DLH-4")
 
 ## Brainerd-Robinson measure (count data)
 C <- similarity(ceramics, "brainerd")
@@ -80,6 +80,8 @@ plot_spot(C)
 
 ## Data from Magurran 1988, p. 166
 data("birds", package = "folio")
+
+## Plot spot diagram
 birds <- as_count(birds)
 
 ## Jaccard measure (presence/absence data)

@@ -3,7 +3,6 @@
 NULL
 
 # S4 dispatch to base S3 generic ===============================================
-setGeneric("simulate")
 if (!isGeneric("plot"))
   setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
 
