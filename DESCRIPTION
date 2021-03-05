@@ -51,12 +51,12 @@ URL: https://tabula.tesselle.org,
     https://github.com/tesselle/tabula
 BugReports: https://github.com/tesselle/tabula/issues
 Depends: 
-    R (>= 3.3),
-    arkhe (> 0.2.2)
+    R (>= 3.3)
 Remotes:
     tesselle/arkhe
     tesselle/dimensio
 Imports:
+    arkhe (> 0.2.2),
     dimensio,
     ggplot2,
     grDevices,
@@ -103,6 +103,7 @@ Collate:
     'plot_rank.R'
     'plot_spot.R'
     'plot_time.R'
+    'reexport.R'
     'refine_ca.R'
     'refine_event.R'
     'seriate_average.R'

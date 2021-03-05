@@ -27,10 +27,10 @@ JOSS](https://joss.theoj.org/papers/10.21105/joss.01821/status.svg)](https://doi
 
 ## Overview
 
-An easy way to examine archaeological count data. This package provides
-a convenient and reproducible toolkit for relative and absolute dating
-and analysis of (chronological) patterns. It includes functions for
-matrix seriation (reciprocal ranking, CA-based seriation), chronological
+An easy way to examine archaeological count data. **tabula** provides a
+convenient and reproducible toolkit for relative and absolute dating and
+analysis of (chronological) patterns. It includes functions for matrix
+seriation (reciprocal ranking, CA-based seriation), chronological
 modeling and dating of archaeological assemblages and/or objects. Beyond
 these, the package provides several tests and measures of diversity:
 heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness
@@ -67,9 +67,9 @@ remotes::install_github("tesselle/tabula")
 ``` r
 ## Load packages
 library(tabula)
-#> Loading required package: arkhe
 
-library(khroma)
+library(folio) # Datasets
+library(khroma) # Color scales
 library(ggplot2)
 library(magrittr)
 ```
@@ -100,6 +100,7 @@ scale_01 <- function(x) (x - min(x)) / (max(x) - min(x))
 mississippi %>%
   as_count() %>%
   plot_bertin(threshold = mean, scale = scale_01) +
+  ggplot2::labs(fill = "Mean") +
   khroma::scale_fill_vibrant()
 ```
 
@@ -123,8 +124,7 @@ Spot matrix[1] allows direct examination of data:
 mississippi %>%
   as_occurrence() %>%
   plot_spot() +
-  ggplot2::labs(size = "", colour = "Co-occurrence") +
-  ggplot2::theme(legend.box = "horizontal") +
+  ggplot2::labs(size = "Co-occurrence", colour = "Co-occurrence") +
   khroma::scale_colour_YlOrBr()
 ```
 
@@ -170,7 +170,7 @@ method developed by Bellanger and Husi
 slightly modified here and allows the construction of different
 probability density curves of archaeological assemblage dates (*event*,
 *activity* and *tempo*). Note that this implementation is experimental
-(see `help(date_event)`).
+(see `vignette("dating")`).
 
 ``` r
 ## Coerce dataset to abundance (count) matrix
@@ -185,9 +185,7 @@ zuni_dates <- c(
 )
 
 ## Model the event date for each assemblage
-model <- date_event(zuni_counts, dates = zuni_dates, cutoff = 90)
-## Predict event and accumulation dates
-event <- predict_event(model)
+event <- date_event(zuni_counts, dates = zuni_dates, cutoff = 90)
 
 ## Plot activity and tempo distributions
 plot_date(event, type = "activity", select = "LZ1105") +
@@ -213,40 +211,43 @@ mississippi %>%
   as_count() %>%
   index_heterogeneity(method = "shannon")
 #> <HeterogeneityIndex: shannon>
-#>             id size     index
-#> 1       10-P-1  153 1.2027955
-#> 2       11-N-9  758 0.7646565
-#> 3       11-N-1 1303 0.9293974
-#> 4      11-O-10  638 0.8228576
-#> 5       11-N-4 1266 0.7901428
-#> 6       13-N-5   79 0.9998430
-#> 7       13-N-4  241 1.2051989
-#> 8      13-N-16  171 1.1776226
-#> 9      13-O-11  128 1.1533432
-#> 10     13-O-10  226 1.2884172
-#> 11      13-P-1  360 1.1725355
-#> 12      13-P-8  192 1.5296294
-#> 13     13-P-10   91 1.7952443
-#> 14      13-O-7 1233 1.1627477
-#> 15      13-O-5 1709 1.0718463
-#> 16     13-N-21  614 0.9205717
-#> 17      12-O-5  424 1.1751002
-#> 18 Holden Lake  360 0.7307620
-#> 19     13-N-15 1300 1.1270126
-#> 20      12-N-3  983 1.0270291
+#>             size     index
+#> 10-P-1       153 1.2027955
+#> 11-N-9       758 0.7646565
+#> 11-N-1      1303 0.9293974
+#> 11-O-10      638 0.8228576
+#> 11-N-4      1266 0.7901428
+#> 13-N-5        79 0.9998430
+#> 13-N-4       241 1.2051989
+#> 13-N-16      171 1.1776226
+#> 13-O-11      128 1.1533432
+#> 13-O-10      226 1.2884172
+#> 13-P-1       360 1.1725355
+#> 13-P-8       192 1.5296294
+#> 13-P-10       91 1.7952443
+#> 13-O-7      1233 1.1627477
+#> 13-O-5      1709 1.0718463
+#> 13-N-21      614 0.9205717
+#> 12-O-5       424 1.1751002
+#> Holden Lake  360 0.7307620
+#> 13-N-15     1300 1.1270126
+#> 12-N-3       983 1.0270291
 ```
 
 ``` r
 ## Data from Conkey 1980, Kintigh 1989, p. 28
-altamira %>%
-  as_count() %>%
-  index_richness(method = "none") %>% 
-  simulate() %>% 
-  plot() +
+chevelon <- as_count(chevelon)
+
+sim_evenness <- simulate_evenness(chevelon, method = "shannon")
+plot(sim_evenness) +
+  ggplot2::theme_bw()
+
+sim_richness <- simulate_richness(chevelon, method = "none")
+plot(sim_richness) +
   ggplot2::theme_bw()
 ```
 
-<img src="man/figures/README-sample-size-1.png" style="display: block; margin: auto;" />
+![](man/figures/README-sample-size-1.png)![](man/figures/README-sample-size-2.png)
 
 Several methods can be used to ascertain the degree of *turnover* in
 taxa composition along a gradient on qualitative (presence/absence)
