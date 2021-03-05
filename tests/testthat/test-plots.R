@@ -34,7 +34,7 @@ test_that("Matrix plot", {
   skip_if_not_installed("folio")
   data("mississippi", package = "folio")
   test_count <- arkhe::as_count(mississippi)
-  test_freq <- arkhe::as_abundance(mississippi)
+  test_freq <- arkhe::as_composition(mississippi)
   test_incid <- arkhe::as_incidence(mississippi)
 
   # Count data
@@ -52,7 +52,7 @@ test_that("Rank plot", {
   skip_if_not_installed("folio")
   data("mississippi", package = "folio")
   test_count <- arkhe::as_count(mississippi)
-  test_freq <- arkhe::as_abundance(mississippi)
+  test_freq <- arkhe::as_composition(mississippi)
 
   for (i in c(TRUE, FALSE)) {
     # Count data
@@ -73,7 +73,7 @@ test_that("Spot plot - Abundance", {
   skip_if_not_installed("folio")
   data("mississippi", package = "folio")
   test_count <- arkhe::as_count(mississippi)
-  test_freq <- arkhe::as_abundance(mississippi)
+  test_freq <- arkhe::as_composition(mississippi)
 
   # Count data, no threshold
   gg_spot_count <- plot_spot(test_count)

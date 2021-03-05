@@ -12,10 +12,6 @@ test_that("Richness", {
     expect_s4_class(index, "RichnessIndex")
     expect_length(index@values, 2)
   }
-
-  # Frequency data
-  freq <- as(trap, "AbundanceMatrix")
-  expect_error(index_richness(freq))
 })
 test_that("Chao richness", {
   # Data from Magurran 1988, p. 128-129

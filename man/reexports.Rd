@@ -4,14 +4,14 @@
 \name{reexports}
 \alias{reexports}
 \alias{as_count}
-\alias{as_abundance}
+\alias{as_composition}
 \alias{as_occurrence}
 \alias{as_incidence}
 \alias{as_stratigraphy}
 \alias{as_long}
 \alias{as_features}
 \alias{CountMatrix}
-\alias{AbundanceMatrix}
+\alias{CompositionMatrix}
 \alias{IncidenceMatrix}
 \title{Objects exported from other packages}
 \keyword{internal}
@@ -20,6 +20,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{arkhe}{\code{\link[arkhe:AbundanceMatrix-class]{AbundanceMatrix}}, \code{\link[arkhe:CountMatrix-class]{CountMatrix}}, \code{\link[arkhe:IncidenceMatrix-class]{IncidenceMatrix}}, \code{\link[arkhe:coerce]{as_abundance}}, \code{\link[arkhe:coerce]{as_count}}, \code{\link[arkhe:coerce]{as_features}}, \code{\link[arkhe:coerce]{as_incidence}}, \code{\link[arkhe:coerce]{as_long}}, \code{\link[arkhe:coerce]{as_occurrence}}, \code{\link[arkhe:coerce]{as_stratigraphy}}}
+  \item{arkhe}{\code{\link[arkhe:CompositionMatrix-class]{CompositionMatrix}}, \code{\link[arkhe:CountMatrix-class]{CountMatrix}}, \code{\link[arkhe:IncidenceMatrix-class]{IncidenceMatrix}}, \code{\link[arkhe:coerce]{as_composition}}, \code{\link[arkhe:coerce]{as_count}}, \code{\link[arkhe:coerce]{as_features}}, \code{\link[arkhe:coerce]{as_incidence}}, \code{\link[arkhe:coerce]{as_long}}, \code{\link[arkhe:coerce]{as_occurrence}}, \code{\link[arkhe:coerce]{as_stratigraphy}}}
 }}
 

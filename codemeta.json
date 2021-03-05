@@ -196,20 +196,20 @@
       "@type": "SoftwareApplication",
       "identifier": "arkhe",
       "name": "arkhe",
-      "version": "> 0.2.2",
+      "version": ">= 0.3.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=arkhe"
+      "sameAs": "https://github.com/tesselle/arkhe"
     },
     {
       "@type": "SoftwareApplication",
       "identifier": "dimensio",
       "name": "dimensio",
-      "sameAs": "https://github.com/tesselle/arkhe\n    tesselle/dimensio"
+      "sameAs": "https://github.com/tesselle/dimensio"
     },
     {
       "@type": "SoftwareApplication",
@@ -293,7 +293,7 @@
       }
     }
   ],
-  "fileSize": "2395.963KB",
+  "fileSize": "2395.552KB",
   "releaseNotes": "https://github.com/tesselle/tabula/blob/master/NEWS.md",
   "readme": "https://github.com/tesselle/tabula/blob/master/README.md"
 }

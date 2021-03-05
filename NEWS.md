@@ -27,7 +27,7 @@
 * `date_mcd()`, `date_event()` and `plot_time()` gained a new `dates` argument.
 
 ## Internals
-* Imports **arkhe** > 0.2.2.
+* Imports **arkhe** >= 0.3.0
 * Re-export methods from **arkhe**.
 * Imports **dimensio**.
 * Use datasets from **folio**.

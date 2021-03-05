@@ -4,9 +4,9 @@
 #' @export
 arkhe::as_count
 
-#' @importFrom arkhe as_abundance
+#' @importFrom arkhe as_composition
 #' @export
-arkhe::as_abundance
+arkhe::as_composition
 
 #' @importFrom arkhe as_occurrence
 #' @export
@@ -32,9 +32,9 @@ arkhe::as_features
 #' @export
 arkhe::CountMatrix
 
-#' @importFrom arkhe AbundanceMatrix
+#' @importFrom arkhe CompositionMatrix
 #' @export
-arkhe::AbundanceMatrix
+arkhe::CompositionMatrix
 
 #' @importFrom arkhe IncidenceMatrix
 #' @export

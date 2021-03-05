@@ -20,11 +20,6 @@ test_that("Similiraty measure (count data)", {
   expect_s3_class(similarity(count, method = "binomial"), "dist")
   expect_length(similarity(count, method = "binomial"), (26^2 - 26) / 2)
 })
-test_that("Similiraty measure (frequency data)", {
-  freq <- as(birds, "AbundanceMatrix")
-  method <- c("bray", "jaccard", "morisita", "sorenson")
-  expect_error(similarity(freq, method = "bray"))
-})
 test_that("Similiraty measure (presence/absence data)", {
   bin <- as(birds, "IncidenceMatrix")
   method1 <- c("jaccard", "sorenson")

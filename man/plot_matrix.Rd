@@ -30,7 +30,7 @@ data("compiegne", package = "folio")
 ## Coerce dataset to absolute frequencies
 counts <- as_count(compiegne)
 ## Coerce dataset to relative frequencies
-freq <- as_abundance(compiegne)
+freq <- as_composition(compiegne)
 
 ## Plot matrix diagram...
 plot_heatmap(counts)

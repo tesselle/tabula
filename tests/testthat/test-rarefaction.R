@@ -12,12 +12,6 @@ test_that("Rarefaction", {
   index <- rarefaction(trap, sample = 13)
   expect_type(index, "double")
   expect_equal(round(index, digits = 2), expected)
-
-  freq <- as(trap, "AbundanceMatrix")
-  expect_error(rarefaction(freq, 13))
-
-  incid <- as(trap, "IncidenceMatrix")
-  expect_error(rarefaction(incid, 13))
 })
 
 # Indices ======================================================================

@@ -92,7 +92,7 @@ setMethod(
 #' @noRd
 prepare_ford <- function(x) {
   ## Relative frequencies
-  freq <- arkhe::as_abundance(x)
+  freq <- arkhe::as_composition(x)
 
   ## Adaptive spacing between columns
   padding <- 0.02
