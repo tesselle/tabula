@@ -1,5 +1,3 @@
-context("Plots")
-
 test_that("Bertin plot", {
   skip_if_not_installed("vdiffr")
   skip_if_not_installed("folio")
@@ -128,4 +126,18 @@ test_that("Time plot", {
 
   # Errors
   expect_error(plot_time(freq, roll = TRUE, window = 2), "odd integer")
+})
+test_that("Diversity plot", {
+  skip_if_not_installed("vdiffr")
+  skip_if_not_installed("folio")
+  data("chevelon", package = "folio")
+  chevelon <- as_count(chevelon)
+
+  idx_heterogeneity <- index_heterogeneity(chevelon, method = "shannon")
+  gg_heterogeneity <- plot(idx_heterogeneity)
+  vdiffr::expect_doppelganger("idx_heterogeneity", gg_heterogeneity)
+
+  idx_richness <- index_richness(chevelon, method = "none")
+  gg_richness <- plot(idx_richness)
+  vdiffr::expect_doppelganger("idx_richness", gg_richness)
 })

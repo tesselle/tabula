@@ -16,8 +16,6 @@ status](https://github.com/tesselle/tabula/workflows/R-CMD-check/badge.svg)](htt
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![Lifecycle:
-stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
 
 [![DOI
 Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
@@ -100,8 +98,7 @@ scale_01 <- function(x) (x - min(x)) / (max(x) - min(x))
 mississippi %>%
   as_count() %>%
   plot_bertin(threshold = mean, scale = scale_01) +
-  ggplot2::labs(fill = "Mean") +
-  khroma::scale_fill_vibrant()
+  khroma::scale_fill_vibrant(name = "Mean")
 ```
 
 <img src="man/figures/README-bertin-1.png" style="display: block; margin: auto;" />
@@ -238,13 +235,15 @@ mississippi %>%
 ## Data from Conkey 1980, Kintigh 1989, p. 28
 chevelon <- as_count(chevelon)
 
-sim_evenness <- simulate_evenness(chevelon, method = "shannon")
-plot(sim_evenness) +
-  ggplot2::theme_bw()
+sim_heterogeneity <- simulate_heterogeneity(chevelon, method = "shannon")
+plot(sim_heterogeneity) +
+  ggplot2::theme_bw() +
+  ggplot2::theme(legend.position = "bottom")
 
 sim_richness <- simulate_richness(chevelon, method = "none")
 plot(sim_richness) +
-  ggplot2::theme_bw()
+  ggplot2::theme_bw() +
+  ggplot2::theme(legend.position = "bottom")
 ```
 
 ![](man/figures/README-sample-size-1.png)![](man/figures/README-sample-size-2.png)
@@ -264,7 +263,7 @@ mississippi %>%
   as_count() %>%
   similarity(method = "brainerd") %>%
   plot_spot() +
-  khroma::scale_colour_iridescent()
+  khroma::scale_colour_iridescent(name = "brainerd")
 ```
 
 <img src="man/figures/README-similarity-brainerd-1.png" style="display: block; margin: auto;" />

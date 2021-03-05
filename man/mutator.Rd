@@ -13,6 +13,7 @@
 \alias{get_order-method}
 \alias{get_index,HeterogeneityIndex-method}
 \alias{get_index,EvennessIndex-method}
+\alias{get_index,RichnessIndex-method}
 \alias{get_method,DiversityIndex-method}
 \title{Get or Set Parts of an Object}
 \usage{
@@ -25,6 +26,8 @@ get_order(x)
 \S4method{get_index}{HeterogeneityIndex}(x)
 
 \S4method{get_index}{EvennessIndex}(x)
+
+\S4method{get_index}{RichnessIndex}(x)
 
 \S4method{get_method}{DiversityIndex}(x)
 }

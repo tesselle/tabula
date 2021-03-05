@@ -1,5 +1,3 @@
-context("Utilities")
-
 # Test helpers
 test_that("Compact", {
   expect_length(compact(is.null, list("A", NULL, "B")), 2)

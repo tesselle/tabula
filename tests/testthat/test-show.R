@@ -1,5 +1,3 @@
-context("Show")
-
 test_that("RefineCA", {
   A <- methods::new("RefineCA")
   expect_output(show(A), "RefineCA")

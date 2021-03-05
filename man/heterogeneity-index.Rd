@@ -5,6 +5,8 @@
 \alias{heterogeneity-index}
 \alias{index_heterogeneity}
 \alias{index_heterogeneity-method}
+\alias{simulate_heterogeneity}
+\alias{simulate_heterogeneity-method}
 \alias{bootstrap_heterogeneity}
 \alias{bootstrap_heterogeneity-method}
 \alias{jackknife_heterogeneity}
@@ -18,6 +20,7 @@
 \alias{jackknife_evenness}
 \alias{jackknife_evenness-method}
 \alias{index_heterogeneity,CountMatrix-method}
+\alias{simulate_heterogeneity,CountMatrix-method}
 \alias{bootstrap_heterogeneity,CountMatrix-method}
 \alias{jackknife_heterogeneity,CountMatrix-method}
 \alias{index_evenness,CountMatrix-method}
@@ -27,6 +30,8 @@
 \title{Heterogeneity and Evenness}
 \usage{
 index_heterogeneity(object, ...)
+
+simulate_heterogeneity(object, ...)
 
 bootstrap_heterogeneity(object, ...)
 
@@ -43,6 +48,17 @@ jackknife_evenness(object, ...)
 \S4method{index_heterogeneity}{CountMatrix}(
   object,
   method = c("berger", "brillouin", "mcintosh", "shannon", "simpson"),
+  ...
+)
+
+\S4method{simulate_heterogeneity}{CountMatrix}(
+  object,
+  method = c("berger", "brillouin", "mcintosh", "shannon", "simpson"),
+  quantiles = TRUE,
+  level = 0.8,
+  step = 1,
+  n = 1000,
+  progress = getOption("tabula.progress"),
   ...
 )
 
@@ -100,12 +116,6 @@ a \linkS4class{CountMatrix} object).}
 \item{method}{A \code{\link{character}} string specifying the index to be
 computed (see details). Any unambiguous substring can be given.}
 
-\item{probs}{A \code{\link{numeric}} vector of probabilities with values in
-\eqn{[0,1]} (see \code{\link[stats:quantile]{quantile}}).}
-
-\item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
-replications.}
-
 \item{quantiles}{A \code{\link{logical}} scalar: should sample quantiles
 be used as confidence interval? If \code{TRUE} (the default),
 sample quantiles are used as described in Kintigh (1989), else quantiles of
@@ -117,8 +127,14 @@ confidence level.}
 \item{step}{A non-negative \code{\link{integer}} giving the increment of the
 sample size. Only used if \code{simulate} is \code{TRUE}.}
 
+\item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
+replications.}
+
 \item{progress}{A \code{\link{logical}} scalar: should a progress bar be
 displayed?}
+
+\item{probs}{A \code{\link{numeric}} vector of probabilities with values in
+\eqn{[0,1]} (see \code{\link[stats:quantile]{quantile}}).}
 }
 \value{
 \code{index_heterogeneity}, \code{index_evenness} and
@@ -202,11 +218,9 @@ chevelon <- as_count(chevelon)
 
 ## Bootstrap resampling
 (boot_h <- bootstrap_heterogeneity(chevelon, method = "shannon"))
-(boot_e <- bootstrap_evenness(chevelon, method = "shannon"))
 
 ## Jackknife resampling
 (jack_h <- jackknife_heterogeneity(chevelon, method = "shannon"))
-(jack_e <- jackknife_evenness(chevelon, method = "shannon"))
 }
 \references{
 Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera

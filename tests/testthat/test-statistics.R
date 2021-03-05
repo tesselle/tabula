@@ -1,5 +1,3 @@
-context("Statistics")
-
 test_that("Compute thresholds", {
   counts <- arkhe::as_count(compiegne)
   expect_type(eppm(counts), "double") # matrix

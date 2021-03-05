@@ -8,8 +8,6 @@ chevelon <- as_count(chevelon)
 
 ## Bootstrap resampling
 (boot_h <- bootstrap_heterogeneity(chevelon, method = "shannon"))
-(boot_e <- bootstrap_evenness(chevelon, method = "shannon"))
 
 ## Jackknife resampling
 (jack_h <- jackknife_heterogeneity(chevelon, method = "shannon"))
-(jack_e <- jackknife_evenness(chevelon, method = "shannon"))

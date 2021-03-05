@@ -1,5 +1,3 @@
-context("Extract")
-
 test_that("RefineCA", {
   expect_s4_class(.RefineCA(), "RefineCA")
   cls_bootCA <- new("RefineCA")

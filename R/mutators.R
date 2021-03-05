@@ -23,6 +23,15 @@ setMethod(
 
 #' @export
 #' @rdname mutator
+#' @aliases get_index,RichnessIndex-method
+setMethod(
+  f = "get_index",
+  signature = "RichnessIndex",
+  definition = function(x) switch_richness(x@method)
+)
+
+#' @export
+#' @rdname mutator
 #' @aliases get_method,DiversityIndex-method
 setMethod(
   f = "get_method",

@@ -1,5 +1,3 @@
-context("Date & Time")
-
 test_that("Mean Ceramic Date", {
   # Load dataset
   skip_if_not_installed("folio")
@@ -25,7 +23,7 @@ test_that("Mean Ceramic Date", {
   dt <- date_mcd(zuni2, zuni_mid_dates)
   expected <- c(943, 1205, 1187, 1150, 782, 1148, 1156,
                 1248, 1248, 1262, 1250, 1249)
-  expect_equal(round(dt@mcd_values, 0), expected, check.attributes = FALSE)
+  expect_equal(round(dt@mcd_values, 0), expected, ignore_attr = TRUE)
 })
 test_that("Date Model", {
   # Load dataset

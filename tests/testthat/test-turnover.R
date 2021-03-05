@@ -1,5 +1,3 @@
-context("Turnover")
-
 trees <- matrix(
   c(TRUE, TRUE, TRUE, FALSE, FALSE, FALSE,
     TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
@@ -29,10 +27,10 @@ test_that("Turnover measure (presence/absence data)", {
 
   for (i in 1:length(method)) {
     index <- turnover(incid, method = method[i], simplify = TRUE)
-    expect_is(index, "numeric")
-    expect_equal(round(index, 2), expected[i], check.attributes = FALSE)
+    expect_type(index, "double")
+    expect_equal(round(index, 2), expected[i], ignore_attr = TRUE)
 
-    expect_is(turnover(count, method = "cody", simplify = TRUE), "numeric")
+    expect_type(turnover(count, method = "cody", simplify = TRUE), "double")
   }
 
 })

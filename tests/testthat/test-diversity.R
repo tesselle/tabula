@@ -1,5 +1,3 @@
-context("Diversity index")
-
 birds <- matrix(c(1.4, 4.3, 2.9, 8.6, 4.2, 15.7, 2.0, 50, 1, 11.4, 11.4, 4.3,
                   13.0, 14.3, 8.6, 7.1, 10.0, 1.4, 2.9, 5.7, 1.4, 11.4, 2.9,
                   4.3, 1.4, 2.9,
@@ -12,9 +10,11 @@ test_that("Heterogeneity", {
   method <- c("berger", "brillouin", "mcintosh", "shannon", "simpson")
   for (i in method) {
     index <- index_heterogeneity(count, method = i)
-    expect_s4_class(index, "HeterogeneityIndex")
     expect_length(index@values, 2)
+    expect_equal(get_method(index), i)
   }
+
+  expect_type(get_index(index), "closure")
 })
 
 test_that("Evenness", {
@@ -25,6 +25,8 @@ test_that("Evenness", {
     expect_s4_class(index, "EvennessIndex")
     expect_length(index@values, 2)
   }
+
+  expect_type(get_index(index), "closure")
 })
 
 test_that("Shannon diversity test", {

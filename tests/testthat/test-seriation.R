@@ -1,5 +1,3 @@
-context("Seriation")
-
 test_that("Reciprocal Ranking - Counts", {
   skip_on_cran()
   skip_if_not_installed("folio")
@@ -17,6 +15,7 @@ test_that("Reciprocal Ranking - Counts", {
   exp_col <- c(14, 1, 11, 3, 16, 12, 5, 2, 15, 13, 4, 7, 6, 9, 10, 8)
   expect_equal(indices_col@rows, 1:5)
   expect_equal(indices_col@columns, exp_col)
+  expect_type(get_order(indices_col), "list")
 
   expect_s4_class(permute(counts, indices_col), "CountMatrix")
   expect_warning(seriate_rank(counts, stop = 1, margin = 2))
@@ -82,7 +81,7 @@ test_that("Refined Correspondence Analysis", {
   expect_equal(
     object = round(sub@cutoff, 3),
     expected = c(1.781, 0.246),
-    check.attributes = FALSE,
+    ignore_attr = TRUE,
     tolerance = eps
   )
 })

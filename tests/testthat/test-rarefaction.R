@@ -1,5 +1,3 @@
-context("Rarefaction")
-
 # Rarefaction ==================================================================
 test_that("Rarefaction", {
   # Data from Magurran 1988, p. 128-129

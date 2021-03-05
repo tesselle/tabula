@@ -474,6 +474,14 @@ setGeneric(
 )
 
 #' @rdname heterogeneity-index
+#' @aliases simulate_heterogeneity-method
+setGeneric(
+  name = "simulate_heterogeneity",
+  def = function(object, ...) standardGeneric("simulate_heterogeneity"),
+  valueClass = "HeterogeneityIndex"
+)
+
+#' @rdname heterogeneity-index
 #' @aliases bootstrap_heterogeneity-method
 setGeneric(
   name = "bootstrap_heterogeneity",

@@ -164,6 +164,7 @@
       "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
+      "version": ">= 3.0.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -257,7 +258,7 @@
     }
   ],
   "contIntegration": "https://codecov.io/gh/tesselle/tabula",
-  "developmentStatus": ["https://www.repostatus.org/#active", "https://www.tidyverse.org/lifecycle/#stable"],
+  "developmentStatus": "https://www.repostatus.org/#active",
   "keywords": [
     "archaeology",
     "archaeometry",
@@ -293,7 +294,7 @@
       }
     }
   ],
-  "fileSize": "2395.363KB",
+  "fileSize": "3906.699KB",
   "releaseNotes": "https://github.com/tesselle/tabula/blob/master/NEWS.md",
   "readme": "https://github.com/tesselle/tabula/blob/master/README.md"
 }

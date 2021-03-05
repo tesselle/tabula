@@ -1,5 +1,3 @@
-context("Richness")
-
 # Richness =====================================================================
 test_that("Richness", {
   # Data from Magurran 1988, p. 128-129
@@ -12,6 +10,8 @@ test_that("Richness", {
     expect_s4_class(index, "RichnessIndex")
     expect_length(index@values, 2)
   }
+
+  expect_type(get_index(index), "closure")
 })
 test_that("Chao richness", {
   # Data from Magurran 1988, p. 128-129
