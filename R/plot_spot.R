@@ -36,8 +36,8 @@ setMethod(
       ggplot2::geom_point(mapping = aes_point) +
       ggplot2::coord_fixed() +
       ggplot2::scale_size_area() +
-      scale_x_matrix(object) +
-      scale_y_matrix(object) +
+      scale_x_matrix(object, name = "Type") +
+      scale_y_matrix(object, name = "Case") +
       theme_tabula()
   }
 )
@@ -71,16 +71,10 @@ setMethod(
         show.legend = FALSE
       ) +
       ggplot2::geom_point(mapping = aes_point) +
-      ggplot2::labs(
-        x = "Type",
-        y = "Case",
-        colour = index_name,
-        size = index_name
-      ) +
       ggplot2::coord_fixed() +
       ggplot2::scale_size_area() +
-      scale_x_matrix(object) +
-      scale_y_matrix(object) +
+      scale_x_matrix(object, name = "Type") +
+      scale_y_matrix(object, name = "Case") +
       theme_tabula()
   }
 )
@@ -115,8 +109,8 @@ setMethod(
       ggplot2::geom_point(mapping = aes_point) +
       ggplot2::coord_fixed() +
       ggplot2::scale_size_area() +
-      scale_x_matrix(object) +
-      scale_y_matrix(object) +
+      scale_x_matrix(object, name = "Type") +
+      scale_y_matrix(object, name = "Type") +
       theme_tabula()
   }
 )

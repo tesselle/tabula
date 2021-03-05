@@ -107,6 +107,7 @@ setMethod(
     aes_plot <- ggplot2::aes(x = .data$date, y = .data$density)
     ggplot2::ggplot(data = col_data, mapping = aes_plot) +
       plot_accumulation + plot_event + plot_facet +
-      ggplot2::labs(x = "Date", y = "Density")
+      ggplot2::scale_x_continuous(name = "Date") +
+      ggplot2::scale_y_continuous(name = "Density")
   }
 )

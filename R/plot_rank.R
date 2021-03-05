@@ -14,12 +14,13 @@ setMethod(
     data <- prepare_rank(object)
 
     ## ggplot
-    log_x <- log_y <- NULL
+    log_x <- ggplot2::scale_x_continuous(name = "Rank")
+    log_y <- ggplot2::scale_y_continuous(name = "Frequency")
     if (!is.null(log)) {
       if (log == "x" || log == "xy" || log == "yx")
-        log_x <- ggplot2::scale_x_log10()
+        log_x <- ggplot2::scale_x_log10(name = "Rank")
       if (log == "y" || log == "xy" || log == "yx")
-        log_y <- ggplot2::scale_y_log10()
+        log_y <- ggplot2::scale_y_log10(name = "Frequency")
     }
     if (facet) {
       facet <- ggplot2::facet_wrap(
@@ -34,11 +35,6 @@ setMethod(
     ggplot2::ggplot(data = data, mapping = aes_plot) +
       ggplot2::geom_point() +
       ggplot2::geom_line() +
-      ggplot2::labs(
-        x = "Rank",
-        y = "Frequency",
-        colour = "Assemblage"
-      ) +
       log_x + log_y + facet
   }
 )

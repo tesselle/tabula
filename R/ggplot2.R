@@ -2,8 +2,9 @@
 NULL
 
 # Scales =======================================================================
-scale_x_matrix <- function(x, position = "top") {
+scale_x_matrix <- function(x, name = ggplot2::waiver(), position = "top") {
   ggplot2::scale_x_continuous(
+    name = name,
     expand = c(0, 0),
     limits = c(0.5, ncol(x) + 0.5),
     breaks = seq_len(ncol(x)),
@@ -11,8 +12,9 @@ scale_x_matrix <- function(x, position = "top") {
     position = position
   )
 }
-scale_y_matrix <- function(x, position = "left") {
+scale_y_matrix <- function(x, name = ggplot2::waiver(), position = "left") {
   ggplot2::scale_y_continuous(
+    name = name,
     trans = "reverse",
     expand = c(0, 0),
     limits = c(nrow(x) + 0.5, 0.5),

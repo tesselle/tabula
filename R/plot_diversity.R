@@ -50,17 +50,13 @@ setMethod(
     )
 
     ## ggplot
-    ggplot2::ggplot(
-      data = count,
-      mapping = ggplot2::aes(x = .data$x, y = .data$y, label = .data$label)
-    ) +
+    ggplot2::ggplot(data = count) +
+      ggplot2::aes(x = .data$x, y = .data$y, label = .data$label) +
       ggplot2::geom_point() +
       gg_sim +
-      ggplot2::scale_x_log10() +
-      ggplot2::labs(
-        x = "Sample size",
-        y = paste(y_lab, x[["method"]], sep = ": "),
-        colour = "Simulation"
+      ggplot2::scale_x_log10(name = "Sample size") +
+      ggplot2::scale_y_continuous(
+        name = sprintf("%s (%s)", y_lab, x[["method"]])
       )
   }
 )

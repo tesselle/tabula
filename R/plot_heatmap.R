@@ -17,8 +17,8 @@ setMethod(
       ggplot2::aes(x = .data$x, y = .data$y, fill = .data$value) +
       ggplot2::geom_tile() +
       ggplot2::coord_fixed() +
-      scale_x_matrix(object) +
-      scale_y_matrix(object) +
+      scale_x_matrix(object, name = "Type") +
+      scale_y_matrix(object, name = "Case") +
       theme_tabula()
   }
 )

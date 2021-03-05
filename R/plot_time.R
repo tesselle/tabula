@@ -32,11 +32,8 @@ setMethod(
     ggplot2::ggplot(data = data, mapping = aes_plot) +
       ggplot2::geom_point() +
       ggplot2::geom_line() +
-      ggplot2::labs(
-        x = "Time",
-        y = "Frequency",
-        colour = "Type"
-      ) +
+      ggplot2::scale_x_continuous(name = "Time") +
+      ggplot2::scale_y_continuous(name = "Frequency") +
       facet
   }
 )
@@ -56,17 +53,18 @@ setMethod(
     dates <- object[["dates"]]
     data <- prepare_time(counts, dates)
 
-    sign_fit <- as.data.frame(object)
-    sign_fit$sign <- ifelse(sign_fit$p.value <= alpha, "selection", "neutral")
+    signature_fit <- as.data.frame(object)
+    signature_fit$signature <- ifelse(signature_fit$p.value <= alpha,
+                                      "selection", "neutral")
 
-    data <- merge(x = data, y = sign_fit, by.x = "column", by.y = 0,
+    data <- merge(x = data, y = signature_fit, by.x = "column", by.y = 0,
                   all.x = TRUE, all.y = FALSE)
 
     if (roll) {
       roll_fit <- testFIT(counts, dates, roll = roll, window = window)
 
       roll_fit <- do.call(rbind.data.frame, roll_fit)
-      roll_fit$sign <- roll_fit$p.value <= alpha
+      roll_fit$signature <- roll_fit$p.value <= alpha
 
       data <- merge(x = data, y = roll_fit, by = c("column", "dates"),
                     all.x = TRUE, all.y = FALSE, sort = TRUE,
@@ -76,8 +74,8 @@ setMethod(
         data,
         INDICES = data$column,
         FUN = function(x, half_window) {
-          x$sign_sub <- vapply(
-            X = seq_along(x$sign_roll),
+          x$signature_sub <- vapply(
+            X = seq_along(x$signature_roll),
             FUN = function(x, y, k) {
               max <- length(y)
               lower <- x - k
@@ -87,7 +85,7 @@ setMethod(
               any(y[lower:upper], na.rm = TRUE)
             },
             FUN.VALUE = logical(1),
-            y = x$sign_roll,
+            y = x$signature_roll,
             k = half_window
           )
           x
@@ -97,7 +95,7 @@ setMethod(
       data <- do.call(rbind.data.frame, data)
 
       gg_roll <- ggplot2::geom_line(
-        data = data[data$sign_sub, ],
+        data = data[data$signature_sub, ],
         mapping = ggplot2::aes(group = .data$column),
         size = 5, colour = "grey80", lineend = "round"
       )
@@ -107,15 +105,12 @@ setMethod(
 
     ## ggplot
     ggplot2::ggplot(data = data) +
-      ggplot2::aes(x = .data$x, y = .data$y, colour = .data$sign) +
+      ggplot2::aes(x = .data$x, y = .data$y, colour = .data$signature) +
       gg_roll +
       ggplot2::geom_point() +
       ggplot2::geom_line() +
-      ggplot2::labs(
-        x = "Time",
-        y = "Frequency",
-        colour = "Type"
-      ) +
+      ggplot2::scale_x_continuous(name = "Time") +
+      ggplot2::scale_y_continuous(name = "Frequency") +
       ggplot2::facet_wrap(
         facets = ggplot2::vars(.data$column),
         scales = "free_y"

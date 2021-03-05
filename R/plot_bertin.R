@@ -27,7 +27,6 @@ setMethod(
       ) +
       aes_fill +
       ggplot2::geom_polygon(colour = "black") +
-      ggplot2::labs(x = "Case", y = "Frequency", fill = "Threshold") +
       ggplot2::scale_x_continuous(
         expand = c(0, 0),
         breaks = seq_len(nrow(object)),
