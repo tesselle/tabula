@@ -1,34 +1,41 @@
-birds <- matrix(c(1.4, 4.3, 2.9, 8.6, 4.2, 15.7, 2.0, 50, 1, 11.4, 11.4, 4.3,
-                  13.0, 14.3, 8.6, 7.1, 10.0, 1.4, 2.9, 5.7, 1.4, 11.4, 2.9,
-                  4.3, 1.4, 2.9,
-                  0, 0, 0, 2.9, 0, 0, 0, 10, 0, 0, 5.7, 2.5, 5.7, 8.6, 5.7,
-                  2.9, 0, 0, 2.9, 0, 0, 5.7, 0, 2.9, 0, 2.9),
-                nrow = 2, byrow = TRUE)
-
 test_that("Heterogeneity", {
-  count <- as(birds, "CountMatrix")
+  skip_if_not_installed("folio")
+  data("chevelon", package = "folio")
+  counts <- as_count(chevelon)
+
   method <- c("berger", "brillouin", "mcintosh", "shannon", "simpson")
   for (i in method) {
-    index <- index_heterogeneity(count, method = i)
-    expect_length(index@values, 2)
+    index <- index_heterogeneity(counts, method = i)
+    expect_length(index@values, nrow(counts))
     expect_equal(get_method(index), i)
   }
-
   expect_type(get_index(index), "closure")
-})
 
+  boot <- with_seed(12345, bootstrap_heterogeneity(counts, method = "shannon", n = 30))
+  expect_snapshot(boot)
+
+  jack <- jackknife_heterogeneity(counts, method = "shannon")
+  expect_snapshot(jack)
+})
 test_that("Evenness", {
-  count <- as(birds, "CountMatrix")
+  skip_if_not_installed("folio")
+  data("chevelon", package = "folio")
+  counts <- as_count(chevelon)
+
   method <- c("brillouin", "mcintosh", "shannon", "simpson")
   for (i in method) {
-    index <- index_evenness(count, method = i)
-    expect_s4_class(index, "EvennessIndex")
-    expect_length(index@values, 2)
+    index <- index_evenness(counts, method = i)
+    expect_length(index@values, nrow(counts))
+    expect_equal(get_method(index), i)
   }
-
   expect_type(get_index(index), "closure")
-})
 
+  # boot <- with_seed(12345, bootstrap_evenness(counts, method = "shannon", n = 30))
+  # expect_snapshot(boot)
+
+  jack <- jackknife_evenness(counts, method = "shannon")
+  expect_snapshot(jack)
+})
 test_that("Shannon diversity test", {
   # Data from Magurran 1988, p. 145-149
   birds <- CountMatrix(

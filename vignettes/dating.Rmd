@@ -30,6 +30,7 @@ knitr::opts_chunk$set(
 ```{r packages}
 ## Load packages
 library(tabula)
+library(folio) # Datasets
 library(magrittr)
 ```
 
@@ -82,8 +83,6 @@ The MCD is a point estimate: knowing the mid-date of an assemblage and not knowi
 ## Usage
 ```{r mcd-model, fig.width=7, fig.height=3.5, fig.align="center"}
 ## Coerce the zuni dataset to an abundance (count) matrix
-library(folio)
-data("zuni", package = "folio")
 zuni_counts <- as_count(zuni)
 
 ## Set the start and end dates for each ceramic type
@@ -251,7 +250,7 @@ plot_date(model, type = "tempo", select = "LZ1105") +
 
 Resampling methods can be used to check the stability of the resulting model. If `jackknife_event()` is used, one type/fabric is removed at a time and all statistics are recalculated. In this way, one can assess whether certain type/fabric has a substantial influence on the date estimate. If `bootstrap_event()` is used, a large number of new bootstrap assemblages is created, with the same sample size, by resampling the original assemblage with replacement. Then, examination of the bootstrap statistics makes it possible to pinpoint assemblages that require further investigation.
 
-```{r event-refine}
+```{r event-refine, warning=FALSE}
 ## Check model variability
 ## Warning: this may take a few seconds
 ## Jackknife fabrics

@@ -38,6 +38,13 @@ NULL
     size = "integer",
     simulation = "matrix",
     method = "character"
+  ),
+  prototype = list(
+    names = character(0),
+    values = numeric(0),
+    size = integer(0),
+    simulation = matrix(data = 0, nrow = 0, ncol = 3),
+    method = "none"
   )
 )
 #' @rdname DiversityIndex

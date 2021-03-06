@@ -29,6 +29,8 @@ knitr::opts_chunk$set(
 ```{r packages}
 # Load packages
 library(tabula)
+library(folio) # Datasets
+library(dimensio) # Multivariate analysis
 library(magrittr)
 ```
 
@@ -66,7 +68,7 @@ $$ y_{j} = \sum_{i = 1}^{m} i \frac{c_{ij}}{c_{\cdot j}} $$
 These two steps are repeated until convergence.
 Note that this procedure could enter into an infinite loop.
 
-```{r reciprocal, fig.show='hold'}
+```{r reciprocal, fig.width=3.5, fig.height=3.5, fig.show='hold'}
 ## Build an incidence matrix with random data
 set.seed(12345)
 bin <- sample(0:1, 400, TRUE, c(0.6, 0.4))
@@ -91,10 +93,9 @@ plot_heatmap(incidence2) +
 
 The positive difference from the column mean percentage (in french "écart positif au pourcentage moyen", EPPM) represents a deviation from the situation of statistical independence [@desachy2004]. As independence can be interpreted as the absence of relationships between types and the chronological order of the assemblages, EPPM is a useful graphical tool to explore significance of relationship between rows and columns related to seriation [@desachy2004].
 
-```{r average, fig.width=7, fig.height=3.5, fig.show='hold'}
+```{r average, fig.width=7, fig.height=3.5}
 ## Replicates Desachy 2004 results
 ## Coerce dataset to an abundance matrix
-data("compiegne", package = "folio")
 ccounts1 <- as_count(compiegne)
 
 ## Plot original data matrix
@@ -121,10 +122,6 @@ plot_ford(ccounts2, EPPM = TRUE) +
 Correspondence Analysis (CA) is an effective method for the seriation of archaeological assemblages. The order of the rows and columns is given by the coordinates along one dimension of the CA space, assumed to account for temporal variation. The direction of temporal change within the correspondence analysis space is arbitrary: additional information is needed to determine the actual order in time.
 
 ```{r ca}
-## Load packages
-library(dimensio)
-library(folio)
-
 ## Coerce dataset to an count matrix
 zcounts1 <- as_count(zuni)
 
@@ -156,7 +153,7 @@ plot_ford(zcounts2) +
 
 According to @peeples2012, "[this] point removal procedure [results in] a reduced dataset where the position of individuals within the CA are highly stable and which produces an ordering consistend with the assumptions of frequency seriation."
 
-```{r refine, fig.show='hold'}
+```{r refine}
 ## Replicates Peeples and Schachner 2012 results
 ## Samples with convex hull maximum dimension length greater than the cutoff
 ## value will be marked for removal.

@@ -19,34 +19,34 @@ extract_slot <- function(x, i) {
 
 #' @export
 #' @rdname subset
-#' @aliases [[,DiversityIndex-method
+#' @aliases [[,DiversityIndex,ANY,missing-method
 setMethod(
   f = "[[",
-  signature = "DiversityIndex",
+  signature = c(x = "DiversityIndex", i = "ANY", j = "missing"),
   definition = extract_slot
 )
 
 #' @export
 #' @rdname subset
-#' @aliases [[,IncrementTest-method
+#' @aliases [[,IncrementTest,ANY,missing-method
 setMethod(
   f = "[[",
-  signature = "IncrementTest",
+  signature = c(x = "IncrementTest", i = "ANY", j = "missing"),
   definition = extract_slot
 )
 
 #' @export
 #' @rdname subset
-#' @aliases [[,DateMCD-method
+#' @aliases [[,DateMCD,ANY,missing-method
 setMethod(
   f = "[[",
-  signature = "DateMCD",
+  signature = c(x = "DateMCD", i = "ANY", j = "missing"),
   definition = extract_slot
 )
 
 #' @export
 #' @rdname subset
-#' @aliases [[,DateEvent-method
+#' @aliases [[,DateEvent,ANY,missing-method
 setMethod(
   f = "[[",
   signature = c(x = "DateEvent", i = "ANY", j = "missing"),
@@ -55,7 +55,7 @@ setMethod(
 
 #' @export
 #' @rdname subset
-#' @aliases [[,RefineCA-method
+#' @aliases [[,RefineCA,ANY,missing-method
 setMethod(
   f = "[[",
   signature = c(x = "RefineCA", i = "ANY", j = "missing"),
@@ -81,9 +81,9 @@ setMethod(
 
 #' @export
 #' @rdname subset
-#' @aliases [[,PermutationOrder-method
+#' @aliases [[,PermutationOrder,ANY,missing-method
 setMethod(
   f = "[[",
-  signature = "PermutationOrder",
+  signature = c(x = "PermutationOrder", i = "ANY", j = "missing"),
   definition = extract_slot
 )

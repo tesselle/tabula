@@ -127,17 +127,17 @@ test_that("Time plot", {
   # Errors
   expect_error(plot_time(freq, roll = TRUE, window = 2), "odd integer")
 })
-test_that("Diversity plot", {
-  skip_if_not_installed("vdiffr")
+test_that("Diversity", {
   skip_if_not_installed("folio")
   data("chevelon", package = "folio")
-  chevelon <- as_count(chevelon)
+  counts <- as_count(chevelon)
 
-  idx_heterogeneity <- index_heterogeneity(chevelon, method = "shannon")
+  skip_if_not_installed("vdiffr")
+  idx_heterogeneity <- with_seed(12345, simulate_heterogeneity(counts, method = "shannon", n = 100))
   gg_heterogeneity <- plot(idx_heterogeneity)
   vdiffr::expect_doppelganger("idx_heterogeneity", gg_heterogeneity)
 
-  idx_richness <- index_richness(chevelon, method = "none")
+  idx_richness <- with_seed(12345, simulate_richness(counts, method = "none", n = 100))
   gg_richness <- plot(idx_richness)
   vdiffr::expect_doppelganger("idx_richness", gg_richness)
 })

@@ -151,9 +151,9 @@ stats_bootstrap <- function(x, do, probs = c(0.05, 0.95),
   quant <- paste0("Q", round(probs * 100, 0))
 
   results <- c(
-    min(boot_values),
-    mean(boot_values),
-    max(boot_values),
+    min(boot_values, na.rm = na.rm),
+    mean(boot_values, na.rm = na.rm),
+    max(boot_values, na.rm = na.rm),
     Q
   )
   names(results) <- c("min", "mean", "max", quant)

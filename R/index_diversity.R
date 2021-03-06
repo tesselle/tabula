@@ -18,8 +18,7 @@ index_diversity <- function(x, method, ...) {
   .DiversityIndex(
     names = rownames(x),
     values = idx,
-    size = as.integer(rowSums(x)),
-    simulation = matrix(0, 0, 0)
+    size = as.integer(rowSums(x))
   )
 }
 
@@ -45,6 +44,7 @@ bootstrap_diversity <- function(object, method, probs = c(0.05, 0.95),
     do = method,
     probs = probs,
     n = n,
+    na.rm = TRUE,
     ...
   )
   as.data.frame(t(results))
@@ -145,11 +145,13 @@ simulate_diversity <- function(object, method, quantiles = TRUE,
 #'  be used as confidence interval? If \code{TRUE} (the default),
 #'  sample quantiles are used as described in Kintigh (1989), else quantiles of
 #'  the normal distribution are used.
+#' @param na.rm A \code{\link{logical}} scalar: should missing values be removed
+#'  before the quantiles are computed?
 #' @param ... Further parameters to be passed to \code{method}.
 #' @keywords internal
 #' @noRd
 sim <- function(size, prob, method, n = 1000, level = 0.80,
-                quantiles = TRUE, ...) {
+                quantiles = TRUE, na.rm = TRUE, ...) {
 
   replicates <- stats::rmultinom(n = n, size = size, prob = prob)
   R <- apply(X = replicates, MARGIN = 2, FUN = method, ...)
@@ -157,10 +159,10 @@ sim <- function(size, prob, method, n = 1000, level = 0.80,
   if (quantiles) {
     ## Confidence interval as described in Kintigh 1989
     k <- (1 - level) / 2
-    conf <- stats::quantile(R, probs = c(k, k + level), na.rm = TRUE)
+    conf <- stats::quantile(R, probs = c(k, 1 - k), na.rm = na.rm, names = FALSE)
   } else {
     ## Confidence interval
-    conf <- mean(R) + stats::sd(R) * stats::qnorm(level / 2) * c(-1, 1)
+    conf <- mean(R) + stats::sd(R) * stats::qnorm(k) * c(-1, 1)
   }
 
   result <- c(mean(R), conf)

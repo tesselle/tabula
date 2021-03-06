@@ -3,31 +3,25 @@
 \docType{methods}
 \name{subset}
 \alias{subset}
-\alias{[[,DiversityIndex,ANY,ANY-method}
-\alias{[[,DiversityIndex-method}
-\alias{[[,IncrementTest,ANY,ANY-method}
-\alias{[[,IncrementTest-method}
-\alias{[[,DateMCD,ANY,ANY-method}
-\alias{[[,DateMCD-method}
+\alias{[[,DiversityIndex,ANY,missing-method}
+\alias{[[,IncrementTest,ANY,missing-method}
+\alias{[[,DateMCD,ANY,missing-method}
 \alias{[[,DateEvent,ANY,missing-method}
-\alias{[[,DateEvent-method}
 \alias{[[,RefineCA,ANY,missing-method}
-\alias{[[,RefineCA-method}
-\alias{[[,PermutationOrder,ANY,ANY-method}
-\alias{[[,PermutationOrder-method}
+\alias{[[,PermutationOrder,ANY,missing-method}
 \title{Extract or Replace Parts of an Object}
 \usage{
-\S4method{[[}{DiversityIndex,ANY,ANY}(x, i)
+\S4method{[[}{DiversityIndex,ANY,missing}(x, i)
 
-\S4method{[[}{IncrementTest,ANY,ANY}(x, i)
+\S4method{[[}{IncrementTest,ANY,missing}(x, i)
 
-\S4method{[[}{DateMCD,ANY,ANY}(x, i)
+\S4method{[[}{DateMCD,ANY,missing}(x, i)
 
 \S4method{[[}{DateEvent,ANY,missing}(x, i)
 
 \S4method{[[}{RefineCA,ANY,missing}(x, i)
 
-\S4method{[[}{PermutationOrder,ANY,ANY}(x, i)
+\S4method{[[}{PermutationOrder,ANY,missing}(x, i)
 }
 \arguments{
 \item{x}{An object from which to extract element(s) or in which to replace
