@@ -13,6 +13,10 @@
 \alias{CountMatrix}
 \alias{CompositionMatrix}
 \alias{IncidenceMatrix}
+\alias{replace_NA}
+\alias{remove_NA}
+\alias{remove_zero}
+\alias{remove_empty}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -20,6 +24,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{arkhe}{\code{\link[arkhe:CompositionMatrix-class]{CompositionMatrix}}, \code{\link[arkhe:CountMatrix-class]{CountMatrix}}, \code{\link[arkhe:IncidenceMatrix-class]{IncidenceMatrix}}, \code{\link[arkhe:coerce]{as_composition}}, \code{\link[arkhe:coerce]{as_count}}, \code{\link[arkhe:coerce]{as_features}}, \code{\link[arkhe:coerce]{as_incidence}}, \code{\link[arkhe:coerce]{as_long}}, \code{\link[arkhe:coerce]{as_occurrence}}, \code{\link[arkhe:coerce]{as_stratigraphy}}}
+  \item{arkhe}{\code{\link[arkhe:CompositionMatrix-class]{CompositionMatrix}}, \code{\link[arkhe:CountMatrix-class]{CountMatrix}}, \code{\link[arkhe:IncidenceMatrix-class]{IncidenceMatrix}}, \code{\link[arkhe:coerce]{as_composition}}, \code{\link[arkhe:coerce]{as_count}}, \code{\link[arkhe:coerce]{as_features}}, \code{\link[arkhe:coerce]{as_incidence}}, \code{\link[arkhe:coerce]{as_long}}, \code{\link[arkhe:coerce]{as_occurrence}}, \code{\link[arkhe:coerce]{as_stratigraphy}}, \code{\link[arkhe:remove]{remove_NA}}, \code{\link[arkhe:remove]{remove_empty}}, \code{\link[arkhe:remove]{remove_zero}}, \code{\link[arkhe:replace]{replace_NA}}}
 }}
 
