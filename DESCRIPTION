@@ -72,7 +72,8 @@ Suggests:
     magrittr,
     rmarkdown,
     testthat (>= 3.0.0),
-    vdiffr
+    vdiffr,
+    withr
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3

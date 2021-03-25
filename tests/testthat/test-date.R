@@ -1,5 +1,7 @@
 test_that("Mean Ceramic Date", {
   skip_if_not_installed("folio")
+  skip_if_not_installed("withr")
+  withr::local_options(list(max.print = 1e6))
   data("zuni", package = "folio")
   counts <- arkhe::as_count(zuni)
 
