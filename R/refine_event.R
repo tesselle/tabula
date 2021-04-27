@@ -11,23 +11,31 @@ setMethod(
   definition = function(object, level = 0.95,
                         progress = getOption("tabula.progress"), ...) {
     ## Get data
+    fit_model <- object[["model"]]
     fit_data <- object[["data"]]
     fit_dates <- object[["dates"]]
-    n <- ncol(fit_data)
+    fit_dim <- object[["dimension"]]
+
+    event <- predict_event(object, level = level)
 
     ## TODO: check cutoff value
     jack_values <- compute_date_jack(fit_data, fit_dates, cutoff = 150,
-                                     progress = progress)
-    jack_mean <- rowMeans(jack_values)
+                                   progress = progress)
+    jack_coef <- colMeans(jack_values)
 
-    ## Compute jackknife statistics
-    event <- predict_event(object, margin = 1, level = level)
-    data.frame(
-      mean = jack_mean,
-      bias = (n - 1) * (jack_mean - event$date),
-      error = sqrt(((n - 1) / n) * rowSums((jack_values - jack_mean)^2)),
-      row.names = rownames(event)
-    )
+    ## Change lm coefficients
+    fit_model$coefficients <- jack_coef[c(1, fit_dim + 1)]
+
+    ## Predict event date for each context
+    results_CA <- dimensio::ca(fit_data, ...)
+    row_coord <- dimensio::get_coordinates(results_CA, margin = 1)
+
+    jack_event <- compute_event(fit_model, row_coord, level = level)
+    results <- as.data.frame(jack_event)
+
+    results$bias <- (ncol(fit_data) - 1) * (results$date - event$date)
+
+    return(results)
   }
 )
 
@@ -127,10 +135,10 @@ compute_date_jack <- function(x, dates, cutoff = 90,
     ## TODO: warning
     if (any(rowSums(counts) == 0)) next
     model <- date_event(counts, dates = dates, cutoff = cutoff)
-    jack[[j]] <- predict_event(model, counts, margin = 1)$date
+    jack[[j]] <- stats::coef(model[["model"]]) # Get model coefficients
     if (progress_bar) utils::setTxtProgressBar(pbar, j)
   }
 
   if (progress_bar) close(pbar)
-  do.call(cbind, jack)
+  do.call(rbind, jack)
 }

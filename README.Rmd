@@ -21,9 +21,9 @@ knitr::opts_chunk$set(
 [![R build status](https://github.com/tesselle/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/tesselle/tabula/actions)
 [![codecov](https://codecov.io/gh/tesselle/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/tesselle/tabula)
 
-<!--[![CRAN Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula)
+[![CRAN Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula)
 [![CRAN checks](https://cranchecks.info/badges/worst/tabula)](https://cran.r-project.org/web/checks/check_results_tabula.html)
-[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/tabula)](https://cran.r-project.org/package=tabula)-->
+[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/tabula)](https://cran.r-project.org/package=tabula)
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
@@ -43,13 +43,13 @@ To cite **tabula** in publications please use:
 
 You can install the released version of **tabula** from [CRAN](https://CRAN.R-project.org) with:
 
-```{r cran-installation, eval = FALSE}
+```{r cran-installation, eval=FALSE}
 install.packages("tabula")
 ```
 
 And the development version from [GitHub](https://github.com/) with:
 
-```{r gh-installation, eval = FALSE}
+```{r gh-installation, eval=FALSE}
 # install.packages("remotes")
 remotes::install_github("tesselle/tabula")
 ```
@@ -66,13 +66,13 @@ library(ggplot2)
 library(magrittr)
 ```
 
-**tabula** uses a set of S4 classes that represent different special types of matrix. Please refer to the documentation of the [**arkhe**](https://github.com/nfrerebeau/arkhe) package where these classes are defined.
+**tabula** uses a set of S4 classes that represent different special types of matrix. Please refer to the documentation of the [**arkhe**](https://github.com/tesselle/arkhe) package where these classes are defined.
 
 *It assumes that you keep your data tidy*: each variable (type/taxa) must be saved in its own column and each observation (sample/case) must be saved in its own row.
 
 ### Visualization
 
-Several types of graphs are available in **tabula** which uses [**ggplot2**](https://github.com/tidyverse/ggplot2) for plotting informations. This makes it easy to customize diagrams (e.g. using themes and scales).
+Several types of graphs are available in **tabula** which uses [**ggplot2**](https://ggplot2.tidyverse.org) for plotting informations. This makes it easy to customize diagrams (e.g. using themes and scales).
 
 Bertin or Ford (battleship curve) diagrams can be plotted, with statistic threshold (including B. Desachy's [sériographe](https://doi.org/10.3406/pica.2004.2396)). 
 
@@ -200,4 +200,4 @@ mississippi %>%
 ```
 
 ## Contributing
-Please note that the **tabula** project is released with a [Contributor Code of Conduct](https://github.com/tesselle/tabula/blob/master/.github/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+Please note that the **tabula** project is released with a [Contributor Code of Conduct](https://www.tesselle.org/conduct.html). By contributing to this project, you agree to abide by its terms.

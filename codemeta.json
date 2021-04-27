@@ -204,13 +204,19 @@
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://github.com/tesselle/arkhe"
+      "sameAs": "https://CRAN.R-project.org/package=arkhe"
     },
     {
       "@type": "SoftwareApplication",
       "identifier": "dimensio",
       "name": "dimensio",
-      "sameAs": "https://github.com/tesselle/dimensio"
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=dimensio"
     },
     {
       "@type": "SoftwareApplication",
@@ -294,7 +300,7 @@
       }
     }
   ],
-  "fileSize": "3906.699KB",
+  "fileSize": "2504.21KB",
   "releaseNotes": "https://github.com/tesselle/tabula/blob/master/NEWS.md",
   "readme": "https://github.com/tesselle/tabula/blob/master/README.md"
 }

@@ -4,7 +4,6 @@
 * Add `CompositionIndex`: S4 class that represent an asymptotic species richness.
 * Add `IncrementTest`: S4 class that represent a Frequency Increment Test results.
 * Add `eppm()` and `pvi()` to calculate independence statistics.
-* Add `occurrence()` to get a co-occurrence matrix.
 * Add `predict_event()` and `predict_accumulation` to estimate the event and accumulation dates of an assemblage.
 * Add `bootstrap_*()` and `jackknife_*()` to perform bootstrap and jackknife resampling.
 * Add `simulate_evenness()` and `simulate_richness()` to measure diversity in simulated assemblages.

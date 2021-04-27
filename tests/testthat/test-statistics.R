@@ -1,5 +1,8 @@
 test_that("Compute thresholds", {
+  skip_if_not_installed("folio")
+  data("compiegne", package = "folio")
   counts <- arkhe::as_count(compiegne)
+
   expect_type(eppm(counts), "double") # matrix
   expect_type(pvi(counts), "double") # matrix
 })

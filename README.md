@@ -9,9 +9,12 @@
 status](https://github.com/tesselle/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/tesselle/tabula/actions)
 [![codecov](https://codecov.io/gh/tesselle/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/tesselle/tabula)
 
-<!--[![CRAN Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula)
-[![CRAN checks](https://cranchecks.info/badges/worst/tabula)](https://cran.r-project.org/web/checks/check_results_tabula.html)
-[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/tabula)](https://cran.r-project.org/package=tabula)-->
+[![CRAN
+Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula)
+[![CRAN
+checks](https://cranchecks.info/badges/worst/tabula)](https://cran.r-project.org/web/checks/check_results_tabula.html)
+[![CRAN
+Downloads](http://cranlogs.r-pkg.org/badges/tabula)](https://cran.r-project.org/package=tabula)
 
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
@@ -74,7 +77,7 @@ library(magrittr)
 
 **tabula** uses a set of S4 classes that represent different special
 types of matrix. Please refer to the documentation of the
-[**arkhe**](https://github.com/nfrerebeau/arkhe) package where these
+[**arkhe**](https://github.com/tesselle/arkhe) package where these
 classes are defined.
 
 *It assumes that you keep your data tidy*: each variable (type/taxa)
@@ -84,9 +87,8 @@ be saved in its own row.
 ### Visualization
 
 Several types of graphs are available in **tabula** which uses
-[**ggplot2**](https://github.com/tidyverse/ggplot2) for plotting
-informations. This makes it easy to customize diagrams (e.g. using
-themes and scales).
+[**ggplot2**](https://ggplot2.tidyverse.org) for plotting informations.
+This makes it easy to customize diagrams (e.g. using themes and scales).
 
 Bertin or Ford (battleship curve) diagrams can be plotted, with
 statistic threshold (including B. Desachy’s
@@ -271,9 +273,8 @@ mississippi %>%
 ## Contributing
 
 Please note that the **tabula** project is released with a [Contributor
-Code of
-Conduct](https://github.com/tesselle/tabula/blob/master/.github/CODE_OF_CONDUCT.md).
-By contributing to this project, you agree to abide by its terms.
+Code of Conduct](https://www.tesselle.org/conduct.html). By contributing
+to this project, you agree to abide by its terms.
 
 [1] Adapted from Dan Gopstein’s original
 [idea](https://dgopstein.github.io/articles/spot-matrix/).
