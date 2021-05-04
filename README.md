@@ -40,12 +40,25 @@ and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity
 data and statistical thresholds: rank vs. abundance plots, heatmaps,
 Ford (1962) and Bertin (1977) diagrams.
 
-To cite **tabula** in publications please use:
-
-> Frerebeau, N. (2019). tabula: An R Package for Analysis, Seriation,
-> and Visualization of Archaeological Count Data. *Journal of Open
-> Source Software*, 4(44), 1821. DOI
-> [10.21105/joss.01821](https://doi.org/10.21105/joss.01821).
+    #> 
+    #> To cite tabula in publications use:
+    #> 
+    #>   Frerebeau, Nicolas (2019). tabula: An R Package for Analysis,
+    #>   Seriation, and Visualization of Archaeological Count Data. Journal of
+    #>   Open Source Software, 4(44), 1821. DOI 10.21105/joss.01821.
+    #> 
+    #> A BibTeX entry for LaTeX users is
+    #> 
+    #>   @Article{,
+    #>     title = {{tabula}: An R Package for Analysis, Seriation, and Visualization of Archaeological Count Data},
+    #>     author = {Nicolas Frerebeau},
+    #>     year = {2019},
+    #>     journal = {Journal of Open Source Software},
+    #>     volume = {4},
+    #>     number = {44},
+    #>     page = {1821},
+    #>     doi = {10.21105/joss.01821},
+    #>   }
 
 ## Installation
 

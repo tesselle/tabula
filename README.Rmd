@@ -35,9 +35,9 @@ knitr::opts_chunk$set(
 
 An easy way to examine archaeological count data. **tabula** provides a convenient and reproducible toolkit for relative and absolute dating and analysis of (chronological) patterns. It includes functions for matrix seriation (reciprocal ranking, CA-based seriation), chronological modeling and dating of archaeological assemblages and/or objects. Beyond these, the package provides several tests and measures of diversity: heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity (Brainerd-Robinson, etc.). The package make it easy to visualize count data and statistical thresholds: rank vs. abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
 
-To cite **tabula** in publications please use:
-
-> Frerebeau, N. (2019). tabula: An R Package for Analysis, Seriation, and Visualization of Archaeological Count Data. *Journal of Open Source Software*, 4(44), 1821. DOI [10.21105/joss.01821](https://doi.org/10.21105/joss.01821).
+```{r citation, echo=FALSE}
+utils::citation("tabula")
+```
 
 ## Installation
 

@@ -31,9 +31,6 @@ reference:
 - title: Getters and Setters
   contents:
   - has_concept("mutator")
-- title: Data
-  contents:
-  - has_concept("datasets")
 
 navbar:
   type: default
@@ -55,5 +52,5 @@ navbar:
   - text: Changelog
     href: news/index.html
   right:
-  - icon: fa-github fa-lg
-    href: https://github.com/nfrerebeau/tabula
+  - icon: fab fa-github fa-lg
+    href: https://github.com/tesselle/tabula
