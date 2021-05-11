@@ -1,4 +1,6 @@
 # tabula 1.6.0
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4748807.svg)](https://doi.org/10.5281/zenodo.4748807)
+
 ## New classes and methods
 * Add `DateEvent`: S4 class to store the event and accumulation times of archaeological assemblages.
 * Add `CompositionIndex`: S4 class that represent an asymptotic species richness.
