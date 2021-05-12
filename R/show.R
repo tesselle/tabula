@@ -2,54 +2,12 @@
 #' @include AllClasses.R
 NULL
 
-# DateEvent ====================================================================
-setMethod(
-  f = "show",
-  signature = "DateEvent",
-  definition = function(object) {
-    fit <- object@model
-    if (class(fit) == "S4") {
-      cat("<DateEvent>")
-    } else {
-      sum_up <- stats::summary.lm(fit)
-      cat(
-        "<DateEvent>",
-        "Modelled event date:",
-        sprintf("- Residual standard error: %f", round(sum_up$sigma, 2)),
-        sprintf("- Multiple R-squared: %f", round(sum_up$r.squared, 5)),
-        sprintf("- Adjusted R-squared: %f", round(sum_up$adj.r.squared, 5)),
-        sep = "\n"
-      )
-    }
-  }
-)
-
-# DateMCD ======================================================================
-setMethod(
-  f = "show",
-  signature = "DateMCD",
-  definition = function(object) {
-    cat("<DateMCD>\n")
-    print(as.data.frame(object))
-  }
-)
-
 # DiversityIndex ===============================================================
 setMethod(
   f = "show",
   signature = "DiversityIndex",
   definition = function(object) {
     cat(sprintf("<%s: %s>\n", class(object), object[["method"]]))
-    print(as.data.frame(object))
-  }
-)
-
-# IncrementTest ===============================================================
-setMethod(
-  f = "show",
-  signature = "IncrementTest",
-  definition = function(object) {
-    cat("<IncrementTest>\n")
     print(as.data.frame(object))
   }
 )

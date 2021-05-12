@@ -44,9 +44,6 @@ measures for the simulated assemblage.}
 
 \seealso{
 Other class: 
-\code{\link{DateEvent-class}},
-\code{\link{DateMCD-class}},
-\code{\link{IncrementTest-class}},
 \code{\link{PermutationOrder-class}},
 \code{\link{RefineCA-class}}
 }

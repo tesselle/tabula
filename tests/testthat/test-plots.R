@@ -99,34 +99,6 @@ test_that("Spot plot - Co-Occurrence", {
   gg_spot_occ <- plot_spot(test_occ)
   vdiffr::expect_doppelganger("spot_occ", gg_spot_occ)
 })
-test_that("Time plot", {
-  skip_if_not_installed("vdiffr")
-  skip_if_not_installed("folio")
-  data("merzbach", package = "folio")
-
-  # Keep only decoration types that have a maximum frequency of at least 50
-  keep <- apply(X = merzbach, MARGIN = 2, FUN = function(x) max(x) >= 50)
-  counts <- as(merzbach[, keep], "CountMatrix")
-  # Use the row names as time coordinates (roman numerals)
-  dates <- as.numeric(as.roman(rownames(counts)))
-
-  # Plot time vs abundance
-  for (i in c(TRUE, FALSE)) {
-    gg_time_facet <- plot_time(counts, dates, facet = i)
-    vdiffr::expect_doppelganger(paste0("time_facet-", i), gg_time_facet)
-  }
-
-  # Plot time vs abundance and highlight selection
-  # Frequency Increment Test
-  freq <- test_fit(counts, dates)
-  for (i in c(TRUE, FALSE)) {
-    gg_time_roll <- plot_time(freq, roll = i, window = 5)
-    vdiffr::expect_doppelganger(paste0("time_FIT_roll-", i), gg_time_roll)
-  }
-
-  # Errors
-  expect_error(plot_time(freq, roll = TRUE, window = 2), "odd integer")
-})
 test_that("Diversity", {
   skip_if_not_installed("folio")
   data("chevelon", package = "folio")

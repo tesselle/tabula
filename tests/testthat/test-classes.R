@@ -1,26 +1,8 @@
-test_that("DateEvent", {
-  expect_output(show(.DateEvent()), "<DateEvent>")
-  cls_event <- new("DateEvent")
-
-  expect_error(cls_event[["X"]])
-})
-test_that("DateMCD", {
-  expect_output(show(.DateMCD()), "<DateMCD>")
-  cls_mcd <- new("DateMCD")
-
-  expect_error(cls_mcd[["X"]])
-})
 test_that("DiversityIndex", {
   expect_output(show(.DiversityIndex()), "<DiversityIndex: none>")
-  cls_diversity <- new("DateEvent")
+  cls_diversity <- new("DiversityIndex")
 
   expect_error(cls_diversity[["X"]])
-})
-test_that("IncrementTest", {
-  expect_output(show(.IncrementTest()), "<IncrementTest>")
-  cls_increment <- new("IncrementTest")
-
-  expect_error(cls_increment[["X"]])
 })
 test_that("PermutationOrder", {
   expect_output(show(.PermutationOrder()), "<PermutationOrder: none>")

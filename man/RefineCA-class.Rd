@@ -55,10 +55,7 @@ of the samples and variables to be kept, respectively.}
 
 \seealso{
 Other class: 
-\code{\link{DateEvent-class}},
-\code{\link{DateMCD-class}},
 \code{\link{DiversityIndex}},
-\code{\link{IncrementTest-class}},
 \code{\link{PermutationOrder-class}}
 }
 \author{

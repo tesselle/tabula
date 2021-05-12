@@ -25,12 +25,3 @@ test_that("Jackknife estimation", {
   jack <- stats_jackknife(1:10, sum)
   expect_equal(round(jack, 2), c(mean = 49.50, bias = -49.50, error = 8.62))
 })
-test_that("FIT test", {
-  ## Data from Feder et al. 2014 (table S2)
-  test_fit <- FIT(
-    v = c(73/93, 98/105, 97/99, 97/98),
-    t = c(665, 745, 825, 910)
-  )
-  expect_equal(round(test_fit[[1]], 2), 2.42)
-  expect_equal(round(test_fit[[2]], 2), 0.14)
-})

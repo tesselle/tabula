@@ -28,33 +28,6 @@ setMethod(
 
 #' @export
 #' @rdname subset
-#' @aliases [[,IncrementTest,ANY,missing-method
-setMethod(
-  f = "[[",
-  signature = c(x = "IncrementTest", i = "ANY", j = "missing"),
-  definition = extract_slot
-)
-
-#' @export
-#' @rdname subset
-#' @aliases [[,DateMCD,ANY,missing-method
-setMethod(
-  f = "[[",
-  signature = c(x = "DateMCD", i = "ANY", j = "missing"),
-  definition = extract_slot
-)
-
-#' @export
-#' @rdname subset
-#' @aliases [[,DateEvent,ANY,missing-method
-setMethod(
-  f = "[[",
-  signature = c(x = "DateEvent", i = "ANY", j = "missing"),
-  definition = extract_slot
-)
-
-#' @export
-#' @rdname subset
 #' @aliases [[,RefineCA,ANY,missing-method
 setMethod(
   f = "[[",

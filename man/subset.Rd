@@ -4,20 +4,11 @@
 \name{subset}
 \alias{subset}
 \alias{[[,DiversityIndex,ANY,missing-method}
-\alias{[[,IncrementTest,ANY,missing-method}
-\alias{[[,DateMCD,ANY,missing-method}
-\alias{[[,DateEvent,ANY,missing-method}
 \alias{[[,RefineCA,ANY,missing-method}
 \alias{[[,PermutationOrder,ANY,missing-method}
 \title{Extract or Replace Parts of an Object}
 \usage{
 \S4method{[[}{DiversityIndex,ANY,missing}(x, i)
-
-\S4method{[[}{IncrementTest,ANY,missing}(x, i)
-
-\S4method{[[}{DateMCD,ANY,missing}(x, i)
-
-\S4method{[[}{DateEvent,ANY,missing}(x, i)
 
 \S4method{[[}{RefineCA,ANY,missing}(x, i)
 

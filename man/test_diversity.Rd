@@ -41,8 +41,7 @@ Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
 }
 \seealso{
 Other statistics: 
-\code{\link{independance}},
-\code{\link{test_fit}()}
+\code{\link{independance}}
 }
 \author{
 N. Frerebeau

@@ -1,3 +1,8 @@
+# tabula 1.6.0.9000
+
+## Bugfixes & changes
+* Remove dating methods. `*_mcd()`, `*_event()`, `*_accumulation()`, `plot_date()` and `plot_time()` now belong to **fasti**.
+
 # tabula 1.6.0
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4748807.svg)](https://doi.org/10.5281/zenodo.4748807)
 
