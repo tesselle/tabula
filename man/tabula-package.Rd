@@ -5,22 +5,19 @@
 \alias{tabula-package}
 \alias{_PACKAGE}
 \alias{tabula}
-\title{tabula: Analysis, Seriation and Visualization of Archaeological
-    Count Data}
+\title{tabula: Analysis, Seriation and Visualization of Archaeological Count Data}
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
-An easy way to examine archaeological count data. This package 
-    provides a convenient and reproducible toolkit for relative and absolute 
-    dating and analysis of (chronological) patterns. It includes functions for 
-    matrix seriation (reciprocal ranking, CA-based seriation), chronological 
-    modeling and dating of archaeological assemblages and/or objects. 
-    Beyond these, the package provides several tests and measures of diversity: 
-    heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), 
-    richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), 
-    turnover and similarity (Brainerd-Robinson, etc.). 
-    The package make it easy to visualize count data and statistical thresholds: 
-    rank vs abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
+An easy way to examine archaeological count data. This
+    package provides a convenient and reproducible toolkit for relative
+    dating by matrix seriation (reciprocal ranking, CA-based seriation).
+    It also provides several tests and measures of diversity:
+    heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.),
+    richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and
+    similarity (Brainerd-Robinson, etc.).  The package make it easy to
+    visualize count data and statistical thresholds: rank vs abundance
+    plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
 }
 \details{
 \tabular{ll}{

@@ -5,8 +5,8 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "tabula",
-  "description": "An easy way to examine archaeological count data. This package \n    provides a convenient and reproducible toolkit for relative and absolute \n    dating and analysis of (chronological) patterns. It includes functions for \n    matrix seriation (reciprocal ranking, CA-based seriation), chronological \n    modeling and dating of archaeological assemblages and/or objects. \n    Beyond these, the package provides several tests and measures of diversity: \n    heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), \n    richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), \n    turnover and similarity (Brainerd-Robinson, etc.). \n    The package make it easy to visualize count data and statistical thresholds: \n    rank vs abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.",
-  "name": "tabula: Analysis, Seriation and Visualization of Archaeological\n    Count Data",
+  "description": "An easy way to examine archaeological count data. This\n    package provides a convenient and reproducible toolkit for relative\n    dating by matrix seriation (reciprocal ranking, CA-based seriation).\n    It also provides several tests and measures of diversity:\n    heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.),\n    richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and\n    similarity (Brainerd-Robinson, etc.).  The package make it easy to\n    visualize count data and statistical thresholds: rank vs abundance\n    plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.",
+  "name": "tabula: Analysis, Seriation and Visualization of Archaeological Count Data",
   "codeRepository": "https://github.com/tesselle/tabula",
   "relatedLink": [
     "http://tabula.archaeo.science",
@@ -300,7 +300,7 @@
       }
     }
   ],
-  "fileSize": "2105.287KB",
+  "fileSize": "1976.909KB",
   "releaseNotes": "https://github.com/tesselle/tabula/blob/master/NEWS.md",
   "readme": "https://github.com/tesselle/tabula/blob/master/README.md"
 }
