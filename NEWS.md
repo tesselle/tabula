@@ -1,6 +1,7 @@
 # tabula 1.6.0.9000
 
 ## Bugfixes & changes
+* Remove all previously deprecated methods.
 * Remove dating methods. `*_mcd()`, `*_event()`, `*_accumulation()`, `plot_date()` and `plot_time()` now belong to **fasti**.
 
 # tabula 1.6.0

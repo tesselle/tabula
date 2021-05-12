@@ -993,34 +993,12 @@ setGeneric(
 )
 
 # Deprecated ===================================================================
-#' Deprecated Methods
-#'
-#' @param object An object.
-#' @param EPPM A \code{\link{logical}} scalar: should the seriation be computed
-#'  on EPPM instead of raw data?
-#' @param margin A \code{\link{numeric}} vector giving the subscripts which the
-#'  rearrangement will be applied over: \code{1} indicates rows, \code{2}
-#'  indicates columns, \code{c(1, 2)} indicates rows then columns,
-#'  \code{c(2, 1)} indicates columns then rows.
-#' @param stop An \code{\link{integer}} giving the stopping rule
-#'  (i.e. maximum number of iterations) to avoid infinite loop.
-#' @param ... Currently not used.
-#' @author N. Frerebeau
-#' @docType methods
-#' @name deprecate
-#' @rdname deprecate
+# Deprecated Methods
+#
+# @param object An object.
+# @param ... Currently not used.
+# @author N. Frerebeau
+# @docType methods
+# @name deprecate
+# @rdname deprecate
 NULL
-
-#' @rdname deprecate
-#' @aliases seriate_correspondence-method
-setGeneric(
-  name = "seriate_correspondence",
-  def = function(object, ...) standardGeneric("seriate_correspondence")
-)
-
-#' @rdname deprecate
-#' @aliases seriate_reciprocal-method
-setGeneric(
-  name = "seriate_reciprocal",
-  def = function(object, ...) standardGeneric("seriate_reciprocal")
-)
