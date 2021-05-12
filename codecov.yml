@@ -2,6 +2,7 @@ comment: false
 
 ignore:
   - "R/deprecate.R"
+  - "R/zzz.R"
 
 coverage:
   status:
