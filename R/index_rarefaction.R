@@ -27,19 +27,11 @@ switch_rarefaction <- function(x) {
 # ==============================================================================
 #' Rarefaction index
 #'
-#' \code{rarefactionHurlbert} returns Hurlbert's unbiased estimate of Sander's
-#' rarefaction.
-#' @param n A \code{\link{numeric}} vector giving the number of individuals for
+#' Returns Hurlbert's unbiased estimate of Sander's rarefaction.
+#' @param n A [`numeric`] vector giving the number of individuals for
 #'  each type.
 #' @param ... Currently not used.
-#' @return A length-one \code{\link{numeric}} vector.
-#' @references
-#'  Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
-#'  Alternative Parameters. \emph{Ecology}, 52(4), 577-586.
-#'  DOI: \href{https://doi.org/10.2307/1934145}{10.2307/1934145}.
-#'
-#'  Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
-#'  \emph{The American Naturalist}, 102(925), 243-282.
+#' @return A length-one [`numeric`] vector.
 #' @author N. Frerebeau
 #' @family diversity measures
 #' @name index-rarefaction

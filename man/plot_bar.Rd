@@ -30,46 +30,45 @@ plot_ford(object, ...)
 
 \item{...}{Currently not used.}
 
-\item{threshold}{A \code{\link{function}} that takes a numeric vector as
-argument and returns a numeric threshold value (see below).
-If \code{NULL} (the default), no threshold is computed.}
+\item{threshold}{A \code{\link{function}} that takes a numeric vector as argument and
+returns a numeric threshold value (see below). If \code{NULL} (the default), no
+threshold is computed.}
 
-\item{scale}{A \code{\link{function}} used to scale each variable,
-that takes a numeric vector as argument and returns a numeric vector.
-If \code{NULL} (the default), no scaling is performed.}
+\item{scale}{A \code{\link{function}} used to scale each variable, that takes a numeric
+vector as argument and returns a numeric vector. If \code{NULL} (the default), no
+scaling is performed.}
 
-\item{EPPM}{A \code{\link{logical}} scalar: should the EPPM be drawn (see
-below)?}
+\item{EPPM}{A \code{\link{logical}} scalar: should the EPPM be drawn (see below)?}
 }
 \value{
-A \code{\link[ggplot2]{ggplot}} object.
+A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
 }
 \description{
 Plots a Bertin, Ford (battleship curve) or Dice-Leraas diagram.
 }
 \details{
 If \code{EPPM} is \code{TRUE} and if a relative abundance is greater than
- the mean percentage of the type, the exceeding part is highlighted.
+the mean percentage of the type, the exceeding part is highlighted.
 }
 \section{Bertin Matrix}{
 
- As de Falguerolles \emph{et al.} (1997) points out:
- "In abstract terms, a Bertin matrix is a matrix
- of  displays. [...] To fix ideas, think of a data matrix, variable by case,
- with real valued variables. For each variable, draw a bar chart of variable
- value by case. High-light all bars representing a value above some sample
- threshold for that variable."
+As de Falguerolles \emph{et al.} (1997) points out:
+"In abstract terms, a Bertin matrix is a matrix
+of  displays. \link{...} To fix ideas, think of a data matrix, variable by case,
+with real valued variables. For each variable, draw a bar chart of variable
+value by case. High-light all bars representing a value above some sample
+threshold for that variable."
 }
 
 \section{EPPM}{
 
- This positive difference from the column mean percentage (in french "écart
- positif au pourcentage moyen", EPPM) represents a deviation from the
- situation of statistical independence. As independence can be interpreted as
- the absence of relationships between types and the chronological order of
- the assemblages, \code{EPPM} is a useful graphical tool to explore
- significance of relationship between rows and columns related to
- seriation (Desachy 2004).
+This positive difference from the column mean percentage (in french "écart
+positif au pourcentage moyen", EPPM) represents a deviation from the
+situation of statistical independence. As independence can be interpreted as
+the absence of relationships between types and the chronological order of
+the assemblages, \code{EPPM} is a useful graphical tool to explore significance
+of relationship between rows and columns related to seriation (Desachy
+2004).
 }
 
 \examples{
@@ -100,22 +99,22 @@ plot_ford(counts2, EPPM = TRUE)
 }
 \references{
 Bertin, J. (1977). \emph{La graphique et le traitement graphique de
- l'information}. Paris: Flammarion. Nouvelle Bibliothèque Scientifique.
+l'information}. Paris: Flammarion. Nouvelle Bibliothèque Scientifique.
 
- de Falguerolles, A., Friedrich, F. & Sawitzki, G. (1997). A Tribute to J.
- Bertin's Graphical Data Analysis. In W. Badilla & F. Faulbaum (eds.),
- \emph{SoftStat '97: Advances in Statistical Software 6}. Stuttgart: Lucius
- & Lucius, p. 11-20.
+de Falguerolles, A., Friedrich, F. & Sawitzki, G. (1997). A Tribute to J.
+Bertin's Graphical Data Analysis. In W. Badilla & F. Faulbaum (eds.),
+\emph{SoftStat '97: Advances in Statistical Software 6}. Stuttgart: Lucius
+& Lucius, p. 11-20.
 
- Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
- graphique pour tableaux de comptages. \emph{Revue archéologique de
- Picardie}, 3(1), 39-56. \doi{10.3406/pica.2004.2396}.
+Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
+graphique pour tableaux de comptages. \emph{Revue archéologique de Picardie},
+3(1), 39-56. \doi{10.3406/pica.2004.2396}.
 
- Ford, J. A. (1962). \emph{A quantitative method for deriving cultural
- chronology}. Washington, DC: Pan American Union. Technical manual 1.
+Ford, J. A. (1962). \emph{A quantitative method for deriving cultural
+chronology}. Washington, DC: Pan American Union. Technical manual 1.
 }
 \seealso{
-\link{eppm}
+\code{\link[=eppm]{eppm()}}
 
 Other plot: 
 \code{\link{plot_diversity}},

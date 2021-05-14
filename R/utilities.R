@@ -2,7 +2,7 @@
 
 #' Scales
 #'
-#' @param x A \code{\link{numeric}} vector.
+#' @param x A [`numeric`] vector.
 #' @keywords internal
 #' @noRd
 scale_01 <- function(x) {
@@ -14,9 +14,9 @@ scale_pc <- function(x) {
 
 #' Rolling Sum
 #'
-#' @param x A \code{\link{numeric}} vector.
-#' @param n An \code{\link{integer}} giving the rolling window size.
-#' @return A \code{\link{numeric}} vector.
+#' @param x A [`numeric`] vector.
+#' @param n An [`integer`] giving the rolling window size.
+#' @return A [`numeric`] vector.
 #' @keywords internal
 #' @noRd
 roll_sum <- function(x, n = 2) {

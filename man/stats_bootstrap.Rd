@@ -13,7 +13,7 @@ stats_bootstrap(x, do, probs = c(0.05, 0.95), n = 1000, na.rm = FALSE, ...)
 and returns a single numeric value.}
 
 \item{probs}{A \code{\link{numeric}} vector of probabilities with values in
-\eqn{[0,1]} (see \code{\link[stats:quantile]{quantile}}).}
+\eqn{[0,1]} (see \code{\link[stats:quantile]{stats::quantile()}}).}
 
 \item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
 replications.}
@@ -24,13 +24,13 @@ from \code{x} before the quantiles are computed?}
 \item{...}{Extra arguments passed to \code{do}.}
 }
 \value{
-A \code{numeric} vector with the following elements:
- \describe{
-  \item{min}{Minimum value.}
-  \item{mean}{Mean value.}
-  \item{max}{Maximum value.}
-  \item{Q*}{Sample quantile to * probability.}
- }
+A \code{\link{numeric}} vector with the following elements:
+\describe{
+\item{\code{min}}{Minimum value.}
+\item{\code{mean}}{Mean value.}
+\item{\code{max}}{Maximum value.}
+\item{\verb{Q*}}{Sample quantile to * probability.}
+}
 }
 \description{
 Bootstrap Estimation

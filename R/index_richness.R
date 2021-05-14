@@ -138,51 +138,27 @@ switch_richness <- function(x) {
 #' Richness index
 #'
 #' Abundance data:
-#' \code{richnessACE} returns Abundance-based Coverage Estimator (ACE).
-#' \code{richnessChao1} returns (improved) Chao1 estimator for abundance data.
-#' \code{richnessMargalef} returns Margalef richness index.
-#' \code{richnessMenhinick} returns Menhinick richness index.
+#' * `richnessACE()` returns Abundance-based Coverage Estimator (ACE).
+#' * `richnessChao1()` returns (improved) Chao1 estimator for abundance data.
+#' * `richnessMargalef()` returns Margalef richness index.
+#' * `richnessMenhinick()` returns Menhinick richness index.
 #'
 #' Incidence data:
-#' \code{richnessICE} returns Incidence-based Coverage Estimator (ICE).
-#' \code{richnessChao2} returns (improved) Chao2 estimator for replicated
+#' * `richnessICE()` returns Incidence-based Coverage Estimator (ICE).
+#' * `richnessChao2()` returns (improved) Chao2 estimator for replicated
 #' incidence data.
-#' @param x A \code{\link{numeric}} vector giving the number of individuals for
-#'  each type (abundance data) or a \code{\link{logical}} matrix (replicated
+#' @param x A [`numeric`] vector giving the number of individuals for
+#'  each type (abundance data) or a [`logical`] matrix (replicated
 #'  incidence data).
-#' @param k A \code{\link{numeric}} vector giving the threshold between rare and
+#' @param k A [`numeric`] vector giving the threshold between rare and
 #'  abundant species.
-#' @param unbiased A \code{\link{logical}} scalar. Should the bias-corrected
+#' @param unbiased A [`logical`] scalar. Should the bias-corrected
 #'  estimator be used?
-#' @param improved A \code{\link{logical}} scalar. Should the improved
+#' @param improved A [`logical`] scalar. Should the improved
 #'  estimator be used?
 #' @param ... Currently not used.
-#' @return A length-one \code{\link{numeric}} vector.
+#' @return A length-one [`numeric`] vector.
 #' @author N. Frerebeau
-#' @references
-#'  Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
-#'  Population. \emph{Scandinavian Journal of Statistics}, 11(4), 265-270.
-#'
-#'  Chao, A. (1987). Estimating the Population Size for Capture-Recapture Data
-#'  with Unequal Catchability. \emph{Biometrics} 43(4): 783.
-#'  DOI: \href{https://doi.org/10.2307/2531532}{10.2307/2531532}.
-#'
-#'  Chao, A., & Lee, S.-M. (1992). Estimating the Number of Classes via Sample
-#'  Coverage. \emph{Journal of the American Statistical Association}, 87(417),
-#'  210-217.
-#'  DOI: \href{https://doi.org/10.1080/01621459.1992.10475194}{10.1080/01621459.1992.10475194}
-#'
-#'  Chiu, C.-H., Wang, Y.-T., Walther, B. A. & Chao, A. (2014). An improved
-#'  nonparametric lower bound of species richness via a modified good-turing
-#'  frequency formula. \emph{Biometrics}, 70(3), 671-682.
-#'  DOI: \href{https://doi.org/10.1111/biom.12200}{10.1111/biom.12200}.
-#'
-#'  Margalef, R. (1958). Information Theory in Ecology. \emph{General Systems},
-#'  3, 36-71.
-#'
-#'  Menhinick, E. F. (1964). A Comparison of Some Species-Individuals Diversity
-#'  Indices Applied to Samples of Field Insects. \emph{Ecology}, 45(4), 859-861.
-#'  DOI: \href{https://doi.org/10.2307/1934933}{10.2307/1934933}.
 #' @family diversity measures
 #' @name index-richness
 #' @keywords internal

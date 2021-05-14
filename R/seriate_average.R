@@ -26,16 +26,16 @@ setMethod(
 #' Average Ranking
 #'
 #' Computes average ranking (CA) seriation.
-#' @param object A \linkS4class{CountMatrix} or \linkS4class{IncidenceMatrix}
+#' @param object A [`CountMatrix-class`] or [`IncidenceMatrix-class`]
 #'  object.
-#' @param margin A \code{\link{numeric}} vector giving the subscripts which the
-#'  rearrangement will be applied over: \code{1} indicates rows, \code{2}
-#'  indicates columns, \code{c(1, 2)} indicates rows then columns,
-#'  \code{c(2, 1)} indicates columns then rows.
-#' @param axes An \code{\link{integer}} giving the CA dimension to be used for
+#' @param margin A [`numeric`] vector giving the subscripts which the
+#'  rearrangement will be applied over: `1` indicates rows, `2`
+#'  indicates columns, `c(1, 2)` indicates rows then columns, `c(2, 1)`
+#'  indicates columns then rows.
+#' @param axes An [`integer`] giving the CA dimension to be used for
 #'  permutation.
-#' @param ... Extra arguments to be passed to \code{\link[arkhe]{ca}}.
-#' @return A \linkS4class{PermutationOrder} object.
+#' @param ... Extra arguments to be passed to [dimensio::ca()].
+#' @return A [`PermutationOrder-class`] object.
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd

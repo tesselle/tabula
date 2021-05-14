@@ -19,7 +19,7 @@ plot_heatmap(object, ...)
 \item{...}{Further arguments to be passed to internal methods.}
 }
 \value{
-A \code{\link[ggplot2]{ggplot}} object.
+A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
 }
 \description{
 Plots a heatmap.
@@ -45,11 +45,11 @@ plot_heatmap(bin) +
 }
 \references{
 Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
- graphique pour tableaux de comptages. \emph{Revue archéologique de
- Picardie}, 3(1), 39-56. \doi{10.3406/pica.2004.2396}.
+graphique pour tableaux de comptages. \emph{Revue archéologique de Picardie},
+3(1), 39-56. \doi{10.3406/pica.2004.2396}.
 }
 \seealso{
-\link{pvi}
+\code{\link[=pvi]{pvi()}}
 
 Other plot: 
 \code{\link{plot_bar}},

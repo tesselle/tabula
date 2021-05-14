@@ -109,20 +109,19 @@ jackknife_evenness(object, ...)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data (typically
-a \linkS4class{CountMatrix} object).}
+a \code{\linkS4class{CountMatrix}} object).}
 
 \item{...}{Further arguments to be passed to internal methods.}
 
-\item{method}{A \code{\link{character}} string specifying the index to be
-computed (see details). Any unambiguous substring can be given.}
+\item{method}{A \code{\link{character}} string specifying the index to be computed
+(see details). Any unambiguous substring can be given.}
 
-\item{quantiles}{A \code{\link{logical}} scalar: should sample quantiles
-be used as confidence interval? If \code{TRUE} (the default),
-sample quantiles are used as described in Kintigh (1989), else quantiles of
-the normal distribution are used.}
+\item{quantiles}{A \code{\link{logical}} scalar: should sample quantiles be used as
+confidence interval? If \code{TRUE} (the default), sample quantiles are used as
+described in Kintigh (1989), else quantiles of the normal distribution are
+used.}
 
-\item{level}{A length-one \code{\link{numeric}} vector giving the
-confidence level.}
+\item{level}{A length-one \code{\link{numeric}} vector giving the confidence level.}
 
 \item{step}{A non-negative \code{\link{integer}} giving the increment of the
 sample size. Only used if \code{simulate} is \code{TRUE}.}
@@ -130,79 +129,78 @@ sample size. Only used if \code{simulate} is \code{TRUE}.}
 \item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
 replications.}
 
-\item{progress}{A \code{\link{logical}} scalar: should a progress bar be
-displayed?}
+\item{progress}{A \code{\link{logical}} scalar: should a progress bar be displayed?}
 
 \item{probs}{A \code{\link{numeric}} vector of probabilities with values in
-\eqn{[0,1]} (see \code{\link[stats:quantile]{quantile}}).}
+\eqn{[0,1]} (see \code{\link[stats:quantile]{stats::quantile()}}).}
 }
 \value{
-\code{index_heterogeneity}, \code{index_evenness} and
- \code{simulate_evenness} return a \linkS4class{DiversityIndex} object.
-
- \code{bootstrap_*} and \code{jackknife_*} return a \code{data.frame}.
+\itemize{
+\item \code{index_heterogeneity()}, \code{index_evenness()} and \code{simulate_evenness()}
+return a \code{\linkS4class{DiversityIndex}} object.
+\item \verb{bootstrap_*()} and \verb{jackknife_*()} return a \code{\link{data.frame}}.
+}
 }
 \description{
-\code{index_heterogeneity} returns an heterogeneity or dominance index.
-
- \code{index_evenness} returns an evenness measure.
-
- \code{bootstrap_*} and \code{jackknife_*} perform bootstrap/jackknife
- resampling.
+\itemize{
+\item \code{index_heterogeneity()} returns an heterogeneity or dominance index.
+\item \code{index_evenness()} returns an evenness measure.
+\item \verb{bootstrap_*()} and \verb{jackknife_*()} perform bootstrap/jackknife
+resampling.
+}
 }
 \details{
 \emph{Diversity} measurement assumes that all individuals in a specific
- taxa are equivalent and that all types are equally different from each
- other (Peet 1974). A measure of diversity can be achieved by using indices
- built on the relative abundance of taxa. These indices (sometimes referred
- to as non-parametric indices) benefit from not making assumptions about the
- underlying distribution of taxa abundance: they only take relative
- abundances of the species that are present and species richness into
- account. Peet (1974) refers to them as indices of \emph{heterogeneity}.
+taxa are equivalent and that all types are equally different from each
+other (Peet 1974). A measure of diversity can be achieved by using indices
+built on the relative abundance of taxa. These indices (sometimes referred
+to as non-parametric indices) benefit from not making assumptions about the
+underlying distribution of taxa abundance: they only take relative
+abundances of the species that are present and species richness into
+account. Peet (1974) refers to them as indices of \emph{heterogeneity}.
 
- Diversity indices focus on one aspect of the taxa abundance and emphasize
- either \emph{richness} (weighting towards uncommon taxa)
- or dominance (weighting towards abundant taxa; Magurran 1988).
+Diversity indices focus on one aspect of the taxa abundance and emphasize
+either \emph{richness} (weighting towards uncommon taxa) or dominance (weighting
+towards abundant taxa; Magurran 1988).
 
- \emph{Evenness} is a measure of how evenly individuals are distributed
- across the sample.
+\emph{Evenness} is a measure of how evenly individuals are distributed across the
+sample.
 
- The following heterogeneity index and corresponding evenness measures
- are available (see Magurran 1988 for details):
- \describe{
-  \item{berger}{Berger-Parker dominance index. The Berger-Parker index
-   expresses the proportional importance of the most abundant type. This
-   metric is highly biased by sample size and richness, moreover it does not
-   make use of all the information available from sample.}
-  \item{brillouin}{Brillouin diversity index. The Brillouin index describes a
-   known collection: it does not assume random sampling in an infinite
-   population. Pielou (1975) and Laxton (1978) argues for the use of the
-   Brillouin index in all circumstances, especially in preference to the
-   Shannon index.}
-  \item{mcintosh}{McIntosh dominance index. The McIntosh index expresses the
-   heterogeneity of a sample in geometric terms. It describes the sample as a
-   point of a \code{S}-dimensional hypervolume and uses the Euclidean
-   distance of this point from the origin.}
-  \item{shannon}{Shannon-Wiener diversity index. The Shannon index assumes
-   that individuals are randomly sampled from an infinite population and that
-   all taxa are represented in the sample (it does not reflect the
-   sample size). The main source of error arises from the failure to include
-   all taxa in the sample: this error increases as the proportion of species
-   discovered in the sample declines (Peet 1974, Magurran 1988). The
-   maximum likelihood estimator (MLE) is used for the relative abundance,
-   this is known to be negatively biased by sample size.}
-  \item{simpson}{Simpson dominance index for finite sample. The Simpson index
-   expresses the probability that two individuals randomly picked from a
-   finite sample belong to two different types. It can be interpreted as the
-   weighted mean of the proportional abundances. This metric is a true
-   probability value, it ranges from \code{0} (perfectly uneven) to \code{1}
-   (perfectly even).}
- }
+The following heterogeneity index and corresponding evenness measures
+are available (see Magurran 1988 for details):
+\describe{
+\item{\code{berger}}{Berger-Parker dominance index. The Berger-Parker index
+expresses the proportional importance of the most abundant type. This
+metric is highly biased by sample size and richness, moreover it does not
+make use of all the information available from sample.}
+\item{\code{brillouin}}{Brillouin diversity index. The Brillouin index describes
+a known collection: it does not assume random sampling in an infinite
+population. Pielou (1975) and Laxton (1978) argues for the use of the
+Brillouin index in all circumstances, especially in preference to the
+Shannon index.}
+\item{\code{mcintosh}}{McIntosh dominance index. The McIntosh index expresses
+the heterogeneity of a sample in geometric terms. It describes the sample
+as a point of a \eqn{S}-dimensional hypervolume and uses the Euclidean
+distance of this point from the origin.}
+\item{\code{shannon}}{Shannon-Wiener diversity index. The Shannon index assumes
+that individuals are randomly sampled from an infinite population and that
+all taxa are represented in the sample (it does not reflect the
+sample size). The main source of error arises from the failure to include
+all taxa in the sample: this error increases as the proportion of species
+discovered in the sample declines (Peet 1974, Magurran 1988). The
+maximum likelihood estimator (MLE) is used for the relative abundance,
+this is known to be negatively biased by sample size.}
+\item{\code{simpson}}{Simpson dominance index for finite sample. The Simpson
+index expresses the probability that two individuals randomly picked from
+a finite sample belong to two different types. It can be interpreted as
+the weighted mean of the proportional abundances. This metric is a true
+probability value, it ranges from \eqn{0} (perfectly uneven) to \eqn{1}
+(perfectly even).}
+}
 
- The \code{berger}, \code{mcintosh} and \code{simpson} methods return a
- \emph{dominance} index, not the reciprocal or inverse form usually adopted,
- so that an increase in the value of the index accompanies a decrease in
- diversity.
+The \code{berger}, \code{mcintosh} and \code{simpson} methods return a \emph{dominance} index,
+not the reciprocal or inverse form usually adopted, so that an increase in
+the value of the index accompanies a decrease in diversity.
 }
 \note{
 Ramanujan approximation is used for \eqn{x!} computation if \eqn{x > 170}.
@@ -224,49 +222,49 @@ chevelon <- as_count(chevelon)
 }
 \references{
 Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
- in Deep-Sea Sediments. \emph{Science}, 168(3937), 1345-1347.
- \doi{10.1126/science.168.3937.1345}.
+in Deep-Sea Sediments. \emph{Science}, 168(3937), 1345-1347.
+\doi{10.1126/science.168.3937.1345}.
 
- Brillouin, L. (1956). \emph{Science and information theory}. New York:
- Academic Press.
+Brillouin, L. (1956). \emph{Science and information theory}. New York:
+Academic Press.
 
- Kintigh, K. W. (1984). Measuring Archaeological Diversity by Comparison
- with Simulated Assemblages. \emph{American Antiquity}, 49(1), 44-54.
- \doi{10.2307/280511}.
+Kintigh, K. W. (1984). Measuring Archaeological Diversity by Comparison
+with Simulated Assemblages. \emph{American Antiquity}, 49(1), 44-54.
+\doi{10.2307/280511}.
 
- Kintigh, K. W. (1989). Sample Size, Significance, and Measures of
- Diversity. In Leonard, R. D. and Jones, G. T., \emph{Quantifying Diversity
- in Archaeology}. New Directions in Archaeology. Cambridge:
- Cambridge University Press, p. 25-36.
+Kintigh, K. W. (1989). Sample Size, Significance, and Measures of
+Diversity. In Leonard, R. D. and Jones, G. T., \emph{Quantifying Diversity
+in Archaeology}. New Directions in Archaeology. Cambridge:
+Cambridge University Press, p. 25-36.
 
- Laxton, R. R. (1978). The measure of diversity. \emph{Journal of Theoretical
- Biology}, 70(1), 51-67.
- \doi{10.1016/0022-5193(78)90302-8}.
+Laxton, R. R. (1978). The measure of diversity. \emph{Journal of Theoretical
+Biology}, 70(1), 51-67.
+\doi{10.1016/0022-5193(78)90302-8}.
 
- Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
- Princeton, NJ: Princeton University Press.
- \doi{10.1007/978-94-015-7358-0}.
+Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
+Princeton, NJ: Princeton University Press.
+\doi{10.1007/978-94-015-7358-0}.
 
- McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
- Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
- \doi{10.2307/1932674}.
+McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
+Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
+\doi{10.2307/1932674}.
 
- Peet, R. K. (1974). The Measurement of Species Diversity. \emph{Annual
- Review of Ecology and Systematics}, 5(1), 285-307.
- \doi{10.1146/annurev.es.05.110174.001441}.
+Peet, R. K. (1974). The Measurement of Species Diversity. \emph{Annual Review of
+Ecology and Systematics}, 5(1), 285-307.
+\doi{10.1146/annurev.es.05.110174.001441}.
 
- Pielou, E. C. (1975). \emph{Ecological Diversity}. New York: Wiley.
- \doi{10.4319/lo.1977.22.1.0174b}
+Pielou, E. C. (1975). \emph{Ecological Diversity}. New York: Wiley.
+\doi{10.4319/lo.1977.22.1.0174b}
 
- Shannon, C. E. (1948). A Mathematical Theory of Communication. \emph{The
- Bell System Technical Journal}, 27, 379-423.
- \doi{10.1002/j.1538-7305.1948.tb01338.x}.
+Shannon, C. E. (1948). A Mathematical Theory of Communication. \emph{The
+Bell System Technical Journal}, 27, 379-423.
+\doi{10.1002/j.1538-7305.1948.tb01338.x}.
 
- Simpson, E. H. (1949). Measurement of Diversity. \emph{Nature}, 163(4148),
- 688-688. \doi{10.1038/163688a0}.
+Simpson, E. H. (1949). Measurement of Diversity. \emph{Nature}, 163(4148),
+688-688. \doi{10.1038/163688a0}.
 }
 \seealso{
-\link{plot_diversity}, \link{similarity}, \link{turnover}
+\code{\link[=plot_diversity]{plot_diversity()}}, \code{\link[=similarity]{similarity()}}, \code{\link[=turnover]{turnover()}}
 
 Other diversity: 
 \code{\link{richness-index}},

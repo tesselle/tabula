@@ -37,8 +37,8 @@ used (see details). Any unambiguous substring can be given.}
 simplified to a matrix?}
 }
 \value{
-If \code{simplify} is \code{FALSE}, returns a list (default), else returns
- a matrix.
+If \code{simplify} is \code{FALSE}, returns a \code{\link{list}} (default), else returns a
+\code{\link{matrix}}.
 }
 \description{
 Returns the degree of turnover in taxa composition along a gradient or
@@ -46,19 +46,20 @@ transect.
 }
 \details{
 The following methods can be used to ascertain the degree of \emph{turnover}
- in taxa composition along a gradient (\eqn{\beta}-diversity) on qualitative
- (presence/absence) data. This assumes that the order of the matrix rows
- (from 1 to \eqn{n}) follows the progression along the gradient/transect.
+in taxa composition along a gradient (\eqn{\beta}-diversity) on qualitative
+(presence/absence) data. This assumes that the order of the matrix rows
+(from \eqn{1} to \eqn{n}) follows the progression along the
+gradient/transect.
 
- \describe{
-  \item{whittaker}{Whittaker measure.}
-  \item{cody}{Cody measure.}
-  \item{routledge1}{Routledge first measure.}
-  \item{routledge2}{Routledge second measure.}
-  \item{routledge3}{Routledge third measure. This is the exponential form of
-  the second measure.}
-  \item{wilson}{Wilson measure.}
- }
+\describe{
+\item{\code{whittaker}}{Whittaker measure.}
+\item{\code{cody}}{Cody measure.}
+\item{\code{routledge1}}{Routledge first measure.}
+\item{\code{routledge2}}{Routledge second measure.}
+\item{\code{routledge3}}{Routledge third measure. This is the exponential form
+of the second measure.}
+\item{\code{wilson}}{Wilson measure.}
+}
 }
 \examples{
 ## Data from Magurran 1988, p. 162
@@ -89,20 +90,20 @@ turnover(trees, "wilson") # 1
 }
 \references{
 Cody, M. L. (1975). Towards a theory of continental species diversity: Bird
- distributions over Mediterranean habitat gradients. \emph{In} M. L. Cody &
- J. M. Diamond (Eds.), \emph{Ecology and Evolution of Communities}.
- Cambridge, MA: Harvard University Press, p. 214-257.
+distributions over Mediterranean habitat gradients. \emph{In} M. L. Cody &
+J. M. Diamond (Eds.), \emph{Ecology and Evolution of Communities}.
+Cambridge, MA: Harvard University Press, p. 214-257.
 
- Routledge, R. D. (1977). On Whittaker's Components of Diversity.
- \emph{Ecology}, 58(5), 1120-1127. \doi{10.2307/1936932}.
+Routledge, R. D. (1977). On Whittaker's Components of Diversity.
+\emph{Ecology}, 58(5), 1120-1127. \doi{10.2307/1936932}.
 
- Whittaker, R. H. (1960). Vegetation of the Siskiyou Mountains, Oregon and
- California. \emph{Ecological Monographs}, 30(3), 279-338.
- \doi{10.2307/1943563}.
+Whittaker, R. H. (1960). Vegetation of the Siskiyou Mountains, Oregon and
+California. \emph{Ecological Monographs}, 30(3), 279-338.
+\doi{10.2307/1943563}.
 
- Wilson, M. V., & Shmida, A. (1984). Measuring Beta Diversity with
- Presence-Absence Data. \emph{The Journal of Ecology}, 72(3), 1055-1064.
- \doi{10.2307/2259551}.
+Wilson, M. V., & Shmida, A. (1984). Measuring Beta Diversity with
+Presence-Absence Data. \emph{The Journal of Ecology}, 72(3), 1055-1064.
+\doi{10.2307/2259551}.
 }
 \seealso{
 Other diversity: 

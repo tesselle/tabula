@@ -1,25 +1,25 @@
 #' @details
 #' \tabular{ll}{
-#'  \strong{Package:} \tab tabula \cr
-#'  \strong{Type:} \tab Package \cr
-#'  \strong{Version:} \tab 1.6.0 \cr
-#'  \strong{License:} \tab GPL-3 \cr
-#'  \strong{DOI:} \tab \doi{10.5281/zenodo.1489944} \cr
-#'  \strong{JOSS:} \tab \doi{10.21105/joss.01821} \cr
+#'  **Package:** \tab tabula \cr
+#'  **Type:** \tab Package \cr
+#'  **Version:** \tab 1.6.0 \cr
+#'  **License:** \tab GPL-3 \cr
+#'  **Zenodo:** \tab \doi{10.5281/zenodo.1489944} \cr
+#'  **JOSS:** \tab \doi{10.21105/joss.01821} \cr
 #' }
 #' @author
-#' \strong{Full list of authors and contributors} (alphabetic order)
+#' **Full list of authors and contributors** (alphabetic order)
 #'
 #' \tabular{ll}{
-#'  Jean-Baptiste Fourvel \tab \emph{CNRS, France} \cr
-#'  Nicolas Frerebeau \tab \emph{Université Bordeaux Montaigne, France} \cr
-#'  Brice Lebrun \tab \emph{Université Bordeaux Montaigne, France} \cr
-#'  Ben Marwick \tab \emph{University of Washington, USA} \cr
-#'  Matthew Peeples \tab \emph{Arizona State University, USA} \cr
-#'  Anne Philippe \tab \emph{Université de Nantes, France} \cr
+#'  Jean-Baptiste Fourvel \tab *CNRS, France* \cr
+#'  Nicolas Frerebeau \tab *Université Bordeaux Montaigne, France* \cr
+#'  Brice Lebrun \tab *Université Bordeaux Montaigne, France* \cr
+#'  Ben Marwick \tab *University of Washington, USA* \cr
+#'  Matthew Peeples \tab *Arizona State University, USA* \cr
+#'  Anne Philippe \tab *Université de Nantes, France* \cr
 #' }
 #'
-#' \strong{Package maintainer}
+#' **Package maintainer**
 #'
 #' Nicolas Frerebeau\cr
 #' \email{nicolas.frerebeau@@u-bordeaux-montaigne.fr}

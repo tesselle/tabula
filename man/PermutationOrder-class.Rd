@@ -15,22 +15,17 @@ An S4 class to represent a permutation order.
 
 \item{\code{columns}}{An \code{\link{integer}} vector giving the columns permutation.}
 
-\item{\code{method}}{A \code{\link{character}} string indicating the seriation
-method used.}
+\item{\code{method}}{A \code{\link{character}} string indicating the seriation method used.}
 }}
 
-\note{
-Numeric values are coerced to \code{\link{integer}} as by
- \code{\link[base]{as.integer}} (and hence truncated towards zero).
-}
 \section{Subset}{
 
- \describe{
-  \item{\code{x[[i]]}}{Extracts informations from a slot selected by
-  subscript \code{i}. \code{i} should be one of "\code{id}",
-  "\code{rows}", "\code{columns}" or "\code{method}". Any unambiguous
-  substring can be given.}
- }
+In the code snippets below, \code{x} is a \code{PermutationOrder} object.
+\describe{
+\item{\code{x[[i]]}}{Extracts information from a slot selected by subscript \code{i}.
+\code{i} is a length-one \code{\link{character}} vector. Returns the corresponding slot
+values.}
+}
 }
 
 \seealso{

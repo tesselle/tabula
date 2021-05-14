@@ -167,44 +167,12 @@ switch_evenness <- function(x) {
 
 #' Diversity, dominance and evenness index
 #'
-#' @param x A \code{\link{numeric}} vector giving the number of individuals for
-#'  each class.
-#' @param na.rm A \code{\link{numeric}} scalar: should missing values (including
-#' \code{NaN}) be removed?
+#' @param x A [`numeric`] vector giving the number of individuals for each
+#'  class.
+#' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
+#'  removed?
 #' @param ... Currently not used.
-#' @details
-#' \code{dominanceBerger} returns Berger-Parker dominance index.
-#'
-#' \code{diversityBrillouin} and \code{evennessBrillouin} return Brillouin
-#' diversity index and evenness.
-#'
-#' \code{dominanceMcintosh} and \code{evennessMcintosh} return McIntosh
-#' dominance index and evenness.
-#'
-#' \code{diversityShannon}, \code{evennessShannon}, \code{varianceShannon}
-#' return Shannon-Wiener diversity index, evenness and variance.
-#'
-#' \code{dominanceSimpson} and \code{evennessSimpson} return Simpson dominance
-#' index and evenness.
-#' @return A length-one \code{\link{numeric}} vector.
-#' @references
-#'  Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
-#'  in Deep-Sea Sediments. \emph{Science}, 168(3937), 1345-1347.
-#'  DOI: \href{https://doi.org/10.1126/science.168.3937.1345}{10.1126/science.168.3937.1345}.
-#'
-#'  Brillouin, L. (1956). \emph{Science and information theory}. New York:
-#'  Academic Press.
-#'
-#'  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
-#'  Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
-#'  DOI: \href{https://doi.org/10.2307/1932674}{10.2307/1932674}.
-#'
-#'  Shannon, C. E. (1948). A Mathematical Theory of Communication. \emph{The
-#'  Bell System Technical Journal}, 27, 379-423.
-#'  DOI: \href{https://doi.org/10.1002/j.1538-7305.1948.tb01338.x}{10.1002/j.1538-7305.1948.tb01338.x}.
-#'
-#'  Simpson, E. H. (1949). Measurement of Diversity. \emph{Nature}, 163(4148),
-#'  688-688. DOI: \href{https://doi.org/10.1038/163688a0}{10.1038/163688a0}.
+#' @return A length-one [`numeric`] vector.
 #' @author N. Frerebeau
 #' @family diversity index
 #' @name index-heterogeneity
@@ -365,16 +333,16 @@ evennessSimpson <- function(x, na.rm = FALSE, ...) {
 ## Chao ------------------------------------------------------------------------
 # Chao index
 #
-# @param n A \code{\link{numeric}} vector.
-# @param method A \code{\link{character}} string specifiying the method to be
-#  used. This must be one of "MLEU", "CHAO" (see details). Any unambiguous
+# @param n A [`numeric`] vector.
+# @param method A [`character`] string specifiying the method to be
+#  used. This must be one of "`MLEU`", "`CHAO`" (see details). Any unambiguous
 #  substring can be given.
-# @param k A length-one \code{\link{numeric}} vector.
+# @param k A length-one [`numeric`] vector.
 # @param base A positive or complex number: the base with respect to which
-#  logarithms are computed (see \code{\link[base]{log}}).
+#  logarithms are computed (see [log()]).
 # @param ... Currently not used.
 # @details TODO
-# @return A length-one \code{\link{numeric}} vector.
+# @return A length-one [`numeric`] vector.
 # @family diversity index
 # @author N. Frerebeau
 # chaoIndex <- function(n, method = c("MLEU", "CHAO"), k = 10, base = exp(1)) {

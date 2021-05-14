@@ -83,102 +83,98 @@ rarefaction(object, ...)
 
 \item{...}{Further arguments to be passed to internal methods.}
 
-\item{sample}{A length-one \code{\link{numeric}} vector giving the sub-sample
-size.}
+\item{sample}{A length-one \code{\link{numeric}} vector giving the sub-sample size.}
 
-\item{method}{A \code{\link{character}} string or vector of strings
-specifying the index to be computed (see details).
-Any unambiguous substring can be given.}
+\item{method}{A \code{\link{character}} string or vector of strings specifying the
+index to be computed (see details). Any unambiguous substring can be given.}
 
-\item{simplify}{A \code{\link{logical}} scalar: should the result be
-simplified to a matrix? The default value, \code{FALSE}, returns a list.}
+\item{simplify}{A \code{\link{logical}} scalar: should the result be simplified to a
+matrix? The default value, \code{FALSE}, returns a list.}
 
-\item{quantiles}{A \code{\link{logical}} scalar: should sample quantiles
-be used as confidence interval? If \code{TRUE} (the default),
-sample quantiles are used as described in Kintigh (1989), else quantiles of
-the normal distribution are used.}
+\item{quantiles}{A \code{\link{logical}} scalar: should sample quantiles be used as
+confidence interval? If \code{TRUE} (the default), sample quantiles are used as
+described in Kintigh (1989), else quantiles of the normal distribution are
+used.}
 
-\item{level}{A length-one \code{\link{numeric}} vector giving the
-confidence level.}
+\item{level}{A length-one \code{\link{numeric}} vector giving the confidence level.}
 
-\item{step}{A non-negative \code{\link{integer}} giving the increment of the
-sample size. Only used if \code{simulate} is \code{TRUE}.}
+\item{step}{A non-negative \code{\link{integer}} giving the increment of the sample
+size. Only used if \code{simulate} is \code{TRUE}.}
 
 \item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
 replications.}
 
-\item{progress}{A \code{\link{logical}} scalar: should a progress bar be
-displayed?}
+\item{progress}{A \code{\link{logical}} scalar: should a progress bar be displayed?}
 
 \item{probs}{A \code{\link{numeric}} vector of probabilities with values in
-\eqn{[0,1]} (see \code{\link[stats:quantile]{quantile}}).}
+\eqn{[0,1]} (see \code{\link[stats:quantile]{stats::quantile()}}).}
 
-\item{unbiased}{A \code{\link{logical}} scalar. Should the bias-corrected
-estimator be used? Only used with "\code{chao1}" or "\code{chao2}"
-(improved) estimator.}
+\item{unbiased}{A \code{\link{logical}} scalar. Should the bias-corrected estimator be
+used? Only used with "\code{chao1}" or "\code{chao2}" (improved) estimator.}
 
-\item{improved}{A \code{\link{logical}} scalar. Should the improved
-estimator be used? Only used with "\code{chao1}" or "\code{chao2}".}
+\item{improved}{A \code{\link{logical}} scalar. Should the improved estimator be used?
+Only used with "\code{chao1}" or "\code{chao2}".}
 
-\item{k}{A length-one \code{\link{numeric}} vector giving the threshold
-between rare/infrequent and abundant/frequent species. Only used if
-\code{method} is "\code{ace}" or "\code{ice}".}
+\item{k}{A length-one \code{\link{numeric}} vector giving the threshold between
+rare/infrequent and abundant/frequent species. Only used if \code{method} is
+"\code{ace}" or "\code{ice}".}
 }
 \value{
-\code{index_richness}, \code{simulate_richness} and \code{index_composition}
- return a \linkS4class{DiversityIndex} object.
+\itemize{
+\item \code{index_richness()}, \code{simulate_richness()} and \code{index_composition()} return a
+\code{\linkS4class{DiversityIndex}} object.
+\item \verb{bootstrap_*()} and \verb{jackknife_*()} return a \code{\link{data.frame}}.
+}
 
- \code{bootstrap_*} and \code{jackknife_*} return a \code{data.frame}.
-
- If \code{simplify} is \code{FALSE}, then \code{rarefaction} returns a list
- (default), else return a matrix.
+If \code{simplify} is \code{FALSE}, then \code{rarefaction()} returns a \code{\link{list}} (default),
+else return a \code{\link{matrix}}.
 }
 \description{
-\code{index_richness} returns sample richness. \code{index_composition}
- returns asymptotic species richness.
-
- \code{rarefaction} returns Hurlbert's unbiased estimate of Sander's
- rarefaction.
-
- \code{bootstrap_*} and \code{jackknife_*} perform bootstrap/jackknife
- resampling.
+\itemize{
+\item \code{index_richness()} returns sample richness. \code{index_composition()} returns
+asymptotic species richness.
+\item \code{rarefaction()} returns Hurlbert's unbiased estimate of Sander's
+rarefaction.
+\item \verb{bootstrap_*()} and \verb{jackknife_*()} perform bootstrap/jackknife
+resampling.
+}
 }
 \details{
 The number of different taxa, provides an instantly comprehensible
- expression of diversity. While the number of taxa within a sample
- is easy to ascertain, as a term, it makes little sense: some taxa
- may not have been seen, or there may not be a fixed number of taxa
- (e.g. in an open system; Peet 1974). As an alternative, \emph{richness}
- (\eqn{S}) can be used for the concept of taxa number (McIntosh 1967).
+expression of diversity. While the number of taxa within a sample
+is easy to ascertain, as a term, it makes little sense: some taxa
+may not have been seen, or there may not be a fixed number of taxa
+(e.g. in an open system; Peet 1974). As an alternative, \emph{richness}
+(\eqn{S}) can be used for the concept of taxa number (McIntosh 1967).
 
- It is not always possible to ensure that all sample sizes are equal
- and the number of different taxa increases with sample size and
- sampling effort (Magurran 1988). Then, \emph{rarefaction} (\eqn{E(S)}) is
- the number of taxa expected if all samples were of a standard size (i.e.
- taxa per fixed number of individuals). Rarefaction assumes that imbalances
- between taxa are due to sampling and not to differences in actual
- abundances.
+It is not always possible to ensure that all sample sizes are equal
+and the number of different taxa increases with sample size and
+sampling effort (Magurran 1988). Then, \emph{rarefaction} (\eqn{E(S)}) is
+the number of taxa expected if all samples were of a standard size (i.e.
+taxa per fixed number of individuals). Rarefaction assumes that imbalances
+between taxa are due to sampling and not to differences in actual
+abundances.
 
- The following richness measures are available for count data:
- \describe{
-  \item{margalef}{Margalef richness index.}
-  \item{menhinick}{Menhinick richness index.}
-  \item{none}{Returns the number of observed taxa/types.}
- }
+The following richness measures are available for count data:
+\describe{
+\item{\code{margalef}}{Margalef richness index.}
+\item{\code{menhinick}}{Menhinick richness index.}
+\item{\code{none}}{Returns the number of observed taxa/types.}
+}
 }
 \section{Asymptotic Species Richness}{
 
- The following measures are available for count data:
- \describe{
-  \item{ace}{Abundance-based Coverage Estimator.}
-  \item{chao1}{(improved/unbiased) Chao1 estimator.}
- }
+The following measures are available for count data:
+\describe{
+\item{\code{ace}}{Abundance-based Coverage Estimator.}
+\item{\code{chao1}}{(improved/unbiased) Chao1 estimator.}
+}
 
- The following measures are available for replicated incidence data:
- \describe{
-  \item{ice}{Incidence-based Coverage Estimator.}
-  \item{chao2}{(improved/unbiased) Chao2 estimator.}
- }
+The following measures are available for replicated incidence data:
+\describe{
+\item{\code{ice}}{Incidence-based Coverage Estimator.}
+\item{\code{chao2}}{(improved/unbiased) Chao2 estimator.}
+}
 }
 
 \examples{
@@ -211,58 +207,58 @@ rarefaction(trap, sample = 13) # 6.56
 }
 \references{
 Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
- Population. \emph{Scandinavian Journal of Statistics}, 11(4), 265-270.
+Population. \emph{Scandinavian Journal of Statistics}, 11(4), 265-270.
 
- Chao, A. (1987). Estimating the Population Size for Capture-Recapture Data
- with Unequal Catchability. \emph{Biometrics} 43(4), 783-791.
- \doi{10.2307/2531532}.
+Chao, A. (1987). Estimating the Population Size for Capture-Recapture Data
+with Unequal Catchability. \emph{Biometrics} 43(4), 783-791.
+\doi{10.2307/2531532}.
 
- Chao, A. & Chiu, C.-H. (2016). Species Richness: Estimation and Comparison.
- \emph{In} Balakrishnan, N., Colton, T., Everitt, B., Piegorsch, B., Ruggeri,
- F. & Teugels, J. L. (Eds.), \emph{Wiley StatsRef: Statistics Reference Online}.
- Chichester, UK: John Wiley & Sons, Ltd., 1-26.
- \doi{10.1002/9781118445112.stat03432.pub2}
+Chao, A. & Chiu, C.-H. (2016). Species Richness: Estimation and Comparison.
+\emph{In} Balakrishnan, N., Colton, T., Everitt, B., Piegorsch, B., Ruggeri,
+F. & Teugels, J. L. (Eds.), \emph{Wiley StatsRef: Statistics Reference Online}.
+Chichester, UK: John Wiley & Sons, Ltd., 1-26.
+\doi{10.1002/9781118445112.stat03432.pub2}
 
- Chao, A. & Lee, S.-M. (1992). Estimating the Number of Classes via Sample
- Coverage. \emph{Journal of the American Statistical Association}, 87(417),
- 210-217. \doi{10.1080/01621459.1992.10475194}.
+Chao, A. & Lee, S.-M. (1992). Estimating the Number of Classes via Sample
+Coverage. \emph{Journal of the American Statistical Association}, 87(417),
+210-217. \doi{10.1080/01621459.1992.10475194}.
 
- Chiu, C.-H., Wang, Y.-T., Walther, B. A. & Chao, A. (2014). An improved
- nonparametric lower bound of species richness via a modified good-turing
- frequency formula. \emph{Biometrics}, 70(3), 671-682.
- \doi{10.1111/biom.12200}.
+Chiu, C.-H., Wang, Y.-T., Walther, B. A. & Chao, A. (2014). An improved
+nonparametric lower bound of species richness via a modified good-turing
+frequency formula. \emph{Biometrics}, 70(3), 671-682.
+\doi{10.1111/biom.12200}.
 
- Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
- Alternative Parameters. \emph{Ecology}, 52(4), 577-586.
- \doi{10.2307/1934145}.
+Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
+Alternative Parameters. \emph{Ecology}, 52(4), 577-586.
+\doi{10.2307/1934145}.
 
- Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
- Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
+Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
+Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 
- Kintigh, K. W. (1989). Sample Size, Significance, and Measures of
- Diversity. In Leonard, R. D. and Jones, G. T., \emph{Quantifying Diversity
- in Archaeology}. New Directions in Archaeology. Cambridge:
- Cambridge University Press, p. 25-36.
+Kintigh, K. W. (1989). Sample Size, Significance, and Measures of
+Diversity. In Leonard, R. D. and Jones, G. T., \emph{Quantifying Diversity
+in Archaeology}. New Directions in Archaeology. Cambridge:
+Cambridge University Press, p. 25-36.
 
- Magurran, A E. & Brian J. McGill (2011). \emph{Biological Diversity:
- Frontiers in Measurement and Assessment}. Oxford: Oxford University Press.
+Magurran, A E. & Brian J. McGill (2011). \emph{Biological Diversity:
+Frontiers in Measurement and Assessment}. Oxford: Oxford University Press.
 
- Margalef, R. (1958). Information Theory in Ecology. \emph{General Systems},
- 3, 36-71.
+Margalef, R. (1958). Information Theory in Ecology. \emph{General Systems},
+3, 36-71.
 
- Menhinick, E. F. (1964). A Comparison of Some Species-Individuals Diversity
- Indices Applied to Samples of Field Insects. \emph{Ecology}, 45(4), 859-861.
- \doi{10.2307/1934933}.
+Menhinick, E. F. (1964). A Comparison of Some Species-Individuals Diversity
+Indices Applied to Samples of Field Insects. \emph{Ecology}, 45(4), 859-861.
+\doi{10.2307/1934933}.
 
- McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
- Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
- \doi{10.2307/1932674}.
+McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
+Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
+\doi{10.2307/1932674}.
 
- Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
- \emph{The American Naturalist}, 102(925), 243-282.
+Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
+\emph{The American Naturalist}, 102(925), 243-282.
 }
 \seealso{
-\link{plot_diversity}
+\code{\link[=plot_diversity]{plot_diversity()}}
 
 Other diversity: 
 \code{\link{heterogeneity-index}},

@@ -52,8 +52,8 @@ setMethod(
 # ==============================================================================
 #' Turnover index
 #'
-#' @param x A \code{\link{logical}} or \code{\link{numeric}} matrix.
-#' @return A length-one \code{\link{numeric}} vector.
+#' @param x A [`logical`] or [`numeric`] matrix.
+#' @return A length-one [`numeric`] vector.
 #' @author N. Frerebeau
 #' @family diversity measures
 #' @name index-turnover

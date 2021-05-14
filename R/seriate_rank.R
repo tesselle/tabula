@@ -26,14 +26,12 @@ setMethod(
 #' Reciprocal Ranking
 #'
 #' Computes reciprocal ranking seriation.
-#' @param x A \linkS4class{DataMatrix} object.
-#' @param stop A length-one \code{\link{numeric}} vector giving the stopping rule
+#' @param x A [`CountMatrix-class`] object.
+#' @param stop A length-one [`numeric`] vector giving the stopping rule
 #'  (i.e. maximum number of iterations) to avoid infinite loop.
-#' @param margin A \code{\link{numeric}} vector giving the subscripts which the
-#'  rearrangement will be applied over. E.g., for a matrix \code{1} indicates
-#'  rows, \code{2} indicates columns, \code{c(1, 2)} indicates rows then columns,
-#'  \code{c(2, 1)} indicates columns then rows.
-#' @return A \linkS4class{PermutationOrder} object.
+#' @param margin A [`numeric`] vector giving the subscripts which the
+#'  rearrangement will be applied over.
+#' @return A [`PermutationOrder-class`] object.
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd

@@ -15,13 +15,13 @@ and returns a single numeric value.}
 \item{...}{Extra arguments passed to \code{do}.}
 }
 \value{
-A \code{numeric} vector with the following elements:
- \describe{
-  \item{values}{The \eqn{n} leave-one-out values.}
-  \item{mean}{The jackknife estimate of mean.}
-  \item{bias}{The jackknife estimate of bias.}
-  \item{error}{he jackknife estimate of standard error.}
- }
+A \code{\link{numeric}} vector with the following elements:
+\describe{
+\item{\code{values}}{The \eqn{n} leave-one-out values.}
+\item{\code{mean}}{The jackknife estimate of mean.}
+\item{\code{bias}}{The jackknife estimate of bias.}
+\item{\code{error}}{he jackknife estimate of standard error.}
+}
 }
 \description{
 Jackknife Estimation

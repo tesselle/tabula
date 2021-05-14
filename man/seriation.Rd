@@ -55,11 +55,11 @@ refine_seriation(object, ...)
 }
 \arguments{
 \item{object, x}{An \eqn{m \times p}{m x p} data matrix (typically an object
-of class \linkS4class{CountMatrix} or \linkS4class{IncidenceMatrix}.}
+of class \code{\linkS4class{CountMatrix}} or \code{\linkS4class{IncidenceMatrix}}.}
 
 \item{...}{Further arguments to be passed to internal methods.}
 
-\item{order}{A \linkS4class{PermutationOrder} object giving the permutation
+\item{order}{A \code{\linkS4class{PermutationOrder}} object giving the permutation
 order for rows and columns.}
 
 \item{cutoff}{A function that takes a numeric vector as argument and returns
@@ -68,97 +68,98 @@ a single numeric value (see below).}
 \item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
 replications.}
 
-\item{axes}{An \code{\link{integer}} vector giving the subscripts of the CA
-axes to be used.}
+\item{axes}{An \code{\link{integer}} vector giving the subscripts of the CA axes to be
+used.}
 
-\item{progress}{A \code{\link{logical}} scalar: should a progress bar be
-displayed?}
+\item{progress}{A \code{\link{logical}} scalar: should a progress bar be displayed?}
 
 \item{margin}{A \code{\link{numeric}} vector giving the subscripts which the
-rearrangement will be applied over: \code{1} indicates rows, \code{2}
-indicates columns, \code{c(1, 2)} indicates rows then columns,
-\code{c(2, 1)} indicates columns then rows.}
+rearrangement will be applied over: \code{1} indicates rows, \code{2} indicates
+columns, \code{c(1, 2)} indicates rows then columns, \code{c(2, 1)} indicates columns
+then rows.}
 
-\item{EPPM}{A \code{\link{logical}} scalar: should the seriation be computed
-on EPPM instead of raw data?}
+\item{EPPM}{A \code{\link{logical}} scalar: should the seriation be computed on EPPM
+instead of raw data?}
 
-\item{stop}{An \code{\link{integer}} giving the stopping rule
-(i.e. maximum number of iterations) to avoid infinite loop.}
+\item{stop}{An \code{\link{integer}} giving the stopping rule (i.e. maximum number of
+iterations) to avoid infinite loop.}
 }
 \value{
-\code{seriate_*} returns a \linkS4class{PermutationOrder} object.
-
- \code{refine_seriation} returns a \linkS4class{RefineCA} object.
-
- \code{permute} returns either a permuted \linkS4class{CountMatrix} or an
- \linkS4class{IncidenceMatrix} (the same as \code{object}).
+\itemize{
+\item \verb{seriate_*()} returns a \code{\linkS4class{PermutationOrder}} object.
+\item \code{refine_seriation()} returns a \code{\linkS4class{RefineCA}} object.
+\item \code{permute()} returns either a permuted \code{\linkS4class{CountMatrix}} or an
+\code{\linkS4class{IncidenceMatrix}} (the same as \code{object}).
+}
 }
 \description{
-* \code{seriate_*} computes a permutation order for rows and/or columns.
- * \code{permute} rearranges a data matrix according to a permutation order.
- * \code{get_order} returns the seriation order for rows and columns.
+\itemize{
+\item \verb{seriate_*()} computes a permutation order for rows and/or columns.
+\item \code{permute()} rearranges a data matrix according to a permutation order.
+\item \code{get_order()} returns the seriation order for rows and columns.
+}
 }
 \note{
 Refining method can lead to much longer execution times and larger output
- objects.
+objects.
 }
 \section{Seriation}{
 
- The matrix seriation problem in archaeology is based on three conditions
- and two assumptions, which Dunell (1970) summarizes as follows.
+The matrix seriation problem in archaeology is based on three conditions
+and two assumptions, which Dunell (1970) summarizes as follows.
 
- The homogeneity conditions state that all the groups included in a
- seriation must:
- \enumerate{
-  \item{Be of comparable duration.}
-  \item{Belong to the same cultural tradition.}
-  \item{Come from the same local area.}
- }
+The homogeneity conditions state that all the groups included in a
+seriation must:
+\enumerate{
+\item{Be of comparable duration.}
+\item{Belong to the same cultural tradition.}
+\item{Come from the same local area.}
+}
 
- The mathematical assumptions state that the distribution of any historical
- or temporal class:
- \enumerate{
-  \item{Is continuous through time.}
-  \item{Exhibits the form of a unimodal curve.}
- }
- Theses assumptions create a distributional model and ordering is
- accomplished by arranging the matrix so that the class distributions
- approximate the required pattern. The resulting order is inferred
- to be chronological.
+The mathematical assumptions state that the distribution of any historical
+or temporal class:
+\enumerate{
+\item{Is continuous through time.}
+\item{Exhibits the form of a unimodal curve.}
+}
+Theses assumptions create a distributional model and ordering is
+accomplished by arranging the matrix so that the class distributions
+approximate the required pattern. The resulting order is inferred
+to be chronological.
 
- The following seriation methods are available:
- \describe{
-  \item{\code{seriate_average}}{Correspondence analysis-based seriation
-  (average ranking). Correspondence analysis (CA) is an effective method for
-  the seriation of archaeological assemblages. The order of the rows and
-  columns is given by the coordinates along one dimension of the CA space,
-  assumed to account for temporal variation. The direction of temporal change
-  within the correspondence analysis space is arbitrary: additional
-  information is needed to determine the actual order in time.}
-  \item{\code{seriate_rank}}{Reciprocal ranking seriation. These procedures
-  iteratively rearrange rows and/or columns according to their weighted rank
-  in the data matrix until convergence.
-  Note that this procedure could enter into an infinite loop.
-  If no convergence is reached before the maximum number of iterations, it
-  stops with a warning.}
- }
+The following seriation methods are available:
+\describe{
+\item{\code{seriate_average()}}{Correspondence analysis-based seriation
+(average ranking). Correspondence analysis (CA) is an effective method for
+the seriation of archaeological assemblages. The order of the rows and
+columns is given by the coordinates along one dimension of the CA space,
+assumed to account for temporal variation. The direction of temporal change
+within the correspondence analysis space is arbitrary: additional
+information is needed to determine the actual order in time.}
+\item{\code{seriate_rank()}}{Reciprocal ranking seriation. These procedures
+iteratively rearrange rows and/or columns according to their weighted rank
+in the data matrix until convergence.
+Note that this procedure could enter into an infinite loop.
+If no convergence is reached before the maximum number of iterations, it
+stops with a warning.}
+}
 }
 
 \section{Correspondence Analysis}{
 
- \code{refine_seriation} allows to identify samples that are subject to
- sampling error or samples that have underlying structural relationships
- and might be influencing the ordering along the CA space.
+\code{refine_seriation()} allows to identify samples that are subject to
+sampling error or samples that have underlying structural relationships
+and might be influencing the ordering along the CA space.
 
- This relies on a partial bootstrap approach to CA-based seriation where each
- sample is replicated \code{n} times. The maximum dimension length of
- the convex hull around the sample point cloud allows to remove samples for
- a given \code{cutoff} value.
+This relies on a partial bootstrap approach to CA-based seriation where each
+sample is replicated \code{n} times. The maximum dimension length of
+the convex hull around the sample point cloud allows to remove samples for
+a given \code{cutoff} value.
 
- According to Peebles and Schachner (2012), "[this] point removal procedure
- [results in] a reduced dataset where the position of individuals within the
- CA are highly stable and which produces an ordering consistent with the
- assumptions of frequency seriation."
+According to Peebles and Schachner (2012), "[this] point removal procedure
+[results in] a reduced dataset where the position of individuals within the
+CA are highly stable and which produces an ordering consistent with the
+assumptions of frequency seriation."
 }
 
 \examples{
@@ -184,24 +185,24 @@ utils::vignette("seriation")
 }
 \references{
 Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
- graphique pour tableaux de comptages. \emph{Revue archéologique de
- Picardie}, 3(1), 39-56. \doi{10.3406/pica.2004.2396}.
+graphique pour tableaux de comptages. \emph{Revue archéologique de Picardie},
+3(1), 39-56. \doi{10.3406/pica.2004.2396}.
 
- Dunnell, R. C. (1970). Seriation Method and Its Evaluation. \emph{American
- Antiquity}, 35(03), 305-319. \doi{10.2307/278341}.
+Dunnell, R. C. (1970). Seriation Method and Its Evaluation. \emph{American
+Antiquity}, 35(03), 305-319. \doi{10.2307/278341}.
 
- Ihm, P. (2005). A Contribution to the History of Seriation in Archaeology.
- In C. Weihs & W. Gaul (Eds.), \emph{Classification: The Ubiquitous
- Challenge}. Berlin Heidelberg: Springer, p. 307-316.
- \doi{10.1007/3-540-28084-7_34}.
+Ihm, P. (2005). A Contribution to the History of Seriation in Archaeology.
+In C. Weihs & W. Gaul (Eds.), \emph{Classification: The Ubiquitous
+Challenge}. Berlin Heidelberg: Springer, p. 307-316.
+\doi{10.1007/3-540-28084-7_34}.
 
- Peeples, M. A., & Schachner, G. (2012). Refining correspondence
- analysis-based ceramic seriation of regional data sets. \emph{Journal of
- Archaeological Science}, 39(8), 2818-2827.
- \doi{10.1016/j.jas.2012.04.040}.
+Peeples, M. A., & Schachner, G. (2012). Refining correspondence
+analysis-based ceramic seriation of regional data sets. \emph{Journal of
+Archaeological Science}, 39(8), 2818-2827.
+\doi{10.1016/j.jas.2012.04.040}.
 }
 \seealso{
-\link{refine_seriation}, \link[dimensio]{ca}
+\code{\link[dimensio:ca]{dimensio::ca()}}
 }
 \author{
 N. Frerebeau

@@ -51,16 +51,16 @@ setMethod(
 
 #' Binomial Coefficient
 #'
-#' Computes the number of \code{k}-combinations from a given set of \code{n}
-#'  elements ("\code{n} choose \code{k}").
-#' @param n A length-one \code{\link{numeric}} vector.
-#' @param k A length-one \code{\link{numeric}} vector.
+#' Computes the number of `k`-combinations from a given set of `n` elements
+#' ("`n` choose `k`").
+#' @param n A length-one [`numeric`] vector.
+#' @param k A length-one [`numeric`] vector.
 #' @details
 #'  Ramanujan approximation is used for \eqn{x!} computation if \eqn{x > 170}.
-#' @return A length-one \code{\link{numeric}} vector.
+#' @return A length-one [`numeric`] vector.
 #' @references
-#'  Ramanujan Aiyangar, S. (1988). \emph{The lost notebook and other unpublished
-#'  papers}. Berlin: Springer-Verlag.
+#'  Ramanujan Aiyangar, S. (1988). *The lost notebook and other unpublished
+#'  papers*. Berlin: Springer-Verlag.
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
@@ -88,15 +88,15 @@ combination <- function(n, k) {
 #' Jackknife Estimation
 #'
 #' @param x A vector.
-#' @param do A \code{\link{function}} that takes \code{x} as an argument
+#' @param do A [`function`] that takes `x` as an argument
 #'  and returns a single numeric value.
-#' @param ... Extra arguments passed to \code{do}.
-#' @return A \code{numeric} vector with the following elements:
+#' @param ... Extra arguments passed to `do`.
+#' @return A [`numeric`] vector with the following elements:
 #'  \describe{
-#'   \item{values}{The \eqn{n} leave-one-out values.}
-#'   \item{mean}{The jackknife estimate of mean.}
-#'   \item{bias}{The jackknife estimate of bias.}
-#'   \item{error}{he jackknife estimate of standard error.}
+#'   \item{`values`}{The \eqn{n} leave-one-out values.}
+#'   \item{`mean`}{The jackknife estimate of mean.}
+#'   \item{`bias`}{The jackknife estimate of bias.}
+#'   \item{`error`}{he jackknife estimate of standard error.}
 #'  }
 #' @keywords internal
 stats_jackknife <- function(x, do, ...) {
@@ -124,21 +124,21 @@ stats_jackknife <- function(x, do, ...) {
 #' Bootstrap Estimation
 #'
 #' @param x A vector.
-#' @param do A \code{\link{function}} that takes \code{x} as an argument
+#' @param do A [`function`] that takes `x` as an argument
 #'  and returns a single numeric value.
-#' @param probs A \code{\link{numeric}} vector of probabilities with values in
-#'  \eqn{[0,1]} (see \code{\link[stats:quantile]{quantile}}).
-#' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
+#' @param probs A [`numeric`] vector of probabilities with values in
+#'  \eqn{[0,1]} (see [stats::quantile()]).
+#' @param n A non-negative [`integer`] giving the number of bootstrap
 #' replications.
-#' @param na.rm A \code{\link{logical}} scalar: should missing values be removed
-#' from \code{x} before the quantiles are computed?
-#' @param ... Extra arguments passed to \code{do}.
-#' @return A \code{numeric} vector with the following elements:
+#' @param na.rm A [`logical`] scalar: should missing values be removed
+#' from `x` before the quantiles are computed?
+#' @param ... Extra arguments passed to `do`.
+#' @return A [`numeric`] vector with the following elements:
 #'  \describe{
-#'   \item{min}{Minimum value.}
-#'   \item{mean}{Mean value.}
-#'   \item{max}{Maximum value.}
-#'   \item{Q*}{Sample quantile to * probability.}
+#'   \item{`min`}{Minimum value.}
+#'   \item{`mean`}{Mean value.}
+#'   \item{`max`}{Maximum value.}
+#'   \item{`Q*`}{Sample quantile to * probability.}
 #'  }
 #' @keywords internal
 stats_bootstrap <- function(x, do, probs = c(0.05, 0.95),
@@ -164,13 +164,13 @@ stats_bootstrap <- function(x, do, probs = c(0.05, 0.95),
 #'
 #' Computes the margin of errors of a confidence interval at a desired level of
 #'  significance.
-#' @param x A \code{\link{numeric}} vector.
-#' @param alpha A length-one \code{\link{numeric}} vector giving the significance
+#' @param x A [`numeric`] vector.
+#' @param alpha A length-one [`numeric`] vector giving the significance
 #'  level to be used.
-#' @param type A \code{\link{character}} string giving the type of confidence
-#'  interval to be returned. It must be one \code{normal} (default) or
-#'  \code{student}. Any unambiguous substring can be given.
-#' @return A \code{\link{numeric}} vector giving the margin of errors.
+#' @param type A [`character`] string giving the type of confidence
+#'  interval to be returned. It must be one "`normal`" (default) or
+#'  "`student`". Any unambiguous substring can be given.
+#' @return A [`numeric`] vector giving the margin of errors.
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd

@@ -26,20 +26,20 @@ An S4 class to represent a diversity measure.
 
 \item{\code{size}}{A \code{\link{integer}} vector giving the sample sizes.}
 
-\item{\code{simulation}}{A \code{\link{numeric}} matrix giving the diversity
-measures for the simulated assemblage.}
+\item{\code{simulation}}{A \code{\link{numeric}} matrix giving the diversity measures for the
+simulated assemblage.}
 
 \item{\code{method}}{A \code{\link{character}} string specifying the method used.}
 }}
 
 \section{Subset}{
 
- In the code snippets below, \code{x} is a \code{DiversityIndex} object.
- \describe{
-  \item{\code{x[[i]]}}{Extracts informations from a slot selected by
-  subscript \code{i}. \code{i} is a length-one \code{\link{character}}
-  vector. Returns the corresponding slot values.}
- }
+In the code snippets below, \code{x} is a \code{DiversityIndex} object.
+\describe{
+\item{\code{x[[i]]}}{Extracts information from a slot selected by subscript \code{i}.
+\code{i} is a length-one \code{\link{character}} vector. Returns the corresponding slot
+values.}
+}
 }
 
 \seealso{

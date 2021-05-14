@@ -27,34 +27,35 @@ similarity(object, ...)
 used (see details). Any unambiguous substring can be given.}
 }
 \value{
-\code{similarity} returns a \code{\link[stats]{dist}} object.
+\code{similarity()} returns a \link[stats:dist]{stats::dist} object.
 }
 \description{
 Similarity
 }
 \details{
 \eqn{\beta}-diversity can be measured by addressing \emph{similarity}
- between pairs of samples/cases (Brainerd-Robinson, Jaccard, Morisita-Horn
- and Sorenson indices). Similarity between pairs of taxa/types can be
- measured by assessing the degree of co-occurrence (binomial co-occurrence).
+between pairs of samples/cases (Brainerd-Robinson, Jaccard, Morisita-Horn
+and Sorenson indices). Similarity between pairs of taxa/types can be
+measured by assessing the degree of co-occurrence (binomial co-occurrence).
 
- Jaccard, Morisita-Horn and Sorenson indices provide a scale of similarity
- from \code{0}-\code{1} where \code{1} is perfect similarity and \code{0} is
- no similarity. The Brainerd-Robinson index is scaled between \code{0} and
- \code{200}. The Binomial co-occurrence assessment approximates a Z-score.
- \describe{
-  \item{binomial}{Binomial co-occurrence assessment. This assesses the degree
-  of co-occurrence between taxa/types within a dataset. The strongest
-  associations are shown by large positive numbers, the strongest
-  segregations by large negative numbers.}
-  \item{brainerd}{Brainerd-Robinson quantitative index. This is a city-block
-  metric of similarity between pairs of samples/cases.}
-  \item{bray}{Sorenson quantitative index (Bray and Curtis modified version
-  of the Sorenson index).}
-  \item{jaccard}{Jaccard qualitative index.}
-  \item{morisita}{Morisita-Horn quantitative index.}
-  \item{sorenson}{Sorenson qualitative index.}
- }
+Jaccard, Morisita-Horn and Sorenson indices provide a scale of similarity
+from \eqn{0}-\eqn{1} where \eqn{1} is perfect similarity and \eqn{0} is
+no similarity. The Brainerd-Robinson index is scaled between \eqn{0} and
+\eqn{200}. The Binomial co-occurrence assessment approximates a Z-score.
+
+\describe{
+\item{\code{binomial}}{Binomial co-occurrence assessment. This assesses the
+degree of co-occurrence between taxa/types within a dataset. The strongest
+associations are shown by large positive numbers, the strongest
+segregations by large negative numbers.}
+\item{\code{brainerd}}{Brainerd-Robinson quantitative index. This is a
+city-block metric of similarity between pairs of samples/cases.}
+\item{\code{bray}}{Sorenson quantitative index (Bray and Curtis modified version
+of the Sorenson index).}
+\item{\code{jaccard}}{Jaccard qualitative index.}
+\item{\code{morisita}}{Morisita-Horn quantitative index.}
+\item{\code{sorenson}}{Sorenson qualitative index.}
+}
 }
 \examples{
 ## Data from Huntley 2008
@@ -98,23 +99,23 @@ similarity(birds, "morisita") # 0.81
 }
 \references{
 Brainerd, G. W. (1951). The Place of Chronological Ordering in
- Archaeological Analysis. \emph{American Antiquity}, 16(04), 301-313.
- \doi{10.2307/276979}.
+Archaeological Analysis. \emph{American Antiquity}, 16(04), 301-313.
+\doi{10.2307/276979}.
 
- Bray, J. R. & Curtis, J. T. (1957). An Ordination of the Upland Forest
- Communities of Southern Wisconsin. \emph{Ecological Monographs}, 27(4),
- 325-349. \doi{10.2307/1942268}.
+Bray, J. R. & Curtis, J. T. (1957). An Ordination of the Upland Forest
+Communities of Southern Wisconsin. \emph{Ecological Monographs}, 27(4),
+325-349. \doi{10.2307/1942268}.
 
- Kintigh, K. (2006). Ceramic Dating and Type Associations. In J. Hantman and
- R. Most (eds.), \emph{Managing Archaeological Data: Essays in Honor of
- Sylvia W. Gaines}. Anthropological Research Paper, 57. Tempe, AZ: Arizona
- State University, p. 17-26.
+Kintigh, K. (2006). Ceramic Dating and Type Associations. In J. Hantman and
+R. Most (eds.), \emph{Managing Archaeological Data: Essays in Honor of
+Sylvia W. Gaines}. Anthropological Research Paper, 57. Tempe, AZ: Arizona
+State University, p. 17-26.
 
- Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
- Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
+Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
+Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 
- Robinson, W. S. (1951). A Method for Chronologically Ordering Archaeological
- Deposits. \emph{American Antiquity}, 16(04), 293-301. \doi{10.2307/276978}.
+Robinson, W. S. (1951). A Method for Chronologically Ordering Archaeological
+Deposits. \emph{American Antiquity}, 16(04), 293-301. \doi{10.2307/276978}.
 }
 \seealso{
 Other diversity: 

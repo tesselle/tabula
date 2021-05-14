@@ -73,10 +73,10 @@ setMethod(
 #' Convex Hull of CA Coordinates
 #'
 #' Compute convex hull area for each replicated sample
-#' @param x A \code{\link{numeric}} matrix of bootstrap replicates.
-#' @param axes A length-two \code{\link{numeric}} vector giving the subscripts
+#' @param x A [`numeric`] matrix of bootstrap replicates.
+#' @param axes A length-two [`numeric`] vector giving the subscripts
 #'  of the CA components to use.
-#' @return A \code{\link{matrix}}.
+#' @return A [`matrix`].
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd

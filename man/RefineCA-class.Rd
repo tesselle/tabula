@@ -34,23 +34,22 @@ of the samples and variables to be kept, respectively.}
 
 \section{Subset}{
 
- In the code snippets below, \code{x} is a \code{RefineCA} object.
- \describe{
-  \item{\code{x[i, j, drop]}}{Extracts informations from a slot selected by
-  subscript \code{i} thru \code{j} (see examples). \code{i} should be one of
-  "\code{rows}" or "\code{columns}". Any unambiguous substring can be
-  given. \code{j} is a \code{\link{numeric}}, \code{\link{integer}} or
-  \code{\link{character}} vector or empty (missing) or \code{NULL}.
-  Numeric values are coerced to \code{\link{integer}} as by
-  \code{\link{as.integer}} (and hence truncated towards zero). Character
-  vectors will be matched to the name of the elements. An empty index
-  (a comma separated blank) indicates that all entries in that dimension are
-  selected.}
-  \item{\code{x[[i]]}}{Extracts informations from a slot selected by
-  subscript \code{i}. \code{i} should be one of "\code{id}",
-  "\code{rows}", "\code{columns}", "\code{lengths}", "\code{cutoff}" or
-  "\code{keep}". Any unambiguous substring can be given.}
- }
+In the code snippets below, \code{x} is a \code{RefineCA} object.
+\describe{
+\item{\code{x[i, j, drop]}}{Extracts information from a slot selected by
+subscript \code{i} thru \code{j} (see examples). \code{i} should be one of
+"\code{rows}" or "\code{columns}". Any unambiguous substring can be
+given. \code{j} is a \code{\link{numeric}}, \code{\link{integer}} or
+\code{\link{character}} vector or empty (missing) or \code{NULL}.
+Numeric values are coerced to \code{\link{integer}} as by
+\code{\link[=as.integer]{as.integer()}} (and hence truncated towards zero). Character
+vectors will be matched to the name of the elements. An empty index
+(a comma separated blank) indicates that all entries in that dimension are
+selected.}
+\item{\code{x[[i]]}}{Extracts information from a slot selected by subscript \code{i}.
+\code{i} is a length-one \code{\link{character}} vector. Returns the corresponding slot
+values.}
+}
 }
 
 \seealso{

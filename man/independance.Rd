@@ -20,12 +20,12 @@ pvi(object, ...)
 \S4method{pvi}{CountMatrix}(object)
 }
 \arguments{
-\item{object}{A \linkS4class{CountMatrix} object.}
+\item{object}{A \code{\linkS4class{CountMatrix}} object.}
 
 \item{...}{Currently not used.}
 }
 \value{
-A \code{\link{numeric}} matrix.
+A \code{\link{numeric}} \code{\link{matrix}}.
 }
 \description{
 Independance
@@ -35,26 +35,26 @@ Computes for each cell of a numeric matrix one of the following statistic.
 }
 \section{EPPM}{
 
- This positive difference from the column mean percentage (in french "écart
- positif au pourcentage moyen", EPPM) represents a deviation from the
- situation of statistical independence. As independence can be interpreted as
- the absence of relationships between types and the chronological order of
- the assemblages, \code{EPPM} is a useful graphical tool to explore
- significance of relationship between rows and columns related to
- seriation (Desachy 2004).
+This positive difference from the column mean percentage (in french "écart
+positif au pourcentage moyen", EPPM) represents a deviation from the
+situation of statistical independence. As independence can be interpreted as
+the absence of relationships between types and the chronological order of
+the assemblages, \code{EPPM} is a useful graphical tool to explore significance
+of relationship between rows and columns related to seriation (Desachy
+2004).
 }
 
 \section{PVI}{
 
- \code{PVI} is calculated for each cell as the percentage to the column
- theoretical independence value: \code{PVI} greater than \eqn{1} represent
- positive deviations from the independence, whereas \code{PVI} smaller than
- \eqn{1} represent negative deviations (Desachy 2004).
+\code{PVI} is calculated for each cell as the percentage to the column
+theoretical independence value: \code{PVI} greater than \eqn{1} represent
+positive deviations from the independence, whereas \code{PVI} smaller than
+\eqn{1} represent negative deviations (Desachy 2004).
 
- The \code{PVI} matrix allows to explore deviations from independence
- (an intuitive graphical approach to \eqn{\chi^2}{Chi-squared}),
- in such a way that a high-contrast matrix has quite significant deviations,
- with a low risk of being due to randomness (Desachy 2004).
+The \code{PVI} matrix allows to explore deviations from independence
+(an intuitive graphical approach to \eqn{\chi^2}{Chi-squared}),
+in such a way that a high-contrast matrix has quite significant deviations,
+with a low risk of being due to randomness (Desachy 2004).
 }
 
 \examples{
@@ -72,11 +72,11 @@ plot_heatmap(counts_eppm)
 }
 \references{
 Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
- graphique pour tableaux de comptages. \emph{Revue archéologique de
- Picardie}, 3(1), 39-56. \doi{10.3406/pica.2004.2396}.
+graphique pour tableaux de comptages. \emph{Revue archéologique de Picardie},
+3(1), 39-56. \doi{10.3406/pica.2004.2396}.
 }
 \seealso{
-\link{plot_ford}, \link{plot_heatmap}, \link{seriate_rank}
+\code{\link[=plot_ford]{plot_ford()}}, \code{\link[=plot_heatmap]{plot_heatmap()}}, \code{\link[=seriate_rank]{seriate_rank()}}
 
 Other statistics: 
 \code{\link{test_diversity}()}

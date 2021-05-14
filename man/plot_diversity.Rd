@@ -9,7 +9,7 @@
 \S4method{plot}{DiversityIndex,missing}(x)
 }
 \arguments{
-\item{x}{A \linkS4class{DiversityIndex} object to be plotted.}
+\item{x}{A \code{\linkS4class{DiversityIndex}} object to be plotted.}
 }
 \description{
 Diversity Plot
@@ -30,8 +30,7 @@ plot(sim_richness)
 }
 }
 \seealso{
-\link{index_heterogeneity}, \link{index_evenness},
- \link{index_richness}
+\code{\link[=index_heterogeneity]{index_heterogeneity()}}, \code{\link[=index_evenness]{index_evenness()}}, \code{\link[=index_richness]{index_richness()}}
 
 Other plot: 
 \code{\link{plot_bar}},

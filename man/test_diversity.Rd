@@ -17,17 +17,17 @@ test_diversity(object, ...)
 \item{...}{Further arguments to be passed to internal methods.}
 
 \item{adjust}{A \code{\link{character}} string specifying the method for
-adjusting \eqn{p} values (see \code{\link[stats]{p.adjust}}).}
+adjusting \eqn{p} values (see \code{\link[stats:p.adjust]{stats::p.adjust()}}).}
 }
 \value{
-A \code{\link{numeric}} matrix.
+A \code{\link{numeric}} \code{\link{matrix}}.
 }
 \description{
 Compares Shannon diversity between samples.
 }
 \details{
 This test produces two sided pairwise comparisons: it returns a matrix of
- adjusted \eqn{p} values.
+adjusted \eqn{p} values.
 }
 \examples{
 ## Shannon diversity test
@@ -37,7 +37,7 @@ div <- test_diversity(merzbach_count)
 }
 \references{
 Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
- Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
+Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 }
 \seealso{
 Other statistics: 

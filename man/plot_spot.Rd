@@ -22,31 +22,30 @@ plot_spot(object, ...)
 
 \item{...}{Extra parameters to be passed to \code{threshold}.}
 
-\item{threshold}{A \code{\link{function}} that takes a numeric vector as
-argument and returns a numeric threshold value.
-If \code{NULL} (the default), no threshold is computed.}
+\item{threshold}{A \code{\link{function}} that takes a numeric vector as argument and
+returns a numeric threshold value. If \code{NULL} (the default), no threshold is
+computed.}
 
-\item{diag}{A \code{\link{logical}} scalar indicating whether the diagonal of
+\item{diag}{A \code{\link{logical}} scalar indicating whether the diagonal of the
+matrix should be plotted.}
+
+\item{upper}{A \code{\link{logical}} scalar indicating whether the upper triangle of
 the matrix should be plotted.}
-
-\item{upper}{A \code{\link{logical}} scalar indicating whether the upper
-triangle of the matrix should be plotted.}
 }
 \value{
-A \code{\link[ggplot2]{ggplot}} object.
+A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
 }
 \description{
 Plots a spot matrix.
 }
 \details{
 The spot matrix can be considered as a variant of the
- \link[=plot_bertin]{Bertin diagram} where the data are first transformed to
- relative frequencies.
+\link[=plot_bertin]{Bertin diagram} where the data are first transformed to
+relative frequencies.
 }
 \note{
 Adapted from Dan Gopstein's original
- \href{https://dgopstein.github.io/articles/spot-matrix/}{idea}.
- Credit should be given to him.
+\href{https://dgopstein.github.io/articles/spot-matrix/}{idea}.
 }
 \examples{
 ## Plot spot diagram of count data...

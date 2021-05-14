@@ -4,10 +4,10 @@ NULL
 
 #' Compute a Diversity Index
 #'
-#' @param x A \code{\link{numeric}} \code{\link{matrix}}.
-#' @param method A \code{\link{function}}.
-#' @param ... Further parameters to be passed to \code{method}.
-#' @return A \linkS4class{DiversityIndex} object.
+#' @param x A [`numeric`] [`matrix`].
+#' @param method A [`function`].
+#' @param ... Further parameters to be passed to `method`.
+#' @return A [`DiversityIndex-class`] object.
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
@@ -24,14 +24,14 @@ index_diversity <- function(x, method, ...) {
 
 #' Bootstrap a Diversity Index
 #'
-#' @param object A \code{\link{numeric}} \code{\link{matrix}}.
-#' @param method A \code{\link{function}}.
-#' @param probs A \code{\link{numeric}} vector of probabilities with values in
-#'  \eqn{[0,1]} (see \code{\link[stats:quantile]{quantile}}).
-#' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
+#' @param object A [`numeric`] [`matrix`].
+#' @param method A [`function`].
+#' @param probs A [`numeric`] vector of probabilities with values in
+#'  \eqn{[0,1]} (see [stats::quantile()]).
+#' @param n A non-negative [`integer`] giving the number of bootstrap
 #' replications.
-#' @param ... Further parameters to be passed to \code{method}.
-#' @return A \code{data.frame}.
+#' @param ... Further parameters to be passed to `method`.
+#' @return A [`data.frame`].
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
@@ -52,10 +52,10 @@ bootstrap_diversity <- function(object, method, probs = c(0.05, 0.95),
 
 #' Jackknife a Diversity Index
 #'
-#' @param object A \code{\link{numeric}} \code{\link{matrix}}.
-#' @param method A \code{\link{function}}.
-#' @param ... Further parameters to be passed to \code{method}.
-#' @return A \code{data.frame}.
+#' @param object A [`numeric`] [`matrix`].
+#' @param method A [`function`].
+#' @param ... Further parameters to be passed to `method`.
+#' @return A [`data.frame`].
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
@@ -72,20 +72,20 @@ jackknife_diversity <- function(object, method, ...) {
 
 #' Simulate a Diversity Index
 #'
-#' @param object A \code{\link{numeric}} \code{\link{matrix}}.
-#' @param method A \code{\link{function}}.
-#' @param quantiles A \code{\link{logical}} scalar: should sample quantiles
-#'  be used as confidence interval? If \code{TRUE} (the default),
+#' @param object A [`numeric`] [`matrix`].
+#' @param method A [`function`].
+#' @param quantiles A [`logical`] scalar: should sample quantiles
+#'  be used as confidence interval? If `TRUE` (the default),
 #'  sample quantiles are used as described in Kintigh (1989), else quantiles of
 #'  the normal distribution are used.
-#' @param level A length-one \code{\link{numeric}} vector giving the
+#' @param level A length-one [`numeric`] vector giving the
 #'  confidence level.
-#' @param step An \code{\link{integer}}.
-#' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
+#' @param step An [`integer`].
+#' @param n A non-negative [`integer`] giving the number of bootstrap
 #'  replications.
-#' @param progress A \code{\link{logical}} scalar: should a progress bar be
+#' @param progress A [`logical`] scalar: should a progress bar be
 #'  displayed?
-#' @param ... Further parameters to be passed to \code{method}.
+#' @param ... Further parameters to be passed to `method`.
 #' @keywords internal
 #' @noRd
 simulate_diversity <- function(object, method, quantiles = TRUE,
@@ -132,22 +132,22 @@ simulate_diversity <- function(object, method, quantiles = TRUE,
   methods::initialize(index, simulation = simulated)
 }
 
-#' @param size A \code{\link{numeric}} matrix.
-#' @param prob A length-\eqn{p} \code{\link{numeric}} vector giving the of
-#'  probability of the \eqn{p} taxa/types (see below). If \code{NULL} (the
-#'  default), probabilities are estimated from \code{x}.
-#' @param method A \code{\link{function}}.
-#' @param n A non-negative \code{\link{integer}} giving the number of bootstrap
+#' @param size A [`numeric`] matrix.
+#' @param prob A length-\eqn{p} [`numeric`] vector giving the of
+#'  probability of the \eqn{p} taxa/types (see below). If `NULL` (the
+#'  default), probabilities are estimated from `x`.
+#' @param method A [`function`].
+#' @param n A non-negative [`integer`] giving the number of bootstrap
 #'  replications.
-#' @param level A length-one \code{\link{numeric}} vector giving the
+#' @param level A length-one [`numeric`] vector giving the
 #'  confidence level.
-#' @param quantiles A \code{\link{logical}} scalar: should sample quantiles
-#'  be used as confidence interval? If \code{TRUE} (the default),
+#' @param quantiles A [`logical`] scalar: should sample quantiles
+#'  be used as confidence interval? If `TRUE` (the default),
 #'  sample quantiles are used as described in Kintigh (1989), else quantiles of
 #'  the normal distribution are used.
-#' @param na.rm A \code{\link{logical}} scalar: should missing values be removed
+#' @param na.rm A [`logical`] scalar: should missing values be removed
 #'  before the quantiles are computed?
-#' @param ... Further parameters to be passed to \code{method}.
+#' @param ... Further parameters to be passed to `method`.
 #' @keywords internal
 #' @noRd
 sim <- function(size, prob, method, n = 1000, level = 0.80,

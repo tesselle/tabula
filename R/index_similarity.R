@@ -87,18 +87,18 @@ switch_similarity <- function(x) {
 #'
 #' @description
 #' Qualitative index:
-#' \code{similarityJaccard} returns Jaccard similarity index.
-#' \code{similaritySorenson} returns Sorenson similarity index.
+#' * `similarityJaccard()` returns Jaccard similarity index.
+#' * `similaritySorenson()` returns Sorenson similarity index.
 #'
 #' Quantitative index:
-#' \code{similarityBray} returns Bray and Curtis modified version of the
-#' Sorenson index.
-#' \code{similarityMorisita} returns Morisita-Horn quantitative index.
-#' \code{similarityBrainerd} returns Brainerd-Robinson quantitative index.
-#' \code{similarityBinomial} returns binomial co-occurrence of types assessment.
-#' @param x A length-p \code{\link{numeric}} vector.
-#' @param y A length-p \code{\link{numeric}} vector.
-#' @return A length-one \code{\link{numeric}} vector.
+#' * `similarityBray()` returns Bray and Curtis modified version of the
+#'   Sorenson index.
+#' * `similarityMorisita()` returns Morisita-Horn quantitative index.
+#' * `similarityBrainerd()` returns Brainerd-Robinson quantitative index.
+#' * `similarityBinomial()` returns binomial co-occurrence of types assessment.
+#' @param x A length-p [`numeric`] vector.
+#' @param y A length-p [`numeric`] vector.
+#' @return A length-one [`numeric`] vector.
 #' @author N. Frerebeau
 #' @family diversity measures
 #' @name index-similarity

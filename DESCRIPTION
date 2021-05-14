@@ -39,7 +39,7 @@ Description: An easy way to examine archaeological count data. This
     It also provides several tests and measures of diversity:
     heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.),
     richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and
-    similarity (Brainerd-Robinson, etc.).  The package make it easy to
+    similarity (Brainerd-Robinson, etc.). The package make it easy to
     visualize count data and statistical thresholds: rank vs abundance
     plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
 License: GPL-3
@@ -69,6 +69,7 @@ VignetteBuilder:
     knitr
 Config/testthat/edition: 3
 Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Collate:
     'AllClasses.R'
@@ -82,7 +83,6 @@ Collate:
     'index_richness.R'
     'index_similarity.R'
     'index_turnover.R'
-    'initialize.R'
     'mutators.R'
     'permute.R'
     'plot_bertin.R'
