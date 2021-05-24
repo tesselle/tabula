@@ -9,7 +9,7 @@
 ^LICENSE\.md$
 ^README\.Rmd$
 ^data-raw$
-^doc$
+^pkgdown$
 ^docs$
 ^Meta$
 ^.*\.Rproj$
