@@ -9,21 +9,18 @@
   "name": "tabula: Analysis, Seriation and Visualization of Archaeological Count Data",
   "codeRepository": "https://github.com/tesselle/tabula",
   "relatedLink": [
-    "http://tabula.archaeo.science",
-    "https://cran.r-project.org/package=tabula",
     "https://CRAN.R-project.org/package=tabula",
-    "https://tabula.archaeo.science",
-    "https://tabula.tesselle.org"
+    "https://packages.tesselle.org/tabula"
   ],
   "issueTracker": "https://github.com/tesselle/tabula/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "1.6.0.9000",
+  "version": "1.6.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.3 (2020-10-10)",
+  "runtimePlatform": "R version 4.1.0 (2021-05-18)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -300,7 +297,7 @@
       }
     }
   ],
-  "fileSize": "1969.44KB",
+  "fileSize": "1906.464KB",
   "releaseNotes": "https://github.com/tesselle/tabula/blob/master/NEWS.md",
   "readme": "https://github.com/tesselle/tabula/blob/master/README.md"
 }
