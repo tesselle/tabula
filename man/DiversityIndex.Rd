@@ -20,14 +20,15 @@ An S4 class to represent a diversity measure.
 \section{Slots}{
 
 \describe{
-\item{\code{data}}{A \code{\link{numeric}} matrix of count data.}
+\item{\code{names}}{A \code{\link{character}} vector giving the sample names.}
 
 \item{\code{values}}{A \code{\link{numeric}} vector giving the diversity index values.}
 
 \item{\code{size}}{A \code{\link{integer}} vector giving the sample sizes.}
 
-\item{\code{simulation}}{A \code{\link{numeric}} matrix giving the diversity measures for the
-simulated assemblage.}
+\item{\code{simulation}}{A four columns \code{\link{numeric}} matrix giving the diversity
+measures for the simulated assemblage (sample \code{size}, \code{mean} estimate,
+\code{lower} and \code{upper} boundaries of the confidence interval).}
 
 \item{\code{method}}{A \code{\link{character}} string specifying the method used.}
 }}

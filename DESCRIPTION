@@ -43,7 +43,7 @@ Description: An easy way to examine archaeological count data. This
     visualize count data and statistical thresholds: rank vs abundance
     plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
 License: GPL-3
-URL: https://packages.tesselle.org/tabula, https://github.com/tesselle/tabula
+URL: https://packages.tesselle.org/tabula/, https://github.com/tesselle/tabula
 BugReports: https://github.com/tesselle/tabula/issues
 Depends: 
     R (>= 3.3)

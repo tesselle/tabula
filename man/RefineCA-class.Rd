@@ -11,41 +11,34 @@ An S4 class to store partial bootstrap correspondence analysis results.
 \section{Slots}{
 
 \describe{
-\item{\code{row_chull}}{A list of length three giving the vertices coordinates
-(\code{x}, \code{y}) of the samples convex hull and a identifier
-(\code{id}) to link each row to a sample.}
+\item{\code{row_chull}}{A three columns \code{\link{numeric}} matrix giving the vertices
+coordinates (\code{x}, \code{y}) of the samples convex hull and a identifier (\code{id}) to
+link each row to a sample.}
 
-\item{\code{column_chull}}{A list of length three giving the vertices coordinates
-(\code{x}, \code{y}) of the variables convex hull and a identifier
-(\code{id}) to link each row to a variable.}
+\item{\code{row_lengths}}{A named \code{\link{numeric}} vector giving the convex hull maximum
+dimension length of samples.}
 
-\item{\code{row_lengths}}{A list of two named \code{\link{numeric}} vectors giving the
-convex hull maximum dimension length of samples and variables, respectively.}
+\item{\code{row_keep}}{An \code{\link{integer}} vector giving the subscript of the samples to
+be kept.}
 
-\item{\code{column_lengths}}{A list of two named \code{\link{numeric}} vectors giving the
-convex hull maximum dimension length of samples and variables, respectively.}
+\item{\code{column_chull}}{A three columns \code{\link{numeric}} matrix giving the vertices
+coordinates (\code{x}, \code{y}) of the variables convex hull and a identifier (\code{id})
+to link each row to a variable.}
 
-\item{\code{cutoff}}{A length-two \code{\link{numeric}} vector giving the cutoff
-value for samples and variables selection, respectively.}
+\item{\code{column_lengths}}{A \code{\link{numeric}} vector giving the convex hull maximum
+dimension length of variables.}
 
-\item{\code{keep}}{A list of two \code{\link{integer}} vectors giving the subscript
-of the samples and variables to be kept, respectively.}
+\item{\code{column_keep}}{An \code{\link{integer}} vector giving the subscript of the variables
+to be kept.}
+
+\item{\code{cutoff}}{A length-two \code{\link{numeric}} vector giving the cutoff value for
+samples and variables selection, respectively.}
 }}
 
 \section{Subset}{
 
 In the code snippets below, \code{x} is a \code{RefineCA} object.
 \describe{
-\item{\code{x[i, j, drop]}}{Extracts information from a slot selected by
-subscript \code{i} thru \code{j} (see examples). \code{i} should be one of
-"\code{rows}" or "\code{columns}". Any unambiguous substring can be
-given. \code{j} is a \code{\link{numeric}}, \code{\link{integer}} or
-\code{\link{character}} vector or empty (missing) or \code{NULL}.
-Numeric values are coerced to \code{\link{integer}} as by
-\code{\link[=as.integer]{as.integer()}} (and hence truncated towards zero). Character
-vectors will be matched to the name of the elements. An empty index
-(a comma separated blank) indicates that all entries in that dimension are
-selected.}
 \item{\code{x[[i]]}}{Extracts information from a slot selected by subscript \code{i}.
 \code{i} is a length-one \code{\link{character}} vector. Returns the corresponding slot
 values.}
@@ -53,6 +46,8 @@ values.}
 }
 
 \seealso{
+\code{\link[dimensio:CA-class]{dimensio::CA}}
+
 Other class: 
 \code{\link{DiversityIndex}},
 \code{\link{PermutationOrder-class}}

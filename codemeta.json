@@ -10,7 +10,7 @@
   "codeRepository": "https://github.com/tesselle/tabula",
   "relatedLink": [
     "https://CRAN.R-project.org/package=tabula",
-    "https://packages.tesselle.org/tabula"
+    "https://packages.tesselle.org/tabula/"
   ],
   "issueTracker": "https://github.com/tesselle/tabula/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
@@ -297,7 +297,7 @@
       }
     }
   ],
-  "fileSize": "1906.464KB",
+  "fileSize": "1905.615KB",
   "releaseNotes": "https://github.com/tesselle/tabula/blob/master/NEWS.md",
   "readme": "https://github.com/tesselle/tabula/blob/master/README.md"
 }

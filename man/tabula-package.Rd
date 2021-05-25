@@ -32,7 +32,7 @@ An easy way to examine archaeological count data. This
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://packages.tesselle.org/tabula}
+  \item \url{https://packages.tesselle.org/tabula/}
   \item \url{https://github.com/tesselle/tabula}
   \item Report bugs at \url{https://github.com/tesselle/tabula/issues}
 }

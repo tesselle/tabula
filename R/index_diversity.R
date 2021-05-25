@@ -127,7 +127,7 @@ simulate_diversity <- function(object, method, quantiles = TRUE,
   if (progress_bar) close(pbar)
 
   simulated <- do.call(rbind, simulated)
-  simulated <- cbind(size = sample_sizes, simulated)
+  simulated <- cbind(`size` = sample_sizes, simulated)
 
   methods::initialize(index, simulation = simulated)
 }
@@ -148,6 +148,7 @@ simulate_diversity <- function(object, method, quantiles = TRUE,
 #' @param na.rm A [`logical`] scalar: should missing values be removed
 #'  before the quantiles are computed?
 #' @param ... Further parameters to be passed to `method`.
+#' @return A [`numeric`] vector.
 #' @keywords internal
 #' @noRd
 sim <- function(size, prob, method, n = 1000, level = 0.80,
