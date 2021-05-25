@@ -1,6 +1,6 @@
 Package: tabula
 Title: Analysis, Seriation and Visualization of Archaeological Count Data
-Version: 1.6.1
+Version: 1.6.1.9000
 Authors@R: 
     c(person(given = "Nicolas",
              family = "Frerebeau",
@@ -42,7 +42,7 @@ Description: An easy way to examine archaeological count data. This
     similarity (Brainerd-Robinson, etc.). The package make it easy to
     visualize count data and statistical thresholds: rank vs abundance
     plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
-License: GPL-3
+License: GPL (>= 3)
 URL: https://packages.tesselle.org/tabula/, https://github.com/tesselle/tabula
 BugReports: https://github.com/tesselle/tabula/issues
 Depends: 

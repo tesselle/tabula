@@ -38,6 +38,10 @@ evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction
 data and statistical thresholds: rank vs. abundance plots, heatmaps,
 Ford (1962) and Bertin (1977) diagrams.
 
+[**kairos**](https://github.com/tesselle/kairos) is a companion package
+to **tabula** that provides functions for chronological modeling and
+dating of archaeological assemblages from count data.
+
     #> 
     #> To cite tabula in publications use:
     #> 
@@ -45,7 +49,7 @@ Ford (1962) and Bertin (1977) diagrams.
     #>   Seriation, and Visualization of Archaeological Count Data. Journal of
     #>   Open Source Software, 4(44), 1821. DOI 10.21105/joss.01821.
     #> 
-    #> A BibTeX entry for LaTeX users is
+    #> Une entrée BibTeX pour les utilisateurs LaTeX est
     #> 
     #>   @Article{,
     #>     title = {{tabula}: An R Package for Analysis, Seriation, and Visualization of Archaeological Count Data},

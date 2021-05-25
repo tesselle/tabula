@@ -45,8 +45,6 @@ navbar:
       href: articles/diversity.html
     - text: Seriation Methods
       href: articles/seriation.html
-    - text: Dating Methods
-      href: articles/dating.html
     - text: Bibliography
       href: articles/bibliography.html
   - text: Changelog

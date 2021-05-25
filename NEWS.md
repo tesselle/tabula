@@ -1,11 +1,14 @@
+# tabula 1.6.1.9000
+
 # tabula 1.6.1
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4793496.svg)](https://doi.org/10.5281/zenodo.4793496)
 
 ## Bugfixes & changes
 * Remove all previously deprecated methods.
 
 ## Breaking changes
-* Remove dating methods: `*_mcd()`, `*_event()`, `*_accumulation()`, `plot_date()` now belong to **fasti**.
-* Remove frequency increment test: `test_fit()` and `plot_time()` now belong to **fasti**.
+* Remove dating methods: `*_mcd()`, `*_event()`, `*_accumulation()`, `plot_date()` now belong to **kairos**.
+* Remove frequency increment test: `test_fit()` and `plot_time()` now belong to **kairos**.
 
 # tabula 1.6.0
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4748807.svg)](https://doi.org/10.5281/zenodo.4748807)
