@@ -23,7 +23,7 @@ An easy way to examine archaeological count data. This
 \tabular{ll}{
 \strong{Package:} \tab tabula \cr
 \strong{Type:} \tab Package \cr
-\strong{Version:} \tab 1.6.1 \cr
+\strong{Version:} \tab 1.6.1.9000 \cr
 \strong{License:} \tab GPL-3 \cr
 \strong{Zenodo:} \tab \doi{10.5281/zenodo.1489944} \cr
 \strong{JOSS:} \tab \doi{10.21105/joss.01821} \cr
