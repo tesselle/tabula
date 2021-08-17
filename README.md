@@ -9,6 +9,7 @@
 status](https://github.com/tesselle/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/tesselle/tabula/actions)
 [![codecov](https://codecov.io/gh/tesselle/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/tesselle/tabula)
 
+[![r-universe](https://tesselle.r-universe.dev/badges/tabula)](https://tesselle.r-universe.dev)
 [![CRAN
 Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula)
 [![CRAN
@@ -42,25 +43,25 @@ Ford (1962) and Bertin (1977) diagrams.
 to **tabula** that provides functions for chronological modeling and
 dating of archaeological assemblages from count data.
 
-    #> 
-    #> To cite tabula in publications use:
-    #> 
-    #>   Frerebeau, Nicolas (2019). tabula: An R Package for Analysis,
-    #>   Seriation, and Visualization of Archaeological Count Data. Journal of
-    #>   Open Source Software, 4(44), 1821. DOI 10.21105/joss.01821.
-    #> 
-    #> Une entrée BibTeX pour les utilisateurs LaTeX est
-    #> 
-    #>   @Article{,
-    #>     title = {{tabula}: An R Package for Analysis, Seriation, and Visualization of Archaeological Count Data},
-    #>     author = {Nicolas Frerebeau},
-    #>     year = {2019},
-    #>     journal = {Journal of Open Source Software},
-    #>     volume = {4},
-    #>     number = {44},
-    #>     page = {1821},
-    #>     doi = {10.21105/joss.01821},
-    #>   }
+
+    To cite tabula in publications use:
+
+      Frerebeau, Nicolas (2019). tabula: An R Package for Analysis,
+      Seriation, and Visualization of Archaeological Count Data. Journal of
+      Open Source Software, 4(44), 1821. DOI 10.21105/joss.01821.
+
+    Une entrée BibTeX pour les utilisateurs LaTeX est
+
+      @Article{,
+        title = {{tabula}: An R Package for Analysis, Seriation, and Visualization of Archaeological Count Data},
+        author = {Nicolas Frerebeau},
+        year = {2019},
+        journal = {Journal of Open Source Software},
+        volume = {4},
+        number = {44},
+        page = {1821},
+        doi = {10.21105/joss.01821},
+      }
 
 ## Installation
 
@@ -86,8 +87,8 @@ library(tabula)
 
 library(folio) # Datasets
 library(khroma) # Color scales
+library(magrittr) # Pipes
 library(ggplot2)
-library(magrittr)
 ```
 
 **tabula** uses a set of S4 classes that represent different special

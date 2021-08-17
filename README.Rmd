@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 [![R build status](https://github.com/tesselle/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/tesselle/tabula/actions)
 [![codecov](https://codecov.io/gh/tesselle/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/tesselle/tabula)
 
+[![r-universe](https://tesselle.r-universe.dev/badges/tabula)](https://tesselle.r-universe.dev)
 [![CRAN Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula)
 [![CRAN checks](https://cranchecks.info/badges/worst/tabula)](https://cran.r-project.org/web/checks/check_results_tabula.html)
 [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/tabula)](https://cran.r-project.org/package=tabula)
@@ -37,7 +38,7 @@ An easy way to examine archaeological count data. **tabula** provides a convenie
 
 [**kairos**](https://github.com/tesselle/kairos) is a companion package to **tabula** that provides functions for chronological modeling and dating of archaeological assemblages from count data.
 
-```{r citation, echo=FALSE}
+```{r citation, echo=FALSE, comment=''}
 utils::citation("tabula")
 ```
 
@@ -64,8 +65,8 @@ library(tabula)
 
 library(folio) # Datasets
 library(khroma) # Color scales
+library(magrittr) # Pipes
 library(ggplot2)
-library(magrittr)
 ```
 
 **tabula** uses a set of S4 classes that represent different special types of matrix. Please refer to the documentation of the [**arkhe**](https://github.com/tesselle/arkhe) package where these classes are defined.
