@@ -1,13 +1,10 @@
 url: https://packages.tesselle.org/tabula
-development:
-  mode: auto
 
 template:
-  package: preferably
+  package: tekton
   opengraph:
     twitter:
       creator: "@nfrerebeau"
-      card: summary_large_image
 
 reference:
 - title: Diversity Measures

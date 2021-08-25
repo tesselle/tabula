@@ -40,8 +40,8 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
-          install.packages("pkgdown", type = "binary")
-          remotes::install_github("amirmasoudabdol/preferably", type = "source")
+          remotes::install_github("r-lib/pkgdown")
+          remotes::install_github("tesselle/tekton")
         shell: Rscript {0}
 
       - name: Install package
@@ -65,6 +65,12 @@ jobs:
         run: |
           rm -rf tmp
           git clone -b gh-pages https://github.com/tesselle/packages.git tmp
+          
+      - name: Clean old files
+        if: success()
+        run: |
+          [ -d docs/dev ] && rm -r tmp/${REPO}/dev || true
+          [ ! -d docs/dev ] && rm -r tmp/${REPO}/* || true
 
       - name: Deploy
         if: success()
