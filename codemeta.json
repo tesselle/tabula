@@ -20,7 +20,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.0 (2021-05-18)",
+  "runtimePlatform": "R version 4.1.1 (2021-08-10)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -298,7 +298,7 @@
       }
     }
   ],
-  "fileSize": "1524.642KB",
+  "fileSize": "1524.112KB",
   "releaseNotes": "https://github.com/tesselle/tabula/blob/master/NEWS.md",
   "readme": "https://github.com/tesselle/tabula/blob/master/README.md"
 }

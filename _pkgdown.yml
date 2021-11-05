@@ -30,22 +30,13 @@ reference:
   - has_concept("mutator")
 
 navbar:
-  type: default
-  left:
-  - icon: fa-home fa-lg
-    href: index.html
-  - text: Reference
-    href: reference/index.html
-  - text: Articles
-    menu:
-    - text: Diversity Measures
-      href: articles/diversity.html
-    - text: Seriation Methods
-      href: articles/seriation.html
-    - text: Bibliography
-      href: articles/bibliography.html
-  - text: Changelog
-    href: news/index.html
-  right:
-  - icon: fab fa-github fa-lg
-    href: https://github.com/tesselle/tabula
+  components:
+    articles:
+      text: Articles
+      menu:
+      - text: Diversity Measures
+        href: articles/diversity.html
+      - text: Seriation Methods
+        href: articles/seriation.html
+      - text: Bibliography
+        href: articles/bibliography.html

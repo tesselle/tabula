@@ -5,8 +5,7 @@
 
 <!-- badges: start -->
 
-[![R build
-status](https://github.com/tesselle/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/tesselle/tabula/actions)
+[![R-CMD-check](https://github.com/tesselle/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/tesselle/tabula/actions)
 [![codecov](https://codecov.io/gh/tesselle/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/tesselle/tabula)
 
 [![r-universe](https://tesselle.r-universe.dev/badges/tabula)](https://tesselle.r-universe.dev)
@@ -39,9 +38,9 @@ evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction
 data and statistical thresholds: rank vs. abundance plots, heatmaps,
 Ford (1962) and Bertin (1977) diagrams.
 
-[**kairos**](https://github.com/tesselle/kairos) is a companion package
-to **tabula** that provides functions for chronological modeling and
-dating of archaeological assemblages from count data.
+[**kairos**](https://www.tesselle.org/kairos/) is a companion package to
+**tabula** that provides functions for chronological modeling and dating
+of archaeological assemblages from count data.
 
 
     To cite tabula in publications use:
@@ -130,7 +129,7 @@ mississippi %>%
 
 <img src="man/figures/README-ford-1.png" style="display: block; margin: auto;" />
 
-Spot matrix[1] allows direct examination of data:
+Spot matrix[^1] allows direct examination of data:
 
 ``` r
 ## Plot co-occurrence of types
@@ -256,5 +255,5 @@ Please note that the **tabula** project is released with a [Contributor
 Code of Conduct](https://www.tesselle.org/conduct.html). By contributing
 to this project, you agree to abide by its terms.
 
-[1] Adapted from Dan Gopstein’s original
-[idea](https://dgopstein.github.io/articles/spot-matrix/).
+[^1]: Adapted from Dan Gopstein’s original
+    [idea](https://dgopstein.github.io/articles/spot-matrix/).

@@ -7,6 +7,7 @@
 #'  **Zenodo:** \tab \doi{10.5281/zenodo.1489944} \cr
 #'  **JOSS:** \tab \doi{10.21105/joss.01821} \cr
 #' }
+#'
 #' @author
 #' **Full list of authors and contributors** (alphabetic order)
 #'

@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 # tabula <img width=120px src="man/figures/logo.png" align="right" />
 
 <!-- badges: start -->
-[![R build status](https://github.com/tesselle/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/tesselle/tabula/actions)
+[![R-CMD-check](https://github.com/tesselle/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/tesselle/tabula/actions)
 [![codecov](https://codecov.io/gh/tesselle/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/tesselle/tabula)
 
 [![r-universe](https://tesselle.r-universe.dev/badges/tabula)](https://tesselle.r-universe.dev)
@@ -36,7 +36,7 @@ knitr::opts_chunk$set(
 
 An easy way to examine archaeological count data. **tabula** provides a convenient and reproducible toolkit for relative dating by matrix seriation (reciprocal ranking, CA-based seriation). This package provides several tests and measures of diversity: heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity (Brainerd-Robinson, etc.). The package make it easy to visualize count data and statistical thresholds: rank vs. abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
 
-[**kairos**](https://github.com/tesselle/kairos) is a companion package to **tabula** that provides functions for chronological modeling and dating of archaeological assemblages from count data.
+[**kairos**](https://www.tesselle.org/kairos/) is a companion package to **tabula** that provides functions for chronological modeling and dating of archaeological assemblages from count data.
 
 ```{r citation, echo=FALSE, comment=''}
 utils::citation("tabula")
