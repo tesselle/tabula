@@ -8,13 +8,21 @@
 [![R-CMD-check](https://github.com/tesselle/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/tesselle/tabula/actions)
 [![codecov](https://codecov.io/gh/tesselle/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/tesselle/tabula)
 
-[![r-universe](https://tesselle.r-universe.dev/badges/tabula)](https://tesselle.r-universe.dev)
-[![CRAN
-Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula)
-[![CRAN
-checks](https://cranchecks.info/badges/worst/tabula)](https://cran.r-project.org/web/checks/check_results_tabula.html)
-[![CRAN
-Downloads](http://cranlogs.r-pkg.org/badges/tabula)](https://cran.r-project.org/package=tabula)
+<a href="https://tesselle.r-universe.dev" class="pkgdown-devel"><img
+src="https://tesselle.r-universe.dev/badges/tabula"
+alt="r-universe" /></a>
+<a href="https://cran.r-project.org/package=tabula"
+class="pkgdown-release"><img
+src="http://www.r-pkg.org/badges/version/tabula"
+alt="CRAN Version" /></a> <a
+href="https://cran.r-project.org/web/checks/check_results_tabula.html"
+class="pkgdown-release"><img
+src="https://cranchecks.info/badges/worst/tabula"
+alt="CRAN checks" /></a>
+<a href="https://cran.r-project.org/package=tabula"
+class="pkgdown-release"><img
+src="http://cranlogs.r-pkg.org/badges/tabula"
+alt="CRAN Downloads" /></a>
 
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively

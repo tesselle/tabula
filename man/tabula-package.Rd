@@ -9,15 +9,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
-An easy way to examine archaeological count data. This
-    package provides a convenient and reproducible toolkit for relative
-    dating by matrix seriation (reciprocal ranking, CA-based seriation).
-    It also provides several tests and measures of diversity:
-    heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.),
-    richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and
-    similarity (Brainerd-Robinson, etc.). The package make it easy to
-    visualize count data and statistical thresholds: rank vs abundance
-    plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
+An easy way to examine archaeological count data. This package provides a convenient and reproducible toolkit for relative dating by matrix seriation (reciprocal ranking, CA-based seriation). It also provides several tests and measures of diversity: heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity (Brainerd-Robinson, etc.). The package make it easy to visualize count data and statistical thresholds: rank vs abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
 }
 \details{
 \tabular{ll}{
@@ -55,10 +47,10 @@ Anne Philippe \tab \emph{Université de Nantes, France} \cr
 Nicolas Frerebeau\cr
 \email{nicolas.frerebeau@u-bordeaux-montaigne.fr}
 
-IRAMAT-CRP2A (UMR 5060)\cr
+Archéosciences Bordeaux (UMR 6034)\cr
 Maison de l'Archéologie\cr
 Université Bordeaux Montaigne\cr
-F-33607 Pessac cedex\cr
+33607 Pessac cedex\cr
 France
 }
 \keyword{internal}
