@@ -578,6 +578,12 @@ setGeneric(
 #'
 #' Plots a heatmap.
 #' @param object An object to be plotted.
+#' @param diag A [`logical`] scalar indicating whether the diagonal of the
+#'  matrix should be plotted. Only used if `object` is a symmetric matrix.
+#' @param upper A [`logical`] scalar indicating whether the upper triangle of
+#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
+#' @param lower A [`logical`] scalar indicating whether the lower triangle of
+#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
 #' @param ... Further arguments to be passed to internal methods.
 #' @return
 #'  A [ggplot2::ggplot] object.
@@ -638,13 +644,18 @@ setGeneric(
 #'
 #' Plots a spot matrix.
 #' @param object An abundance matrix to be plotted.
+#' @param type A [`character`] string specifying the graph to be plotted.
+#'  It must be one of "`ring`" (the default) or "`plain`". Any unambiguous
+#'  substring can be given.
 #' @param threshold A [`function`] that takes a numeric vector as argument and
 #'  returns a numeric threshold value. If `NULL` (the default), no threshold is
 #'  computed.
 #' @param diag A [`logical`] scalar indicating whether the diagonal of the
-#'  matrix should be plotted.
+#'  matrix should be plotted. Only used if `object` is a symmetric matrix.
 #' @param upper A [`logical`] scalar indicating whether the upper triangle of
-#'  the matrix should be plotted.
+#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
+#' @param lower A [`logical`] scalar indicating whether the lower triangle of
+#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
 #' @param ... Extra parameters to be passed to `threshold`.
 #' @details
 #'  The spot matrix can be considered as a variant of the

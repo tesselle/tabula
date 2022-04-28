@@ -7,16 +7,31 @@
 \alias{plot_heatmap}
 \alias{plot_heatmap-method}
 \alias{plot_heatmap,matrix-method}
+\alias{plot_heatmap,dist-method}
+\alias{plot_heatmap,OccurrenceMatrix-method}
 \title{Heatmap}
 \usage{
 plot_heatmap(object, ...)
 
-\S4method{plot_heatmap}{matrix}(object)
+\S4method{plot_heatmap}{matrix}(object, diag = TRUE, upper = TRUE, lower = TRUE)
+
+\S4method{plot_heatmap}{dist}(object, diag = FALSE, upper = FALSE, lower = !upper)
+
+\S4method{plot_heatmap}{OccurrenceMatrix}(object, diag = FALSE, upper = FALSE, lower = !upper, ...)
 }
 \arguments{
 \item{object}{An object to be plotted.}
 
 \item{...}{Further arguments to be passed to internal methods.}
+
+\item{diag}{A \code{\link{logical}} scalar indicating whether the diagonal of the
+matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
+
+\item{upper}{A \code{\link{logical}} scalar indicating whether the upper triangle of
+the matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
+
+\item{lower}{A \code{\link{logical}} scalar indicating whether the lower triangle of
+the matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
 }
 \value{
 A \link[ggplot2:ggplot]{ggplot2::ggplot} object.

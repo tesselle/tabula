@@ -73,30 +73,48 @@ test_that("Spot plot - Abundance", {
   test_count <- arkhe::as_count(mississippi)
   test_freq <- arkhe::as_composition(mississippi)
 
-  # Count data, no threshold
-  gg_spot_count <- plot_spot(test_count)
+  # Count data
+  gg_spot_count <- plot_spot(test_count, type = "ring")
   vdiffr::expect_doppelganger("spot_count", gg_spot_count)
+  gg_spot_plain_count <- plot_spot(test_count, type = "plain")
+  vdiffr::expect_doppelganger("spot_plain_count", gg_spot_plain_count)
+  gg_spot_mean_count <- plot_spot(test_count, threshold = mean, type = "ring")
+  vdiffr::expect_doppelganger("spot_mean_count", gg_spot_mean_count)
+
   # Frequency data
-  gg_spot_freq <- plot_spot(test_freq, threshold = mean)
+  gg_spot_freq <- plot_spot(test_freq, type = "ring")
   vdiffr::expect_doppelganger("spot_freq", gg_spot_freq)
+  gg_spot_mean_freq <- plot_spot(test_freq, threshold = mean, type = "ring")
+  vdiffr::expect_doppelganger("spot_mean_freq", gg_spot_mean_freq)
+  gg_spot_plain_freq <- plot_spot(test_freq, threshold = mean, type = "plain")
+  vdiffr::expect_doppelganger("spot_plain_freq", gg_spot_plain_freq)
 })
-test_that("Spot plot - Similarity", {
+test_that("Plot Similarity", {
   skip_if_not_installed("vdiffr")
   skip_if_not_installed("folio")
   data("merzbach", package = "folio")
   test_count <- arkhe::as_count(mississippi)
   test_sim <- similarity(test_count, method = "brainerd")
 
-  gg_spot_sim <- plot_spot(test_sim)
-  vdiffr::expect_doppelganger("spot_sim", gg_spot_sim)
+  gg_mtx_sim <- plot_heatmap(test_sim, upper = TRUE)
+  vdiffr::expect_doppelganger("mtx_sim", gg_mtx_sim)
+
+  gg_spot_ring_sim <- plot_spot(test_sim, type = "ring")
+  vdiffr::expect_doppelganger("spot_ring_sim", gg_spot_ring_sim)
+
+  gg_spot_plain_sim <- plot_spot(test_sim, type = "plain")
+  vdiffr::expect_doppelganger("spot_plain_sim", gg_spot_plain_sim)
 })
-test_that("Spot plot - Co-Occurrence", {
+test_that("Plot Co-Occurrence", {
   skip_if_not_installed("vdiffr")
   skip_if_not_installed("folio")
   data("merzbach", package = "folio")
   test_occ <- arkhe::as_occurrence(mississippi)
 
-  gg_spot_occ <- plot_spot(test_occ)
+  gg_mtx_occ <- plot_heatmap(test_occ, upper = TRUE)
+  vdiffr::expect_doppelganger("mtx_occ", gg_mtx_occ)
+
+  gg_spot_occ <- plot_spot(test_occ, upper = FALSE)
   vdiffr::expect_doppelganger("spot_occ", gg_spot_occ)
 })
 test_that("Diversity", {

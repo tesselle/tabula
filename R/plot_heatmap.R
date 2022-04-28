@@ -8,11 +8,12 @@ NULL
 setMethod(
   f = "plot_heatmap",
   signature = signature(object = "matrix"),
-  definition = function(object) {
-    # Prepare data
-    data <- prepare_heatmap(object, PVI = FALSE)
+  definition = function(object, diag = TRUE, upper = TRUE, lower = TRUE) {
+    ## Prepare data
+    data <- prepare_heatmap(object, diag = diag, upper = upper, lower = lower,
+                            PVI = FALSE)
 
-    # ggplot
+    ## ggplot
     ggplot2::ggplot(data = data) +
       ggplot2::aes(x = .data$x, y = .data$y, fill = .data$value) +
       ggplot2::geom_tile() +
@@ -23,17 +24,78 @@ setMethod(
   }
 )
 
+#' @export
+#' @rdname plot_matrix
+#' @aliases plot_heatmap,dist-method
+setMethod(
+  f = "plot_heatmap",
+  signature = signature(object = "dist"),
+  definition = function(object, diag = FALSE, upper = FALSE, lower = !upper) {
+    object <- as.matrix(object)
+    methods::callGeneric(object, diag = diag, upper = upper, lower = lower)
+  }
+)
+
+#' @export
+#' @rdname plot_matrix
+#' @aliases plot_heatmap,OccurrenceMatrix-method
+setMethod(
+  f = "plot_heatmap",
+  signature = signature(object = "OccurrenceMatrix"),
+  definition = function(object, diag = FALSE,
+                        upper = FALSE, lower = !upper, ...) {
+    ## Prepare data
+    methods::callNextMethod(object, diag = diag, upper = upper, lower = lower)
+  }
+)
+
 ## Prepare data for heatmap plot
 ## Must return a data.frame
-prepare_heatmap <- function(object, PVI = FALSE) {
+prepare_heatmap <- function(object, diag = TRUE, upper = TRUE, lower = TRUE,
+                            threshold = NULL, drop_zero = FALSE,
+                            PVI = FALSE, ...) {
+  ## Validation
+  if (!arkhe::is_symmetric(object)) {
+    diag <- TRUE
+    upper <- TRUE
+    lower <- TRUE
+  }
+
   ## /!\ PVI computation needs count data
   data <- if (PVI) pvi(object) else object
 
   ## Build long table from data
   data <- arkhe::as_long(data, factor = TRUE)
+  # max_value <- max(diag(object))
+  # max_value <- ifelse(max_value == 0, max(object), max_value)
+  data$max <- max(object)
+
+  ## Compute threshold, if any
+  if (is.function(threshold)) {
+    thr <- apply(X = object, MARGIN = 2, FUN = threshold, ...)
+    thr <- matrix(thr, nrow = nrow(object), ncol = ncol(object), byrow = TRUE)
+    thr <- ifelse(object > thr, "above", "below")
+    data$threshold <- as.vector(thr)
+  } else {
+    data$threshold <- NA
+  }
+
+  if (!upper) {
+    data <- data[!upper.tri(object), ]
+  }
+  if (!lower) {
+    data <- data[!lower.tri(object), ]
+  }
+  if (!diag) {
+    data <- data[data$row != data$column, ]
+  }
+  if (drop_zero) {
+    data <- data[data$value != 0, ]
+  }
+
   ## Tile centers
-  data$x = as.numeric(data$column)
-  data$y = as.numeric(data$row)
+  data$x <- as.numeric(data$column)
+  data$y <- as.numeric(data$row)
 
   return(data)
 }

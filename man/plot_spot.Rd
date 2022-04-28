@@ -11,26 +11,55 @@
 \usage{
 plot_spot(object, ...)
 
-\S4method{plot_spot}{matrix}(object, threshold = NULL, diag = TRUE, upper = TRUE, ...)
+\S4method{plot_spot}{matrix}(
+  object,
+  type = c("ring", "plain"),
+  threshold = NULL,
+  diag = TRUE,
+  upper = TRUE,
+  lower = TRUE,
+  ...
+)
 
-\S4method{plot_spot}{dist}(object, diag = FALSE, upper = FALSE, ...)
+\S4method{plot_spot}{dist}(
+  object,
+  type = c("ring", "plain"),
+  diag = FALSE,
+  upper = FALSE,
+  lower = !upper,
+  ...
+)
 
-\S4method{plot_spot}{OccurrenceMatrix}(object, diag = FALSE, upper = FALSE, ...)
+\S4method{plot_spot}{OccurrenceMatrix}(
+  object,
+  type = c("ring", "plain"),
+  diag = FALSE,
+  upper = FALSE,
+  lower = !upper,
+  ...
+)
 }
 \arguments{
 \item{object}{An abundance matrix to be plotted.}
 
 \item{...}{Extra parameters to be passed to \code{threshold}.}
 
+\item{type}{A \code{\link{character}} string specifying the graph to be plotted.
+It must be one of "\code{ring}" (the default) or "\code{plain}". Any unambiguous
+substring can be given.}
+
 \item{threshold}{A \code{\link{function}} that takes a numeric vector as argument and
 returns a numeric threshold value. If \code{NULL} (the default), no threshold is
 computed.}
 
 \item{diag}{A \code{\link{logical}} scalar indicating whether the diagonal of the
-matrix should be plotted.}
+matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
 
 \item{upper}{A \code{\link{logical}} scalar indicating whether the upper triangle of
-the matrix should be plotted.}
+the matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
+
+\item{lower}{A \code{\link{logical}} scalar indicating whether the lower triangle of
+the matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
 }
 \value{
 A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
