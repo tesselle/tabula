@@ -2,6 +2,50 @@
 NULL
 
 #' @rdname deprecate
+#' @aliases plot_heatmap-method
+setGeneric(
+  name = "plot_heatmap",
+  def = function(object, ...) standardGeneric("plot_heatmap")
+)
+
+#' @export
+#' @rdname deprecate
+#' @aliases plot_heatmap,matrix-method
+setMethod(
+  f = "plot_heatmap",
+  signature = signature(object = "matrix"),
+  definition = function(object, diag = TRUE, upper = TRUE, lower = TRUE) {
+    .Deprecated(new = "autoplot", old = "plot_heatmap")
+    autoplot(object, diag = diag, upper = upper, lower = lower)
+  }
+)
+
+#' @export
+#' @rdname deprecate
+#' @aliases plot_heatmap,dist-method
+setMethod(
+  f = "plot_heatmap",
+  signature = signature(object = "dist"),
+  definition = function(object, diag = FALSE, upper = FALSE, lower = !upper) {
+    .Deprecated(new = "autoplot", old = "plot_heatmap")
+    autoplot(object, diag = diag, upper = upper, lower = lower)
+  }
+)
+
+#' @export
+#' @rdname deprecate
+#' @aliases plot_heatmap,OccurrenceMatrix-method
+setMethod(
+  f = "plot_heatmap",
+  signature = signature(object = "OccurrenceMatrix"),
+  definition = function(object, diag = FALSE,
+                        upper = FALSE, lower = !upper, ...) {
+    .Deprecated(new = "autoplot", old = "plot_heatmap")
+    autoplot(object, diag = diag, upper = upper, lower = lower)
+  }
+)
+
+#' @rdname deprecate
 #' @aliases simulate_heterogeneity-method
 setGeneric(
   name = "simulate_heterogeneity",

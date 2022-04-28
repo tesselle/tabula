@@ -25,7 +25,7 @@ used.}
 
 \item{level}{A length-one \code{\link{numeric}} vector giving the confidence level.}
 
-\item{step}{An \code{\link{integer}}.}
+\item{step}{An \code{\link{integer}} giving the increment of the sample size.}
 
 \item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
 replications.}

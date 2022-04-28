@@ -4,25 +4,31 @@
 \name{plot_matrix}
 \alias{plot_matrix}
 \alias{matrigraphe}
-\alias{plot_heatmap}
-\alias{plot_heatmap-method}
-\alias{plot_heatmap,matrix-method}
-\alias{plot_heatmap,dist-method}
-\alias{plot_heatmap,OccurrenceMatrix-method}
+\alias{autoplot,matrix-method}
+\alias{autoplot,dist-method}
+\alias{autoplot,OccurrenceMatrix-method}
+\alias{plot,matrix,missing-method}
+\alias{plot,dist,missing-method}
+\alias{plot,OccurrenceMatrix,missing-method}
 \title{Heatmap}
 \usage{
-plot_heatmap(object, ...)
+\S4method{autoplot}{matrix}(object, ..., diag = TRUE, upper = TRUE, lower = TRUE)
 
-\S4method{plot_heatmap}{matrix}(object, diag = TRUE, upper = TRUE, lower = TRUE)
+\S4method{autoplot}{dist}(object, ..., diag = FALSE, upper = FALSE, lower = !upper)
 
-\S4method{plot_heatmap}{dist}(object, diag = FALSE, upper = FALSE, lower = !upper)
+\S4method{autoplot}{OccurrenceMatrix}(object, ..., diag = FALSE, upper = FALSE, lower = !upper)
 
-\S4method{plot_heatmap}{OccurrenceMatrix}(object, diag = FALSE, upper = FALSE, lower = !upper, ...)
+\S4method{plot}{matrix,missing}(x, diag = TRUE, upper = TRUE, lower = TRUE, ...)
+
+\S4method{plot}{dist,missing}(x, diag = FALSE, upper = FALSE, lower = !upper, ...)
+
+\S4method{plot}{OccurrenceMatrix,missing}(x, diag = FALSE, upper = FALSE, lower = !upper, ...)
 }
 \arguments{
-\item{object}{An object to be plotted.}
+\item{object, x}{A An object to be plotted (typically an object of class
+\linkS4class{CountMatrix}).}
 
-\item{...}{Further arguments to be passed to internal methods.}
+\item{...}{Currently not used.}
 
 \item{diag}{A \code{\link{logical}} scalar indicating whether the diagonal of the
 matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
@@ -34,7 +40,11 @@ the matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
 the matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
 }
 \value{
-A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
+\itemize{
+\item \code{autoplot()} returns a \code{\link[ggplot2:ggplot]{ggplot}} object.
+\item \code{plot()} is called it for its side-effects: it results in a graphic being
+displayed (invisibly returns \code{x}).
+}
 }
 \description{
 Plots a heatmap.
@@ -48,14 +58,14 @@ counts <- as_count(compiegne)
 freq <- as_composition(compiegne)
 
 ## Plot matrix diagram...
-plot_heatmap(counts)
-plot_heatmap(freq)
+plot(counts)
+plot(freq)
 
 ## Presence/absence data
 inc <- sample(0:1, size = 100, replace = TRUE)
 bin <- IncidenceMatrix(data = inc, nrow = 10, ncol = 10)
 
-plot_heatmap(bin) +
+autoplot(bin) +
   ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
 }
 \references{

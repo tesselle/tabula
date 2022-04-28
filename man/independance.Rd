@@ -68,7 +68,7 @@ counts_eppm <- eppm(counts)
 
 ## Compute PVI
 counts_pvi <- pvi(counts)
-plot_heatmap(counts_eppm)
+plot(counts_eppm)
 }
 \references{
 Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation

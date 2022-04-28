@@ -1,9 +1,11 @@
 # tabula 1.6.1.9000
 ## New classes and methods
 * Add `bootstrap()`, `jackknife()` and `simulate()` methods to perform bootstrap and jackknife resampling and to measure diversity in simulated assemblages.
+* Add `autoplot()` and `plot()` methods for `*Matrix` and `DiversityIndex` objects.
 
 ## Bugfixes & changes
 * Deprecate `bootstrap_*()`, `jackknife_*()` and `simulate_*()`.
+* Deprecate `plot_heatmap()`.
 
 # tabula 1.6.1
 ## Bugfixes & changes

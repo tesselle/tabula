@@ -8,4 +8,4 @@ counts_eppm <- eppm(counts)
 
 ## Compute PVI
 counts_pvi <- pvi(counts)
-plot_heatmap(counts_eppm)
+plot(counts_eppm)

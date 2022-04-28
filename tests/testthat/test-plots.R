@@ -36,13 +36,13 @@ test_that("Matrix plot", {
   test_incid <- arkhe::as_incidence(mississippi)
 
   # Count data
-  gg_mtx_count <- plot_heatmap(test_count)
+  gg_mtx_count <- autoplot(test_count)
   vdiffr::expect_doppelganger("mtx_count", gg_mtx_count)
   # Frequency data
-  gg_mtx_freq <- plot_heatmap(test_freq)
+  gg_mtx_freq <- autoplot(test_freq)
   vdiffr::expect_doppelganger("mtx_freq", gg_mtx_freq)
   # Incidence data
-  gg_mtx_incid <- plot_heatmap(test_incid)
+  gg_mtx_incid <- autoplot(test_incid)
   vdiffr::expect_doppelganger("mtx_incid", gg_mtx_incid)
 })
 test_that("Rank plot", {
@@ -96,7 +96,7 @@ test_that("Plot Similarity", {
   test_count <- arkhe::as_count(mississippi)
   test_sim <- similarity(test_count, method = "brainerd")
 
-  gg_mtx_sim <- plot_heatmap(test_sim, upper = TRUE)
+  gg_mtx_sim <- autoplot(test_sim, upper = TRUE)
   vdiffr::expect_doppelganger("mtx_sim", gg_mtx_sim)
 
   gg_spot_ring_sim <- plot_spot(test_sim, type = "ring")
@@ -111,7 +111,7 @@ test_that("Plot Co-Occurrence", {
   data("merzbach", package = "folio")
   test_occ <- arkhe::as_occurrence(mississippi)
 
-  gg_mtx_occ <- plot_heatmap(test_occ, upper = TRUE)
+  gg_mtx_occ <- autoplot(test_occ, upper = TRUE)
   vdiffr::expect_doppelganger("mtx_occ", gg_mtx_occ)
 
   gg_spot_occ <- plot_spot(test_occ, upper = FALSE)

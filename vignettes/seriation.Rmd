@@ -83,10 +83,10 @@ incidence1 <- IncidenceMatrix(data = bin, nrow = 20)
 incidence2 <- permute(incidence1, indices)
 
 ## Plot matrix
-plot_heatmap(incidence1) + 
+autoplot(incidence1) + 
   ggplot2::labs(title = "Original matrix") +
   ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
-plot_heatmap(incidence2) + 
+autoplot(incidence2) + 
   ggplot2::labs(title = "Rearranged matrix") +
   ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
 ```

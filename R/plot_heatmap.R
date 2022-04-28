@@ -3,51 +3,94 @@
 NULL
 
 #' @export
-#' @rdname plot_matrix
-#' @aliases plot_heatmap,matrix-method
-setMethod(
-  f = "plot_heatmap",
-  signature = signature(object = "matrix"),
-  definition = function(object, diag = TRUE, upper = TRUE, lower = TRUE) {
-    ## Prepare data
-    data <- prepare_heatmap(object, diag = diag, upper = upper, lower = lower,
-                            PVI = FALSE)
+#' @method autoplot matrix
+autoplot.matrix <- function(object, ..., diag = TRUE,
+                            upper = TRUE, lower = TRUE) {
+  ## Prepare data
+  data <- prepare_heatmap(object, diag = diag, upper = upper, lower = lower,
+                          PVI = FALSE)
 
-    ## ggplot
-    ggplot2::ggplot(data = data) +
-      ggplot2::aes(x = .data$x, y = .data$y, fill = .data$value) +
-      ggplot2::geom_tile() +
-      ggplot2::coord_fixed() +
-      scale_x_matrix(object, name = "Type") +
-      scale_y_matrix(object, name = "Case") +
-      theme_tabula()
-  }
-)
+  ## ggplot
+  ggplot2::ggplot(data = data) +
+    ggplot2::aes(x = .data$x, y = .data$y, fill = .data$value) +
+    ggplot2::geom_tile() +
+    ggplot2::coord_fixed() +
+    scale_x_matrix(object, name = "Type") +
+    scale_y_matrix(object, name = "Case") +
+    theme_tabula()
+}
 
 #' @export
 #' @rdname plot_matrix
-#' @aliases plot_heatmap,dist-method
+#' @aliases autoplot,matrix-method
+setMethod("autoplot", "matrix", autoplot.matrix)
+
+#' @export
+#' @rdname plot_matrix
+#' @aliases autoplot,dist-method
 setMethod(
-  f = "plot_heatmap",
+  f = "autoplot",
   signature = signature(object = "dist"),
-  definition = function(object, diag = FALSE, upper = FALSE, lower = !upper) {
+  definition = function(object, ..., diag = FALSE,
+                        upper = FALSE, lower = !upper) {
     object <- as.matrix(object)
-    methods::callGeneric(object, diag = diag, upper = upper, lower = lower)
+    methods::callGeneric(object, ..., diag = diag, upper = upper, lower = lower)
   }
 )
 
 #' @export
 #' @rdname plot_matrix
-#' @aliases plot_heatmap,OccurrenceMatrix-method
+#' @aliases autoplot,OccurrenceMatrix-method
 setMethod(
-  f = "plot_heatmap",
+  f = "autoplot",
   signature = signature(object = "OccurrenceMatrix"),
-  definition = function(object, diag = FALSE,
-                        upper = FALSE, lower = !upper, ...) {
-    ## Prepare data
-    methods::callNextMethod(object, diag = diag, upper = upper, lower = lower)
+  definition = function(object, ..., diag = FALSE,
+                        upper = FALSE, lower = !upper) {
+    methods::callNextMethod(object, ..., diag = diag,
+                            upper = upper, lower = lower)
   }
 )
+
+#' @export
+#' @method plot matrix
+plot.matrix <- function(x, diag = TRUE, upper = TRUE, lower = TRUE, ...) {
+  gg <- autoplot(object = x, diag = diag, upper = upper, lower = lower)
+  print(gg)
+  invisible(x)
+}
+
+#' @export
+#' @method plot dist
+plot.dist <- function(x, diag = FALSE, upper = FALSE, lower = !upper, ...) {
+  gg <- autoplot(object = x, diag = diag, upper = upper, lower = lower)
+  print(gg)
+  invisible(x)
+}
+
+#' @export
+#' @method plot OccurrenceMatrix
+plot.OccurrenceMatrix <- function(x, diag = FALSE,
+                                  upper = FALSE, lower = !upper, ...) {
+  gg <- autoplot(object = x, diag = diag, upper = upper, lower = lower)
+  print(gg)
+  invisible(x)
+}
+
+#' @export
+#' @rdname plot_matrix
+#' @aliases plot,matrix,missing-method
+setMethod("plot", c(x = "matrix", y = "missing"), plot.matrix)
+
+#' @export
+#' @rdname plot_matrix
+#' @aliases plot,dist,missing-method
+setMethod("plot", c(x = "dist", y = "missing"), plot.dist)
+
+#' @export
+#' @rdname plot_matrix
+#' @aliases plot,OccurrenceMatrix,missing-method
+setMethod("plot", c(x = "OccurrenceMatrix", y = "missing"),
+          plot.OccurrenceMatrix)
 
 ## Prepare data for heatmap plot
 ## Must return a data.frame

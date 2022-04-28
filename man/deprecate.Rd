@@ -3,6 +3,11 @@
 \docType{methods}
 \name{deprecate}
 \alias{deprecate}
+\alias{plot_heatmap}
+\alias{plot_heatmap-method}
+\alias{plot_heatmap,matrix-method}
+\alias{plot_heatmap,dist-method}
+\alias{plot_heatmap,OccurrenceMatrix-method}
 \alias{simulate_heterogeneity}
 \alias{simulate_heterogeneity-method}
 \alias{bootstrap_heterogeneity}
@@ -32,6 +37,14 @@
 \alias{simulate_richness,CountMatrix-method}
 \title{Deprecated Methods}
 \usage{
+plot_heatmap(object, ...)
+
+\S4method{plot_heatmap}{matrix}(object, diag = TRUE, upper = TRUE, lower = TRUE)
+
+\S4method{plot_heatmap}{dist}(object, diag = FALSE, upper = FALSE, lower = !upper)
+
+\S4method{plot_heatmap}{OccurrenceMatrix}(object, diag = FALSE, upper = FALSE, lower = !upper, ...)
+
 simulate_heterogeneity(object, ...)
 
 bootstrap_heterogeneity(object, ...)
@@ -126,6 +139,15 @@ jackknife_richness(object, ...)
 a \linkS4class{CountMatrix} object).}
 
 \item{...}{Currently not used.}
+
+\item{diag}{A \code{\link{logical}} scalar indicating whether the diagonal of the
+matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
+
+\item{upper}{A \code{\link{logical}} scalar indicating whether the upper triangle of
+the matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
+
+\item{lower}{A \code{\link{logical}} scalar indicating whether the lower triangle of
+the matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
 
 \item{method}{A \code{\link{character}} string specifying the index to be computed
 (see details). Any unambiguous substring can be given.}

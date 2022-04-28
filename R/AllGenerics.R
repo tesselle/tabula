@@ -483,7 +483,7 @@ NULL
 #'  described in Kintigh (1984), else quantiles of the normal distribution are
 #'  used.
 #' @param level A length-one [`numeric`] vector giving the confidence level.
-#' @param step An [`integer`].
+#' @param step An [`integer`] giving the increment of the sample size.
 #' @param n A non-negative [`integer`] giving the number of bootstrap
 #'  replications.
 #' @param progress A [`logical`] scalar: should a progress bar be displayed?
@@ -503,6 +503,37 @@ NULL
 NULL
 
 # Plot =========================================================================
+## Heatmap ---------------------------------------------------------------------
+#' Heatmap
+#'
+#' Plots a heatmap.
+#' @param object,x A An object to be plotted (typically an object of class
+#'  [CountMatrix-class]).
+#' @param diag A [`logical`] scalar indicating whether the diagonal of the
+#'  matrix should be plotted. Only used if `object` is a symmetric matrix.
+#' @param upper A [`logical`] scalar indicating whether the upper triangle of
+#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
+#' @param lower A [`logical`] scalar indicating whether the lower triangle of
+#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
+#' @param ... Currently not used.
+#' @return
+#'  * `autoplot()` returns a [`ggplot`][ggplot2::ggplot] object.
+#'  * `plot()` is called it for its side-effects: it results in a graphic being
+#'    displayed (invisibly returns `x`).
+#' @references
+#'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
+#'  graphique pour tableaux de comptages. *Revue archéologique de Picardie*,
+#'  3(1), 39-56. \doi{10.3406/pica.2004.2396}.
+#' @example inst/examples/ex-plot_matrix.R
+#' @author N. Frerebeau
+#' @seealso [pvi()]
+#' @family plot
+#' @docType methods
+#' @name plot_matrix
+#' @rdname plot_matrix
+#' @aliases matrigraphe
+NULL
+
 ## Diversity Plot --------------------------------------------------------------
 #' Diversity Plot
 #'
@@ -586,41 +617,6 @@ setGeneric(
 setGeneric(
   name = "plot_ford",
   def = function(object, ...) standardGeneric("plot_ford")
-)
-
-## Heatmap ---------------------------------------------------------------------
-#' Heatmap
-#'
-#' Plots a heatmap.
-#' @param object An object to be plotted.
-#' @param diag A [`logical`] scalar indicating whether the diagonal of the
-#'  matrix should be plotted. Only used if `object` is a symmetric matrix.
-#' @param upper A [`logical`] scalar indicating whether the upper triangle of
-#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
-#' @param lower A [`logical`] scalar indicating whether the lower triangle of
-#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
-#' @param ... Further arguments to be passed to internal methods.
-#' @return
-#'  A [ggplot2::ggplot] object.
-#' @references
-#'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
-#'  graphique pour tableaux de comptages. *Revue archéologique de Picardie*,
-#'  3(1), 39-56. \doi{10.3406/pica.2004.2396}.
-#' @example inst/examples/ex-plot_matrix.R
-#' @author N. Frerebeau
-#' @seealso [pvi()]
-#' @family plot
-#' @docType methods
-#' @name plot_matrix
-#' @rdname plot_matrix
-#' @aliases matrigraphe
-NULL
-
-#' @rdname plot_matrix
-#' @aliases plot_heatmap-method
-setGeneric(
-  name = "plot_heatmap",
-  def = function(object, ...) standardGeneric("plot_heatmap")
 )
 
 ## Line Plot -------------------------------------------------------------------
@@ -944,8 +940,14 @@ setGeneric(
 #'
 #' @param object A \eqn{m \times p}{m x p} matrix of count data (typically
 #'  a [CountMatrix-class] object).
+#' @param diag A [`logical`] scalar indicating whether the diagonal of the
+#'  matrix should be plotted. Only used if `object` is a symmetric matrix.
+#' @param upper A [`logical`] scalar indicating whether the upper triangle of
+#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
+#' @param lower A [`logical`] scalar indicating whether the lower triangle of
+#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
 #' @param method A [`character`] string specifying the index to be computed
-#' (see details). Any unambiguous substring can be given.
+#'  (see details). Any unambiguous substring can be given.
 #' @param quantiles A [`logical`] scalar: should sample quantiles be used as
 #'  confidence interval? If `TRUE` (the default), sample quantiles are used as
 #'  described in Kintigh (1989), else quantiles of the normal distribution are
