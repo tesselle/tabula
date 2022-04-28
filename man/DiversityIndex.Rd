@@ -43,12 +43,20 @@ values.}
 }
 }
 
+\section{Coerce}{
+
+In the code snippets below, \code{x} is an \code{DiversityIndex} object.
+\describe{
+\item{\code{as.data.frame(x)}}{Coerces to a \code{\link{data.frame}}.}
+}
+}
+
 \seealso{
-Other class: 
+Other classes: 
 \code{\link{PermutationOrder-class}},
 \code{\link{RefineCA-class}}
 }
 \author{
 N. Frerebeau
 }
-\concept{class}
+\concept{classes}

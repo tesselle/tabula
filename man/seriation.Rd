@@ -55,11 +55,11 @@ refine_seriation(object, ...)
 }
 \arguments{
 \item{object, x}{An \eqn{m \times p}{m x p} data matrix (typically an object
-of class \code{\linkS4class{CountMatrix}} or \code{\linkS4class{IncidenceMatrix}}.}
+of class \linkS4class{CountMatrix} or \linkS4class{IncidenceMatrix}.}
 
 \item{...}{Further arguments to be passed to internal methods.}
 
-\item{order}{A \code{\linkS4class{PermutationOrder}} object giving the permutation
+\item{order}{A \linkS4class{PermutationOrder} object giving the permutation
 order for rows and columns.}
 
 \item{cutoff}{A function that takes a numeric vector as argument and returns
@@ -86,10 +86,10 @@ iterations) to avoid infinite loop.}
 }
 \value{
 \itemize{
-\item \verb{seriate_*()} returns a \code{\linkS4class{PermutationOrder}} object.
-\item \code{refine_seriation()} returns a \code{\linkS4class{RefineCA}} object.
-\item \code{permute()} returns either a permuted \code{\linkS4class{CountMatrix}} or an
-\code{\linkS4class{IncidenceMatrix}} (the same as \code{object}).
+\item \verb{seriate_*()} returns a \linkS4class{PermutationOrder} object.
+\item \code{refine_seriation()} returns a \linkS4class{RefineCA} object.
+\item \code{permute()} returns either a permuted \linkS4class{CountMatrix} or an
+\linkS4class{IncidenceMatrix} (the same as \code{object}).
 }
 }
 \description{

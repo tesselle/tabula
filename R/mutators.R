@@ -2,7 +2,7 @@
 #' @include AllClasses.R
 NULL
 
-# ====================================================================== Getters
+# Getters ======================================================================
 #' @export
 #' @rdname mutator
 #' @aliases get_index,HeterogeneityIndex-method
@@ -46,4 +46,4 @@ setMethod("get_order", "PermutationOrder", function(x) {
   list(rows = x@rows, columns = x@columns)
 })
 
-# ====================================================================== Setters
+# Setters ======================================================================

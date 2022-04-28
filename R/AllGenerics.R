@@ -3,8 +3,11 @@
 NULL
 
 # S4 dispatch to base S3 generic ===============================================
-if (!isGeneric("plot"))
-  setGeneric("plot", function(x, y, ...) standardGeneric("plot"))
+setGeneric("autoplot", package = "ggplot2")
+
+# Set generics from other packages =============================================
+setGeneric("bootstrap", package = "dimensio")
+setGeneric("jackknife", package = "dimensio")
 
 # Extract ======================================================================
 ## Mutators --------------------------------------------------------------------
@@ -66,7 +69,7 @@ NULL
 # Statistic ====================================================================
 #' Independance
 #'
-#' @param object A [`CountMatrix-class`] object.
+#' @param object A [CountMatrix-class] object.
 #' @param ... Currently not used.
 #' @details
 #'  Computes for each cell of a numeric matrix one of the following statistic.
@@ -123,22 +126,11 @@ setGeneric(
 #' @description
 #'  * `index_heterogeneity()` returns an heterogeneity or dominance index.
 #'  * `index_evenness()` returns an evenness measure.
-#'  * `bootstrap_*()` and `jackknife_*()` perform bootstrap/jackknife
-#'    resampling.
 #' @param object A \eqn{m \times p}{m x p} matrix of count data (typically
-#'  a [`CountMatrix-class`] object).
+#'  a [CountMatrix-class] object).
 #' @param method A [`character`] string specifying the index to be computed
-#' (see details). Any unambiguous substring can be given.
-#' @param quantiles A [`logical`] scalar: should sample quantiles be used as
-#'  confidence interval? If `TRUE` (the default), sample quantiles are used as
-#'  described in Kintigh (1989), else quantiles of the normal distribution are
-#'  used.
-#' @param level A length-one [`numeric`] vector giving the confidence level.
-#' @param step A non-negative [`integer`] giving the increment of the
-#'  sample size. Only used if `simulate` is `TRUE`.
-#' @param progress A [`logical`] scalar: should a progress bar be displayed?
-#' @inheritParams stats_bootstrap
-#' @param ... Further arguments to be passed to internal methods.
+#'  (see details). Any unambiguous substring can be given.
+#' @param ... Currently not used.
 #' @details
 #'  *Diversity* measurement assumes that all individuals in a specific
 #'  taxa are equivalent and that all types are equally different from each
@@ -192,9 +184,7 @@ setGeneric(
 #'  not the reciprocal or inverse form usually adopted, so that an increase in
 #'  the value of the index accompanies a decrease in diversity.
 #' @return
-#'  * `index_heterogeneity()`, `index_evenness()` and `simulate_evenness()`
-#'    return a [`DiversityIndex-class`] object.
-#'  * `bootstrap_*()` and `jackknife_*()` return a [`data.frame`].
+#'  Returns a [DiversityIndex-class] object.
 #' @note
 #'  Ramanujan approximation is used for \eqn{x!} computation if \eqn{x > 170}.
 #' @references
@@ -204,10 +194,6 @@ setGeneric(
 #'
 #'  Brillouin, L. (1956). *Science and information theory*. New York:
 #'  Academic Press.
-#'
-#'  Kintigh, K. W. (1984). Measuring Archaeological Diversity by Comparison
-#'  with Simulated Assemblages. *American Antiquity*, 49(1), 44-54.
-#'  \doi{10.2307/280511}.
 #'
 #'  Kintigh, K. W. (1989). Sample Size, Significance, and Measures of
 #'  Diversity. In Leonard, R. D. and Jones, G. T., *Quantifying Diversity
@@ -244,11 +230,11 @@ setGeneric(
 #' @family diversity
 #' @seealso [plot_diversity()], [similarity()], [turnover()]
 #' @docType methods
-#' @name heterogeneity-index
-#' @rdname heterogeneity-index
+#' @name heterogeneity
+#' @rdname heterogeneity
 NULL
 
-#' @rdname heterogeneity-index
+#' @rdname heterogeneity
 #' @aliases index_heterogeneity-method
 setGeneric(
   name = "index_heterogeneity",
@@ -256,31 +242,7 @@ setGeneric(
   valueClass = "HeterogeneityIndex"
 )
 
-#' @rdname heterogeneity-index
-#' @aliases simulate_heterogeneity-method
-setGeneric(
-  name = "simulate_heterogeneity",
-  def = function(object, ...) standardGeneric("simulate_heterogeneity"),
-  valueClass = "HeterogeneityIndex"
-)
-
-#' @rdname heterogeneity-index
-#' @aliases bootstrap_heterogeneity-method
-setGeneric(
-  name = "bootstrap_heterogeneity",
-  def = function(object, ...) standardGeneric("bootstrap_heterogeneity"),
-  valueClass = "data.frame"
-)
-
-#' @rdname heterogeneity-index
-#' @aliases jackknife_heterogeneity-method
-setGeneric(
-  name = "jackknife_heterogeneity",
-  def = function(object, ...) standardGeneric("jackknife_heterogeneity"),
-  valueClass = "data.frame"
-)
-
-#' @rdname heterogeneity-index
+#' @rdname heterogeneity
 #' @aliases index_evenness-method
 setGeneric(
   name = "index_evenness",
@@ -288,50 +250,17 @@ setGeneric(
   valueClass = "EvennessIndex"
 )
 
-#' @rdname heterogeneity-index
-#' @aliases simulate_evenness-method
-setGeneric(
-  name = "simulate_evenness",
-  def = function(object, ...) standardGeneric("simulate_evenness"),
-  valueClass = "EvennessIndex"
-)
-
-#' @rdname heterogeneity-index
-#' @aliases bootstrap_evenness-method
-setGeneric(
-  name = "bootstrap_evenness",
-  def = function(object, ...) standardGeneric("bootstrap_evenness"),
-  valueClass = "data.frame"
-)
-
-#' @rdname heterogeneity-index
-#' @aliases jackknife_evenness-method
-setGeneric(
-  name = "jackknife_evenness",
-  def = function(object, ...) standardGeneric("jackknife_evenness"),
-  valueClass = "data.frame"
-)
-
 ## Richness --------------------------------------------------------------------
 #' Richness and Rarefaction
 #'
 #' @description
-#'  * `index_richness()` returns sample richness. `index_composition()` returns
-#'    asymptotic species richness.
+#'  * `index_richness()` returns sample richness.
+#'  * `index_composition()` returns asymptotic species richness.
 #'  * `rarefaction()` returns Hurlbert's unbiased estimate of Sander's
 #'    rarefaction.
-#'  * `bootstrap_*()` and `jackknife_*()` perform bootstrap/jackknife
-#'    resampling.
 #' @param object A \eqn{m \times p}{m x p} matrix of count data.
 #' @param method A [`character`] string or vector of strings specifying the
 #' index to be computed (see details). Any unambiguous substring can be given.
-#' @param quantiles A [`logical`] scalar: should sample quantiles be used as
-#'  confidence interval? If `TRUE` (the default), sample quantiles are used as
-#'  described in Kintigh (1989), else quantiles of the normal distribution are
-#'  used.
-#' @param level A length-one [`numeric`] vector giving the confidence level.
-#' @param step A non-negative [`integer`] giving the increment of the sample
-#'  size. Only used if `simulate` is `TRUE`.
 #' @param unbiased A [`logical`] scalar. Should the bias-corrected estimator be
 #'  used? Only used with "`chao1`" or "`chao2`" (improved) estimator.
 #' @param improved A [`logical`] scalar. Should the improved estimator be used?
@@ -340,10 +269,8 @@ setGeneric(
 #' @param k A length-one [`numeric`] vector giving the threshold between
 #'  rare/infrequent and abundant/frequent species. Only used if `method` is
 #'  "`ace`" or "`ice`".
-#' @param progress A [`logical`] scalar: should a progress bar be displayed?
 #' @param simplify A [`logical`] scalar: should the result be simplified to a
 #'  matrix? The default value, `FALSE`, returns a list.
-#' @inheritParams stats_bootstrap
 #' @param ... Further arguments to be passed to internal methods.
 #' @details
 #'  The number of different taxa, provides an instantly comprehensible
@@ -381,9 +308,8 @@ setGeneric(
 #'   \item{`chao2`}{(improved/unbiased) Chao2 estimator.}
 #'  }
 #' @return
-#'  * `index_richness()`, `simulate_richness()` and `index_composition()` return a
-#'    [`DiversityIndex-class`] object.
-#'  * `bootstrap_*()` and `jackknife_*()` return a [`data.frame`].
+#'  `index_richness()` and `index_composition()` return a [DiversityIndex-class]
+#'  object.
 #'
 #'  If `simplify` is `FALSE`, then `rarefaction()` returns a [`list`] (default),
 #'  else return a [`matrix`].
@@ -443,11 +369,11 @@ setGeneric(
 #' @author N. Frerebeau
 #' @family diversity
 #' @docType methods
-#' @name richness-index
-#' @rdname richness-index
+#' @name richness
+#' @rdname richness
 NULL
 
-#' @rdname richness-index
+#' @rdname richness
 #' @aliases index_richness-method
 setGeneric(
   name = "index_richness",
@@ -455,49 +381,138 @@ setGeneric(
   valueClass = "RichnessIndex"
 )
 
-#' @rdname richness-index
-#' @aliases simulate_richness-method
-setGeneric(
-  name = "simulate_richness",
-  def = function(object, ...) standardGeneric("simulate_richness"),
-  valueClass = "RichnessIndex"
-)
-
-#' @rdname richness-index
-#' @aliases bootstrap_richness-method
-setGeneric(
-  name = "bootstrap_richness",
-  def = function(object, ...) standardGeneric("bootstrap_richness"),
-  valueClass = "data.frame"
-)
-
-#' @rdname richness-index
-#' @aliases jackknife_richness-method
-setGeneric(
-  name = "jackknife_richness",
-  def = function(object, ...) standardGeneric("jackknife_richness"),
-  valueClass = "data.frame"
-)
-
-#' @rdname richness-index
+#' @rdname richness
 #' @aliases index_composition-method
 setGeneric(
   name = "index_composition",
   def = function(object, ...) standardGeneric("index_composition")
 )
 
-#' @rdname richness-index
+#' @rdname richness
 #' @aliases rarefaction-method
 setGeneric(
   name = "rarefaction",
   def = function(object, ...) standardGeneric("rarefaction")
 )
 
+
+
+## Turnover --------------------------------------------------------------------
+#' Turnover
+#'
+#' Returns the degree of turnover in taxa composition along a gradient or
+#' transect.
+#' @param object A \eqn{m \times p}{m x p} matrix of count data.
+#' @param method A [`character`] string specifying the method to be
+#'  used (see details). Any unambiguous substring can be given.
+#' @param simplify A [`logical`] scalar: should the result be
+#'  simplified to a matrix?
+#' @param ... Further arguments to be passed to internal methods.
+#' @details
+#'  The following methods can be used to ascertain the degree of *turnover*
+#'  in taxa composition along a gradient (\eqn{\beta}-diversity) on qualitative
+#'  (presence/absence) data. This assumes that the order of the matrix rows
+#'  (from \eqn{1} to \eqn{n}) follows the progression along the
+#'  gradient/transect.
+#'
+#'  \describe{
+#'   \item{`whittaker`}{Whittaker measure.}
+#'   \item{`cody`}{Cody measure.}
+#'   \item{`routledge1`}{Routledge first measure.}
+#'   \item{`routledge2`}{Routledge second measure.}
+#'   \item{`routledge3`}{Routledge third measure. This is the exponential form
+#'   of the second measure.}
+#'   \item{`wilson`}{Wilson measure.}
+#'  }
+#' @return
+#'  If `simplify` is `FALSE`, returns a [`list`] (default), else returns a
+#'  [`matrix`].
+#' @references
+#'  Cody, M. L. (1975). Towards a theory of continental species diversity: Bird
+#'  distributions over Mediterranean habitat gradients. *In* M. L. Cody &
+#'  J. M. Diamond (Eds.), *Ecology and Evolution of Communities*.
+#'  Cambridge, MA: Harvard University Press, p. 214-257.
+#'
+#'  Routledge, R. D. (1977). On Whittaker's Components of Diversity.
+#'  *Ecology*, 58(5), 1120-1127. \doi{10.2307/1936932}.
+#'
+#'  Whittaker, R. H. (1960). Vegetation of the Siskiyou Mountains, Oregon and
+#'  California. *Ecological Monographs*, 30(3), 279-338.
+#'  \doi{10.2307/1943563}.
+#'
+#'  Wilson, M. V., & Shmida, A. (1984). Measuring Beta Diversity with
+#'  Presence-Absence Data. *The Journal of Ecology*, 72(3), 1055-1064.
+#'  \doi{10.2307/2259551}.
+#' @example inst/examples/ex-turnover.R
+#' @author N. Frerebeau
+#' @family diversity
+#' @docType methods
+#' @name turnover
+#' @rdname turnover
+NULL
+
+#' @rdname turnover
+#' @aliases turnover-method
+setGeneric(
+  name = "turnover",
+  def = function(object, ...) standardGeneric("turnover")
+)
+
+## Resample --------------------------------------------------------------------
+#' Resample Diversity
+#'
+#' Performs bootstrap/jackknife resampling.
+#' @inheritParams dimensio::bootstrap
+#' @inheritParams dimensio::jackknife
+#' @return
+#'  Returns a [`data.frame`].
+#' @example inst/examples/ex-diversity.R
+#' @author N. Frerebeau
+#' @family diversity
+#' @docType methods
+#' @name resample
+#' @rdname resample
+NULL
+
+## Simulate --------------------------------------------------------------------
+#' Measure Diversity by Comparing to Simulated Assemblages
+#'
+#' @param object A [DiversityIndex-class] object.
+#' @param quantiles A [`logical`] scalar: should sample quantiles be used as
+#'  confidence interval? If `TRUE` (the default), sample quantiles are used as
+#'  described in Kintigh (1984), else quantiles of the normal distribution are
+#'  used.
+#' @param level A length-one [`numeric`] vector giving the confidence level.
+#' @param step An [`integer`].
+#' @param n A non-negative [`integer`] giving the number of bootstrap
+#'  replications.
+#' @param progress A [`logical`] scalar: should a progress bar be displayed?
+#' @return
+#'  Returns a [DiversityIndex-class] object.
+#' @references
+#'  Kintigh, K. W. (1984). Measuring Archaeological Diversity by Comparison
+#'  with Simulated Assemblages. *American Antiquity*, 49(1), 44-54.
+#'  \doi{10.2307/280511}.
+#' @seealso [plot_diversity()]
+#' @example inst/examples/ex-plot_diversity.R
+#' @author N. Frerebeau
+#' @family diversity
+#' @docType methods
+#' @name simulate
+#' @rdname simulate
+NULL
+
 # Plot =========================================================================
 ## Diversity Plot --------------------------------------------------------------
 #' Diversity Plot
 #'
-#' @param x A [`DiversityIndex-class`] object to be plotted.
+#' @param object,x A [DiversityIndex-class] object to be plotted.
+#' @param y Currently not used.
+#' @param ... Currently not used.
+#' @return
+#'  * `autoplot()` returns a [`ggplot`][ggplot2::ggplot] object.
+#'  * `plot()` is called it for its side-effects: it results in a graphic being
+#'    displayed (invisibly returns `x`).
 #' @example inst/examples/ex-plot_diversity.R
 #' @author N. Frerebeau
 #' @family plot
@@ -689,8 +704,8 @@ setGeneric(
 #'  * `permute()` rearranges a data matrix according to a permutation order.
 #'  * `get_order()` returns the seriation order for rows and columns.
 #' @param object,x An \eqn{m \times p}{m x p} data matrix (typically an object
-#'  of class [`CountMatrix-class`] or [`IncidenceMatrix-class`].
-#' @param order A [`PermutationOrder-class`] object giving the permutation
+#'  of class [CountMatrix-class] or [IncidenceMatrix-class].
+#' @param order A [PermutationOrder-class] object giving the permutation
 #'  order for rows and columns.
 #' @param EPPM A [`logical`] scalar: should the seriation be computed on EPPM
 #'  instead of raw data?
@@ -762,10 +777,10 @@ setGeneric(
 #'  CA are highly stable and which produces an ordering consistent with the
 #'  assumptions of frequency seriation."
 #' @return
-#'  * `seriate_*()` returns a [`PermutationOrder-class`] object.
-#'  * `refine_seriation()` returns a [`RefineCA-class`] object.
-#'  * `permute()` returns either a permuted [`CountMatrix-class`] or an
-#'    [`IncidenceMatrix-class`] (the same as `object`).
+#'  * `seriate_*()` returns a [PermutationOrder-class] object.
+#'  * `refine_seriation()` returns a [RefineCA-class] object.
+#'  * `permute()` returns either a permuted [CountMatrix-class] or an
+#'    [IncidenceMatrix-class] (the same as `object`).
 #' @note
 #'  Refining method can lead to much longer execution times and larger output
 #'  objects.
@@ -924,74 +939,27 @@ setGeneric(
   def = function(object, ...) standardGeneric("test_diversity")
 )
 
-# Turnover =====================================================================
-#' Turnover
-#'
-#' Returns the degree of turnover in taxa composition along a gradient or
-#' transect.
-#' @param object A \eqn{m \times p}{m x p} matrix of count data.
-#' @param method A [`character`] string specifying the method to be
-#'  used (see details). Any unambiguous substring can be given.
-#' @param simplify A [`logical`] scalar: should the result be
-#'  simplified to a matrix?
-#' @param ... Further arguments to be passed to internal methods.
-#' @details
-#'  The following methods can be used to ascertain the degree of *turnover*
-#'  in taxa composition along a gradient (\eqn{\beta}-diversity) on qualitative
-#'  (presence/absence) data. This assumes that the order of the matrix rows
-#'  (from \eqn{1} to \eqn{n}) follows the progression along the
-#'  gradient/transect.
-#'
-#'  \describe{
-#'   \item{`whittaker`}{Whittaker measure.}
-#'   \item{`cody`}{Cody measure.}
-#'   \item{`routledge1`}{Routledge first measure.}
-#'   \item{`routledge2`}{Routledge second measure.}
-#'   \item{`routledge3`}{Routledge third measure. This is the exponential form
-#'   of the second measure.}
-#'   \item{`wilson`}{Wilson measure.}
-#'  }
-#' @return
-#'  If `simplify` is `FALSE`, returns a [`list`] (default), else returns a
-#'  [`matrix`].
-#' @references
-#'  Cody, M. L. (1975). Towards a theory of continental species diversity: Bird
-#'  distributions over Mediterranean habitat gradients. *In* M. L. Cody &
-#'  J. M. Diamond (Eds.), *Ecology and Evolution of Communities*.
-#'  Cambridge, MA: Harvard University Press, p. 214-257.
-#'
-#'  Routledge, R. D. (1977). On Whittaker's Components of Diversity.
-#'  *Ecology*, 58(5), 1120-1127. \doi{10.2307/1936932}.
-#'
-#'  Whittaker, R. H. (1960). Vegetation of the Siskiyou Mountains, Oregon and
-#'  California. *Ecological Monographs*, 30(3), 279-338.
-#'  \doi{10.2307/1943563}.
-#'
-#'  Wilson, M. V., & Shmida, A. (1984). Measuring Beta Diversity with
-#'  Presence-Absence Data. *The Journal of Ecology*, 72(3), 1055-1064.
-#'  \doi{10.2307/2259551}.
-#' @example inst/examples/ex-turnover.R
-#' @author N. Frerebeau
-#' @family diversity
-#' @docType methods
-#' @name turnover-index
-#' @rdname turnover-index
-NULL
-
-#' @rdname turnover-index
-#' @aliases turnover-method
-setGeneric(
-  name = "turnover",
-  def = function(object, ...) standardGeneric("turnover")
-)
-
 # Deprecated ===================================================================
-# Deprecated Methods
-#
-# @param object An object.
-# @param ... Currently not used.
-# @author N. Frerebeau
-# @docType methods
-# @name deprecate
-# @rdname deprecate
+#' Deprecated Methods
+#'
+#' @param object A \eqn{m \times p}{m x p} matrix of count data (typically
+#'  a [CountMatrix-class] object).
+#' @param method A [`character`] string specifying the index to be computed
+#' (see details). Any unambiguous substring can be given.
+#' @param quantiles A [`logical`] scalar: should sample quantiles be used as
+#'  confidence interval? If `TRUE` (the default), sample quantiles are used as
+#'  described in Kintigh (1989), else quantiles of the normal distribution are
+#'  used.
+#' @param level A length-one [`numeric`] vector giving the confidence level.
+#' @param step A non-negative [`integer`] giving the increment of the
+#'  sample size. Only used if `simulate` is `TRUE`.
+#' @param progress A [`logical`] scalar: should a progress bar be displayed?
+#' @param ... Further arguments to be passed to internal methods.
+#' @inheritParams stats_bootstrap
+#' @param ... Currently not used.
+#' @author N. Frerebeau
+#' @docType methods
+#' @name deprecate
+#' @rdname deprecate
+#' @keywords internal
 NULL

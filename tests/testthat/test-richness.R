@@ -12,10 +12,10 @@ test_that("Richness", {
   }
   expect_type(get_index(index), "closure")
 
-  boot <- with_seed(12345, bootstrap_richness(counts, method = "none", n = 30))
+  boot <- with_seed(12345, bootstrap(index, n = 30))
   expect_snapshot(boot)
 
-  jack <- jackknife_richness(counts, method = "none")
+  jack <- jackknife(index)
   expect_snapshot(jack)
 })
 test_that("Chao richness", {

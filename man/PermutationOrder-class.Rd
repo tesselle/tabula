@@ -29,11 +29,11 @@ values.}
 }
 
 \seealso{
-Other class: 
+Other classes: 
 \code{\link{DiversityIndex}},
 \code{\link{RefineCA-class}}
 }
 \author{
 N. Frerebeau
 }
-\concept{class}
+\concept{classes}

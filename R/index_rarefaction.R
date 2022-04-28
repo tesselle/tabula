@@ -2,7 +2,7 @@
 NULL
 
 #' @export
-#' @rdname richness-index
+#' @rdname richness
 #' @aliases rarefaction,CountMatrix-method
 setMethod(
   f = "rarefaction",
@@ -11,7 +11,6 @@ setMethod(
                         simplify = TRUE, ...) {
     method <- match.arg(method, several.ok = FALSE)
     fun <- switch_rarefaction(method) # Select method
-
     apply(X = object, MARGIN = 1, FUN = fun, sample)
   }
 )

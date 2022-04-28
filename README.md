@@ -220,19 +220,23 @@ mississippi %>%
 #> 12-N-3       983 1.0270291
 ```
 
+Measure diversity by comparing to simulated assemblages:
+
 ``` r
 ## Data from Conkey 1980, Kintigh 1989, p. 28
 chevelon <- as_count(chevelon)
 
-sim_heterogeneity <- simulate_heterogeneity(chevelon, method = "shannon")
-plot(sim_heterogeneity) +
-  ggplot2::theme_bw() +
-  ggplot2::theme(legend.position = "bottom")
+sim_heterogeneity <- chevelon %>%
+  index_heterogeneity(method = "shannon") %>%
+  simulate()
 
-sim_richness <- simulate_richness(chevelon, method = "none")
-plot(sim_richness) +
-  ggplot2::theme_bw() +
-  ggplot2::theme(legend.position = "bottom")
+plot(sim_heterogeneity)
+
+sim_richness <- chevelon %>%
+  index_richness(method = "none") %>%
+  simulate()
+
+plot(sim_richness)
 ```
 
 ![](man/figures/README-sample-size-1.png)![](man/figures/README-sample-size-2.png)
@@ -248,10 +252,11 @@ of sites:
 ``` r
 ## Calculate the Brainerd-Robinson index
 ## Plot the similarity matrix
-mississippi %>%
+idx_brainerd <- mississippi %>%
   as_count() %>%
-  similarity(method = "brainerd") %>%
-  plot_spot() +
+  similarity(method = "brainerd")
+
+plot_spot(idx_brainerd) +
   khroma::scale_colour_iridescent(name = "brainerd")
 ```
 

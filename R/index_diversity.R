@@ -2,135 +2,128 @@
 #' @include AllGenerics.R AllClasses.R
 NULL
 
+# Index ========================================================================
 #' Compute a Diversity Index
 #'
 #' @param x A [`numeric`] [`matrix`].
 #' @param method A [`function`].
 #' @param ... Further parameters to be passed to `method`.
-#' @return A [`DiversityIndex-class`] object.
+#' @return A [DiversityIndex-class] object.
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
 index_diversity <- function(x, method, ...) {
-
   idx <- apply(X = x, MARGIN = 1, FUN = method, ...)
-
   .DiversityIndex(
     names = rownames(x),
     values = idx,
-    size = as.integer(rowSums(x))
+    size = as.integer(rowSums(x)),
+    data = x
   )
 }
 
-#' Bootstrap a Diversity Index
-#'
-#' @param object A [`numeric`] [`matrix`].
-#' @param method A [`function`].
-#' @param probs A [`numeric`] vector of probabilities with values in
-#'  \eqn{[0,1]} (see [stats::quantile()]).
-#' @param n A non-negative [`integer`] giving the number of bootstrap
-#' replications.
-#' @param ... Further parameters to be passed to `method`.
-#' @return A [`data.frame`].
-#' @author N. Frerebeau
-#' @keywords internal
-#' @noRd
-bootstrap_diversity <- function(object, method, probs = c(0.05, 0.95),
-                                n = 1000, ...) {
-  results <- apply(
-    X = object,
-    MARGIN = 1,
-    FUN = stats_bootstrap,
-    do = method,
-    probs = probs,
-    n = n,
-    na.rm = TRUE,
-    ...
-  )
-  as.data.frame(t(results))
-}
+# Resample =====================================================================
+#' @export
+#' @rdname resample
+#' @aliases bootstrap,DiversityIndex-method
+setMethod(
+  f = "bootstrap",
+  signature = signature(object = "DiversityIndex"),
+  definition = function(object, level = 0.95, type = c("student", "normal"),
+                        probs = c(0.25, 0.50, 0.75), n = 1000) {
 
-#' Jackknife a Diversity Index
-#'
-#' @param object A [`numeric`] [`matrix`].
-#' @param method A [`function`].
-#' @param ... Further parameters to be passed to `method`.
-#' @return A [`data.frame`].
-#' @author N. Frerebeau
-#' @keywords internal
-#' @noRd
-jackknife_diversity <- function(object, method, ...) {
-  results <- apply(
-    X = object,
-    MARGIN = 1,
-    FUN = stats_jackknife,
-    do = method,
-    ...
-  )
-  as.data.frame(t(results))
-}
-
-#' Simulate a Diversity Index
-#'
-#' @param object A [`numeric`] [`matrix`].
-#' @param method A [`function`].
-#' @param quantiles A [`logical`] scalar: should sample quantiles
-#'  be used as confidence interval? If `TRUE` (the default),
-#'  sample quantiles are used as described in Kintigh (1989), else quantiles of
-#'  the normal distribution are used.
-#' @param level A length-one [`numeric`] vector giving the
-#'  confidence level.
-#' @param step An [`integer`].
-#' @param n A non-negative [`integer`] giving the number of bootstrap
-#'  replications.
-#' @param progress A [`logical`] scalar: should a progress bar be
-#'  displayed?
-#' @param ... Further parameters to be passed to `method`.
-#' @keywords internal
-#' @noRd
-simulate_diversity <- function(object, method, quantiles = TRUE,
-                               level = 0.80, step = 1, n = 1000,
-                               progress = getOption("tabula.progress"), ...) {
-
-  ## Index
-  index <- index_diversity(object, method)
-
-  ## Simulate
-  ## Specify the probability for the classes
-  prob <- colSums(object) / sum(object)
-
-  ## Sample size
-  size <- max(rowSums(object))
-  sample_sizes <- seq(from = 1, to = size * 1.05, by = step)
-
-  m <- length(sample_sizes)
-  k <- seq_len(m)
-
-  simulated <- vector(mode = "list", length = m)
-
-  progress_bar <- interactive() && progress
-  if (progress_bar) pbar <- utils::txtProgressBar(max = m, style = 3)
-
-  for (i in k) {
-    simulated[[i]] <- sim(
-      size = sample_sizes[[i]],
-      prob = prob,
-      method = method,
+    theta <- function(x, do, n, level, type, probs) {
+      boot <- dimensio::bootstrap(x, do, n)
+      dimensio::summary(boot, level = level, type = type, probs = probs,
+                        na.rm = TRUE)
+    }
+    results <- apply(
+      X = object@data,
+      MARGIN = 1,
+      FUN = theta,
+      do = get_index(object), # Select method
       n = n,
       level = level,
-      quantiles = quantiles,
-      ...
+      type = type,
+      probs = probs
     )
-    if (progress_bar) utils::setTxtProgressBar(pbar, i)
+    as.data.frame(t(results))
   }
+)
 
-  if (progress_bar) close(pbar)
+#' @export
+#' @rdname resample
+#' @aliases jackknife,DiversityIndex-method
+setMethod(
+  f = "jackknife",
+  signature = signature(object = "DiversityIndex"),
+  definition = function(object) {
 
-  simulated <- do.call(rbind, simulated)
-  simulated <- cbind(`size` = sample_sizes, simulated)
+    w <- object@data
+    m <- nrow(w)
 
-  methods::initialize(index, simulation = simulated)
-}
+    fun <- get_index(object) # Select method
+    results <- vector(mode = "list", length = m)
+    for (i in seq_len(m)) {
+      jack <- dimensio::jackknife(
+        object = w[i, ],
+        do = fun
+      )
+      results[[i]] <- dimensio::summary(jack)
+    }
+    results <- do.call(rbind, results)
+    rownames(results) <- rownames(w)
+    as.data.frame(results)
+  }
+)
+
+# Simulate =====================================================================
+#' @export
+#' @rdname simulate
+#' @aliases simulate,DiversityIndex-method
+setMethod(
+  f = "simulate",
+  signature = signature(object = "DiversityIndex"),
+  definition = function(object, quantiles = TRUE, level = 0.80, step = 1,
+                        n = 1000, progress = getOption("tabula.progress")) {
+    ## Simulate
+    ## Specify the probability for the classes
+    data <- object@data
+    method <- get_index(object) # Select method
+    prob <- colSums(data) / sum(data)
+
+    ## Sample size
+    size <- max(rowSums(data))
+    sample_sizes <- seq(from = 1, to = size * 1.05, by = step)
+
+    m <- length(sample_sizes)
+    k <- seq_len(m)
+
+    simulated <- vector(mode = "list", length = m)
+
+    progress_bar <- interactive() && progress
+    if (progress_bar) pbar <- utils::txtProgressBar(max = m, style = 3)
+
+    for (i in k) {
+      simulated[[i]] <- sim(
+        size = sample_sizes[[i]],
+        prob = prob,
+        method = method,
+        n = n,
+        level = level,
+        quantiles = quantiles
+      )
+      if (progress_bar) utils::setTxtProgressBar(pbar, i)
+    }
+
+    if (progress_bar) close(pbar)
+
+    simulated <- do.call(rbind, simulated)
+    simulated <- cbind(size = sample_sizes, simulated)
+
+    methods::initialize(object, simulation = simulated)
+  }
+)
 
 #' @param size A [`numeric`] matrix.
 #' @param prob A length-\eqn{p} [`numeric`] vector giving the of

@@ -3,7 +3,7 @@ test_that("Heterogeneity", {
   data("chevelon", package = "folio")
   counts <- as_count(chevelon)
 
-  method <- c("berger", "brillouin", "mcintosh", "shannon", "simpson")
+  method <- c("berger", "brillouin", "mcintosh", "simpson", "shannon")
   for (i in method) {
     index <- index_heterogeneity(counts, method = i)
     expect_length(index@values, nrow(counts))
@@ -11,10 +11,10 @@ test_that("Heterogeneity", {
   }
   expect_type(get_index(index), "closure")
 
-  boot <- with_seed(12345, bootstrap_heterogeneity(counts, method = "shannon", n = 30))
+  boot <- with_seed(12345, bootstrap(index, n = 30))
   expect_snapshot(boot)
 
-  jack <- jackknife_heterogeneity(counts, method = "shannon")
+  jack <- jackknife(index)
   expect_snapshot(jack)
 })
 test_that("Evenness", {
@@ -22,7 +22,7 @@ test_that("Evenness", {
   data("chevelon", package = "folio")
   counts <- as_count(chevelon)
 
-  method <- c("brillouin", "mcintosh", "shannon", "simpson")
+  method <- c("brillouin", "mcintosh", "simpson", "shannon")
   for (i in method) {
     index <- index_evenness(counts, method = i)
     expect_length(index@values, nrow(counts))
@@ -30,10 +30,10 @@ test_that("Evenness", {
   }
   expect_type(get_index(index), "closure")
 
-  # boot <- with_seed(12345, bootstrap_evenness(counts, method = "shannon", n = 30))
+  # boot <- with_seed(12345, bootstrap(index, n = 30))
   # expect_snapshot(boot)
 
-  jack <- jackknife_evenness(counts, method = "shannon")
+  jack <- jackknife(index)
   expect_snapshot(jack)
 })
 test_that("Shannon diversity test", {

@@ -119,9 +119,11 @@ Deposits. \emph{American Antiquity}, 16(04), 293-301. \doi{10.2307/276978}.
 }
 \seealso{
 Other diversity: 
-\code{\link{heterogeneity-index}},
-\code{\link{richness-index}},
-\code{\link{turnover-index}}
+\code{\link{heterogeneity}},
+\code{\link{resample}},
+\code{\link{richness}},
+\code{\link{simulate}()},
+\code{\link{turnover}()}
 }
 \author{
 N. Frerebeau

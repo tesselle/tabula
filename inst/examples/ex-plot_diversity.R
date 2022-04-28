@@ -5,9 +5,11 @@ chevelon <- as_count(chevelon)
 
 ## Assemblage diversity size comparison
 ## Warning: this may take a few seconds!
-sim_evenness <- simulate_evenness(chevelon, method = "shannon")
-plot(sim_evenness)
+idx_heterogeneity <- index_heterogeneity(chevelon, method = "shannon")
+sim_heterogeneity <- simulate(idx_heterogeneity)
+plot(sim_heterogeneity)
 
-sim_richness <- simulate_richness(chevelon, method = "none")
+idx_richness <- index_richness(chevelon, method = "none")
+sim_richness <- simulate(idx_richness)
 plot(sim_richness)
 }

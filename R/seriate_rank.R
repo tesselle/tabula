@@ -26,12 +26,12 @@ setMethod(
 #' Reciprocal Ranking
 #'
 #' Computes reciprocal ranking seriation.
-#' @param x A [`CountMatrix-class`] object.
+#' @param x A [CountMatrix-class] object.
 #' @param stop A length-one [`numeric`] vector giving the stopping rule
 #'  (i.e. maximum number of iterations) to avoid infinite loop.
 #' @param margin A [`numeric`] vector giving the subscripts which the
 #'  rearrangement will be applied over.
-#' @return A [`PermutationOrder-class`] object.
+#' @return A [PermutationOrder-class] object.
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd

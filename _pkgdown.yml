@@ -10,9 +10,6 @@ reference:
 - title: Diversity Measures
   contents:
   - has_concept("diversity")
-- title: Dating
-  contents:
-  - has_concept("dating")
 - title: Seriation
   contents:
   - has_concept("seriation")
@@ -24,7 +21,7 @@ reference:
   - has_concept("statistics")
 - title: Classes
   contents:
-  - has_concept("class")
+  - has_concept("classes")
 - title: Getters and Setters
   contents:
   - has_concept("mutator")

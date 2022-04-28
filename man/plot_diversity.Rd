@@ -3,13 +3,27 @@
 \docType{methods}
 \name{plot_diversity}
 \alias{plot_diversity}
+\alias{autoplot,DiversityIndex-method}
 \alias{plot,DiversityIndex,missing-method}
 \title{Diversity Plot}
 \usage{
-\S4method{plot}{DiversityIndex,missing}(x)
+\S4method{autoplot}{DiversityIndex}(object, ...)
+
+\S4method{plot}{DiversityIndex,missing}(x, y, ...)
 }
 \arguments{
-\item{x}{A \code{\linkS4class{DiversityIndex}} object to be plotted.}
+\item{object, x}{A \linkS4class{DiversityIndex} object to be plotted.}
+
+\item{...}{Currently not used.}
+
+\item{y}{Currently not used.}
+}
+\value{
+\itemize{
+\item \code{autoplot()} returns a \code{\link[ggplot2:ggplot]{ggplot}} object.
+\item \code{plot()} is called it for its side-effects: it results in a graphic being
+displayed (invisibly returns \code{x}).
+}
 }
 \description{
 Diversity Plot
@@ -22,10 +36,12 @@ chevelon <- as_count(chevelon)
 
 ## Assemblage diversity size comparison
 ## Warning: this may take a few seconds!
-sim_evenness <- simulate_evenness(chevelon, method = "shannon")
-plot(sim_evenness)
+idx_heterogeneity <- index_heterogeneity(chevelon, method = "shannon")
+sim_heterogeneity <- simulate(idx_heterogeneity)
+plot(sim_heterogeneity)
 
-sim_richness <- simulate_richness(chevelon, method = "none")
+idx_richness <- index_richness(chevelon, method = "none")
+sim_richness <- simulate(idx_richness)
 plot(sim_richness)
 }
 }

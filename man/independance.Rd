@@ -20,7 +20,7 @@ pvi(object, ...)
 \S4method{pvi}{CountMatrix}(object)
 }
 \arguments{
-\item{object}{A \code{\linkS4class{CountMatrix}} object.}
+\item{object}{A \linkS4class{CountMatrix} object.}
 
 \item{...}{Currently not used.}
 }

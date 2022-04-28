@@ -22,8 +22,13 @@ setOldClass("dist")
 #'   `i` is a length-one [`character`] vector. Returns the corresponding slot
 #'   values.}
 #'  }
+#' @section Coerce:
+#'  In the code snippets below, `x` is an `DiversityIndex` object.
+#'  \describe{
+#'   \item{`as.data.frame(x)`}{Coerces to a [`data.frame`].}
+#'  }
 #' @author N. Frerebeau
-#' @family class
+#' @family classes
 #' @docType class
 #' @name DiversityIndex
 #' @rdname DiversityIndex
@@ -37,6 +42,7 @@ NULL
     names = "character",
     values = "numeric",
     size = "integer",
+    data = "matrix",
     simulation = "matrix",
     method = "character"
   ),
@@ -102,7 +108,7 @@ NULL
 #'  }
 #' @seealso [`dimensio::CA-class`]
 #' @author N. Frerebeau
-#' @family class
+#' @family classes
 #' @docType class
 #' @aliases RefineCA-class
 .RefineCA <- setClass(
@@ -134,7 +140,7 @@ NULL
 #'   values.}
 #'  }
 #' @author N. Frerebeau
-#' @family class
+#' @family classes
 #' @docType class
 #' @aliases PermutationOrder-class
 .PermutationOrder <- setClass(

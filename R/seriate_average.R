@@ -26,7 +26,7 @@ setMethod(
 #' Average Ranking
 #'
 #' Computes average ranking (CA) seriation.
-#' @param object A [`CountMatrix-class`] or [`IncidenceMatrix-class`]
+#' @param object A [CountMatrix-class] or [IncidenceMatrix-class]
 #'  object.
 #' @param margin A [`numeric`] vector giving the subscripts which the
 #'  rearrangement will be applied over: `1` indicates rows, `2`
@@ -35,7 +35,7 @@ setMethod(
 #' @param axes An [`integer`] giving the CA dimension to be used for
 #'  permutation.
 #' @param ... Extra arguments to be passed to [dimensio::ca()].
-#' @return A [`PermutationOrder-class`] object.
+#' @return A [PermutationOrder-class] object.
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd

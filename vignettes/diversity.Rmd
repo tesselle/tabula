@@ -257,12 +257,6 @@ mississippi %>%
   index_evenness(method = "shannon")
 ```
 
-```{r refine}
-mississippi %>%
-  as_count() %>%
-  jackknife_evenness(method = "shannon")
-```
-
 # $\beta$-diversity
 
 ## Turnover
@@ -359,15 +353,17 @@ mississippi %>%
 ## Data from Conkey 1980, Kintigh 1989, p. 28
 chevelon <- as_count(chevelon)
 
-sim_evenness <- simulate_heterogeneity(chevelon, method = "shannon")
-plot(sim_evenness) +
-  ggplot2::theme_bw() +
-  ggplot2::theme(legend.position = "bottom")
+sim_heterogeneity <- chevelon %>%
+  index_heterogeneity(method = "shannon") %>%
+  simulate()
 
-sim_richness <- simulate_richness(chevelon, method = "none")
-plot(sim_richness) +
-  ggplot2::theme_bw() +
-  ggplot2::theme(legend.position = "bottom")
+plot(sim_heterogeneity)
+
+sim_richness <- chevelon %>%
+  index_richness(method = "none") %>%
+  simulate()
+
+plot(sim_richness) 
 ```
 
 # Abundance models

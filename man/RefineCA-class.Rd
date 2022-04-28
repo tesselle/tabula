@@ -48,11 +48,11 @@ values.}
 \seealso{
 \code{\link[dimensio:CA-class]{dimensio::CA}}
 
-Other class: 
+Other classes: 
 \code{\link{DiversityIndex}},
 \code{\link{PermutationOrder-class}}
 }
 \author{
 N. Frerebeau
 }
-\concept{class}
+\concept{classes}
