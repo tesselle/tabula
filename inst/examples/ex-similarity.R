@@ -1,5 +1,5 @@
 ## Data from Huntley 2008
-ceramics <- CountMatrix(
+ceramics <- matrix(
   data = c(16, 9, 3, 0, 1,
            13, 3, 2, 0, 0,
            9, 5, 2, 5, 0,
@@ -15,15 +15,19 @@ rownames(ceramics) <- c("Atsinna", "Cienega", "Mirabal", "PdMuertos",
                         "Hesh", "LowPesc", "BoxS", "Ojo Bon", "S170")
 colnames(ceramics) <- c("DLH-1", "DLH-2a", "DLH-2b", "DLH-2c", "DLH-4")
 
-## Brainerd-Robinson measure (count data)
-C <- similarity(ceramics, "brainerd")
+## Brainerd-Robinson measure
+(C <- similarity(ceramics, "brainerd"))
 plot_spot(C)
 
 ## Data from Magurran 1988, p. 166
-data("birds", package = "folio")
-
-## Plot spot diagram
-birds <- as_count(birds)
+birds <- matrix(
+  data = c(1.4, 4.3, 2.9, 8.6, 4.2, 15.7, 2.0, 50, 1, 11.4, 11.4, 4.3, 13.0,
+           14.3, 8.6, 7.1, 10.0, 1.4, 2.9, 5.7, 1.4, 11.4, 2.9, 4.3, 1.4, 2.9,
+           0, 0, 0, 2.9, 0, 0, 0, 10, 0, 0, 5.7, 2.5, 5.7, 8.6, 5.7, 2.9, 0, 0,
+           2.9, 0, 0, 5.7, 0, 2.9, 0, 2.9),
+  nrow = 2, byrow = TRUE
+)
+rownames(birds) <- c("unmanaged", "managed")
 
 ## Jaccard measure (presence/absence data)
 similarity(birds, "jaccard") # 0.46

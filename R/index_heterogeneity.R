@@ -5,181 +5,163 @@ NULL
 # Heterogeneity ================================================================
 #' @export
 #' @rdname heterogeneity
-#' @aliases index_heterogeneity,CountMatrix-method
+#' @aliases heterogeneity,matrix-method
 setMethod(
-  f = "index_heterogeneity",
-  signature = signature(object = "CountMatrix"),
+  f = "heterogeneity",
+  signature = signature(object = "matrix"),
   definition = function(object, method = c("berger", "brillouin", "mcintosh",
                                            "shannon", "simpson")) {
     method <- match.arg(method, several.ok = FALSE)
-    fun <- switch_heterogeneity(method) # Select method
-    index <- index_diversity(object, fun)
-    .HeterogeneityIndex(index, method = method)
+    index <- index_diversity(object, method, evenness = FALSE)
+    .HeterogeneityIndex(index)
+  }
+)
+
+#' @export
+#' @rdname heterogeneity
+#' @aliases heterogeneity,data.frame-method
+setMethod(
+  f = "heterogeneity",
+  signature = signature(object = "data.frame"),
+  definition = function(object, method = c("berger", "brillouin", "mcintosh",
+                                           "shannon", "simpson")) {
+    object <- data.matrix(object)
+    methods::callGeneric(object, method = method)
   }
 )
 
 # Evenness =====================================================================
 #' @export
 #' @rdname heterogeneity
-#' @aliases index_evenness,CountMatrix-method
+#' @aliases evenness,matrix-method
 setMethod(
-  f = "index_evenness",
-  signature = signature(object = "CountMatrix"),
+  f = "evenness",
+  signature = signature(object = "matrix"),
   definition = function(object, method = c("shannon", "brillouin", "mcintosh",
                                            "simpson")) {
     method <- match.arg(method, several.ok = FALSE)
-    fun <- switch_evenness(method) # Select method
-    index <- index_diversity(object, fun)
-    .EvennessIndex(index, method = method)
+    index <- index_diversity(object, method, evenness = TRUE)
+    .EvennessIndex(index)
+  }
+)
+
+#' @export
+#' @rdname heterogeneity
+#' @aliases evenness,data.frame-method
+setMethod(
+  f = "evenness",
+  signature = signature(object = "data.frame"),
+  definition = function(object, method = c("shannon", "brillouin", "mcintosh",
+                                           "simpson")) {
+    object <- data.matrix(object)
+    methods::callGeneric(object, method = method)
   }
 )
 
 # Index ========================================================================
-switch_heterogeneity <- function(x) {
-  switch (
-    x,
-    berger = dominanceBerger,
-    brillouin = diversityBrillouin,
-    mcintosh = dominanceMcintosh,
-    shannon = diversityShannon,
-    simpson = dominanceSimpson,
-    stop(sprintf("There is no such method: %s.", x), call. = FALSE)
-  )
-}
-switch_evenness <- function(x) {
-  switch (
-    x,
-    brillouin = evennessBrillouin,
-    mcintosh = evennessMcintosh,
-    shannon = evennessShannon,
-    simpson = evennessSimpson,
-    stop(sprintf("There is no such method: %s.", x), call. = FALSE)
-  )
-}
-
-#' Diversity, dominance and evenness index
-#'
-#' @param x A [`numeric`] vector giving the number of individuals for each
-#'  class.
-#' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
-#'  removed?
-#' @param ... Currently not used.
-#' @return A length-one [`numeric`] vector.
-#' @author N. Frerebeau
-#' @family diversity index
-#' @name index-heterogeneity
-#' @keywords internal
-#' @noRd
-
 ## Berger-Parker ---------------------------------------------------------------
-# @rdname index-heterogeneity
-dominanceBerger <- function(x, na.rm = FALSE, ...) {
-  # Validation
-  stopifnot(is.numeric(x))
-  x <- x[x > 0] # Remove zeros
-  if (na.rm) x <- stats::na.omit(x) # Remove NAs
-  if (anyNA(x)) return(NA)
+#' @export
+#' @rdname heterogeneity
+#' @aliases index_berger,numeric-method
+setMethod(
+  f = "index_berger",
+  signature = signature(x = "numeric"),
+  definition = function(x, na.rm = FALSE, ...) {
+    x <- x[x > 0] # Remove zeros
+    if (na.rm) x <- stats::na.omit(x) # Remove NAs
+    if (anyNA(x)) return(NA)
 
-  Nmax <- max(x)
-  N <- sum(x)
-  d <- Nmax / N
-  d
-}
+    Nmax <- max(x)
+    N <- sum(x)
+    d <- Nmax / N
+    d
+  }
+)
 
 ## Brillouin -------------------------------------------------------------------
-# @rdname index-heterogeneity
-diversityBrillouin <- function(x, na.rm = FALSE, ...) {
-  # Validation
-  stopifnot(is.numeric(x))
-  x <- x[x > 0] # Remove zeros
-  if (na.rm) x <- stats::na.omit(x) # Remove NAs
-  if (anyNA(x)) return(NA)
+#' @export
+#' @rdname heterogeneity
+#' @aliases index_brillouin,numeric-method
+setMethod(
+  f = "index_brillouin",
+  signature = signature(x = "numeric"),
+  definition = function(x, evenness = FALSE, na.rm = FALSE, ...) {
+    x <- x[x > 0] # Remove zeros
+    if (na.rm) x <- stats::na.omit(x) # Remove NAs
+    if (anyNA(x)) return(NA)
 
-  N <- sum(x)
-  HB <- (lfactorial(N) - sum(lfactorial(x))) / N
-  HB
-}
-# @rdname index-heterogeneity
-evennessBrillouin <- function(x, na.rm = FALSE, ...) {
-  # Validation
-  stopifnot(is.numeric(x))
-  x <- x[x > 0] # Remove zeros
-  if (na.rm) x <- stats::na.omit(x) # Remove NAs
-  if (anyNA(x)) return(NA)
+    N <- sum(x)
+    bri <- (lfactorial(N) - sum(lfactorial(x))) / N
 
-  HB <- diversityBrillouin(x)
-  N <- sum(x)
-  S <- length(x) # richness = number of different species
-  a <- trunc(N / S)
-  r <- N - S * a
-  c <- (S - r) * lfactorial(a) + r * lfactorial(a + 1)
-  HBmax <- (1 / N) * (lfactorial(N) - c)
-  E <- HB / HBmax
-  E
-}
+    if (evenness) {
+      N <- sum(x)
+      S <- length(x) # richness = number of different species
+      a <- trunc(N / S)
+      r <- N - S * a
+      c <- (S - r) * lfactorial(a) + r * lfactorial(a + 1)
+      HBmax <- (1 / N) * (lfactorial(N) - c)
+      bri <- bri / HBmax
+    }
+
+    bri
+  }
+)
 
 ## McIntosh --------------------------------------------------------------------
-# @rdname index-heterogeneity
-dominanceMcintosh <- function(x, na.rm = FALSE, ...) {
-  # Validation
-  stopifnot(is.numeric(x))
-  x <- x[x > 0] # Remove zeros
-  if (na.rm) x <- stats::na.omit(x) # Remove NAs
-  if (anyNA(x)) return(NA)
+#' @export
+#' @rdname heterogeneity
+#' @aliases index_mcintosh,numeric-method
+setMethod(
+  f = "index_mcintosh",
+  signature = signature(x = "numeric"),
+  definition = function(x, evenness = FALSE, na.rm = FALSE, ...) {
+    x <- x[x > 0] # Remove zeros
+    if (na.rm) x <- stats::na.omit(x) # Remove NAs
+    if (anyNA(x)) return(NA)
 
-  N <- sum(x)
-  U <- sqrt(sum(x^2))
-  D <- (N - U) / (N - sqrt(N))
-  D
-}
-# @rdname index-heterogeneity
-evennessMcintosh <- function(x, na.rm = FALSE, ...) {
-  # Validation
-  stopifnot(is.numeric(x))
-  x <- x[x > 0] # Remove zeros
-  if (na.rm) x <- stats::na.omit(x) # Remove NAs
-  if (anyNA(x)) return(NA)
+    N <- sum(x)
+    S <- length(x) # richness = number of different species
+    U <- sqrt(sum(x^2))
 
-  N <- sum(x)
-  S <- length(x) # richness = number of different species
-  U <- sqrt(sum(x^2))
-  E <- (N - U) / (N - (N / sqrt(S)))
-  E
-}
+    if (evenness) {
+      mac <- (N - U) / (N - (N / sqrt(S)))
+    } else {
+      mac <- (N - U) / (N - sqrt(N))
+    }
+    mac
+  }
+)
 
 ## Shannon ---------------------------------------------------------------------
-# @rdname index-heterogeneity
-diversityShannon <- function(x, base = exp(1),
-                             zero.rm = TRUE, na.rm = FALSE, ...) {
-  # Validation
-  stopifnot(is.numeric(x))
-  if (zero.rm) x <- x[x > 0] # Remove zeros
-  if (na.rm) x <- stats::na.omit(x) # Remove NAs
-  if (anyNA(x)) return(NA)
+#' @export
+#' @rdname heterogeneity
+#' @aliases index_shannon,numeric-method
+setMethod(
+  f = "index_shannon",
+  signature = signature(x = "numeric"),
+  definition = function(x, evenness = FALSE, base = exp(1),
+                        na.rm = FALSE, ...) {
+    x <- x[x > 0] # Remove zeros
+    if (na.rm) x <- stats::na.omit(x) # Remove NAs
+    if (anyNA(x)) return(NA)
 
-  N <- sum(x)
-  S <- length(x) # richness = number of different species
-  p <- x / N
-  Hmax <- log(p, base)
-  Hmax[is.infinite(Hmax)] <- 0
+    N <- sum(x)
+    S <- length(x) # richness = number of different species
+    p <- x / N
+    Hmax <- log(p, base)
+    Hmax[is.infinite(Hmax)] <- 0
 
-  H <- -sum(p * Hmax)
-  H
-}
-# @rdname index-heterogeneity
-evennessShannon <- function(x, zero.rm = TRUE, na.rm = FALSE, ...) {
-  # Validation
-  stopifnot(is.numeric(x))
-  if (zero.rm) x <- x[x > 0] # Remove zeros
-  if (na.rm) x <- stats::na.omit(x) # Remove NAs
-  if (anyNA(x)) return(NA)
+    sha <- -sum(p * Hmax)
 
-  S <- length(x)
-  E <- diversityShannon(x, zero.rm = zero.rm) / log(S)
-  E
-}
-# @rdname index-heterogeneity
-varianceShannon <- function(x, na.rm = FALSE, ...) {
+    if (evenness) {
+      S <- length(x)
+      sha <- sha / log(S)
+    }
+    sha
+  }
+)
+# @rdname index_shannon
+variance_shannon <- function(x, na.rm = FALSE, ...) {
   # Validation
   stopifnot(is.numeric(x))
   x <- x[x > 0] # Remove zeros
@@ -196,31 +178,28 @@ varianceShannon <- function(x, na.rm = FALSE, ...) {
 }
 
 ## Simpson ---------------------------------------------------------------------
-# @rdname index-heterogeneity
-dominanceSimpson <- function(x, na.rm = FALSE, ...) {
-  # Validation
-  stopifnot(is.numeric(x))
-  x <- x[x > 0] # Remove zeros
-  if (na.rm) x <- stats::na.omit(x) # Remove NAs
-  if (anyNA(x)) return(NA)
+#' @export
+#' @rdname heterogeneity
+#' @aliases index_simpson,numeric-method
+setMethod(
+  f = "index_simpson",
+  signature = signature(x = "numeric"),
+  definition = function(x, evenness = FALSE, na.rm = FALSE, ...) {
+    x <- x[x > 0] # Remove zeros
+    if (na.rm) x <- stats::na.omit(x) # Remove NAs
+    if (anyNA(x)) return(NA)
 
-  N <- sum(x)
-  D <- sum(x * (x - 1)) / (N* (N - 1)) # For discrete data
-  D
-}
-# @rdname index-heterogeneity
-evennessSimpson <- function(x, na.rm = FALSE, ...) {
-  # Validation
-  stopifnot(is.numeric(x))
-  x <- x[x > 0] # Remove zeros
-  if (na.rm) x <- stats::na.omit(x) # Remove NAs
-  if (anyNA(x)) return(NA)
+    N <- sum(x)
+    D <- sum(x * (x - 1)) / (N* (N - 1)) # For discrete data
 
-  D <- 1 / dominanceSimpson(x)
-  S <- length(x[x > 0]) # richness = number of different species
-  E <- D / S
-  E
-}
+    if (evenness) {
+      D <- 1 / D
+      S <- length(x) # richness = number of different species
+      D <- D / S
+    }
+    D
+  }
+)
 
 ## Chao ------------------------------------------------------------------------
 # Chao index

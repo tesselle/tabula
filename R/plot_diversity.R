@@ -7,16 +7,16 @@ NULL
 autoplot.DiversityIndex <- function(object, ...) {
   ## Prepare data
   count <- cbind.data.frame(
-    label = names(object[["values"]]),
-    x = object[["size"]],
-    y = object[["values"]]
+    label = object@names,
+    x = object@size,
+    y = object@.Data
   )
 
   ## Simulated assemblages
   gg_sim <- NULL
-  if (length(object[["simulation"]]) != 0) {
+  if (length(object@simulation) != 0) {
     # Build a long table for ggplot2
-    refined <- object[["simulation"]]
+    refined <- object@simulation
     sim_stacked <- arkhe::as_long(refined[, -c(1)], factor = TRUE)
     sim <- cbind.data.frame(
       size = refined[, 1],
@@ -51,7 +51,7 @@ autoplot.DiversityIndex <- function(object, ...) {
     gg_sim +
     ggplot2::scale_x_log10(name = "Sample size") +
     ggplot2::scale_y_continuous(
-      name = sprintf("%s (%s)", y_lab, object[["method"]])
+      name = sprintf("%s (%s)", y_lab, object@method)
     )
 }
 

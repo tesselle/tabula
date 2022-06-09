@@ -3,6 +3,9 @@
 NULL
 
 # Extract ======================================================================
+## [ ---------------------------------------------------------------------------
+
+## [[ --------------------------------------------------------------------------
 #' Extract Parts of an Object
 #'
 #' @inheritParams subset
@@ -16,15 +19,6 @@ extract_slot <- function(x, i) {
   data <- methods::slot(x, i)
   data
 }
-
-#' @export
-#' @rdname subset
-#' @aliases [[,DiversityIndex,ANY,missing-method
-setMethod(
-  f = "[[",
-  signature = c(x = "DiversityIndex", i = "ANY", j = "missing"),
-  definition = extract_slot
-)
 
 #' @export
 #' @rdname subset

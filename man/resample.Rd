@@ -7,35 +7,18 @@
 \alias{jackknife,DiversityIndex-method}
 \title{Resample Diversity}
 \usage{
-\S4method{bootstrap}{DiversityIndex}(
-  object,
-  level = 0.95,
-  type = c("student", "normal"),
-  probs = c(0.25, 0.5, 0.75),
-  n = 1000
-)
+\S4method{bootstrap}{DiversityIndex}(object, n = 1000, f = NULL)
 
 \S4method{jackknife}{DiversityIndex}(object)
 }
 \arguments{
-\item{object}{A \code{\link{numeric}} or an \code{\link{integer}} vector or
-a \code{\linkS4class{CA}} or \code{\linkS4class{PCA}} object (see below).}
-
-\item{level}{A length-one \code{\link{numeric}} vector giving the confidence level.
-Must be a single number between \eqn{0} and \eqn{1}. If \code{NULL}, no
-confidence interval are computed.}
-
-\item{type}{A \code{\link{character}} string giving the type of confidence
-interval to be returned. It must be one "\code{student}" (default) or
-"\code{normal}". Any unambiguous substring can be given. Only used if \code{level}
-is not \code{NULL}.``}
-
-\item{probs}{A \code{\link{numeric}} vector of probabilities with values in
-\eqn{[0,1]} (see \code{\link[stats:quantile]{stats::quantile()}}). If \code{NULL}, quantiles are not
-computed.}
+\item{object}{A \code{\link{numeric}} vector of count data (absolute frequencies).}
 
 \item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
 replications.}
+
+\item{f}{A \code{\link{function}} that takes a single numeric vector (the result of
+\code{do}) as argument.}
 }
 \value{
 Returns a \code{\link{data.frame}}.
@@ -44,29 +27,27 @@ Returns a \code{\link{data.frame}}.
 Performs bootstrap/jackknife resampling.
 }
 \examples{
-## Coerce dataset to a count matrix
 data("chevelon", package = "folio")
-chevelon <- as_count(chevelon)
 
 ## Shannon diversity index
-(index_h <- index_heterogeneity(chevelon, method = "shannon"))
-(index_e <- index_evenness(chevelon, method = "shannon"))
+(h <- heterogeneity(chevelon, method = "shannon"))
+(e <- evenness(chevelon, method = "shannon"))
 
-## Bootstrap resampling
-bootstrap(index_e)
+## Bootstrap resampling (summary statistics)
+bootstrap(h, f = summary)
 
 ## Jackknife resampling
-jackknife(index_e)
+jackknife(h)
 }
 \seealso{
-Other diversity: 
-\code{\link{heterogeneity}},
-\code{\link{richness}},
-\code{\link{similarity}()},
+Other diversity methods: 
+\code{\link{heterogeneity}()},
+\code{\link{rarefaction}()},
+\code{\link{richness}()},
 \code{\link{simulate}()},
 \code{\link{turnover}()}
 }
 \author{
 N. Frerebeau
 }
-\concept{diversity}
+\concept{diversity methods}

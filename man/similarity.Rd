@@ -4,30 +4,88 @@
 \name{similarity}
 \alias{similarity}
 \alias{similarity-method}
-\alias{similarity,CountMatrix-method}
-\alias{similarity,IncidenceMatrix-method}
+\alias{index_jaccard}
+\alias{index_jaccard-method}
+\alias{index_sorenson}
+\alias{index_sorenson-method}
+\alias{index_bray}
+\alias{index_bray-method}
+\alias{index_morisita}
+\alias{index_morisita-method}
+\alias{index_brainerd}
+\alias{index_brainerd-method}
+\alias{index_binomial}
+\alias{index_binomial-method}
+\alias{similarity,matrix-method}
+\alias{similarity,data.frame-method}
+\alias{index_jaccard,character,character-method}
+\alias{index_jaccard,logical,logical-method}
+\alias{index_jaccard,numeric,numeric-method}
+\alias{index_sorenson,logical,logical-method}
+\alias{index_sorenson,numeric,numeric-method}
+\alias{index_bray,numeric,numeric-method}
+\alias{index_morisita,numeric,numeric-method}
+\alias{index_brainerd,numeric,numeric-method}
+\alias{index_binomial,numeric,numeric-method}
 \title{Similarity}
 \usage{
 similarity(object, ...)
 
-\S4method{similarity}{CountMatrix}(
+index_jaccard(x, y, ...)
+
+index_sorenson(x, y, ...)
+
+index_bray(x, y, ...)
+
+index_morisita(x, y, ...)
+
+index_brainerd(x, y, ...)
+
+index_binomial(x, y, ...)
+
+\S4method{similarity}{matrix}(
   object,
-  method = c("brainerd", "bray", "jaccard", "morisita", "sorenson", "binomial"),
-  ...
+  method = c("brainerd", "bray", "jaccard", "morisita", "sorenson", "binomial")
 )
 
-\S4method{similarity}{IncidenceMatrix}(object, method = c("jaccard", "sorenson"), ...)
+\S4method{similarity}{data.frame}(
+  object,
+  method = c("brainerd", "bray", "jaccard", "morisita", "sorenson", "binomial")
+)
+
+\S4method{index_jaccard}{character,character}(x, y)
+
+\S4method{index_jaccard}{logical,logical}(x, y)
+
+\S4method{index_jaccard}{numeric,numeric}(x, y)
+
+\S4method{index_sorenson}{logical,logical}(x, y)
+
+\S4method{index_sorenson}{numeric,numeric}(x, y)
+
+\S4method{index_bray}{numeric,numeric}(x, y)
+
+\S4method{index_morisita}{numeric,numeric}(x, y)
+
+\S4method{index_brainerd}{numeric,numeric}(x, y)
+
+\S4method{index_binomial}{numeric,numeric}(x, y)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
 
-\item{...}{Further arguments to be passed to internal methods.}
+\item{...}{Currently not used.}
+
+\item{x, y}{A length-\eqn{p} \code{\link{numeric}} vector of count data.}
 
 \item{method}{A \code{\link{character}} string specifying the method to be
 used (see details). Any unambiguous substring can be given.}
 }
 \value{
-\code{similarity()} returns a \link[stats:dist]{stats::dist} object.
+\itemize{
+\item \code{similarity()} returns a \link[stats:dist]{stats::dist} object.
+\item \verb{index_*()} return a \code{\link{numeric}} vector.
+}
 }
 \description{
 Similarity
@@ -59,7 +117,7 @@ of the Sorenson index).}
 }
 \examples{
 ## Data from Huntley 2008
-ceramics <- CountMatrix(
+ceramics <- matrix(
   data = c(16, 9, 3, 0, 1,
            13, 3, 2, 0, 0,
            9, 5, 2, 5, 0,
@@ -75,15 +133,19 @@ rownames(ceramics) <- c("Atsinna", "Cienega", "Mirabal", "PdMuertos",
                         "Hesh", "LowPesc", "BoxS", "Ojo Bon", "S170")
 colnames(ceramics) <- c("DLH-1", "DLH-2a", "DLH-2b", "DLH-2c", "DLH-4")
 
-## Brainerd-Robinson measure (count data)
-C <- similarity(ceramics, "brainerd")
+## Brainerd-Robinson measure
+(C <- similarity(ceramics, "brainerd"))
 plot_spot(C)
 
 ## Data from Magurran 1988, p. 166
-data("birds", package = "folio")
-
-## Plot spot diagram
-birds <- as_count(birds)
+birds <- matrix(
+  data = c(1.4, 4.3, 2.9, 8.6, 4.2, 15.7, 2.0, 50, 1, 11.4, 11.4, 4.3, 13.0,
+           14.3, 8.6, 7.1, 10.0, 1.4, 2.9, 5.7, 1.4, 11.4, 2.9, 4.3, 1.4, 2.9,
+           0, 0, 0, 2.9, 0, 0, 0, 10, 0, 0, 5.7, 2.5, 5.7, 8.6, 5.7, 2.9, 0, 0,
+           2.9, 0, 0, 5.7, 0, 2.9, 0, 2.9),
+  nrow = 2, byrow = TRUE
+)
+rownames(birds) <- c("unmanaged", "managed")
 
 ## Jaccard measure (presence/absence data)
 similarity(birds, "jaccard") # 0.46
@@ -116,14 +178,6 @@ Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 
 Robinson, W. S. (1951). A Method for Chronologically Ordering Archaeological
 Deposits. \emph{American Antiquity}, 16(04), 293-301. \doi{10.2307/276978}.
-}
-\seealso{
-Other diversity: 
-\code{\link{heterogeneity}},
-\code{\link{resample}},
-\code{\link{richness}},
-\code{\link{simulate}()},
-\code{\link{turnover}()}
 }
 \author{
 N. Frerebeau

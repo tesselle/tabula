@@ -3,22 +3,38 @@
 NULL
 
 # Index ========================================================================
+get_index <- function(x) {
+  match.fun(sprintf("index_%s", x))
+}
+
 #' Compute a Diversity Index
 #'
 #' @param x A [`numeric`] [`matrix`].
-#' @param method A [`function`].
+#' @param method A [`character`] string specifying the measure to be computed.
+#' @param by_row A [`logical`] scalar: should `method` be computed for each row?
 #' @param ... Further parameters to be passed to `method`.
 #' @return A [DiversityIndex-class] object.
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
-index_diversity <- function(x, method, ...) {
-  idx <- apply(X = x, MARGIN = 1, FUN = method, ...)
+index_diversity <- function(x, method, ..., by_row = TRUE) {
+  fun <- get_index(method)
+  if (by_row) {
+    idx <- apply(X = x, MARGIN = 1, FUN = fun, ...)
+  } else {
+    idx <- fun(x, ...)
+  }
+
+  ## Fix names
+  n <- rownames(x)
+  if (is.null(n)) n <- paste0("S", seq_along(idx))
+
   .DiversityIndex(
-    names = rownames(x),
-    values = idx,
+    idx,
+    names = n,
     size = as.integer(rowSums(x)),
-    data = x
+    data = x,
+    method = method
   )
 }
 
@@ -29,23 +45,15 @@ index_diversity <- function(x, method, ...) {
 setMethod(
   f = "bootstrap",
   signature = signature(object = "DiversityIndex"),
-  definition = function(object, level = 0.95, type = c("student", "normal"),
-                        probs = c(0.25, 0.50, 0.75), n = 1000) {
+  definition = function(object, n = 1000, f = NULL) {
 
-    theta <- function(x, do, n, level, type, probs) {
-      boot <- dimensio::bootstrap(x, do, n)
-      dimensio::summary(boot, level = level, type = type, probs = probs,
-                        na.rm = TRUE)
-    }
     results <- apply(
       X = object@data,
       MARGIN = 1,
-      FUN = theta,
-      do = get_index(object), # Select method
+      FUN = arkhe::resample,
+      do = get_index(object@method), # Select method
       n = n,
-      level = level,
-      type = type,
-      probs = probs
+      f = f
     )
     as.data.frame(t(results))
   }
@@ -62,14 +70,10 @@ setMethod(
     w <- object@data
     m <- nrow(w)
 
-    fun <- get_index(object) # Select method
+    fun <- get_index(object@method) # Select method
     results <- vector(mode = "list", length = m)
     for (i in seq_len(m)) {
-      jack <- dimensio::jackknife(
-        object = w[i, ],
-        do = fun
-      )
-      results[[i]] <- dimensio::summary(jack)
+      results[[i]] <- arkhe::jackknife(object = w[i, ], do = fun)
     }
     results <- do.call(rbind, results)
     rownames(results) <- rownames(w)
@@ -89,7 +93,7 @@ setMethod(
     ## Simulate
     ## Specify the probability for the classes
     data <- object@data
-    method <- get_index(object) # Select method
+    method <- get_index(object@method) # Select method
     prob <- colSums(data) / sum(data)
 
     ## Sample size

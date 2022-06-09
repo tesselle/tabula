@@ -3,44 +3,100 @@
 \docType{methods}
 \name{heterogeneity}
 \alias{heterogeneity}
-\alias{index_heterogeneity}
-\alias{index_heterogeneity-method}
-\alias{index_evenness}
-\alias{index_evenness-method}
-\alias{index_heterogeneity,CountMatrix-method}
-\alias{index_evenness,CountMatrix-method}
+\alias{heterogeneity-method}
+\alias{evenness}
+\alias{evenness-method}
+\alias{index_berger}
+\alias{index_berger-method}
+\alias{index_brillouin}
+\alias{index_brillouin-method}
+\alias{index_mcintosh}
+\alias{index_mcintosh-method}
+\alias{index_shannon}
+\alias{index_shannon-method}
+\alias{index_simpson}
+\alias{index_simpson-method}
+\alias{heterogeneity,matrix-method}
+\alias{heterogeneity,data.frame-method}
+\alias{evenness,matrix-method}
+\alias{evenness,data.frame-method}
+\alias{index_berger,numeric-method}
+\alias{index_brillouin,numeric-method}
+\alias{index_mcintosh,numeric-method}
+\alias{index_shannon,numeric-method}
+\alias{index_simpson,numeric-method}
 \title{Heterogeneity and Evenness}
 \usage{
-index_heterogeneity(object, ...)
+heterogeneity(object, ...)
 
-index_evenness(object, ...)
+evenness(object, ...)
 
-\S4method{index_heterogeneity}{CountMatrix}(
+index_berger(x, ...)
+
+index_brillouin(x, ...)
+
+index_mcintosh(x, ...)
+
+index_shannon(x, ...)
+
+index_simpson(x, ...)
+
+\S4method{heterogeneity}{matrix}(
   object,
   method = c("berger", "brillouin", "mcintosh", "shannon", "simpson")
 )
 
-\S4method{index_evenness}{CountMatrix}(
+\S4method{heterogeneity}{data.frame}(
   object,
-  method = c("shannon", "brillouin", "mcintosh", "simpson")
+  method = c("berger", "brillouin", "mcintosh", "shannon", "simpson")
 )
+
+\S4method{evenness}{matrix}(object, method = c("shannon", "brillouin", "mcintosh", "simpson"))
+
+\S4method{evenness}{data.frame}(object, method = c("shannon", "brillouin", "mcintosh", "simpson"))
+
+\S4method{index_berger}{numeric}(x, na.rm = FALSE, ...)
+
+\S4method{index_brillouin}{numeric}(x, evenness = FALSE, na.rm = FALSE, ...)
+
+\S4method{index_mcintosh}{numeric}(x, evenness = FALSE, na.rm = FALSE, ...)
+
+\S4method{index_shannon}{numeric}(x, evenness = FALSE, base = exp(1), na.rm = FALSE, ...)
+
+\S4method{index_simpson}{numeric}(x, evenness = FALSE, na.rm = FALSE, ...)
 }
 \arguments{
-\item{object}{A \eqn{m \times p}{m x p} matrix of count data (typically
-a \linkS4class{CountMatrix} object).}
+\item{object}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
+\code{\link{data.frame}} of count data (absolute frequencies giving the number of
+individuals for each class).}
 
 \item{...}{Currently not used.}
 
+\item{x}{A \code{\link{numeric}} vector of count data (absolute frequencies).}
+
 \item{method}{A \code{\link{character}} string specifying the index to be computed
 (see details). Any unambiguous substring can be given.}
+
+\item{na.rm}{A \code{\link{numeric}} scalar: should missing values (including \code{NaN}) be
+removed?}
+
+\item{evenness}{A \code{\link{logical}} scalar: should an evenness measure be computed
+instead of an heterogeneity/dominance index?}
+
+\item{base}{A positive \code{\link{numeric}} value specifying the base with respect to
+which logarithms are computed.}
 }
 \value{
-Returns a \linkS4class{DiversityIndex} object.
+\itemize{
+\item \code{heterogeneity()} returns an \linkS4class{HeterogeneityIndex} object.
+\item \code{evenness()} returns an \linkS4class{EvennessIndex} object.
+\item \verb{index_*()} return a \code{\link{numeric}} vector.
+}
 }
 \description{
 \itemize{
-\item \code{index_heterogeneity()} returns an heterogeneity or dominance index.
-\item \code{index_evenness()} returns an evenness measure.
+\item \code{heterogeneity()} returns an heterogeneity or dominance index.
+\item \code{evenness()} returns an evenness measure.
 }
 }
 \details{
@@ -59,6 +115,11 @@ towards abundant taxa; Magurran 1988).
 
 \emph{Evenness} is a measure of how evenly individuals are distributed across the
 sample.
+}
+\note{
+Ramanujan approximation is used for \eqn{x!} computation if \eqn{x > 170}.
+}
+\section{Heterogeneity and Evenness Measures}{
 
 The following heterogeneity index and corresponding evenness measures
 are available (see Magurran 1988 for details):
@@ -96,23 +157,19 @@ The \code{berger}, \code{mcintosh} and \code{simpson} methods return a \emph{dom
 not the reciprocal or inverse form usually adopted, so that an increase in
 the value of the index accompanies a decrease in diversity.
 }
-\note{
-Ramanujan approximation is used for \eqn{x!} computation if \eqn{x > 170}.
-}
+
 \examples{
-## Coerce dataset to a count matrix
 data("chevelon", package = "folio")
-chevelon <- as_count(chevelon)
 
 ## Shannon diversity index
-(index_h <- index_heterogeneity(chevelon, method = "shannon"))
-(index_e <- index_evenness(chevelon, method = "shannon"))
+(h <- heterogeneity(chevelon, method = "shannon"))
+(e <- evenness(chevelon, method = "shannon"))
 
-## Bootstrap resampling
-bootstrap(index_e)
+## Bootstrap resampling (summary statistics)
+bootstrap(h, f = summary)
 
 ## Jackknife resampling
-jackknife(index_e)
+jackknife(h)
 }
 \references{
 Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
@@ -156,14 +213,14 @@ Simpson, E. H. (1949). Measurement of Diversity. \emph{Nature}, 163(4148),
 \seealso{
 \code{\link[=plot_diversity]{plot_diversity()}}, \code{\link[=similarity]{similarity()}}, \code{\link[=turnover]{turnover()}}
 
-Other diversity: 
-\code{\link{resample}},
-\code{\link{richness}},
-\code{\link{similarity}()},
+Other diversity methods: 
+\code{\link{rarefaction}()},
+\code{\link{resample}()},
+\code{\link{richness}()},
 \code{\link{simulate}()},
 \code{\link{turnover}()}
 }
 \author{
 N. Frerebeau
 }
-\concept{diversity}
+\concept{diversity methods}

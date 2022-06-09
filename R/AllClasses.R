@@ -9,7 +9,6 @@ setOldClass("dist")
 #'
 #' An S4 class to represent a diversity measure.
 #' @slot names A [`character`] vector giving the sample names.
-#' @slot values A [`numeric`] vector giving the diversity index values.
 #' @slot size A [`integer`] vector giving the sample sizes.
 #' @slot simulation A four columns [`numeric`] matrix giving the diversity
 #'  measures for the simulated assemblage (sample `size`, `mean` estimate,
@@ -27,6 +26,8 @@ setOldClass("dist")
 #'  \describe{
 #'   \item{`as.data.frame(x)`}{Coerces to a [`data.frame`].}
 #'  }
+#' @note
+#'  This class inherits from base [`numeric`].
 #' @author N. Frerebeau
 #' @family classes
 #' @docType class
@@ -40,19 +41,12 @@ NULL
   Class = "DiversityIndex",
   slots = c(
     names = "character",
-    values = "numeric",
     size = "integer",
     data = "matrix",
     simulation = "matrix",
     method = "character"
   ),
-  prototype = list(
-    names = character(0),
-    values = numeric(0),
-    size = integer(0),
-    simulation = matrix(data = 0, nrow = 0, ncol = 3),
-    method = "none"
-  )
+  contains = "numeric"
 )
 #' @rdname DiversityIndex
 #' @aliases HeterogeneityIndex-class

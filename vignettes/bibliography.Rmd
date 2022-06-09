@@ -1,7 +1,6 @@
 ---
 title: "Bibliography"
 subtitle: "Comprehensive list of references cited in the package"
-author: "N. Frerebeau"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: bibliography.bib

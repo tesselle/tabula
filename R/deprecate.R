@@ -2,46 +2,81 @@
 NULL
 
 #' @rdname deprecate
-#' @aliases plot_heatmap-method
+#' @aliases index_heterogeneity-method
 setGeneric(
-  name = "plot_heatmap",
-  def = function(object, ...) standardGeneric("plot_heatmap")
+  name = "index_heterogeneity",
+  def = function(object, ...) standardGeneric("index_heterogeneity"),
+  valueClass = "HeterogeneityIndex"
 )
 
 #' @export
 #' @rdname deprecate
-#' @aliases plot_heatmap,matrix-method
+#' @aliases index_heterogeneity,ANY-method
 setMethod(
-  f = "plot_heatmap",
-  signature = signature(object = "matrix"),
-  definition = function(object, diag = TRUE, upper = TRUE, lower = TRUE) {
-    .Deprecated(new = "autoplot", old = "plot_heatmap")
-    autoplot(object, diag = diag, upper = upper, lower = lower)
+  f = "index_heterogeneity",
+  signature = signature(object = "ANY"),
+  definition = function(object, method = c("berger", "brillouin", "mcintosh",
+                                           "shannon", "simpson")) {
+    heterogeneity(object, method)
   }
 )
 
-#' @export
 #' @rdname deprecate
-#' @aliases plot_heatmap,dist-method
-setMethod(
-  f = "plot_heatmap",
-  signature = signature(object = "dist"),
-  definition = function(object, diag = FALSE, upper = FALSE, lower = !upper) {
-    .Deprecated(new = "autoplot", old = "plot_heatmap")
-    autoplot(object, diag = diag, upper = upper, lower = lower)
-  }
+#' @aliases index_evenness-method
+setGeneric(
+  name = "index_evenness",
+  def = function(object, ...) standardGeneric("index_evenness"),
+  valueClass = "EvennessIndex"
 )
 
 #' @export
 #' @rdname deprecate
-#' @aliases plot_heatmap,OccurrenceMatrix-method
+#' @aliases index_evenness,ANY-method
 setMethod(
-  f = "plot_heatmap",
-  signature = signature(object = "OccurrenceMatrix"),
-  definition = function(object, diag = FALSE,
-                        upper = FALSE, lower = !upper, ...) {
-    .Deprecated(new = "autoplot", old = "plot_heatmap")
-    autoplot(object, diag = diag, upper = upper, lower = lower)
+  f = "index_evenness",
+  signature = signature(object = "ANY"),
+  definition = function(object, method = c("shannon", "brillouin", "mcintosh",
+                                           "simpson")) {
+    evenness(object, method)
+  }
+)
+
+#' @rdname deprecate
+#' @aliases index_richness-method
+setGeneric(
+  name = "index_richness",
+  def = function(object, ...) standardGeneric("index_richness"),
+  valueClass = "RichnessIndex"
+)
+
+#' @export
+#' @rdname deprecate
+#' @aliases index_richness,ANY-method
+setMethod(
+  f = "index_richness",
+  signature = signature(object = "ANY"),
+  definition = function(object, method = c("count", "margalef", "menhinick")) {
+    richness(object, method)
+  }
+)
+
+#' @rdname deprecate
+#' @aliases index_composition-method
+setGeneric(
+  name = "index_composition",
+  def = function(object, ...) standardGeneric("index_composition"),
+  valueClass = "CompositionIndex"
+)
+
+#' @export
+#' @rdname deprecate
+#' @aliases index_composition,ANY-method
+setMethod(
+  f = "index_composition",
+  signature = signature(object = "ANY"),
+  definition = function(object, method = c("chao1", "ace", "chao2", "ice"),
+                        unbiased = FALSE, improved = FALSE, k = 10) {
+    composition(object, method, unbiased = unbiased, improved = improved, k = k)
   }
 )
 

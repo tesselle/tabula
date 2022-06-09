@@ -4,12 +4,12 @@
 \name{test_diversity}
 \alias{test_diversity}
 \alias{test_diversity-method}
-\alias{test_diversity,CountMatrix-method}
+\alias{test_diversity,matrix-method}
 \title{Diversity Test}
 \usage{
 test_diversity(object, ...)
 
-\S4method{test_diversity}{CountMatrix}(object, adjust = "holm", ...)
+\S4method{test_diversity}{matrix}(object, adjust = "holm", ...)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} matrix of count data.}

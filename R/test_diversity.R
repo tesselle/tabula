@@ -3,17 +3,17 @@ NULL
 
 #' @export
 #' @rdname test_diversity
-#' @aliases test_diversity,CountMatrix-method
+#' @aliases test_diversity,matrix-method
 setMethod(
   f = "test_diversity",
-  signature = signature(object = "CountMatrix"),
+  signature = signature(object = "matrix"),
   definition = function(object, adjust = "holm", ...) {
     # Calculate the number of individuals
-    N <- apply(X = object, MARGIN = 1, FUN = sum)
+    N <- rowSums(object)
     # Calculate Shannon diversity
-    H <- apply(X = object, MARGIN = 1, FUN = diversityShannon, ...)
+    H <- apply(X = object, MARGIN = 1, FUN = index_shannon, ...)
     # Calculate Shannon variance
-    V <- apply(X = object, MARGIN = 1, FUN = varianceShannon, ...)
+    V <- apply(X = object, MARGIN = 1, FUN = variance_shannon, ...)
     # Get the names of the assemblages
     row_names <- rownames(object)
     if (length(row_names) != 0) {

@@ -1,76 +1,50 @@
-birds_unmanaged <- c(1.4, 4.3, 2.9, 8.6, 4.2, 15.7, 2.0, 50, 1, 11.4, 11.4, 4.3,
-                     13.0, 14.3, 8.6, 7.1, 10.0, 1.4, 2.9, 5.7, 1.4, 11.4, 2.9,
-                     4.3, 1.4, 2.9)
-birds_managed <- c(0, 0, 0, 2.9, 0, 0, 0, 10, 0, 0, 5.7, 2.5, 5.7, 8.6, 5.7,
-                   2.9, 0, 0, 2.9, 0, 0, 5.7, 0, 2.9, 0, 2.9)
-birds <- rbind(birds_unmanaged, birds_managed)
+birds <- matrix(
+  data = c(1.4, 4.3, 2.9, 8.6, 4.2, 15.7, 2.0, 50, 1, 11.4, 11.4, 4.3, 13.0,
+           14.3, 8.6, 7.1, 10.0, 1.4, 2.9, 5.7, 1.4, 11.4, 2.9, 4.3, 1.4, 2.9,
+           0, 0, 0, 2.9, 0, 0, 0, 10, 0, 0, 5.7, 2.5, 5.7, 8.6, 5.7, 2.9, 0, 0,
+           2.9, 0, 0, 5.7, 0, 2.9, 0, 2.9),
+  nrow = 2, byrow = TRUE
+)
+rownames(birds) <- c("unmanaged", "managed")
 
 test_that("Similiraty measure (count data)", {
-  count <- arkhe::as_count(birds * 10)
   method <- c("brainerd", "bray", "jaccard", "morisita", "sorenson")
 
   for (i in 1:length(method)) {
-    index <- similarity(count, method = method[i])
-    expect_s3_class(index, "dist")
-    expect_length(index, 1)
-  }
-
-  expect_s3_class(similarity(count, method = "binomial"), "dist")
-  expect_length(similarity(count, method = "binomial"), (26^2 - 26) / 2)
-})
-test_that("Similiraty measure (presence/absence data)", {
-  bin <- as(birds, "IncidenceMatrix")
-  method1 <- c("jaccard", "sorenson")
-  method2 <- c("bray", "morisita")
-
-  for (i in 1:length(method1)) {
-    index <- similarity(bin, method = method1[i])
-    expect_s3_class(index, "dist")
-    expect_length(index, 1)
-    expect_error(similarity(bin, method = method2[i]), info = method[i])
+    expect_snapshot(similarity(birds, method = method[i]))
   }
 })
 
 # Indices ======================================================================
-test_that("Jaccard index", {
-  # Magurran 1988, p. 165
-  expect_equal(round(similarityJaccard(birds_unmanaged, birds_managed), 2), 0.46)
+test_that("Jaccard index - character", {
+  x <- c("horse", "dog", "cat", "cow")
+  y <- c("sheep", "cat", "bird", "bull")
 
-  expect_error(similarityJaccard(1:10, 1:5))
+  expect_snapshot(index_jaccard(x, y)) # 0.14
+})
+test_that("Jaccard index - numeric", {
+  # Magurran 1988, p. 165
+  expect_snapshot(index_jaccard(birds[1, ], birds[2, ])) # 0.46
 })
 test_that("Soreson index", {
   # Magurran 1988, p. 165
-  expect_equal(round(similaritySorenson(birds_unmanaged, birds_managed), 2), 0.63)
-
-  expect_error(similaritySorenson(1:10, 1:5))
+  expect_snapshot(index_sorenson(birds[1, ], birds[2, ])) # 0.63
 })
 test_that("Bray index", {
   # Magurran 1988, p. 165
-  expect_equal(round(similarityBray(birds_unmanaged, birds_managed), 2), 0.44)
-
-  expect_error(similarityBray(1:10, 1:5))
-  expect_error(similarityBray(1:26, LETTERS))
+  expect_snapshot(index_bray(birds[1, ], birds[2, ])) # 0.44
 })
 test_that("Morisita-Horn", {
   # Magurran 1988, p. 167
-  expect_equal(round(similarityMorisita(birds_unmanaged, birds_managed), 4), 0.8134) # 0.8133
-
-  expect_error(similarityMorisita(1:10, 1:5))
-  expect_error(similarityMorisita(1:26, LETTERS))
+  expect_snapshot(index_morisita(birds[1, ], birds[2, ])) # 0.8133
 })
 test_that("Brainerd-Robinson", {
   x <- c(16, 9, 3, 0, 1)
   y <- c(13, 3, 2, 0, 0)
-  expect_equal(round(similarityBrainerd(x, y), 0), 164)
-
-  expect_error(similarityBrainerd(1:10, 1:5))
-  expect_error(similarityBrainerd(1:26, LETTERS))
+  expect_snapshot(index_brainerd(x, y)) # 164
 })
 test_that("Binomial co-occurrence", {
   x <- c(16, 9, 3, 0, 1)
   y <- c(13, 3, 2, 0, 0)
-  expect_equal(round(similarityBinomial(x, y), 2), 0.54)
-
-  expect_error(similarityBinomial(1:10, 1:5))
-  expect_error(similarityBinomial(1:26, LETTERS))
+  expect_snapshot(index_binomial(x, y)) # 0.54
 })

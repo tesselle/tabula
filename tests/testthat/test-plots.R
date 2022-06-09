@@ -117,23 +117,3 @@ test_that("Plot Co-Occurrence", {
   gg_spot_occ <- plot_spot(test_occ, upper = FALSE)
   vdiffr::expect_doppelganger("spot_occ", gg_spot_occ)
 })
-test_that("Diversity", {
-  skip_if_not_installed("folio")
-  data("chevelon", package = "folio")
-  counts <- as_count(chevelon)
-
-  skip_if_not_installed("vdiffr")
-  idx_heterogeneity <- with_seed(12345, {
-    idx_heterogeneity <- index_heterogeneity(counts, method = "shannon")
-    sim_heterogeneity <- simulate(idx_heterogeneity, n = 100)
-  })
-  gg_heterogeneity <- autoplot(sim_heterogeneity)
-  vdiffr::expect_doppelganger("idx_heterogeneity", gg_heterogeneity)
-
-  idx_richness <- with_seed(12345, {
-    idx_richness <- index_richness(counts, method = "none")
-    sim_richness <- simulate(idx_richness, n = 100)
-  })
-  gg_richness <- autoplot(sim_richness)
-  vdiffr::expect_doppelganger("idx_richness", gg_richness)
-})

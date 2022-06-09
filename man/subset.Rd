@@ -3,13 +3,10 @@
 \docType{methods}
 \name{subset}
 \alias{subset}
-\alias{[[,DiversityIndex,ANY,missing-method}
 \alias{[[,RefineCA,ANY,missing-method}
 \alias{[[,PermutationOrder,ANY,missing-method}
 \title{Extract or Replace Parts of an Object}
 \usage{
-\S4method{[[}{DiversityIndex,ANY,missing}(x, i)
-
 \S4method{[[}{RefineCA,ANY,missing}(x, i)
 
 \S4method{[[}{PermutationOrder,ANY,missing}(x, i)

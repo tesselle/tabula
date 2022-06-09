@@ -8,7 +8,7 @@ NULL
 as.data.frame.DiversityIndex <- function(x, ...) {
   data.frame(
     size = x@size,
-    index = x@values,
+    index = x@.Data,
     row.names = x@names,
     stringsAsFactors = FALSE
   )

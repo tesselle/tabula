@@ -22,8 +22,6 @@ An S4 class to represent a diversity measure.
 \describe{
 \item{\code{names}}{A \code{\link{character}} vector giving the sample names.}
 
-\item{\code{values}}{A \code{\link{numeric}} vector giving the diversity index values.}
-
 \item{\code{size}}{A \code{\link{integer}} vector giving the sample sizes.}
 
 \item{\code{simulation}}{A four columns \code{\link{numeric}} matrix giving the diversity
@@ -33,6 +31,9 @@ measures for the simulated assemblage (sample \code{size}, \code{mean} estimate,
 \item{\code{method}}{A \code{\link{character}} string specifying the method used.}
 }}
 
+\note{
+This class inherits from base \code{\link{numeric}}.
+}
 \section{Subset}{
 
 In the code snippets below, \code{x} is a \code{DiversityIndex} object.

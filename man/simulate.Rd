@@ -63,14 +63,14 @@ with Simulated Assemblages. \emph{American Antiquity}, 49(1), 44-54.
 \seealso{
 \code{\link[=plot_diversity]{plot_diversity()}}
 
-Other diversity: 
-\code{\link{heterogeneity}},
-\code{\link{resample}},
-\code{\link{richness}},
-\code{\link{similarity}()},
+Other diversity methods: 
+\code{\link{heterogeneity}()},
+\code{\link{rarefaction}()},
+\code{\link{resample}()},
+\code{\link{richness}()},
 \code{\link{turnover}()}
 }
 \author{
 N. Frerebeau
 }
-\concept{diversity}
+\concept{diversity methods}

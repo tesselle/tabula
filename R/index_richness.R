@@ -4,311 +4,265 @@ NULL
 # Richness =====================================================================
 #' @export
 #' @rdname richness
-#' @aliases index_richness,CountMatrix-method
+#' @aliases richness,matrix-method
 setMethod(
-  f = "index_richness",
-  signature = signature(object = "CountMatrix"),
-  definition = function(object, method = c("none", "margalef", "menhinick"),
-                        ...) {
+  f = "richness",
+  signature = signature(object = "matrix"),
+  definition = function(object, method = c("count", "margalef", "menhinick")) {
     method <- match.arg(method, several.ok = FALSE)
-    fun <- switch_richness(method) # Select method
-    index <- index_diversity(object, fun)
-    .RichnessIndex(index, method = method)
+    index <- index_diversity(object, method)
+    .RichnessIndex(index)
+  }
+)
+
+#' @export
+#' @rdname richness
+#' @aliases richness,data.frame-method
+setMethod(
+  f = "richness",
+  signature = signature(object = "data.frame"),
+  definition = function(object, method = c("count", "margalef", "menhinick")) {
+    object <- data.matrix(object)
+    methods::callGeneric(object, method = method)
   }
 )
 
 # Composition ==================================================================
 #' @export
 #' @rdname richness
-#' @aliases index_composition,CountMatrix-method
+#' @aliases composition,matrix-method
 setMethod(
-  f = "index_composition",
-  signature = signature(object = "CountMatrix"),
-  definition = function(object, method = c("chao1", "ace"),
+  f = "composition",
+  signature = signature(object = "matrix"),
+  definition = function(object, method = c("chao1", "ace", "chao2", "ice"),
                         unbiased = FALSE, improved = FALSE, k = 10) {
-    # Select method
     method <- match.arg(method, several.ok = FALSE)
-    fun <- switch (
-      method,
-      ace = richnessACE,
-      chao1 = richnessChao1,
-      stop(sprintf("There is no such method: %s.", method), call. = FALSE)
-    )
-    index <- apply(X = object, MARGIN = 1, FUN = fun,
-                   unbiased = unbiased, improved = improved, k = k)
-
-    .CompositionIndex(
-      names = rownames(object),
-      values = index,
-      size = as.integer(rowSums(object)),
-      method = method[[1L]]
-    )
+    by_row <- any(method == c("chao1", "ace"))
+    index <- index_diversity(object, method, unbiased = unbiased,
+                             improved = improved, k = k, by_row = by_row)
+    .CompositionIndex(index)
   }
 )
 
 #' @export
 #' @rdname richness
-#' @aliases index_composition,IncidenceMatrix-method
+#' @aliases composition,data.frame-method
 setMethod(
-  f = "index_composition",
-  signature = signature(object = "IncidenceMatrix"),
-  definition = function(object, method = c("chao2", "ice"),
+  f = "composition",
+  signature = signature(object = "data.frame"),
+  definition = function(object, method = c("chao1", "ace", "chao2", "ice"),
                         unbiased = FALSE, improved = FALSE, k = 10) {
-    # Select method
-    method <- match.arg(method, several.ok = FALSE)
-    fun <- switch (
-      method,
-      chao2 = richnessChao2,
-      ice = richnessICE,
-      stop(sprintf("There is no such method: %s.", method), call. = FALSE)
-    )
-
-    index <- fun(object, unbiased = unbiased, improved = improved, k = k)
-    .CompositionIndex(
-      names = rownames(object),
-      values = index,
-      size = as.integer(rowSums(object)),
-      method = method[[1L]]
-    )
+    object <- data.matrix(object)
+    methods::callGeneric(object, method = method, unbiased = unbiased,
+                         improved = improved, k = k)
   }
 )
 
 # Index ========================================================================
-switch_richness <- function(x) {
-  switch (
-    x,
-    margalef = richnessMargalef,
-    menhinick = richnessMenhinick,
-    none = function(x, ...) { sum(x > 0) },
-    stop(sprintf("There is no such method: %s.", x), call. = FALSE)
-  )
-}
+index_count <- function(x, ...) { sum(x > 0) }
 
-#' Richness index
-#'
-#' Abundance data:
-#' * `richnessACE()` returns Abundance-based Coverage Estimator (ACE).
-#' * `richnessChao1()` returns (improved) Chao1 estimator for abundance data.
-#' * `richnessMargalef()` returns Margalef richness index.
-#' * `richnessMenhinick()` returns Menhinick richness index.
-#'
-#' Incidence data:
-#' * `richnessICE()` returns Incidence-based Coverage Estimator (ICE).
-#' * `richnessChao2()` returns (improved) Chao2 estimator for replicated
-#' incidence data.
-#' @param x A [`numeric`] vector giving the number of individuals for
-#'  each type (abundance data) or a [`logical`] matrix (replicated
-#'  incidence data).
-#' @param k A [`numeric`] vector giving the threshold between rare and
-#'  abundant species.
-#' @param unbiased A [`logical`] scalar. Should the bias-corrected
-#'  estimator be used?
-#' @param improved A [`logical`] scalar. Should the improved
-#'  estimator be used?
-#' @param ... Currently not used.
-#' @return A length-one [`numeric`] vector.
-#' @author N. Frerebeau
-#' @family diversity measures
-#' @name index-richness
-#' @keywords internal
-#' @noRd
+## Abundance data --------------------------------------------------------------
+#' @export
+#' @rdname richness
+#' @aliases index_margalef,numeric-method
+setMethod(
+  f = "index_margalef",
+  signature = signature(x = "numeric"),
+  definition = function(x, na.rm = FALSE, ...) {
+    x <- x[x > 0] # Remove unobserved species
+    if (na.rm) x <- stats::na.omit(x) # Remove NAs
 
-# Abundance data ---------------------------------------------------------------
-# @rdname index-richness
-richnessACE <- function(x, k = 10, ...) {
-  # Validation
-  if (!is.numeric(x))
-    stop("`x` must be a numeric vector.")
-  if (!is.numeric(k) || length(k) != 1)
-    stop("`k` must be a numeric scalar.")
+    N <- sum(x) # Number of individuals
+    S <- length(x) # Number of observed species
+    D <- (S - 1) / log(N, base = exp(1))
+    D
+  }
+)
 
-  x <- x[x > 0] # Remove unobserved species
-  S <- length(x) # Number of observed species
-  S_rare <- sum(x <= k) # Number of rare species
-  S_abun <- sum(x > k) # Number of abundant species
+#' @export
+#' @rdname richness
+#' @aliases index_menhinick,numeric-method
+setMethod(
+  f = "index_menhinick",
+  signature = signature(x = "numeric"),
+  definition = function(x, na.rm = FALSE, ...) {
+    x <- x[x > 0] # Remove unobserved species
+    if (na.rm) x <- stats::na.omit(x) # Remove NAs
 
-  N_rare <- sum(x[x <= k]) # Number of individuals in the rare species
-  f1 <- sum(x == 1) # Number of singleton species
-  if (f1 == N_rare)
-    stop("ACE is undefined when all rare species are singletons, ",
-         "consider using the bias-corrected Chao1 index instead.",
-         call. = FALSE)
-  C_rare <- 1 - (f1 / N_rare) # Sample coverage estimate for rare species
-  # ie. proportion of all individuals in rare species that are not singletons
+    N <- sum(x) # Number of individuals
+    S <- length(x) # Number of observed species
+    D <- S / sqrt(N)
+    D
+  }
+)
 
-  # Coefficient of variation
-  a <- sum(vapply(
-    X = seq_len(k),
-    FUN = function(i, x) { i * (i - 1) * sum(x == i) },
-    FUN.VALUE = double(1), x = x)
-  )
-  b <- sum(vapply(
-    X = seq_len(k),
-    FUN = function(i, x) { i * sum(x == i) },
-    FUN.VALUE = double(1), x = x)
-  )
-  c <- sum(vapply(
-    X = seq_len(k),
-    FUN = function(i, x) { i * sum(x == i) - 1 },
-    FUN.VALUE = double(1), x = x)
-  )
-  g2 <- max((S_rare / C_rare) * (a / (b * c)) - 1, 0)
+#' @export
+#' @rdname richness
+#' @aliases index_ace,numeric-method
+setMethod(
+  f = "index_ace",
+  signature = signature(x = "numeric"),
+  definition = function(x, k = 10, ...) {
+    x <- x[x > 0] # Remove unobserved species
+    S <- length(x) # Number of observed species
+    S_rare <- sum(x <= k) # Number of rare species
+    S_abun <- sum(x > k) # Number of abundant species
 
-  D <- S_abun + S_rare / C_rare + f1 * g2 / C_rare
-  D
-}
+    N_rare <- sum(x[x <= k]) # Number of individuals in the rare species
+    f1 <- sum(x == 1) # Number of singleton species
+    if (f1 == N_rare)
+      stop("ACE is undefined when all rare species are singletons, ",
+           "consider using the bias-corrected Chao1 index instead.",
+           call. = FALSE)
+    C_rare <- 1 - (f1 / N_rare) # Sample coverage estimate for rare species
+    # ie. proportion of all individuals in rare species that are not singletons
 
-# @rdname index-richness
-richnessChao1 <- function(x, unbiased = FALSE, improved = FALSE, ...) {
-  # Validation
-  if (!is.numeric(x))
-    stop("`x` must be a numeric vector.")
-  if (!is.logical(unbiased) || length(unbiased) != 1)
-    stop("`unbiased` must be a logical scalar.")
-  if (!is.logical(improved) || length(improved) != 1)
-    stop("`improved` must be a logical scalar.")
+    # Coefficient of variation
+    a <- sum(vapply(
+      X = seq_len(k),
+      FUN = function(i, x) { i * (i - 1) * sum(x == i) },
+      FUN.VALUE = double(1), x = x)
+    )
+    b <- sum(vapply(
+      X = seq_len(k),
+      FUN = function(i, x) { i * sum(x == i) },
+      FUN.VALUE = double(1), x = x)
+    )
+    c <- sum(vapply(
+      X = seq_len(k),
+      FUN = function(i, x) { i * sum(x == i) - 1 },
+      FUN.VALUE = double(1), x = x)
+    )
+    g2 <- max((S_rare / C_rare) * (a / (b * c)) - 1, 0)
 
-  x <- x[x > 0] # Remove unobserved species
-  S <- length(x) # Number of observed species
-  N <- sum(x) # Number of individuals
-  f1 <- sum(x == 1) # Number of singleton species
-  f2 <- sum(x == 2) # Number of doubleton species
+    D <- S_abun + S_rare / C_rare + f1 * g2 / C_rare
+    D
+  }
+)
 
-  if (unbiased) {
-    D <- S + (((N - 1) / N) * f1 * (f1 - 1)) / (2 * (f2 + 1))
-  } else {
-    if (f2 == 0) {
-      D <- S + ((N - 1) / N) * f1 * ((f1 - 1) / 2)
+#' @export
+#' @rdname richness
+#' @aliases index_chao1,numeric-method
+setMethod(
+  f = "index_chao1",
+  signature = signature(x = "numeric"),
+  definition = function(x, unbiased = FALSE, improved = FALSE, ...) {
+    x <- x[x > 0] # Remove unobserved species
+    S <- length(x) # Number of observed species
+    N <- sum(x) # Number of individuals
+    f1 <- sum(x == 1) # Number of singleton species
+    f2 <- sum(x == 2) # Number of doubleton species
+
+    if (unbiased) {
+      D <- S + (((N - 1) / N) * f1 * (f1 - 1)) / (2 * (f2 + 1))
     } else {
-      D <- S + ((N - 1) / N) * (f1^2 / (2 * f2))
+      if (f2 == 0) {
+        D <- S + ((N - 1) / N) * f1 * ((f1 - 1) / 2)
+      } else {
+        D <- S + ((N - 1) / N) * (f1^2 / (2 * f2))
+      }
     }
+    if (improved) {
+      f3 <- sum(x == 3) # Number of tripleton species
+      f4 <- sum(x == 4) # Number of quadrupleton species
+      if (f4 == 0)
+        stop("Improved Chao1 estimator is undefined ",
+             "when there is no quadrupleton species.", call. = FALSE)
+
+      k <- f1 - ((N - 3) / (N - 1)) * ((f2 * f3) / (2 * f4))
+      D <- D + ((N - 3) / N) * (f3 / (4 * f4)) * max(k, 0)
+    }
+
+    D
   }
-  if (improved) {
-    f3 <- sum(x == 3) # Number of tripleton species
-    f4 <- sum(x == 4) # Number of quadrupleton species
-    if (f4 == 0)
-      stop("Improved Chao1 estimator is undefined ",
-           "when there is no quadrupleton species.", call. = FALSE)
+)
 
-    k <- f1 - ((N - 3) / (N - 1)) * ((f2 * f3) / (2 * f4))
-    D <- D + ((N - 3) / N) * (f3 / (4 * f4)) * max(k, 0)
+## Incidence data --------------------------------------------------------------
+#' @export
+#' @rdname richness
+#' @aliases index_ice,matrix-method
+setMethod(
+  f = "index_ice",
+  signature = signature(x = "matrix"),
+  definition = function(x, k = 10, ...) {
+    x <- x > 0 # Convert to incidence
+
+    q <- colSums(x) # Number of species in the assemblage
+    q <- q[q > 0] # Remove unobserved species
+
+    S_infr <- sum(q <= k) # Number of infrequent species
+    S_freq <- sum(q > k) # Number of frequent species
+    N_infr <- sum(q[q <= k]) # Number of incidences in the infrequent species
+    # Number of sampling units that include at least one infrequent species
+    t <- sum(rowSums(x[, q <= k]) != 0)
+
+    q1 <- sum(q == 1) # Number of unique species in the assemblage
+    if (q1 == N_infr)
+      stop("ICE is undefined when all infrequent species are unique, ",
+           "consider using the bias-corrected Chao2 estimator instead.",
+           call. = FALSE)
+    C_infr <- 1 - (q1 / N_infr) # Sample coverage estimate
+    # ie. proportion of all incidences of infrequent species that are not uniques
+
+    # Coefficient of variation
+    a <- sum(vapply(
+      X = seq_len(k),
+      FUN = function(x, q) { x * (x - 1) * sum(q == x) },
+      FUN.VALUE = double(1), q = q)
+    )
+    b <- sum(vapply(
+      X = seq_len(k),
+      FUN = function(x, q) { x * sum(q == x) },
+      FUN.VALUE = double(1), q = q)
+    )
+    c <- sum(vapply(
+      X = seq_len(k),
+      FUN = function(x, q) { x * sum(q == x) - 1 },
+      FUN.VALUE = double(1), q = q)
+    )
+    g2 <- max((S_infr / C_infr) * (t / (t - 1)) * (a / (b * c)) - 1, 0)
+
+    D <- S_freq + S_infr / C_infr + q1 * g2 / C_infr
+    D
   }
+)
 
-  D
-}
+#' @export
+#' @rdname richness
+#' @aliases index_chao2,matrix-method
+setMethod(
+  f = "index_chao2",
+  signature = signature(x = "matrix"),
+  definition = function(x, unbiased = FALSE, improved = FALSE, ...) {
+    x <- x > 0 # Convert to incidence
 
-# @rdname index-richness
-richnessMargalef <- function(x, ...) {
-  # Validation
-  if (!is.numeric(x))
-    stop("`x` must be a numeric vector.")
+    q <- colSums(x) # Number of species in the assemblage
+    q <- q[q > 0] # Remove unobserved species
+    S <- length(q) # Number of observed species
+    t <- nrow(x) # Total number of sampling units
+    q1 <- sum(q == 1) # Number of unique species in the assemblage
+    q2 <- sum(q == 2) # Number of duplicate species in the assemblage
 
-  x <- x[x > 0] # Remove unobserved species
-  N <- sum(x) # Number of individuals
-  S <- length(x) # Number of observed species
-  D <- (S - 1) / log(N, base = exp(1))
-  D
-}
-
-# @rdname index-richness
-richnessMenhinick <- function(x, ...) {
-  # Validation
-  if (!is.numeric(x))
-    stop("`x` must be a numeric vector.")
-
-  x <- x[x > 0] # Remove unobserved species
-  N <- sum(x) # Number of individuals
-  S <- length(x) # Number of observed species
-  D <- S / sqrt(N)
-  D
-}
-
-# Incidence data ---------------------------------------------------------------
-# @rdname index-richness
-richnessICE <- function(x, k = 10, ...) {
-  x <- as.matrix(x)
-  # Validation
-  if (!is.logical(x))
-    stop("`x` must be a logical vector.")
-  if (!is.numeric(k) || length(k) != 1)
-    stop("`k` must be a numeric scalar.")
-
-  q <- colSums(x) # Number of species in the assemblage
-  q <- q[q > 0] # Remove unobserved species
-
-  S_infr <- sum(q <= k) # Number of infrequent species
-  S_freq <- sum(q > k) # Number of frequent species
-  N_infr <- sum(q[q <= k]) # Number of incidences in the infrequent species
-  # Number of sampling units that include at least one infrequent species
-  t <- sum(rowSums(x[, q <= k]) != 0)
-
-  q1 <- sum(q == 1) # Number of unique species in the assemblage
-  if (q1 == N_infr)
-    stop("ICE is undefined when all infrequent species are unique, ",
-         "consider using the bias-corrected Chao2 estimator instead.",
-         call. = FALSE)
-  C_infr <- 1 - (q1 / N_infr) # Sample coverage estimate
-  # ie. proportion of all incidences of infrequent species that are not uniques
-
-  # Coefficient of variation
-  a <- sum(vapply(
-    X = seq_len(k),
-    FUN = function(x, q) { x * (x - 1) * sum(q == x) },
-    FUN.VALUE = double(1), q = q)
-  )
-  b <- sum(vapply(
-    X = seq_len(k),
-    FUN = function(x, q) { x * sum(q == x) },
-    FUN.VALUE = double(1), q = q)
-  )
-  c <- sum(vapply(
-    X = seq_len(k),
-    FUN = function(x, q) { x * sum(q == x) - 1 },
-    FUN.VALUE = double(1), q = q)
-  )
-  g2 <- max((S_infr / C_infr) * (t / (t - 1)) * (a / (b * c)) - 1, 0)
-
-  D <- S_freq + S_infr / C_infr + q1 * g2 / C_infr
-  D
-}
-
-# @rdname index-richness
-richnessChao2 <- function(x, unbiased = FALSE, improved = FALSE, ...) {
-  x <- as.matrix(x)
-  # Validation
-  if (!is.logical(x))
-    stop("`x` must be a logical vector.")
-  if (!is.logical(unbiased) || length(unbiased) != 1)
-    stop("`unbiased` must be a logical scalar.")
-  if (!is.logical(improved) || length(improved) != 1)
-    stop("`improved` must be a logical scalar.")
-
-  q <- colSums(x) # Number of species in the assemblage
-  q <- q[q > 0] # Remove unobserved species
-  S <- length(q) # Number of observed species
-  t <- nrow(x) # Total number of sampling units
-  q1 <- sum(q == 1) # Number of unique species in the assemblage
-  q2 <- sum(q == 2) # Number of duplicate species in the assemblage
-
-  if (unbiased) {
-    D <- S + ((t - 1) / t) * q1 * ((q1 - 1) / (2 * (q2 + 1)))
-  } else {
-    if (q2 == 0) {
-      D <- S + ((t - 1) / t) * q1 * ((q1 - 1) / 2)
+    if (unbiased) {
+      D <- S + ((t - 1) / t) * q1 * ((q1 - 1) / (2 * (q2 + 1)))
     } else {
-      D <- S + ((t - 1) / t) * (q1^2 / (2 * q2))
+      if (q2 == 0) {
+        D <- S + ((t - 1) / t) * q1 * ((q1 - 1) / 2)
+      } else {
+        D <- S + ((t - 1) / t) * (q1^2 / (2 * q2))
+      }
     }
-  }
-  if (improved) {
-    q3 <- sum(q == 3) # Number of triple species
-    q4 <- sum(q == 4) # Number of quadruple species
-    if (q4 == 0)
-      stop("Improved Chao2 estimator is undefined ",
-           "when there is no quadruple species.", call. = FALSE)
+    if (improved) {
+      q3 <- sum(q == 3) # Number of triple species
+      q4 <- sum(q == 4) # Number of quadruple species
+      if (q4 == 0)
+        stop("Improved Chao2 estimator is undefined ",
+             "when there is no quadruple species.", call. = FALSE)
 
-    k <- q1 - ((t - 3) / (t - 1)) * ((q2 * q3) / (2 * q4))
-    D <- D + ((t - 3) / (4 * t)) * (q3 / q4) * max(k, 0)
-  }
+      k <- q1 - ((t - 3) / (t - 1)) * ((q2 * q3) / (2 * q4))
+      D <- D + ((t - 3) / (4 * t)) * (q3 / q4) * max(k, 0)
+    }
 
-  D
-}
+    D
+  }
+)

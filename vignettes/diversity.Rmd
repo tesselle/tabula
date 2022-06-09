@@ -27,7 +27,6 @@ knitr::opts_chunk$set(
 # Load packages
 library(tabula)
 library(folio) # Datasets
-library(magrittr)
 ```
 
 <!-- Vérifier Banning 2000 -->
@@ -138,22 +137,15 @@ Where $m_{infreq}$ is the number of sampling units that include at least one inf
 
 ### Usage
 ```{r richness}
-mississippi %>%
-  as_count() %>%
-  index_richness(method = "margalef")
+index_richness(mississippi, method = "margalef")
 ```
 
 ```{r asymptotic-richness}
-mississippi %>%
-  as_count() %>%
-  index_composition(method = "chao1")
+index_composition(mississippi, method = "chao1")
 ```
 
 ```{r rarefaction}
-mississippi %>%
-  as_count() %>%
-  rarefaction(sample = 10, method = "hurlbert", simplify = TRUE) %>%
-  head()
+rarefaction(mississippi, sample = 10, method = "hurlbert")
 ```
 
 ## Heterogeneity and Evenness
@@ -242,9 +234,7 @@ $$ D = \frac{n_{max}}{N} $$
 ### Usage
 
 ```{r diversity}
-mississippi %>%
-  as_count() %>%
-  index_heterogeneity(method = "shannon")
+heterogeneity(mississippi, method = "shannon")
 ```
 
 Note that `berger`, `mcintosh` and `simpson` methods return a *dominance* index, not the reciprocal form usually adopted, so that an increase in the value of the index accompanies a decrease in diversity.
@@ -252,9 +242,7 @@ Note that `berger`, `mcintosh` and `simpson` methods return a *dominance* index,
 Corresponding *evenness* can also be computed :
 
 ```{r evenness}
-mississippi %>%
-  as_count() %>%
-  index_evenness(method = "shannon")
+evenness(mississippi, method = "shannon")
 ```
 
 # $\beta$-diversity
@@ -332,17 +320,13 @@ Where:
 
 ```{r similarity, fig.width=7, fig.height=5, fig.align="center"}
 # Brainerd-Robinson (similarity between assemblages)
-mississippi %>%
-  as_count() %>%
-  similarity(method = "brainerd") %>%
-  plot_spot() +
+BR <- similarity(mississippi, method = "brainerd")
+plot_spot(BR) +
   khroma::scale_colour_YlOrBr()
 
 # Binomial co-occurrence (similarity between types)
-mississippi %>%
-  as_count() %>%
-  similarity(method = "binomial") %>%
-  plot_spot() +
+BI <- similarity(mississippi, method = "binomial")
+plot_spot(BI) +
   khroma::scale_colour_PRGn()
 ```
 
@@ -351,19 +335,13 @@ mississippi %>%
 
 ```{r sample-size, fig.width=3.5, fig.height=3.5, fig.show='hold'}
 ## Data from Conkey 1980, Kintigh 1989, p. 28
-chevelon <- as_count(chevelon)
+H <- heterogeneity(chevelon, method = "shannon")
+H_sim <- simulate(H)
+plot(H_sim)
 
-sim_heterogeneity <- chevelon %>%
-  index_heterogeneity(method = "shannon") %>%
-  simulate()
-
-plot(sim_heterogeneity)
-
-sim_richness <- chevelon %>%
-  index_richness(method = "none") %>%
-  simulate()
-
-plot(sim_richness) 
+R <- index_richness(chevelon, method = "count")
+R_sim <- simulate(R)
+plot(R_sim) 
 ```
 
 # Abundance models
@@ -371,9 +349,7 @@ plot(sim_richness)
 Ranks *vs* abundance plot can be used for abundance models (model fitting will be implemented in a future release):
 
 ```{r plot-rank, fig.width=7, fig.height=5, fig.align="center"}
-mississippi %>%
-  as_count() %>%
-  plot_rank(log = "xy") +
+plot_rank(mississippi, log = "xy") +
   ggplot2::theme_bw() +
   khroma::scale_color_discreterainbow()
 ```

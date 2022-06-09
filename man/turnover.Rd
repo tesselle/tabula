@@ -4,40 +4,77 @@
 \name{turnover}
 \alias{turnover}
 \alias{turnover-method}
-\alias{turnover,CountMatrix-method}
-\alias{turnover,IncidenceMatrix-method}
+\alias{index_whittaker}
+\alias{index_whittaker-method}
+\alias{index_cody}
+\alias{index_cody-method}
+\alias{index_routledge1}
+\alias{index_routledge1-method}
+\alias{index_routledge2}
+\alias{index_routledge2-method}
+\alias{index_routledge3}
+\alias{index_routledge3-method}
+\alias{index_wilson}
+\alias{index_wilson-method}
+\alias{turnover,matrix-method}
+\alias{turnover,data.frame-method}
+\alias{index_whittaker,matrix-method}
+\alias{index_cody,matrix-method}
+\alias{index_routledge1,matrix-method}
+\alias{index_routledge2,matrix-method}
+\alias{index_routledge3,matrix-method}
+\alias{index_wilson,matrix-method}
 \title{Turnover}
 \usage{
 turnover(object, ...)
 
-\S4method{turnover}{CountMatrix}(
+index_whittaker(x, ...)
+
+index_cody(x, ...)
+
+index_routledge1(x, ...)
+
+index_routledge2(x, ...)
+
+index_routledge3(x, ...)
+
+index_wilson(x, ...)
+
+\S4method{turnover}{matrix}(
   object,
   method = c("whittaker", "cody", "routledge1", "routledge2", "routledge3", "wilson"),
-  simplify = FALSE,
   ...
 )
 
-\S4method{turnover}{IncidenceMatrix}(
+\S4method{turnover}{data.frame}(
   object,
   method = c("whittaker", "cody", "routledge1", "routledge2", "routledge3", "wilson"),
-  simplify = FALSE,
   ...
 )
+
+\S4method{index_whittaker}{matrix}(x)
+
+\S4method{index_cody}{matrix}(x)
+
+\S4method{index_routledge1}{matrix}(x)
+
+\S4method{index_routledge2}{matrix}(x)
+
+\S4method{index_routledge3}{matrix}(x)
+
+\S4method{index_wilson}{matrix}(x)
 }
 \arguments{
-\item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
+\item{object, x}{A \eqn{m \times p}{m x p} matrix of count data or incidence
+data.}
 
 \item{...}{Further arguments to be passed to internal methods.}
 
 \item{method}{A \code{\link{character}} string specifying the method to be
 used (see details). Any unambiguous substring can be given.}
-
-\item{simplify}{A \code{\link{logical}} scalar: should the result be
-simplified to a matrix?}
 }
 \value{
-If \code{simplify} is \code{FALSE}, returns a \code{\link{list}} (default), else returns a
-\code{\link{matrix}}.
+A \code{\link{numeric}} vector.
 }
 \description{
 Returns the degree of turnover in taxa composition along a gradient or
@@ -62,17 +99,16 @@ of the second measure.}
 }
 \examples{
 ## Data from Magurran 1988, p. 162
-trees <- IncidenceMatrix(
+trees <- matrix(
   data = c(1, 1, 1, 0, 0, 0,
            1, 1, 1, 1, 1, 1,
            0, 0, 1, 0, 1, 0,
            0, 0, 0, 1, 1, 1,
            0, 0, 0, 0, 1, 1,
            0, 0, 0, 1, 0, 1),
-  nrow = 6, byrow = FALSE,
-  dimnames = list(c("1", "2", "3", "4", "5", "6"),
-                  c("Birch", "Oak", "Rowan", "Beech", "Hazel", "Holly"))
+  nrow = 6, byrow = FALSE
 )
+colnames(trees) <- c("Birch", "Oak", "Rowan", "Beech", "Hazel", "Holly")
 
 ## Whittaker's measure
 turnover(trees, "whittaker") # 1
@@ -81,8 +117,9 @@ turnover(trees, "whittaker") # 1
 turnover(trees, "cody") # 3
 
 ## Routledge's measures
-turnover(trees, method = c("routledge1", "routledge2", "routledge3"),
-         simplify = TRUE) ## 0.29 0.56 1.75
+turnover(trees, "routledge1") # 0.29
+turnover(trees, "routledge2") # 0.56
+turnover(trees, "routledge3") # 1.75
 
 ## Wilson and Shmida's measure
 turnover(trees, "wilson") # 1
@@ -105,14 +142,14 @@ Presence-Absence Data. \emph{The Journal of Ecology}, 72(3), 1055-1064.
 \doi{10.2307/2259551}.
 }
 \seealso{
-Other diversity: 
-\code{\link{heterogeneity}},
-\code{\link{resample}},
-\code{\link{richness}},
-\code{\link{similarity}()},
+Other diversity methods: 
+\code{\link{heterogeneity}()},
+\code{\link{rarefaction}()},
+\code{\link{resample}()},
+\code{\link{richness}()},
 \code{\link{simulate}()}
 }
 \author{
 N. Frerebeau
 }
-\concept{diversity}
+\concept{diversity methods}
