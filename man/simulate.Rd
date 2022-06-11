@@ -20,7 +20,7 @@
 
 \item{quantiles}{A \code{\link{logical}} scalar: should sample quantiles be used as
 confidence interval? If \code{TRUE} (the default), sample quantiles are used as
-described in Kintigh (1984), else quantiles of the normal distribution are
+described in Kintigh (1984), else quantiles of the t-distribution are
 used.}
 
 \item{level}{A length-one \code{\link{numeric}} vector giving the confidence level.}

@@ -14,7 +14,7 @@
 \arguments{
 \item{object}{A \code{\link{numeric}} vector of count data (absolute frequencies).}
 
-\item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
+\item{n}{A non-negative \code{\link{integer}} specifying the number of bootstrap
 replications.}
 
 \item{f}{A \code{\link{function}} that takes a single numeric vector (the result of

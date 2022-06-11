@@ -736,7 +736,7 @@ NULL
 #' @param object A [DiversityIndex-class] object.
 #' @param quantiles A [`logical`] scalar: should sample quantiles be used as
 #'  confidence interval? If `TRUE` (the default), sample quantiles are used as
-#'  described in Kintigh (1984), else quantiles of the normal distribution are
+#'  described in Kintigh (1984), else quantiles of the t-distribution are
 #'  used.
 #' @param level A length-one [`numeric`] vector giving the confidence level.
 #' @param step An [`integer`] giving the increment of the sample size.

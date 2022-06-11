@@ -94,7 +94,6 @@ setMethod(
     ## Specify the probability for the classes
     data <- object@data
     method <- get_index(object@method) # Select method
-    prob <- colSums(data) / sum(data)
 
     ## Sample size
     size <- max(rowSums(data))
@@ -104,18 +103,18 @@ setMethod(
     k <- seq_len(m)
 
     simulated <- vector(mode = "list", length = m)
+    fun <- function(x) conf(x, level = level, quantiles = quantiles)
 
     progress_bar <- interactive() && progress
     if (progress_bar) pbar <- utils::txtProgressBar(max = m, style = 3)
 
     for (i in k) {
-      simulated[[i]] <- sim(
-        size = sample_sizes[[i]],
-        prob = prob,
-        method = method,
+      simulated[[i]] <- arkhe::resample(
+        object = colSums(data),
+        do = method,
         n = n,
-        level = level,
-        quantiles = quantiles
+        size = sample_sizes[[i]],
+        f = fun
       )
       if (progress_bar) utils::setTxtProgressBar(pbar, i)
     }
@@ -129,41 +128,17 @@ setMethod(
   }
 )
 
-#' @param size A [`numeric`] matrix.
-#' @param prob A length-\eqn{p} [`numeric`] vector giving the of
-#'  probability of the \eqn{p} taxa/types (see below). If `NULL` (the
-#'  default), probabilities are estimated from `x`.
-#' @param method A [`function`].
-#' @param n A non-negative [`integer`] giving the number of bootstrap
-#'  replications.
-#' @param level A length-one [`numeric`] vector giving the
-#'  confidence level.
-#' @param quantiles A [`logical`] scalar: should sample quantiles
-#'  be used as confidence interval? If `TRUE` (the default),
-#'  sample quantiles are used as described in Kintigh (1989), else quantiles of
-#'  the normal distribution are used.
-#' @param na.rm A [`logical`] scalar: should missing values be removed
-#'  before the quantiles are computed?
-#' @param ... Further parameters to be passed to `method`.
-#' @return A [`numeric`] vector.
-#' @keywords internal
-#' @noRd
-sim <- function(size, prob, method, n = 1000, level = 0.80,
-                quantiles = TRUE, na.rm = TRUE, ...) {
-
-  replicates <- stats::rmultinom(n = n, size = size, prob = prob)
-  R <- apply(X = replicates, MARGIN = 2, FUN = method, ...)
-
+conf <- function(x, level = 0.80, quantiles = TRUE, na.rm = TRUE) {
   if (quantiles) {
     ## Confidence interval as described in Kintigh 1989
     k <- (1 - level) / 2
-    conf <- stats::quantile(R, probs = c(k, 1 - k), na.rm = na.rm, names = FALSE)
+    conf <- stats::quantile(x, probs = c(k, 1 - k), na.rm = na.rm, names = FALSE)
   } else {
     ## Confidence interval
-    conf <- mean(R) + stats::sd(R) * stats::qnorm(k) * c(-1, 1)
+    conf <- arkhe::confidence(x, level = level, type = "student")
   }
 
-  result <- c(mean(R), conf)
+  result <- c(mean(x), conf)
   names(result) <- c("mean", "lower", "upper")
-  return(result)
+  result
 }
