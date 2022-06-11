@@ -69,6 +69,9 @@ setMethod(
   f = "index_margalef",
   signature = signature(x = "numeric"),
   definition = function(x, na.rm = FALSE, ...) {
+    ## Validation
+    arkhe::assert_count(x)
+
     x <- x[x > 0] # Remove unobserved species
     if (na.rm) x <- stats::na.omit(x) # Remove NAs
 
@@ -86,6 +89,9 @@ setMethod(
   f = "index_menhinick",
   signature = signature(x = "numeric"),
   definition = function(x, na.rm = FALSE, ...) {
+    ## Validation
+    arkhe::assert_count(x)
+
     x <- x[x > 0] # Remove unobserved species
     if (na.rm) x <- stats::na.omit(x) # Remove NAs
 
@@ -103,6 +109,9 @@ setMethod(
   f = "index_ace",
   signature = signature(x = "numeric"),
   definition = function(x, k = 10, ...) {
+    ## Validation
+    arkhe::assert_count(x)
+
     x <- x[x > 0] # Remove unobserved species
     S <- length(x) # Number of observed species
     S_rare <- sum(x <= k) # Number of rare species
@@ -147,6 +156,9 @@ setMethod(
   f = "index_chao1",
   signature = signature(x = "numeric"),
   definition = function(x, unbiased = FALSE, improved = FALSE, ...) {
+    ## Validation
+    arkhe::assert_count(x)
+
     x <- x[x > 0] # Remove unobserved species
     S <- length(x) # Number of observed species
     N <- sum(x) # Number of individuals

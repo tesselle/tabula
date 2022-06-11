@@ -67,6 +67,9 @@ setMethod(
   f = "index_berger",
   signature = signature(x = "numeric"),
   definition = function(x, na.rm = FALSE, ...) {
+    ## Validation
+    arkhe::assert_count(x)
+
     x <- x[x > 0] # Remove zeros
     if (na.rm) x <- stats::na.omit(x) # Remove NAs
     if (anyNA(x)) return(NA)
@@ -86,6 +89,9 @@ setMethod(
   f = "index_brillouin",
   signature = signature(x = "numeric"),
   definition = function(x, evenness = FALSE, na.rm = FALSE, ...) {
+    ## Validation
+    arkhe::assert_count(x)
+
     x <- x[x > 0] # Remove zeros
     if (na.rm) x <- stats::na.omit(x) # Remove NAs
     if (anyNA(x)) return(NA)
@@ -115,6 +121,9 @@ setMethod(
   f = "index_mcintosh",
   signature = signature(x = "numeric"),
   definition = function(x, evenness = FALSE, na.rm = FALSE, ...) {
+    ## Validation
+    arkhe::assert_count(x)
+
     x <- x[x > 0] # Remove zeros
     if (na.rm) x <- stats::na.omit(x) # Remove NAs
     if (anyNA(x)) return(NA)
@@ -141,6 +150,9 @@ setMethod(
   signature = signature(x = "numeric"),
   definition = function(x, evenness = FALSE, base = exp(1),
                         na.rm = FALSE, ...) {
+    ## Validation
+    arkhe::assert_count(x)
+
     x <- x[x > 0] # Remove zeros
     if (na.rm) x <- stats::na.omit(x) # Remove NAs
     if (anyNA(x)) return(NA)
@@ -185,6 +197,9 @@ setMethod(
   f = "index_simpson",
   signature = signature(x = "numeric"),
   definition = function(x, evenness = FALSE, na.rm = FALSE, ...) {
+    ## Validation
+    arkhe::assert_count(x)
+
     x <- x[x > 0] # Remove zeros
     if (na.rm) x <- stats::na.omit(x) # Remove NAs
     if (anyNA(x)) return(NA)
@@ -200,45 +215,3 @@ setMethod(
     D
   }
 )
-
-## Chao ------------------------------------------------------------------------
-# Chao index
-#
-# @param n A [`numeric`] vector.
-# @param method A [`character`] string specifiying the method to be
-#  used. This must be one of "`MLEU`", "`CHAO`" (see details). Any unambiguous
-#  substring can be given.
-# @param k A length-one [`numeric`] vector.
-# @param base A positive or complex number: the base with respect to which
-#  logarithms are computed (see [log()]).
-# @param ... Currently not used.
-# @details TODO
-# @return A length-one [`numeric`] vector.
-# @family diversity index
-# @author N. Frerebeau
-# chaoIndex <- function(n, method = c("MLEU", "CHAO"), k = 10, base = exp(1)) {
-#   method <- match.arg(method, several.ok = FALSE)
-#
-#   f <- function(i, n) { sum(n == i) }
-#   N <- sum(n)
-#   # p estimation
-#   p <- n / N
-#   C_e <- 1 - (f(1, n) / N)
-#   p_e <- p * C_e
-#   # s estimation
-#   S.abun <- sum(sapply(X = (k + 1):N, FUN = f, n))
-#   S.rare <- sum(sapply(X = 1:k, FUN = f, n))
-#   C.rare <- 1 - sum(c(1:k) * sapply(X = 1:k, FUN = f, n))
-#   a <- sum(1:k * c(1:k - 1) * sapply(X = 1:k, FUN = f, n))
-#   b <- sum(1:k * sapply(X = 1:k, FUN = f, n)) *
-#     sum(1:k * sapply(X = 1:k, FUN = f, n) - 1)
-#   gamma <- max((S.rare / C.estimate) * (a / b) - 1, 0)
-#   S.estimate <- S.abun + (S.rare / C.rare) + (f(1, n) / C.rare) * gamma^2
-#
-#   H <- switch (
-#     methode,
-#     MLEU = shannon.index(n, base) + (S.estimate - 1) / (2 * N),
-#     CHAO = -sum((p_e * log(p_e, base)) / (1 - (1 - p_e)^N))
-#   )
-#   return(H)
-# }

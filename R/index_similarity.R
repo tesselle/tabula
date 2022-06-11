@@ -194,6 +194,8 @@ setMethod(
   signature = signature(x = "numeric", y = "numeric"),
   definition = function(x, y) {
     ## Validation
+    arkhe::assert_count(x)
+    arkhe::assert_count(y)
     arkhe::assert_length(y, length(x))
 
     a <- x / sum(x)
@@ -212,6 +214,8 @@ setMethod(
   signature = signature(x = "numeric", y = "numeric"),
   definition = function(x, y) {
     ## Validation
+    arkhe::assert_count(x)
+    arkhe::assert_count(y)
     arkhe::assert_length(y, length(x))
 
     ## Total number of assemblages

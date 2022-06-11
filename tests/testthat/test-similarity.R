@@ -8,7 +8,7 @@ birds <- matrix(
 rownames(birds) <- c("unmanaged", "managed")
 
 test_that("Similiraty measure (count data)", {
-  method <- c("brainerd", "bray", "jaccard", "morisita", "sorenson")
+  method <- c("bray", "jaccard", "morisita", "sorenson")
 
   for (i in 1:length(method)) {
     expect_snapshot(similarity(birds, method = method[i]))

@@ -4,14 +4,6 @@
       similarity(birds, method = method[i])
     Output
               unmanaged
-      managed  121.0925
-
----
-
-    Code
-      similarity(birds, method = method[i])
-    Output
-              unmanaged
       managed 0.4442754
 
 ---

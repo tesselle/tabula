@@ -68,6 +68,8 @@ setMethod(
   signature = signature(x = "numeric"),
   definition = function(x, sample, ...) {
     ## Validation
+    arkhe::assert_count(x)
+
     x <- x[x > 0]
     N <- sum(x)
 
