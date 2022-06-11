@@ -9,15 +9,16 @@ template:
 reference:
 - title: Diversity Measures
   contents:
-  - has_concept("diversity")
+  - has_concept("diversity measures")
 - title: Seriation
   contents:
   - has_concept("seriation")
 - title: Visualization
   contents:
-  - has_concept("plot")
+  - has_concept("plot methods")
 - title: Statistics
   contents:
+  - has_concept("resampling methods")
   - has_concept("statistics")
 - title: Classes
   contents:

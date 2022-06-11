@@ -1,17 +1,11 @@
 {
-  "@context": [
-    "https://doi.org/10.5063/schema/codemeta-2.0",
-    "http://schema.org"
-  ],
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "tabula",
-  "description": "An easy way to examine archaeological count data. This\n    package provides a convenient and reproducible toolkit for relative\n    dating by matrix seriation (reciprocal ranking, CA-based seriation).\n    It also provides several tests and measures of diversity:\n    heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.),\n    richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and\n    similarity (Brainerd-Robinson, etc.). The package make it easy to\n    visualize count data and statistical thresholds: rank vs abundance\n    plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.",
+  "description": "An easy way to examine archaeological count data. This package provides several tests and measures of diversity: heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity (Brainerd-Robinson, etc.). The package make it easy to visualize count data and statistical thresholds: rank vs abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.",
   "name": "tabula: Analysis, Seriation and Visualization of Archaeological Count Data",
+  "relatedLink": ["https://packages.tesselle.org/tabula/", "https://CRAN.R-project.org/package=tabula"],
   "codeRepository": "https://github.com/tesselle/tabula",
-  "relatedLink": [
-    "https://CRAN.R-project.org/package=tabula",
-    "https://packages.tesselle.org/tabula/"
-  ],
   "issueTracker": "https://github.com/tesselle/tabula/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
   "version": "1.6.1.9000",
@@ -20,7 +14,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.1 (2021-08-10)",
+  "runtimePlatform": "R version 4.2.0 (2022-04-22)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -73,8 +67,6 @@
       "@id": "https://orcid.org/0000-0002-1061-4642"
     }
   ],
-  "copyrightHolder": {},
-  "funder": {},
   "maintainer": [
     {
       "@type": "Person",
@@ -184,14 +176,14 @@
       "sameAs": "https://CRAN.R-project.org/package=vdiffr"
     }
   ],
-  "softwareRequirements": [
-    {
+  "softwareRequirements": {
+    "1": {
       "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
       "version": ">= 3.3"
     },
-    {
+    "2": {
       "@type": "SoftwareApplication",
       "identifier": "arkhe",
       "name": "arkhe",
@@ -204,7 +196,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=arkhe"
     },
-    {
+    "3": {
       "@type": "SoftwareApplication",
       "identifier": "dimensio",
       "name": "dimensio",
@@ -216,7 +208,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=dimensio"
     },
-    {
+    "4": {
       "@type": "SoftwareApplication",
       "identifier": "ggplot2",
       "name": "ggplot2",
@@ -228,17 +220,17 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=ggplot2"
     },
-    {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "grDevices",
       "name": "grDevices"
     },
-    {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "methods",
       "name": "methods"
     },
-    {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
@@ -250,27 +242,19 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rlang"
     },
-    {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
-    {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
-    }
-  ],
-  "contIntegration": "https://codecov.io/gh/tesselle/tabula",
-  "developmentStatus": "https://www.repostatus.org/#active",
-  "keywords": [
-    "archaeology",
-    "archaeometry",
-    "archaeological-science",
-    "matrix-seriation",
-    "data-visualization",
-    "r-package"
-  ],
+    },
+    "SystemRequirements": null
+  },
+  "fileSize": "1704.8KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -298,7 +282,9 @@
       }
     }
   ],
-  "fileSize": "1524.112KB",
   "releaseNotes": "https://github.com/tesselle/tabula/blob/master/NEWS.md",
-  "readme": "https://github.com/tesselle/tabula/blob/master/README.md"
+  "readme": "https://github.com/tesselle/tabula/blob/main/README.md",
+  "contIntegration": ["https://github.com/tesselle/tabula/actions", "https://codecov.io/gh/tesselle/tabula"],
+  "developmentStatus": "https://www.repostatus.org/#active",
+  "keywords": ["archaeology", "archaeological-science", "matrix-seriation", "data-visualization", "r-package"]
 }

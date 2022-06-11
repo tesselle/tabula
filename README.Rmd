@@ -1,7 +1,6 @@
 ---
 output: github_document
-editor_options: 
-  chunk_output_type: console
+bibliography: vignettes/bibliography.bib
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -34,7 +33,7 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-An easy way to examine archaeological count data. **tabula** provides a convenient and reproducible toolkit for relative dating by matrix seriation (reciprocal ranking, CA-based seriation). This package provides several tests and measures of diversity: heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity (Brainerd-Robinson, etc.). The package make it easy to visualize count data and statistical thresholds: rank vs. abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.
+An easy way to examine archaeological count data. **tabula** provides several tests and measures of diversity: heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity (Brainerd-Robinson, etc.). The package make it easy to visualize count data and statistical thresholds: rank vs. abundance plots, heatmaps, @ford1962 and @bertin1977 diagrams.
 
 [**kairos**](https://www.tesselle.org/kairos/) is a companion package to **tabula** that provides functions for chronological modeling and dating of archaeological assemblages from count data.
 
@@ -61,15 +60,13 @@ remotes::install_github("tesselle/tabula")
 
 ```{r packages-load, message=FALSE}
 ## Load packages
-library(tabula)
-
 library(folio) # Datasets
 library(khroma) # Color scales
 library(magrittr) # Pipes
 library(ggplot2)
-```
 
-**tabula** uses a set of S4 classes that represent different special types of matrix. Please refer to the documentation of the [**arkhe**](https://github.com/tesselle/arkhe) package where these classes are defined.
+library(tabula)
+```
 
 *It assumes that you keep your data tidy*: each variable (type/taxa) must be saved in its own column and each observation (sample/case) must be saved in its own row.
 
@@ -79,60 +76,28 @@ Several types of graphs are available in **tabula** which uses [**ggplot2**](htt
 
 Bertin or Ford (battleship curve) diagrams can be plotted, with statistic threshold (including B. Desachy's [sériographe](https://doi.org/10.3406/pica.2004.2396)). 
 
-```{r bertin, fig.width=7, fig.height=5, fig.align="center", fig.show="hold"}
+```{r bertin, fig.width=7, fig.height=5, fig.align="center"}
 ## Bertin matrix with variables scaled to 0-1 and the variable mean as threshold
 scale_01 <- function(x) (x - min(x)) / (max(x) - min(x))
-mississippi %>%
-  as_count() %>%
-  plot_bertin(threshold = mean, scale = scale_01) +
+
+plot_bertin(mississippi, threshold = mean, scale = scale_01) +
   khroma::scale_fill_vibrant(name = "Mean")
 ```
 
-```{r ford, fig.width=7, fig.height=3.5, fig.align="center", fig.show="hold"}
+```{r ford, fig.width=7, fig.height=3.5, fig.align="center"}
 ## Ford diagram
-mississippi %>%
-  as_count() %>%
-  plot_ford()
+plot_ford(mississippi)
 ```
 
 Spot matrix^[Adapted from Dan Gopstein's original [idea](https://dgopstein.github.io/articles/spot-matrix/).] allows direct examination of data:
 
-```{r plot-occ, fig.width=6, fig.height=4, fig.align="center"}
+```{r plot-occ, fig.width=7.5, fig.height=5.5, fig.align="center"}
 ## Plot co-occurrence of types
 ## (i.e. how many times (percent) each pairs of taxa occur together 
 ## in at least one sample.)
-mississippi %>%
-  as_occurrence() %>%
-  plot_spot() +
+plot_spot(mississippi, freq = TRUE) +
   ggplot2::labs(size = "Co-occurrence", colour = "Co-occurrence") +
   khroma::scale_colour_YlOrBr()
-```
-
-
-### Seriation
-
-```{r seriate-incidence}
-## Build an incidence matrix with random data
-set.seed(12345)
-binary <- sample(0:1, 400, TRUE, c(0.6, 0.4))
-incidence <- IncidenceMatrix(data = binary, nrow = 20)
-
-## Get seriation order on rows and columns
-## Correspondance analysis-based seriation
-(indices <- seriate_rank(incidence, margin = c(1, 2)))
-
-## Permute matrix rows and columns
-incidence2 <- permute(incidence, indices)
-```
-
-```{r permute-incidence, fig.width=3.5, fig.height=3.5, fig.show="hold"}
-## Plot matrix
-autoplot(incidence) + 
-  ggplot2::labs(title = "Original matrix") +
-  ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
-autoplot(incidence2) + 
-  ggplot2::labs(title = "Rearranged matrix") +
-  ggplot2::scale_fill_manual(values = c("TRUE" = "black", "FALSE" = "white"))
 ```
 
 ### Diversity
@@ -140,28 +105,22 @@ autoplot(incidence2) +
 *Diversity* can be measured according to several indices (referred to as indices of *heterogeneity* -- see `vignette("diversity")`). Corresponding *evenness* (i.e. a measure of how evenly individuals are distributed across the sample) can also be computed, as well as *richness* and *rarefaction*.
 
 ```{r diversity}
-mississippi %>%
-  as_count() %>%
-  index_heterogeneity(method = "shannon")
+heterogeneity(mississippi, method = "shannon")
 ```
 
 Measure diversity by comparing to simulated assemblages:
 
 ```{r sample-size, fig.width=3.5, fig.height=3.5, fig.show="hold"}
 ## Data from Conkey 1980, Kintigh 1989, p. 28
-chevelon <- as_count(chevelon)
+chevelon %>%
+  heterogeneity(method = "shannon") %>%
+  simulate() %>%
+  plot()
 
-sim_heterogeneity <- chevelon %>%
-  index_heterogeneity(method = "shannon") %>%
-  simulate()
-
-plot(sim_heterogeneity)
-
-sim_richness <- chevelon %>%
-  index_richness(method = "none") %>%
-  simulate()
-
-plot(sim_richness)
+chevelon %>%
+  richness(method = "count") %>%
+  simulate() %>%
+  plot()
 ```
 
 Several methods can be used to ascertain the degree of *turnover* in taxa composition along a gradient on qualitative (presence/absence) data. It assumes that the order of the matrix rows (from *1* to *n*) follows the progression along the gradient/transect.
@@ -171,13 +130,14 @@ Diversity can also be measured by addressing *similarity* between pairs of sites
 ```{r similarity-brainerd, fig.width=6, fig.height=5, fig.align="center"}
 ## Calculate the Brainerd-Robinson index
 ## Plot the similarity matrix
-idx_brainerd <- mississippi %>%
-  as_count() %>%
-  similarity(method = "brainerd")
+s <- similarity(mississippi, method = "brainerd")
 
-plot_spot(idx_brainerd) +
+plot_spot(s) +
   khroma::scale_colour_iridescent(name = "brainerd")
 ```
 
 ## Contributing
+
 Please note that the **tabula** project is released with a [Contributor Code of Conduct](https://www.tesselle.org/conduct.html). By contributing to this project, you agree to abide by its terms.
+
+## References
