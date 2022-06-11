@@ -17,7 +17,7 @@ setMethod(
     if (is.null(threshold)) {
       aes_fill <- NULL
     } else {
-      aes_fill <- ggplot2::aes(fill = .data$fill)
+      aes_fill <- ggplot2::aes(fill = .data$Threshold)
     }
     bertin <- ggplot2::ggplot(data = vertex) +
       ggplot2::aes(
@@ -101,7 +101,7 @@ prepare_bertin_vertex <- function(x) {
       x = temp$x + 0.45 * c(-1, 1, 1, -1),
       y = temp$y + temp$value * c(0.9, 0.9, 0, 0),
       group = i,
-      fill = temp$threshold
+      Threshold = temp$threshold
     )
   }
 
