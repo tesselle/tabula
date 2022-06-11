@@ -54,11 +54,6 @@ In the code snippets below, \code{x} is an \code{DiversityIndex} object.
 }
 }
 
-\seealso{
-Other classes: 
-\code{\link{PermutationOrder-class}},
-\code{\link{RefineCA-class}}
-}
 \author{
 N. Frerebeau
 }

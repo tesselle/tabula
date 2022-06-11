@@ -3,17 +3,12 @@
 \docType{import}
 \name{reexports}
 \alias{reexports}
-\alias{as_count}
-\alias{as_composition}
-\alias{as_occurrence}
-\alias{as_incidence}
-\alias{as_stratigraphy}
-\alias{as_long}
-\alias{as_features}
-\alias{CountMatrix}
-\alias{CompositionMatrix}
-\alias{IncidenceMatrix}
+\alias{get_order}
+\alias{permute}
+\alias{seriate_average}
+\alias{seriate_rank}
 \alias{replace_NA}
+\alias{replace_zero}
 \alias{remove_NA}
 \alias{remove_zero}
 \alias{remove_empty}
@@ -24,6 +19,8 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{arkhe}{\code{\link[arkhe:CompositionMatrix-class]{CompositionMatrix}}, \code{\link[arkhe:CountMatrix-class]{CountMatrix}}, \code{\link[arkhe:IncidenceMatrix-class]{IncidenceMatrix}}, \code{\link[arkhe:coerce]{as_composition}}, \code{\link[arkhe:coerce]{as_count}}, \code{\link[arkhe:coerce]{as_features}}, \code{\link[arkhe:coerce]{as_incidence}}, \code{\link[arkhe:coerce]{as_long}}, \code{\link[arkhe:coerce]{as_occurrence}}, \code{\link[arkhe:coerce]{as_stratigraphy}}, \code{\link[arkhe:remove]{remove_NA}}, \code{\link[arkhe:remove]{remove_empty}}, \code{\link[arkhe:remove]{remove_zero}}, \code{\link[arkhe:replace]{replace_NA}}}
+  \item{arkhe}{\code{\link[arkhe:remove]{remove_NA}}, \code{\link[arkhe:remove]{remove_empty}}, \code{\link[arkhe:remove]{remove_zero}}, \code{\link[arkhe:replace]{replace_NA}}, \code{\link[arkhe:replace]{replace_zero}}}
+
+  \item{kairos}{\code{\link[kairos:seriation]{get_order}}, \code{\link[kairos:seriation]{permute}}, \code{\link[kairos:seriation]{seriate_average}}, \code{\link[kairos:seriation]{seriate_rank}}}
 }}
 

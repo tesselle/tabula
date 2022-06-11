@@ -12,11 +12,4 @@ setMethod(
   definition = function(x) x@method
 )
 
-#' @export
-#' @rdname seriation
-#' @aliases get_order,PermutationOrder-method
-setMethod("get_order", "PermutationOrder", function(x) {
-  list(rows = x@rows, columns = x@columns)
-})
-
 # Setters ======================================================================

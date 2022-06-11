@@ -187,7 +187,7 @@
       "@type": "SoftwareApplication",
       "identifier": "arkhe",
       "name": "arkhe",
-      "version": ">= 0.3.0",
+      "version": ">= 0.5.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -198,15 +198,16 @@
     },
     "3": {
       "@type": "SoftwareApplication",
-      "identifier": "dimensio",
-      "name": "dimensio",
+      "identifier": "kairos",
+      "name": "kairos",
+      "version": ">= 1.1.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=dimensio"
+      "sameAs": "https://CRAN.R-project.org/package=kairos"
     },
     "4": {
       "@type": "SoftwareApplication",
@@ -222,15 +223,10 @@
     },
     "5": {
       "@type": "SoftwareApplication",
-      "identifier": "grDevices",
-      "name": "grDevices"
-    },
-    "6": {
-      "@type": "SoftwareApplication",
       "identifier": "methods",
       "name": "methods"
     },
-    "7": {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
@@ -242,19 +238,19 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rlang"
     },
-    "8": {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
-    "9": {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
     "SystemRequirements": null
   },
-  "fileSize": "1704.8KB",
+  "fileSize": "1658.169KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",

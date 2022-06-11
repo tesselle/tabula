@@ -10,7 +10,7 @@ setMethod(
   signature = c(object = "numeric"),
   definition = function(object, do, n, size = sum(object), ..., f = NULL) {
     ## Validation
-    assert_count(object)
+    arkhe::assert_count(object)
 
     prob <- object / sum(object)
     replicates <- stats::rmultinom(n, size = size, prob = prob)

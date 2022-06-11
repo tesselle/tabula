@@ -1,48 +1,28 @@
 # REEXPORT FROM ARKHE
 
-#' @importFrom arkhe as_count
+#' @importFrom kairos get_order
 #' @export
-arkhe::as_count
+kairos::get_order
 
-#' @importFrom arkhe as_composition
+#' @importFrom kairos permute
 #' @export
-arkhe::as_composition
+kairos::permute
 
-#' @importFrom arkhe as_occurrence
+#' @importFrom kairos seriate_average
 #' @export
-arkhe::as_occurrence
+kairos::seriate_average
 
-#' @importFrom arkhe as_incidence
+#' @importFrom kairos seriate_rank
 #' @export
-arkhe::as_incidence
-
-#' @importFrom arkhe as_stratigraphy
-#' @export
-arkhe::as_stratigraphy
-
-#' @importFrom arkhe as_long
-#' @export
-arkhe::as_long
-
-#' @importFrom arkhe as_features
-#' @export
-arkhe::as_features
-
-#' @importFrom arkhe CountMatrix
-#' @export
-arkhe::CountMatrix
-
-#' @importFrom arkhe CompositionMatrix
-#' @export
-arkhe::CompositionMatrix
-
-#' @importFrom arkhe IncidenceMatrix
-#' @export
-arkhe::IncidenceMatrix
+kairos::seriate_rank
 
 #' @importFrom arkhe replace_NA
 #' @export
 arkhe::replace_NA
+
+#' @importFrom arkhe replace_zero
+#' @export
+arkhe::replace_zero
 
 #' @importFrom arkhe remove_NA
 #' @export
