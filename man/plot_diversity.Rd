@@ -55,7 +55,6 @@ Other diversity measures:
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
 \code{\link{rarefaction}()},
-\code{\link{resample}()},
 \code{\link{richness}()},
 \code{\link{similarity}()},
 \code{\link{simulate}()},

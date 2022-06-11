@@ -3,6 +3,24 @@
 NULL
 
 #' @export
+#' @rdname resample
+#' @aliases resample,numeric-method
+setMethod(
+  f = "resample",
+  signature = c(object = "numeric"),
+  definition = function(object, do, n, size = sum(object), ..., f = NULL) {
+    ## Validation
+    assert_count(object)
+
+    prob <- object / sum(object)
+    replicates <- stats::rmultinom(n, size = size, prob = prob)
+    values <- apply(X = replicates, MARGIN = 2, FUN = do, ...)
+    if (is.function(f)) values <- f(values)
+    values
+  }
+)
+
+#' @export
 #' @rdname independance
 #' @aliases eppm,matrix-method
 setMethod(

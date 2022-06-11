@@ -50,7 +50,7 @@ setMethod(
     results <- apply(
       X = object@data,
       MARGIN = 1,
-      FUN = arkhe::resample,
+      FUN = resample,
       do = get_index(object@method), # Select method
       n = n,
       evenness = methods::is(object, "EvennessIndex"),
@@ -114,7 +114,7 @@ setMethod(
     if (progress_bar) pbar <- utils::txtProgressBar(max = m, style = 3)
 
     for (i in k) {
-      simulated[[i]] <- arkhe::resample(
+      simulated[[i]] <- resample(
         object = colSums(data),
         do = method,
         evenness = methods::is(object, "EvennessIndex"),

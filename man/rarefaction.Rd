@@ -105,7 +105,6 @@ Other diversity measures:
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
 \code{\link{plot_diversity}},
-\code{\link{resample}()},
 \code{\link{richness}()},
 \code{\link{similarity}()},
 \code{\link{simulate}()},

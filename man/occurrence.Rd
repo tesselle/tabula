@@ -42,7 +42,6 @@ Other diversity measures:
 \code{\link{heterogeneity}()},
 \code{\link{plot_diversity}},
 \code{\link{rarefaction}()},
-\code{\link{resample}()},
 \code{\link{richness}()},
 \code{\link{similarity}()},
 \code{\link{simulate}()},

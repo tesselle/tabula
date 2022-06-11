@@ -60,14 +60,13 @@ with Simulated Assemblages. \emph{American Antiquity}, 49(1), 44-54.
 \doi{10.2307/280511}.
 }
 \seealso{
-\code{\link[=plot_diversity]{plot_diversity()}}
+\code{\link[=plot_diversity]{plot_diversity()}}, \code{\link[=resample]{resample()}}
 
 Other diversity measures: 
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
 \code{\link{plot_diversity}},
 \code{\link{rarefaction}()},
-\code{\link{resample}()},
 \code{\link{richness}()},
 \code{\link{similarity}()},
 \code{\link{turnover}()}
