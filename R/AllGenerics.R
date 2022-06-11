@@ -818,6 +818,8 @@ NULL
 #'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
 #' @param lower A [`logical`] scalar indicating whether the lower triangle of
 #'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
+#' @param freq A [`logical`] scalar indicating whether relative frequency
+#'  should be used instead of counts (absolute frequency).
 #' @param ... Currently not used.
 #' @return
 #'  A [ggplot2::ggplot] object.
@@ -962,6 +964,8 @@ setGeneric(
 #'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
 #' @param lower A [`logical`] scalar indicating whether the lower triangle of
 #'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
+#' @param freq A [`logical`] scalar indicating whether relative frequency
+#'  should be used instead of counts (absolute frequency).
 #' @param ... Extra parameters to be passed to `threshold`.
 #' @details
 #'  The spot matrix can be considered as a variant of the

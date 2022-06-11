@@ -7,17 +7,23 @@
 \alias{eppm-method}
 \alias{pvi}
 \alias{pvi-method}
-\alias{eppm,CountMatrix-method}
-\alias{pvi,CountMatrix-method}
+\alias{eppm,matrix-method}
+\alias{eppm,data.frame-method}
+\alias{pvi,matrix-method}
+\alias{pvi,data.frame-method}
 \title{Independance}
 \usage{
 eppm(object, ...)
 
 pvi(object, ...)
 
-\S4method{eppm}{CountMatrix}(object)
+\S4method{eppm}{matrix}(object)
 
-\S4method{pvi}{CountMatrix}(object)
+\S4method{eppm}{data.frame}(object)
+
+\S4method{pvi}{matrix}(object)
+
+\S4method{pvi}{data.frame}(object)
 }
 \arguments{
 \item{object}{A \linkS4class{CountMatrix} object.}
@@ -61,14 +67,13 @@ with a low risk of being due to randomness (Desachy 2004).
 ## Abundance data
 ## Coerce dataset to a count matrix (data from Desachy 2004)
 data("compiegne", package = "folio")
-counts <- as_count(compiegne)
 
 ## Compute EPPM
-counts_eppm <- eppm(counts)
+counts_eppm <- eppm(compiegne)
 
 ## Compute PVI
-counts_pvi <- pvi(counts)
-plot(counts_eppm)
+counts_pvi <- pvi(compiegne)
+plot_heatmap(counts_pvi)
 }
 \references{
 Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation

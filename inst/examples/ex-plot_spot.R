@@ -1,10 +1,9 @@
 ## Plot spot diagram of count data...
 data("mississippi", package = "folio")
-counts <- as_count(mississippi)
 
 ### ...without threshod
-plot_spot(counts)
+plot_spot(mississippi)
 ### ...with the  column means as threshold
-plot_spot(counts, threshold = mean)
+plot_spot(mississippi, threshold = mean)
 ### ...with the column medians as threshold
-plot_spot(counts, threshold = median)
+plot_spot(mississippi, threshold = median)

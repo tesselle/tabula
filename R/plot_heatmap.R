@@ -1,101 +1,60 @@
-# PLOT MATRIX
+# PLOT HEATMAP
 #' @include AllClasses.R AllGenerics.R
 NULL
 
 #' @export
-#' @method autoplot matrix
-autoplot.matrix <- function(object, ..., diag = TRUE,
-                            upper = TRUE, lower = TRUE) {
-  ## Prepare data
-  data <- prepare_heatmap(object, diag = diag, upper = upper, lower = lower,
-                          PVI = FALSE)
-
-  ## ggplot
-  ggplot2::ggplot(data = data) +
-    ggplot2::aes(x = .data$x, y = .data$y, fill = .data$value) +
-    ggplot2::geom_tile() +
-    ggplot2::coord_fixed() +
-    scale_x_matrix(object, name = "Type") +
-    scale_y_matrix(object, name = "Case") +
-    theme_tabula()
-}
-
-#' @export
-#' @rdname plot_matrix
-#' @aliases autoplot,matrix-method
-setMethod("autoplot", "matrix", autoplot.matrix)
-
-#' @export
-#' @rdname plot_matrix
-#' @aliases autoplot,dist-method
+#' @rdname plot_heatmap
+#' @aliases plot_heatmap,matrix-method
 setMethod(
-  f = "autoplot",
+  f = "plot_heatmap",
+  signature = signature(object = "matrix"),
+  definition = function(object, diag = TRUE, upper = TRUE, lower = TRUE,
+                        freq = FALSE) {
+    ## Prepare data
+    data <- prepare_heatmap(object, diag = diag, upper = upper, lower = lower,
+                            freq = freq, PVI = FALSE)
+
+    ## ggplot
+    ggplot2::ggplot(data = data) +
+      ggplot2::aes(x = .data$x, y = .data$y, fill = .data$value) +
+      ggplot2::geom_tile() +
+      ggplot2::coord_fixed() +
+      scale_x_matrix(object, name = "Type") +
+      scale_y_matrix(object, name = "Case") +
+      theme_tabula()
+  }
+)
+
+#' @export
+#' @rdname plot_heatmap
+#' @aliases plot_heatmap,data.frame-method
+setMethod(
+  f = "plot_heatmap",
+  signature = signature(object = "data.frame"),
+  definition = function(object, diag = TRUE, upper = TRUE, lower = TRUE,
+                        freq = FALSE) {
+    object <- data.matrix(object)
+    methods::callGeneric(object, diag = diag, upper = upper, lower = lower,
+                         freq = freq)
+  }
+)
+
+#' @export
+#' @rdname plot_heatmap
+#' @aliases plot_heatmap,dist-method
+setMethod(
+  f = "plot_heatmap",
   signature = signature(object = "dist"),
-  definition = function(object, ..., diag = FALSE,
-                        upper = FALSE, lower = !upper) {
+  definition = function(object, diag = FALSE, upper = FALSE, lower = !upper) {
     object <- as.matrix(object)
-    methods::callGeneric(object, ..., diag = diag, upper = upper, lower = lower)
+    methods::callGeneric(object, diag = diag, upper = upper, lower = lower)
   }
 )
-
-#' @export
-#' @rdname plot_matrix
-#' @aliases autoplot,OccurrenceMatrix-method
-setMethod(
-  f = "autoplot",
-  signature = signature(object = "OccurrenceMatrix"),
-  definition = function(object, ..., diag = FALSE,
-                        upper = FALSE, lower = !upper) {
-    methods::callNextMethod(object, ..., diag = diag,
-                            upper = upper, lower = lower)
-  }
-)
-
-#' @export
-#' @method plot matrix
-plot.matrix <- function(x, diag = TRUE, upper = TRUE, lower = TRUE, ...) {
-  gg <- autoplot(object = x, diag = diag, upper = upper, lower = lower)
-  print(gg)
-  invisible(x)
-}
-
-#' @export
-#' @method plot dist
-plot.dist <- function(x, diag = FALSE, upper = FALSE, lower = !upper, ...) {
-  gg <- autoplot(object = x, diag = diag, upper = upper, lower = lower)
-  print(gg)
-  invisible(x)
-}
-
-#' @export
-#' @method plot OccurrenceMatrix
-plot.OccurrenceMatrix <- function(x, diag = FALSE,
-                                  upper = FALSE, lower = !upper, ...) {
-  gg <- autoplot(object = x, diag = diag, upper = upper, lower = lower)
-  print(gg)
-  invisible(x)
-}
-
-#' @export
-#' @rdname plot_matrix
-#' @aliases plot,matrix,missing-method
-setMethod("plot", c(x = "matrix", y = "missing"), plot.matrix)
-
-#' @export
-#' @rdname plot_matrix
-#' @aliases plot,dist,missing-method
-setMethod("plot", c(x = "dist", y = "missing"), plot.dist)
-
-#' @export
-#' @rdname plot_matrix
-#' @aliases plot,OccurrenceMatrix,missing-method
-setMethod("plot", c(x = "OccurrenceMatrix", y = "missing"),
-          plot.OccurrenceMatrix)
 
 ## Prepare data for heatmap plot
 ## Must return a data.frame
 prepare_heatmap <- function(object, diag = TRUE, upper = TRUE, lower = TRUE,
-                            threshold = NULL, drop_zero = FALSE,
+                            freq = FALSE, threshold = NULL, drop_zero = FALSE,
                             PVI = FALSE, ...) {
   ## Validation
   if (!arkhe::is_symmetric(object)) {
@@ -103,6 +62,9 @@ prepare_heatmap <- function(object, diag = TRUE, upper = TRUE, lower = TRUE,
     upper <- TRUE
     lower <- TRUE
   }
+
+  ## Relative frequencies
+  object <- if (freq) object / rowSums(object) else object
 
   ## /!\ PVI computation needs count data
   data <- if (PVI) pvi(object) else object

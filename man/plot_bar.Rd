@@ -11,8 +11,9 @@
 \alias{plot_ford}
 \alias{plot_ford-method}
 \alias{plot_bertin,matrix-method}
+\alias{plot_bertin,data.frame-method}
 \alias{plot_ford,matrix-method}
-\alias{plot_ford,CountMatrix-method}
+\alias{plot_ford,data.frame-method}
 \title{Bar Plot}
 \usage{
 plot_bertin(object, ...)
@@ -21,12 +22,16 @@ plot_ford(object, ...)
 
 \S4method{plot_bertin}{matrix}(object, threshold = NULL, scale = NULL)
 
-\S4method{plot_ford}{matrix}(object)
+\S4method{plot_bertin}{data.frame}(object, threshold = NULL, scale = NULL)
 
-\S4method{plot_ford}{CountMatrix}(object, EPPM = FALSE)
+\S4method{plot_ford}{matrix}(object, EPPM = FALSE)
+
+\S4method{plot_ford}{data.frame}(object, EPPM = FALSE)
 }
 \arguments{
-\item{object}{An abundance matrix to be plotted.}
+\item{object}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
+\code{\link{data.frame}} of count data (absolute frequencies giving the number of
+individuals for each class).}
 
 \item{...}{Currently not used.}
 
@@ -74,27 +79,24 @@ of relationship between rows and columns related to seriation (Desachy
 \examples{
 \donttest{
 ## Abundance data
-## Coerce dataset to a count matrix
 data("mississippi", package = "folio")
-counts1 <- as_count(mississippi)
 
 ## Plot a Bertin diagram...
 ## ...without threshold
-plot_bertin(counts1)
+plot_bertin(mississippi)
 ## ...with variables scaled to 0-1 and the variable mean as threshold
 scale_01 <- function(x) (x - min(x)) / (max(x) - min(x))
-plot_bertin(counts1, threshold = mean, scale = scale_01)
+plot_bertin(mississippi, threshold = mean, scale = scale_01)
 
 ## Abundance data
 ## Coerce dataset to a count matrix (data from Desachy 2004)
 data("compiegne", package = "folio")
-counts2 <- as_count(compiegne)
 
 ## Plot a Ford diagram...
 ## ...without threshold
-plot_ford(counts2)
+plot_ford(compiegne)
 ## ...with EPPM
-plot_ford(counts2, EPPM = TRUE)
+plot_ford(compiegne, EPPM = TRUE)
 }
 }
 \references{
@@ -116,13 +118,13 @@ chronology}. Washington, DC: Pan American Union. Technical manual 1.
 \seealso{
 \code{\link[=eppm]{eppm()}}
 
-Other plot: 
+Other plot methods: 
 \code{\link{plot_diversity}},
+\code{\link{plot_heatmap}()},
 \code{\link{plot_line}},
-\code{\link{plot_matrix}},
 \code{\link{plot_spot}()}
 }
 \author{
 N. Frerebeau
 }
-\concept{plot}
+\concept{plot methods}

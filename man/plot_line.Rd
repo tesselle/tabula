@@ -6,14 +6,19 @@
 \alias{plot_rank}
 \alias{plot_rank-method}
 \alias{plot_rank,matrix-method}
+\alias{plot_rank,data.frame-method}
 \title{Line Plot}
 \usage{
 plot_rank(object, ...)
 
 \S4method{plot_rank}{matrix}(object, log = NULL, facet = FALSE)
+
+\S4method{plot_rank}{data.frame}(object, log = NULL, facet = FALSE)
 }
 \arguments{
-\item{object}{An abundance matrix to be plotted.}
+\item{object}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
+\code{\link{data.frame}} of count data (absolute frequencies giving the number of
+individuals for each class).}
 
 \item{...}{Further arguments to be passed to internal methods.}
 
@@ -34,24 +39,23 @@ Plots a rank \emph{vs} relative abundance diagram.
 ## Abundance matrix
 ## Coerce datasets to a count matrix (data from Desachy 2004)
 data("compiegne", package = "folio")
-counts <- as_count(compiegne)
 
 ## Plot rank vs abundance
-plot_rank(counts)
-plot_rank(counts, facet = TRUE)
+plot_rank(compiegne)
+plot_rank(compiegne, facet = TRUE)
 }
 \references{
 Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
 Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 }
 \seealso{
-Other plot: 
+Other plot methods: 
 \code{\link{plot_bar}},
 \code{\link{plot_diversity}},
-\code{\link{plot_matrix}},
+\code{\link{plot_heatmap}()},
 \code{\link{plot_spot}()}
 }
 \author{
 N. Frerebeau
 }
-\concept{plot}
+\concept{plot methods}

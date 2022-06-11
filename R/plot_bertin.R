@@ -45,6 +45,18 @@ setMethod(
   }
 )
 
+#' @export
+#' @rdname plot_bar
+#' @aliases plot_bertin,data.frame-method
+setMethod(
+  f = "plot_bertin",
+  signature = signature(object = "data.frame"),
+  definition = function(object, threshold = NULL, scale = NULL) {
+    object <- data.matrix(object)
+    methods::callGeneric(object, threshold = threshold, scale = scale)
+  }
+)
+
 #' Prepare data for Bertin plot
 #' @return A data.frame.
 #' @keywords internal

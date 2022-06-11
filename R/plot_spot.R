@@ -8,15 +8,16 @@ NULL
 setMethod(
   f = "plot_spot",
   signature = signature(object = "matrix"),
-  definition = function(object, type = c("ring", "plain"),
-                        threshold = NULL, diag = TRUE, upper = TRUE,
-                        lower = TRUE, ...) {
+  definition = function(object, type = c("ring", "plain"), threshold = NULL,
+                        diag = TRUE, upper = TRUE, lower = TRUE, freq = FALSE,
+                        ...) {
     ## Validation
     type <- match.arg(type, several.ok = FALSE)
 
     ## Prepare data
     data <- prepare_heatmap(object, diag = diag, upper = upper, lower = lower,
-                            threshold = threshold, drop_zero = TRUE, ...)
+                            freq = freq, threshold = threshold,
+                            drop_zero = TRUE, ...)
 
     ## ggplot
     gg_ring <- NULL
@@ -54,6 +55,22 @@ setMethod(
 
 #' @export
 #' @rdname plot_spot
+#' @aliases plot_spot,data.frame-method
+setMethod(
+  f = "plot_spot",
+  signature = signature(object = "data.frame"),
+  definition = function(object, type = c("ring", "plain"), threshold = NULL,
+                        diag = TRUE, upper = TRUE, lower = TRUE,
+                        freq = FALSE, ...) {
+    object <- data.matrix(object)
+    methods::callGeneric(object, type = type, threshold = threshold,
+                         diag = diag, upper = upper, lower = lower,
+                         freq = freq, ...)
+  }
+)
+
+#' @export
+#' @rdname plot_spot
 #' @aliases plot_spot,dist-method
 setMethod(
   f = "plot_spot",
@@ -64,20 +81,5 @@ setMethod(
     object <- as.matrix(object)
     methods::callGeneric(object, type = type,
                          diag = diag, upper = upper, lower = lower)
-  }
-)
-
-#' @export
-#' @rdname plot_spot
-#' @aliases plot_spot,OccurrenceMatrix-method
-setMethod(
-  f = "plot_spot",
-  signature = signature(object = "OccurrenceMatrix"),
-  definition = function(object, type = c("ring", "plain"), diag = FALSE,
-                        upper = FALSE, lower = !upper, ...) {
-    ## Prepare data
-    object <- object / arkhe::get_totals(object)
-    methods::callNextMethod(object, type = type,
-                            diag = diag, upper = upper, lower = lower)
   }
 )

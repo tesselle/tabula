@@ -4,10 +4,10 @@ NULL
 
 #' @export
 #' @rdname independance
-#' @aliases eppm,CountMatrix-method
+#' @aliases eppm,matrix-method
 setMethod(
   f = "eppm",
-  signature = signature(object = "CountMatrix"),
+  signature = signature(object = "matrix"),
   definition = function(object) {
     # Independance
     values <- apply(
@@ -28,10 +28,22 @@ setMethod(
 
 #' @export
 #' @rdname independance
-#' @aliases pvi,CountMatrix-method
+#' @aliases eppm,data.frame-method
+setMethod(
+  f = "eppm",
+  signature = signature(object = "data.frame"),
+  definition = function(object) {
+    object <- data.matrix(object)
+    methods::callGeneric(object)
+  }
+)
+
+#' @export
+#' @rdname independance
+#' @aliases pvi,matrix-method
 setMethod(
   f = "pvi",
-  signature = signature(object = "CountMatrix"),
+  signature = signature(object = "matrix"),
   definition = function(object) {
     # Independance
     values <- apply(
@@ -46,6 +58,18 @@ setMethod(
 
     dimnames(threshold) <- dimnames(object)
     threshold
+  }
+)
+
+#' @export
+#' @rdname independance
+#' @aliases pvi,data.frame-method
+setMethod(
+  f = "pvi",
+  signature = signature(object = "data.frame"),
+  definition = function(object) {
+    object <- data.matrix(object)
+    methods::callGeneric(object)
   }
 )
 

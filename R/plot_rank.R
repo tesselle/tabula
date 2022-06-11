@@ -39,6 +39,18 @@ setMethod(
   }
 )
 
+#' @export
+#' @rdname plot_line
+#' @aliases plot_rank,data.frame-method
+setMethod(
+  f = "plot_rank",
+  signature = signature(object = "data.frame"),
+  definition = function(object, log = NULL, facet = FALSE) {
+    object <- data.matrix(object)
+    methods::callGeneric(object, log = log, facet = facet)
+  }
+)
+
 ## Prepare data for rank plot
 ## Must return a data.frame
 prepare_rank <- function(object) {

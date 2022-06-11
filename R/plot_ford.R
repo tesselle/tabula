@@ -8,10 +8,25 @@ NULL
 setMethod(
   f = "plot_ford",
   signature = signature(object = "matrix"),
-  definition = function(object) {
+  definition = function(object, EPPM = FALSE) {
     ## Prepare data
     object_long <- prepare_ford(object)
     vertex <- prepare_ford_vertex(object_long)
+
+    if (EPPM) {
+      eppm_data <- eppm(object)
+      eppm_long <- arkhe::as_long(eppm_data, factor = FALSE)
+      eppm_long$x <- object_long$x
+      eppm_long$y <- object_long$y
+      eppm_long$type <- "EPPM"
+      vertex_eppm <- prepare_ford_vertex(eppm_long)
+      gg_eppm <- ggplot2::geom_polygon(
+        mapping = ggplot2::aes(fill = .data$value),
+        data = vertex_eppm
+      )
+    } else {
+      gg_eppm <- NULL
+    }
 
     ## ggplot
     ## A function that given the scale limits returns a vector of breaks
@@ -51,6 +66,7 @@ setMethod(
         breaks = seq_len(nrow(object)),
         labels = rev(rownames(object))
       ) +
+      gg_eppm +
       theme_tabula()
 
     return(ford)
@@ -59,30 +75,13 @@ setMethod(
 
 #' @export
 #' @rdname plot_bar
-#' @aliases plot_ford,CountMatrix-method
+#' @aliases plot_ford,data.frame-method
 setMethod(
   f = "plot_ford",
-  signature = signature(object = "CountMatrix"),
+  signature = signature(object = "data.frame"),
   definition = function(object, EPPM = FALSE) {
-
-    if (EPPM) {
-      object_long <- prepare_ford(object)
-      eppm_data <- eppm(object)
-      eppm_long <- arkhe::as_long(eppm_data, factor = FALSE)
-      eppm_long$x <- object_long$x
-      eppm_long$y <- object_long$y
-      eppm_long$type <- "EPPM"
-      vertex_eppm <- prepare_ford_vertex(eppm_long)
-      gg_eppm <- ggplot2::geom_polygon(
-        mapping = ggplot2::aes(fill = .data$value),
-        data = vertex_eppm
-      )
-    } else {
-      gg_eppm <- NULL
-    }
-
-    ford <- methods::callNextMethod(object) + gg_eppm
-    return(ford)
+    object <- data.matrix(object)
+    methods::callGeneric(object, EPPM = EPPM)
   }
 )
 
