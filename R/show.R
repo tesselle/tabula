@@ -2,7 +2,21 @@
 #' @include AllClasses.R
 NULL
 
-# RefineCA =====================================================================
+setMethod(
+  f = "show",
+  signature = "DiversityIndex",
+  definition = function(object) {
+    methods::callGeneric(object@.Data)
+  }
+)
+setMethod(
+  f = "show",
+  signature = "RarefactionIndex",
+  definition = function(object) {
+    methods::callGeneric(object@.Data)
+  }
+)
+
 setMethod(
   f = "show",
   signature = "RefineCA",

@@ -5,11 +5,17 @@
 \alias{plot_diversity}
 \alias{autoplot,DiversityIndex-method}
 \alias{plot,DiversityIndex,missing-method}
+\alias{autoplot,RarefactionIndex-method}
+\alias{plot,RarefactionIndex,missing-method}
 \title{Diversity Plot}
 \usage{
 \S4method{autoplot}{DiversityIndex}(object, ...)
 
 \S4method{plot}{DiversityIndex,missing}(x, y, ...)
+
+\S4method{autoplot}{RarefactionIndex}(object, ...)
+
+\S4method{plot}{RarefactionIndex,missing}(x, y, ...)
 }
 \arguments{
 \item{object, x}{A \linkS4class{DiversityIndex} object to be plotted.}

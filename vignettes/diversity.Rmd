@@ -137,15 +137,11 @@ Where $m_{infreq}$ is the number of sampling units that include at least one inf
 
 ### Usage
 ```{r richness}
-index_richness(mississippi, method = "margalef")
+richness(mississippi, method = "margalef")
 ```
 
 ```{r asymptotic-richness}
-index_composition(mississippi, method = "chao1")
-```
-
-```{r rarefaction}
-rarefaction(mississippi, sample = 10, method = "hurlbert")
+composition(mississippi, method = "chao1")
 ```
 
 ## Heterogeneity and Evenness
@@ -331,17 +327,24 @@ plot_spot(BI) +
 ```
 
 # Sample Size and Significance
+
+```{r rarefaction}
+RA <- rarefaction(mississippi, sample = 100, method = "hurlbert")
+
+plot(RA)
+```
+
 @kintigh1989
 
 ```{r sample-size, fig.width=3.5, fig.height=3.5, fig.show='hold'}
 ## Data from Conkey 1980, Kintigh 1989, p. 28
-H <- heterogeneity(chevelon, method = "shannon")
-H_sim <- simulate(H)
-plot(H_sim)
+HE <- heterogeneity(chevelon, method = "shannon")
+HE_sim <- simulate(HE)
+plot(HE_sim)
 
-R <- index_richness(chevelon, method = "count")
-R_sim <- simulate(R)
-plot(R_sim) 
+RI <- index_richness(chevelon, method = "count")
+RI_sim <- simulate(RI)
+plot(RI_sim) 
 ```
 
 # Abundance models

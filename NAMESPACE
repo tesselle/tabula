@@ -2,9 +2,11 @@
 
 S3method(as.data.frame,DiversityIndex)
 S3method(autoplot,DiversityIndex)
+S3method(autoplot,RarefactionIndex)
 S3method(autoplot,matrix)
 S3method(plot,DiversityIndex)
 S3method(plot,OccurrenceMatrix)
+S3method(plot,RarefactionIndex)
 S3method(plot,dist)
 S3method(plot,matrix)
 export(CompositionMatrix)

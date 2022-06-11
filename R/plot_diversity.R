@@ -2,6 +2,7 @@
 #' @include AllClasses.R AllGenerics.R
 NULL
 
+# DiversityIndex ===============================================================
 #' @export
 #' @method autoplot DiversityIndex
 autoplot.DiversityIndex <- function(object, ...) {
@@ -74,3 +75,40 @@ plot.DiversityIndex <- function(x, ...) {
 #' @rdname plot_diversity
 #' @aliases plot,DiversityIndex,missing-method
 setMethod("plot", c(x = "DiversityIndex", y = "missing"), plot.DiversityIndex)
+
+# RarefactionIndex =============================================================
+#' @export
+#' @method autoplot RarefactionIndex
+autoplot.RarefactionIndex <- function(object, ...) {
+  ## Prepare data
+  count <- arkhe::as_long(object)
+  count$label <- rownames(object)
+  count$size <- rep(object@size, each = nrow(object))
+
+  ## ggplot
+  ggplot2::ggplot(data = count) +
+    ggplot2::aes(x = .data$size, y = .data$value,
+                 group = .data$label, label = .data$label) +
+    ggplot2::geom_line(na.rm = TRUE) +
+    ggplot2::scale_x_continuous(name = "Sample size") +
+    ggplot2::scale_y_continuous(name = "Species")
+}
+
+#' @export
+#' @rdname plot_diversity
+#' @aliases autoplot,RarefactionIndex-method
+setMethod("autoplot", "RarefactionIndex", autoplot.RarefactionIndex)
+
+#' @export
+#' @method plot RarefactionIndex
+plot.RarefactionIndex <- function(x, ...) {
+  gg <- autoplot(object = x) +
+    ggplot2::theme_bw()
+  print(gg)
+  invisible(x)
+}
+
+#' @export
+#' @rdname plot_diversity
+#' @aliases plot,RarefactionIndex,missing-method
+setMethod("plot", c(x = "RarefactionIndex", y = "missing"), plot.RarefactionIndex)

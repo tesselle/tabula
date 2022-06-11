@@ -15,9 +15,9 @@ rarefaction(object, ...)
 
 index_hurlbert(x, ...)
 
-\S4method{rarefaction}{matrix}(object, sample, method = c("hurlbert"))
+\S4method{rarefaction}{matrix}(object, sample = NULL, method = c("hurlbert"), step = 1)
 
-\S4method{rarefaction}{data.frame}(object, sample, method = c("hurlbert"))
+\S4method{rarefaction}{data.frame}(object, sample = NULL, method = c("hurlbert"), step = 1)
 
 \S4method{index_hurlbert}{numeric}(x, sample, ...)
 }
@@ -29,14 +29,17 @@ index_hurlbert(x, ...)
 
 \item{x}{A \code{\link{numeric}} vector of count data (absolute frequencies).}
 
-\item{sample}{A length-one \code{\link{numeric}} vector giving the sub-sample size.}
+\item{sample}{A length-one \code{\link{numeric}} vector giving the sub-sample size.
+The size of sample should be smaller than total community size.}
 
 \item{method}{A \code{\link{character}} string or vector of strings specifying the
 index to be computed (see details). Any unambiguous substring can be given.}
+
+\item{step}{An \code{\link{integer}} giving the increment of the sample size.}
 }
 \value{
 \itemize{
-\item \code{rarefaction()} returns a \code{\link{numeric}} vector.
+\item \code{rarefaction()} returns a \linkS4class{RarefactionIndex} object.
 \item \verb{index_*()} return a \code{\link{numeric}} vector.
 }
 }
@@ -87,7 +90,7 @@ composition(brazil, method = c("chao1"), unbiased = FALSE) # 461.625
 composition(brazil, method = c("ace"), k = 10) # 445.822
 
 ## Rarefaction
-rarefaction(trap, sample = 13) # 6.56
+rarefaction(trap, sample = 13) # 6.56 6.00
 }
 \references{
 Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and

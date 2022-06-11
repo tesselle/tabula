@@ -73,6 +73,18 @@ NULL
   contains = "DiversityIndex"
 )
 
+#' @rdname DiversityIndex
+#' @aliases RarefactionIndex-class
+.RarefactionIndex <- setClass(
+  Class = "RarefactionIndex",
+  slots = c(
+    names = "character",
+    size = "integer",
+    method = "character"
+  ),
+  contains = "matrix"
+)
+
 # RefineCA =======================================================================
 #' Partial Bootstrap CA
 #'

@@ -13,6 +13,8 @@
 \alias{.RichnessIndex}
 \alias{CompositionIndex-class}
 \alias{.CompositionIndex}
+\alias{RarefactionIndex-class}
+\alias{.RarefactionIndex}
 \title{Diversity Index}
 \description{
 An S4 class to represent a diversity measure.

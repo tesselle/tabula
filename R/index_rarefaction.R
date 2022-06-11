@@ -7,10 +7,42 @@ NULL
 setMethod(
   f = "rarefaction",
   signature = signature(object = "matrix"),
-  definition = function(object, sample, method = c("hurlbert")) {
+  definition = function(object, sample = NULL, method = c("hurlbert"),
+                        step = 1) {
+    ## Validation
     method <- match.arg(method, several.ok = FALSE)
-    fun <- get_index(method) # Select method
-    apply(X = object, MARGIN = 1, FUN = fun, sample)
+
+    n <- nrow(object)
+    if (is.null(sample)) {
+      sample <- rowSums(object)
+    }
+    if (length(sample) == 1) {
+      sample <- rep(sample, n)
+    }
+    k <- seq(from = 1, to = max(sample), by = step)
+
+    ## Matrix of results
+    z <- matrix(data = NA_real_, nrow = n, ncol = length(k))
+    dimnames(z) <- list(rownames(object), k)
+
+    for (i in seq_len(n)) {
+      spl <- k[k <= sample[[i]]]
+      rare <- vapply(
+        X = spl,
+        FUN = function(s, x, f) f(x, s),
+        FUN.VALUE = numeric(1),
+        x = object[i, ],
+        f = get_index(method) # Select method
+      )
+      z[i, seq_along(rare)] <- rare
+    }
+
+    .RarefactionIndex(
+      z,
+      names = rownames(object),
+      size = as.integer(k),
+      method = method
+    )
   }
 )
 
@@ -20,9 +52,10 @@ setMethod(
 setMethod(
   f = "rarefaction",
   signature = signature(object = "data.frame"),
-  definition = function(object, sample, method = c("hurlbert")) {
+  definition = function(object, sample = NULL, method = c("hurlbert"),
+                        step = 1) {
     object <- data.matrix(object)
-    methods::callGeneric(object, sample = sample, method = method)
+    methods::callGeneric(object, sample = sample, method = method, step = step)
   }
 )
 
@@ -34,24 +67,23 @@ setMethod(
   f = "index_hurlbert",
   signature = signature(x = "numeric"),
   definition = function(x, sample, ...) {
-    # Strictly positive whole numbers
-    x <- trunc(x, digits = 0)[x > 0]
-    sample <- trunc(sample, digits = 0)
-
+    ## Validation
+    x <- x[x > 0]
     N <- sum(x)
+
     E <- vapply(
       X = x,
       FUN = function(x, N, sample) {
         if (N - x > sample) {
-          1 - combination(N - x, sample) / combination(N, sample)
+          combination(N - x, sample) / combination(N, sample)
         } else {
-          NA
+          0
         }
       },
       FUN.VALUE = double(1),
       N, sample
     )
-    E <- sum(E)
+    E <- sum(1 - E, na.rm = TRUE)
     return(E)
   }
 )

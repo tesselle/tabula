@@ -464,12 +464,14 @@ setGeneric(
 #'  [`data.frame`] of count data (absolute frequencies).
 #' @param x A [`numeric`] vector of count data (absolute frequencies).
 #' @param sample A length-one [`numeric`] vector giving the sub-sample size.
+#'  The size of sample should be smaller than total community size.
 #' @param method A [`character`] string or vector of strings specifying the
 #' index to be computed (see details). Any unambiguous substring can be given.
+#' @param step An [`integer`] giving the increment of the sample size.
 #' @param ... Currently not used.
 #' @inheritSection richness Details
 #' @return
-#'  * `rarefaction()` returns a [`numeric`] vector.
+#'  * `rarefaction()` returns a [RarefactionIndex-class] object.
 #'  * `index_*()` return a [`numeric`] vector.
 #' @references
 #'  Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
