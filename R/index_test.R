@@ -35,3 +35,15 @@ setMethod(
     return(result)
   }
 )
+
+#' @export
+#' @rdname test_diversity
+#' @aliases test_diversity,data.frame-method
+setMethod(
+  f = "test_diversity",
+  signature = signature(object = "data.frame"),
+  definition = function(object, adjust = "holm", ...) {
+    object <- data.matrix(object)
+    methods::callGeneric(object, adjust = adjust)
+  }
+)

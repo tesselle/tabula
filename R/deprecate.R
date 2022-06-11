@@ -17,6 +17,7 @@ setMethod(
   signature = signature(object = "ANY"),
   definition = function(object, method = c("berger", "brillouin", "mcintosh",
                                            "shannon", "simpson")) {
+    .Deprecated(new = "heterogeneity", old = "index_heterogeneity")
     heterogeneity(object, method)
   }
 )
@@ -37,6 +38,7 @@ setMethod(
   signature = signature(object = "ANY"),
   definition = function(object, method = c("shannon", "brillouin", "mcintosh",
                                            "simpson")) {
+    .Deprecated(new = "evenness", old = "index_evenness")
     evenness(object, method)
   }
 )
@@ -56,6 +58,7 @@ setMethod(
   f = "index_richness",
   signature = signature(object = "ANY"),
   definition = function(object, method = c("count", "margalef", "menhinick")) {
+    .Deprecated(new = "richness", old = "index_richness")
     richness(object, method)
   }
 )
@@ -76,6 +79,7 @@ setMethod(
   signature = signature(object = "ANY"),
   definition = function(object, method = c("chao1", "ace", "chao2", "ice"),
                         unbiased = FALSE, improved = FALSE, k = 10) {
+    .Deprecated(new = "composition", old = "index_composition")
     composition(object, method, unbiased = unbiased, improved = improved, k = k)
   }
 )
@@ -163,7 +167,7 @@ setMethod(
                         probs = c(0.05, 0.95), n = 1000, ...) {
     .Deprecated(new = "bootstrap", old = "bootstrap_heterogeneity")
     method <- match.arg(method, several.ok = FALSE)
-    fun <- switch_heterogeneity(method) # Select method
+    fun <- get_index(method) # Select method
     bootstrap_diversity(object, method = fun, probs = probs, n = n)
   }
 )
@@ -178,7 +182,7 @@ setMethod(
                                            "shannon", "simpson"), ...) {
     .Deprecated(new = "jackknife", old = "jackknife_heterogeneity")
     method <- match.arg(method, several.ok = FALSE)
-    fun <- switch_heterogeneity(method) # Select method
+    fun <- get_index(method) # Select method
     jackknife_diversity(object, method = fun)
   }
 )
@@ -195,7 +199,7 @@ setMethod(
                         progress = getOption("tabula.progress"), ...) {
     .Deprecated(new = "simulate", old = "simulate_heterogeneity")
     method <- match.arg(method, several.ok = FALSE)
-    fun <- switch_heterogeneity(method) # Select method
+    fun <- get_index(method) # Select method
     index <- simulate_diversity(
       object,
       method = fun,
@@ -220,8 +224,9 @@ setMethod(
                         probs = c(0.05, 0.95), n = 1000, ...) {
     .Deprecated(new = "bootstrap", old = "bootstrap_evenness")
     method <- match.arg(method, several.ok = FALSE)
-    fun <- switch_evenness(method) # Select method
-    bootstrap_diversity(object, method = fun, probs = probs, n = n)
+    fun <- get_index(method) # Select method
+    bootstrap_diversity(object, method = fun, probs = probs, n = n,
+                        evenness = TRUE)
   }
 )
 
@@ -235,8 +240,8 @@ setMethod(
                                            "shannon", "simpson"), ...) {
     .Deprecated(new = "jackknife", old = "jackknife_evenness")
     method <- match.arg(method, several.ok = FALSE)
-    fun <- switch_evenness(method) # Select method
-    jackknife_diversity(object, method = fun)
+    fun <- get_index(method) # Select method
+    jackknife_diversity(object, method = fun, evenness = TRUE)
   }
 )
 
@@ -252,7 +257,7 @@ setMethod(
                         progress = getOption("tabula.progress"), ...) {
     .Deprecated(new = "simulate", old = "simulate_evenness")
     method <- match.arg(method, several.ok = FALSE)
-    fun <- switch_evenness(method) # Select method
+    fun <- get_index(method) # Select method
     index <- simulate_diversity(
       object,
       method = fun,
@@ -260,7 +265,8 @@ setMethod(
       level = level,
       step = step,
       n = n,
-      progress = progress
+      progress = progress,
+      evenness = TRUE
     )
     .EvennessIndex(index, method = method)
   }
@@ -276,7 +282,7 @@ setMethod(
                         probs = c(0.05, 0.95), n = 1000, ...) {
     .Deprecated(new = "bootstrap", old = "bootstrap_richness")
     method <- match.arg(method, several.ok = FALSE)
-    fun <- switch_richness(method) # Select method
+    fun <- get_index(method) # Select method
     bootstrap_diversity(object, method = fun, probs = probs, n = n)
   }
 )
@@ -291,7 +297,7 @@ setMethod(
                         ...) {
     .Deprecated(new = "jackknife", old = "jackknife_richness")
     method <- match.arg(method, several.ok = FALSE)
-    fun <- switch_richness(method) # Select method
+    fun <- get_index(method) # Select method
     jackknife_diversity(object, method = fun)
   }
 )
@@ -307,7 +313,7 @@ setMethod(
                         progress = getOption("tabula.progress"), ...) {
     .Deprecated(new = "simulate", old = "simulate_richness")
     method <- match.arg(method, several.ok = FALSE)
-    fun <- switch_richness(method) # Select method
+    fun <- get_index(method) # Select method
     index <- simulate_diversity(
       object,
       method = fun,

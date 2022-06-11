@@ -98,6 +98,9 @@ Only used with "\code{chao1}" or "\code{chao2}".}
 \item{k}{A length-one \code{\link{numeric}} vector giving the threshold between
 rare/infrequent and abundant/frequent species. Only used if \code{method} is
 "\code{ace}" or "\code{ice}".}
+
+\item{na.rm}{A \code{\link{numeric}} scalar: should missing values (including \code{NaN}) be
+removed?}
 }
 \value{
 \itemize{

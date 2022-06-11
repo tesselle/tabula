@@ -305,6 +305,8 @@ setGeneric(
 #' @param k A length-one [`numeric`] vector giving the threshold between
 #'  rare/infrequent and abundant/frequent species. Only used if `method` is
 #'  "`ace`" or "`ice`".
+#' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
+#'  removed?
 #' @param ... Further arguments to be passed to internal methods.
 #' @section Details:
 #'  The number of different taxa, provides an instantly comprehensible

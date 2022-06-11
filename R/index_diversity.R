@@ -53,6 +53,7 @@ setMethod(
       FUN = arkhe::resample,
       do = get_index(object@method), # Select method
       n = n,
+      evenness = methods::is(object, "EvennessIndex"),
       f = f
     )
     as.data.frame(t(results))
@@ -73,7 +74,11 @@ setMethod(
     fun <- get_index(object@method) # Select method
     results <- vector(mode = "list", length = m)
     for (i in seq_len(m)) {
-      results[[i]] <- arkhe::jackknife(object = w[i, ], do = fun)
+      results[[i]] <- arkhe::jackknife(
+        object = w[i, ],
+        do = fun,
+        evenness = methods::is(object, "EvennessIndex")
+      )
     }
     results <- do.call(rbind, results)
     rownames(results) <- rownames(w)
@@ -112,6 +117,7 @@ setMethod(
       simulated[[i]] <- arkhe::resample(
         object = colSums(data),
         do = method,
+        evenness = methods::is(object, "EvennessIndex"),
         n = n,
         size = sample_sizes[[i]],
         f = fun

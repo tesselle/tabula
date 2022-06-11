@@ -42,17 +42,16 @@ Measure Diversity by Comparing to Simulated Assemblages
 \donttest{
 ## Coerce data to a count matrix
 data("chevelon", package = "folio")
-chevelon <- as_count(chevelon)
 
 ## Assemblage diversity size comparison
 ## Warning: this may take a few seconds!
-idx_heterogeneity <- index_heterogeneity(chevelon, method = "shannon")
-sim_heterogeneity <- simulate(idx_heterogeneity)
-plot(sim_heterogeneity)
+h <- heterogeneity(chevelon, method = "shannon")
+h_sim <- simulate(h)
+plot(h_sim)
 
-idx_richness <- index_richness(chevelon, method = "none")
-sim_richness <- simulate(idx_richness)
-plot(sim_richness)
+r <- richness(chevelon, method = "count")
+r_sim <- simulate(r)
+plot(r_sim)
 }
 }
 \references{
