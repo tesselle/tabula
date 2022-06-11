@@ -85,7 +85,7 @@ NULL
   contains = "matrix"
 )
 
-# RefineCA =======================================================================
+# RefineCA =====================================================================
 #' Partial Bootstrap CA
 #'
 #' An S4 class to store partial bootstrap correspondence analysis results.

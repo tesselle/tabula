@@ -51,6 +51,7 @@ test_that("Average Ranking", {
   skip_on_cran()
   skip_if_not_installed("folio")
   data("compiegne", package = "folio")
+  data("merzbach", package = "folio")
   counts <- arkhe::as_count(compiegne)
 
   indices <- seriate_average(counts, margin = c(1, 2))
