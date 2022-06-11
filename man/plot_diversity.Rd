@@ -52,15 +52,24 @@ plot(sim_richness)
 }
 }
 \seealso{
-\code{\link[=index_heterogeneity]{index_heterogeneity()}}, \code{\link[=index_evenness]{index_evenness()}}, \code{\link[=index_richness]{index_richness()}}
+Other diversity measures: 
+\code{\link{heterogeneity}()},
+\code{\link{occurrence}()},
+\code{\link{rarefaction}()},
+\code{\link{resample}()},
+\code{\link{richness}()},
+\code{\link{similarity}()},
+\code{\link{simulate}()},
+\code{\link{turnover}()}
 
-Other plot: 
+Other plot methods: 
 \code{\link{plot_bar}},
+\code{\link{plot_heatmap}()},
 \code{\link{plot_line}},
-\code{\link{plot_matrix}},
 \code{\link{plot_spot}()}
 }
 \author{
 N. Frerebeau
 }
-\concept{plot}
+\concept{diversity measures}
+\concept{plot methods}

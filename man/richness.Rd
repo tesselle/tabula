@@ -231,14 +231,17 @@ Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
 \seealso{
 \code{\link[=plot_diversity]{plot_diversity()}}
 
-Other diversity methods: 
+Other diversity measures: 
 \code{\link{heterogeneity}()},
+\code{\link{occurrence}()},
+\code{\link{plot_diversity}},
 \code{\link{rarefaction}()},
 \code{\link{resample}()},
+\code{\link{similarity}()},
 \code{\link{simulate}()},
 \code{\link{turnover}()}
 }
 \author{
 N. Frerebeau
 }
-\concept{diversity methods}
+\concept{diversity measures}

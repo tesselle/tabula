@@ -14,6 +14,35 @@ test_that("Similiraty measure (count data)", {
     expect_snapshot(similarity(birds, method = method[i]))
   }
 })
+test_that("Plot Similarity", {
+  skip_if_not_installed("vdiffr")
+  skip_if_not_installed("folio")
+  data("mississippi", package = "folio")
+
+  test_sim <- similarity(mississippi, method = "brainerd")
+
+  gg_mtx_sim <- plot_heatmap(test_sim, upper = TRUE)
+  vdiffr::expect_doppelganger("mtx_sim", gg_mtx_sim)
+
+  gg_spot_ring_sim <- plot_spot(test_sim, type = "ring")
+  vdiffr::expect_doppelganger("spot_ring_sim", gg_spot_ring_sim)
+
+  gg_spot_plain_sim <- plot_spot(test_sim, type = "plain")
+  vdiffr::expect_doppelganger("spot_plain_sim", gg_spot_plain_sim)
+})
+test_that("Plot Co-Occurrence", {
+  skip_if_not_installed("vdiffr")
+  skip_if_not_installed("folio")
+  data("mississippi", package = "folio")
+
+  test_occ <- occurrence(mississippi)
+
+  gg_mtx_occ <- plot_heatmap(test_occ, upper = TRUE)
+  vdiffr::expect_doppelganger("mtx_occ", gg_mtx_occ)
+
+  gg_spot_occ <- plot_spot(test_occ, upper = FALSE)
+  vdiffr::expect_doppelganger("spot_occ", gg_spot_occ)
+})
 
 # Indices ======================================================================
 test_that("Jaccard index - character", {

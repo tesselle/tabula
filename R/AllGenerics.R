@@ -230,8 +230,7 @@ setGeneric(
 #'  688-688. \doi{10.1038/163688a0}.
 #' @example inst/examples/ex-diversity.R
 #' @author N. Frerebeau
-#' @family diversity methods
-#' @seealso [plot_diversity()], [similarity()], [turnover()]
+#' @family diversity measures
 #' @docType methods
 #' @name heterogeneity
 #' @rdname heterogeneity
@@ -393,7 +392,7 @@ setGeneric(
 #' @seealso [plot_diversity()]
 #' @example inst/examples/ex-richness.R
 #' @author N. Frerebeau
-#' @family diversity methods
+#' @family diversity measures
 #' @docType methods
 #' @name richness
 #' @rdname richness
@@ -482,7 +481,7 @@ setGeneric(
 #'  *The American Naturalist*, 102(925), 243-282.
 #' @example inst/examples/ex-richness.R
 #' @author N. Frerebeau
-#' @family diversity methods
+#' @family diversity measures
 #' @docType methods
 #' @name rarefaction
 #' @rdname rarefaction
@@ -558,7 +557,7 @@ setGeneric(
 #'  Deposits. *American Antiquity*, 16(04), 293-301. \doi{10.2307/276978}.
 #' @example inst/examples/ex-similarity.R
 #' @author N. Frerebeau
-#' @family diversity
+#' @family diversity measures
 #' @docType methods
 #' @name similarity
 #' @rdname similarity
@@ -613,6 +612,32 @@ setGeneric(
   def = function(x, y, ...) standardGeneric("index_binomial")
 )
 
+## Co-Occurrence ---------------------------------------------------------------
+#' Co-Occurrence
+#'
+#' @param object A \eqn{m \times p}{m x p} matrix of count data.
+#' @param ... Currently not used.
+#' @details
+#'  A co-occurrence matrix is a symmetric matrix with zeros on its main
+#'  diagonal, which works out how many times each pairs of taxa/types occur
+#'  together in at least one sample.
+#' @return
+#'  A [stats::dist] object.
+#' @example inst/examples/ex-occurrence.R
+#' @author N. Frerebeau
+#' @family diversity measures
+#' @docType methods
+#' @name occurrence
+#' @rdname occurrence
+NULL
+
+#' @rdname occurrence
+#' @aliases occurrence-method
+setGeneric(
+  name = "occurrence",
+  def = function(object, ...) standardGeneric("occurrence")
+)
+
 ## Turnover --------------------------------------------------------------------
 #' Turnover
 #'
@@ -659,7 +684,7 @@ setGeneric(
 #'  \doi{10.2307/2259551}.
 #' @example inst/examples/ex-turnover.R
 #' @author N. Frerebeau
-#' @family diversity methods
+#' @family diversity measures
 #' @docType methods
 #' @name turnover
 #' @rdname turnover
@@ -724,7 +749,7 @@ setGeneric(
 #'  Returns a [`data.frame`].
 #' @example inst/examples/ex-diversity.R
 #' @author N. Frerebeau
-#' @family diversity methods
+#' @family diversity measures
 #' @docType methods
 #' @name resample
 #' @rdname resample
@@ -752,45 +777,13 @@ NULL
 #' @seealso [plot_diversity()]
 #' @example inst/examples/ex-plot_diversity.R
 #' @author N. Frerebeau
-#' @family diversity methods
+#' @family diversity measures
 #' @docType methods
 #' @name simulate
 #' @rdname simulate
 NULL
 
-# Plot =========================================================================
-## Heatmap ---------------------------------------------------------------------
-#' Heatmap
-#'
-#' Plots a heatmap.
-#' @param object,x A An object to be plotted (typically an object of class
-#'  [CountMatrix-class]).
-#' @param diag A [`logical`] scalar indicating whether the diagonal of the
-#'  matrix should be plotted. Only used if `object` is a symmetric matrix.
-#' @param upper A [`logical`] scalar indicating whether the upper triangle of
-#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
-#' @param lower A [`logical`] scalar indicating whether the lower triangle of
-#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
-#' @param ... Currently not used.
-#' @return
-#'  * `autoplot()` returns a [`ggplot`][ggplot2::ggplot] object.
-#'  * `plot()` is called it for its side-effects: it results in a graphic being
-#'    displayed (invisibly returns `x`).
-#' @references
-#'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
-#'  graphique pour tableaux de comptages. *Revue archéologique de Picardie*,
-#'  3(1), 39-56. \doi{10.3406/pica.2004.2396}.
-#' @example inst/examples/ex-plot_matrix.R
-#' @author N. Frerebeau
-#' @seealso [pvi()]
-#' @family plot
-#' @docType methods
-#' @name plot_matrix
-#' @rdname plot_matrix
-#' @aliases matrigraphe
-NULL
-
-## Diversity Plot --------------------------------------------------------------
+## Plot ------------------------------------------------------------------------
 #' Diversity Plot
 #'
 #' @param object,x A [DiversityIndex-class] object to be plotted.
@@ -802,18 +795,58 @@ NULL
 #'    displayed (invisibly returns `x`).
 #' @example inst/examples/ex-plot_diversity.R
 #' @author N. Frerebeau
-#' @family plot
-#' @seealso [index_heterogeneity()], [index_evenness()], [index_richness()]
+#' @family diversity measures
+#' @family plot methods
 #' @docType methods
 #' @name plot_diversity
 #' @rdname plot_diversity
 NULL
 
+# Plot =========================================================================
+## Heatmap ---------------------------------------------------------------------
+#' Heatmap
+#'
+#' Plots a heatmap.
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each class).
+#' @param diag A [`logical`] scalar indicating whether the diagonal of the
+#'  matrix should be plotted. Only used if `object` is a symmetric matrix.
+#' @param upper A [`logical`] scalar indicating whether the upper triangle of
+#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
+#' @param lower A [`logical`] scalar indicating whether the lower triangle of
+#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
+#' @param ... Currently not used.
+#' @return
+#'  A [ggplot2::ggplot] object.
+#' @references
+#'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
+#'  graphique pour tableaux de comptages. *Revue archéologique de Picardie*,
+#'  3(1), 39-56. \doi{10.3406/pica.2004.2396}.
+#' @example inst/examples/ex-plot_matrix.R
+#' @author N. Frerebeau
+#' @seealso [pvi()]
+#' @family plot methods
+#' @docType methods
+#' @name plot_heatmap
+#' @rdname plot_heatmap
+#' @aliases matrigraphe
+NULL
+
+#' @rdname plot_heatmap
+#' @aliases plot_heatmap-method
+setGeneric(
+  name = "plot_heatmap",
+  def = function(object, ...) standardGeneric("plot_heatmap")
+)
+
 ## Bar Plot --------------------------------------------------------------------
 #' Bar Plot
 #'
 #' Plots a Bertin, Ford (battleship curve) or Dice-Leraas diagram.
-#' @param object An abundance matrix to be plotted.
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each class).
 #' @param threshold A [`function`] that takes a numeric vector as argument and
 #'  returns a numeric threshold value (see below). If `NULL` (the default), no
 #'  threshold is computed.
@@ -854,7 +887,7 @@ NULL
 #' @example inst/examples/ex-plot_bar.R
 #' @author N. Frerebeau
 #' @seealso [eppm()]
-#' @family plot
+#' @family plot methods
 #' @docType methods
 #' @name plot_bar
 #' @rdname plot_bar
@@ -879,7 +912,9 @@ setGeneric(
 #' Line Plot
 #'
 #' Plots a rank *vs* relative abundance diagram.
-#' @param object An abundance matrix to be plotted.
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each class).
 #' @param log A [`character`] string which contains "`x`" if the x axis is to be
 #'  logarithmic, "`y`" if the y axis is to be logarithmic and "`xy`" or "`yx`"
 #'  if both axes are to be logarithmic (base 10).
@@ -893,7 +928,7 @@ setGeneric(
 #'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 #' @example inst/examples/ex-plot_rank.R
 #' @author N. Frerebeau
-#' @family plot
+#' @family plot methods
 #' @docType methods
 #' @name plot_line
 #' @rdname plot_line
@@ -910,7 +945,9 @@ setGeneric(
 #' Spot Plot
 #'
 #' Plots a spot matrix.
-#' @param object An abundance matrix to be plotted.
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each class).
 #' @param type A [`character`] string specifying the graph to be plotted.
 #'  It must be one of "`ring`" (the default) or "`plain`". Any unambiguous
 #'  substring can be given.
@@ -935,7 +972,7 @@ setGeneric(
 #'  [idea](https://dgopstein.github.io/articles/spot-matrix/).
 #' @example inst/examples/ex-plot_spot.R
 #' @author N. Frerebeau
-#' @family plot
+#' @family plot methods
 #' @docType methods
 #' @name plot_spot
 #' @rdname plot_spot

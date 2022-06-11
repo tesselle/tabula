@@ -101,14 +101,17 @@ Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
 \emph{The American Naturalist}, 102(925), 243-282.
 }
 \seealso{
-Other diversity methods: 
+Other diversity measures: 
 \code{\link{heterogeneity}()},
+\code{\link{occurrence}()},
+\code{\link{plot_diversity}},
 \code{\link{resample}()},
 \code{\link{richness}()},
+\code{\link{similarity}()},
 \code{\link{simulate}()},
 \code{\link{turnover}()}
 }
 \author{
 N. Frerebeau
 }
-\concept{diversity methods}
+\concept{diversity measures}

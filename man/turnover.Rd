@@ -142,14 +142,17 @@ Presence-Absence Data. \emph{The Journal of Ecology}, 72(3), 1055-1064.
 \doi{10.2307/2259551}.
 }
 \seealso{
-Other diversity methods: 
+Other diversity measures: 
 \code{\link{heterogeneity}()},
+\code{\link{occurrence}()},
+\code{\link{plot_diversity}},
 \code{\link{rarefaction}()},
 \code{\link{resample}()},
 \code{\link{richness}()},
+\code{\link{similarity}()},
 \code{\link{simulate}()}
 }
 \author{
 N. Frerebeau
 }
-\concept{diversity methods}
+\concept{diversity measures}

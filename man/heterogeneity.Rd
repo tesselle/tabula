@@ -211,16 +211,17 @@ Simpson, E. H. (1949). Measurement of Diversity. \emph{Nature}, 163(4148),
 688-688. \doi{10.1038/163688a0}.
 }
 \seealso{
-\code{\link[=plot_diversity]{plot_diversity()}}, \code{\link[=similarity]{similarity()}}, \code{\link[=turnover]{turnover()}}
-
-Other diversity methods: 
+Other diversity measures: 
+\code{\link{occurrence}()},
+\code{\link{plot_diversity}},
 \code{\link{rarefaction}()},
 \code{\link{resample}()},
 \code{\link{richness}()},
+\code{\link{similarity}()},
 \code{\link{simulate}()},
 \code{\link{turnover}()}
 }
 \author{
 N. Frerebeau
 }
-\concept{diversity methods}
+\concept{diversity measures}

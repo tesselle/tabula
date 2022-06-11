@@ -179,7 +179,18 @@ Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 Robinson, W. S. (1951). A Method for Chronologically Ordering Archaeological
 Deposits. \emph{American Antiquity}, 16(04), 293-301. \doi{10.2307/276978}.
 }
+\seealso{
+Other diversity measures: 
+\code{\link{heterogeneity}()},
+\code{\link{occurrence}()},
+\code{\link{plot_diversity}},
+\code{\link{rarefaction}()},
+\code{\link{resample}()},
+\code{\link{richness}()},
+\code{\link{simulate}()},
+\code{\link{turnover}()}
+}
 \author{
 N. Frerebeau
 }
-\concept{diversity}
+\concept{diversity measures}
