@@ -71,7 +71,7 @@ This positive difference from the column mean percentage (in french "écart
 positif au pourcentage moyen", EPPM) represents a deviation from the
 situation of statistical independence. As independence can be interpreted as
 the absence of relationships between types and the chronological order of
-the assemblages, \code{EPPM} is a useful graphical tool to explore significance
+the assemblages, \code{EPPM} is a useful tool to explore significance
 of relationship between rows and columns related to seriation (Desachy
 2004).
 }

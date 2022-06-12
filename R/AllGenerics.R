@@ -52,7 +52,7 @@ NULL
 #' Resampling Methods
 #'
 #' @description
-#'  * `resample()` samples observations from a multinomial distribution.
+#'  * `resample()` simulate observations from a multinomial distribution.
 #'  * `bootstrap()` generate bootstrap estimations of a statistic.
 #'  * `jackknife()` generate jackknife estimations of a statistic.
 #' @param object A [`numeric`] vector of count data (absolute frequencies).
@@ -118,7 +118,7 @@ setGeneric(
 #'  positif au pourcentage moyen", EPPM) represents a deviation from the
 #'  situation of statistical independence. As independence can be interpreted as
 #'  the absence of relationships between types and the chronological order of
-#'  the assemblages, `EPPM` is a useful graphical tool to explore significance
+#'  the assemblages, `EPPM` is a useful tool to explore significance
 #'  of relationship between rows and columns related to seriation (Desachy
 #'  2004).
 #' @section PVI:
@@ -127,9 +127,9 @@ setGeneric(
 #'  positive deviations from the independence, whereas `PVI` smaller than
 #'  \eqn{1} represent negative deviations (Desachy 2004).
 #'
-#'  The `PVI` matrix allows to explore deviations from independence
-#'  (an intuitive graphical approach to \eqn{\chi^2}{Chi-squared}),
-#'  in such a way that a high-contrast matrix has quite significant deviations,
+#'  The `PVI` matrix allows to explore deviations from independence (an
+#'  intuitive approach to \eqn{\chi^2}{Chi-squared}), in such a way that a
+#'  high-contrast matrix has quite significant deviations,
 #'  with a low risk of being due to randomness (Desachy 2004).
 #' @references
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation

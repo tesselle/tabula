@@ -58,7 +58,7 @@ with the following elements (else, returns the result of \code{f} applied to the
 }
 \description{
 \itemize{
-\item \code{resample()} samples observations from a multinomial distribution.
+\item \code{resample()} simulate observations from a multinomial distribution.
 \item \code{bootstrap()} generate bootstrap estimations of a statistic.
 \item \code{jackknife()} generate jackknife estimations of a statistic.
 }

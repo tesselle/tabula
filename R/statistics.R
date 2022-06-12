@@ -20,6 +20,17 @@ setMethod(
   }
 )
 
+expected <- function(x) {
+  m <- nrow(x)
+  p <- ncol(x)
+
+  column_total <- matrix(colSums(x), nrow = m, ncol = p, byrow = TRUE)
+  row_total <- matrix(rowSums(x), nrow = m, ncol = p, byrow = FALSE)
+  grand_total <- sum(x)
+
+  column_total * row_total / grand_total
+}
+
 #' @export
 #' @rdname independance
 #' @aliases eppm,matrix-method
@@ -28,15 +39,10 @@ setMethod(
   signature = signature(object = "matrix"),
   definition = function(object) {
     # Independance
-    values <- apply(
-      X = object, MARGIN = 1, FUN = function(x, column_total, grand_total) {
-        sum(x) * column_total / grand_total
-      },
-      column_total = colSums(object),
-      grand_total = sum(object)
-    )
+    values <- expected(object)
+
     # Threshold
-    threshold <- (object - t(values)) / rowSums(object)
+    threshold <- (object - values) / rowSums(object)
     threshold[threshold < 0] <- 0
 
     dimnames(threshold) <- dimnames(object)
@@ -64,15 +70,10 @@ setMethod(
   signature = signature(object = "matrix"),
   definition = function(object) {
     # Independance
-    values <- apply(
-      X = object, MARGIN = 1, FUN = function(x, column_total, grand_total) {
-        sum(x) * column_total / grand_total
-      },
-      column_total = colSums(object),
-      grand_total = sum(object)
-    )
+    values <- expected(object)
+
     # Threshold
-    threshold <- object / t(values)
+    threshold <- object / values
 
     dimnames(threshold) <- dimnames(object)
     threshold
