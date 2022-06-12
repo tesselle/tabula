@@ -6,6 +6,11 @@ NULL
 get_index <- function(x) {
   match.fun(sprintf("index_%s", x))
 }
+boot_index <- function(x, i, method, ...) {
+  x <- x[i]
+  f <- get_index(method)
+  f(x, ...)
+}
 
 #' Compute a Diversity Index
 #'
@@ -47,18 +52,37 @@ setMethod(
   signature = signature(object = "DiversityIndex"),
   definition = function(object, n = 1000, f = NULL) {
 
-    results <- apply(
-      X = object@data,
-      MARGIN = 1,
-      FUN = resample,
-      do = get_index(object@method), # Select method
-      n = n,
-      evenness = methods::is(object, "EvennessIndex"),
-      f = f
-    )
-    as.data.frame(t(results))
+    w <- object@data
+    m <- nrow(w)
+    method <- object@method
+    evenness <- methods::is(object, "EvennessIndex")
+
+    results <- vector(mode = "list", length = m)
+    for (i in seq_len(m)) {
+      b <- boot::boot(w[i, ], statistic = boot_index, R = n, method = method,
+                      evenness = evenness)
+      if (is.null(f)) {
+        results[[i]] <- summary_bootstrap(b$t, b$t0)
+      } else {
+        results[[i]] <- f(as.numeric(b$t))
+      }
+    }
+    results <- do.call(rbind, results)
+    rownames(results) <- rownames(w)
+    as.data.frame(results)
   }
 )
+
+summary_bootstrap <- function(x, hat) {
+  n <- length(x)
+  boot_mean <- mean(x)
+  boot_bias <- boot_mean - hat
+  boot_error <- stats::sd(x)
+
+  results <- c(hat, boot_mean, boot_bias, boot_error)
+  names(results) <- c("original", "mean", "bias", "error")
+  results
+}
 
 #' @export
 #' @rdname resample
@@ -93,8 +117,9 @@ setMethod(
 setMethod(
   f = "simulate",
   signature = signature(object = "DiversityIndex"),
-  definition = function(object, quantiles = TRUE, level = 0.80, step = 1,
-                        n = 1000, progress = getOption("tabula.progress")) {
+  definition = function(object, n = 1000, step = 1,
+                        interval = c("percentiles", "student", "normal"),
+                        level = 0.80, progress = getOption("tabula.progress")) {
     ## Simulate
     ## Specify the probability for the classes
     data <- object@data
@@ -108,7 +133,7 @@ setMethod(
     k <- seq_len(m)
 
     simulated <- vector(mode = "list", length = m)
-    fun <- function(x) conf(x, level = level, quantiles = quantiles)
+    fun <- function(x) conf(x, level = level, type = interval)
 
     progress_bar <- interactive() && progress
     if (progress_bar) pbar <- utils::txtProgressBar(max = m, style = 3)
@@ -134,14 +159,16 @@ setMethod(
   }
 )
 
-conf <- function(x, level = 0.80, quantiles = TRUE, na.rm = TRUE) {
-  if (quantiles) {
+conf <- function(x, type = c("percentiles", "student", "normal"),
+                 level = 0.80) {
+  type <- match.arg(type, several.ok = FALSE)
+  if (type == "percentiles") {
     ## Confidence interval as described in Kintigh 1989
     k <- (1 - level) / 2
-    conf <- stats::quantile(x, probs = c(k, 1 - k), na.rm = na.rm, names = FALSE)
+    conf <- stats::quantile(x, probs = c(k, 1 - k), names = FALSE)
   } else {
     ## Confidence interval
-    conf <- arkhe::confidence(x, level = level, type = "student")
+    conf <- arkhe::confidence(x, level = level, type = type)
   }
 
   result <- c(mean(x), conf)

@@ -10,7 +10,7 @@ test_that("Richness", {
     expect_equal(get_method(index), i)
   }
 
-  boot <- with_seed(12345, bootstrap(index, n = 30, f = summary))
+  boot <- with_seed(12345, bootstrap(index, n = 30))
   expect_snapshot(boot)
 
   jack <- jackknife(index)

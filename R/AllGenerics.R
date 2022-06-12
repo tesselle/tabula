@@ -5,9 +5,6 @@ NULL
 # S4 dispatch to base S3 generic ===============================================
 setGeneric("autoplot", package = "ggplot2")
 
-# Set generics from other packages =============================================
-setGeneric("jackknife", package = "arkhe")
-
 # Extract ======================================================================
 ## Mutators --------------------------------------------------------------------
 #' Get or Set Parts of an Object
@@ -52,9 +49,12 @@ setGeneric(
 NULL
 
 # Statistic ====================================================================
-#' Resample
+#' Resampling Methods
 #'
-#' Samples observations from a multinomial distribution.
+#' @description
+#'  * `resample()` samples observations from a multinomial distribution.
+#'  * `bootstrap()` generate bootstrap estimations of a statistic.
+#'  * `jackknife()` generate jackknife estimations of a statistic.
 #' @param object A [`numeric`] vector of count data (absolute frequencies).
 #' @param do A [`function`] that takes `object` as an argument
 #'  and returns a single numeric value.
@@ -65,10 +65,18 @@ NULL
 #'  `do`) as argument.
 #' @param ... Extra arguments passed to `do`.
 #' @return
-#'  If `f` is `NULL`, returns the `n` values of `do`. Else, returns the result
-#'  of `f` applied to the `n` values of `do`.
+#'  If `f` is `NULL`, `resample()` returns the `n` values of `do`. Else,
+#'  returns the result of `f` applied to the `n` values of `do`.
 #'
-#'  * `resample()` returns a [`numeric`] vector.
+#'  If `f` is `NULL`, `bootstrap()` and `jackknife()` return a [`data.frame`]
+#'  with the following elements (else, returns the result of `f` applied to the
+#'  `n` values of `do`) :
+#'  \describe{
+#'   \item{original}{The observed value of `do` applied to `object`.}
+#'   \item{mean}{The bootstrap/jackknife estimate of mean of `do`.}
+#'   \item{bias}{The bootstrap/jackknife estimate of bias of `do`.}
+#'   \item{error}{The boostrap/jackknife estimate of standard error of `do`.}
+#'  }
 #' @seealso [stats::rmultinom()]
 #' @example inst/examples/ex-resample.R
 #' @author N. Frerebeau
@@ -90,6 +98,13 @@ setGeneric(
 setGeneric(
   name = "bootstrap",
   def = function(object, ...) standardGeneric("bootstrap")
+)
+
+#' @rdname resample
+#' @aliases jackknife-method
+setGeneric(
+  name = "jackknife",
+  def = function(object, ...) standardGeneric("jackknife")
 )
 
 #' Independance
@@ -777,10 +792,10 @@ setGeneric(
 #' Measure Diversity by Comparing to Simulated Assemblages
 #'
 #' @param object A [DiversityIndex-class] object.
-#' @param quantiles A [`logical`] scalar: should sample quantiles be used as
-#'  confidence interval? If `TRUE` (the default), sample quantiles are used as
-#'  described in Kintigh (1984), else quantiles of the t-distribution are
-#'  used.
+#' @param interval A [`character`] string giving the type of confidence
+#'  interval to be returned. It must be one "`percentiles`" (sample quantiles,
+#'  as described in Kintigh 1984; the default), "`student`" or "`normal`".
+#'  Any unambiguous substring can be given.
 #' @param level A length-one [`numeric`] vector giving the confidence level.
 #' @param step An [`integer`] giving the increment of the sample size.
 #' @param n A non-negative [`integer`] giving the number of bootstrap

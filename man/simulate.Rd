@@ -8,27 +8,27 @@
 \usage{
 \S4method{simulate}{DiversityIndex}(
   object,
-  quantiles = TRUE,
-  level = 0.8,
-  step = 1,
   n = 1000,
+  step = 1,
+  interval = c("percentiles", "student", "normal"),
+  level = 0.8,
   progress = getOption("tabula.progress")
 )
 }
 \arguments{
 \item{object}{A \linkS4class{DiversityIndex} object.}
 
-\item{quantiles}{A \code{\link{logical}} scalar: should sample quantiles be used as
-confidence interval? If \code{TRUE} (the default), sample quantiles are used as
-described in Kintigh (1984), else quantiles of the t-distribution are
-used.}
-
-\item{level}{A length-one \code{\link{numeric}} vector giving the confidence level.}
+\item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
+replications.}
 
 \item{step}{An \code{\link{integer}} giving the increment of the sample size.}
 
-\item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
-replications.}
+\item{interval}{A \code{\link{character}} string giving the type of confidence
+interval to be returned. It must be one "\code{percentiles}" (sample quantiles,
+as described in Kintigh 1984; the default), "\code{student}" or "\code{normal}".
+Any unambiguous substring can be given.}
+
+\item{level}{A length-one \code{\link{numeric}} vector giving the confidence level.}
 
 \item{progress}{A \code{\link{logical}} scalar: should a progress bar be displayed?}
 }

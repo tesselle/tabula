@@ -7,14 +7,18 @@
 \alias{resample-method}
 \alias{bootstrap}
 \alias{bootstrap-method}
+\alias{jackknife}
+\alias{jackknife-method}
 \alias{bootstrap,DiversityIndex-method}
 \alias{jackknife,DiversityIndex-method}
 \alias{resample,numeric-method}
-\title{Resample}
+\title{Resampling Methods}
 \usage{
 resample(object, ...)
 
 bootstrap(object, ...)
+
+jackknife(object, ...)
 
 \S4method{bootstrap}{DiversityIndex}(object, n = 1000, f = NULL)
 
@@ -39,14 +43,25 @@ and returns a single numeric value.}
 \item{size}{A non-negative \code{\link{integer}} specifying the sample size.}
 }
 \value{
-If \code{f} is \code{NULL}, returns the \code{n} values of \code{do}. Else, returns the result
-of \code{f} applied to the \code{n} values of \code{do}.
-\itemize{
-\item \code{resample()} returns a \code{\link{numeric}} vector.
+If \code{f} is \code{NULL}, \code{resample()} returns the \code{n} values of \code{do}. Else,
+returns the result of \code{f} applied to the \code{n} values of \code{do}.
+
+If \code{f} is \code{NULL}, \code{bootstrap()} and \code{jackknife()} return a \code{\link{data.frame}}
+with the following elements (else, returns the result of \code{f} applied to the
+\code{n} values of \code{do}) :
+\describe{
+\item{original}{The observed value of \code{do} applied to \code{object}.}
+\item{mean}{The bootstrap/jackknife estimate of mean of \code{do}.}
+\item{bias}{The bootstrap/jackknife estimate of bias of \code{do}.}
+\item{error}{The boostrap/jackknife estimate of standard error of \code{do}.}
 }
 }
 \description{
-Samples observations from a multinomial distribution.
+\itemize{
+\item \code{resample()} samples observations from a multinomial distribution.
+\item \code{bootstrap()} generate bootstrap estimations of a statistic.
+\item \code{jackknife()} generate jackknife estimations of a statistic.
+}
 }
 \examples{
 ## Sample observations from a multinomial distribution
