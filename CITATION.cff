@@ -1,5 +1,5 @@
 # -----------------------------------------------------------
-# CITATION file created with {cffr} R package, v0.1.0
+# CITATION file created with {cffr} R package, v0.2.2
 # See also: https://docs.ropensci.org/cffr/
 # -----------------------------------------------------------
  
@@ -7,15 +7,14 @@ cff-version: 1.2.0
 message: 'To cite package "tabula" in publications use:'
 type: software
 license: GPL-3.0-or-later
-title: 'tabula: Analysis, Seriation and Visualization of Archaeological Count Data'
-version: 1.6.1.9000
+title: 'tabula: Analysis and Visualization of Archaeological Count Data'
+version: 1.7.0
 abstract: 'An easy way to examine archaeological count data. This package provides
-  a convenient and reproducible toolkit for relative dating by matrix seriation (reciprocal
-  ranking, CA-based seriation). It also provides several tests and measures of diversity:
-  heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction
-  (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity (Brainerd-Robinson, etc.).
-  The package make it easy to visualize count data and statistical thresholds: rank
-  vs abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams.'
+  several tests and measures of diversity: heterogeneity and evenness (Brillouin,
+  Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.),
+  turnover and similarity (Brainerd-Robinson, etc.). The package make it easy to visualize
+  count data and statistical thresholds: rank vs abundance plots, heatmaps, Ford (1962)
+  and Bertin (1977) diagrams.'
 authors:
 - family-names: Frerebeau
   given-names: Nicolas
@@ -24,22 +23,20 @@ authors:
   affiliation: Université Bordeaux Montaigne
 preferred-citation:
   type: manual
-  title: 'tabula: Analysis, Seriation and Visualization of Archaeological Count Data'
+  title: 'tabula: Analysis and Visualization of Archaeological Count Data'
   authors:
   - family-names: Frerebeau
     given-names: Nicolas
     email: nicolas.frerebeau@u-bordeaux-montaigne.fr
     orcid: https://orcid.org/0000-0001-5759-4944
     affiliation: Université Bordeaux Montaigne
-  version: 1.6.1.9000
+  version: 1.7.0
   abstract: 'An easy way to examine archaeological count data. This package provides
-    a convenient and reproducible toolkit for relative dating by matrix seriation
-    (reciprocal ranking, CA-based seriation). It also provides several tests and measures
-    of diversity: heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.),
-    richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity
-    (Brainerd-Robinson, etc.). The package make it easy to visualize count data and
-    statistical thresholds: rank vs abundance plots, heatmaps, Ford (1962) and Bertin
-    (1977) diagrams.'
+    several tests and measures of diversity: heterogeneity and evenness (Brillouin,
+    Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.),
+    turnover and similarity (Brainerd-Robinson, etc.). The package make it easy to
+    visualize count data and statistical thresholds: rank vs abundance plots, heatmaps,
+    Ford (1962) and Bertin (1977) diagrams.'
   repository: https://CRAN.R-project.org/package=tabula
   repository-code: https://github.com/tesselle/tabula
   url: https://packages.tesselle.org/tabula/
@@ -49,8 +46,14 @@ preferred-citation:
     email: nicolas.frerebeau@u-bordeaux-montaigne.fr
     orcid: https://orcid.org/0000-0001-5759-4944
     affiliation: Université Bordeaux Montaigne
+  keywords:
+  - archaeological-science
+  - archaeology
+  - data-visualization
+  - matrix-seriation
+  - r-package
   license: GPL-3.0-or-later
-  year: '2021'
+  year: '2022'
 repository: https://CRAN.R-project.org/package=tabula
 repository-code: https://github.com/tesselle/tabula
 url: https://packages.tesselle.org/tabula/
@@ -76,7 +79,7 @@ references:
   year: '2019'
   journal: Journal of Open Source Software
   volume: '4'
-  number: '44'
+  issue: '44'
   doi: 10.21105/joss.01821
 identifiers:
 - description: The concept DOI.

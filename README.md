@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/tesselle/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/tesselle/tabula/actions)
-[![codecov](https://codecov.io/gh/tesselle/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/tesselle/tabula)
+[![codecov](https://codecov.io/gh/tesselle/tabula/branch/master/graph/badge.svg)](https://app.codecov.io/gh/tesselle/tabula)
 
 <a href="https://tesselle.r-universe.dev" class="pkgdown-devel"><img
 src="https://tesselle.r-universe.dev/badges/tabula"
@@ -203,8 +203,8 @@ to this project, you agree to abide by its terms.
 
 <div id="ref-bertin1977" class="csl-entry">
 
-Bertin, Jacques. 1977. *La Graphique Et Le Traitement Graphique de
-l’information*. Nouvelle Bibliothèque Scientifique. Paris: Flammarion.
+Bertin, Jacques. 1977. *La graphique et le traitement graphique de
+l’information*. Nouvelle bibliothèque scientifique. Paris: Flammarion.
 
 </div>
 

@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/tesselle/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/tesselle/tabula/actions)
-[![codecov](https://codecov.io/gh/tesselle/tabula/branch/master/graph/badge.svg)](https://codecov.io/gh/tesselle/tabula)
+[![codecov](https://codecov.io/gh/tesselle/tabula/branch/master/graph/badge.svg)](https://app.codecov.io/gh/tesselle/tabula)
 
 [![r-universe](https://tesselle.r-universe.dev/badges/tabula)](https://tesselle.r-universe.dev){.pkgdown-devel}
 [![CRAN Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula){.pkgdown-release}

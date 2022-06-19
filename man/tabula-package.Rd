@@ -5,7 +5,7 @@
 \alias{tabula-package}
 \alias{_PACKAGE}
 \alias{tabula}
-\title{tabula: Analysis, Seriation and Visualization of Archaeological Count Data}
+\title{tabula: Analysis and Visualization of Archaeological Count Data}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 

@@ -1,11 +1,11 @@
-# tabula 1.6.1.9000
-**Seriation methods are temporarily reexported from kairos and will be removed in the next release.**
+# tabula 1.7.0
+**Seriation methods are now reexported from kairos and will be removed in a future release.**
 
 ## New classes and methods
 * Add `RarefactionIndex`: S4 class that represent rarefied species richness.
 * Add `bootstrap()`, `jackknife()` and `simulate()` methods to perform bootstrap and jackknife resampling and to measure diversity in simulated assemblages.
 * Add `heterogeneity()`, `evenness()`, `richness()` and `composition()` methods for `matrix` and `data.frame`.
-* Add `resample()` to sample observations from a multinomial distribution.
+* Add `simulate()` to simulate observations from a multinomial distribution.
 * Add `autoplot()` and `plot()` methods for `RarefactionIndex` objects.
 
 ## Bugfixes & changes
@@ -15,6 +15,7 @@
 
 ## Breaking changes
 * `turnover()` no longer accept multiple methods as argument.
+* Fix `bootstrap()` method for `DiversityIndex` objects: resample with replacement instead of simulating observations from a multinomial distribution.
 * No longer use classes from **arkhe**: all methods are now defined for `matrix` and `data.frame`.
 * Deprecate seriation methods: `seriate_*()` and `permute()` now belong to **kairos**.
 
