@@ -8,7 +8,7 @@
   "codeRepository": "https://github.com/tesselle/tabula",
   "issueTracker": "https://github.com/tesselle/tabula/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "1.7.0",
+  "version": "1.7.0.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -262,7 +262,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "1659.754KB",
+  "fileSize": "1660.25KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -294,5 +294,5 @@
   "readme": "https://github.com/tesselle/tabula/blob/main/README.md",
   "contIntegration": ["https://github.com/tesselle/tabula/actions", "https://app.codecov.io/gh/tesselle/tabula"],
   "developmentStatus": "https://www.repostatus.org/#active",
-  "keywords": ["archaeology", "archaeological-science", "matrix-seriation", "data-visualization", "r-package"]
+  "keywords": ["archaeology", "archaeological-science", "data-visualization", "r-package"]
 }
