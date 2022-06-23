@@ -44,9 +44,9 @@ etc.). The package make it easy to visualize count data and statistical
 thresholds: rank vs. abundance plots, heatmaps, Ford (1962) and Bertin
 (1977) diagrams.
 
-[**kairos**](https://www.tesselle.org/kairos/) is a companion package to
-**tabula** that provides functions for chronological modeling and dating
-of archaeological assemblages from count data.
+[**kairos**](https://packages.tesselle.org/kairos/) is a companion
+package to **tabula** that provides functions for chronological modeling
+and dating of archaeological assemblages from count data.
 
 
     To cite tabula in publications use:
@@ -158,6 +158,8 @@ heterogeneity(mississippi, method = "shannon")
 Measure diversity by comparing to simulated assemblages:
 
 ``` r
+set.seed(12345)
+
 ## Data from Conkey 1980, Kintigh 1989, p. 28
 chevelon %>%
   heterogeneity(method = "shannon") %>%

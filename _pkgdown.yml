@@ -10,9 +10,6 @@ reference:
 - title: Diversity Measures
   contents:
   - has_concept("diversity measures")
-- title: Seriation
-  contents:
-  - has_concept("seriation")
 - title: Visualization
   contents:
   - has_concept("plot methods")
@@ -34,7 +31,5 @@ navbar:
       menu:
       - text: Diversity Measures
         href: articles/diversity.html
-      - text: Seriation Methods
-        href: articles/seriation.html
       - text: Bibliography
         href: articles/bibliography.html

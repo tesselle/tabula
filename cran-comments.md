@@ -10,6 +10,7 @@
 
 * CRAN package check warning ("replacing previous import") has been fixed.
 * Some links in the documentation point to articles behind paywalls that may return a 403 error.
+* This is a resubmission.
 
 ## revdepcheck results
 
