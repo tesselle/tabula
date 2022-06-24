@@ -9,10 +9,13 @@ NULL
 setMethod(
   f = "heterogeneity",
   signature = signature(object = "matrix"),
-  definition = function(object, method = c("berger", "brillouin", "mcintosh",
-                                           "shannon", "simpson")) {
+  definition = function(object, method = c("berger", "boone", "brillouin",
+                                           "mcintosh", "shannon", "simpson"),
+                        j = NULL) {
     method <- match.arg(method, several.ok = FALSE)
-    index <- index_diversity(object, method, evenness = FALSE)
+    by_row <- any(method != "boone")
+    index <- index_diversity(object, method, evenness = FALSE, j = j,
+                             by_row = by_row)
     .HeterogeneityIndex(index)
   }
 )
@@ -23,10 +26,11 @@ setMethod(
 setMethod(
   f = "heterogeneity",
   signature = signature(object = "data.frame"),
-  definition = function(object, method = c("berger", "brillouin", "mcintosh",
-                                           "shannon", "simpson")) {
+  definition = function(object, method = c("berger", "boone", "brillouin",
+                                           "mcintosh", "shannon", "simpson"),
+                        j = NULL) {
     object <- data.matrix(object)
-    methods::callGeneric(object, method = method)
+    methods::callGeneric(object, method = method, j = j)
   }
 )
 
@@ -78,6 +82,36 @@ setMethod(
     N <- sum(x)
     d <- Nmax / N
     d
+  }
+)
+
+## Boone -----------------------------------------------------------------------
+#' @export
+#' @rdname heterogeneity
+#' @aliases index_boone,matrix-method
+setMethod(
+  f = "index_boone",
+  signature = signature(x = "matrix"),
+  definition = function(x, j = NULL, na.rm = FALSE, ...) {
+    ## Validation
+    arkhe::assert_count(x)
+
+    if (na.rm) x <- stats::na.omit(x) # Remove NAs
+    if (anyNA(x)) return(NA)
+
+    Y <- colSums(x) # Site-wide totals of each artifact class
+    if (is.null(j)) j <- which.max(Y)
+
+    W <- Y[j] / Y # Weighting factor
+    P <- W * Y / sum(W * Y)
+
+    W <- matrix(W, nrow = nrow(x), ncol = ncol(x), byrow = TRUE)
+    P <- matrix(P, nrow = nrow(x), ncol = ncol(x), byrow = TRUE)
+
+    Wx <- W * x # Weighted counts
+    px <- Wx / rowSums(Wx) # Weighted percentages
+
+    rowSums((px - P)^2)
   }
 )
 

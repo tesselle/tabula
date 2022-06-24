@@ -8,6 +8,8 @@
 \alias{evenness-method}
 \alias{index_berger}
 \alias{index_berger-method}
+\alias{index_boone}
+\alias{index_boone-method}
 \alias{index_brillouin}
 \alias{index_brillouin-method}
 \alias{index_mcintosh}
@@ -21,6 +23,7 @@
 \alias{evenness,matrix-method}
 \alias{evenness,data.frame-method}
 \alias{index_berger,numeric-method}
+\alias{index_boone,matrix-method}
 \alias{index_brillouin,numeric-method}
 \alias{index_mcintosh,numeric-method}
 \alias{index_shannon,numeric-method}
@@ -33,6 +36,8 @@ evenness(object, ...)
 
 index_berger(x, ...)
 
+index_boone(x, ...)
+
 index_brillouin(x, ...)
 
 index_mcintosh(x, ...)
@@ -43,12 +48,14 @@ index_simpson(x, ...)
 
 \S4method{heterogeneity}{matrix}(
   object,
-  method = c("berger", "brillouin", "mcintosh", "shannon", "simpson")
+  method = c("berger", "boone", "brillouin", "mcintosh", "shannon", "simpson"),
+  j = NULL
 )
 
 \S4method{heterogeneity}{data.frame}(
   object,
-  method = c("berger", "brillouin", "mcintosh", "shannon", "simpson")
+  method = c("berger", "boone", "brillouin", "mcintosh", "shannon", "simpson"),
+  j = NULL
 )
 
 \S4method{evenness}{matrix}(object, method = c("shannon", "brillouin", "mcintosh", "simpson"))
@@ -56,6 +63,8 @@ index_simpson(x, ...)
 \S4method{evenness}{data.frame}(object, method = c("shannon", "brillouin", "mcintosh", "simpson"))
 
 \S4method{index_berger}{numeric}(x, na.rm = FALSE, ...)
+
+\S4method{index_boone}{matrix}(x, j = NULL, na.rm = FALSE, ...)
 
 \S4method{index_brillouin}{numeric}(x, evenness = FALSE, na.rm = FALSE, ...)
 
@@ -76,6 +85,10 @@ individuals for each class).}
 
 \item{method}{A \code{\link{character}} string specifying the index to be computed
 (see details). Any unambiguous substring can be given.}
+
+\item{j}{An \code{\link{integer}} giving the index of the reference type/taxa.
+If \code{NULL} (the default), the most frequent type/taxa in any assemblage will
+be used.}
 
 \item{na.rm}{A \code{\link{numeric}} scalar: should missing values (including \code{NaN}) be
 removed?}
@@ -128,6 +141,7 @@ are available (see Magurran 1988 for details):
 expresses the proportional importance of the most abundant type. This
 metric is highly biased by sample size and richness, moreover it does not
 make use of all the information available from sample.}
+\item{\code{boone}}{Boone heterogeneity measure.}
 \item{\code{brillouin}}{Brillouin diversity index. The Brillouin index describes
 a known collection: it does not assume random sampling in an infinite
 population. Pielou (1975) and Laxton (1978) argues for the use of the
@@ -180,6 +194,9 @@ jackknife(h)
 Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
 in Deep-Sea Sediments. \emph{Science}, 168(3937), 1345-1347.
 \doi{10.1126/science.168.3937.1345}.
+
+Boone, J. L. (1987). Defining and Measuring Midden Catchment. \emph{American
+Antiquity}, 52(2), 336-45. \doi{10.2307/281785}.
 
 Brillouin, L. (1956). \emph{Science and information theory}. New York:
 Academic Press.

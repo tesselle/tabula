@@ -174,6 +174,9 @@ setGeneric(
 #' @param x A [`numeric`] vector of count data (absolute frequencies).
 #' @param evenness A [`logical`] scalar: should an evenness measure be computed
 #'  instead of an heterogeneity/dominance index?
+#' @param j An [`integer`] giving the index of the reference type/taxa.
+#'  If `NULL` (the default), the most frequent type/taxa in any assemblage will
+#'  be used.
 #' @param base A positive [`numeric`] value specifying the base with respect to
 #'  which logarithms are computed.
 #' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
@@ -203,6 +206,7 @@ setGeneric(
 #'    expresses the proportional importance of the most abundant type. This
 #'    metric is highly biased by sample size and richness, moreover it does not
 #'    make use of all the information available from sample.}
+#'   \item{`boone`}{Boone heterogeneity measure.}
 #'   \item{`brillouin`}{Brillouin diversity index. The Brillouin index describes
 #'    a known collection: it does not assume random sampling in an infinite
 #'    population. Pielou (1975) and Laxton (1978) argues for the use of the
@@ -241,6 +245,9 @@ setGeneric(
 #'  Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
 #'  in Deep-Sea Sediments. *Science*, 168(3937), 1345-1347.
 #'  \doi{10.1126/science.168.3937.1345}.
+#'
+#'  Boone, J. L. (1987). Defining and Measuring Midden Catchment. *American
+#'  Antiquity*, 52(2), 336-45. \doi{10.2307/281785}.
 #'
 #'  Brillouin, L. (1956). *Science and information theory*. New York:
 #'  Academic Press.
@@ -304,6 +311,13 @@ setGeneric(
 setGeneric(
   name = "index_berger",
   def = function(x, ...) standardGeneric("index_berger")
+)
+
+#' @rdname heterogeneity
+#' @aliases index_boone-method
+setGeneric(
+  name = "index_boone",
+  def = function(x, ...) standardGeneric("index_boone")
 )
 
 #' @rdname heterogeneity
