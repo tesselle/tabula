@@ -11,7 +11,7 @@ test_that("Binomial coefficient", {
   expect_equal(combination(171, 3), 818816.247275706)
   expect_error(combination(3, "a"))
 
-  options("verbose" = TRUE)
+  options("tabula.verbose" = TRUE)
   expect_message(combination(171, 3), "Ramanujan approximation of x!")
 })
 test_that("Confidence interval for a proportion", {
