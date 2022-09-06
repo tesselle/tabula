@@ -7,7 +7,7 @@ NULL
 setMethod(
   f = "rarefaction",
   signature = signature(object = "matrix"),
-  definition = function(object, sample = NULL, method = c("hurlbert"),
+  definition = function(object, sample = NULL, method = c("hurlbert", "baxter"),
                         step = 1) {
     ## Validation
     method <- match.arg(method, several.ok = FALSE)
@@ -60,6 +60,37 @@ setMethod(
 )
 
 # Index ========================================================================
+#' @export
+#' @rdname rarefaction
+#' @aliases index_baxter,numeric-method
+setMethod(
+  f = "index_baxter",
+  signature = signature(x = "numeric"),
+  definition = function(x, sample, ...) {
+    ## Validation
+    arkhe::assert_count(x)
+
+    x <- x[x > 0]
+    N <- sum(x)
+
+    E <- vapply(
+      X = x,
+      FUN = function(x, N, sample) {
+        if (x <= N) {
+          ## TODO: reprendre ici
+          (factorial(N - x) * factorial(N - sample)) /
+            (factorial(N - x - sample) * factorial(N))
+        } else {
+          0
+        }
+      },
+      FUN.VALUE = double(1),
+      N, sample
+    )
+    E <- sum(1 - E, na.rm = TRUE)
+  }
+)
+
 #' @export
 #' @rdname rarefaction
 #' @aliases index_hurlbert,numeric-method

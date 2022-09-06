@@ -536,6 +536,9 @@ setGeneric(
 #'  * `rarefaction()` returns a [RarefactionIndex-class] object.
 #'  * `index_*()` return a [`numeric`] vector.
 #' @references
+#'  Baxter, M. J. (2001). Methodological Issues in the Study of Assemblage
+#'  Diversity. *American Antiquity*, 66(4), 715-725. \doi{10.2307/2694184}.
+#'
 #'  Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
 #'  Alternative Parameters. *Ecology*, 52(4), 577-586.
 #'  \doi{10.2307/1934145}.
@@ -555,6 +558,13 @@ NULL
 setGeneric(
   name = "rarefaction",
   def = function(object, ...) standardGeneric("rarefaction")
+)
+
+#' @rdname rarefaction
+#' @aliases index_baxter-method
+setGeneric(
+  name = "index_baxter",
+  def = function(x, ...) standardGeneric("index_baxter")
 )
 
 #' @rdname rarefaction
@@ -818,6 +828,9 @@ setGeneric(
 #' @return
 #'  Returns a [DiversityIndex-class] object.
 #' @references
+#'  Baxter, M. J. (2001). Methodological Issues in the Study of Assemblage
+#'  Diversity. *American Antiquity*, 66(4), 715-725. \doi{10.2307/2694184}.
+#'
 #'  Kintigh, K. W. (1984). Measuring Archaeological Diversity by Comparison
 #'  with Simulated Assemblages. *American Antiquity*, 49(1), 44-54.
 #'  \doi{10.2307/280511}.
