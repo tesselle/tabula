@@ -33,10 +33,6 @@ test_that("Matrix plot", {
   skip_if_not_installed("folio")
   data("mississippi", package = "folio")
 
-  test_count <- arkhe::as_count(mississippi)
-  test_freq <- arkhe::as_composition(mississippi)
-  test_incid <- arkhe::as_incidence(mississippi)
-
   # Count data
   gg_mtx_count <- plot_heatmap(mississippi)
   vdiffr::expect_doppelganger("mtx_count", gg_mtx_count)

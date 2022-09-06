@@ -1080,27 +1080,6 @@ setGeneric(
 # Deprecated ===================================================================
 #' Deprecated Methods
 #'
-#' @param object A \eqn{m \times p}{m x p} matrix of count data (typically
-#'  a [CountMatrix-class] object).
-#' @param diag A [`logical`] scalar indicating whether the diagonal of the
-#'  matrix should be plotted. Only used if `object` is a symmetric matrix.
-#' @param upper A [`logical`] scalar indicating whether the upper triangle of
-#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
-#' @param lower A [`logical`] scalar indicating whether the lower triangle of
-#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
-#' @param method A [`character`] string specifying the index to be computed
-#'  (see details). Any unambiguous substring can be given.
-#' @param quantiles A [`logical`] scalar: should sample quantiles be used as
-#'  confidence interval? If `TRUE` (the default), sample quantiles are used as
-#'  described in Kintigh (1989), else quantiles of the normal distribution are
-#'  used.
-#' @param level A length-one [`numeric`] vector giving the confidence level.
-#' @param step A non-negative [`integer`] giving the increment of the
-#'  sample size. Only used if `simulate` is `TRUE`.
-#' @param progress A [`logical`] scalar: should a progress bar be displayed?
-#' @param ... Further arguments to be passed to internal methods.
-#' @inheritParams stats_bootstrap
-#' @param ... Currently not used.
 #' @author N. Frerebeau
 #' @docType methods
 #' @name deprecate

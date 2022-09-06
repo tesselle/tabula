@@ -120,12 +120,17 @@ combination <- function(n, k) {
   }
 
   if (n > 170 | k > 170) {
-    if (getOption("verbose")) message("Ramanujan approximation of x!")
+    if (getOption("tabula.verbose")) message("Ramanujan approximation of x!")
     c <- exp(ramanujan(n) - ramanujan(k) - ramanujan(n - k))
   } else {
     c <- factorial(n) / (factorial(k) * factorial(n - k))
   }
   c
+}
+
+# Ramanujan factorial approximation
+ramanujan <- function(x){
+  x * log(x) - x + log(x * (1 + 4 * x * (1 + 2 * x))) / 6 + log(pi) / 2
 }
 
 #' Confidence Interval for a Proportion

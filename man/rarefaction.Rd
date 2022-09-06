@@ -4,20 +4,27 @@
 \name{rarefaction}
 \alias{rarefaction}
 \alias{rarefaction-method}
+\alias{index_baxter}
+\alias{index_baxter-method}
 \alias{index_hurlbert}
 \alias{index_hurlbert-method}
 \alias{rarefaction,matrix-method}
 \alias{rarefaction,data.frame-method}
+\alias{index_baxter,numeric-method}
 \alias{index_hurlbert,numeric-method}
 \title{Rarefaction}
 \usage{
 rarefaction(object, ...)
 
+index_baxter(x, ...)
+
 index_hurlbert(x, ...)
 
-\S4method{rarefaction}{matrix}(object, sample = NULL, method = c("hurlbert"), step = 1)
+\S4method{rarefaction}{matrix}(object, sample = NULL, method = c("hurlbert", "baxter"), step = 1)
 
 \S4method{rarefaction}{data.frame}(object, sample = NULL, method = c("hurlbert"), step = 1)
+
+\S4method{index_baxter}{numeric}(x, sample, ...)
 
 \S4method{index_hurlbert}{numeric}(x, sample, ...)
 }
@@ -93,6 +100,9 @@ composition(brazil, method = c("ace"), k = 10) # 445.822
 rarefaction(trap, sample = 13) # 6.56 6.00
 }
 \references{
+Baxter, M. J. (2001). Methodological Issues in the Study of Assemblage
+Diversity. \emph{American Antiquity}, 66(4), 715-725. \doi{10.2307/2694184}.
+
 Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
 Alternative Parameters. \emph{Ecology}, 52(4), 577-586.
 \doi{10.2307/1934145}.

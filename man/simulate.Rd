@@ -55,6 +55,9 @@ plot(r_sim)
 }
 }
 \references{
+Baxter, M. J. (2001). Methodological Issues in the Study of Assemblage
+Diversity. \emph{American Antiquity}, 66(4), 715-725. \doi{10.2307/2694184}.
+
 Kintigh, K. W. (1984). Measuring Archaeological Diversity by Comparison
 with Simulated Assemblages. \emph{American Antiquity}, 49(1), 44-54.
 \doi{10.2307/280511}.
