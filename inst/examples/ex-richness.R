@@ -1,4 +1,3 @@
-## Richness
 ## Margalef and Menhinick index
 ## Data from Magurran 1988, p. 128-129
 trap <- matrix(data = c(9, 3, 0, 4, 2, 1, 1, 0, 1, 0, 1, 1,
@@ -21,6 +20,3 @@ brazil <- matrix(
 
 composition(brazil, method = c("chao1"), unbiased = FALSE) # 461.625
 composition(brazil, method = c("ace"), k = 10) # 445.822
-
-## Rarefaction
-rarefaction(trap, sample = 13) # 6.56 6.00

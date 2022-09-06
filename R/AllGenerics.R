@@ -545,7 +545,7 @@ setGeneric(
 #'
 #'  Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
 #'  *The American Naturalist*, 102(925), 243-282.
-#' @example inst/examples/ex-richness.R
+#' @example inst/examples/ex-rarefaction.R
 #' @author N. Frerebeau
 #' @family diversity measures
 #' @docType methods

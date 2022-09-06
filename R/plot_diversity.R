@@ -82,16 +82,14 @@ setMethod("plot", c(x = "DiversityIndex", y = "missing"), plot.DiversityIndex)
 autoplot.RarefactionIndex <- function(object, ...) {
   ## Prepare data
   count <- arkhe::as_long(object)
-  count$label <- rownames(object)
+  count$Entity <- rownames(object)
   count$size <- rep(object@size, each = nrow(object))
 
   ## ggplot
   ggplot2::ggplot(data = count) +
-    ggplot2::aes(x = .data$size, y = .data$value,
-                 group = .data$label, label = .data$label) +
-    ggplot2::geom_line(na.rm = TRUE) +
-    ggplot2::scale_x_continuous(name = "Sample size") +
-    ggplot2::scale_y_continuous(name = "Species")
+    ggplot2::aes(x = .data$size, y = .data$value, linetype = .data$Entity,
+                 group = .data$Entity, label = .data$Entity) +
+    ggplot2::geom_line(na.rm = TRUE)
 }
 
 #' @export
@@ -103,6 +101,8 @@ setMethod("autoplot", "RarefactionIndex", autoplot.RarefactionIndex)
 #' @method plot RarefactionIndex
 plot.RarefactionIndex <- function(x, ...) {
   gg <- autoplot(object = x) +
+    ggplot2::scale_x_continuous(name = "Sample size") +
+    ggplot2::scale_y_continuous(name = "Expected species index") +
     ggplot2::theme_bw()
   print(gg)
   invisible(x)

@@ -114,11 +114,6 @@ combination <- function(n, k) {
   if (!is.numeric(k))
     stop("`k` must be a numeric vector.")
 
-  # Ramanujan factorial approximation
-  ramanujan <- function(x){
-    x * log(x) - x + log(x * (1 + 4 * x * (1 + 2 * x))) / 6 + log(pi) / 2
-  }
-
   if (n > 170 | k > 170) {
     if (getOption("tabula.verbose")) message("Ramanujan approximation of x!")
     c <- exp(ramanujan(n) - ramanujan(k) - ramanujan(n - k))

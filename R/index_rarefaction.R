@@ -52,7 +52,7 @@ setMethod(
 setMethod(
   f = "rarefaction",
   signature = signature(object = "data.frame"),
-  definition = function(object, sample = NULL, method = c("hurlbert"),
+  definition = function(object, sample = NULL, method = c("hurlbert", "baxter"),
                         step = 1) {
     object <- data.matrix(object)
     methods::callGeneric(object, sample = sample, method = method, step = step)
@@ -73,21 +73,9 @@ setMethod(
     x <- x[x > 0]
     N <- sum(x)
 
-    E <- vapply(
-      X = x,
-      FUN = function(x, N, sample) {
-        if (x <= N) {
-          ## TODO: reprendre ici
-          (factorial(N - x) * factorial(N - sample)) /
-            (factorial(N - x - sample) * factorial(N))
-        } else {
-          0
-        }
-      },
-      FUN.VALUE = double(1),
-      N, sample
-    )
-    E <- sum(1 - E, na.rm = TRUE)
+    E <- suppressWarnings(exp(ramanujan(N - x) + ramanujan(N - sample) -
+                                ramanujan(N - x - sample) - ramanujan(N)))
+    sum(1 - E, na.rm = FALSE)
   }
 )
 
@@ -116,7 +104,7 @@ setMethod(
       FUN.VALUE = double(1),
       N, sample
     )
-    E <- sum(1 - E, na.rm = TRUE)
+    E <- sum(1 - E, na.rm = FALSE)
     return(E)
   }
 )

@@ -15,3 +15,9 @@ test_that("Hurlbert rarefaction", {
   n2 <- c(1, 0, 1, 0, 0, 0, 1, 2, 0, 5, 3, 0)
   expect_snapshot(index_hurlbert(n1, 13)) # 6.58
 })
+test_that("Baxter rarefaction", {
+  # Baxter 2001, p. 720
+  a <- c(2, 12, 7, 1, 0, 3, 12, 15, 0, 3, 1, 1, 12, 7, 3, 11, 3, 1, 7, 2, 4, 3,
+         3, 1, 5, 1, 1, 1, 0, 2, 0, 1, 0, 1, 1, 1, 3, 0, 2, 1, 4, 5, 4, 5)
+  expect_snapshot(index_baxter(a, sample = 5)) # 4.59
+})

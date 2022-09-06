@@ -17,3 +17,10 @@
     Output
       [1] 6.556735
 
+# Baxter rarefaction
+
+    Code
+      index_baxter(a, sample = 5)
+    Output
+      [1] 4.593764
+
