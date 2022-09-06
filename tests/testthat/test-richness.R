@@ -13,6 +13,7 @@ test_that("Richness", {
   boot <- with_seed(12345, bootstrap(index, n = 30))
   expect_snapshot(boot)
 
+  skip("Remove skip() when arkhe is released")
   jack <- jackknife(index)
   expect_snapshot(jack)
 })
