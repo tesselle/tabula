@@ -1,4 +1,8 @@
 # tabula 1.7.0.9000
+## New classes and methods
+* Add `index_boone()`: Boone heterogeneity index.
+* Add `index_baxter()`: Baxter rarefaction index.
+
 ## Bugfixes & changes
 * Remove all previously deprecated methods.
 

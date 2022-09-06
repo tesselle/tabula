@@ -51,8 +51,17 @@ index to be computed (see details). Any unambiguous substring can be given.}
 }
 }
 \description{
-Computes Hurlbert's unbiased estimate of Sander's rarefaction.
+Rarefaction
 }
+\section{Rarefaction Measures}{
+
+The following rarefaction measures are available for count data:
+\describe{
+\item{\code{baxter}}{Baxter's rarefaction.}
+\item{\code{hurlbert}}{Hurlbert's unbiased estimate of Sander's rarefaction.}
+}
+}
+
 \section{Details}{
 
 The number of different taxa, provides an instantly comprehensible

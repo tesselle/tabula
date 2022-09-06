@@ -6,8 +6,7 @@ trap <- matrix(data = c(9, 3, 0, 4, 2, 1, 1, 0, 1, 0, 1, 1,
 richness(trap, method = "margalef") # 2.55 1.88
 richness(trap, method = "menhinick") # 1.95 1.66
 
-## Asymptotic species richness
-## Chao1-type estimators
+## Chao1-type estimators (asymptotic species richness)
 ## Data from Chao & Chiu 2016
 brazil <- matrix(
   data = rep(x = c(1:21, 23, 25, 27, 28, 30, 32, 34:37, 41,

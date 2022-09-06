@@ -26,7 +26,9 @@ pvi(object, ...)
 \S4method{pvi}{data.frame}(object)
 }
 \arguments{
-\item{object}{A \linkS4class{CountMatrix} object.}
+\item{object}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
+\code{\link{data.frame}} of count data (absolute frequencies giving the number of
+individuals for each class).}
 
 \item{...}{Currently not used.}
 }
@@ -64,8 +66,7 @@ with a low risk of being due to randomness (Desachy 2004).
 }
 
 \examples{
-## Abundance data
-## Coerce dataset to a count matrix (data from Desachy 2004)
+## Ceramic data
 data("compiegne", package = "folio")
 
 ## Compute EPPM

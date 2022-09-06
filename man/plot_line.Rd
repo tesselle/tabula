@@ -36,8 +36,7 @@ A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
 Plots a rank \emph{vs} relative abundance diagram.
 }
 \examples{
-## Abundance matrix
-## Coerce datasets to a count matrix (data from Desachy 2004)
+## Ceramic data
 data("compiegne", package = "folio")
 
 ## Plot rank vs abundance

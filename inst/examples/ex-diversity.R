@@ -1,3 +1,4 @@
+## Ceramic data
 data("chevelon", package = "folio")
 
 ## Shannon diversity index

@@ -1,7 +1,7 @@
 # Rarefaction
 
     Code
-      rarefaction(trap, sample = 13)
+      rare
     Output
         1        2      3        4        5        6        7        8        9
       1 1 1.818182 2.5048 3.095765 3.616393 4.084312 4.511693 4.906919 5.275811

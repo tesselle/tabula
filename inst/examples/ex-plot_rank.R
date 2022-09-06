@@ -1,5 +1,4 @@
-## Abundance matrix
-## Coerce datasets to a count matrix (data from Desachy 2004)
+## Ceramic data
 data("compiegne", package = "folio")
 
 ## Plot rank vs abundance

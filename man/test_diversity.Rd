@@ -33,8 +33,10 @@ This test produces two sided pairwise comparisons: it returns a matrix of
 adjusted \eqn{p} values.
 }
 \examples{
-## Shannon diversity test
+## Ceramic data
 data("merzbach", package = "folio")
+
+## Shannon diversity test
 test_diversity(merzbach)
 }
 \references{

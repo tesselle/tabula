@@ -101,9 +101,6 @@ setMethod(
 #' @details
 #'  Ramanujan approximation is used for \eqn{x!} computation if \eqn{x > 170}.
 #' @return A length-one [`numeric`] vector.
-#' @references
-#'  Ramanujan Aiyangar, S. (1988). *The lost notebook and other unpublished
-#'  papers*. Berlin: Springer-Verlag.
 #' @author N. Frerebeau
 #' @keywords internal
 #' @noRd
@@ -123,7 +120,19 @@ combination <- function(n, k) {
   c
 }
 
-# Ramanujan factorial approximation
+#' Ramanujan Factorial Approximation
+#'
+#' @param x A [`numeric`] vector.
+#' @return A [`numeric`] vector.
+#' @examples
+#'  factorial(50)
+#'  exp(ramanujan(50))
+#' @references
+#'  Ramanujan Aiyangar, S. (1988). *The lost notebook and other unpublished
+#'  papers*. Berlin: Springer-Verlag.
+#' @author N. Frerebeau
+#' @keywords internal
+#' @noRd
 ramanujan <- function(x){
   x * log(x) - x + log(x * (1 + 4 * x * (1 + 2 * x))) / 6 + log(pi) / 2
 }

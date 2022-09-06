@@ -31,9 +31,10 @@ diagonal, which works out how many times each pairs of taxa/types occur
 together in at least one sample.
 }
 \examples{
-## Plot spot diagram of a co-occurrence matrix
+## Ceramic data
 data("mississippi", package = "folio")
 
+## Plot spot diagram of a co-occurrence matrix
 occ <- occurrence(mississippi)
 plot_spot(occ)
 }

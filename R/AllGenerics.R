@@ -109,7 +109,9 @@ setGeneric(
 
 #' Independance
 #'
-#' @param object A [CountMatrix-class] object.
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each class).
 #' @param ... Currently not used.
 #' @details
 #'  Computes for each cell of a numeric matrix one of the following statistic.
@@ -521,7 +523,6 @@ setGeneric(
 
 #' Rarefaction
 #'
-#' Computes Hurlbert's unbiased estimate of Sander's rarefaction.
 #' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
 #'  [`data.frame`] of count data (absolute frequencies).
 #' @param x A [`numeric`] vector of count data (absolute frequencies).
@@ -532,6 +533,12 @@ setGeneric(
 #' @param step An [`integer`] giving the increment of the sample size.
 #' @param ... Currently not used.
 #' @inheritSection richness Details
+#' @section Rarefaction Measures:
+#'  The following rarefaction measures are available for count data:
+#'  \describe{
+#'   \item{`baxter`}{Baxter's rarefaction.}
+#'   \item{`hurlbert`}{Hurlbert's unbiased estimate of Sander's rarefaction.}
+#'  }
 #' @return
 #'  * `rarefaction()` returns a [RarefactionIndex-class] object.
 #'  * `index_*()` return a [`numeric`] vector.

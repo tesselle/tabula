@@ -85,9 +85,10 @@ Adapted from Dan Gopstein's original
 \href{https://dgopstein.github.io/articles/spot-matrix/}{idea}.
 }
 \examples{
-## Plot spot diagram of count data...
+## Ceramic data
 data("mississippi", package = "folio")
 
+## Plot spot diagram of count data...
 ### ...without threshod
 plot_spot(mississippi)
 ### ...with the  column means as threshold

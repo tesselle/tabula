@@ -87,7 +87,7 @@ autoplot.RarefactionIndex <- function(object, ...) {
 
   ## ggplot
   ggplot2::ggplot(data = count) +
-    ggplot2::aes(x = .data$size, y = .data$value, linetype = .data$Entity,
+    ggplot2::aes(x = .data$size, y = .data$value, colour = .data$Entity,
                  group = .data$Entity, label = .data$Entity) +
     ggplot2::geom_line(na.rm = TRUE)
 }

@@ -36,7 +36,7 @@ Diversity Plot
 }
 \examples{
 \donttest{
-## Coerce data to a count matrix
+## Ceramic data
 data("chevelon", package = "folio")
 
 ## Assemblage diversity size comparison

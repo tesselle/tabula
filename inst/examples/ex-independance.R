@@ -1,5 +1,4 @@
-## Abundance data
-## Coerce dataset to a count matrix (data from Desachy 2004)
+## Ceramic data
 data("compiegne", package = "folio")
 
 ## Compute EPPM

@@ -1,5 +1,5 @@
 \donttest{
-## Abundance data
+## Ceramic data
 data("mississippi", package = "folio")
 
 ## Plot a Bertin diagram...

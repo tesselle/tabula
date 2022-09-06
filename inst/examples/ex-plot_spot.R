@@ -1,6 +1,7 @@
-## Plot spot diagram of count data...
+## Ceramic data
 data("mississippi", package = "folio")
 
+## Plot spot diagram of count data...
 ### ...without threshod
 plot_spot(mississippi)
 ### ...with the  column means as threshold
