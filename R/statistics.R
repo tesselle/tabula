@@ -136,38 +136,3 @@ combination <- function(n, k) {
 ramanujan <- function(x){
   x * log(x) - x + log(x * (1 + 4 * x * (1 + 2 * x))) / 6 + log(pi) / 2
 }
-
-#' Confidence Interval for a Proportion
-#'
-#' Computes the margin of errors of a confidence interval at a desired level of
-#'  significance.
-#' @param x A [`numeric`] vector.
-#' @param alpha A length-one [`numeric`] vector giving the significance
-#'  level to be used.
-#' @param type A [`character`] string giving the type of confidence
-#'  interval to be returned. It must be one "`normal`" (default) or
-#'  "`student`". Any unambiguous substring can be given.
-#' @return A [`numeric`] vector giving the margin of errors.
-#' @author N. Frerebeau
-#' @keywords internal
-#' @noRd
-confidence_proportion <- function(x, alpha = 0.05,
-                                  type = c("normal", "student")) {
-  # Validation
-  if (!is.numeric(x))
-    stop("`x` must be a numeric vector.")
-  type <- match.arg(type, several.ok = FALSE)
-
-  n <- sum(x)
-  p <- x / n
-  z <- switch(
-    type,
-    "normal" = stats::qnorm(1 - alpha / 2),
-    "student" = stats::qt(1 - alpha / 2, n - 1),
-    stop(sprintf("There is no such type: %s", type), call. = FALSE)
-  )
-  stardard_error <- sqrt(p * (1 - p) / n)
-
-  margin <- z * stardard_error
-  margin
-}

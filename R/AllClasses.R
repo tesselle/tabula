@@ -14,13 +14,6 @@ setOldClass("dist")
 #'  measures for the simulated assemblage (sample `size`, `mean` estimate,
 #'  `lower` and `upper` boundaries of the confidence interval).
 #' @slot method A [`character`] string specifying the method used.
-#' @section Subset:
-#'  In the code snippets below, `x` is a `DiversityIndex` object.
-#'  \describe{
-#'   \item{`x[[i]]`}{Extracts information from a slot selected by subscript `i`.
-#'   `i` is a length-one [`character`] vector. Returns the corresponding slot
-#'   values.}
-#'  }
 #' @section Coerce:
 #'  In the code snippets below, `x` is an `DiversityIndex` object.
 #'  \describe{
@@ -31,11 +24,6 @@ setOldClass("dist")
 #' @author N. Frerebeau
 #' @family classes
 #' @docType class
-#' @name DiversityIndex
-#' @rdname DiversityIndex
-NULL
-
-#' @rdname DiversityIndex
 #' @aliases DiversityIndex-class
 .DiversityIndex <- setClass(
   Class = "DiversityIndex",
@@ -48,32 +36,31 @@ NULL
   ),
   contains = "numeric"
 )
-#' @rdname DiversityIndex
+#' @rdname DiversityIndex-class
 #' @aliases HeterogeneityIndex-class
 .HeterogeneityIndex <- setClass(
   Class = "HeterogeneityIndex",
   contains = "DiversityIndex"
 )
-#' @rdname DiversityIndex
+#' @rdname DiversityIndex-class
 #' @aliases EvennessIndex-class
 .EvennessIndex <- setClass(
   Class = "EvennessIndex",
   contains = "DiversityIndex"
 )
-#' @rdname DiversityIndex
+#' @rdname DiversityIndex-class
 #' @aliases RichnessIndex-class
 .RichnessIndex <- setClass(
   Class = "RichnessIndex",
   contains = "DiversityIndex"
 )
-#' @rdname DiversityIndex
+#' @rdname DiversityIndex-class
 #' @aliases CompositionIndex-class
 .CompositionIndex <- setClass(
   Class = "CompositionIndex",
   contains = "DiversityIndex"
 )
-
-#' @rdname DiversityIndex
+#' @rdname DiversityIndex-class
 #' @aliases RarefactionIndex-class
 .RarefactionIndex <- setClass(
   Class = "RarefactionIndex",
