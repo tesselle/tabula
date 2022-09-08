@@ -1,4 +1,4 @@
-# tabula 1.7.0.9000
+# tabula 1.8.0
 **Seriation methods are now reexported from kairos and will be removed in a future release.**
 
 ## New classes and methods

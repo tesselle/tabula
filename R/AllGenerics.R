@@ -288,11 +288,6 @@ setGeneric(
 #' @author N. Frerebeau
 #' @family diversity measures
 #' @docType methods
-#' @name heterogeneity
-#' @rdname heterogeneity
-NULL
-
-#' @rdname heterogeneity
 #' @aliases heterogeneity-method
 setGeneric(
   name = "heterogeneity",
@@ -459,11 +454,6 @@ setGeneric(
 #' @author N. Frerebeau
 #' @family diversity measures
 #' @docType methods
-#' @name richness
-#' @rdname richness
-NULL
-
-#' @rdname richness
 #' @aliases richness-method
 setGeneric(
   name = "richness",
@@ -521,6 +511,7 @@ setGeneric(
   def = function(x, ...) standardGeneric("index_menhinick")
 )
 
+## Rarefaction -----------------------------------------------------------------
 #' Rarefaction
 #'
 #' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
@@ -556,11 +547,6 @@ setGeneric(
 #' @author N. Frerebeau
 #' @family diversity measures
 #' @docType methods
-#' @name rarefaction
-#' @rdname rarefaction
-NULL
-
-#' @rdname rarefaction
 #' @aliases rarefaction-method
 setGeneric(
   name = "rarefaction",
@@ -639,11 +625,6 @@ setGeneric(
 #' @author N. Frerebeau
 #' @family diversity measures
 #' @docType methods
-#' @name similarity
-#' @rdname similarity
-NULL
-
-#' @rdname similarity
 #' @aliases similarity-method
 setGeneric(
   name = "similarity",
@@ -707,11 +688,6 @@ setGeneric(
 #' @author N. Frerebeau
 #' @family diversity measures
 #' @docType methods
-#' @name occurrence
-#' @rdname occurrence
-NULL
-
-#' @rdname occurrence
 #' @aliases occurrence-method
 setGeneric(
   name = "occurrence",
@@ -766,14 +742,10 @@ setGeneric(
 #' @author N. Frerebeau
 #' @family diversity measures
 #' @docType methods
-#' @name turnover
-#' @rdname turnover
-NULL
-
-#' @rdname turnover
 #' @aliases turnover-method
 setGeneric(
   name = "turnover",
+
   def = function(object, ...) standardGeneric("turnover")
 )
 
@@ -868,6 +840,32 @@ NULL
 #' @name plot_diversity
 #' @rdname plot_diversity
 NULL
+
+## Diversity Test --------------------------------------------------------------
+#' Diversity Test
+#'
+#' Compares Shannon diversity between samples.
+#' @param object A \eqn{m \times p}{m x p} matrix of count data.
+#' @param adjust A [`character`] string specifying the method for
+#'  adjusting \eqn{p} values (see [stats::p.adjust()]).
+#' @param ... Further arguments to be passed to internal methods.
+#' @details
+#'  This test produces two sided pairwise comparisons: it returns a matrix of
+#'  adjusted \eqn{p} values.
+#' @return
+#'  A [`numeric`] [`matrix`].
+#' @example inst/examples/ex-test.R
+#' @author N. Frerebeau
+#' @references
+#'  Magurran, A. E. (1988). *Ecological Diversity and its Measurement*.
+#'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
+#' @family statistics
+#' @docType methods
+#' @aliases test_diversity-method
+setGeneric(
+  name = "test_diversity",
+  def = function(object, ...) standardGeneric("test_diversity")
+)
 
 # Plot =========================================================================
 ## Heatmap ---------------------------------------------------------------------
@@ -1054,34 +1052,6 @@ NULL
 setGeneric(
   name = "plot_spot",
   def = function(object, ...) standardGeneric("plot_spot")
-)
-
-# Test =========================================================================
-## Diversity Test --------------------------------------------------------------
-#' Diversity Test
-#'
-#' Compares Shannon diversity between samples.
-#' @param object A \eqn{m \times p}{m x p} matrix of count data.
-#' @param adjust A [`character`] string specifying the method for
-#'  adjusting \eqn{p} values (see [stats::p.adjust()]).
-#' @param ... Further arguments to be passed to internal methods.
-#' @details
-#'  This test produces two sided pairwise comparisons: it returns a matrix of
-#'  adjusted \eqn{p} values.
-#' @return
-#'  A [`numeric`] [`matrix`].
-#' @example inst/examples/ex-test.R
-#' @author N. Frerebeau
-#' @references
-#'  Magurran, A. E. (1988). *Ecological Diversity and its Measurement*.
-#'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
-#' @family statistics
-#' @docType methods
-#' @rdname test_diversity
-#' @aliases test_diversity-method
-setGeneric(
-  name = "test_diversity",
-  def = function(object, ...) standardGeneric("test_diversity")
 )
 
 # Deprecated ===================================================================

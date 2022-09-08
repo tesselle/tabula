@@ -15,7 +15,7 @@ An easy way to examine archaeological count data. This package provides several 
 \tabular{ll}{
 \strong{Package:} \tab tabula \cr
 \strong{Type:} \tab Package \cr
-\strong{Version:} \tab 1.7.0 \cr
+\strong{Version:} \tab 1.8.0 \cr
 \strong{License:} \tab GPL-3 \cr
 \strong{Zenodo:} \tab \doi{10.5281/zenodo.1489944} \cr
 \strong{JOSS:} \tab \doi{10.21105/joss.01821} \cr
