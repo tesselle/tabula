@@ -1,9 +1,8 @@
-## Ceramic data
-data("compiegne", package = "folio")
+data("cantabria")
 
 ## Plot matrix diagram...
-plot_heatmap(compiegne)
-plot_heatmap(compiegne, freq = TRUE)
+plot_heatmap(cantabria)
+plot_heatmap(cantabria, freq = TRUE)
 
 ## Presence/absence data
 inc <- sample(0:1, size = 100, replace = TRUE)

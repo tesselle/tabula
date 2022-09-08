@@ -1,5 +1,4 @@
-## Ceramic data
-data("merzbach", package = "folio")
+data("cantabria")
 
 ## Shannon diversity test
-test_diversity(merzbach)
+test_diversity(cantabria)

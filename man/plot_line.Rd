@@ -36,12 +36,11 @@ A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
 Plots a rank \emph{vs} relative abundance diagram.
 }
 \examples{
-## Ceramic data
-data("compiegne", package = "folio")
+data("cantabria")
 
 ## Plot rank vs abundance
-plot_rank(compiegne)
-plot_rank(compiegne, facet = TRUE)
+plot_rank(cantabria)
+plot_rank(cantabria, facet = TRUE)
 }
 \references{
 Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.

@@ -85,16 +85,15 @@ Adapted from Dan Gopstein's original
 \href{https://dgopstein.github.io/articles/spot-matrix/}{idea}.
 }
 \examples{
-## Ceramic data
-data("mississippi", package = "folio")
+data("cantabria")
 
 ## Plot spot diagram of count data...
 ### ...without threshod
-plot_spot(mississippi)
+plot_spot(cantabria)
 ### ...with the  column means as threshold
-plot_spot(mississippi, threshold = mean)
+plot_spot(cantabria, threshold = mean)
 ### ...with the column medians as threshold
-plot_spot(mississippi, threshold = median)
+plot_spot(cantabria, threshold = median)
 }
 \seealso{
 Other plot methods: 

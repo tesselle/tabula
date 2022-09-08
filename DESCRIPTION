@@ -65,7 +65,6 @@ Suggests:
     folio,
     khroma,
     knitr,
-    magrittr,
     rmarkdown,
     testthat (>= 3.0.0),
     vdiffr (>= 1.0.0)

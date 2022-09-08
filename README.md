@@ -92,7 +92,6 @@ remotes::install_github("tesselle/tabula")
 ## Load packages
 library(folio) # Datasets
 library(khroma) # Color scales
-library(magrittr) # Pipes
 library(ggplot2)
 
 library(tabula)
@@ -163,14 +162,14 @@ Measure diversity by comparing to simulated assemblages:
 set.seed(12345)
 
 ## Data from Conkey 1980, Kintigh 1989, p. 28
-chevelon %>%
-  heterogeneity(method = "shannon") %>%
-  simulate() %>%
+chevelon |>
+  heterogeneity(method = "shannon") |>
+  simulate() |>
   plot()
 
-chevelon %>%
-  richness(method = "count") %>%
-  simulate() %>%
+chevelon |>
+  richness(method = "count") |>
+  simulate() |>
   plot()
 ```
 

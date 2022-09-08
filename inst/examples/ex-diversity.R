@@ -1,9 +1,8 @@
-## Ceramic data
-data("chevelon", package = "folio")
+data("cantabria")
 
 ## Shannon diversity index
-(h <- heterogeneity(chevelon, method = "shannon"))
-(e <- evenness(chevelon, method = "shannon"))
+(h <- heterogeneity(cantabria, method = "shannon"))
+(e <- evenness(cantabria, method = "shannon"))
 
 ## Bootstrap resampling (summary statistics)
 bootstrap(h, f = NULL)

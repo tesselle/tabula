@@ -9,6 +9,7 @@ test_that("Rarefaction", {
 
   expect_snapshot(rare)
 
+  skip_if_not_installed("vdiffr")
   gg_idx_rarefaction <- autoplot(rare)
   vdiffr::expect_doppelganger("idx_rarefaction", gg_idx_rarefaction)
 })

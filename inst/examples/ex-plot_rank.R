@@ -1,6 +1,5 @@
-## Ceramic data
-data("compiegne", package = "folio")
+data("cantabria")
 
 ## Plot rank vs abundance
-plot_rank(compiegne)
-plot_rank(compiegne, facet = TRUE)
+plot_rank(cantabria)
+plot_rank(cantabria, facet = TRUE)

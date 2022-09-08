@@ -1,6 +1,5 @@
-## Ceramic data
-data("mississippi", package = "folio")
+data("cantabria")
 
 ## Plot spot diagram of a co-occurrence matrix
-occ <- occurrence(mississippi)
+occ <- occurrence(cantabria)
 plot_spot(occ)

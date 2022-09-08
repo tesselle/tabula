@@ -1,12 +1,11 @@
 # Richness =====================================================================
 test_that("Richness", {
-  skip_if_not_installed("folio")
-  data("chevelon", package = "folio")
+  data("cantabria")
 
   method <- c("margalef", "menhinick", "count")
   for (i in method) {
-    index <- richness(chevelon, method = i)
-    expect_length(index, nrow(chevelon))
+    index <- richness(cantabria, method = i)
+    expect_length(index, nrow(cantabria))
     expect_equal(get_method(index), i)
   }
 
@@ -31,12 +30,11 @@ test_that("Composition", {
   }
 })
 test_that("Plot", {
-  skip_if_not_installed("folio")
-  data("chevelon", package = "folio")
+  data("cantabria")
 
   skip_if_not_installed("vdiffr")
   idx_richness <- with_seed(12345, {
-    idx_richness <- richness(chevelon, method = "count")
+    idx_richness <- richness(cantabria, method = "count")
     sim_richness <- simulate(idx_richness, n = 100)
   })
   gg_richness <- autoplot(sim_richness)

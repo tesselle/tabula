@@ -33,11 +33,10 @@ This test produces two sided pairwise comparisons: it returns a matrix of
 adjusted \eqn{p} values.
 }
 \examples{
-## Ceramic data
-data("merzbach", package = "folio")
+data("cantabria")
 
 ## Shannon diversity test
-test_diversity(merzbach)
+test_diversity(cantabria)
 }
 \references{
 Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.

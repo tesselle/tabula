@@ -16,10 +16,9 @@ test_that("Similiraty measure (count data)", {
 })
 test_that("Plot Similarity", {
   skip_if_not_installed("vdiffr")
-  skip_if_not_installed("folio")
-  data("mississippi", package = "folio")
+  data("cantabria")
 
-  test_sim <- similarity(mississippi, method = "brainerd")
+  test_sim <- similarity(cantabria, method = "brainerd")
 
   gg_mtx_sim <- plot_heatmap(test_sim, upper = TRUE)
   vdiffr::expect_doppelganger("mtx_sim", gg_mtx_sim)
@@ -32,10 +31,9 @@ test_that("Plot Similarity", {
 })
 test_that("Plot Co-Occurrence", {
   skip_if_not_installed("vdiffr")
-  skip_if_not_installed("folio")
-  data("mississippi", package = "folio")
+  data("cantabria")
 
-  test_occ <- occurrence(mississippi)
+  test_occ <- occurrence(cantabria)
 
   gg_mtx_occ <- plot_heatmap(test_occ, upper = TRUE)
   vdiffr::expect_doppelganger("mtx_occ", gg_mtx_occ)
