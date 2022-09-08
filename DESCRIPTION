@@ -79,6 +79,7 @@ Collate:
     'AllClasses.R'
     'AllGenerics.R'
     'coerce.R'
+    'data.R'
     'deprecate.R'
     'ggplot2.R'
     'index_diversity.R'
@@ -103,3 +104,4 @@ Collate:
     'utilities.R'
     'validate.R'
     'zzz.R'
+LazyData: true
