@@ -85,7 +85,7 @@ plot_bertin(mississippi, threshold = mean, scale = scale_01) +
   khroma::scale_fill_vibrant(name = "Mean")
 ```
 
-```{r ford, fig.width=7, fig.height=3.5, fig.align="center"}
+```{r ford, fig.width=7, fig.height=5, fig.align="center"}
 ## Ford diagram
 plot_ford(mississippi)
 ```

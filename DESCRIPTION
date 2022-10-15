@@ -96,6 +96,7 @@ Collate:
     'plot_rank.R'
     'plot_spot.R'
     'reexport.R'
+    'seriograph.R'
     'show.R'
     'statistics.R'
     'subset.R'

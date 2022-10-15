@@ -48,10 +48,12 @@ Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 }
 \seealso{
 Other plot methods: 
-\code{\link{plot_bar}},
+\code{\link{plot_bertin}()},
 \code{\link{plot_diversity}},
+\code{\link{plot_ford}()},
 \code{\link{plot_heatmap}()},
-\code{\link{plot_spot}()}
+\code{\link{plot_spot}()},
+\code{\link{seriograph}()}
 }
 \author{
 N. Frerebeau

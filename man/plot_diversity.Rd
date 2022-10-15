@@ -60,10 +60,12 @@ Other diversity measures:
 \code{\link{turnover}()}
 
 Other plot methods: 
-\code{\link{plot_bar}},
+\code{\link{plot_bertin}()},
+\code{\link{plot_ford}()},
 \code{\link{plot_heatmap}()},
 \code{\link{plot_line}},
-\code{\link{plot_spot}()}
+\code{\link{plot_spot}()},
+\code{\link{seriograph}()}
 }
 \author{
 N. Frerebeau

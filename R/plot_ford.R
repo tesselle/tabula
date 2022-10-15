@@ -3,30 +3,21 @@
 NULL
 
 #' @export
-#' @rdname plot_bar
+#' @rdname plot_ford
 #' @aliases plot_ford,matrix-method
 setMethod(
   f = "plot_ford",
   signature = signature(object = "matrix"),
   definition = function(object, EPPM = FALSE) {
+    ## /!\ Deprecate EPPM /!\
+    if (EPPM) {
+      warning("Argument 'EEPM' is defunct; please use 'seriograph()' instead.",
+              call. = FALSE)
+    }
+
     ## Prepare data
     object_long <- prepare_ford(object)
     vertex <- prepare_ford_vertex(object_long)
-
-    if (EPPM) {
-      eppm_data <- eppm(object)
-      eppm_long <- arkhe::as_long(eppm_data, factor = FALSE)
-      eppm_long$x <- object_long$x
-      eppm_long$y <- object_long$y
-      eppm_long$type <- "EPPM"
-      vertex_eppm <- prepare_ford_vertex(eppm_long)
-      gg_eppm <- ggplot2::geom_polygon(
-        mapping = ggplot2::aes(fill = .data$value),
-        data = vertex_eppm
-      )
-    } else {
-      gg_eppm <- NULL
-    }
 
     ## ggplot
     ## A function that given the scale limits returns a vector of breaks
@@ -50,7 +41,7 @@ setMethod(
         y = .data$y,
         group = .data$group
       ) +
-      ggplot2::geom_polygon(data = vertex) +
+      ggplot2::geom_polygon(data = vertex, fill = "darkgrey") +
       ggplot2::scale_x_continuous(
         expand = c(0, 0),
         breaks = scale_breaks,
@@ -66,7 +57,6 @@ setMethod(
         breaks = seq_len(nrow(object)),
         labels = rev(rownames(object))
       ) +
-      gg_eppm +
       theme_tabula()
 
     return(ford)
@@ -74,7 +64,7 @@ setMethod(
 )
 
 #' @export
-#' @rdname plot_bar
+#' @rdname plot_ford
 #' @aliases plot_ford,data.frame-method
 setMethod(
   f = "plot_ford",
@@ -89,12 +79,11 @@ setMethod(
 #' @return A data.frame.
 #' @keywords internal
 #' @noRd
-prepare_ford <- function(x) {
+prepare_ford <- function(x, padding = 0.04) {
   ## Relative frequencies
   freq <- x / rowSums(x)
 
   ## Adaptive spacing between columns
-  padding <- 0.02
   col_max <- apply(X = freq, MARGIN = 2, FUN = max, na.rm = TRUE)
   roll_max <- roll_sum(col_max, n = 2) + padding
   cum_max <- c(0, cumsum(roll_max))
@@ -105,12 +94,11 @@ prepare_ford <- function(x) {
   m <- nrow(freq)
   data$x <- rep(cum_max, each = m)
   data$y <- m + 1 - as.integer(data$row) # Reverse levels order
-  data$type <- "frequency"
 
   return(data)
 }
 
-prepare_ford_vertex <- function(x) {
+prepare_ford_vertex <- function(x, group = "data") {
   n <- nrow(x)
   vertex <- vector(mode = "list", length = n)
 
@@ -118,12 +106,11 @@ prepare_ford_vertex <- function(x) {
   ## Each row gives one vertex of a polygon
   for (i in seq_len(n)) {
     temp <- x[i, ]
-    id <- temp$type
     vertex[[i]] <- data.frame(
       x = temp$x + temp$value * c(-1, 1, 1, -1),
       y = temp$y + 0.5 * c(1, 1, -1, -1),
-      group = paste0(id, i),
-      value = id
+      group = paste0(group, i),
+      Value = group
     )
   }
 

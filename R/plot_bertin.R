@@ -3,7 +3,7 @@
 NULL
 
 #' @export
-#' @rdname plot_bar
+#' @rdname plot_bertin
 #' @aliases plot_bertin,matrix-method
 setMethod(
   f = "plot_bertin",
@@ -46,7 +46,7 @@ setMethod(
 )
 
 #' @export
-#' @rdname plot_bar
+#' @rdname plot_bertin
 #' @aliases plot_bertin,data.frame-method
 setMethod(
   f = "plot_bertin",

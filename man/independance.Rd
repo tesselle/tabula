@@ -3,23 +3,13 @@
 \docType{methods}
 \name{independance}
 \alias{independance}
-\alias{eppm}
-\alias{eppm-method}
 \alias{pvi}
 \alias{pvi-method}
-\alias{eppm,matrix-method}
-\alias{eppm,data.frame-method}
 \alias{pvi,matrix-method}
 \alias{pvi,data.frame-method}
 \title{Independance}
 \usage{
-eppm(object, ...)
-
 pvi(object, ...)
-
-\S4method{eppm}{matrix}(object)
-
-\S4method{eppm}{data.frame}(object)
 
 \S4method{pvi}{matrix}(object)
 
@@ -41,17 +31,6 @@ Independance
 \details{
 Computes for each cell of a numeric matrix one of the following statistic.
 }
-\section{EPPM}{
-
-This positive difference from the column mean percentage (in french "écart
-positif au pourcentage moyen", EPPM) represents a deviation from the
-situation of statistical independence. As independence can be interpreted as
-the absence of relationships between types and the chronological order of
-the assemblages, \code{EPPM} is a useful tool to explore significance
-of relationship between rows and columns related to seriation (Desachy
-2004).
-}
-
 \section{PVI}{
 
 \code{PVI} is calculated for each cell as the percentage to the column

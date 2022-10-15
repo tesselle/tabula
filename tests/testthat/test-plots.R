@@ -20,9 +20,16 @@ test_that("Ford plot", {
   skip_if_not_installed("vdiffr")
   data("cantabria")
 
+  gg_ford <- plot_ford(cantabria)
+  vdiffr::expect_doppelganger("ford", gg_ford)
+})
+test_that("Seriograph", {
+  skip_if_not_installed("vdiffr")
+  data("cantabria")
+
   for (i in c(TRUE, FALSE)) {
-    gg_ford <- plot_ford(cantabria, EPPM = i)
-    vdiffr::expect_doppelganger(paste0("ford_count_EPPM-", i), gg_ford)
+    gg_seriograph <- seriograph(cantabria, weights = i)
+    vdiffr::expect_doppelganger(paste0("seriograph_weights-", i), gg_seriograph)
   }
 })
 # Heatmap ======================================================================

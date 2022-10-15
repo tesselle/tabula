@@ -32,7 +32,7 @@ theme_tabula <- function() {
       axis.ticks.y = ggplot2::element_blank(),
       axis.ticks.x.top = ggplot2::element_blank(),
       axis.text.x.top = ggplot2::element_text(
-        angle = 45,
+        angle = 90,
         hjust = 0,
         vjust = 0
       ),

@@ -115,14 +115,6 @@ setGeneric(
 #' @param ... Currently not used.
 #' @details
 #'  Computes for each cell of a numeric matrix one of the following statistic.
-#' @section EPPM:
-#'  This positive difference from the column mean percentage (in french "écart
-#'  positif au pourcentage moyen", EPPM) represents a deviation from the
-#'  situation of statistical independence. As independence can be interpreted as
-#'  the absence of relationships between types and the chronological order of
-#'  the assemblages, `EPPM` is a useful tool to explore significance
-#'  of relationship between rows and columns related to seriation (Desachy
-#'  2004).
 #' @section PVI:
 #'  `PVI` is calculated for each cell as the percentage to the column
 #'  theoretical independence value: `PVI` greater than \eqn{1} represent
@@ -146,13 +138,6 @@ setGeneric(
 #' @name independance
 #' @rdname independance
 NULL
-
-#' @rdname independance
-#' @aliases eppm-method
-setGeneric(
-  name = "eppm",
-  def = function(object, ...) standardGeneric("eppm")
-)
 
 #' @rdname independance
 #' @aliases pvi-method
@@ -908,9 +893,10 @@ setGeneric(
 )
 
 ## Bar Plot --------------------------------------------------------------------
-#' Bar Plot
+### Bertin ---------------------------------------------------------------------
+#' Bertin Diagram
 #'
-#' Plots a Bertin, Ford (battleship curve) or Dice-Leraas diagram.
+#' Plots a Bertin diagram.
 #' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
 #'  [`data.frame`] of count data (absolute frequencies giving the number of
 #'  individuals for each class).
@@ -920,11 +906,7 @@ setGeneric(
 #' @param scale A [`function`] used to scale each variable, that takes a numeric
 #'  vector as argument and returns a numeric vector. If `NULL` (the default), no
 #'  scaling is performed.
-#' @param EPPM A [`logical`] scalar: should the EPPM be drawn (see below)?
 #' @param ... Currently not used.
-#' @details
-#'  If `EPPM` is `TRUE` and if a relative abundance is greater than
-#'  the mean percentage of the type, the exceeding part is highlighted.
 #' @section Bertin Matrix:
 #'  As de Falguerolles *et al.* (1997) points out:
 #'  "In abstract terms, a Bertin matrix is a matrix
@@ -932,8 +914,6 @@ setGeneric(
 #'  with real valued variables. For each variable, draw a bar chart of variable
 #'  value by case. High-light all bars representing a value above some sample
 #'  threshold for that variable."
-# @section Ford Diagram:
-#' @inheritSection independance EPPM
 #' @return
 #'  A [ggplot2::ggplot] object.
 #' @references
@@ -944,35 +924,86 @@ setGeneric(
 #'  Bertin's Graphical Data Analysis. In W. Badilla & F. Faulbaum (eds.),
 #'  *SoftStat '97: Advances in Statistical Software 6*. Stuttgart: Lucius
 #'  & Lucius, p. 11-20.
-#'
-#'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
-#'  graphique pour tableaux de comptages. *Revue archéologique de Picardie*,
-#'  3(1), 39-56. \doi{10.3406/pica.2004.2396}.
-#'
-#'  Ford, J. A. (1962). *A quantitative method for deriving cultural
-#'  chronology*. Washington, DC: Pan American Union. Technical manual 1.
-#' @example inst/examples/ex-plot_bar.R
+#' @example inst/examples/ex-plot_bertin.R
 #' @author N. Frerebeau
-#' @seealso [eppm()]
 #' @family plot methods
 #' @docType methods
-#' @name plot_bar
-#' @rdname plot_bar
-#' @aliases seriographe Bertin Ford
-NULL
-
-#' @rdname plot_bar
-#' @aliases plot_bertin-method
+#' @aliases plot_bertin-method Bertin
 setGeneric(
   name = "plot_bertin",
   def = function(object, ...) standardGeneric("plot_bertin")
 )
 
-#' @rdname plot_bar
-#' @aliases plot_ford-method
+### Ford -----------------------------------------------------------------------
+#' Ford Diagram
+#'
+#' Plots a Ford (battleship curve) diagram.
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each class).
+#' @param EPPM A [`logical`] scalar: should the EPPM be drawn?
+#'  This argument is defunct: use `seriograph()` instead.
+#' @param ... Currently not used.
+#' @return
+#'  A [ggplot2::ggplot] object.
+#' @references
+#'  Ford, J. A. (1962). *A quantitative method for deriving cultural
+#'  chronology*. Washington, DC: Pan American Union. Technical manual 1.
+#' @example inst/examples/ex-plot_ford.R
+#' @author N. Frerebeau
+#' @family plot methods
+#' @docType methods
+#' @aliases plot_ford-method Ford
 setGeneric(
   name = "plot_ford",
   def = function(object, ...) standardGeneric("plot_ford")
+)
+
+### Seriograph -----------------------------------------------------------------
+#' Seriograph
+#'
+#' @description
+#'  * `seriograph()` produces a Ford diagram highlighting the relationships
+#'    between rows and columns.
+#'  * `eppm()` computes for each cell of a numeric matrix the positive
+#'    difference from the column mean percentage.
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each class).
+#' @param weights A [`logical`] scalar: should row weights (i.e. the number of
+#'  observations divided by the total number of observations) be displayed?
+#' @param ... Currently not used.
+#' @details
+#'  The positive difference from the column mean percentage (in french "écart
+#'  positif au pourcentage moyen", EPPM) represents a deviation from the
+#'  situation of statistical independence. As independence can be interpreted as
+#'  the absence of relationships between types and the chronological order of
+#'  the assemblages, `EPPM` is a useful tool to explore significance
+#'  of relationship between rows and columns related to seriation (Desachy
+#'  2004).
+#' @references
+#'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
+#'  graphique pour tableaux de comptages. *Revue archéologique de Picardie*,
+#'  3(1), 39-56. \doi{10.3406/pica.2004.2396}.
+#' @return
+#'  * `seriograph()` returns a [ggplot2::ggplot] object.
+#'  * `eppm()` returns a [`numeric`] [`matrix`].
+#' @example inst/examples/ex-seriograph.R
+#' @author N. Frerebeau
+#' @seealso [plot_ford()]
+#' @family plot methods
+#' @docType methods
+#' @aliases seriograph-method
+setGeneric(
+  name = "seriograph",
+  def = function(object, ...) standardGeneric("seriograph")
+)
+
+#' @rdname seriograph
+#' @aliases eppm-method
+setGeneric(
+  name = "eppm",
+  def = function(object, ...) standardGeneric("eppm")
 )
 
 ## Line Plot -------------------------------------------------------------------

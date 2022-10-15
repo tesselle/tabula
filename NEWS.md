@@ -1,4 +1,11 @@
 # tabula 1.8.0.9000
+**Seriation methods are now reexported from kairos and will be removed in a future release.**
+
+## New classes and methods
+* Add `seriograph()` to display a Ford diagram highlighting the relationships between rows and columns.
+
+## Bugfixes & changes
+* `EPPM` argument of `plot_ford()` is defunct (use `seriograph()` instead).
 
 # tabula 1.8.0
 **Seriation methods are now reexported from kairos and will be removed in a future release.**

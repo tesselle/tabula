@@ -33,37 +33,6 @@ expected <- function(x) {
 
 #' @export
 #' @rdname independance
-#' @aliases eppm,matrix-method
-setMethod(
-  f = "eppm",
-  signature = signature(object = "matrix"),
-  definition = function(object) {
-    # Independance
-    values <- expected(object)
-
-    # Threshold
-    threshold <- (object - values) / rowSums(object)
-    threshold[threshold < 0] <- 0
-
-    dimnames(threshold) <- dimnames(object)
-    threshold
-  }
-)
-
-#' @export
-#' @rdname independance
-#' @aliases eppm,data.frame-method
-setMethod(
-  f = "eppm",
-  signature = signature(object = "data.frame"),
-  definition = function(object) {
-    object <- data.matrix(object)
-    methods::callGeneric(object)
-  }
-)
-
-#' @export
-#' @rdname independance
 #' @aliases pvi,matrix-method
 setMethod(
   f = "pvi",
