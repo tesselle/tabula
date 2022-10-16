@@ -90,6 +90,7 @@ Collate:
     'index_turnover.R'
     'mutators.R'
     'plot_bertin.R'
+    'plot_diceleraas.R'
     'plot_diversity.R'
     'plot_ford.R'
     'plot_heatmap.R'

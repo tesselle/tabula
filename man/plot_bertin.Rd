@@ -69,6 +69,7 @@ Bertin's Graphical Data Analysis. In W. Badilla & F. Faulbaum (eds.),
 }
 \seealso{
 Other plot methods: 
+\code{\link{plot_diceleraas}()},
 \code{\link{plot_diversity}},
 \code{\link{plot_ford}()},
 \code{\link{plot_heatmap}()},

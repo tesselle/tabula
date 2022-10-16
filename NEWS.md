@@ -2,6 +2,7 @@
 **Seriation methods are now reexported from kairos and will be removed in a future release.**
 
 ## New classes and methods
+* Add `plot_diceleraas()` to display a Dice-Lerass diagram.
 * Add `seriograph()` to display a Ford diagram highlighting the relationships between rows and columns.
 
 ## Bugfixes & changes

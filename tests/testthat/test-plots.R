@@ -32,6 +32,14 @@ test_that("Seriograph", {
     vdiffr::expect_doppelganger(paste0("seriograph_weights-", i), gg_seriograph)
   }
 })
+# Dice-Leraas ==================================================================
+test_that("Dice-Leraas plot", {
+  skip_if_not_installed("vdiffr")
+  data("cantabria")
+
+  gg_diceleraas <- plot_diceleraas(cantabria)
+  vdiffr::expect_doppelganger("diceleraas", gg_diceleraas)
+})
 # Heatmap ======================================================================
 test_that("Matrix plot", {
   skip_if_not_installed("vdiffr")

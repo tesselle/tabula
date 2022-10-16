@@ -1006,6 +1006,43 @@ setGeneric(
   def = function(object, ...) standardGeneric("eppm")
 )
 
+### Dice-Leraas ----------------------------------------------------------------
+#' Dice-Leraas Diagram
+#'
+#' Plots a Dice-Leraas diagram.
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each class).
+#' @param ... Currently not used.
+#' @details
+#'  In a Dice-Leraas diagram, the horizontal line represents the range of data
+#'  (min-max) and the small vertical line indicates the mean. The black
+#'  rectangle is twice the standard error on the mean, while the white rectangle
+#'  is one standard deviation on either side of the mean.
+#' @references
+#'  Dice, L. R., & Leraas, H. J. (1936). A Graphic Method for Comparing Several
+#'  Sets of Measurements. *Contributions from the Laboratory of Vertebrate
+#'  Genetics*, 3:1‑3.
+#'
+#'  Hubbs, C. L., & C. Hubbs (1953). An Improved Graphical Analysis and
+#'  Comparison of Series of Samples. *Systematic Biology*, 2(2): 49‑56.
+#'  \doi{10.2307/sysbio/2.2.49}.
+#'
+#'  Simpson, G. G., Roe, A., & Lewontin, R. C. *Quantitative Zoology*.
+#'  New York: Harcourt, Brace and Company, 1960.
+#' @return
+#'  A [ggplot2::ggplot] object.
+#' @example inst/examples/ex-diceleraas.R
+#' @author N. Frerebeau
+#' @family plot methods
+#' @docType methods
+#' @aliases plot_diceleraas-method
+setGeneric(
+  name = "plot_diceleraas",
+  def = function(object, ...) standardGeneric("plot_diceleraas")
+)
+
+
 ## Line Plot -------------------------------------------------------------------
 #' Line Plot
 #'
