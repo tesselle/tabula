@@ -3,7 +3,7 @@
 NULL
 
 #' @export
-#' @rdname plot_line
+#' @rdname plot_rank
 #' @aliases plot_rank,matrix-method
 setMethod(
   f = "plot_rank",
@@ -40,7 +40,7 @@ setMethod(
 )
 
 #' @export
-#' @rdname plot_line
+#' @rdname plot_rank
 #' @aliases plot_rank,data.frame-method
 setMethod(
   f = "plot_rank",

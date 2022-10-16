@@ -16,7 +16,7 @@ setMethod(
     ## Mean
     moy <- rowMeans(object, na.rm = TRUE)
     ## Standard deviation
-    ec <- apply(X = object, MARGIN = 1, FUN = sd, na.rm = TRUE)
+    ec <- apply(X = object, MARGIN = 1, FUN = stats::sd, na.rm = TRUE)
     ## Standard error
     se <- ec / sqrt(rowSums(!is.na(object)))
     ## Range

@@ -3,8 +3,8 @@
 \docType{methods}
 \name{plot_heatmap}
 \alias{plot_heatmap}
-\alias{matrigraphe}
 \alias{plot_heatmap-method}
+\alias{matrigraphe}
 \alias{plot_heatmap,matrix-method}
 \alias{plot_heatmap,data.frame-method}
 \alias{plot_heatmap,dist-method}
@@ -70,7 +70,7 @@ Other plot methods:
 \code{\link{plot_diceleraas}()},
 \code{\link{plot_diversity}},
 \code{\link{plot_ford}()},
-\code{\link{plot_line}},
+\code{\link{plot_rank}()},
 \code{\link{plot_spot}()},
 \code{\link{seriograph}()}
 }

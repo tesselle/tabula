@@ -102,7 +102,7 @@ Other plot methods:
 \code{\link{plot_diversity}},
 \code{\link{plot_ford}()},
 \code{\link{plot_heatmap}()},
-\code{\link{plot_line}},
+\code{\link{plot_rank}()},
 \code{\link{seriograph}()}
 }
 \author{

@@ -880,13 +880,7 @@ setGeneric(
 #' @seealso [pvi()]
 #' @family plot methods
 #' @docType methods
-#' @name plot_heatmap
-#' @rdname plot_heatmap
-#' @aliases matrigraphe
-NULL
-
-#' @rdname plot_heatmap
-#' @aliases plot_heatmap-method
+#' @aliases plot_heatmap-method matrigraphe
 setGeneric(
   name = "plot_heatmap",
   def = function(object, ...) standardGeneric("plot_heatmap")
@@ -1042,7 +1036,6 @@ setGeneric(
   def = function(object, ...) standardGeneric("plot_diceleraas")
 )
 
-
 ## Line Plot -------------------------------------------------------------------
 #' Line Plot
 #'
@@ -1065,11 +1058,6 @@ setGeneric(
 #' @author N. Frerebeau
 #' @family plot methods
 #' @docType methods
-#' @name plot_line
-#' @rdname plot_line
-NULL
-
-#' @rdname plot_line
 #' @aliases plot_rank-method
 setGeneric(
   name = "plot_rank",
@@ -1111,11 +1099,6 @@ setGeneric(
 #' @author N. Frerebeau
 #' @family plot methods
 #' @docType methods
-#' @name plot_spot
-#' @rdname plot_spot
-NULL
-
-#' @rdname plot_spot
 #' @aliases plot_spot-method
 setGeneric(
   name = "plot_spot",

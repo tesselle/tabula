@@ -45,4 +45,5 @@
 #' @importFrom methods as callNextMethod new setClass setClassUnion setGeneric
 #' setMethod validObject .valueClassTest
 #' @importFrom rlang .data
+#' @importFrom stats sd
 NULL
