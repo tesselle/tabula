@@ -61,7 +61,7 @@ setMethod(
 
       gg_weights <- ggplot2::geom_polygon(
         data = weights_vertex,
-        fill = "darkgrey"
+        fill = "grey"
       )
     }
 
@@ -85,11 +85,11 @@ setMethod(
       ggplot2::aes(
         x = .data$x,
         y = .data$y,
-        group = .data$group,
-        fill = .data$Value
+        group = .data$group
+        # fill = .data$Value
       ) +
-      ggplot2::geom_polygon(data = freq_vertex) +
-      ggplot2::geom_polygon(data = eppm_vertex) +
+      ggplot2::geom_polygon(data = freq_vertex, fill = "darkgrey") +
+      ggplot2::geom_polygon(data = eppm_vertex, fill = "black") +
       gg_weights +
       ggplot2::scale_x_continuous(
         expand = c(0, 0),

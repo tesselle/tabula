@@ -994,9 +994,12 @@ setGeneric(
 #'  positif au pourcentage moyen", EPPM) represents a deviation from the
 #'  situation of statistical independence. As independence can be interpreted as
 #'  the absence of relationships between types and the chronological order of
-#'  the assemblages, `EPPM` is a useful tool to explore significance
+#'  the assemblages, EPPM is a useful tool to explore significance
 #'  of relationship between rows and columns related to seriation (Desachy
 #'  2004).
+#'
+#'  `seriograph()` superimposes the frequencies (grey) and EPPM values (black)
+#'  for each row-column pair in a Ford diagram.
 #' @references
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
 #'  graphique pour tableaux de comptages. *Revue archéologique de Picardie*,

@@ -1,9 +1,7 @@
 data("compiegne", package = "folio")
 
 ## Seriograph
-seriograph(compiegne) +
-  ggplot2::theme(legend.position = "bottom") +
-  khroma::scale_fill_highcontrast()
+seriograph(compiegne)
 
 ## Compute EPPM
 counts_eppm <- eppm(compiegne)
