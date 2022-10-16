@@ -4,6 +4,7 @@ NULL
 
 # S4 dispatch to base S3 generic ===============================================
 setGeneric("autoplot", package = "ggplot2")
+setGeneric("jackknife", package = "arkhe")
 
 # Extract ======================================================================
 ## Mutators --------------------------------------------------------------------
@@ -54,7 +55,6 @@ NULL
 #' @description
 #'  * `resample()` simulate observations from a multinomial distribution.
 #'  * `bootstrap()` generate bootstrap estimations of a statistic.
-#'  * `jackknife()` generate jackknife estimations of a statistic.
 #' @param object A [`numeric`] vector of count data (absolute frequencies).
 #' @param do A [`function`] that takes `object` as an argument
 #'  and returns a single numeric value.
@@ -68,14 +68,14 @@ NULL
 #'  If `f` is `NULL`, `resample()` returns the `n` values of `do`. Else,
 #'  returns the result of `f` applied to the `n` values of `do`.
 #'
-#'  If `f` is `NULL`, `bootstrap()` and `jackknife()` return a [`data.frame`]
+#'  If `f` is `NULL`, `bootstrap()` returns a [`data.frame`]
 #'  with the following elements (else, returns the result of `f` applied to the
 #'  `n` values of `do`) :
 #'  \describe{
 #'   \item{original}{The observed value of `do` applied to `object`.}
-#'   \item{mean}{The bootstrap/jackknife estimate of mean of `do`.}
-#'   \item{bias}{The bootstrap/jackknife estimate of bias of `do`.}
-#'   \item{error}{The boostrap/jackknife estimate of standard error of `do`.}
+#'   \item{mean}{The bootstrap estimate of mean of `do`.}
+#'   \item{bias}{The bootstrap estimate of bias of `do`.}
+#'   \item{error}{The boostrap estimate of standard error of `do`.}
 #'  }
 #' @seealso [stats::rmultinom()]
 #' @example inst/examples/ex-resample.R
@@ -98,13 +98,6 @@ setGeneric(
 setGeneric(
   name = "bootstrap",
   def = function(object, ...) standardGeneric("bootstrap")
-)
-
-#' @rdname resample
-#' @aliases jackknife-method
-setGeneric(
-  name = "jackknife",
-  def = function(object, ...) standardGeneric("jackknife")
 )
 
 # Diversity ====================================================================
