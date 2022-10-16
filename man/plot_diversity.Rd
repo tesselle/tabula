@@ -60,6 +60,7 @@ Other diversity measures:
 \code{\link{turnover}()}
 
 Other plot methods: 
+\code{\link{matrigraph}()},
 \code{\link{plot_bertin}()},
 \code{\link{plot_diceleraas}()},
 \code{\link{plot_ford}()},

@@ -2,6 +2,17 @@
 #' @include AllClasses.R AllGenerics.R
 NULL
 
+expected <- function(x) {
+  m <- nrow(x)
+  p <- ncol(x)
+
+  column_total <- matrix(colSums(x), nrow = m, ncol = p, byrow = TRUE)
+  row_total <- matrix(rowSums(x), nrow = m, ncol = p, byrow = FALSE)
+  grand_total <- sum(x)
+
+  column_total * row_total / grand_total
+}
+
 #' @export
 #' @rdname resample
 #' @aliases resample,numeric-method
@@ -17,47 +28,6 @@ setMethod(
     values <- apply(X = replicates, MARGIN = 2, FUN = do, ...)
     if (is.function(f)) values <- f(values)
     values
-  }
-)
-
-expected <- function(x) {
-  m <- nrow(x)
-  p <- ncol(x)
-
-  column_total <- matrix(colSums(x), nrow = m, ncol = p, byrow = TRUE)
-  row_total <- matrix(rowSums(x), nrow = m, ncol = p, byrow = FALSE)
-  grand_total <- sum(x)
-
-  column_total * row_total / grand_total
-}
-
-#' @export
-#' @rdname independance
-#' @aliases pvi,matrix-method
-setMethod(
-  f = "pvi",
-  signature = signature(object = "matrix"),
-  definition = function(object) {
-    # Independance
-    values <- expected(object)
-
-    # Threshold
-    threshold <- object / values
-
-    dimnames(threshold) <- dimnames(object)
-    threshold
-  }
-)
-
-#' @export
-#' @rdname independance
-#' @aliases pvi,data.frame-method
-setMethod(
-  f = "pvi",
-  signature = signature(object = "data.frame"),
-  definition = function(object) {
-    object <- data.matrix(object)
-    methods::callGeneric(object)
   }
 )
 

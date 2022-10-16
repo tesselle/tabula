@@ -97,6 +97,7 @@ plot_spot(cantabria, threshold = median)
 }
 \seealso{
 Other plot methods: 
+\code{\link{matrigraph}()},
 \code{\link{plot_bertin}()},
 \code{\link{plot_diceleraas}()},
 \code{\link{plot_diversity}},

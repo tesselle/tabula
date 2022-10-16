@@ -3,6 +3,7 @@
 
 ## New classes and methods
 * Add `plot_diceleraas()` to display a Dice-Lerass diagram.
+* Add `matrigraph()` to display a heatmap highlighting the deviations from independence.
 * Add `seriograph()` to display a Ford diagram highlighting the relationships between rows and columns.
 
 ## Bugfixes & changes

@@ -81,7 +81,7 @@ setMethod(
       labs
     }
 
-    ford <- ggplot2::ggplot() +
+    ggplot2::ggplot() +
       ggplot2::aes(
         x = .data$x,
         y = .data$y,
@@ -107,8 +107,6 @@ setMethod(
         labels = rev(rownames(object))
       ) +
       theme_tabula()
-
-    return(ford)
   }
 )
 

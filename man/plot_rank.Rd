@@ -47,6 +47,7 @@ Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 }
 \seealso{
 Other plot methods: 
+\code{\link{matrigraph}()},
 \code{\link{plot_bertin}()},
 \code{\link{plot_diceleraas}()},
 \code{\link{plot_diversity}},

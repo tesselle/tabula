@@ -79,6 +79,7 @@ graphique pour tableaux de comptages. \emph{Revue archéologique de Picardie},
 \code{\link[=plot_ford]{plot_ford()}}
 
 Other plot methods: 
+\code{\link{matrigraph}()},
 \code{\link{plot_bertin}()},
 \code{\link{plot_diceleraas}()},
 \code{\link{plot_diversity}},

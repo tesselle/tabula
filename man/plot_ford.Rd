@@ -45,6 +45,7 @@ chronology}. Washington, DC: Pan American Union. Technical manual 1.
 }
 \seealso{
 Other plot methods: 
+\code{\link{matrigraph}()},
 \code{\link{plot_bertin}()},
 \code{\link{plot_diceleraas}()},
 \code{\link{plot_diversity}},

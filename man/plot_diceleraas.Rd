@@ -55,6 +55,7 @@ New York: Harcourt, Brace and Company, 1960.
 }
 \seealso{
 Other plot methods: 
+\code{\link{matrigraph}()},
 \code{\link{plot_bertin}()},
 \code{\link{plot_diversity}},
 \code{\link{plot_ford}()},

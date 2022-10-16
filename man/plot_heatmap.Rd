@@ -4,7 +4,6 @@
 \name{plot_heatmap}
 \alias{plot_heatmap}
 \alias{plot_heatmap-method}
-\alias{matrigraphe}
 \alias{plot_heatmap,matrix-method}
 \alias{plot_heatmap,data.frame-method}
 \alias{plot_heatmap,dist-method}
@@ -57,15 +56,9 @@ bin <- matrix(data = as.logical(inc), nrow = 10, ncol = 10)
 plot_heatmap(bin) +
   khroma::scale_fill_logical()
 }
-\references{
-Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
-graphique pour tableaux de comptages. \emph{Revue archéologique de Picardie},
-3(1), 39-56. \doi{10.3406/pica.2004.2396}.
-}
 \seealso{
-\code{\link[=pvi]{pvi()}}
-
 Other plot methods: 
+\code{\link{matrigraph}()},
 \code{\link{plot_bertin}()},
 \code{\link{plot_diceleraas}()},
 \code{\link{plot_diversity}},

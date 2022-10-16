@@ -57,6 +57,15 @@ test_that("Matrix plot", {
   gg_mtx_incid <- plot_heatmap(cantabria > 0)
   vdiffr::expect_doppelganger("mtx_incid", gg_mtx_incid)
 })
+test_that("Matrigraph", {
+  skip_if_not_installed("vdiffr")
+  data("cantabria")
+
+  for (i in c(TRUE, FALSE)) {
+    gg_matrigraph <- matrigraph(cantabria, reverse = i)
+    vdiffr::expect_doppelganger(paste0("matrigraph_revese-", i), gg_matrigraph)
+  }
+})
 # Rank =========================================================================
 test_that("Rank plot", {
   skip_if_not_installed("vdiffr")

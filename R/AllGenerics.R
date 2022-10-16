@@ -107,45 +107,6 @@ setGeneric(
   def = function(object, ...) standardGeneric("jackknife")
 )
 
-#' Independance
-#'
-#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
-#'  [`data.frame`] of count data (absolute frequencies giving the number of
-#'  individuals for each class).
-#' @param ... Currently not used.
-#' @details
-#'  Computes for each cell of a numeric matrix one of the following statistic.
-#' @section PVI:
-#'  `PVI` is calculated for each cell as the percentage to the column
-#'  theoretical independence value: `PVI` greater than \eqn{1} represent
-#'  positive deviations from the independence, whereas `PVI` smaller than
-#'  \eqn{1} represent negative deviations (Desachy 2004).
-#'
-#'  The `PVI` matrix allows to explore deviations from independence (an
-#'  intuitive approach to \eqn{\chi^2}{Chi-squared}), in such a way that a
-#'  high-contrast matrix has quite significant deviations,
-#'  with a low risk of being due to randomness (Desachy 2004).
-#' @references
-#'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
-#'  graphique pour tableaux de comptages. *Revue archéologique de Picardie*,
-#'  3(1), 39-56. \doi{10.3406/pica.2004.2396}.
-#' @return A [`numeric`] [`matrix`].
-#' @example inst/examples/ex-independance.R
-#' @seealso [plot_ford()], [plot_heatmap()], [seriate_rank()]
-#' @author N. Frerebeau
-#' @docType methods
-#' @family statistics
-#' @name independance
-#' @rdname independance
-NULL
-
-#' @rdname independance
-#' @aliases pvi-method
-setGeneric(
-  name = "pvi",
-  def = function(object, ...) standardGeneric("pvi")
-)
-
 # Diversity ====================================================================
 ## Heterogeneity ---------------------------------------------------------------
 #' Heterogeneity and Evenness
@@ -853,7 +814,8 @@ setGeneric(
 )
 
 # Plot =========================================================================
-## Heatmap ---------------------------------------------------------------------
+## Matrix plot -----------------------------------------------------------------
+### Heatmap --------------------------------------------------------------------
 #' Heatmap
 #'
 #' Plots a heatmap.
@@ -871,19 +833,79 @@ setGeneric(
 #' @param ... Currently not used.
 #' @return
 #'  A [ggplot2::ggplot] object.
+#' @example inst/examples/ex-plot_matrix.R
+#' @author N. Frerebeau
+#' @family plot methods
+#' @docType methods
+#' @aliases plot_heatmap-method
+setGeneric(
+  name = "plot_heatmap",
+  def = function(object, ...) standardGeneric("plot_heatmap")
+)
+
+### Matrigraph -----------------------------------------------------------------
+#' Matrigraph
+#'
+#' @description
+#'  * `matrigraph()` produces a heatmap highlighting the deviations from
+#'    independence.
+#'  * `pvi()` computes for each cell of a numeric matrix the percentage to the
+#'    column theoretical independence value.
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each class).
+#' @param reverse A [`logical`] scalar: should negative deviations be centered
+#'  (see details)?
+#' @param ... Currently not used.
+#' @details
+#'  PVI (in french "pourcentages de valeur d'indépendance") is calculated for
+#'  each cell as the percentage to the column theoretical independence value:
+#'  PVI greater than \eqn{1} represent positive deviations from the
+#'  independence, whereas PVI smaller than \eqn{1} represent negative
+#'  deviations (Desachy 2004).
+#'
+#'  The PVI matrix allows to explore deviations from independence (an
+#'  intuitive approach to \eqn{\chi^2}{Chi-squared}), in such a way that a
+#'  high-contrast matrix has quite significant deviations,
+#'  with a low risk of being due to randomness (Desachy 2004).
+#'
+#'  `matrigraph()` displays the deviations from independence:
+#'
+#'  * If the PVI is equal to \eqn{1} (statistical independence), the cell of the
+#'    matrix is filled in grey.
+#'  * If the PVI is less than \eqn{1} (negative deviation from independence),
+#'    the size of the grey square is proportional to the PVI (the white margin
+#'    thus represents the fraction of negative deviation).
+#'  * If the PVI is greater than \eqn{1} (positive deviation), a black
+#'    square representing the fraction of positive deviations is
+#'    superimposed. For large positive deviations (PVI greater than \eqn{2}),
+#'    the cell in filled in black.
+#'
+#'  If `reverse` is `TRUE`, the fraction of negative deviations is displayed
+#'  as a white square.
 #' @references
 #'  Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation
 #'  graphique pour tableaux de comptages. *Revue archéologique de Picardie*,
 #'  3(1), 39-56. \doi{10.3406/pica.2004.2396}.
-#' @example inst/examples/ex-plot_matrix.R
+#' @return
+#'  * `matrigraph()` returns a [ggplot2::ggplot] object.
+#'  * `pvi()` returns a [`numeric`] [`matrix`].
+#' @example inst/examples/ex-matrigraph.R
 #' @author N. Frerebeau
-#' @seealso [pvi()]
+#' @seealso [plot_heatmap()]
 #' @family plot methods
 #' @docType methods
-#' @aliases plot_heatmap-method matrigraphe
+#' @aliases matrigraph-method
 setGeneric(
-  name = "plot_heatmap",
-  def = function(object, ...) standardGeneric("plot_heatmap")
+  name = "matrigraph",
+  def = function(object, ...) standardGeneric("matrigraph")
+)
+
+#' @rdname matrigraph
+#' @aliases pvi-method
+setGeneric(
+  name = "pvi",
+  def = function(object, ...) standardGeneric("pvi")
 )
 
 ## Bar Plot --------------------------------------------------------------------
