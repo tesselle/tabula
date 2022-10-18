@@ -3,15 +3,10 @@
 \docType{import}
 \name{reexports}
 \alias{reexports}
-\alias{get_order}
-\alias{permute}
-\alias{seriate_average}
-\alias{seriate_rank}
 \alias{replace_NA}
 \alias{replace_zero}
 \alias{remove_NA}
 \alias{remove_zero}
-\alias{remove_empty}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -19,8 +14,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{arkhe}{\code{\link[arkhe:remove]{remove_empty}}, \code{\link[arkhe:remove]{remove_NA}}, \code{\link[arkhe:remove]{remove_zero}}, \code{\link[arkhe:replace]{replace_NA}}, \code{\link[arkhe:replace]{replace_zero}}}
-
-  \item{kairos}{\code{\link[kairos:seriation]{get_order}}, \code{\link[kairos:seriation]{permute}}, \code{\link[kairos:seriation]{seriate_average}}, \code{\link[kairos:seriation]{seriate_rank}}}
+  \item{arkhe}{\code{\link[arkhe:missing]{remove_NA}}, \code{\link[arkhe:zero]{remove_zero}}, \code{\link[arkhe:missing]{replace_NA}}, \code{\link[arkhe:zero]{replace_zero}}}
 }}
 

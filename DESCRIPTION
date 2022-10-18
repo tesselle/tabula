@@ -54,7 +54,6 @@ Depends:
 Imports:
     arkhe (>= 0.5.0),
     boot,
-    kairos (>= 1.1.0),
     ggplot2,
     methods,
     rlang,
