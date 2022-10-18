@@ -6,8 +6,7 @@ NULL
 get_index <- function(x) {
   match.fun(sprintf("index_%s", x))
 }
-boot_index <- function(x, i, method, ...) {
-  x <- x[i]
+boot_index <- function(x, method, ...) {
   f <- get_index(method)
   f(x, ...)
 }
@@ -59,30 +58,20 @@ setMethod(
 
     results <- vector(mode = "list", length = m)
     for (i in seq_len(m)) {
-      b <- boot::boot(w[i, ], statistic = boot_index, R = n, method = method,
-                      evenness = evenness)
-      if (is.null(f)) {
-        results[[i]] <- summary_bootstrap(b$t, b$t0)
-      } else {
-        results[[i]] <- f(as.numeric(b$t))
-      }
+      results[[i]] <- arkhe::bootstrap(
+        object = w[i, ],
+        do = boot_index,
+        n = n,
+        method = method,
+        evenness = evenness,
+        f = f
+      )
     }
     results <- do.call(rbind, results)
     rownames(results) <- rownames(w)
     as.data.frame(results)
   }
 )
-
-summary_bootstrap <- function(x, hat) {
-  n <- length(x)
-  boot_mean <- mean(x)
-  boot_bias <- boot_mean - hat
-  boot_error <- stats::sd(x)
-
-  results <- c(hat, boot_mean, boot_bias, boot_error)
-  names(results) <- c("original", "mean", "bias", "error")
-  results
-}
 
 #' @export
 #' @rdname resample
@@ -161,7 +150,9 @@ setMethod(
 
 conf <- function(x, type = c("percentiles", "student", "normal"),
                  level = 0.80) {
+
   type <- match.arg(type, several.ok = FALSE)
+
   if (type == "percentiles") {
     ## Confidence interval as described in Kintigh 1989
     k <- (1 - level) / 2

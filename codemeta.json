@@ -175,7 +175,7 @@
       "@type": "SoftwareApplication",
       "identifier": "arkhe",
       "name": "arkhe",
-      "version": ">= 0.5.0",
+      "version": ">= 1.0.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -185,18 +185,6 @@
       "sameAs": "https://CRAN.R-project.org/package=arkhe"
     },
     "3": {
-      "@type": "SoftwareApplication",
-      "identifier": "boot",
-      "name": "boot",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=boot"
-    },
-    "4": {
       "@type": "SoftwareApplication",
       "identifier": "ggplot2",
       "name": "ggplot2",
@@ -208,12 +196,12 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=ggplot2"
     },
-    "5": {
+    "4": {
       "@type": "SoftwareApplication",
       "identifier": "methods",
       "name": "methods"
     },
-    "6": {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
@@ -225,19 +213,19 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rlang"
     },
-    "7": {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
-    "8": {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
     "SystemRequirements": null
   },
-  "fileSize": "2186.903KB",
+  "fileSize": "2186.333KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
