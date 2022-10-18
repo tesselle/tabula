@@ -89,7 +89,7 @@ prepare_ford <- function(x, padding = 0.04) {
   cum_max <- c(0, cumsum(roll_max))
 
   ## Build a long table for ggplot2 (preserve original ordering)
-  data <- arkhe::as_long(freq, factor = TRUE)
+  data <- arkhe::to_long(freq, factor = TRUE)
 
   m <- nrow(freq)
   data$x <- rep(cum_max, each = m)

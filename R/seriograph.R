@@ -46,7 +46,7 @@ setMethod(
 
     ## EPPM
     eppm_data <- eppm(object)
-    eppm_long <- arkhe::as_long(eppm_data, factor = FALSE)
+    eppm_long <- arkhe::to_long(eppm_data, factor = FALSE)
     eppm_long$x <- freq_long$x
     eppm_long$y <- freq_long$y
     eppm_vertex <- prepare_ford_vertex(eppm_long, group = "EPPM")

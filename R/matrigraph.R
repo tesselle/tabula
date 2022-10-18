@@ -41,7 +41,7 @@ setMethod(
   definition = function(object, reverse = FALSE) {
     ## PVI
     pvi_data <- pvi(object)
-    pvi_long <- arkhe::as_long(pvi_data, factor = FALSE)
+    pvi_long <- arkhe::to_long(pvi_data, factor = FALSE)
 
     pvi_plus <- pvi_long[pvi_long$value > 1, ]
     pvi_plus$value <- pvi_plus$value - 1
@@ -56,7 +56,7 @@ setMethod(
     }
 
     bkg <- matrix(data = 1, nrow = nrow(object), ncol = ncol(object))
-    bkg_long <- arkhe::as_long(bkg)
+    bkg_long <- arkhe::to_long(bkg)
 
     col_bkg <- if (reverse) "darkgrey" else "white"
     col_minus <- if (reverse) "white" else "darkgrey"

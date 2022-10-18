@@ -62,7 +62,7 @@ prepare_rank <- function(object) {
   )
 
   ## Build a long table for ggplot2 (preserve original ordering)
-  data <- arkhe::as_long(object, factor = TRUE)
+  data <- arkhe::to_long(object, factor = TRUE)
 
   data$x <- as.vector(t(rk))
   data$y <- data$value

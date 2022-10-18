@@ -18,7 +18,7 @@ autoplot.DiversityIndex <- function(object, ...) {
   if (length(object@simulation) != 0) {
     # Build a long table for ggplot2
     refined <- object@simulation
-    sim_stacked <- arkhe::as_long(refined[, -c(1)], factor = TRUE)
+    sim_stacked <- arkhe::to_long(refined[, -c(1)], factor = TRUE)
     sim <- cbind.data.frame(
       size = refined[, 1],
       sim_stacked,
@@ -81,7 +81,7 @@ setMethod("plot", c(x = "DiversityIndex", y = "missing"), plot.DiversityIndex)
 #' @method autoplot RarefactionIndex
 autoplot.RarefactionIndex <- function(object, ...) {
   ## Prepare data
-  count <- arkhe::as_long(object)
+  count <- arkhe::to_long(object)
   count$Entity <- rownames(object)
   count$size <- rep(object@size, each = nrow(object))
 

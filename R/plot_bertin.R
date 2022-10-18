@@ -68,7 +68,7 @@ prepare_bertin <- function(x, threshold = NULL, scale = NULL) {
   }
 
   ## Build a long table for ggplot2 (preserve original ordering)
-  data <- arkhe::as_long(x, factor = TRUE)
+  data <- arkhe::to_long(x, factor = TRUE)
 
   ## Compute threshold, if any
   if (is.function(threshold)) {

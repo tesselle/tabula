@@ -69,7 +69,7 @@ prepare_heatmap <- function(object, diag = TRUE, upper = TRUE, lower = TRUE,
   data <- if (PVI) pvi(object) else object
 
   ## Build long table from data
-  data <- arkhe::as_long(data, factor = TRUE)
+  data <- arkhe::to_long(data, factor = TRUE)
   # max_value <- max(diag(object))
   # max_value <- ifelse(max_value == 0, max(object), max_value)
   data$max <- max(object)
