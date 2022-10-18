@@ -159,7 +159,7 @@ conf <- function(x, type = c("percentiles", "student", "normal"),
     conf <- stats::quantile(x, probs = c(k, 1 - k), names = FALSE)
   } else {
     ## Confidence interval
-    conf <- arkhe::confidence(x, level = level, type = type)
+    conf <- arkhe::confidence_mean(x, level = level, type = type)
   }
 
   result <- c(mean(x), conf)
