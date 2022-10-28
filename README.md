@@ -95,9 +95,6 @@ library(khroma) # Color scales
 library(ggplot2)
 
 library(tabula)
-#> Warning: remplacement de l'importation précédente 'arkhe::bootstrap' par
-#> 'dimensio::bootstrap' lors du chargement de 'kairos'
-#> Warning: tables de méthodes multiples trouvées pour 'bootstrap'
 ```
 
 *It assumes that you keep your data tidy*: each variable (type/taxa)

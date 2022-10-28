@@ -65,22 +65,6 @@ setMethod(
       )
     }
 
-    ## ggplot
-    ## A function that given the scale limits returns a vector of breaks
-    scale_breaks <- function(x) {
-      if (max(x) >= 0.2) {
-        seq(-4, 4, by = 2) * 0.10
-      } else {
-        seq(-1, 1, by = 1) * 0.05
-      }
-    }
-    ## A function that takes the breaks as input and returns labels as output
-    scale_labels <- function(x) {
-      labs <- scale_pc(x)
-      labs[ceiling(length(x) / 2)] <- "0"
-      labs
-    }
-
     ggplot2::ggplot() +
       ggplot2::aes(
         x = .data$x,
@@ -93,13 +77,9 @@ setMethod(
       gg_weights +
       ggplot2::scale_x_continuous(
         expand = c(0, 0),
-        breaks = scale_breaks,
-        labels = scale_labels,
-        sec.axis = ggplot2::sec_axis(
-          trans = ~ .,
-          breaks = unique(freq_long$x),
-          labels = colnames(object)
-        )
+        breaks = unique(freq_long$x),
+        labels = colnames(object),
+        position = "top"
       ) +
       ggplot2::scale_y_continuous(
         expand = c(0, 0),

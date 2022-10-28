@@ -19,23 +19,7 @@ setMethod(
     object_long <- prepare_ford(object)
     vertex <- prepare_ford_vertex(object_long)
 
-    ## ggplot
-    ## A function that given the scale limits returns a vector of breaks
-    scale_breaks <- function(x) {
-      if (max(x) >= 0.2) {
-        seq(-4, 4, by = 2) * 0.10
-      } else {
-        seq(-1, 1, by = 1) * 0.05
-      }
-    }
-    ## A function that takes the breaks as input and returns labels as output
-    scale_labels <- function(x) {
-      labs <- scale_pc(x)
-      labs[ceiling(length(x) / 2)] <- "0"
-      labs
-    }
-
-    ford <- ggplot2::ggplot() +
+    ggplot2::ggplot() +
       ggplot2::aes(
         x = .data$x,
         y = .data$y,
@@ -44,13 +28,9 @@ setMethod(
       ggplot2::geom_polygon(data = vertex, fill = "darkgrey") +
       ggplot2::scale_x_continuous(
         expand = c(0, 0),
-        breaks = scale_breaks,
-        labels = scale_labels,
-        sec.axis = ggplot2::sec_axis(
-          trans = ~ .,
-          breaks = unique(object_long$x),
-          labels = colnames(object)
-        )
+        breaks = unique(object_long$x),
+        labels = colnames(object),
+        position = "top"
       ) +
       ggplot2::scale_y_continuous(
         expand = c(0, 0),
@@ -58,8 +38,6 @@ setMethod(
         labels = rev(rownames(object))
       ) +
       theme_tabula()
-
-    return(ford)
   }
 )
 
@@ -116,4 +94,21 @@ prepare_ford_vertex <- function(x, group = "data") {
 
   vertex <- do.call(rbind, vertex)
   return(vertex)
+}
+
+ford_scalebar <- function() {
+  list(
+    ggplot2::geom_errorbarh(
+      mapping = ggplot2::aes(xmin = xmin, xmax = xmax, y = y),
+      data = data.frame(
+        xmin = -0.2,
+        xmax = 0.2,
+        y = 0
+      ),
+      height = 0.2,
+      inherit.aes = FALSE
+    )
+    # ggplot2::annotate("text", x = 0, y = -0.3, label = "20%",
+    #                   hjust = 0.5, vjust = 0)
+  )
 }
