@@ -8,7 +8,7 @@ message: 'To cite package "tabula" in publications use:'
 type: software
 license: GPL-3.0-or-later
 title: 'tabula: Analysis and Visualization of Archaeological Count Data'
-version: 1.8.0.9000
+version: 2.0.0
 abstract: 'An easy way to examine archaeological count data. This package provides
   several tests and measures of diversity: heterogeneity and evenness (Brillouin,
   Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.),
@@ -30,7 +30,7 @@ preferred-citation:
     email: nicolas.frerebeau@u-bordeaux-montaigne.fr
     orcid: https://orcid.org/0000-0001-5759-4944
     affiliation: Université Bordeaux Montaigne
-  version: 1.8.0.9000
+  version: 2.0.0
   abstract: 'An easy way to examine archaeological count data. This package provides
     several tests and measures of diversity: heterogeneity and evenness (Brillouin,
     Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.),

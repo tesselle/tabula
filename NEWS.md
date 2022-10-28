@@ -1,4 +1,4 @@
-# tabula 1.8.0.9000
+# tabula 2.0.0
 ## New classes and methods
 * Add `plot_diceleraas()` to display a Dice-Lerass diagram.
 * Add `matrigraph()` to display a heatmap highlighting the deviations from independence.
