@@ -1006,10 +1006,10 @@ setGeneric(
 #' @references
 #'  Dice, L. R., & Leraas, H. J. (1936). A Graphic Method for Comparing Several
 #'  Sets of Measurements. *Contributions from the Laboratory of Vertebrate
-#'  Genetics*, 3:1‑3.
+#'  Genetics*, 3: 1-3.
 #'
 #'  Hubbs, C. L., & C. Hubbs (1953). An Improved Graphical Analysis and
-#'  Comparison of Series of Samples. *Systematic Biology*, 2(2): 49‑56.
+#'  Comparison of Series of Samples. *Systematic Biology*, 2(2): 49-56.
 #'  \doi{10.2307/sysbio/2.2.49}.
 #'
 #'  Simpson, G. G., Roe, A., & Lewontin, R. C. *Quantitative Zoology*.
