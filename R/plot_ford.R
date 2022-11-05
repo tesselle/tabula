@@ -99,7 +99,7 @@ prepare_ford_vertex <- function(x, group = "data") {
 ford_scalebar <- function() {
   list(
     ggplot2::geom_errorbarh(
-      mapping = ggplot2::aes(xmin = xmin, xmax = xmax, y = y),
+      mapping = ggplot2::aes(xmin = .data$xmin, xmax = .data$xmax, y = .data$y),
       data = data.frame(
         xmin = -0.2,
         xmax = 0.2,

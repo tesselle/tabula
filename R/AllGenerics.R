@@ -19,36 +19,18 @@ setGeneric("bootstrap", package = "arkhe")
 # @example inst/examples/ex-mutator.R
 #' @author N. Frerebeau
 #' @docType methods
-#' @family mutator
-#' @name mutator
-#' @rdname mutator
+#' @family mutators
+#' @name mutators
+#' @rdname mutators
 #' @aliases get set
 NULL
 
-#' @rdname mutator
+#' @rdname mutators
 #' @aliases get_method-method
 setGeneric(
   name = "get_method",
   def = function(x) standardGeneric("get_method")
 )
-
-## Subset ----------------------------------------------------------------------
-#' Extract or Replace Parts of an Object
-#'
-#' Operators acting on objects to extract or replace parts.
-#' @param x An object from which to extract element(s) or in which to replace
-#'  element(s).
-#' @param i A [`character`] string specifying elements to extract.
-#'  Any unambiguous substring can be given (see details).
-#' @return
-#'  A subsetted object.
-# @example inst/examples/ex-mutator.R
-#' @author N. Frerebeau
-#' @docType methods
-#' @family mutator
-#' @name subset
-#' @rdname subset
-NULL
 
 # Statistic ====================================================================
 #' Resampling Methods

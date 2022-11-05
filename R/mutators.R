@@ -4,7 +4,7 @@ NULL
 
 # Getters ======================================================================
 #' @export
-#' @rdname mutator
+#' @rdname mutators
 #' @aliases get_method,DiversityIndex-method
 setMethod(
   f = "get_method",

@@ -43,6 +43,17 @@ In the code snippets below, \code{x} is an \code{DiversityIndex} object.
 }
 }
 
+\section{Get}{
+
+In the code snippets below, \code{x} is an \code{DiversityIndex} object.
+\describe{
+\item{\code{get_method(x)}}{Returns the method used to compute the index.}
+}
+}
+
+\seealso{
+\code{\link[=get_method]{get_method()}}
+}
 \author{
 N. Frerebeau
 }

@@ -19,8 +19,14 @@ setOldClass("dist")
 #'  \describe{
 #'   \item{`as.data.frame(x)`}{Coerces to a [`data.frame`].}
 #'  }
+#' @section Get:
+#'  In the code snippets below, `x` is an `DiversityIndex` object.
+#'  \describe{
+#'   \item{`get_method(x)`}{Returns the method used to compute the index.}
+#'  }
 #' @note
 #'  This class inherits from base [`numeric`].
+#' @seealso [get_method()]
 #' @author N. Frerebeau
 #' @family classes
 #' @docType class
