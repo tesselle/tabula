@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 
 [![r-universe](https://tesselle.r-universe.dev/badges/tabula)](https://tesselle.r-universe.dev){.pkgdown-devel}
 [![CRAN Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula){.pkgdown-release}
-[![CRAN checks](https://cranchecks.info/badges/worst/tabula)](https://cran.r-project.org/web/checks/check_results_tabula.html){.pkgdown-release}
+[![CRAN checks](https://badges.cranchecks.info/worst/tabula.svg)](https://cran.r-project.org/web/checks/check_results_tabula.html){.pkgdown-release}
 [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/tabula)](https://cran.r-project.org/package=tabula){.pkgdown-release}
 
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
