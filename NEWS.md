@@ -1,3 +1,5 @@
+# tabula 2.0.0.9000
+
 # tabula 2.0.0
 ## New classes and methods
 * Add `plot_diceleraas()` to display a Dice-Lerass diagram.
