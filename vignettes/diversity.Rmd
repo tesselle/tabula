@@ -137,7 +137,7 @@ Where $m_{infreq}$ is the number of sampling units that include at least one inf
 
 ### Usage
 
-To demonstrate how to use these diversity functions we will use a dataset containing ceramic counts from the Mississippi region, originally published by @lipo2015theoretically.
+To demonstrate how to use these diversity functions we will use a dataset containing ceramic counts from the Mississippi region, originally published by @lipo2015.
 
 ```{r richness}
 richness(mississippi, method = "margalef")
