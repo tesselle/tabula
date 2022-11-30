@@ -23,5 +23,9 @@ cantabria
 \description{
 A dataset of design elements in engraved bones from Cantabrian Spain.
 }
+\seealso{
+Other datasets: 
+\code{\link{pueblo}}
+}
 \concept{datasets}
 \keyword{datasets}

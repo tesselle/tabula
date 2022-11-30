@@ -14,3 +14,20 @@
 #' @family datasets
 #' @keywords datasets
 "cantabria"
+
+#' Pueblo IV Period Ceramics
+#'
+#' A dataset of ceramic counts from the Zuni region.
+#' @format A [`data.frame`] with 9 rows and 5 variables (compositional groups):
+#' @source
+#'  Huntley, D. L. (2004). *Interaction, Boundaries, and Identities:
+#'  A Multiscalar Approach to the Organizational Scale of Pueblo IV Zuni
+#'  Society*. Ph.D. Dissertation, Arizona State University.
+#'
+#'  Huntley, D. L. (2022). *Ancestral Zuni Glaze-Decorated Pottery: Viewing
+#'  Pueblo IV Regional Organization through Ceramic Production and Exchange*.
+#'  Anthropological Papers of the University of Arizona 72. Tucson: University
+#'  of Arizona Press. \doi{10.2307/j.ctv2ngx5n8}.
+#' @family datasets
+#' @keywords datasets
+"pueblo"

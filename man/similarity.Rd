@@ -116,25 +116,11 @@ of the Sorenson index).}
 }
 }
 \examples{
-## Data from Huntley 2008
-ceramics <- matrix(
-  data = c(16, 9, 3, 0, 1,
-           13, 3, 2, 0, 0,
-           9, 5, 2, 5, 0,
-           14, 12, 3, 0, 0,
-           0, 26, 4, 0, 0,
-           1, 26, 4, 0, 0,
-           0, 11, 3, 13, 0,
-           0, 0, 17, 0, 16,
-           0, 0, 18, 0, 14),
-  nrow = 9, byrow = TRUE
-)
-rownames(ceramics) <- c("Atsinna", "Cienega", "Mirabal", "PdMuertos",
-                        "Hesh", "LowPesc", "BoxS", "Ojo Bon", "S170")
-colnames(ceramics) <- c("DLH-1", "DLH-2a", "DLH-2b", "DLH-2c", "DLH-4")
+## Data from Huntley 2004, 2008
+data("pueblo")
 
 ## Brainerd-Robinson measure
-(C <- similarity(ceramics, "brainerd"))
+(C <- similarity(pueblo, "brainerd"))
 plot_spot(C)
 
 ## Data from Magurran 1988, p. 166
