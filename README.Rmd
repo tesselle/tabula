@@ -63,11 +63,11 @@ remotes::install_github("tesselle/tabula")
 ## Usage
 
 ```{r packages-load, message=FALSE}
+## Install extra packages (if needed)
+# install.packages("khroma")
+
 ## Load packages
 library(folio) # Datasets
-library(khroma) # Color scales
-library(ggplot2)
-
 library(tabula)
 ```
 
@@ -93,14 +93,15 @@ plot_bertin(mississippi, threshold = mean, scale = scale_01) +
 plot_ford(mississippi)
 ```
 
-Spot matrix^[Adapted from Dan Gopstein's original [idea](https://dgopstein.github.io/articles/spot-matrix/).] allows direct examination of data:
+Spot matrix allows direct examination of data:
 
-```{r plot-occ, fig.width=7.5, fig.height=5.5, fig.align="center"}
+```{r plot-occ, fig.width=5, fig.height=5, fig.align="center"}
 ## Plot co-occurrence of types
 ## (i.e. how many times (percent) each pairs of taxa occur together 
 ## in at least one sample.)
-plot_spot(mississippi, freq = TRUE) +
-  ggplot2::labs(size = "Co-occurrence", colour = "Co-occurrence") +
+mississippi |> 
+  occurrence() |> 
+  plot_spot() +
   khroma::scale_colour_YlOrBr()
 ```
 

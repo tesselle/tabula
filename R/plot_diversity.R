@@ -22,13 +22,13 @@ autoplot.DiversityIndex <- function(object, ...) {
     sim <- cbind.data.frame(
       size = refined[, 1],
       sim_stacked,
-      type = ifelse(sim_stacked[["column"]] == "mean", "mean", "conf. int.")
+      Estimate = ifelse(sim_stacked[["column"]] == "mean", "mean", "conf. int.")
     )
     gg_sim <- ggplot2::geom_path(
       mapping = ggplot2::aes(
         x = .data$size,
         y = .data$value,
-        colour = .data$type,
+        colour = .data$Estimate,
         group = .data$column
       ),
       data = sim,
@@ -65,6 +65,7 @@ setMethod("autoplot", "DiversityIndex", autoplot.DiversityIndex)
 #' @method plot DiversityIndex
 plot.DiversityIndex <- function(x, ...) {
   gg <- autoplot(object = x) +
+    ggplot2::scale_colour_manual(values = c("#004488", "#DDAA33")) +
     ggplot2::theme_bw() +
     ggplot2::theme(legend.position = "bottom")
   print(gg)

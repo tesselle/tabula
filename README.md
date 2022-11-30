@@ -94,11 +94,11 @@ remotes::install_github("tesselle/tabula")
 ## Usage
 
 ``` r
+## Install extra packages (if needed)
+# install.packages("khroma")
+
 ## Load packages
 library(folio) # Datasets
-library(khroma) # Color scales
-library(ggplot2)
-
 library(tabula)
 ```
 
@@ -134,14 +134,15 @@ plot_ford(mississippi)
 
 <img src="man/figures/README-ford-1.png" style="display: block; margin: auto;" />
 
-Spot matrix[^1] allows direct examination of data:
+Spot matrix allows direct examination of data:
 
 ``` r
 ## Plot co-occurrence of types
 ## (i.e. how many times (percent) each pairs of taxa occur together 
 ## in at least one sample.)
-plot_spot(mississippi, freq = TRUE) +
-  ggplot2::labs(size = "Co-occurrence", colour = "Co-occurrence") +
+mississippi |> 
+  occurrence() |> 
+  plot_spot() +
   khroma::scale_colour_YlOrBr()
 ```
 
@@ -225,6 +226,3 @@ Chronology*. Technical Manual 1. Washington, DC: Pan American Union.
 </div>
 
 </div>
-
-[^1]: Adapted from Dan Gopstein’s original
-    [idea](https://dgopstein.github.io/articles/spot-matrix/).
