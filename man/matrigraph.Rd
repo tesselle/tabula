@@ -77,6 +77,7 @@ If \code{reverse} is \code{TRUE}, the fraction of negative deviations is display
 as a white square.
 }
 \examples{
+## Data from Desachy 2004
 data("compiegne", package = "folio")
 
 ## Matrigraph

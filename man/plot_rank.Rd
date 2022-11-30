@@ -35,6 +35,7 @@ A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
 Plots a rank \emph{vs} relative abundance diagram.
 }
 \examples{
+## Data from Conkey 1980, Kintigh 1989
 data("cantabria")
 
 ## Plot rank vs abundance

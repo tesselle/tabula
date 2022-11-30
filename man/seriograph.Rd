@@ -61,6 +61,7 @@ of relationship between rows and columns related to seriation (Desachy
 for each row-column pair in a Ford diagram.
 }
 \examples{
+## Data from Desachy 2004
 data("compiegne", package = "folio")
 
 ## Seriograph

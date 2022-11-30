@@ -34,8 +34,7 @@ rectangle is twice the standard error on the mean, while the white rectangle
 is one standard deviation on either side of the mean.
 }
 \examples{
-## Ceramic data
-## (data from Desachy 2004)
+## Data from Desachy 2004
 data("compiegne", package = "folio")
 
 ## Plot a Dice-Leraas diagram

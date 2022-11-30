@@ -81,6 +81,7 @@ abundances.
 }
 
 \examples{
+## Data from Conkey 1980, Kintigh 1989
 data("cantabria")
 
 ## Replicate fig. 3 from Baxter 2011

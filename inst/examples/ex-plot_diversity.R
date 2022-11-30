@@ -1,4 +1,5 @@
 \donttest{
+## Data from Conkey 1980, Kintigh 1989
 data("cantabria")
 
 ## Assemblage diversity size comparison

@@ -31,6 +31,7 @@ diagonal, which works out how many times each pairs of taxa/types occur
 together in at least one sample.
 }
 \examples{
+## Data from Conkey 1980, Kintigh 1989
 data("cantabria")
 
 ## Plot spot diagram of a co-occurrence matrix

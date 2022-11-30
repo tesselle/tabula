@@ -33,6 +33,7 @@ This test produces two sided pairwise comparisons: it returns a matrix of
 adjusted \eqn{p} values.
 }
 \examples{
+## Data from Conkey 1980, Kintigh 1989
 data("cantabria")
 
 ## Shannon diversity test

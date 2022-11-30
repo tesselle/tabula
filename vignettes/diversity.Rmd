@@ -140,6 +140,7 @@ Where $m_{infreq}$ is the number of sampling units that include at least one inf
 To demonstrate how to use these diversity functions we will use a dataset containing ceramic counts from the Mississippi region, originally published by @lipo2015.
 
 ```{r richness}
+## Data from Lipo et al. 2015
 richness(mississippi, method = "margalef")
 ```
 
@@ -318,12 +319,12 @@ Where:
 ### Usage
 
 ```{r similarity, fig.width=7, fig.height=5, fig.align="center"}
-# Brainerd-Robinson (similarity between assemblages)
+## Brainerd-Robinson (similarity between assemblages)
 BR <- similarity(mississippi, method = "brainerd")
 plot_spot(BR) +
   khroma::scale_colour_YlOrBr()
 
-# Binomial co-occurrence (similarity between types)
+## Binomial co-occurrence (similarity between types)
 BI <- similarity(mississippi, method = "binomial")
 plot_spot(BI) +
   khroma::scale_colour_PRGn()

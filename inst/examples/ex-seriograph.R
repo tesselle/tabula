@@ -1,3 +1,4 @@
+## Data from Desachy 2004
 data("compiegne", package = "folio")
 
 ## Seriograph

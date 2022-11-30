@@ -32,8 +32,7 @@ A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
 Plots a Ford (battleship curve) diagram.
 }
 \examples{
-## Ceramic data
-## (data from Desachy 2004)
+## Data from Desachy 2004
 data("compiegne", package = "folio")
 
 ## Plot a Ford diagram

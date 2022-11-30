@@ -173,6 +173,7 @@ the value of the index accompanies a decrease in diversity.
 }
 
 \examples{
+## Data from Conkey 1980, Kintigh 1989
 data("cantabria")
 
 ## Shannon diversity index

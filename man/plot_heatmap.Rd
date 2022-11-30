@@ -43,6 +43,7 @@ A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
 Plots a heatmap.
 }
 \examples{
+## Data from Conkey 1980, Kintigh 1989
 data("cantabria")
 
 ## Plot matrix diagram...

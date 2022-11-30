@@ -47,7 +47,7 @@ threshold for that variable."
 }
 
 \examples{
-## Ceramic data
+## Data from Lipo et al. 2015
 data("mississippi", package = "folio")
 
 ## Plot a Bertin diagram...

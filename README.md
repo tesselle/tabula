@@ -120,6 +120,7 @@ statistic threshold (including B. Desachy’s
 ## Bertin matrix with variables scaled to 0-1 and the variable mean as threshold
 scale_01 <- function(x) (x - min(x)) / (max(x) - min(x))
 
+## Data from Lipo et al. 2015
 plot_bertin(mississippi, threshold = mean, scale = scale_01) +
   khroma::scale_fill_vibrant(name = "Mean")
 ```

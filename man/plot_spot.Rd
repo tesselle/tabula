@@ -85,6 +85,7 @@ Adapted from Dan Gopstein's original
 \href{https://dgopstein.github.io/articles/spot-matrix/}{idea}.
 }
 \examples{
+## Data from Conkey 1980, Kintigh 1989
 data("cantabria")
 
 ## Plot spot diagram of count data...
