@@ -35,7 +35,7 @@ Authors@R:
       person(given = "Jean-Baptiste",
              family = "Fourvel",
              role = "ctb",
-             email = "fourvel@mmsh.univ-aix.fr",
+             email = "jean-baptiste.fourvel@univ-amu.fr",
              comment = c(ORCID = "0000-0002-1061-4642", 
                          affiliation = "CNRS")))
 Maintainer: Nicolas Frerebeau <nicolas.frerebeau@u-bordeaux-montaigne.fr>

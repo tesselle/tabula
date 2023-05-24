@@ -1,18 +1,24 @@
 citHeader("To cite tabula in publications use:")
-
-citEntry(entry = "Article",
-  title        = "{tabula}: An R Package for Analysis, Seriation, and Visualization of Archaeological Count Data",
-  author       = c(person("Nicolas", "Frerebeau", role = "aut")),
+bibentry(
+  bibtype      = "Article",
+  author       = person("Nicolas", "Frerebeau", role = "aut"),
+  title        = "{tabula: An R Package for Analysis, Seriation, and Visualization of Archaeological Count Data}",
   year         = "2019",
   journal      = "Journal of Open Source Software",
   volume       = "4",
   number       = "44",
   page         = "1821",
-  doi          = "10.21105/joss.01821",
-
-  textVersion  =
-  paste("Frerebeau, Nicolas (2019).",
-        "tabula: An R Package for Analysis, Seriation, and Visualization of Archaeological Count Data.",
-        "Journal of Open Source Software, 4(44), 1821.",
-        "DOI 10.21105/joss.01821.")
+  doi          = "10.21105/joss.01821"
 )
+bibentry(
+  bibtype      = "Manual",
+  author       = person("Nicolas", "Frerebeau", role = "aut"),
+  title        = "{tabula: Analysis and Visualization of Archaeological Count Data}",
+  year         = "2022",
+  organization = "Université Bordeaux Montaigne",
+  address      = "Pessac, France",
+  note         = sprintf("R package version %s", meta$Version),
+  url          = "https://packages.tesselle.org/tabula/",
+  doi          = "10.5281/zenodo.1489944"
+)
+citFooter("This package is a part of the tesselle project <https://www.tesselle.org>.")

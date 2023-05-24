@@ -14,7 +14,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.2.2 (2022-10-31)",
+  "runtimePlatform": "R version 4.3.0 (2023-04-21)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -63,7 +63,7 @@
       "@type": "Person",
       "givenName": "Jean-Baptiste",
       "familyName": "Fourvel",
-      "email": "fourvel@mmsh.univ-aix.fr",
+      "email": "jean-baptiste.fourvel@univ-amu.fr",
       "@id": "https://orcid.org/0000-0002-1061-4642"
     }
   ],
@@ -225,7 +225,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "2216.949KB",
+  "fileSize": "2177.799KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -237,7 +237,7 @@
           "familyName": "Frerebeau"
         }
       ],
-      "name": "{tabula}: An R Package for Analysis, Seriation, and Visualization of Archaeological Count Data",
+      "name": "{tabula: An R Package for Analysis, Seriation, and Visualization of Archaeological Count Data}",
       "identifier": "10.21105/joss.01821",
       "@id": "https://doi.org/10.21105/joss.01821",
       "sameAs": "https://doi.org/10.21105/joss.01821",
@@ -251,6 +251,23 @@
           "name": "Journal of Open Source Software"
         }
       }
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      "datePublished": "2022",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": "Nicolas",
+          "familyName": "Frerebeau"
+        }
+      ],
+      "name": "{tabula: Analysis and Visualization of Archaeological Count Data}",
+      "identifier": "10.5281/zenodo.1489944",
+      "url": "https://packages.tesselle.org/tabula/",
+      "description": "R package version 2.0.0",
+      "@id": "https://doi.org/10.5281/zenodo.1489944",
+      "sameAs": "https://doi.org/10.5281/zenodo.1489944"
     }
   ],
   "releaseNotes": "https://github.com/tesselle/tabula/blob/master/NEWS.md",

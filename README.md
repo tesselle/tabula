@@ -55,25 +55,21 @@ methods. These methods have been moved to
 [kairos](https://packages.tesselle.org/kairos/), so that we no longer
 have chronological tools in two separate packages.**
 
-
     To cite tabula in publications use:
 
-      Frerebeau, Nicolas (2019). tabula: An R Package for Analysis,
-      Seriation, and Visualization of Archaeological Count Data. Journal of
-      Open Source Software, 4(44), 1821. DOI 10.21105/joss.01821.
+      Frerebeau N (2019). "tabula: An R Package for Analysis, Seriation,
+      and Visualization of Archaeological Count Data." _Journal of Open
+      Source Software_, *4*(44). doi:10.21105/joss.01821
+      <https://doi.org/10.21105/joss.01821>.
 
-    Une entrée BibTeX pour les utilisateurs LaTeX est
+      Frerebeau N (2022). _tabula: Analysis and Visualization of
+      Archaeological Count Data_. Université Bordeaux Montaigne, Pessac,
+      France. doi:10.5281/zenodo.1489944
+      <https://doi.org/10.5281/zenodo.1489944>, R package version 2.0.0,
+      <https://packages.tesselle.org/tabula/>.
 
-      @Article{,
-        title = {{tabula}: An R Package for Analysis, Seriation, and Visualization of Archaeological Count Data},
-        author = {Nicolas Frerebeau},
-        year = {2019},
-        journal = {Journal of Open Source Software},
-        volume = {4},
-        number = {44},
-        page = {1821},
-        doi = {10.21105/joss.01821},
-      }
+    This package is a part of the tesselle project
+    <https://www.tesselle.org>.
 
 ## Installation
 

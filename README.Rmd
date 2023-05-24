@@ -42,7 +42,8 @@ An easy way to examine archaeological count data. **tabula** provides several te
 **Prior to version 2.0.0, tabula included various matrix seriation methods. These methods have been moved to [kairos](https://packages.tesselle.org/kairos/), so that we no longer have chronological tools in two separate packages.**
 
 ```{r citation, echo=FALSE, comment=''}
-utils::citation("tabula")
+cite <- utils::citation("tabula")
+print(cite, bibtex = FALSE)
 ```
 
 ## Installation
