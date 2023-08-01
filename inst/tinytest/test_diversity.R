@@ -1,8 +1,7 @@
 source("helpers.R")
-
-# Heterogeneity ================================================================
 data("cantabria")
 
+# Heterogeneity ================================================================
 method <- c("berger", "brillouin", "mcintosh", "simpson", "shannon")
 for (i in method) {
   index <- heterogeneity(cantabria, method = i)
@@ -17,8 +16,6 @@ jack <- jackknife(index)
 expect_equal_to_reference(jack, file = "_snaps/heterogeneity_jackknife.rds")
 
 # Evenness =====================================================================
-data("cantabria")
-
 method <- c("brillouin", "mcintosh", "simpson", "shannon")
 for (i in method) {
   index <- evenness(cantabria, method = i)
@@ -46,12 +43,19 @@ birds <- matrix(
 expect_equal_to_reference(test_diversity(birds), file = "_snaps/shannon_test.rds")
 
 # Plot =========================================================================
-# data("cantabria")
-#
-# skip_if_not_installed("vdiffr")
-# idx_heterogeneity <- with_seed(12345, {
-#   idx_heterogeneity <- heterogeneity(cantabria, method = "shannon")
-#   sim_heterogeneity <- simulate(idx_heterogeneity, n = 100)
-# })
-# gg_heterogeneity <- autoplot(sim_heterogeneity)
-# vdiffr::expect_doppelganger("idx_heterogeneity", gg_heterogeneity)
+if (at_home()) {
+  source("helpers.R")
+  using("tinysnapshot")
+  options(tinysnapshot_device = "svglite")
+  options(tinysnapshot_height = 7) # inches
+  options(tinysnapshot_width = 7)
+  options(tinysnapshot_tol = 200) # pixels
+  options(tinysnapshot_os = "Linux")
+
+  idx_heterogeneity <- with_seed(12345, {
+    idx_heterogeneity <- heterogeneity(cantabria, method = "shannon")
+    sim_heterogeneity <- simulate(idx_heterogeneity, n = 10)
+  })
+  plot_heterogeneity <- function() plot(sim_heterogeneity)
+  expect_snapshot_plot(plot_heterogeneity, "plot_heterogeneity")
+}

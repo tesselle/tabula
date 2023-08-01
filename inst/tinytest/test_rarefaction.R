@@ -7,6 +7,15 @@ trap <- matrix(data = c(9, 3, 0, 4, 2, 1, 1, 0, 1, 0, 1, 1,
 rare <- rarefaction(trap, sample = 13)
 expect_equal_to_reference(rare, file = "_snaps/rarefaction.rds")
 
-# skip_if_not_installed("vdiffr")
-# gg_idx_rarefaction <- autoplot(rare)
-# vdiffr::expect_doppelganger("idx_rarefaction", gg_idx_rarefaction)
+if (at_home()) {
+  source("helpers.R")
+  using("tinysnapshot")
+  options(tinysnapshot_device = "svglite")
+  options(tinysnapshot_height = 7) # inches
+  options(tinysnapshot_width = 7)
+  options(tinysnapshot_tol = 200) # pixels
+  options(tinysnapshot_os = "Linux")
+
+  plot_rarefaction <- function() plot(rare)
+  expect_snapshot_plot(plot_rarefaction, "plot_rarefaction")
+}
