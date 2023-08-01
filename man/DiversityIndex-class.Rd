@@ -58,3 +58,4 @@ In the code snippets below, \code{x} is an \code{DiversityIndex} object.
 N. Frerebeau
 }
 \concept{classes}
+\keyword{internal}

@@ -31,6 +31,7 @@ setOldClass("dist")
 #' @family classes
 #' @docType class
 #' @aliases DiversityIndex-class
+#' @keywords internal
 .DiversityIndex <- setClass(
   Class = "DiversityIndex",
   slots = c(
