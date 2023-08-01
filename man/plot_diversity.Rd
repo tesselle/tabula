@@ -3,33 +3,89 @@
 \docType{methods}
 \name{plot_diversity}
 \alias{plot_diversity}
-\alias{autoplot,DiversityIndex-method}
 \alias{plot,DiversityIndex,missing-method}
-\alias{autoplot,RarefactionIndex-method}
 \alias{plot,RarefactionIndex,missing-method}
 \title{Diversity Plot}
 \usage{
-\S4method{autoplot}{DiversityIndex}(object, ...)
+\S4method{plot}{DiversityIndex,missing}(
+  x,
+  log = "x",
+  col.index = "black",
+  col.mean = "#DDAA33",
+  col.interval = "#004488",
+  lty.mean = "solid",
+  lty.interval = "dashed",
+  lwd.mean = 1,
+  lwd.interval = 1,
+  main = NULL,
+  sub = NULL,
+  ann = graphics::par("ann"),
+  axes = TRUE,
+  frame.plot = axes,
+  panel.first = NULL,
+  panel.last = NULL,
+  ...
+)
 
-\S4method{plot}{DiversityIndex,missing}(x, y, ...)
-
-\S4method{autoplot}{RarefactionIndex}(object, ...)
-
-\S4method{plot}{RarefactionIndex,missing}(x, y, ...)
+\S4method{plot}{RarefactionIndex,missing}(
+  x,
+  legend = TRUE,
+  palette = function(i) grDevices::hcl.colors(i, "viridis"),
+  main = NULL,
+  sub = NULL,
+  ann = graphics::par("ann"),
+  axes = TRUE,
+  frame.plot = axes,
+  panel.first = NULL,
+  panel.last = NULL,
+  ...
+)
 }
 \arguments{
-\item{object, x}{A \linkS4class{DiversityIndex} object to be plotted.}
+\item{x}{A \linkS4class{DiversityIndex} object to be plotted.}
 
-\item{...}{Currently not used.}
+\item{log}{A \code{\link{character}} string indicating which axes should be in log
+scale. Defaults to \code{x}.}
 
-\item{y}{Currently not used.}
+\item{col.index, col.mean, col.interval}{A \code{\link{character}} string specifying the
+color of the lines.}
+
+\item{lty.mean, lty.interval}{A \code{\link{character}} string or \code{\link{numeric}}
+value specifying the line types.}
+
+\item{lwd.mean, lwd.interval}{A non-negative \code{\link{numeric}} value specifying
+the line widths.}
+
+\item{main}{A \code{\link{character}} string giving a main title for the plot.}
+
+\item{sub}{A \code{\link{character}} string giving a subtitle for the plot.}
+
+\item{ann}{A \code{\link{logical}} scalar: should the default annotation (title and x,
+y and z axis labels) appear on the plot?}
+
+\item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot?}
+
+\item{frame.plot}{A \code{\link{logical}} scalar: should a box be drawn around the
+plot?}
+
+\item{panel.first}{An an \code{expression} to be evaluated after the plot axes are
+set up but before any plotting takes place. This can be useful for drawing
+background grids.}
+
+\item{panel.last}{An \code{expression} to be evaluated after plotting has taken
+place but before the axes, title and box are added.}
+
+\item{...}{Further \link[graphics:par]{graphical parameters} to be passed to
+\code{\link[graphics:points]{graphics::points()}}, particularly, \code{cex}, \code{col} and \code{pch}.}
+
+\item{legend}{A \code{\link{logical}} scalar: should the legend be displayed?}
+
+\item{palette}{A color palette \code{\link{function}} that takes a single integer
+argument (the number of levels) and returns a vector of colors.}
 }
 \value{
-\itemize{
-\item \code{autoplot()} returns a \code{\link[ggplot2:ggplot]{ggplot}} object.
-\item \code{plot()} is called it for its side-effects: it results in a graphic being
+\code{plot()} is called it for its side-effects: it results in a graphic being
 displayed (invisibly returns \code{x}).
-}
 }
 \description{
 Diversity Plot

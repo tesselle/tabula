@@ -42,7 +42,7 @@ expect_equal(
   0.804
 ) # 0.8025
 expect_equal(
-  round(variance_shannon(n), 3),
+  round(tabula:::variance_shannon(n), 3),
   0.005
 ) # 0.00502
 

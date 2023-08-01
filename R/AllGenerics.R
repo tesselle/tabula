@@ -736,13 +736,35 @@ NULL
 ## Plot ------------------------------------------------------------------------
 #' Diversity Plot
 #'
-#' @param object,x A [DiversityIndex-class] object to be plotted.
-#' @param y Currently not used.
-#' @param ... Currently not used.
+#' @param x A [DiversityIndex-class] object to be plotted.
+#' @param log A [`character`] string indicating which axes should be in log
+#'  scale. Defaults to `x`.
+#' @param legend A [`logical`] scalar: should the legend be displayed?
+#' @param palette A color palette [`function`] that takes a single integer
+#'  argument (the number of levels) and returns a vector of colors.
+#' @param col.index,col.mean,col.interval A [`character`] string specifying the
+#'  color of the lines.
+#' @param lty.mean,lty.interval A [`character`] string or [`numeric`]
+#'  value specifying the line types.
+#' @param lwd.mean,lwd.interval A non-negative [`numeric`] value specifying
+#'  the line widths.
+#' @param main A [`character`] string giving a main title for the plot.
+#' @param sub A [`character`] string giving a subtitle for the plot.
+#' @param ann A [`logical`] scalar: should the default annotation (title and x,
+#'  y and z axis labels) appear on the plot?
+#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
+#' @param frame.plot A [`logical`] scalar: should a box be drawn around the
+#'  plot?
+#' @param panel.first An an `expression` to be evaluated after the plot axes are
+#'  set up but before any plotting takes place. This can be useful for drawing
+#'  background grids.
+#' @param panel.last An `expression` to be evaluated after plotting has taken
+#'  place but before the axes, title and box are added.
+#' @param ... Further [graphical parameters][graphics::par] to be passed to
+#'  [graphics::points()], particularly, `cex`, `col` and `pch`.
 #' @return
-#'  * `autoplot()` returns a [`ggplot`][ggplot2::ggplot] object.
-#'  * `plot()` is called it for its side-effects: it results in a graphic being
-#'    displayed (invisibly returns `x`).
+#'  `plot()` is called it for its side-effects: it results in a graphic being
+#'  displayed (invisibly returns `x`).
 #' @example inst/examples/ex-plot_diversity.R
 #' @author N. Frerebeau
 #' @family diversity measures
@@ -1094,13 +1116,3 @@ setGeneric(
   name = "plot_spot",
   def = function(object, ...) standardGeneric("plot_spot")
 )
-
-# Deprecated ===================================================================
-#' Deprecated Methods
-#'
-#' @author N. Frerebeau
-#' @docType methods
-#' @name deprecate
-#' @rdname deprecate
-#' @keywords internal
-NULL

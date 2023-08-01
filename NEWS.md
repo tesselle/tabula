@@ -2,6 +2,9 @@
 ## Bugfixes & changes
 * Fix handling of missing values in heterogeneity index (#27).
 
+## Breaking changes
+* Remove `autoplot()` methods.
+
 # tabula 2.0.0
 ## New classes and methods
 * Add `plot_diceleraas()` to display a Dice-Lerass diagram.

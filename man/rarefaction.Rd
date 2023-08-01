@@ -86,7 +86,7 @@ data("cantabria")
 
 ## Replicate fig. 3 from Baxter 2011
 rare <- rarefaction(cantabria, sample = 23, method = "baxter")
-plot(rare)
+plot(rare, panel.first = graphics::grid())
 }
 \references{
 Baxter, M. J. (2001). Methodological Issues in the Study of Assemblage

@@ -4,71 +4,76 @@ NULL
 
 # DiversityIndex ===============================================================
 #' @export
-#' @method autoplot DiversityIndex
-autoplot.DiversityIndex <- function(object, ...) {
+#' @method plot DiversityIndex
+plot.DiversityIndex <- function(x, log = "x", col.index = "black",
+                                col.mean = "#DDAA33", col.interval = "#004488",
+                                lty.mean = "solid", lty.interval = "dashed",
+                                lwd.mean = 1, lwd.interval = 1,
+                                main = NULL, sub = NULL,
+                                ann = graphics::par("ann"),
+                                axes = TRUE, frame.plot = axes,
+                                panel.first = NULL, panel.last = NULL, ...) {
   ## Prepare data
-  count <- cbind.data.frame(
-    label = object@names,
-    x = object@size,
-    y = object@.Data
-  )
+  count <- as.data.frame(x)
+
+  ## Open new window
+  grDevices::dev.hold()
+  on.exit(grDevices::dev.flush(), add = TRUE)
+  graphics::plot.new()
+
+  ## Set plotting coordinates
+  xlim <- range(count$size)
+  ylim <- range(count$index)
+  if (length(x@simulation) != 0) {
+    xlim <- range(x@simulation[, "size"])
+    ylim <- range(x@simulation[, c("lower", "upper")])
+  }
+  graphics::plot.window(xlim = xlim, ylim = ylim, log = log)
+
+  ## Evaluate pre-plot expressions
+  panel.first
+
+  ## Plot
+  graphics::points(x = count$size, y = count$index, col = col.index, ...)
 
   ## Simulated assemblages
-  gg_sim <- NULL
-  if (length(object@simulation) != 0) {
-    # Build a long table for ggplot2
-    refined <- object@simulation
-    sim_stacked <- arkhe::to_long(refined[, -c(1)], factor = TRUE)
-    sim <- cbind.data.frame(
-      size = refined[, 1],
-      sim_stacked,
-      Estimate = ifelse(sim_stacked[["column"]] == "mean", "mean", "conf. int.")
-    )
-    gg_sim <- ggplot2::geom_path(
-      mapping = ggplot2::aes(
-        x = .data$size,
-        y = .data$value,
-        colour = .data$Estimate,
-        group = .data$column
-      ),
-      data = sim,
-      na.rm = TRUE,
-      inherit.aes = FALSE
-    )
+  if (length(x@simulation) != 0) {
+    refined <- x@simulation
+    graphics::lines(x = refined[, "size"], y = refined[, "mean"],
+                    col = col.mean, lty = lty.mean, lwd = lwd.mean)
+    graphics::lines(x = refined[, "size"], y = refined[, "lower"],
+                    col = col.interval, lty = lty.interval, lwd = lwd.interval)
+    graphics::lines(x = refined[, "size"], y = refined[, "upper"],
+                    col = col.interval, lty = lty.interval, lwd = lwd.interval)
   }
 
-  y_lab <- switch (
-    class(object),
-    HeterogeneityIndex = "Heterogeneity",
-    EvennessIndex = "Evenness",
-    RichnessIndex = "Richness",
-    "Diversity"
-  )
+  ## Evaluate post-plot and pre-axis expressions
+  panel.last
 
-  ## ggplot
-  ggplot2::ggplot(data = count) +
-    ggplot2::aes(x = .data$x, y = .data$y, label = .data$label) +
-    ggplot2::geom_point() +
-    gg_sim +
-    ggplot2::scale_x_log10(name = "Sample size") +
-    ggplot2::scale_y_continuous(
-      name = sprintf("%s (%s)", y_lab, object@method)
+  ## Construct axis
+  if (axes) {
+    graphics::axis(side = 1, las = 1)
+    graphics::axis(side = 2, las = 1)
+  }
+
+  ## Plot frame
+  if (frame.plot) {
+    graphics::box()
+  }
+
+  ## Add annotation
+  if (ann) {
+    y_lab <- switch (
+      class(x),
+      HeterogeneityIndex = "Heterogeneity",
+      EvennessIndex = "Evenness",
+      RichnessIndex = "Richness",
+      "Diversity"
     )
-}
+    graphics::title(main = main, sub = sub, xlab = "Sample size",
+                    ylab = sprintf("%s (%s)", y_lab, x@method))
+  }
 
-#' @export
-#' @rdname plot_diversity
-#' @aliases autoplot,DiversityIndex-method
-setMethod("autoplot", "DiversityIndex", autoplot.DiversityIndex)
-
-#' @export
-#' @method plot DiversityIndex
-plot.DiversityIndex <- function(x, ...) {
-  gg <- autoplot(object = x) +
-    ggplot2::scale_colour_manual(values = c("#004488", "#DDAA33")) +
-    ggplot2::theme_bw() +
-    ggplot2::theme(legend.position = "bottom")
-  print(gg)
   invisible(x)
 }
 
@@ -79,33 +84,61 @@ setMethod("plot", c(x = "DiversityIndex", y = "missing"), plot.DiversityIndex)
 
 # RarefactionIndex =============================================================
 #' @export
-#' @method autoplot RarefactionIndex
-autoplot.RarefactionIndex <- function(object, ...) {
-  ## Prepare data
-  count <- arkhe::to_long(object)
-  count$Entity <- rownames(object)
-  count$size <- rep(object@size, each = nrow(object))
-
-  ## ggplot
-  ggplot2::ggplot(data = count) +
-    ggplot2::aes(x = .data$size, y = .data$value, colour = .data$Entity,
-                 group = .data$Entity, label = .data$Entity) +
-    ggplot2::geom_line(na.rm = TRUE)
-}
-
-#' @export
-#' @rdname plot_diversity
-#' @aliases autoplot,RarefactionIndex-method
-setMethod("autoplot", "RarefactionIndex", autoplot.RarefactionIndex)
-
-#' @export
 #' @method plot RarefactionIndex
-plot.RarefactionIndex <- function(x, ...) {
-  gg <- autoplot(object = x) +
-    ggplot2::scale_x_continuous(name = "Sample size") +
-    ggplot2::scale_y_continuous(name = "Expected species index") +
-    ggplot2::theme_bw()
-  print(gg)
+plot.RarefactionIndex <- function(x, legend = TRUE,
+                                  palette = function(i) grDevices::hcl.colors(i, "viridis"),
+                                  main = NULL, sub = NULL,
+                                  ann = graphics::par("ann"),
+                                  axes = TRUE, frame.plot = axes,
+                                  panel.first = NULL, panel.last = NULL, ...) {
+  ## Graphical parameters
+  n <- nrow(x)
+  col <- palette(n)
+
+  ## Open new window
+  grDevices::dev.hold()
+  on.exit(grDevices::dev.flush(), add = TRUE)
+  graphics::plot.new()
+
+  ## Set plotting coordinates
+  xlim <- range(x@size)
+  ylim <- range(x, na.rm = TRUE)
+  graphics::plot.window(xlim = xlim, ylim = ylim)
+
+  ## Evaluate pre-plot expressions
+  panel.first
+
+  ## Plot
+  for (i in seq_len(n)) {
+    graphics::lines(x = x@size, y = x[i, ], col = col[i], ...)
+  }
+
+  ## Evaluate post-plot and pre-axis expressions
+  panel.last
+
+  ## Construct axis
+  if (axes) {
+    graphics::axis(side = 1, las = 1)
+    graphics::axis(side = 2, las = 1)
+  }
+
+  ## Plot frame
+  if (frame.plot) {
+    graphics::box()
+  }
+
+  ## Add annotation
+  if (ann) {
+    graphics::title(main = main, sub = sub, xlab = "Sample size",
+                    ylab = "Expected species index")
+  }
+
+  ## Legend
+  if (legend) {
+    graphics::legend("topleft", legend = rownames(x),
+                     col = col, lty = 1, bty = "n")
+  }
+
   invisible(x)
 }
 
