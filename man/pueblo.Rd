@@ -5,7 +5,7 @@
 \alias{pueblo}
 \title{Pueblo IV Period Ceramics}
 \format{
-A \code{\link{data.frame}} with 9 rows and 5 variables (compositional groups):
+A \code{\link{data.frame}} with 9 rows and 5 variables (compositional groups).
 }
 \source{
 Huntley, D. L. (2004). \emph{Interaction, Boundaries, and Identities:
@@ -25,7 +25,9 @@ A dataset of ceramic counts from the Zuni region.
 }
 \seealso{
 Other datasets: 
-\code{\link{cantabria}}
+\code{\link{birds}},
+\code{\link{cantabria}},
+\code{\link{trees}}
 }
 \concept{datasets}
 \keyword{datasets}

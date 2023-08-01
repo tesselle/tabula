@@ -5,7 +5,7 @@
 \alias{cantabria}
 \title{Early Magdalenian Engraved Bones}
 \format{
-A \code{\link{data.frame}} with 5 rows and 44 variables (designs):
+A \code{\link{data.frame}} with 5 rows and 44 variables (designs).
 }
 \source{
 Conkey, M. W. (1980). The Identification of prehistoric hunter-gatherer
@@ -25,7 +25,9 @@ A dataset of design elements in engraved bones from Cantabrian Spain.
 }
 \seealso{
 Other datasets: 
-\code{\link{pueblo}}
+\code{\link{birds}},
+\code{\link{pueblo}},
+\code{\link{trees}}
 }
 \concept{datasets}
 \keyword{datasets}

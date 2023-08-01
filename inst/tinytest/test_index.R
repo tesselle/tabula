@@ -56,16 +56,7 @@ expect_equal(
 ) # 1 / 8.50
 
 # Similarity ===================================================================
-# Data from Magurran 1988, p. 145-149
-birds <- matrix(
-  data = c(1.4, 4.3, 2.9, 8.6, 4.2, 15.7, 2.0, 50, 1, 11.4, 11.4, 4.3, 13.0,
-           14.3, 8.6, 7.1, 10.0, 1.4, 2.9, 5.7, 1.4, 11.4, 2.9, 4.3, 1.4, 2.9,
-           0, 0, 0, 2.9, 0, 0, 0, 10, 0, 0, 5.7, 2.5, 5.7, 8.6, 5.7, 2.9, 0, 0,
-           2.9, 0, 0, 5.7, 0, 2.9, 0, 2.9),
-  nrow = 2,
-  byrow = TRUE,
-  dimnames = list(c("unmanaged", "managed"), NULL)
-)
+data(birds) # Data from Magurran 1988, p. 166
 
 ## Jaccard index - character
 x <- c("horse", "dog", "cat", "cow")
@@ -75,28 +66,28 @@ expect_equal(round(index_jaccard(x, y), 3), 0.143) # 0.14
 ## Jaccard index - numeric
 # Magurran 1988, p. 165
 expect_equal(
-  round(index_jaccard(birds[1, ], birds[2, ]), 3),
+  round(index_jaccard(as.numeric(birds[1, ]), as.numeric(birds[2, ])), 3),
   0.462
 ) # 0.46
 
 ## Soreson index
 # Magurran 1988, p. 165
 expect_equal(
-  round(index_sorenson(birds[1, ], birds[2, ]), 3),
+  round(index_sorenson(as.numeric(birds[1, ]), as.numeric(birds[2, ])), 3),
   0.632
 ) # 0.63
 
 ## Bray index
 # Magurran 1988, p. 165
 expect_equal(
-  round(index_bray(birds[1, ], birds[2, ]), 3),
+  round(index_bray(as.numeric(birds[1, ]), as.numeric(birds[2, ])), 3),
   0.444
 ) # 0.44
 
 ## Morisita-Horn
 # Magurran 1988, p. 167
 expect_equal(
-  round(index_morisita(birds[1, ], birds[2, ]), 3),
+  round(index_morisita(as.numeric(birds[1, ]), as.numeric(birds[2, ])), 3),
   0.813
 ) # 0.8133
 
@@ -111,45 +102,31 @@ y <- c(13, 3, 2, 0, 0)
 expect_equal(round(index_binomial(x, y), 3), 0.537) # 0.54
 
 # Turnover =====================================================================
-trees <- matrix(
-  c(TRUE, TRUE, TRUE, FALSE, FALSE, FALSE,
-    TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
-    FALSE, FALSE, TRUE, FALSE, TRUE, FALSE,
-    FALSE, FALSE, FALSE, TRUE, TRUE, TRUE,
-    FALSE, FALSE, FALSE, FALSE, TRUE, TRUE,
-    FALSE, FALSE, FALSE, TRUE, FALSE, TRUE),
-  nrow = 6,
-  ncol = 6,
-  byrow = FALSE,
-  dimnames = list(
-    c("1", "2", "3", "4", "5", "6"),
-    c("Birch", "Oak", "Rowan", "Beech", "Hazel", "Holly")
-  )
-)
+data(trees)
 
 ## Whittaker index
 # Magurran 1988, p. 162
-expect_equal(index_whittaker(trees), 1)
+expect_equal(index_whittaker(as.matrix(trees)), 1)
 
 ## Cody index
 # Magurran 1988, p. 162
-expect_equal(index_cody(trees), 3)
+expect_equal(index_cody(as.matrix(trees)), 3)
 
 ## Routledge 'R' index
 # Magurran 1988, p. 163
-expect_equal(round(index_routledge1(trees), 3), 0.286)
+expect_equal(round(index_routledge1(as.matrix(trees)), 3), 0.286)
 
 ## Routledge 'I' index
 # Magurran 1988, p. 163
-expect_equal(round(index_routledge2(trees), 3), 0.559)
+expect_equal(round(index_routledge2(as.matrix(trees)), 3), 0.559)
 
 ## Routledge 'E' index
 # Magurran 1988, p. 164
-expect_equal(round(index_routledge3(trees), 3), 1.750)
+expect_equal(round(index_routledge3(as.matrix(trees)), 3), 1.750)
 
 ## Wilson index
 # Magurran 1988, p. 164
-expect_equal(index_wilson(trees), 1)
+expect_equal(index_wilson(as.matrix(trees)), 1)
 
 # Rarefaction ==================================================================
 ## Hurlbert rarefaction
