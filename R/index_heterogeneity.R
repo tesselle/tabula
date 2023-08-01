@@ -71,12 +71,12 @@ setMethod(
   f = "index_berger",
   signature = signature(x = "numeric"),
   definition = function(x, na.rm = FALSE, ...) {
-    ## Validation
-    arkhe::assert_count(x)
-
     x <- x[x > 0] # Remove zeros
     if (na.rm) x <- stats::na.omit(x) # Remove NAs
     if (anyNA(x)) return(NA)
+
+    ## Validation
+    arkhe::assert_count(x)
 
     Nmax <- max(x)
     N <- sum(x)
@@ -93,11 +93,11 @@ setMethod(
   f = "index_boone",
   signature = signature(x = "matrix"),
   definition = function(x, j = NULL, na.rm = FALSE, ...) {
-    ## Validation
-    arkhe::assert_count(x)
-
     if (na.rm) x <- stats::na.omit(x) # Remove NAs
     if (anyNA(x)) return(NA)
+
+    ## Validation
+    arkhe::assert_count(x)
 
     Y <- colSums(x) # Site-wide totals of each artifact class
     if (is.null(j)) j <- which.max(Y)
@@ -123,12 +123,12 @@ setMethod(
   f = "index_brillouin",
   signature = signature(x = "numeric"),
   definition = function(x, evenness = FALSE, na.rm = FALSE, ...) {
-    ## Validation
-    arkhe::assert_count(x)
-
     x <- x[x > 0] # Remove zeros
     if (na.rm) x <- stats::na.omit(x) # Remove NAs
     if (anyNA(x)) return(NA)
+
+    ## Validation
+    arkhe::assert_count(x)
 
     N <- sum(x)
     bri <- (lfactorial(N) - sum(lfactorial(x))) / N
@@ -155,12 +155,12 @@ setMethod(
   f = "index_mcintosh",
   signature = signature(x = "numeric"),
   definition = function(x, evenness = FALSE, na.rm = FALSE, ...) {
-    ## Validation
-    arkhe::assert_count(x)
-
     x <- x[x > 0] # Remove zeros
     if (na.rm) x <- stats::na.omit(x) # Remove NAs
     if (anyNA(x)) return(NA)
+
+    ## Validation
+    arkhe::assert_count(x)
 
     N <- sum(x)
     S <- length(x) # richness = number of different species
@@ -184,12 +184,12 @@ setMethod(
   signature = signature(x = "numeric"),
   definition = function(x, evenness = FALSE, base = exp(1),
                         na.rm = FALSE, ...) {
-    ## Validation
-    arkhe::assert_count(x)
-
     x <- x[x > 0] # Remove zeros
     if (na.rm) x <- stats::na.omit(x) # Remove NAs
     if (anyNA(x)) return(NA)
+
+    ## Validation
+    arkhe::assert_count(x)
 
     N <- sum(x)
     S <- length(x) # richness = number of different species
@@ -231,12 +231,12 @@ setMethod(
   f = "index_simpson",
   signature = signature(x = "numeric"),
   definition = function(x, evenness = FALSE, na.rm = FALSE, ...) {
-    ## Validation
-    arkhe::assert_count(x)
-
     x <- x[x > 0] # Remove zeros
     if (na.rm) x <- stats::na.omit(x) # Remove NAs
     if (anyNA(x)) return(NA)
+
+    ## Validation
+    arkhe::assert_count(x)
 
     N <- sum(x)
     D <- sum(x * (x - 1)) / (N* (N - 1)) # For discrete data

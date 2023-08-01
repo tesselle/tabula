@@ -1,4 +1,6 @@
 # tabula 2.0.0.9000
+## Bugfixes & changes
+* Fix handling of missing values in heterogeneity index (#27).
 
 # tabula 2.0.0
 ## New classes and methods
