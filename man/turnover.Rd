@@ -145,7 +145,6 @@ Presence-Absence Data. \emph{The Journal of Ecology}, 72(3), 1055-1064.
 Other diversity measures: 
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
-\code{\link{plot_diversity}},
 \code{\link{rarefaction}()},
 \code{\link{richness}()},
 \code{\link{similarity}()},

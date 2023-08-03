@@ -12,8 +12,6 @@ vignette: >
   %\VignetteIndexEntry{Diversity Measures}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}
@@ -318,16 +316,14 @@ Where:
 
 ### Usage
 
-```{r similarity, fig.width=7, fig.height=5, fig.align="center"}
+```{r similarity, fig.width=7, fig.height=7, fig.align="center"}
 ## Brainerd-Robinson (similarity between assemblages)
 BR <- similarity(mississippi, method = "brainerd")
-plot_spot(BR) +
-  khroma::scale_colour_YlOrBr()
-
+plot_spot(BR, col = khroma::colour("YlOrBr")(12))
+  
 ## Binomial co-occurrence (similarity between types)
 BI <- similarity(mississippi, method = "binomial")
-plot_spot(BI) +
-  khroma::scale_colour_PRGn()
+plot_spot(BI, col = khroma::colour("PRGn")(12))
 ```
 
 # Sample Size and Significance
@@ -356,9 +352,7 @@ plot(RI_sim)
 Ranks *vs* abundance plot can be used for abundance models (model fitting will be implemented in a future release):
 
 ```{r plot-rank, fig.width=7, fig.height=5, fig.align="center"}
-plot_rank(mississippi, log = "xy") +
-  ggplot2::theme_bw() +
-  khroma::scale_color_discreterainbow()
+plot_rank(mississippi, log = "x")
 ```
 
 # References

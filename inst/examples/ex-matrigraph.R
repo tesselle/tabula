@@ -5,7 +5,6 @@ data("compiegne", package = "folio")
 matrigraph(compiegne)
 matrigraph(compiegne, reverse = TRUE)
 
-## Compute EPPM
+## Compute PVI
 counts_pvi <- pvi(compiegne)
-plot_heatmap(counts_pvi) +
-  khroma::scale_fill_BuRd(name = "PVI", midpoint = 1)
+plot_heatmap(counts_pvi, col = khroma::color("BuRd")(12))

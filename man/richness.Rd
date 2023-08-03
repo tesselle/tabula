@@ -233,7 +233,6 @@ Concepts to Diversity. \emph{Ecology}, 48(3), 392-404.
 Other diversity measures: 
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
-\code{\link{plot_diversity}},
 \code{\link{rarefaction}()},
 \code{\link{similarity}()},
 \code{\link{simulate}()},

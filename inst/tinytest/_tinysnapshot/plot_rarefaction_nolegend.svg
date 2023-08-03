@@ -55,16 +55,4 @@
 <text x='266.40' y='485.28' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='72.10px' lengthAdjust='spacingAndGlyphs'>Sample size</text>
 <text transform='translate(12.96,244.80) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='141.33px' lengthAdjust='spacingAndGlyphs'>Expected species index</text>
 </g>
-<g clip-path='url(#cpNTkuMDR8NDczLjc2fDU5LjA0fDQzMC41Ng==)'>
-<line x1='69.84' y1='73.44' x2='91.44' y2='73.44' style='stroke-width: 0.75; stroke: #4B0055;' />
-<line x1='69.84' y1='87.84' x2='91.44' y2='87.84' style='stroke-width: 0.75; stroke: #00588B;' />
-<line x1='69.84' y1='102.24' x2='91.44' y2='102.24' style='stroke-width: 0.75; stroke: #009B95;' />
-<line x1='69.84' y1='116.64' x2='91.44' y2='116.64' style='stroke-width: 0.75; stroke: #53CC67;' />
-<line x1='69.84' y1='131.04' x2='91.44' y2='131.04' style='stroke-width: 0.75; stroke: #FDE333;' />
-<text x='102.24' y='77.81' style='font-size: 12.00px; font-family: "Arial";' textLength='50.93px' lengthAdjust='spacingAndGlyphs'>Altamira</text>
-<text x='102.24' y='92.21' style='font-size: 12.00px; font-family: "Arial";' textLength='101.23px' lengthAdjust='spacingAndGlyphs'>Cueto de la Mina</text>
-<text x='102.24' y='106.61' style='font-size: 12.00px; font-family: "Arial";' textLength='40.33px' lengthAdjust='spacingAndGlyphs'>El Juyo</text>
-<text x='102.24' y='121.01' style='font-size: 12.00px; font-family: "Arial";' textLength='50.57px' lengthAdjust='spacingAndGlyphs'>El Cierro</text>
-<text x='102.24' y='135.41' style='font-size: 12.00px; font-family: "Arial";' textLength='61.65px' lengthAdjust='spacingAndGlyphs'>La Paloma</text>
-</g>
 </svg>

@@ -6,30 +6,75 @@
 \alias{plot_rank-method}
 \alias{plot_rank,matrix-method}
 \alias{plot_rank,data.frame-method}
-\title{Line Plot}
+\title{Rank Plot}
 \usage{
 plot_rank(object, ...)
 
-\S4method{plot_rank}{matrix}(object, log = NULL, facet = FALSE)
+\S4method{plot_rank}{matrix}(
+  object,
+  log = NULL,
+  main = NULL,
+  sub = NULL,
+  ann = graphics::par("ann"),
+  axes = TRUE,
+  frame.plot = axes,
+  panel.first = NULL,
+  panel.last = NULL,
+  legend = list(x = "topright"),
+  ...
+)
 
-\S4method{plot_rank}{data.frame}(object, log = NULL, facet = FALSE)
+\S4method{plot_rank}{data.frame}(
+  object,
+  log = NULL,
+  main = NULL,
+  sub = NULL,
+  ann = graphics::par("ann"),
+  axes = TRUE,
+  frame.plot = axes,
+  panel.first = NULL,
+  panel.last = NULL,
+  legend = list(x = "topright"),
+  ...
+)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
 \code{\link{data.frame}} of count data (absolute frequencies giving the number of
 individuals for each class).}
 
-\item{...}{Further arguments to be passed to internal methods.}
+\item{...}{Further \link[graphics:par]{graphical parameters}.}
 
 \item{log}{A \code{\link{character}} string which contains "\code{x}" if the x axis is to be
 logarithmic, "\code{y}" if the y axis is to be logarithmic and "\code{xy}" or "\code{yx}"
 if both axes are to be logarithmic (base 10).}
 
-\item{facet}{A \code{\link{logical}} scalar: should a matrix of panels defined by
-case/sample be drawn?}
+\item{main}{A \code{\link{character}} string giving a main title for the plot.}
+
+\item{sub}{A \code{\link{character}} string giving a subtitle for the plot.}
+
+\item{ann}{A \code{\link{logical}} scalar: should the default annotation (title and x,
+y and z axis labels) appear on the plot?}
+
+\item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot?}
+
+\item{frame.plot}{A \code{\link{logical}} scalar: should a box be drawn around the
+plot?}
+
+\item{panel.first}{An an \code{expression} to be evaluated after the plot axes are
+set up but before any plotting takes place. This can be useful for drawing
+background grids.}
+
+\item{panel.last}{An \code{expression} to be evaluated after plotting has taken
+place but before the axes, title and box are added.}
+
+\item{legend}{A \code{\link{list}} of additional arguments to be passed to
+\code{\link[graphics:legend]{graphics::legend()}}; names of the list are used as argument names.
+If \code{NULL}, no legend is displayed.}
 }
 \value{
-A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
+\code{plot_rank()} is called it for its side-effects: it results in a graphic
+being displayed (invisibly returns \code{object}).
 }
 \description{
 Plots a rank \emph{vs} relative abundance diagram.
@@ -40,7 +85,10 @@ data("cantabria")
 
 ## Plot rank vs abundance
 plot_rank(cantabria)
-plot_rank(cantabria, facet = TRUE)
+
+## Change graphical parameters
+col <- khroma::color("bright")(5)
+plot_rank(cantabria, col = col, pch = 15:19, lty = 2)
 }
 \references{
 Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
@@ -54,6 +102,7 @@ Other plot methods:
 \code{\link{plot_diversity}},
 \code{\link{plot_ford}()},
 \code{\link{plot_heatmap}()},
+\code{\link{plot_rarefaction}},
 \code{\link{plot_spot}()},
 \code{\link{seriograph}()}
 }

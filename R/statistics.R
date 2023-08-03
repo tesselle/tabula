@@ -2,6 +2,36 @@
 #' @include AllClasses.R AllGenerics.R
 NULL
 
+#' @export
+#' @rdname matrigraph
+#' @aliases pvi,matrix-method
+setMethod(
+  f = "pvi",
+  signature = signature(object = "matrix"),
+  definition = function(object) {
+    # Independance
+    values <- expected(object)
+
+    # Threshold
+    threshold <- object / values
+
+    dimnames(threshold) <- dimnames(object)
+    threshold
+  }
+)
+
+#' @export
+#' @rdname matrigraph
+#' @aliases pvi,data.frame-method
+setMethod(
+  f = "pvi",
+  signature = signature(object = "data.frame"),
+  definition = function(object) {
+    object <- data.matrix(object)
+    methods::callGeneric(object)
+  }
+)
+
 expected <- function(x) {
   m <- nrow(x)
   p <- ncol(x)

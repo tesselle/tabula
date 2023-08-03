@@ -11,11 +11,40 @@
 \usage{
 plot_heatmap(object, ...)
 
-\S4method{plot_heatmap}{matrix}(object, diag = TRUE, upper = TRUE, lower = TRUE, freq = FALSE)
+\S4method{plot_heatmap}{matrix}(
+  object,
+  col = (khroma::colour("YlOrBr"))(12),
+  diag = TRUE,
+  upper = TRUE,
+  lower = TRUE,
+  freq = FALSE,
+  axes = TRUE,
+  legend = TRUE,
+  ...
+)
 
-\S4method{plot_heatmap}{data.frame}(object, diag = TRUE, upper = TRUE, lower = TRUE, freq = FALSE)
+\S4method{plot_heatmap}{data.frame}(
+  object,
+  col = (khroma::colour("YlOrBr"))(12),
+  diag = TRUE,
+  upper = TRUE,
+  lower = TRUE,
+  freq = FALSE,
+  axes = TRUE,
+  legend = TRUE,
+  ...
+)
 
-\S4method{plot_heatmap}{dist}(object, diag = FALSE, upper = FALSE, lower = !upper)
+\S4method{plot_heatmap}{dist}(
+  object,
+  col = (khroma::colour("YlOrBr"))(12),
+  diag = FALSE,
+  upper = FALSE,
+  lower = !upper,
+  axes = TRUE,
+  legend = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
@@ -23,6 +52,8 @@ plot_heatmap(object, ...)
 individuals for each class).}
 
 \item{...}{Currently not used.}
+
+\item{col}{A vector of colors.}
 
 \item{diag}{A \code{\link{logical}} scalar indicating whether the diagonal of the
 matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
@@ -35,9 +66,14 @@ the matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
 
 \item{freq}{A \code{\link{logical}} scalar indicating whether relative frequency
 should be used instead of counts (absolute frequency).}
+
+\item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot?}
+
+\item{legend}{A \code{\link{logical}} scalar: should a legend be displayed?}
 }
 \value{
-A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
+\code{plot_heatmap()} is called it for its side-effects: it results in a graphic
+being displayed (invisibly returns \code{object}).
 }
 \description{
 Plots a heatmap.
@@ -53,9 +89,7 @@ plot_heatmap(cantabria, freq = TRUE)
 ## Presence/absence data
 inc <- sample(0:1, size = 100, replace = TRUE)
 bin <- matrix(data = as.logical(inc), nrow = 10, ncol = 10)
-
-plot_heatmap(bin) +
-  khroma::scale_fill_logical()
+plot_heatmap(bin, col = c("black", "white"))
 }
 \seealso{
 Other plot methods: 
@@ -65,6 +99,7 @@ Other plot methods:
 \code{\link{plot_diversity}},
 \code{\link{plot_ford}()},
 \code{\link{plot_rank}()},
+\code{\link{plot_rarefaction}},
 \code{\link{plot_spot}()},
 \code{\link{seriograph}()}
 }

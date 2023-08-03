@@ -14,31 +14,38 @@ plot_spot(object, ...)
 \S4method{plot_spot}{matrix}(
   object,
   type = c("ring", "plain"),
-  threshold = NULL,
+  col = (khroma::colour("YlOrBr"))(12),
   diag = TRUE,
   upper = TRUE,
   lower = TRUE,
   freq = FALSE,
+  axes = TRUE,
+  legend = TRUE,
   ...
 )
 
 \S4method{plot_spot}{data.frame}(
   object,
   type = c("ring", "plain"),
-  threshold = NULL,
+  col = (khroma::colour("YlOrBr"))(12),
   diag = TRUE,
   upper = TRUE,
   lower = TRUE,
   freq = FALSE,
+  axes = TRUE,
+  legend = TRUE,
   ...
 )
 
 \S4method{plot_spot}{dist}(
   object,
   type = c("ring", "plain"),
+  col = (khroma::colour("YlOrBr"))(12),
   diag = FALSE,
   upper = FALSE,
   lower = !upper,
+  axes = TRUE,
+  legend = TRUE,
   ...
 )
 }
@@ -47,15 +54,13 @@ plot_spot(object, ...)
 \code{\link{data.frame}} of count data (absolute frequencies giving the number of
 individuals for each class).}
 
-\item{...}{Extra parameters to be passed to \code{threshold}.}
+\item{...}{Currently not used.}
 
 \item{type}{A \code{\link{character}} string specifying the graph to be plotted.
 It must be one of "\code{ring}" (the default) or "\code{plain}". Any unambiguous
 substring can be given.}
 
-\item{threshold}{A \code{\link{function}} that takes a numeric vector as argument and
-returns a numeric threshold value. If \code{NULL} (the default), no threshold is
-computed.}
+\item{col}{A vector of colors.}
 
 \item{diag}{A \code{\link{logical}} scalar indicating whether the diagonal of the
 matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
@@ -68,9 +73,14 @@ the matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
 
 \item{freq}{A \code{\link{logical}} scalar indicating whether relative frequency
 should be used instead of counts (absolute frequency).}
+
+\item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot?}
+
+\item{legend}{A \code{\link{logical}} scalar: should a legend be displayed?}
 }
 \value{
-A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
+\code{plot_spot()} is called it for its side-effects: it results in a graphic
+being displayed (invisibly returns \code{object}).
 }
 \description{
 Plots a spot matrix.
@@ -85,16 +95,12 @@ Adapted from Dan Gopstein's original
 \href{https://dgopstein.github.io/articles/spot-matrix/}{idea}.
 }
 \examples{
-## Data from Conkey 1980, Kintigh 1989
-data("cantabria")
+## Data from Huntley 2004, 2008
+data("pueblo")
 
-## Plot spot diagram of count data...
-### ...without threshod
-plot_spot(cantabria)
-### ...with the  column means as threshold
-plot_spot(cantabria, threshold = mean)
-### ...with the column medians as threshold
-plot_spot(cantabria, threshold = median)
+## Plot spot diagram of count data
+plot_spot(pueblo, type = "ring")
+plot_spot(pueblo, type = "plain", freq = TRUE)
 }
 \seealso{
 Other plot methods: 
@@ -105,6 +111,7 @@ Other plot methods:
 \code{\link{plot_ford}()},
 \code{\link{plot_heatmap}()},
 \code{\link{plot_rank}()},
+\code{\link{plot_rarefaction}},
 \code{\link{seriograph}()}
 }
 \author{

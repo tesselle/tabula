@@ -88,6 +88,7 @@ Other plot methods:
 \code{\link{plot_ford}()},
 \code{\link{plot_heatmap}()},
 \code{\link{plot_rank}()},
+\code{\link{plot_rarefaction}},
 \code{\link{plot_spot}()}
 }
 \author{

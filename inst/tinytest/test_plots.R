@@ -1,5 +1,14 @@
 if (at_home()) {
+  source("helpers.R")
+  using("tinysnapshot")
+  options(tinysnapshot_device = "svglite")
+  options(tinysnapshot_height = 7) # inches
+  options(tinysnapshot_width = 7)
+  options(tinysnapshot_tol = 200) # pixels
+  options(tinysnapshot_os = "Linux")
+
   data("cantabria")
+  data("pueblo")
 
   # Bertin =====================================================================
   ## No threshold, no scale
@@ -25,54 +34,44 @@ if (at_home()) {
   # }
 
   # Dice-Leraas ================================================================
-  # gg_diceleraas <- plot_diceleraas(cantabria)
-  # vdiffr::expect_doppelganger("diceleraas", gg_diceleraas)
+  plot_dice_leraas <- function() plot_diceleraas(pueblo)
+  expect_snapshot_plot(plot_dice_leraas, "plot_dice_leraas")
 
   # Heatmap ====================================================================
   ## Count data
-  # gg_mtx_count <- plot_heatmap(cantabria)
-  # vdiffr::expect_doppelganger("mtx_count", gg_mtx_count)
+  plot_mtx_count <- function() plot_heatmap(cantabria)
+  expect_snapshot_plot(plot_mtx_count, "plot_mtx_count")
 
   ## Frequency data
-  # gg_mtx_freq <- plot_heatmap(cantabria, freq = TRUE)
-  # vdiffr::expect_doppelganger("mtx_freq", gg_mtx_freq)
+  plot_mtx_freq <- function() plot_heatmap(cantabria, freq = TRUE)
+  expect_snapshot_plot(plot_mtx_freq, "plot_mtx_freq")
 
   ## Incidence data
-  # gg_mtx_incid <- plot_heatmap(cantabria > 0)
-  # vdiffr::expect_doppelganger("mtx_incid", gg_mtx_incid)
+  plot_mtx_incid <- function() plot_heatmap(cantabria > 0)
+  expect_snapshot_plot(plot_mtx_incid, "plot_mtx_incid")
 
   # Matrigraph =================================================================
-  # for (i in c(TRUE, FALSE)) {
-  #   gg_matrigraph <- matrigraph(cantabria, reverse = i)
-  #   vdiffr::expect_doppelganger(paste0("matrigraph_revese-", i), gg_matrigraph)
-  # }
+  for (i in c(TRUE, FALSE)) {
+    plot_matrigraph <- function() matrigraph(cantabria, reverse = i)
+    expect_snapshot_plot(plot_matrigraph, paste0("matrigraph_reverse-", i))
+  }
 
   # Rank =======================================================================
-  # for (i in c(TRUE, FALSE)) {
-  #   # Count data
-  #   gg_rank_count <- plot_rank(cantabria, facet = i)
-  #   vdiffr::expect_doppelganger(paste0("rank_count_facet-", i), gg_rank_count)
-  # }
-  # for (j in c("x", "y", "xy", "yx")) {
-  #   # Count data
-  #   gg_rank_log <- plot_rank(cantabria, log = j)
-  #   vdiffr::expect_doppelganger(paste0("rank_count_log-", j), gg_rank_log)
-  # }
+  plot_rank_log <- function() plot_rank(cantabria, log = "x")
+  expect_snapshot_plot(plot_rank_log, "plot_rank_log")
+  plot_rank_nolegend <- function() plot_rank(cantabria, legend = NULL)
+  expect_snapshot_plot(plot_rank_nolegend, "plot_rank_nolegend")
 
   # Spot =======================================================================
   ## Count data
-  # gg_spot_count <- plot_spot(cantabria, type = "ring")
-  # vdiffr::expect_doppelganger("spot_count", gg_spot_count)
-  # gg_spot_plain_count <- plot_spot(cantabria, type = "plain")
-  # vdiffr::expect_doppelganger("spot_plain_count", gg_spot_plain_count)
-  # gg_spot_mean_count <- plot_spot(cantabria, threshold = mean, type = "ring")
-  # vdiffr::expect_doppelganger("spot_mean_count", gg_spot_mean_count)
+  plot_spot_ring <- function() plot_spot(pueblo, type = "ring")
+  expect_snapshot_plot(plot_spot_ring, "plot_spot_ring")
+  plot_spot_plain <- function() plot_spot(pueblo, type = "plain")
+  expect_snapshot_plot(plot_spot_plain, "plot_spot_plain")
 
   ## Frequency data
-  # gg_spot_freq <- plot_spot(cantabria, type = "ring", freq = TRUE)
-  # vdiffr::expect_doppelganger("spot_freq", gg_spot_freq)
-  # gg_spot_mean_freq <- plot_spot(cantabria, threshold = mean, type = "ring", freq = TRUE)
-  # vdiffr::expect_doppelganger("spot_mean_freq", gg_spot_mean_freq)
-  # gg_spot_plain_freq <- plot_spot(cantabria, threshold = mean, type = "plain", freq = TRUE)
-  # vdiffr::expect_doppelganger("spot_plain_freq", gg_spot_plain_freq)
+  plot_spot_freq_ring <- function() plot_spot(pueblo, type = "ring", freq = TRUE)
+  expect_snapshot_plot(plot_spot_freq_ring, "plot_spot_freq_ring")
+  plot_spot_freq_plain <- function() plot_spot(pueblo, type = "plain", freq = TRUE)
+  expect_snapshot_plot(plot_spot_freq_plain, "plot_spot_freq_plain")
 }

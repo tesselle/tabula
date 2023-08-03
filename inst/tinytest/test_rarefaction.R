@@ -16,6 +16,10 @@ if (at_home()) {
   options(tinysnapshot_tol = 200) # pixels
   options(tinysnapshot_os = "Linux")
 
+  data("cantabria")
+  rare <- rarefaction(cantabria, sample = 23, method = "baxter")
   plot_rarefaction <- function() plot(rare)
   expect_snapshot_plot(plot_rarefaction, "plot_rarefaction")
+  plot_rarefaction_nolegend <- function() plot(rare, legend = NULL)
+  expect_snapshot_plot(plot_rarefaction_nolegend, "plot_rarefaction_nolegend")
 }

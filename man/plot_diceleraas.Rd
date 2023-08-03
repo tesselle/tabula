@@ -10,19 +10,59 @@
 \usage{
 plot_diceleraas(object, ...)
 
-\S4method{plot_diceleraas}{matrix}(object)
+\S4method{plot_diceleraas}{matrix}(
+  object,
+  main = NULL,
+  sub = NULL,
+  ann = graphics::par("ann"),
+  axes = TRUE,
+  frame.plot = FALSE,
+  panel.first = NULL,
+  panel.last = NULL,
+  ...
+)
 
-\S4method{plot_diceleraas}{data.frame}(object)
+\S4method{plot_diceleraas}{data.frame}(
+  object,
+  main = NULL,
+  sub = NULL,
+  ann = graphics::par("ann"),
+  axes = TRUE,
+  frame.plot = FALSE,
+  panel.first = NULL,
+  panel.last = NULL,
+  ...
+)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
 \code{\link{data.frame}} of count data (absolute frequencies giving the number of
 individuals for each class).}
 
-\item{...}{Currently not used.}
+\item{...}{Further \link[graphics:par]{graphical parameters}.}
+
+\item{main}{A \code{\link{character}} string giving a main title for the plot.}
+
+\item{sub}{A \code{\link{character}} string giving a subtitle for the plot.}
+
+\item{ann}{A \code{\link{logical}} scalar: should the default annotation (title and x,
+y and z axis labels) appear on the plot?}
+
+\item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot?}
+
+\item{frame.plot}{A \code{\link{logical}} scalar: should a box be drawn around the
+plot?}
+
+\item{panel.first}{An an \code{expression} to be evaluated after the plot axes are
+set up but before any plotting takes place. This can be useful for drawing
+background grids.}
+
+\item{panel.last}{An \code{expression} to be evaluated after plotting has taken
+place but before the axes, title and box are added.}
 }
 \value{
-A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
+\code{plot_diceleraas()} is called it for its side-effects: it results in a
+graphic being displayed (invisibly returns \code{object}).
 }
 \description{
 Plots a Dice-Leraas diagram.
@@ -60,6 +100,7 @@ Other plot methods:
 \code{\link{plot_ford}()},
 \code{\link{plot_heatmap}()},
 \code{\link{plot_rank}()},
+\code{\link{plot_rarefaction}},
 \code{\link{plot_spot}()},
 \code{\link{seriograph}()}
 }

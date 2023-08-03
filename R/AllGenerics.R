@@ -2,11 +2,6 @@
 #' @include AllClasses.R
 NULL
 
-# S4 dispatch to base S3 generic ===============================================
-setGeneric("autoplot", package = "ggplot2")
-setGeneric("jackknife", package = "arkhe")
-setGeneric("bootstrap", package = "arkhe")
-
 # Extract ======================================================================
 ## Mutators --------------------------------------------------------------------
 #' Get or Set Parts of an Object
@@ -71,6 +66,9 @@ setGeneric(
   name = "resample",
   def = function(object, ...) standardGeneric("resample")
 )
+
+setGeneric("jackknife", package = "arkhe")
+setGeneric("bootstrap", package = "arkhe")
 
 # Diversity ====================================================================
 ## Heterogeneity ---------------------------------------------------------------
@@ -455,6 +453,7 @@ setGeneric(
 #'  Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
 #'  *The American Naturalist*, 102(925), 243-282.
 #' @example inst/examples/ex-rarefaction.R
+#' @seealso [`plot()`][plot_rarefaction]
 #' @author N. Frerebeau
 #' @family diversity measures
 #' @docType methods
@@ -656,7 +655,6 @@ setGeneric(
 #' @aliases turnover-method
 setGeneric(
   name = "turnover",
-
   def = function(object, ...) standardGeneric("turnover")
 )
 
@@ -724,54 +722,13 @@ setGeneric(
 #'  Kintigh, K. W. (1984). Measuring Archaeological Diversity by Comparison
 #'  with Simulated Assemblages. *American Antiquity*, 49(1), 44-54.
 #'  \doi{10.2307/280511}.
-#' @seealso [plot_diversity()], [resample()]
+#' @seealso [`plot()`][plot_diversity], [resample()]
 #' @example inst/examples/ex-plot_diversity.R
 #' @author N. Frerebeau
 #' @family diversity measures
 #' @docType methods
 #' @name simulate
 #' @rdname simulate
-NULL
-
-## Plot ------------------------------------------------------------------------
-#' Diversity Plot
-#'
-#' @param x A [DiversityIndex-class] object to be plotted.
-#' @param log A [`character`] string indicating which axes should be in log
-#'  scale. Defaults to `x`.
-#' @param legend A [`logical`] scalar: should the legend be displayed?
-#' @param palette A color palette [`function`] that takes a single integer
-#'  argument (the number of levels) and returns a vector of colors.
-#' @param col.index,col.mean,col.interval A [`character`] string specifying the
-#'  color of the lines.
-#' @param lty.mean,lty.interval A [`character`] string or [`numeric`]
-#'  value specifying the line types.
-#' @param lwd.mean,lwd.interval A non-negative [`numeric`] value specifying
-#'  the line widths.
-#' @param main A [`character`] string giving a main title for the plot.
-#' @param sub A [`character`] string giving a subtitle for the plot.
-#' @param ann A [`logical`] scalar: should the default annotation (title and x,
-#'  y and z axis labels) appear on the plot?
-#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
-#' @param frame.plot A [`logical`] scalar: should a box be drawn around the
-#'  plot?
-#' @param panel.first An an `expression` to be evaluated after the plot axes are
-#'  set up but before any plotting takes place. This can be useful for drawing
-#'  background grids.
-#' @param panel.last An `expression` to be evaluated after plotting has taken
-#'  place but before the axes, title and box are added.
-#' @param ... Further [graphical parameters][graphics::par] to be passed to
-#'  [graphics::points()], particularly, `cex`, `col` and `pch`.
-#' @return
-#'  `plot()` is called it for its side-effects: it results in a graphic being
-#'  displayed (invisibly returns `x`).
-#' @example inst/examples/ex-plot_diversity.R
-#' @author N. Frerebeau
-#' @family diversity measures
-#' @family plot methods
-#' @docType methods
-#' @name plot_diversity
-#' @rdname plot_diversity
 NULL
 
 ## Diversity Test --------------------------------------------------------------
@@ -801,6 +758,74 @@ setGeneric(
 )
 
 # Plot =========================================================================
+## Diversity -------------------------------------------------------------------
+#' Diversity Plot
+#'
+#' @param x A [DiversityIndex-class] object to be plotted.
+#' @param log A [`character`] string indicating which axes should be in log
+#'  scale. Defaults to `x`.
+#' @param col.mean,col.interval A [`character`] string specifying the
+#'  color of the lines.
+#' @param lty.mean,lty.interval A [`character`] string or [`numeric`]
+#'  value specifying the line types.
+#' @param lwd.mean,lwd.interval A non-negative [`numeric`] value specifying
+#'  the line widths.
+#' @param main A [`character`] string giving a main title for the plot.
+#' @param sub A [`character`] string giving a subtitle for the plot.
+#' @param ann A [`logical`] scalar: should the default annotation (title and x,
+#'  y and z axis labels) appear on the plot?
+#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
+#' @param frame.plot A [`logical`] scalar: should a box be drawn around the
+#'  plot?
+#' @param panel.first An an `expression` to be evaluated after the plot axes are
+#'  set up but before any plotting takes place. This can be useful for drawing
+#'  background grids.
+#' @param panel.last An `expression` to be evaluated after plotting has taken
+#'  place but before the axes, title and box are added.
+#' @param ... Further [graphical parameters][graphics::par] to be passed to
+#'  [graphics::points()], particularly, `cex`, `col` and `pch`.
+#' @return
+#'  `plot()` is called it for its side-effects: it results in a graphic being
+#'  displayed (invisibly returns `x`).
+#' @example inst/examples/ex-plot_diversity.R
+#' @author N. Frerebeau
+#' @family plot methods
+#' @docType methods
+#' @name plot_diversity
+#' @rdname plot_diversity
+NULL
+
+#' Rarefaction Plot
+#'
+#' @param x A [RarefactionIndex-class] object to be plotted.
+#' @param main A [`character`] string giving a main title for the plot.
+#' @param sub A [`character`] string giving a subtitle for the plot.
+#' @param ann A [`logical`] scalar: should the default annotation (title and x,
+#'  y and z axis labels) appear on the plot?
+#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
+#' @param frame.plot A [`logical`] scalar: should a box be drawn around the
+#'  plot?
+#' @param panel.first An an `expression` to be evaluated after the plot axes are
+#'  set up but before any plotting takes place. This can be useful for drawing
+#'  background grids.
+#' @param panel.last An `expression` to be evaluated after plotting has taken
+#'  place but before the axes, title and box are added.
+#' @param legend A [`list`] of additional arguments to be passed to
+#'  [graphics::legend()]; names of the list are used as argument names.
+#'  If `NULL`, no legend is displayed.
+#' @param ... Further [graphical parameters][graphics::par] to be passed to
+#'  [graphics::lines()].
+#' @return
+#'  `plot()` is called it for its side-effects: it results in a graphic being
+#'  displayed (invisibly returns `x`).
+#' @example inst/examples/ex-rarefaction.R
+#' @author N. Frerebeau
+#' @family plot methods
+#' @docType methods
+#' @name plot_rarefaction
+#' @rdname plot_rarefaction
+NULL
+
 ## Matrix plot -----------------------------------------------------------------
 ### Heatmap --------------------------------------------------------------------
 #' Heatmap
@@ -809,6 +834,7 @@ setGeneric(
 #' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
 #'  [`data.frame`] of count data (absolute frequencies giving the number of
 #'  individuals for each class).
+#' @param col A vector of colors.
 #' @param diag A [`logical`] scalar indicating whether the diagonal of the
 #'  matrix should be plotted. Only used if `object` is a symmetric matrix.
 #' @param upper A [`logical`] scalar indicating whether the upper triangle of
@@ -817,9 +843,12 @@ setGeneric(
 #'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
 #' @param freq A [`logical`] scalar indicating whether relative frequency
 #'  should be used instead of counts (absolute frequency).
+#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
+#' @param legend A [`logical`] scalar: should a legend be displayed?
 #' @param ... Currently not used.
 #' @return
-#'  A [ggplot2::ggplot] object.
+#'  `plot_heatmap()` is called it for its side-effects: it results in a graphic
+#'  being displayed (invisibly returns `object`).
 #' @example inst/examples/ex-plot_matrix.R
 #' @author N. Frerebeau
 #' @family plot methods
@@ -843,6 +872,7 @@ setGeneric(
 #'  individuals for each class).
 #' @param reverse A [`logical`] scalar: should negative deviations be centered
 #'  (see details)?
+#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
 #' @param ... Currently not used.
 #' @details
 #'  PVI (in french "pourcentages de valeur d'indépendance") is calculated for
@@ -909,6 +939,8 @@ setGeneric(
 #' @param scale A [`function`] used to scale each variable, that takes a numeric
 #'  vector as argument and returns a numeric vector. If `NULL` (the default), no
 #'  scaling is performed.
+#' @param col A vector of colors.
+#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
 #' @param ... Currently not used.
 #' @section Bertin Matrix:
 #'  As de Falguerolles *et al.* (1997) points out:
@@ -1019,7 +1051,19 @@ setGeneric(
 #' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
 #'  [`data.frame`] of count data (absolute frequencies giving the number of
 #'  individuals for each class).
-#' @param ... Currently not used.
+#' @param main A [`character`] string giving a main title for the plot.
+#' @param sub A [`character`] string giving a subtitle for the plot.
+#' @param ann A [`logical`] scalar: should the default annotation (title and x,
+#'  y and z axis labels) appear on the plot?
+#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
+#' @param frame.plot A [`logical`] scalar: should a box be drawn around the
+#'  plot?
+#' @param panel.first An an `expression` to be evaluated after the plot axes are
+#'  set up but before any plotting takes place. This can be useful for drawing
+#'  background grids.
+#' @param panel.last An `expression` to be evaluated after plotting has taken
+#'  place but before the axes, title and box are added.
+#' @param ... Further [graphical parameters][graphics::par].
 #' @details
 #'  In a Dice-Leraas diagram, the horizontal line represents the range of data
 #'  (min-max) and the small vertical line indicates the mean. The black
@@ -1037,7 +1081,8 @@ setGeneric(
 #'  Simpson, G. G., Roe, A., & Lewontin, R. C. *Quantitative Zoology*.
 #'  New York: Harcourt, Brace and Company, 1960.
 #' @return
-#'  A [ggplot2::ggplot] object.
+#'  `plot_diceleraas()` is called it for its side-effects: it results in a
+#'  graphic being displayed (invisibly returns `object`).
 #' @example inst/examples/ex-diceleraas.R
 #' @author N. Frerebeau
 #' @family plot methods
@@ -1049,7 +1094,7 @@ setGeneric(
 )
 
 ## Line Plot -------------------------------------------------------------------
-#' Line Plot
+#' Rank Plot
 #'
 #' Plots a rank *vs* relative abundance diagram.
 #' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
@@ -1058,11 +1103,27 @@ setGeneric(
 #' @param log A [`character`] string which contains "`x`" if the x axis is to be
 #'  logarithmic, "`y`" if the y axis is to be logarithmic and "`xy`" or "`yx`"
 #'  if both axes are to be logarithmic (base 10).
-#' @param facet A [`logical`] scalar: should a matrix of panels defined by
-#'  case/sample be drawn?
-#' @param ... Further arguments to be passed to internal methods.
+# @param facet A [`logical`] scalar: should a matrix of panels defined by
+#  case/sample be drawn?
+#' @param main A [`character`] string giving a main title for the plot.
+#' @param sub A [`character`] string giving a subtitle for the plot.
+#' @param ann A [`logical`] scalar: should the default annotation (title and x,
+#'  y and z axis labels) appear on the plot?
+#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
+#' @param frame.plot A [`logical`] scalar: should a box be drawn around the
+#'  plot?
+#' @param panel.first An an `expression` to be evaluated after the plot axes are
+#'  set up but before any plotting takes place. This can be useful for drawing
+#'  background grids.
+#' @param panel.last An `expression` to be evaluated after plotting has taken
+#'  place but before the axes, title and box are added.
+#' @param legend A [`list`] of additional arguments to be passed to
+#'  [graphics::legend()]; names of the list are used as argument names.
+#'  If `NULL`, no legend is displayed.
+#' @param ... Further [graphical parameters][graphics::par].
 #' @return
-#'  A [ggplot2::ggplot] object.
+#'  `plot_rank()` is called it for its side-effects: it results in a graphic
+#'  being displayed (invisibly returns `object`).
 #' @references
 #'  Magurran, A. E. (1988). *Ecological Diversity and its Measurement*.
 #'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
@@ -1086,9 +1147,7 @@ setGeneric(
 #' @param type A [`character`] string specifying the graph to be plotted.
 #'  It must be one of "`ring`" (the default) or "`plain`". Any unambiguous
 #'  substring can be given.
-#' @param threshold A [`function`] that takes a numeric vector as argument and
-#'  returns a numeric threshold value. If `NULL` (the default), no threshold is
-#'  computed.
+#' @param col A vector of colors.
 #' @param diag A [`logical`] scalar indicating whether the diagonal of the
 #'  matrix should be plotted. Only used if `object` is a symmetric matrix.
 #' @param upper A [`logical`] scalar indicating whether the upper triangle of
@@ -1097,13 +1156,16 @@ setGeneric(
 #'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
 #' @param freq A [`logical`] scalar indicating whether relative frequency
 #'  should be used instead of counts (absolute frequency).
-#' @param ... Extra parameters to be passed to `threshold`.
+#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
+#' @param legend A [`logical`] scalar: should a legend be displayed?
+#' @param ... Currently not used.
 #' @details
 #'  The spot matrix can be considered as a variant of the
 #'  [Bertin diagram][plot_bertin()] where the data are first transformed to
 #'  relative frequencies.
 #' @return
-#'  A [ggplot2::ggplot] object.
+#'  `plot_spot()` is called it for its side-effects: it results in a graphic
+#'  being displayed (invisibly returns `object`).
 #' @note
 #'  Adapted from Dan Gopstein's original
 #'  [idea](https://dgopstein.github.io/articles/spot-matrix/).

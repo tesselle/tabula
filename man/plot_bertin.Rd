@@ -11,9 +11,23 @@
 \usage{
 plot_bertin(object, ...)
 
-\S4method{plot_bertin}{matrix}(object, threshold = NULL, scale = NULL)
+\S4method{plot_bertin}{matrix}(
+  object,
+  threshold = NULL,
+  scale = NULL,
+  col = c("white", "black"),
+  axes = TRUE,
+  ...
+)
 
-\S4method{plot_bertin}{data.frame}(object, threshold = NULL, scale = NULL)
+\S4method{plot_bertin}{data.frame}(
+  object,
+  threshold = NULL,
+  scale = NULL,
+  col = c("white", "black"),
+  axes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
@@ -29,6 +43,10 @@ threshold is computed.}
 \item{scale}{A \code{\link{function}} used to scale each variable, that takes a numeric
 vector as argument and returns a numeric vector. If \code{NULL} (the default), no
 scaling is performed.}
+
+\item{col}{A vector of colors.}
+
+\item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot?}
 }
 \value{
 A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
@@ -54,7 +72,10 @@ data("mississippi", package = "folio")
 ## ...without threshold
 plot_bertin(mississippi)
 
-## ...with variables scaled to 0-1 and the variable mean as threshold
+## ...with the variable mean as threshold
+plot_bertin(mississippi, threshold = mean)
+
+## ...with each variable scaled to 0-1 and the variable mean as threshold
 scale_01 <- function(x) (x - min(x)) / (max(x) - min(x))
 plot_bertin(mississippi, threshold = mean, scale = scale_01)
 }
@@ -75,6 +96,7 @@ Other plot methods:
 \code{\link{plot_ford}()},
 \code{\link{plot_heatmap}()},
 \code{\link{plot_rank}()},
+\code{\link{plot_rarefaction}},
 \code{\link{plot_spot}()},
 \code{\link{seriograph}()}
 }

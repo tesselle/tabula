@@ -236,7 +236,6 @@ Simpson, E. H. (1949). Measurement of Diversity. \emph{Nature}, 163(4148),
 \seealso{
 Other diversity measures: 
 \code{\link{occurrence}()},
-\code{\link{plot_diversity}},
 \code{\link{rarefaction}()},
 \code{\link{richness}()},
 \code{\link{similarity}()},

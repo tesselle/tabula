@@ -5,7 +5,7 @@ NULL
 # DiversityIndex ===============================================================
 #' @export
 #' @method plot DiversityIndex
-plot.DiversityIndex <- function(x, log = "x", col.index = "black",
+plot.DiversityIndex <- function(x, log = "x",
                                 col.mean = "#DDAA33", col.interval = "#004488",
                                 lty.mean = "solid", lty.interval = "dashed",
                                 lwd.mean = 1, lwd.interval = 1,
@@ -34,7 +34,7 @@ plot.DiversityIndex <- function(x, log = "x", col.index = "black",
   panel.first
 
   ## Plot
-  graphics::points(x = count$size, y = count$index, col = col.index, ...)
+  graphics::points(x = count$size, y = count$index, ...)
 
   ## Simulated assemblages
   if (length(x@simulation) != 0) {
@@ -85,15 +85,22 @@ setMethod("plot", c(x = "DiversityIndex", y = "missing"), plot.DiversityIndex)
 # RarefactionIndex =============================================================
 #' @export
 #' @method plot RarefactionIndex
-plot.RarefactionIndex <- function(x, legend = TRUE,
-                                  palette = function(i) grDevices::hcl.colors(i, "viridis"),
+plot.RarefactionIndex <- function(x,
                                   main = NULL, sub = NULL,
                                   ann = graphics::par("ann"),
                                   axes = TRUE, frame.plot = axes,
-                                  panel.first = NULL, panel.last = NULL, ...) {
-  ## Graphical parameters
+                                  panel.first = NULL, panel.last = NULL,
+                                  legend = list(x = "topleft"), ...) {
+  ## Prepare data
   n <- nrow(x)
-  col <- palette(n)
+
+  ## Graphical parameters
+  col <- list(...)$col %||% grDevices::hcl.colors(n, "viridis")
+  lwd <- list(...)$lwd %||% graphics::par("lwd")
+  lty <- list(...)$lty %||% graphics::par("lty")
+  if (length(lwd) < n) lwd <- rep(lwd, length.out = n)
+  if (length(lty) < n) lty <- rep(lty, length.out = n)
+  if (length(col) < n) col <- rep(col, length.out = n)
 
   ## Open new window
   grDevices::dev.hold()
@@ -110,7 +117,8 @@ plot.RarefactionIndex <- function(x, legend = TRUE,
 
   ## Plot
   for (i in seq_len(n)) {
-    graphics::lines(x = x@size, y = x[i, ], col = col[i], ...)
+    graphics::lines(x = x@size, y = x[i, ], col = col[i],
+                    lwd = lwd[i], lty = lty[i])
   }
 
   ## Evaluate post-plot and pre-axis expressions
@@ -134,15 +142,16 @@ plot.RarefactionIndex <- function(x, legend = TRUE,
   }
 
   ## Legend
-  if (legend) {
-    graphics::legend("topleft", legend = rownames(x),
-                     col = col, lty = 1, bty = "n")
+  if (is.list(legend) && length(legend) > 0) {
+    args <- list(legend = rownames(x), col = col, lty = lty, lwd = lwd, bty = "n")
+    args <- utils::modifyList(args, legend)
+    do.call(graphics::legend, args = args)
   }
 
   invisible(x)
 }
 
 #' @export
-#' @rdname plot_diversity
+#' @rdname plot_rarefaction
 #' @aliases plot,RarefactionIndex,missing-method
 setMethod("plot", c(x = "RarefactionIndex", y = "missing"), plot.RarefactionIndex)

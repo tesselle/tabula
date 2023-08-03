@@ -124,14 +124,7 @@ data("pueblo")
 plot_spot(C)
 
 ## Data from Magurran 1988, p. 166
-birds <- matrix(
-  data = c(1.4, 4.3, 2.9, 8.6, 4.2, 15.7, 2.0, 50, 1, 11.4, 11.4, 4.3, 13.0,
-           14.3, 8.6, 7.1, 10.0, 1.4, 2.9, 5.7, 1.4, 11.4, 2.9, 4.3, 1.4, 2.9,
-           0, 0, 0, 2.9, 0, 0, 0, 10, 0, 0, 5.7, 2.5, 5.7, 8.6, 5.7, 2.9, 0, 0,
-           2.9, 0, 0, 5.7, 0, 2.9, 0, 2.9),
-  nrow = 2, byrow = TRUE
-)
-rownames(birds) <- c("unmanaged", "managed")
+data("birds")
 
 ## Jaccard measure (presence/absence data)
 similarity(birds, "jaccard") # 0.46
@@ -169,7 +162,6 @@ Deposits. \emph{American Antiquity}, 16(04), 293-301. \doi{10.2307/276978}.
 Other diversity measures: 
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
-\code{\link{plot_diversity}},
 \code{\link{rarefaction}()},
 \code{\link{richness}()},
 \code{\link{simulate}()},
