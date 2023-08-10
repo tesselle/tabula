@@ -31,28 +31,9 @@
   col.axis <- list(...)$col.axis %||% graphics::par("col.axis")
   font.axis <- list(...)$font.axis %||% graphics::par("font.axis")
 
-  ## Margin
-  mai <- rep(0.1, 4)
-  mai[2] <- max(graphics::strwidth(lab_row, units = "inch", cex = cex.axis))
-  mai[3] <- max(graphics::strwidth(lab_col, units = "inch", cex = cex.axis))
-  if (legend) mai[4] <- graphics::strwidth("MMMM", units = "inch", cex = cex.axis)
-
-  ## Aspect ratio
-  xlim <- c(0, m + isTRUE(legend) + 0.5)
-  ylim <- c(0.5, n + 1)
-  if (!is.na(asp) && asp == 1) {
-    devsize <- grDevices::dev.size("in") # /!\ Get device size /!\
-    aspratio <- abs(diff(xlim) / diff(ylim))
-    width <- min(devsize) - mai[2] - mai[4]
-    height <- min(devsize) - mai[1] - mai[3]
-    if (height > width / aspratio) height <- width / aspratio
-    else if (height < width / aspratio) width <- height * aspratio
-    old_par <- graphics::par(mai = mai, pin = c(width, height))
-  } else {
-    old_par <- graphics::par(mai = mai)
-  }
-
   ## Save and restore
+  mar <- rep(0.1, 4)
+  old_par <- graphics::par(mar = mar)
   on.exit(graphics::par(old_par))
 
   ## Open new window
@@ -61,17 +42,36 @@
   graphics::plot.new()
 
   ## Set plotting coordinates
-  graphics::plot.window(xlim = xlim, ylim = ylim, xaxs = "i", yaxs = "i")
+  xmax <- m + isTRUE(legend) + 0.5
+  ymax <- n + 1.5
+
+  d <- graphics::strwidth("M", units = "user", cex = cex.axis) * 2
+  left <- max(graphics::strwidth(lab_row, units = "user", cex = cex.axis)) + d
+  right <- graphics::strwidth("999%", units = "user", cex = cex.axis) * isTRUE(legend)
+  width <- left + right
+
+  left <- left * (width + xmax)
+  right <- right * (width + xmax)
+  top <- max(graphics::strwidth(lab_col, units = "user", cex = cex.axis)) + d
+  top <- top * (top + ymax)
+
+  asp_ratio <- xmax / ymax
+  if (ymax > xmax) left <- left / asp_ratio
+  else if (ymax < xmax) top <- top * asp_ratio
+
+  xlim <- c(-left, right + xmax)
+  ylim <- c(0, top + ymax)
+  graphics::plot.window(xlim = xlim, ylim = ylim, xaxs = "i", yaxs = "i", asp = asp)
 
   ## Plot
   panel(x = data$x, y = data$y, z = data$scaled, color = data$color, ...)
 
   ## Construct axis
   if (axes) {
-    graphics::mtext(lab_row, side = 2, at = seq_row, las = 2, padj = 0.5,
-                    cex = cex.axis, col.axis = col.axis, font = font.axis)
-    graphics::mtext(lab_col, side = 3, at = seq_col, las = 2, padj = 0.5,
-                    cex = cex.axis, col.axis = col.axis, font = font.axis)
+    graphics::text(x = 0, y = seq_row, labels = lab_row, adj = c(1, 0.5),
+                   cex = cex.axis, col = col.axis, font = font.axis)
+    graphics::text(x = seq_col, y = n + 1, labels = lab_col, adj = c(0, 0.5),
+                   cex = cex.axis, col = col.axis, font = font.axis, srt = 90)
   }
 
   ## Legend
@@ -82,12 +82,13 @@
 
     graphics::rasterImage(legend_image, xleft = m + 1, ybottom = max(legend_y),
                           xright = m + 1.5, ytop = min(legend_y))
+    graphics::segments(x0 = m + 1, y0 = legend_y, x1 = m + 1.5, y1 = legend_y,
+                       col = "white")
     graphics::polygon(x = c(m, m + 0.5, m + 0.5, m) + 1,
                       y = c(0.5, 0.5, max(legend_y), max(legend_y)),
                       col = NA, border = "black")
-    graphics::axis(side = 4, at = legend_y, labels = legend$labels, las = 2,
-                   cex.axis = cex.axis, col.axis = col.axis,
-                   font.axis = font.axis)
+    graphics::text(x = xmax, y = legend_y, labels = legend$labels, pos = 4,
+                   cex = cex.axis, col = col.axis, font = font.axis)
   }
 }
 
