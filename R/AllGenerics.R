@@ -831,25 +831,12 @@ NULL
 #' Heatmap
 #'
 #' Plots a heatmap.
-#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
-#'  [`data.frame`] of count data (absolute frequencies giving the number of
-#'  individuals for each class).
-#' @param col A vector of colors.
-#' @param diag A [`logical`] scalar indicating whether the diagonal of the
-#'  matrix should be plotted. Only used if `object` is a symmetric matrix.
-#' @param upper A [`logical`] scalar indicating whether the upper triangle of
-#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
-#' @param lower A [`logical`] scalar indicating whether the lower triangle of
-#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
-#' @param freq A [`logical`] scalar indicating whether relative frequency
-#'  should be used instead of counts (absolute frequency).
-#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
-#' @param legend A [`logical`] scalar: should a legend be displayed?
+#' @inheritParams plot_matrix
 #' @param ... Currently not used.
 #' @return
 #'  `plot_heatmap()` is called it for its side-effects: it results in a graphic
 #'  being displayed (invisibly returns `object`).
-#' @example inst/examples/ex-plot_matrix.R
+#' @example inst/examples/ex-plot_heatmap.R
 #' @author N. Frerebeau
 #' @family plot methods
 #' @docType methods
@@ -867,12 +854,9 @@ setGeneric(
 #'    independence.
 #'  * `pvi()` computes for each cell of a numeric matrix the percentage to the
 #'    column theoretical independence value.
-#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
-#'  [`data.frame`] of count data (absolute frequencies giving the number of
-#'  individuals for each class).
+#' @inheritParams plot_matrix
 #' @param reverse A [`logical`] scalar: should negative deviations be centered
 #'  (see details)?
-#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
 #' @param ... Currently not used.
 #' @details
 #'  PVI (in french "pourcentages de valeur d'indépendance") is calculated for
@@ -905,7 +889,8 @@ setGeneric(
 #'  graphique pour tableaux de comptages. *Revue archéologique de Picardie*,
 #'  3(1), 39-56. \doi{10.3406/pica.2004.2396}.
 #' @return
-#'  * `matrigraph()` returns a [ggplot2::ggplot] object.
+#'  * `matrigraph()` is called it for its side-effects: it results in a graphic
+#'    being displayed (invisibly returns `object`).
 #'  * `pvi()` returns a [`numeric`] [`matrix`].
 #' @example inst/examples/ex-matrigraph.R
 #' @author N. Frerebeau
@@ -930,27 +915,23 @@ setGeneric(
 #' Bertin Diagram
 #'
 #' Plots a Bertin diagram.
-#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
-#'  [`data.frame`] of count data (absolute frequencies giving the number of
-#'  individuals for each class).
+#' @inheritParams plot_matrix
 #' @param threshold A [`function`] that takes a numeric vector as argument and
 #'  returns a numeric threshold value (see below). If `NULL` (the default), no
 #'  threshold is computed.
-#' @param scale A [`function`] used to scale each variable, that takes a numeric
-#'  vector as argument and returns a numeric vector. If `NULL` (the default), no
-#'  scaling is performed.
-#' @param col A vector of colors.
-#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
+#' @param flip A [`logical`] scalar: should `x` and `y` axis be flipped?
+#'  Defaults to `TRUE`.
 #' @param ... Currently not used.
 #' @section Bertin Matrix:
 #'  As de Falguerolles *et al.* (1997) points out:
-#'  "In abstract terms, a Bertin matrix is a matrix
-#'  of  displays. [...] To fix ideas, think of a data matrix, variable by case,
-#'  with real valued variables. For each variable, draw a bar chart of variable
-#'  value by case. High-light all bars representing a value above some sample
-#'  threshold for that variable."
+#'  "In abstract terms, a Bertin matrix is a matrix of  displays. [...] To fix
+#'  ideas, think of a data matrix, variable by case, with real valued variables.
+#'  For each variable, draw a bar chart of variable value by case. High-light
+#'  all bars representing a value above some sample threshold for that
+#'  variable."
 #' @return
-#'  A [ggplot2::ggplot] object.
+#'  `plot_bertin()` is called it for its side-effects: it results in a graphic
+#'  being displayed (invisibly returns `object`).
 #' @references
 #'  Bertin, J. (1977). *La graphique et le traitement graphique de
 #'  l'information*. Paris: Flammarion. Nouvelle Bibliothèque Scientifique.
@@ -976,11 +957,16 @@ setGeneric(
 #' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
 #'  [`data.frame`] of count data (absolute frequencies giving the number of
 #'  individuals for each class).
+#' @param weights A [`logical`] scalar: should row weights (i.e. the number of
+#'  observations divided by the total number of observations) be displayed?
 #' @param EPPM A [`logical`] scalar: should the EPPM be drawn?
-#'  This argument is defunct: use `seriograph()` instead.
+#'  See `seriograph()`.
+#' @param col A vector of colors for the bars.
+#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
 #' @param ... Currently not used.
 #' @return
-#'  A [ggplot2::ggplot] object.
+#'  `plot_ford()` is called it for its side-effects: it results in a graphic
+#'  being displayed (invisibly returns `object`).
 #' @references
 #'  Ford, J. A. (1962). *A quantitative method for deriving cultural
 #'  chronology*. Washington, DC: Pan American Union. Technical manual 1.
@@ -1024,7 +1010,8 @@ setGeneric(
 #'  graphique pour tableaux de comptages. *Revue archéologique de Picardie*,
 #'  3(1), 39-56. \doi{10.3406/pica.2004.2396}.
 #' @return
-#'  * `seriograph()` returns a [ggplot2::ggplot] object.
+#'  * `seriograph()` is called it for its side-effects: it results in a graphic
+#'    being displayed (invisibly returns `object`).
 #'  * `eppm()` returns a [`numeric`] [`matrix`].
 #' @example inst/examples/ex-seriograph.R
 #' @author N. Frerebeau
@@ -1141,23 +1128,10 @@ setGeneric(
 #' Spot Plot
 #'
 #' Plots a spot matrix.
-#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
-#'  [`data.frame`] of count data (absolute frequencies giving the number of
-#'  individuals for each class).
+#' @inheritParams plot_matrix
 #' @param type A [`character`] string specifying the graph to be plotted.
 #'  It must be one of "`ring`" (the default) or "`plain`". Any unambiguous
 #'  substring can be given.
-#' @param col A vector of colors.
-#' @param diag A [`logical`] scalar indicating whether the diagonal of the
-#'  matrix should be plotted. Only used if `object` is a symmetric matrix.
-#' @param upper A [`logical`] scalar indicating whether the upper triangle of
-#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
-#' @param lower A [`logical`] scalar indicating whether the lower triangle of
-#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
-#' @param freq A [`logical`] scalar indicating whether relative frequency
-#'  should be used instead of counts (absolute frequency).
-#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
-#' @param legend A [`logical`] scalar: should a legend be displayed?
 #' @param ... Currently not used.
 #' @details
 #'  The spot matrix can be considered as a variant of the

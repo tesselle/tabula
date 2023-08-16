@@ -19,6 +19,7 @@ plot_spot(object, ...)
   upper = TRUE,
   lower = TRUE,
   freq = FALSE,
+  margin = 1,
   axes = TRUE,
   legend = TRUE,
   ...
@@ -32,6 +33,7 @@ plot_spot(object, ...)
   upper = TRUE,
   lower = TRUE,
   freq = FALSE,
+  margin = 1,
   axes = TRUE,
   legend = TRUE,
   ...
@@ -52,7 +54,7 @@ plot_spot(object, ...)
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
 \code{\link{data.frame}} of count data (absolute frequencies giving the number of
-individuals for each class).}
+individuals for each category, i.e. a contingency table).}
 
 \item{...}{Currently not used.}
 
@@ -71,8 +73,13 @@ the matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
 \item{lower}{A \code{\link{logical}} scalar indicating whether the lower triangle of
 the matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
 
-\item{freq}{A \code{\link{logical}} scalar indicating whether relative frequency
-should be used instead of counts (absolute frequency).}
+\item{freq}{A \code{\link{logical}} scalar indicating whether conditional proportions
+given \code{margins} should be used (i.e. entries of \code{object}, divided by the
+appropriate marginal sums).}
+
+\item{margin}{An \code{\link{integer}} vector giving the margins to split by:
+\code{1} indicates individuals/rows (the default), \code{2} indicates
+variables/columns. Only used if \code{freq} is \code{TRUE}.}
 
 \item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot?}
 
@@ -100,7 +107,11 @@ data("pueblo")
 
 ## Plot spot diagram of count data
 plot_spot(pueblo, type = "ring")
-plot_spot(pueblo, type = "plain", freq = TRUE)
+plot_spot(pueblo, type = "plain")
+
+## Plot conditional proportions
+plot_spot(pueblo, freq = TRUE, margin = 1)
+plot_spot(pueblo, freq = TRUE, margin = 2)
 }
 \seealso{
 Other plot methods: 

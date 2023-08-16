@@ -11,13 +11,14 @@ setMethod(
   definition = function(object, type = c("ring", "plain"),
                         col = khroma::colour("YlOrBr")(12),
                         diag = TRUE, upper = TRUE, lower = TRUE,
-                        freq = FALSE, axes = TRUE, legend = TRUE, ...) {
+                        freq = FALSE, margin = 1,
+                        axes = TRUE, legend = TRUE, ...) {
     ## Validation
     type <- match.arg(type, several.ok = FALSE)
 
-    .plot_matrix(object, panel = panel_spot, col = col,
+    plot_matrix(object, panel = panel_spot, col = col,
                  diag = diag, upper = upper, lower = lower,
-                 freq = freq, drop_zero = TRUE,
+                 freq = freq, margin = margin, drop_zero = TRUE,
                  axes = axes, legend = legend, type = type)
 
     invisible(object)
@@ -32,11 +33,13 @@ setMethod(
   signature = signature(object = "data.frame"),
   definition = function(object, type = c("ring", "plain"),
                         col = khroma::colour("YlOrBr")(12),
-                        diag = TRUE, upper = TRUE, lower = TRUE, freq = FALSE,
+                        diag = TRUE, upper = TRUE, lower = TRUE,
+                        freq = FALSE, margin = 1,
                         axes = TRUE, legend = TRUE, ...) {
     object <- data.matrix(object)
     methods::callGeneric(object, type = type, col = col,
-                         diag = diag, upper = upper, lower = lower, freq = freq,
+                         diag = diag, upper = upper, lower = lower,
+                         freq = freq, margin = margin,
                          axes = axes, legend = legend, ...)
   }
 )

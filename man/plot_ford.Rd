@@ -11,9 +11,16 @@
 \usage{
 plot_ford(object, ...)
 
-\S4method{plot_ford}{matrix}(object, EPPM = FALSE)
+\S4method{plot_ford}{matrix}(
+  object,
+  weights = FALSE,
+  EPPM = FALSE,
+  col = "darkgrey",
+  axes = TRUE,
+  ...
+)
 
-\S4method{plot_ford}{data.frame}(object, EPPM = FALSE)
+\S4method{plot_ford}{data.frame}(object, weights = FALSE, EPPM = FALSE)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
@@ -22,21 +29,29 @@ individuals for each class).}
 
 \item{...}{Currently not used.}
 
+\item{weights}{A \code{\link{logical}} scalar: should row weights (i.e. the number of
+observations divided by the total number of observations) be displayed?}
+
 \item{EPPM}{A \code{\link{logical}} scalar: should the EPPM be drawn?
-This argument is defunct: use \code{seriograph()} instead.}
+See \code{seriograph()}.}
+
+\item{col}{A vector of colors for the bars.}
+
+\item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot?}
 }
 \value{
-A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
+\code{plot_ford()} is called it for its side-effects: it results in a graphic
+being displayed (invisibly returns \code{object}).
 }
 \description{
 Plots a Ford (battleship curve) diagram.
 }
 \examples{
-## Data from Desachy 2004
-data("compiegne", package = "folio")
+## Data from Lipo et al. 2015
+data("mississippi", package = "folio")
 
 ## Plot a Ford diagram
-plot_ford(compiegne)
+plot_ford(mississippi)
 }
 \references{
 Ford, J. A. (1962). \emph{A quantitative method for deriving cultural

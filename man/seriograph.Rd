@@ -36,7 +36,8 @@ observations divided by the total number of observations) be displayed?}
 }
 \value{
 \itemize{
-\item \code{seriograph()} returns a \link[ggplot2:ggplot]{ggplot2::ggplot} object.
+\item \code{seriograph()} is called it for its side-effects: it results in a graphic
+being displayed (invisibly returns \code{object}).
 \item \code{eppm()} returns a \code{\link{numeric}} \code{\link{matrix}}.
 }
 }
@@ -69,8 +70,7 @@ seriograph(compiegne)
 
 ## Compute EPPM
 counts_eppm <- eppm(compiegne)
-plot_heatmap(counts_eppm) +
-  khroma::scale_fill_YlOrBr(name = "EPPM")
+plot_heatmap(counts_eppm, col = khroma::color("YlOrBr")(12))
 }
 \references{
 Desachy, B. (2004). Le sériographe EPPM: un outil informatisé de sériation

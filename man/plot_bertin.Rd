@@ -14,8 +14,10 @@ plot_bertin(object, ...)
 \S4method{plot_bertin}{matrix}(
   object,
   threshold = NULL,
-  scale = NULL,
+  freq = FALSE,
+  margin = 1,
   col = c("white", "black"),
+  flip = TRUE,
   axes = TRUE,
   ...
 )
@@ -23,8 +25,10 @@ plot_bertin(object, ...)
 \S4method{plot_bertin}{data.frame}(
   object,
   threshold = NULL,
-  scale = NULL,
+  freq = FALSE,
+  margin = 1,
   col = c("white", "black"),
+  flip = TRUE,
   axes = TRUE,
   ...
 )
@@ -32,7 +36,7 @@ plot_bertin(object, ...)
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
 \code{\link{data.frame}} of count data (absolute frequencies giving the number of
-individuals for each class).}
+individuals for each category, i.e. a contingency table).}
 
 \item{...}{Currently not used.}
 
@@ -40,16 +44,24 @@ individuals for each class).}
 returns a numeric threshold value (see below). If \code{NULL} (the default), no
 threshold is computed.}
 
-\item{scale}{A \code{\link{function}} used to scale each variable, that takes a numeric
-vector as argument and returns a numeric vector. If \code{NULL} (the default), no
-scaling is performed.}
+\item{freq}{A \code{\link{logical}} scalar indicating whether conditional proportions
+given \code{margins} should be used (i.e. entries of \code{object}, divided by the
+appropriate marginal sums).}
+
+\item{margin}{An \code{\link{integer}} vector giving the margins to split by:
+\code{1} indicates individuals/rows (the default), \code{2} indicates
+variables/columns. Only used if \code{freq} is \code{TRUE}.}
 
 \item{col}{A vector of colors.}
+
+\item{flip}{A \code{\link{logical}} scalar: should \code{x} and \code{y} axis be flipped?
+Defaults to \code{TRUE}.}
 
 \item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot?}
 }
 \value{
-A \link[ggplot2:ggplot]{ggplot2::ggplot} object.
+\code{plot_bertin()} is called it for its side-effects: it results in a graphic
+being displayed (invisibly returns \code{object}).
 }
 \description{
 Plots a Bertin diagram.
@@ -57,11 +69,11 @@ Plots a Bertin diagram.
 \section{Bertin Matrix}{
 
 As de Falguerolles \emph{et al.} (1997) points out:
-"In abstract terms, a Bertin matrix is a matrix
-of  displays. \link{...} To fix ideas, think of a data matrix, variable by case,
-with real valued variables. For each variable, draw a bar chart of variable
-value by case. High-light all bars representing a value above some sample
-threshold for that variable."
+"In abstract terms, a Bertin matrix is a matrix of  displays. \link{...} To fix
+ideas, think of a data matrix, variable by case, with real valued variables.
+For each variable, draw a bar chart of variable value by case. High-light
+all bars representing a value above some sample threshold for that
+variable."
 }
 
 \examples{
@@ -75,9 +87,9 @@ plot_bertin(mississippi)
 ## ...with the variable mean as threshold
 plot_bertin(mississippi, threshold = mean)
 
-## ...with each variable scaled to 0-1 and the variable mean as threshold
-scale_01 <- function(x) (x - min(x)) / (max(x) - min(x))
-plot_bertin(mississippi, threshold = mean, scale = scale_01)
+## Plot conditional proportions
+plot_bertin(mississippi, freq = TRUE, margin = 1)
+plot_bertin(mississippi, freq = TRUE, margin = 2)
 }
 \references{
 Bertin, J. (1977). \emph{La graphique et le traitement graphique de

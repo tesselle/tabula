@@ -7,4 +7,4 @@ matrigraph(compiegne, reverse = TRUE)
 
 ## Compute PVI
 counts_pvi <- pvi(compiegne)
-plot_heatmap(counts_pvi, col = khroma::color("BuRd")(12))
+plot_heatmap(counts_pvi, col = khroma::color("iridescent")(12))

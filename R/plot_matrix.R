@@ -1,16 +1,40 @@
 # MATRIX PLOT
 
 # Plot =========================================================================
+#' Matrix Plot
+#'
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each category, i.e. a contingency table).
 #' @param panel A [`function`] in the form `function(x, y, z, color, ...)`
 #'  which gives the action to be carried out in each panel of the display.
+#' @param diag A [`logical`] scalar indicating whether the diagonal of the
+#'  matrix should be plotted. Only used if `object` is a symmetric matrix.
+#' @param upper A [`logical`] scalar indicating whether the upper triangle of
+#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
+#' @param lower A [`logical`] scalar indicating whether the lower triangle of
+#'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
+#' @param freq A [`logical`] scalar indicating whether conditional proportions
+#'  given `margins` should be used (i.e. entries of `object`, divided by the
+#'  appropriate marginal sums).
+#' @param margin An [`integer`] vector giving the margins to split by:
+#'  `1` indicates individuals/rows (the default), `2` indicates
+#'  variables/columns. Only used if `freq` is `TRUE`.
+#' @param scale A [`logical`] scalar indicating whether data should be rescaled
+#'  to \eqn{[-1,1]}. Only used if `freq` if `FALSE`.
+#' @param drop_zero A [`logical`] scalar: should zeros be discarded?
+#' @param col A vector of colors.
+#' @param midpoint A [`numeric`] value specifying the data midpoint.
+#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
+#' @param legend A [`logical`] scalar: should a legend be displayed?
+#' @param asp A length-one [`numeric`] vector, giving the aspect ratio
+#'  \eqn{y/x}.
 #' @param ... Further arguments to be passed to `panel`.
 #' @keywords internal
-#' @noRd
-.plot_matrix <- function(object, panel, col = graphics::par("fg"),
-                         midpoint = NULL, diag = TRUE, upper = TRUE, lower = TRUE,
-                         freq = FALSE, scale = TRUE, drop_zero = TRUE,
-                         axes = TRUE, legend = TRUE,
-                         asp = 1, ...) {
+plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
+                         freq = FALSE, margin = 1, scale = TRUE, drop_zero = TRUE,
+                         col = graphics::par("fg"), midpoint = NULL,
+                         axes = TRUE, legend = TRUE, asp = 1, ...) {
   ## Validation
   if (is_incidence(object)) legend <- FALSE
 
@@ -23,7 +47,8 @@
   lab_col <- colnames(object) %||% seq_col
 
   data <- prepare(object, diag = diag, upper = upper, lower = lower,
-                  freq = freq, scale = scale, drop_zero = drop_zero,
+                  freq = freq, margin = margin, scale = scale,
+                  drop_zero = drop_zero,
                   palette = col, midpoint = midpoint)
 
   ## Graphical parameters
@@ -55,9 +80,11 @@
   top <- max(graphics::strwidth(lab_col, units = "user", cex = cex.axis)) + d
   top <- top * (top + ymax)
 
-  asp_ratio <- xmax / ymax
-  if (ymax > xmax) left <- left / asp_ratio
-  else if (ymax < xmax) top <- top * asp_ratio
+  if (!is.na(asp) && asp == 1) {
+    asp_ratio <- xmax / ymax
+    if (ymax > xmax) left <- left / asp_ratio
+    else if (ymax < xmax) top <- top * asp_ratio
+  }
 
   xlim <- c(-left, right + xmax)
   ylim <- c(0, top + ymax)
@@ -108,6 +135,7 @@ panel_bertin <- function(x, y, z, color, ..., space = 0.05) {
 }
 panel_matrigraph <- function(x, y, z, ..., reverse = FALSE) {
   pvi <- data.frame(x = x, y = y, z = z)
+  pvi$z <- pvi$z / 100
   pvi_plus <- pvi[pvi$z > 1, ]
   pvi_plus$z <- pvi_plus$z - 1
   pvi_plus$z[pvi_plus$z > 1] <- 1
@@ -165,19 +193,24 @@ panel_spot <- function(x, y, z, color, type, ...) {
 # Prepare ======================================================================
 #' Prepare Data for Matrix Plot
 #'
-#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] of count data.
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each category, i.e. a contingency table).
 #' @param diag A [`logical`] scalar indicating whether the diagonal of the
 #'  matrix should be plotted. Only used if `object` is a symmetric matrix.
 #' @param upper A [`logical`] scalar indicating whether the upper triangle of
 #'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
 #' @param lower A [`logical`] scalar indicating whether the lower triangle of
 #'  the matrix should be plotted. Only used if `object` is a symmetric matrix.
-#' @param freq A [`logical`] scalar indicating whether relative frequencies
-#'  should be used instead of absolute frequencies.
+#' @param freq A [`logical`] scalar indicating whether conditional proportions
+#'  given `margins` should be used (i.e. entries of `object`, divided by the
+#'  appropriate marginal sums).
+#' @param margin An [`integer`] vector giving the margins to split by:
+#'  `1` indicates individuals/rows (the default), `2` indicates
+#'  variables/columns. Only used if `freq` is `TRUE`.
 #' @param scale A [`logical`] scalar indicating whether data should be rescaled
-#'  to \eqn{[0,1]}.
-#' @param drop_zero A [`logical`] scalar indicating whether zeros must be
-#'  removed.
+#'  to \eqn{[-1,1]}. Only used if `freq` if `FALSE`.
+#' @param drop_zero A [`logical`] scalar: should zeros be discarded?
 #' @param palette A vector of colors.
 #' @param midpoint A [`numeric`] value specifying the data midpoint.
 #' @param ... Currently not used.
@@ -195,7 +228,7 @@ panel_spot <- function(x, y, z, color, type, ...) {
 #' @keywords internal
 #' @noRd
 prepare <- function(object, diag = TRUE, upper = TRUE, lower = TRUE,
-                    freq = FALSE, scale = !freq, drop_zero = FALSE,
+                    freq = FALSE, margin = 1, scale = !freq, drop_zero = FALSE,
                     palette = khroma::colour("YlOrBr")(12),
                     midpoint = NULL, ...) {
   ## Validation
@@ -208,12 +241,14 @@ prepare <- function(object, diag = TRUE, upper = TRUE, lower = TRUE,
   ## Coerce to matrix
   object <- as.matrix(object)
 
-  ## Rescale
-  val <- object
-  if (freq) val <- object / rowSums(object, na.rm = TRUE) # Relative frequencies
-  val <- sca <- as.vector(val)
-  if (scale) sca <- val / max(abs(val), na.rm = TRUE) # Must be in [-1;1]
+  ## Relative frequencies
+  val <- if (freq) prop.table(object, margin = margin) else object
 
+  ## Rescale to [-1;1]
+  sca <- if (scale) val / max(abs(val), na.rm = TRUE) else val
+
+  val <- as.vector(val)
+  sca <- as.vector(sca)
   min_val <- min(val, na.rm = TRUE)
   max_val <- max(val, na.rm = TRUE)
 
