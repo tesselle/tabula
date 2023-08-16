@@ -125,20 +125,3 @@ prepare_ford <- function(x, padding = 0.05) {
 
   return(data)
 }
-
-ford_scalebar <- function() {
-  list(
-    ggplot2::geom_errorbarh(
-      mapping = ggplot2::aes(xmin = .data$xmin, xmax = .data$xmax, y = .data$y),
-      data = data.frame(
-        xmin = -0.2,
-        xmax = 0.2,
-        y = 0
-      ),
-      height = 0.2,
-      inherit.aes = FALSE
-    )
-    # ggplot2::annotate("text", x = 0, y = -0.3, label = "20%",
-    #                   hjust = 0.5, vjust = 0)
-  )
-}

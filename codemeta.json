@@ -194,18 +194,6 @@
     },
     "5": {
       "@type": "SoftwareApplication",
-      "identifier": "ggplot2",
-      "name": "ggplot2",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=ggplot2"
-    },
-    "6": {
-      "@type": "SoftwareApplication",
       "identifier": "khroma",
       "name": "khroma",
       "provider": {
@@ -216,36 +204,24 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=khroma"
     },
-    "7": {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "methods",
       "name": "methods"
     },
-    "8": {
-      "@type": "SoftwareApplication",
-      "identifier": "rlang",
-      "name": "rlang",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=rlang"
-    },
-    "9": {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
-    "10": {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
     "SystemRequirements": null
   },
-  "fileSize": "3871.421KB",
+  "fileSize": "1662.066KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -290,6 +266,7 @@
       "sameAs": "https://doi.org/10.5281/zenodo.1489944"
     }
   ],
+  "releaseNotes": "https://github.com/tesselle/tabula/blob/master/NEWS.md",
   "readme": "https://github.com/tesselle/tabula/blob/main/README.md",
   "contIntegration": ["https://github.com/tesselle/tabula/actions", "https://app.codecov.io/gh/tesselle/tabula"],
   "developmentStatus": "https://www.repostatus.org/#active",
