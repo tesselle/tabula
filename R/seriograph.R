@@ -34,8 +34,11 @@ setMethod(
 setMethod(
   f = "seriograph",
   signature = signature(object = "matrix"),
-  definition = function(object, weights = FALSE) {
-    plot_ford(object, weights = weights, EPPM = TRUE)
+  definition = function(object, weights = FALSE,
+                        fill = "darkgrey", border = NA,
+                        axes = TRUE, ...) {
+    plot_ford(object, weights = weights, EPPM = TRUE,
+              fill = fill, border = border, axes = axes)
     invisible(object)
   }
 )
@@ -46,8 +49,11 @@ setMethod(
 setMethod(
   f = "seriograph",
   signature = signature(object = "data.frame"),
-  definition = function(object, weights = FALSE) {
+  definition = function(object, weights = FALSE,
+                        fill = "darkgrey", border = NA,
+                        axes = TRUE, ...) {
     object <- data.matrix(object)
-    methods::callGeneric(object, weights = weights)
+    methods::callGeneric(object, weights = weights,
+                         fill = fill, border = border, axes = axes)
   }
 )

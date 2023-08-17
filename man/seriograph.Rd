@@ -20,19 +20,38 @@ eppm(object, ...)
 
 \S4method{eppm}{data.frame}(object)
 
-\S4method{seriograph}{matrix}(object, weights = FALSE)
+\S4method{seriograph}{matrix}(
+  object,
+  weights = FALSE,
+  fill = "darkgrey",
+  border = NA,
+  axes = TRUE,
+  ...
+)
 
-\S4method{seriograph}{data.frame}(object, weights = FALSE)
+\S4method{seriograph}{data.frame}(
+  object,
+  weights = FALSE,
+  fill = "darkgrey",
+  border = NA,
+  axes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
 \code{\link{data.frame}} of count data (absolute frequencies giving the number of
-individuals for each class).}
+individuals for each category, i.e. a contingency table).}
 
 \item{...}{Currently not used.}
 
-\item{weights}{A \code{\link{logical}} scalar: should row weights (i.e. the number of
-observations divided by the total number of observations) be displayed?}
+\item{weights}{A \code{\link{logical}} scalar: should the row sums be displayed?}
+
+\item{fill}{The color for filling the bars.}
+
+\item{border}{The color to draw the borders.}
+
+\item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot?}
 }
 \value{
 \itemize{
@@ -67,6 +86,7 @@ data("compiegne", package = "folio")
 
 ## Seriograph
 seriograph(compiegne)
+seriograph(compiegne, weights = TRUE)
 
 ## Compute EPPM
 counts_eppm <- eppm(compiegne)

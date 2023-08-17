@@ -15,7 +15,7 @@ setMethod(
     if (freq) object <- prop.table(object, margin = margin)
 
     ## Compute threshold for each variable
-    if (is.function(threshold)) {
+    if (!freq && is.function(threshold)) {
       thr <- apply(X = object, MARGIN = 2, FUN = threshold)
       thr <- matrix(thr, nrow = nrow(object), ncol = ncol(object), byrow = TRUE)
       thr <- ifelse(object > thr, col[length(col)], col[1L])

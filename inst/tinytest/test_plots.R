@@ -27,11 +27,13 @@ if (at_home()) {
   expect_snapshot_plot(plot_bertin_prop2, "plot_bertin_prop2")
 
   # Ford =======================================================================
-  # gg_ford <- plot_ford(cantabria)
-  # vdiffr::expect_doppelganger("ford", gg_ford)
+  plot_ford_count <- function() plot_ford(pueblo)
+  expect_snapshot_plot(plot_ford_count, "plot_ford_count")
+  plot_ford_weights <- function() plot_ford(pueblo, weights = TRUE)
+  expect_snapshot_plot(plot_ford_weights, "plot_ford_weights")
 
   # Seriograph =================================================================
-  plot_seriograph <- function() seriograph(cantabria)
+  plot_seriograph <- function() seriograph(pueblo)
   expect_snapshot_plot(plot_seriograph, "plot_seriograph")
 
   # Dice-Leraas ================================================================

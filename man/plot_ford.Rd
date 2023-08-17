@@ -15,7 +15,8 @@ plot_ford(object, ...)
   object,
   weights = FALSE,
   EPPM = FALSE,
-  col = "darkgrey",
+  fill = "darkgrey",
+  border = NA,
   axes = TRUE,
   ...
 )
@@ -25,17 +26,18 @@ plot_ford(object, ...)
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
 \code{\link{data.frame}} of count data (absolute frequencies giving the number of
-individuals for each class).}
+individuals for each category, i.e. a contingency table).}
 
 \item{...}{Currently not used.}
 
-\item{weights}{A \code{\link{logical}} scalar: should row weights (i.e. the number of
-observations divided by the total number of observations) be displayed?}
+\item{weights}{A \code{\link{logical}} scalar: should the row sums be displayed?}
 
 \item{EPPM}{A \code{\link{logical}} scalar: should the EPPM be drawn?
 See \code{seriograph()}.}
 
-\item{col}{A vector of colors for the bars.}
+\item{fill}{The color for filling the bars.}
+
+\item{border}{The color to draw the borders.}
 
 \item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot?}
 }
@@ -52,6 +54,8 @@ data("mississippi", package = "folio")
 
 ## Plot a Ford diagram
 plot_ford(mississippi)
+
+plot_ford(mississippi, weights = TRUE)
 }
 \references{
 Ford, J. A. (1962). \emph{A quantitative method for deriving cultural

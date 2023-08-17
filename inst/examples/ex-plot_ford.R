@@ -3,3 +3,5 @@ data("mississippi", package = "folio")
 
 ## Plot a Ford diagram
 plot_ford(mississippi)
+
+plot_ford(mississippi, weights = TRUE)

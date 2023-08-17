@@ -3,6 +3,7 @@ data("compiegne", package = "folio")
 
 ## Seriograph
 seriograph(compiegne)
+seriograph(compiegne, weights = TRUE)
 
 ## Compute EPPM
 counts_eppm <- eppm(compiegne)

@@ -918,7 +918,7 @@ setGeneric(
 #' @inheritParams plot_matrix
 #' @param threshold A [`function`] that takes a numeric vector as argument and
 #'  returns a numeric threshold value (see below). If `NULL` (the default), no
-#'  threshold is computed.
+#'  threshold is computed. Only used if `freq` is `FALSE`.
 #' @param flip A [`logical`] scalar: should `x` and `y` axis be flipped?
 #'  Defaults to `TRUE`.
 #' @param ... Currently not used.
@@ -956,12 +956,12 @@ setGeneric(
 #' Plots a Ford (battleship curve) diagram.
 #' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
 #'  [`data.frame`] of count data (absolute frequencies giving the number of
-#'  individuals for each class).
-#' @param weights A [`logical`] scalar: should row weights (i.e. the number of
-#'  observations divided by the total number of observations) be displayed?
+#'  individuals for each category, i.e. a contingency table).
+#' @param weights A [`logical`] scalar: should the row sums be displayed?
 #' @param EPPM A [`logical`] scalar: should the EPPM be drawn?
 #'  See `seriograph()`.
-#' @param col A vector of colors for the bars.
+#' @param fill The color for filling the bars.
+#' @param border The color to draw the borders.
 #' @param axes A [`logical`] scalar: should axes be drawn on the plot?
 #' @param ... Currently not used.
 #' @return
@@ -988,12 +988,7 @@ setGeneric(
 #'    between rows and columns.
 #'  * `eppm()` computes for each cell of a numeric matrix the positive
 #'    difference from the column mean percentage.
-#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
-#'  [`data.frame`] of count data (absolute frequencies giving the number of
-#'  individuals for each class).
-#' @param weights A [`logical`] scalar: should row weights (i.e. the number of
-#'  observations divided by the total number of observations) be displayed?
-#' @param ... Currently not used.
+#' @inheritParams plot_ford
 #' @details
 #'  The positive difference from the column mean percentage (in french "écart
 #'  positif au pourcentage moyen", EPPM) represents a deviation from the

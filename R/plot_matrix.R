@@ -32,9 +32,9 @@
 #' @param ... Further arguments to be passed to `panel`.
 #' @keywords internal
 plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
-                         freq = FALSE, margin = 1, scale = TRUE, drop_zero = TRUE,
-                         col = graphics::par("fg"), midpoint = NULL,
-                         axes = TRUE, legend = TRUE, asp = 1, ...) {
+                        freq = FALSE, margin = 1, scale = TRUE, drop_zero = TRUE,
+                        col = graphics::par("fg"), midpoint = NULL,
+                        axes = TRUE, legend = TRUE, asp = 1, ...) {
   ## Validation
   if (is_incidence(object)) legend <- FALSE
 
@@ -52,42 +52,46 @@ plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
                   palette = col, midpoint = midpoint)
 
   ## Graphical parameters
-  cex.axis <- list(...)$cex.axis %||% graphics::par("cex.axis")
-  col.axis <- list(...)$col.axis %||% graphics::par("col.axis")
-  font.axis <- list(...)$font.axis %||% graphics::par("font.axis")
+  cex.axis <- graphics::par("cex.axis")
+  col.axis <- graphics::par("col.axis")
+  font.axis <- graphics::par("font.axis")
 
   ## Save and restore
-  mar <- rep(0.1, 4)
-  old_par <- graphics::par(mar = mar)
-  on.exit(graphics::par(old_par))
+  d <- inch2line("M", cex = cex.axis)
+  old_par <- graphics::par("mar", "pin", "plt")
+  mar_left <- inch2line(lab_row, cex = cex.axis)
+  mar_top <- inch2line(lab_col, cex = cex.axis)
+  mar_right <- if (legend) inch2line("999%", cex = cex.axis) else d
+  graphics::par(mar = c(d, mar_left, mar_top, mar_right))
 
   ## Open new window
   grDevices::dev.hold()
   on.exit(grDevices::dev.flush(), add = TRUE)
   graphics::plot.new()
 
-  ## Set plotting coordinates
-  xmax <- m + isTRUE(legend) + 0.5
-  ymax <- n + 1.5
+  ## Squish plotting area
+  old_par <- utils::modifyList(old_par, graphics::par(c("pin", "plt")))
+  if (!is.na(asp)) {
+    aspect_ratio <- n / (m + legend)
+    pin_y <- old_par$pin[1] * aspect_ratio * asp
 
-  d <- graphics::strwidth("M", units = "user", cex = cex.axis) * 2
-  left <- max(graphics::strwidth(lab_row, units = "user", cex = cex.axis)) + d
-  right <- graphics::strwidth("999%", units = "user", cex = cex.axis) * isTRUE(legend)
-  width <- left + right
-
-  left <- left * (width + xmax)
-  right <- right * (width + xmax)
-  top <- max(graphics::strwidth(lab_col, units = "user", cex = cex.axis)) + d
-  top <- top * (top + ymax)
-
-  if (!is.na(asp) && asp == 1) {
-    asp_ratio <- xmax / ymax
-    if (ymax > xmax) left <- left / asp_ratio
-    else if (ymax < xmax) top <- top * asp_ratio
+    if (pin_y < old_par$pin[2]) {
+      ## Squish vertically
+      graphics::par(pin = c(old_par$pin[1], pin_y))
+      graphics::par(plt = c(old_par$plt[1:2], graphics::par('plt')[3:4]))
+    } else {
+      ## Squish horizontally
+      pin_x <- old_par$pin[2] / aspect_ratio / asp
+      graphics::par(pin = c(pin_x, old_par$pin[2]))
+      graphics::par(plt = c(graphics::par('plt')[1:2], old_par$plt[3:4]))
+    }
   }
 
-  xlim <- c(-left, right + xmax)
-  ylim <- c(0, top + ymax)
+  on.exit(graphics::par(old_par))
+
+  ## Set plotting coordinates
+  xlim <- c(0, m + legend) + 0.5
+  ylim <- c(0, n) + 0.5
   graphics::plot.window(xlim = xlim, ylim = ylim, xaxs = "i", yaxs = "i", asp = asp)
 
   ## Plot
@@ -95,10 +99,10 @@ plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
 
   ## Construct axis
   if (axes) {
-    graphics::text(x = 0, y = seq_row, labels = lab_row, adj = c(1, 0.5),
-                   cex = cex.axis, col = col.axis, font = font.axis)
-    graphics::text(x = seq_col, y = n + 1, labels = lab_col, adj = c(0, 0.5),
-                   cex = cex.axis, col = col.axis, font = font.axis, srt = 90)
+    graphics::mtext(lab_row, side = 2, at = seq_row, las = 2, padj = 0.5,
+                    cex = cex.axis, col.axis = col.axis, font = font.axis)
+    graphics::mtext(lab_col, side = 3, at = seq_col, las = 2, padj = 0.5,
+                    cex = cex.axis, col.axis = col.axis, font = font.axis)
   }
 
   ## Legend
@@ -114,8 +118,7 @@ plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
     graphics::polygon(x = c(m, m + 0.5, m + 0.5, m) + 1,
                       y = c(0.5, 0.5, max(legend_y), max(legend_y)),
                       col = NA, border = "black")
-    graphics::text(x = xmax, y = legend_y, labels = legend$labels, pos = 4,
-                   cex = cex.axis, col = col.axis, font = font.axis)
+    graphics::axis(side = 4, at = legend_y, labels = legend$labels, las = 2)
   }
 }
 

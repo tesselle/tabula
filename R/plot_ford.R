@@ -8,7 +8,8 @@ NULL
 setMethod(
   f = "plot_ford",
   signature = signature(object = "matrix"),
-  definition = function(object, weights = FALSE, EPPM = FALSE, col = "darkgrey",
+  definition = function(object, weights = FALSE, EPPM = FALSE,
+                        fill = "darkgrey", border = NA,
                         axes = TRUE, ...) {
     ## Prepare data
     n <- nrow(object)
@@ -18,17 +19,30 @@ setMethod(
     lab_row <- rownames(object) %||% seq_row
     lab_col <- colnames(object) %||% seq_col
 
-    data <- prepare_ford(object)
+    padding_x <- 0.05
+    padding_y <- 0.5 - 0.01
+    data <- prepare_ford(object, padding = padding_x)
 
     ## Graphical parameters
-    cex.axis <- list(...)$cex.axis %||% graphics::par("cex.axis")
-    col.axis <- list(...)$col.axis %||% graphics::par("col.axis")
-    font.axis <- list(...)$font.axis %||% graphics::par("font.axis")
+    cex.axis <- graphics::par("cex.axis")
+    col.axis <- graphics::par("col.axis")
+    font.axis <- graphics::par("font.axis")
 
     ## Save and restore
-    mar <- rep(0.1, 4)
-    old_par <- graphics::par(mar = mar)
+    d <- inch2line("M", cex = cex.axis)
+    mfrow <- graphics::par("mfrow")
+    mar <- graphics::par("mar")
+    mar[1] <- 3
+    mar[2] <- inch2line(lab_row, cex = cex.axis)
+    mar[3] <- inch2line(lab_col, cex = cex.axis)
+    mar[4] <- 0
+
+    old_par <- graphics::par(mfrow = mfrow, mar = mar)
     on.exit(graphics::par(old_par))
+
+    if (weights) {
+      graphics::layout(matrix(c(1, 2), nrow = 1), widths = c(m - 1, 1))
+    }
 
     ## Open new window
     grDevices::dev.hold()
@@ -36,34 +50,25 @@ setMethod(
     graphics::plot.new()
 
     ## Set plotting coordinates
-    xmax <- max(data$x + data$value) + 0.1
-    ymax <- n + 1.5
-
-    d <- graphics::strwidth("M", units = "user", cex = cex.axis) * 2
-    left <- max(graphics::strwidth(lab_row, units = "user", cex = cex.axis)) + d
-    left <- left * (left + xmax)
-    top <- max(graphics::strwidth(lab_col, units = "user", cex = cex.axis)) + d
-    top <- top * (top + ymax)
-
-    xlim <- c(-left, xmax)
-    ylim <- c(0, top + ymax)
-    graphics::plot.window(xlim = xlim, ylim = ylim, xaxs = "i", yaxs = "i")
+    xlim <- range(data$x - data$value, data$x + data$value)
+    ylim <- range(data$y) + c(-1, 1) * padding_y
+    graphics::plot.window(xlim = xlim, ylim = ylim)
 
     ## Plot
     graphics::rect(
       xleft = data$x - data$value,
-      ybottom = data$y - 0.5,
+      ybottom = data$y - padding_y,
       xright = data$x + data$value,
-      ytop = data$y + 0.5,
-      col = col,
-      border = NA
+      ytop = data$y + padding_y,
+      col = fill,
+      border = border
     )
     if (EPPM) {
       graphics::rect(
         xleft = data$x - data$eppm,
-        ybottom = data$y - 0.5,
+        ybottom = data$y - padding_y,
         xright = data$x + data$eppm,
-        ytop = data$y + 0.5,
+        ytop = data$y + padding_y,
         col = "black",
         border = NA
       )
@@ -71,10 +76,47 @@ setMethod(
 
     ## Construct axis
     if (axes) {
-      graphics::text(x = 0, y = seq_row, labels = lab_row, adj = c(1, 0.5),
-                     cex = cex.axis, col = col.axis, font = font.axis)
-      graphics::text(x = unique(data$x), y = n + 1, labels = lab_col, adj = c(0, 0.5),
-                     cex = cex.axis, col = col.axis, font = font.axis, srt = 90)
+      graphics::mtext(lab_row, side = 2, at = seq_row, las = 2, padj = 0.5,
+                      cex = cex.axis, col.axis = col.axis, font = font.axis)
+      graphics::mtext(lab_col, side = 3, at = unique(data$x), las = 2, padj = 0.5,
+                      cex = cex.axis, col.axis = col.axis, font = font.axis)
+
+      x_axis <- data$x[which.max(data$value)]
+      graphics::axis(side = 1, at = c(x_axis - 0.2, x_axis + 0.2), labels = FALSE)
+      graphics::axis(side = 1, at = x_axis, labels = scale_pc(0.2), tick = FALSE)
+    }
+
+    if (weights) {
+      ## Graphical parameters
+      mar[2] <- 0.1
+      mar[4] <- 0.1
+      graphics::par(mar = mar)
+
+      ## Open new window
+      graphics::plot.new()
+
+      ## Set plotting coordinates
+      total <- rowSums(object)
+      graphics::plot.window(xlim = c(0, max(total) * 1.05), ylim = ylim,
+                            xaxs = "i")
+
+      ## Plot
+      y <- length(total) - seq_along(total) + 1
+      graphics::rect(
+        xleft = 0,
+        ybottom = y - padding_y,
+        xright = total,
+        ytop = y + padding_y,
+        col = fill,
+        border = border
+      )
+
+      ## Construct axis
+      if (axes) {
+        graphics::segments(x0 = 0, y0 = 0, x1 = 0, y = n + 0.5,
+                           col = col.axis, lwd = 1)
+        graphics::axis(side = 1)
+      }
     }
 
     invisible(object)

@@ -42,7 +42,7 @@ individuals for each category, i.e. a contingency table).}
 
 \item{threshold}{A \code{\link{function}} that takes a numeric vector as argument and
 returns a numeric threshold value (see below). If \code{NULL} (the default), no
-threshold is computed.}
+threshold is computed. Only used if \code{freq} is \code{FALSE}.}
 
 \item{freq}{A \code{\link{logical}} scalar indicating whether conditional proportions
 given \code{margins} should be used (i.e. entries of \code{object}, divided by the
