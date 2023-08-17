@@ -4,16 +4,6 @@
 \name{DiversityIndex-class}
 \alias{DiversityIndex-class}
 \alias{.DiversityIndex}
-\alias{HeterogeneityIndex-class}
-\alias{.HeterogeneityIndex}
-\alias{EvennessIndex-class}
-\alias{.EvennessIndex}
-\alias{RichnessIndex-class}
-\alias{.RichnessIndex}
-\alias{CompositionIndex-class}
-\alias{.CompositionIndex}
-\alias{RarefactionIndex-class}
-\alias{.RarefactionIndex}
 \title{Diversity Index}
 \description{
 An S4 class to represent a diversity measure.
@@ -21,15 +11,19 @@ An S4 class to represent a diversity measure.
 \section{Slots}{
 
 \describe{
-\item{\code{names}}{A \code{\link{character}} vector giving the sample names.}
+\item{\code{.Data}}{A \code{\link{numeric}} vector of diversity measures.}
 
-\item{\code{size}}{A \code{\link{integer}} vector giving the sample sizes.}
+\item{\code{labels}}{A \code{\link{character}} vector giving the sample names.}
+
+\item{\code{size}}{An \code{\link{integer}} vector giving the sample sizes.}
+
+\item{\code{data}}{A \code{\link{numeric}} matrix of count data.}
+
+\item{\code{method}}{A \code{\link{character}} string specifying the method used.}
 
 \item{\code{simulation}}{A four columns \code{\link{numeric}} matrix giving the diversity
 measures for the simulated assemblage (sample \code{size}, \code{mean} estimate,
 \code{lower} and \code{upper} boundaries of the confidence interval).}
-
-\item{\code{method}}{A \code{\link{character}} string specifying the method used.}
 }}
 
 \note{
@@ -43,16 +37,13 @@ In the code snippets below, \code{x} is an \code{DiversityIndex} object.
 }
 }
 
-\section{Get}{
-
-In the code snippets below, \code{x} is an \code{DiversityIndex} object.
-\describe{
-\item{\code{get_method(x)}}{Returns the method used to compute the index.}
-}
-}
-
 \seealso{
-\code{\link[=get_method]{get_method()}}
+Other classes: 
+\code{\link{CompositionIndex-class}},
+\code{\link{EvennessIndex-class}},
+\code{\link{HeterogeneityIndex-class}},
+\code{\link{RarefactionIndex-class}},
+\code{\link{RichnessIndex-class}}
 }
 \author{
 N. Frerebeau

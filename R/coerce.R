@@ -9,7 +9,7 @@ as.data.frame.DiversityIndex <- function(x, ...) {
   data.frame(
     size = x@size,
     index = x@.Data,
-    row.names = x@names,
+    row.names = labels(x),
     stringsAsFactors = FALSE
   )
 }

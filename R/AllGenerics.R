@@ -2,15 +2,19 @@
 #' @include AllClasses.R
 NULL
 
+setGeneric("bootstrap", package = "arkhe")
+setGeneric("jackknife", package = "arkhe")
+
 # Extract ======================================================================
 ## Mutators --------------------------------------------------------------------
 #' Get or Set Parts of an Object
 #'
 #' Getters and setters to extract or replace parts of an object.
-#' @param x An object from which to get or set element(s).
+#' @param object,x An \R object from which to get or set element(s).
 # @param value A possible value for the element(s) of `object` (see below).
 #' @return
-#'  An object of the same sort as `object` with the new values assigned.
+#'  * `labels()` returns a suitable set of labels from an object for use in
+#'    printing or plotting.
 # @example inst/examples/ex-mutator.R
 #' @author N. Frerebeau
 #' @docType methods
@@ -28,12 +32,62 @@ setGeneric(
 )
 
 # Statistic ====================================================================
-#' Resampling Methods
+#' Bootstrap Estimation
 #'
-#' @description
-#'  * `resample()` simulate observations from a multinomial distribution.
-#'  * `bootstrap()` generate bootstrap estimations of a statistic.
-#'  * `jackknife()` generate jackknife estimations of a statistic.
+#' Samples randomly from the elements of `object` with replacement.
+#' @param object An \R object (typically a [DiversityIndex-class] object).
+#' @param n A non-negative [`integer`] giving the number of bootstrap
+#'  replications.
+#' @param f A [`function`] that takes a single numeric vector (the result of
+#'  `do`) as argument.
+#' @return
+#'  If `f` is `NULL` (the default), `bootstrap()` returns a named `numeric`
+#'  vector with the following elements:
+#'  \describe{
+#'   \item{`original`}{The observed value of `do` applied to `object`.}
+#'   \item{`mean`}{The bootstrap estimate of mean of `do`.}
+#'   \item{`bias`}{The bootstrap estimate of bias of `do`.}
+#'   \item{`error`}{he bootstrap estimate of standard error of `do`.}
+#'  }
+#'
+#'  If `f` is a `function`, `bootstrap()` returns the result of `f` applied to
+#'  the `n` values of `do`.
+#' @example inst/examples/ex-bootstrap.R
+#' @author N. Frerebeau
+#' @docType methods
+#' @family resampling methods
+#' @rdname bootstrap
+#' @name bootstrap_diversity
+NULL
+
+#' Jackknife Estimation
+#'
+#' @param object An \R object (typically a [DiversityIndex-class] object).
+#' @param f A [`function`] that takes a single numeric vector (the leave-one-out
+#'  values of `do`) as argument.
+#' @return
+#'  If `f` is `NULL` (the default), `jackknife()` returns a named `numeric`
+#'  vector with the following elements:
+#'  \describe{
+#'   \item{`original`}{The observed value of `do` applied to `object`.}
+#'   \item{`mean`}{The jackknife estimate of mean of `do`.}
+#'   \item{`bias`}{The jackknife estimate of bias of `do`.}
+#'   \item{`error`}{he jackknife estimate of standard error of `do`.}
+#'  }
+#'
+#'  If `f` is a `function`, `jackknife()` returns the result of `f` applied to
+#'  the leave-one-out values of `do`.
+#' @example inst/examples/ex-bootstrap.R
+#' @author N. Frerebeau
+#' @docType methods
+#' @family resampling methods
+#' @rdname jackknife
+#' @name jackknife_diversity
+NULL
+
+#' Resample
+#'
+#' Simulates observations from a multinomial distribution.
 #' @param object A [`numeric`] vector of count data (absolute frequencies).
 #' @param do A [`function`] that takes `object` as an argument
 #'  and returns a single numeric value.
@@ -46,16 +100,6 @@ setGeneric(
 #' @return
 #'  If `f` is `NULL`, `resample()` returns the `n` values of `do`. Else,
 #'  returns the result of `f` applied to the `n` values of `do`.
-#'
-#'  If `f` is `NULL`, `bootstrap()` and `jackknife()` return a [`data.frame`]
-#'  with the following elements (else, returns the result of `f` applied to the
-#'  `n` values of `do`) :
-#'  \describe{
-#'   \item{original}{The observed value of `do` applied to `object`.}
-#'   \item{mean}{The bootstrap/jackknife estimate of mean of `do`.}
-#'   \item{bias}{The bootstrap/jackknife estimate of bias of `do`.}
-#'   \item{error}{The boostrap/jackknife estimate of standard error of `do`.}
-#'  }
 #' @seealso [stats::rmultinom()]
 #' @example inst/examples/ex-resample.R
 #' @author N. Frerebeau
@@ -67,9 +111,6 @@ setGeneric(
   def = function(object, ...) standardGeneric("resample")
 )
 
-setGeneric("jackknife", package = "arkhe")
-setGeneric("bootstrap", package = "arkhe")
-
 # Diversity ====================================================================
 ## Heterogeneity ---------------------------------------------------------------
 #' Heterogeneity and Evenness
@@ -79,7 +120,8 @@ setGeneric("bootstrap", package = "arkhe")
 #'  * `evenness()` returns an evenness measure.
 #' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
 #'  [`data.frame`] of count data (absolute frequencies giving the number of
-#'  individuals for each class).
+#'  individuals for each category, i.e. a contingency table). A [`data.frame`]
+#'  will be coerced to a `numeric` `matrix` via [data.matrix()].
 #' @param method A [`character`] string specifying the index to be computed
 #'  (see details). Any unambiguous substring can be given.
 #' @param x A [`numeric`] vector of count data (absolute frequencies).
@@ -261,7 +303,9 @@ setGeneric(
 #'  * `richness()` returns sample richness.
 #'  * `composition()` returns asymptotic species richness.
 #' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
-#'  [`data.frame`] of count data (absolute frequencies).
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each category, i.e. a contingency table). A [`data.frame`]
+#'  will be coerced to a `numeric` `matrix` via [data.matrix()].
 #' @param method A [`character`] string or vector of strings specifying the
 #' index to be computed (see details). Any unambiguous substring can be given.
 #' @param x A [`numeric`] vector or matrix of count data (absolute frequencies).
@@ -285,11 +329,12 @@ setGeneric(
 #'
 #'  It is not always possible to ensure that all sample sizes are equal
 #'  and the number of different taxa increases with sample size and
-#'  sampling effort (Magurran 1988). Then, *rarefaction* (\eqn{E(S)}) is
-#'  the number of taxa expected if all samples were of a standard size (i.e.
-#'  taxa per fixed number of individuals). Rarefaction assumes that imbalances
-#'  between taxa are due to sampling and not to differences in actual
-#'  abundances.
+#'  sampling effort (Magurran 1988). Then, *[rarefaction][rarefaction()]*
+#'  (\eqn{E(S)}) is the number of taxa expected if all samples were of a
+#'  standard size (i.e. taxa per fixed number of individuals).
+#'  Rarefaction assumes that imbalances between taxa are due to sampling and
+#'  not to differences in actual abundances.
+#'
 #' @section Richness Measures:
 #'  The following richness measures are available for count data:
 #'  \describe{
@@ -358,7 +403,7 @@ setGeneric(
 #'  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
 #'  Concepts to Diversity. *Ecology*, 48(3), 392-404.
 #'  \doi{10.2307/1932674}.
-#' @seealso [plot_diversity()]
+#' @seealso [`plot()`][plot_diversity]
 #' @example inst/examples/ex-richness.R
 #' @author N. Frerebeau
 #' @family diversity measures
@@ -424,7 +469,9 @@ setGeneric(
 #' Rarefaction
 #'
 #' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
-#'  [`data.frame`] of count data (absolute frequencies).
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each category, i.e. a contingency table). A [`data.frame`]
+#'  will be coerced to a `numeric` `matrix` via [data.matrix()].
 #' @param x A [`numeric`] vector of count data (absolute frequencies).
 #' @param sample A length-one [`numeric`] vector giving the sub-sample size.
 #'  The size of sample should be smaller than total community size.
@@ -480,7 +527,10 @@ setGeneric(
 ## Similarity ------------------------------------------------------------------
 #' Similarity
 #'
-#' @param object A \eqn{m \times p}{m x p} matrix of count data.
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each category, i.e. a contingency table). A [`data.frame`]
+#'  will be coerced to a `numeric` `matrix` via [data.matrix()].
 #' @param x,y A length-\eqn{p} [`numeric`] vector of count data.
 #' @param method A [`character`] string specifying the method to be
 #'  used (see details). Any unambiguous substring can be given.
@@ -586,7 +636,10 @@ setGeneric(
 ## Co-Occurrence ---------------------------------------------------------------
 #' Co-Occurrence
 #'
-#' @param object A \eqn{m \times p}{m x p} matrix of count data.
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each category, i.e. a contingency table). A [`data.frame`]
+#'  will be coerced to a `numeric` `matrix` via [data.matrix()].
 #' @param ... Currently not used.
 #' @details
 #'  A co-occurrence matrix is a symmetric matrix with zeros on its main
@@ -609,8 +662,9 @@ setGeneric(
 #'
 #' Returns the degree of turnover in taxa composition along a gradient or
 #' transect.
-#' @param object,x A \eqn{m \times p}{m x p} matrix of count data or incidence
-#'  data.
+#' @param object,x A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data or incidence data. A [`data.frame`]
+#'  will be coerced to a `numeric` `matrix` via [data.matrix()].
 #' @param method A [`character`] string specifying the method to be
 #'  used (see details). Any unambiguous substring can be given.
 #' @param ... Further arguments to be passed to internal methods.
@@ -735,7 +789,10 @@ NULL
 #' Diversity Test
 #'
 #' Compares Shannon diversity between samples.
-#' @param object A \eqn{m \times p}{m x p} matrix of count data.
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each category, i.e. a contingency table). A [`data.frame`]
+#'  will be coerced to a `numeric` `matrix` via [data.matrix()].
 #' @param adjust A [`character`] string specifying the method for
 #'  adjusting \eqn{p} values (see [stats::p.adjust()]).
 #' @param ... Further arguments to be passed to internal methods.
@@ -827,6 +884,35 @@ NULL
 NULL
 
 ## Matrix plot -----------------------------------------------------------------
+### Spot Plot ------------------------------------------------------------------
+#' Spot Plot
+#'
+#' Plots a spot matrix.
+#' @inheritParams plot_matrix
+#' @param type A [`character`] string specifying the graph to be plotted.
+#'  It must be one of "`ring`" (the default) or "`plain`". Any unambiguous
+#'  substring can be given.
+#' @param ... Currently not used.
+#' @details
+#'  The spot matrix can be considered as a variant of the
+#'  [Bertin diagram][plot_bertin()] where the data are first transformed to
+#'  relative frequencies.
+#' @return
+#'  `plot_spot()` is called it for its side-effects: it results in a graphic
+#'  being displayed (invisibly returns `object`).
+#' @note
+#'  Adapted from Dan Gopstein's original
+#'  [idea](https://dgopstein.github.io/articles/spot-matrix/).
+#' @example inst/examples/ex-plot_spot.R
+#' @author N. Frerebeau
+#' @family plot methods
+#' @docType methods
+#' @aliases plot_spot-method
+setGeneric(
+  name = "plot_spot",
+  def = function(object, ...) standardGeneric("plot_spot")
+)
+
 ### Heatmap --------------------------------------------------------------------
 #' Heatmap
 #'
@@ -1032,7 +1118,8 @@ setGeneric(
 #' Plots a Dice-Leraas diagram.
 #' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
 #'  [`data.frame`] of count data (absolute frequencies giving the number of
-#'  individuals for each class).
+#'  individuals for each category, i.e. a contingency table). A [`data.frame`]
+#'  will be coerced to a `numeric` `matrix` via [data.matrix()].
 #' @param main A [`character`] string giving a main title for the plot.
 #' @param sub A [`character`] string giving a subtitle for the plot.
 #' @param ann A [`logical`] scalar: should the default annotation (title and x,
@@ -1081,7 +1168,8 @@ setGeneric(
 #' Plots a rank *vs* relative abundance diagram.
 #' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
 #'  [`data.frame`] of count data (absolute frequencies giving the number of
-#'  individuals for each class).
+#'  individuals for each category, i.e. a contingency table). A [`data.frame`]
+#'  will be coerced to a `numeric` `matrix` via [data.matrix()].
 #' @param log A [`character`] string which contains "`x`" if the x axis is to be
 #'  logarithmic, "`y`" if the y axis is to be logarithmic and "`xy`" or "`yx`"
 #'  if both axes are to be logarithmic (base 10).
@@ -1117,33 +1205,4 @@ setGeneric(
 setGeneric(
   name = "plot_rank",
   def = function(object, ...) standardGeneric("plot_rank")
-)
-
-## Spot Plot -------------------------------------------------------------------
-#' Spot Plot
-#'
-#' Plots a spot matrix.
-#' @inheritParams plot_matrix
-#' @param type A [`character`] string specifying the graph to be plotted.
-#'  It must be one of "`ring`" (the default) or "`plain`". Any unambiguous
-#'  substring can be given.
-#' @param ... Currently not used.
-#' @details
-#'  The spot matrix can be considered as a variant of the
-#'  [Bertin diagram][plot_bertin()] where the data are first transformed to
-#'  relative frequencies.
-#' @return
-#'  `plot_spot()` is called it for its side-effects: it results in a graphic
-#'  being displayed (invisibly returns `object`).
-#' @note
-#'  Adapted from Dan Gopstein's original
-#'  [idea](https://dgopstein.github.io/articles/spot-matrix/).
-#' @example inst/examples/ex-plot_spot.R
-#' @author N. Frerebeau
-#' @family plot methods
-#' @docType methods
-#' @aliases plot_spot-method
-setGeneric(
-  name = "plot_spot",
-  def = function(object, ...) standardGeneric("plot_spot")
 )

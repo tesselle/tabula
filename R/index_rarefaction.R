@@ -23,7 +23,8 @@ setMethod(
 
     ## Matrix of results
     z <- matrix(data = NA_real_, nrow = n, ncol = length(k))
-    dimnames(z) <- list(rownames(object), k)
+    row_names <- rownames(object) %||% paste0("S", seq_len(n)) # Fix names
+    dimnames(z) <- list(row_names, k)
 
     for (i in seq_len(n)) {
       spl <- k[k <= sample[[i]]]
@@ -39,7 +40,7 @@ setMethod(
 
     .RarefactionIndex(
       z,
-      names = rownames(object),
+      labels = row_names,
       size = as.integer(k),
       method = method
     )

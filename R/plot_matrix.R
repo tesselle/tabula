@@ -58,7 +58,9 @@ plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
 
   ## Save and restore
   d <- inch2line("M", cex = cex.axis)
-  old_par <- graphics::par("mar", "pin", "plt")
+  old_par <- graphics::par("mar", "plt")
+  on.exit(graphics::par(old_par))
+
   mar_left <- inch2line(lab_row, cex = cex.axis)
   mar_top <- inch2line(lab_col, cex = cex.axis)
   mar_right <- if (legend) inch2line("999%", cex = cex.axis) else d
@@ -70,24 +72,24 @@ plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
   graphics::plot.new()
 
   ## Squish plotting area
-  old_par <- utils::modifyList(old_par, graphics::par(c("pin", "plt")))
+  pin <- graphics::par("pin")
+  plt <- graphics::par("plt")
+
   if (!is.na(asp)) {
     aspect_ratio <- n / (m + legend)
-    pin_y <- old_par$pin[1] * aspect_ratio * asp
+    pin_y <- pin[1] * aspect_ratio * asp
 
-    if (pin_y < old_par$pin[2]) {
+    if (pin_y < pin[2]) {
       ## Squish vertically
-      graphics::par(pin = c(old_par$pin[1], pin_y))
-      graphics::par(plt = c(old_par$plt[1:2], graphics::par('plt')[3:4]))
+      graphics::par(pin = c(pin[1], pin_y))
+      graphics::par(plt = c(plt[1:2], graphics::par('plt')[3:4]))
     } else {
       ## Squish horizontally
-      pin_x <- old_par$pin[2] / aspect_ratio / asp
-      graphics::par(pin = c(pin_x, old_par$pin[2]))
-      graphics::par(plt = c(graphics::par('plt')[1:2], old_par$plt[3:4]))
+      pin_x <- pin[2] / aspect_ratio / asp
+      graphics::par(pin = c(pin_x, pin[2]))
+      graphics::par(plt = c(graphics::par('plt')[1:2], plt[3:4]))
     }
   }
-
-  on.exit(graphics::par(old_par))
 
   ## Set plotting coordinates
   xlim <- c(0, m + legend) + 0.5
@@ -232,7 +234,7 @@ panel_spot <- function(x, y, z, color, type, ...) {
 #' @noRd
 prepare <- function(object, diag = TRUE, upper = TRUE, lower = TRUE,
                     freq = FALSE, margin = 1, scale = !freq, drop_zero = FALSE,
-                    palette = khroma::colour("YlOrBr")(12),
+                    palette = grDevices::hcl.colors(12, "YlOrBr", rev = TRUE),
                     midpoint = NULL, ...) {
   ## Validation
   if (!arkhe::is_symmetric(object)) {

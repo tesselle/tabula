@@ -13,7 +13,7 @@ plot_heatmap(object, ...)
 
 \S4method{plot_heatmap}{matrix}(
   object,
-  col = (khroma::colour("YlOrBr"))(12),
+  col = grDevices::hcl.colors(12, "YlOrBr", rev = TRUE),
   diag = TRUE,
   upper = TRUE,
   lower = TRUE,
@@ -26,7 +26,7 @@ plot_heatmap(object, ...)
 
 \S4method{plot_heatmap}{data.frame}(
   object,
-  col = (khroma::colour("YlOrBr"))(12),
+  col = grDevices::hcl.colors(12, "YlOrBr", rev = TRUE),
   diag = TRUE,
   upper = TRUE,
   lower = TRUE,
@@ -39,7 +39,7 @@ plot_heatmap(object, ...)
 
 \S4method{plot_heatmap}{dist}(
   object,
-  col = (khroma::colour("YlOrBr"))(12),
+  col = grDevices::hcl.colors(12, "YlOrBr", rev = TRUE),
   diag = FALSE,
   upper = FALSE,
   lower = !upper,

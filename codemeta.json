@@ -91,6 +91,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "khroma",
+      "name": "khroma",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=khroma"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "knitr",
       "name": "knitr",
       "provider": {
@@ -194,34 +206,22 @@
     },
     "5": {
       "@type": "SoftwareApplication",
-      "identifier": "khroma",
-      "name": "khroma",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=khroma"
-    },
-    "6": {
-      "@type": "SoftwareApplication",
       "identifier": "methods",
       "name": "methods"
     },
-    "7": {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
-    "8": {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
     "SystemRequirements": null
   },
-  "fileSize": "1662.066KB",
+  "fileSize": "1643.98KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",

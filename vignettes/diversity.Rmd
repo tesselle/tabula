@@ -316,7 +316,7 @@ Where:
 
 ### Usage
 
-```{r similarity, fig.width=7, fig.height=7, fig.align="center"}
+```{r similarity, fig.width=7, fig.height=5, fig.align="center"}
 ## Brainerd-Robinson (similarity between assemblages)
 BR <- similarity(mississippi, method = "brainerd")
 plot_spot(BR, col = khroma::colour("YlOrBr")(12))
@@ -328,7 +328,7 @@ plot_spot(BI, col = khroma::colour("PRGn")(12))
 
 # Sample Size and Significance
 
-```{r rarefaction}
+```{r rarefaction, fig.width=7, fig.height=5, fig.align="center"}
 # Baxter rarefaction
 RA <- rarefaction(mississippi, sample = 100, method = "baxter")
 plot(RA)
@@ -336,7 +336,7 @@ plot(RA)
 
 @kintigh1989
 
-```{r sample-size, fig.width=3.5, fig.height=3.5, fig.show='hold'}
+```{r sample-size, fig.width=7, fig.height=7, fig.show='hold', out.width='50%'}
 ## Data from Conkey 1980, Kintigh 1989, p. 28
 HE <- heterogeneity(chevelon, method = "shannon")
 HE_sim <- simulate(HE)

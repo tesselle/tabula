@@ -7,18 +7,27 @@
 \alias{set}
 \alias{get_method}
 \alias{get_method-method}
+\alias{labels,DiversityIndex-method}
+\alias{labels,RarefactionIndex-method}
 \alias{get_method,DiversityIndex-method}
 \title{Get or Set Parts of an Object}
 \usage{
 get_method(x)
 
+\S4method{labels}{DiversityIndex}(object)
+
+\S4method{labels}{RarefactionIndex}(object)
+
 \S4method{get_method}{DiversityIndex}(x)
 }
 \arguments{
-\item{x}{An object from which to get or set element(s).}
+\item{object, x}{An \R object from which to get or set element(s).}
 }
 \value{
-An object of the same sort as \code{object} with the new values assigned.
+\itemize{
+\item \code{labels()} returns a suitable set of labels from an object for use in
+printing or plotting.
+}
 }
 \description{
 Getters and setters to extract or replace parts of an object.

@@ -65,8 +65,9 @@ index_wilson(x, ...)
 \S4method{index_wilson}{matrix}(x)
 }
 \arguments{
-\item{object, x}{A \eqn{m \times p}{m x p} matrix of count data or incidence
-data.}
+\item{object, x}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
+\code{\link{data.frame}} of count data or incidence data. A \code{\link{data.frame}}
+will be coerced to a \code{numeric} \code{matrix} via \code{\link[=data.matrix]{data.matrix()}}.}
 
 \item{...}{Further arguments to be passed to internal methods.}
 

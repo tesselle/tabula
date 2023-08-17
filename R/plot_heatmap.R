@@ -8,7 +8,7 @@ NULL
 setMethod(
   f = "plot_heatmap",
   signature = signature(object = "matrix"),
-  definition = function(object, col = khroma::colour("YlOrBr")(12),
+  definition = function(object, col = grDevices::hcl.colors(12, "YlOrBr", rev = TRUE),
                         diag = TRUE, upper = TRUE, lower = TRUE,
                         freq = FALSE, margin = 1,
                         axes = TRUE, legend = TRUE, ...) {
@@ -28,7 +28,7 @@ setMethod(
 setMethod(
   f = "plot_heatmap",
   signature = signature(object = "data.frame"),
-  definition = function(object, col = khroma::colour("YlOrBr")(12),
+  definition = function(object, col = grDevices::hcl.colors(12, "YlOrBr", rev = TRUE),
                         diag = TRUE, upper = TRUE, lower = TRUE,
                         freq = FALSE, margin = 1,
                         axes = TRUE, legend = TRUE, ...) {
@@ -46,7 +46,7 @@ setMethod(
 setMethod(
   f = "plot_heatmap",
   signature = signature(object = "dist"),
-  definition = function(object, col = khroma::colour("YlOrBr")(12),
+  definition = function(object, col = grDevices::hcl.colors(12, "YlOrBr", rev = TRUE),
                         diag = FALSE, upper = FALSE, lower = !upper,
                         axes = TRUE, legend = TRUE, ...) {
     object <- as.matrix(object)

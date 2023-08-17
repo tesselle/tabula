@@ -6,7 +6,7 @@ NULL
 get_index <- function(x) {
   match.fun(sprintf("index_%s", x))
 }
-boot_index <- function(x, method, ...) {
+do_index <- function(x, method, ...) {
   f <- get_index(method)
   f(x, ...)
 }
@@ -30,12 +30,11 @@ index_diversity <- function(x, method, ..., by_row = TRUE) {
   }
 
   ## Fix names
-  n <- rownames(x)
-  if (is.null(n)) n <- paste0("S", seq_along(idx))
+  row_names <- rownames(x) %||% paste0("S", seq_along(idx))
 
   .DiversityIndex(
     idx,
-    names = n,
+    labels = row_names,
     size = as.integer(rowSums(x)),
     data = x,
     method = method
@@ -44,7 +43,7 @@ index_diversity <- function(x, method, ..., by_row = TRUE) {
 
 # Resample =====================================================================
 #' @export
-#' @rdname resample
+#' @rdname bootstrap
 #' @aliases bootstrap,DiversityIndex-method
 setMethod(
   f = "bootstrap",
@@ -54,16 +53,15 @@ setMethod(
     w <- object@data
     m <- nrow(w)
     method <- object@method
-    evenness <- methods::is(object, "EvennessIndex")
 
     results <- vector(mode = "list", length = m)
     for (i in seq_len(m)) {
       results[[i]] <- arkhe::bootstrap(
         object = w[i, ],
-        do = boot_index,
+        do = do_index,
         n = n,
         method = method,
-        evenness = evenness,
+        evenness = methods::is(object, "EvennessIndex"),
         f = f
       )
     }
@@ -74,23 +72,25 @@ setMethod(
 )
 
 #' @export
-#' @rdname resample
+#' @rdname jackknife
 #' @aliases jackknife,DiversityIndex-method
 setMethod(
   f = "jackknife",
   signature = signature(object = "DiversityIndex"),
-  definition = function(object) {
+  definition = function(object, f = NULL) {
 
     w <- object@data
     m <- nrow(w)
+    method <- object@method
 
-    fun <- get_index(object@method) # Select method
     results <- vector(mode = "list", length = m)
     for (i in seq_len(m)) {
       results[[i]] <- arkhe::jackknife(
         object = w[i, ],
-        do = fun,
-        evenness = methods::is(object, "EvennessIndex")
+        do = do_index,
+        method = method,
+        evenness = methods::is(object, "EvennessIndex"),
+        f = f
       )
     }
     results <- do.call(rbind, results)
@@ -112,7 +112,7 @@ setMethod(
     ## Simulate
     ## Specify the probability for the classes
     data <- object@data
-    method <- get_index(object@method) # Select method
+    method <- object@method # Select method
 
     ## Sample size
     size <- max(rowSums(data))
@@ -130,7 +130,8 @@ setMethod(
     for (i in k) {
       simulated[[i]] <- resample(
         object = colSums(data),
-        do = method,
+        do = do_index,
+        method = method,
         evenness = methods::is(object, "EvennessIndex"),
         n = n,
         size = sample_sizes[[i]],

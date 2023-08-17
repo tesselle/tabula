@@ -15,7 +15,10 @@ occurrence(object, ...)
 \S4method{occurrence}{data.frame}(object)
 }
 \arguments{
-\item{object}{A \eqn{m \times p}{m x p} matrix of count data.}
+\item{object}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
+\code{\link{data.frame}} of count data (absolute frequencies giving the number of
+individuals for each category, i.e. a contingency table). A \code{\link{data.frame}}
+will be coerced to a \code{numeric} \code{matrix} via \code{\link[=data.matrix]{data.matrix()}}.}
 
 \item{...}{Currently not used.}
 }

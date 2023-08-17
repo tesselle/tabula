@@ -14,7 +14,7 @@ plot_spot(object, ...)
 \S4method{plot_spot}{matrix}(
   object,
   type = c("ring", "plain"),
-  col = (khroma::colour("YlOrBr"))(12),
+  col = grDevices::hcl.colors(12, "YlOrBr", rev = TRUE),
   diag = TRUE,
   upper = TRUE,
   lower = TRUE,
@@ -28,7 +28,7 @@ plot_spot(object, ...)
 \S4method{plot_spot}{data.frame}(
   object,
   type = c("ring", "plain"),
-  col = (khroma::colour("YlOrBr"))(12),
+  col = grDevices::hcl.colors(12, "YlOrBr", rev = TRUE),
   diag = TRUE,
   upper = TRUE,
   lower = TRUE,
@@ -42,7 +42,7 @@ plot_spot(object, ...)
 \S4method{plot_spot}{dist}(
   object,
   type = c("ring", "plain"),
-  col = (khroma::colour("YlOrBr"))(12),
+  col = grDevices::hcl.colors(12, "YlOrBr", rev = TRUE),
   diag = FALSE,
   upper = FALSE,
   lower = !upper,

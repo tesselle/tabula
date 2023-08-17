@@ -3,6 +3,8 @@
 \docType{import}
 \name{reexports}
 \alias{reexports}
+\alias{bootstrap}
+\alias{jackknife}
 \alias{replace_NA}
 \alias{replace_zero}
 \alias{remove_NA}
@@ -14,6 +16,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{arkhe}{\code{\link[arkhe:missing]{remove_NA}}, \code{\link[arkhe:zero]{remove_zero}}, \code{\link[arkhe:missing]{replace_NA}}, \code{\link[arkhe:zero]{replace_zero}}}
+  \item{arkhe}{\code{\link[arkhe]{bootstrap}}, \code{\link[arkhe]{jackknife}}, \code{\link[arkhe:missing]{remove_NA}}, \code{\link[arkhe:zero]{remove_zero}}, \code{\link[arkhe:missing]{replace_NA}}, \code{\link[arkhe:zero]{replace_zero}}}
 }}
 

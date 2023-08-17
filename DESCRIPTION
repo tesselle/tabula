@@ -33,12 +33,12 @@ Imports:
     arkhe (>= 1.2.0),
     graphics,
     grDevices,
-    khroma,
     methods,
     stats,
     utils
 Suggests: 
     folio,
+    khroma,
     knitr,
     rmarkdown,
     rsvg,
@@ -72,6 +72,7 @@ Collate:
     'plot_heatmap.R'
     'plot_matrix.R'
     'plot_rank.R'
+    'plot_rarefaction.R'
     'plot_spot.R'
     'reexport.R'
     'seriograph.R'

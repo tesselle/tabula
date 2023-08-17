@@ -37,7 +37,6 @@
 "_PACKAGE"
 
 #' @import arkhe
-#' @importFrom khroma color
 #' @importFrom methods as callNextMethod new setClass setClassUnion setGeneric
 #' setMethod validObject .valueClassTest
 #' @importFrom stats sd

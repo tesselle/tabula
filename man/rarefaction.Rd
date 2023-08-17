@@ -30,7 +30,9 @@ index_hurlbert(x, ...)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
-\code{\link{data.frame}} of count data (absolute frequencies).}
+\code{\link{data.frame}} of count data (absolute frequencies giving the number of
+individuals for each category, i.e. a contingency table). A \code{\link{data.frame}}
+will be coerced to a \code{numeric} \code{matrix} via \code{\link[=data.matrix]{data.matrix()}}.}
 
 \item{...}{Currently not used.}
 
@@ -73,11 +75,11 @@ may not have been seen, or there may not be a fixed number of taxa
 
 It is not always possible to ensure that all sample sizes are equal
 and the number of different taxa increases with sample size and
-sampling effort (Magurran 1988). Then, \emph{rarefaction} (\eqn{E(S)}) is
-the number of taxa expected if all samples were of a standard size (i.e.
-taxa per fixed number of individuals). Rarefaction assumes that imbalances
-between taxa are due to sampling and not to differences in actual
-abundances.
+sampling effort (Magurran 1988). Then, \emph{\link[=rarefaction]{rarefaction}}
+(\eqn{E(S)}) is the number of taxa expected if all samples were of a
+standard size (i.e. taxa per fixed number of individuals).
+Rarefaction assumes that imbalances between taxa are due to sampling and
+not to differences in actual abundances.
 }
 
 \examples{
