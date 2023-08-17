@@ -6,16 +6,16 @@ data("pueblo")
 plot_spot(C)
 
 ## Data from Magurran 1988, p. 166
-data("birds")
+data("aves")
 
 ## Jaccard measure (presence/absence data)
-similarity(birds, "jaccard") # 0.46
+similarity(aves, "jaccard") # 0.46
 
 ## Sorenson measure (presence/absence data)
-similarity(birds, "sorenson") # 0.63
+similarity(aves, "sorenson") # 0.63
 
 # Jaccard measure (Bray's formula ; count data)
-similarity(birds, "bray") # 0.44
+similarity(aves, "bray") # 0.44
 
 # Morisita-Horn measure (count data)
-similarity(birds, "morisita") # 0.81
+similarity(aves, "morisita") # 0.81

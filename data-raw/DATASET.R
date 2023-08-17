@@ -11,7 +11,7 @@ pueblo <- read.csv("data-raw/pueblo.csv", header = TRUE, row.names = 1,
 usethis::use_data(pueblo, overwrite = FALSE)
 
 # The birds dataset from Magurran 1988, p. 166
-birds <- matrix(
+aves <- matrix(
   data = c(1.4, 4.3, 2.9, 8.6, 4.2, 15.7, 2.0, 50, 1, 11.4, 11.4, 4.3, 13.0,
            14.3, 8.6, 7.1, 10.0, 1.4, 2.9, 5.7, 1.4, 11.4, 2.9, 4.3, 1.4, 2.9,
            0, 0, 0, 2.9, 0, 0, 0, 10, 0, 0, 5.7, 2.5, 5.7, 8.6, 5.7, 2.9, 0, 0,
@@ -27,11 +27,11 @@ birds <- matrix(
       "Whitethroat", "Lesser whitethroat", "Spotted fly-catcher")
   )
 )
-birds <- as.data.frame(birds)
-usethis::use_data(birds, overwrite = FALSE)
+aves <- as.data.frame(aves)
+usethis::use_data(aves, overwrite = FALSE)
 
 # The trees dataset from Magurran 1988, p. 162
-trees <- matrix(
+woodland <- matrix(
   c(TRUE, TRUE, TRUE, FALSE, FALSE, FALSE,
     TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
     FALSE, FALSE, TRUE, FALSE, TRUE, FALSE,
@@ -46,5 +46,5 @@ trees <- matrix(
     c("Birch", "Oak", "Rowan", "Beech", "Hazel", "Holly")
   )
 )
-trees <- as.data.frame(trees)
-usethis::use_data(trees, overwrite = FALSE)
+woodland <- as.data.frame(woodland)
+usethis::use_data(woodland, overwrite = FALSE)

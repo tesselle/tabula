@@ -25,9 +25,9 @@ A dataset of design elements in engraved bones from Cantabrian Spain.
 }
 \seealso{
 Other datasets: 
-\code{\link{birds}},
+\code{\link{aves}},
 \code{\link{pueblo}},
-\code{\link{trees}}
+\code{\link{woodland}}
 }
 \concept{datasets}
 \keyword{datasets}

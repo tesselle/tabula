@@ -56,7 +56,8 @@ expect_equal(
 ) # 1 / 8.50
 
 # Similarity ===================================================================
-data(birds) # Data from Magurran 1988, p. 166
+# Data from Magurran 1988, p. 166
+data("aves")
 
 ## Jaccard index - character
 x <- c("horse", "dog", "cat", "cow")
@@ -66,28 +67,28 @@ expect_equal(round(index_jaccard(x, y), 3), 0.143) # 0.14
 ## Jaccard index - numeric
 # Magurran 1988, p. 165
 expect_equal(
-  round(index_jaccard(as.numeric(birds[1, ]), as.numeric(birds[2, ])), 3),
+  round(index_jaccard(as.numeric(aves[1, ]), as.numeric(aves[2, ])), 3),
   0.462
 ) # 0.46
 
 ## Soreson index
 # Magurran 1988, p. 165
 expect_equal(
-  round(index_sorenson(as.numeric(birds[1, ]), as.numeric(birds[2, ])), 3),
+  round(index_sorenson(as.numeric(aves[1, ]), as.numeric(aves[2, ])), 3),
   0.632
 ) # 0.63
 
 ## Bray index
 # Magurran 1988, p. 165
 expect_equal(
-  round(index_bray(as.numeric(birds[1, ]), as.numeric(birds[2, ])), 3),
+  round(index_bray(as.numeric(aves[1, ]), as.numeric(aves[2, ])), 3),
   0.444
 ) # 0.44
 
 ## Morisita-Horn
 # Magurran 1988, p. 167
 expect_equal(
-  round(index_morisita(as.numeric(birds[1, ]), as.numeric(birds[2, ])), 3),
+  round(index_morisita(as.numeric(aves[1, ]), as.numeric(aves[2, ])), 3),
   0.813
 ) # 0.8133
 
@@ -102,31 +103,31 @@ y <- c(13, 3, 2, 0, 0)
 expect_equal(round(index_binomial(x, y), 3), 0.537) # 0.54
 
 # Turnover =====================================================================
-data(trees)
+data("woodland")
 
 ## Whittaker index
 # Magurran 1988, p. 162
-expect_equal(index_whittaker(as.matrix(trees)), 1)
+expect_equal(index_whittaker(as.matrix(woodland)), 1)
 
 ## Cody index
 # Magurran 1988, p. 162
-expect_equal(index_cody(as.matrix(trees)), 3)
+expect_equal(index_cody(as.matrix(woodland)), 3)
 
 ## Routledge 'R' index
 # Magurran 1988, p. 163
-expect_equal(round(index_routledge1(as.matrix(trees)), 3), 0.286)
+expect_equal(round(index_routledge1(as.matrix(woodland)), 3), 0.286)
 
 ## Routledge 'I' index
 # Magurran 1988, p. 163
-expect_equal(round(index_routledge2(as.matrix(trees)), 3), 0.559)
+expect_equal(round(index_routledge2(as.matrix(woodland)), 3), 0.559)
 
 ## Routledge 'E' index
 # Magurran 1988, p. 164
-expect_equal(round(index_routledge3(as.matrix(trees)), 3), 1.750)
+expect_equal(round(index_routledge3(as.matrix(woodland)), 3), 1.750)
 
 ## Wilson index
 # Magurran 1988, p. 164
-expect_equal(index_wilson(as.matrix(trees)), 1)
+expect_equal(index_wilson(as.matrix(woodland)), 1)
 
 # Rarefaction ==================================================================
 ## Hurlbert rarefaction

@@ -25,9 +25,9 @@ A dataset of ceramic counts from the Zuni region.
 }
 \seealso{
 Other datasets: 
-\code{\link{birds}},
+\code{\link{aves}},
 \code{\link{cantabria}},
-\code{\link{trees}}
+\code{\link{woodland}}
 }
 \concept{datasets}
 \keyword{datasets}

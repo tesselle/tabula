@@ -1,6 +1,6 @@
 # Similiraty measure (count data) ==============================================
-# data("birds")
-# expect_equal(round(similarity(birds, method = "bray"), 3), 0.444)
+# data("aves")
+# expect_equal(round(similarity(aves, method = "bray"), 3), 0.444)
 
 # Plot Similarity ==============================================================
 if (at_home()) {

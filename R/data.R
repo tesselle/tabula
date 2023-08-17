@@ -43,7 +43,7 @@
 #'  \doi{10.1007/978-94-015-7358-0}.
 #' @family datasets
 #' @keywords datasets
-"birds"
+"aves"
 
 #' Trees Incidences
 #'
@@ -56,4 +56,4 @@
 #'  \doi{10.1007/978-94-015-7358-0}.
 #' @family datasets
 #' @keywords datasets
-"trees"
+"woodland"
