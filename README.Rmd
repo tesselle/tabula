@@ -35,11 +35,15 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-An easy way to examine archaeological count data. **tabula** provides several tests and measures of diversity: heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity (Brainerd-Robinson, etc.). The package make it easy to visualize count data and statistical thresholds: rank vs. abundance plots, heatmaps, @ford1962 and @bertin1977 diagrams.
+An easy way to examine archaeological count data. This package provides several tests and measures of diversity: heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity (Brainerd-Robinson, etc.). It allows to easily visualize count data and statistical thresholds: rank vs. abundance plots, heatmaps, @ford1962 and @bertin1977 diagrams, etc. **tabula** provides methods for:
+
+* Diversity measurement: `heterogeneity()`, `evenness()`, `richness()`, `rarefaction()`, `turnover()`
+* Similarity measurement and co-occurrence: `similarity()`, `occurrence()`
+* @bertin1977 or @ford1962 (battleship curve) diagrams: `plot_bertin()`, `plot_ford()`
+* Seriograph [@desachy2004]: `seriograph()`
+* Heatmaps: `plot_heatmap()`, `plot_spot()`
 
 [**kairos**](https://packages.tesselle.org/kairos/) is a companion package to **tabula** that provides functions for chronological modeling and dating of archaeological assemblages from count data.
-
-**Prior to version 2.0.0, tabula included various matrix seriation methods. These methods have been moved to [kairos](https://packages.tesselle.org/kairos/), so that we no longer have chronological tools in two separate packages.**
 
 ```{r citation, echo=FALSE, comment=''}
 cite <- utils::citation("tabula")
@@ -65,83 +69,20 @@ remotes::install_github("tesselle/tabula")
 
 ```{r packages-load, message=FALSE}
 ## Install extra packages (if needed)
-# install.packages("khroma")
+# install.packages("folio")
 
 ## Load packages
-library(folio) # Datasets
 library(tabula)
 ```
 
 *It assumes that you keep your data tidy*: each variable (type/taxa) must be saved in its own column and each observation (sample/case) must be saved in its own row.
 
-### Visualization
-
-Several types of graphs are available in **tabula** which uses [**ggplot2**](https://ggplot2.tidyverse.org) for plotting informations. This makes it easy to customize diagrams (e.g. using themes and scales).
-
-Bertin or Ford (battleship curve) diagrams can be plotted, with statistic threshold (including B. Desachy's [sériographe](https://doi.org/10.3406/pica.2004.2396)). 
-
-```{r bertin, fig.width=7, fig.height=5, fig.align="center"}
-## Bertin matrix with variables scaled to 0-1 and the variable mean as threshold
-scale_01 <- function(x) (x - min(x)) / (max(x) - min(x))
-
+```{r ford, fig.width=8, fig.height=7, fig.align="center", out.width='100%'}
 ## Data from Lipo et al. 2015
-plot_bertin(mississippi, threshold = mean, scale = scale_01) +
-  khroma::scale_fill_vibrant(name = "Mean")
-```
+data("mississippi", package = "folio")
 
-```{r ford, fig.width=7, fig.height=5, fig.align="center"}
 ## Ford diagram
 plot_ford(mississippi)
-```
-
-Spot matrix allows direct examination of data:
-
-```{r plot-occ, fig.width=5, fig.height=5, fig.align="center"}
-## Plot co-occurrence of types
-## (i.e. how many times (percent) each pairs of taxa occur together 
-## in at least one sample.)
-mississippi |> 
-  occurrence() |> 
-  plot_spot() +
-  khroma::scale_colour_YlOrBr()
-```
-
-### Diversity
-
-*Diversity* can be measured according to several indices (referred to as indices of *heterogeneity* -- see `vignette("diversity")`). Corresponding *evenness* (i.e. a measure of how evenly individuals are distributed across the sample) can also be computed, as well as *richness* and *rarefaction*.
-
-```{r diversity}
-heterogeneity(mississippi, method = "shannon")
-```
-
-Measure diversity by comparing to simulated assemblages:
-
-```{r sample-size, fig.width=3.5, fig.height=3.5, fig.show="hold"}
-set.seed(12345)
-
-## Data from Conkey 1980, Kintigh 1989, p. 28
-chevelon |>
-  heterogeneity(method = "shannon") |>
-  simulate() |>
-  plot()
-
-chevelon |>
-  richness(method = "count") |>
-  simulate() |>
-  plot()
-```
-
-Several methods can be used to ascertain the degree of *turnover* in taxa composition along a gradient on qualitative (presence/absence) data. It assumes that the order of the matrix rows (from *1* to *n*) follows the progression along the gradient/transect.
-
-Diversity can also be measured by addressing *similarity* between pairs of sites:
-
-```{r similarity-brainerd, fig.width=6, fig.height=5, fig.align="center"}
-## Calculate the Brainerd-Robinson index
-## Plot the similarity matrix
-s <- similarity(mississippi, method = "brainerd")
-
-plot_spot(s) +
-  khroma::scale_colour_iridescent(name = "brainerd")
 ```
 
 ## Contributing
