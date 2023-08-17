@@ -14,7 +14,7 @@ bibentry(
   bibtype      = "Manual",
   author       = person("Nicolas", "Frerebeau", role = "aut"),
   title        = "{tabula: Analysis and Visualization of Archaeological Count Data}",
-  year         = "2022",
+  year         = "2023",
   organization = "Université Bordeaux Montaigne",
   address      = "Pessac, France",
   note         = sprintf("R package version %s", meta$Version),

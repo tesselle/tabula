@@ -1,5 +1,5 @@
 # -----------------------------------------------------------
-# CITATION file created with {cffr} R package, v0.3.0
+# CITATION file created with {cffr} R package, v0.5.0
 # See also: https://docs.ropensci.org/cffr/
 # -----------------------------------------------------------
  
@@ -8,14 +8,14 @@ message: 'To cite package "tabula" in publications use:'
 type: software
 license: GPL-3.0-or-later
 title: 'tabula: Analysis and Visualization of Archaeological Count Data'
-version: 2.0.0
+version: 3.0.0
 doi: 10.21105/joss.01821
 abstract: 'An easy way to examine archaeological count data. This package provides
   several tests and measures of diversity: heterogeneity and evenness (Brillouin,
   Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.),
-  turnover and similarity (Brainerd-Robinson, etc.). The package make it easy to visualize
+  turnover and similarity (Brainerd-Robinson, etc.). It allows to easily visualize
   count data and statistical thresholds: rank vs abundance plots, heatmaps, Ford (1962)
-  and Bertin (1977) diagrams.'
+  and Bertin (1977) diagrams, etc.'
 authors:
 - family-names: Frerebeau
   given-names: Nicolas
@@ -63,6 +63,19 @@ references:
   volume: '4'
   issue: '44'
   doi: 10.21105/joss.01821
+- type: manual
+  title: 'tabula: Analysis and Visualization of Archaeological Count Data'
+  authors:
+  - family-names: Frerebeau
+    given-names: Nicolas
+  year: '2023'
+  location:
+    name: Pessac, France
+  notes: R package version 3.0.0
+  url: https://packages.tesselle.org/tabula/
+  doi: 10.5281/zenodo.1489944
+  institution:
+    name: Université Bordeaux Montaigne
 identifiers:
 - description: The concept DOI.
   type: doi
@@ -106,3 +119,6 @@ identifiers:
 - description: The versioned DOI for version 2.0.0.
   type: doi
   value: 10.5281/zenodo.7296619
+- description: The Software Heritage identifier for version 2.0.0.
+  type: swh
+  value: swh:1:dir:1ea4b50f6ac77dac3591b9156780b647528e1452
