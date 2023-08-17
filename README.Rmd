@@ -39,6 +39,7 @@ An easy way to examine archaeological count data. This package provides several 
 
 * Diversity measurement: `heterogeneity()`, `evenness()`, `richness()`, `rarefaction()`, `turnover()`
 * Similarity measurement and co-occurrence: `similarity()`, `occurrence()`
+* Assessing sample size and significance: `bootstrap()`, `jackknife()`, `simulate()`
 * @bertin1977 or @ford1962 (battleship curve) diagrams: `plot_bertin()`, `plot_ford()`
 * Seriograph [@desachy2004]: `seriograph()`
 * Heatmaps: `plot_heatmap()`, `plot_spot()`
@@ -83,6 +84,31 @@ data("mississippi", package = "folio")
 
 ## Ford diagram
 plot_ford(mississippi)
+```
+
+```{r occurrence, fig.width=7, fig.height=7, fig.align="center"}
+## Co-occurrence of ceramic types
+mississippi |> 
+  occurrence() |> 
+  plot_spot()
+```
+
+```{r sample-size, fig.width=5, fig.height=5, fig.show="hold", out.width='50%'}
+## Data from Conkey 1980, Kintigh 1989, p. 28
+data("chevelon", package = "folio")
+
+## Measure diversity by comparing to simulated assemblages
+set.seed(12345)
+
+chevelon |>
+  heterogeneity(method = "shannon") |>
+  simulate() |>
+  plot()
+
+chevelon |>
+  richness(method = "count") |>
+  simulate() |>
+  plot()
 ```
 
 ## Contributing

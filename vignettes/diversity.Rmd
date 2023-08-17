@@ -22,9 +22,11 @@ knitr::opts_chunk$set(
 ```
 
 ```{r packages}
-# Load packages
+## Install extra packages (if needed)
+# install.packages("folio") # Datasets
+
+## Load packages
 library(tabula)
-library(folio) # Datasets
 ```
 
 <!-- Vérifier Banning 2000 -->
@@ -41,13 +43,122 @@ Thereafter, we denote by:
 
 Diversity in ecology describes complex interspecific interactions between and within communities under a variety of environmental conditions [@bobrowsky1989]. This concept covers different components, allowing different aspects of interspecific interactions to be measured.
 
+To demonstrate how to use the diversity methods we will use a dataset containing ceramic counts from the Mississippi region, originally published by @lipo2015.
+
+```{r data}
+## Data from Lipo et al. 2015
+data("mississippi", package = "folio")
+```
+
 # $\alpha$-diversity
+## Heterogeneity and Evenness
+*Diversity* measurement assumes that all individuals in a specific taxa are equivalent and that all types are equally different from each other [@peet1974]. A measure of diversity can be achieved by using indices built on the relative abundance of taxa. These indices (sometimes referred to as non-parametric indices) benefit from not making assumptions about the underlying distribution of taxa abundance: they only take relative abundances of the species that are present and species richness into account. @peet1974 refers to them as indices of *heterogeneity* ($H$).
+
+Diversity indices focus on one aspect of the taxa abundance and emphasize either *richness* (weighting towards uncommon taxa) or dominance [weighting towards abundant taxa; @magurran1988].
+
+*Evenness* ($E$) is a measure of how evenly individuals are distributed across the sample.
+
+### Information theory index
+#### Shannon-Wiener diversity index
+The Shannon-Wiener index [@shannon1948] assumes that individuals are randomly sampled from an infinite population and that all taxa are represented in the sample (it does not reflect the sample size). The main source of error arises from the failure to include all taxa in the sample: this error increases as the proportion of species discovered in the sample declines [@peet1974; @magurran1988]. The maximum likelihood estimator (MLE) is used for the relative abundance, this is known to be negatively biased by sample size.
+
+Heterogeneity for an infinite sample:
+
+$$ H' = - \sum_{i = 1}^{S} p_i \ln p_i $$
+
+Heterogeneity for a finite sample:
+
+$$ H' = - \sum_{i = 1}^{S} \frac{n_i}{N} \ln \frac{n_i}{N} $$
+
+```{r diversity}
+heterogeneity(mississippi, method = "shannon")
+```
+
+Evenness:
+
+$$ E = \frac{H}{H_{max}} = \frac{H'}{\ln S} = - \sum_{i = 1}^{S} p_i \log_S p_i $$
+
+```{r evenness}
+evenness(mississippi, method = "shannon")
+```
+
+When $p_i$ is unknown in the population, an estimate is given by $\hat{p}_i =\frac{n_i}{N}$ (maximum likelihood estimator - MLE). As the use of $\hat{p}_i$ results in a biased estimate, @hutcheson1970 and @bowman1971 suggest the use of:
+
+$$ \hat{H}' = - \sum_{i = 1}^{S} \hat{p}_i \ln \hat{p}_i - \frac{S - 1}{N} + \frac{1 - \sum_{i = 1}^{S} \hat{p}_i^{-1}}{12N^2} + \frac{\sum_{i = 1}^{S} (\hat{p}_i^{-1} - \hat{p}_i^{-2})}{12N^3} + \cdots $$
+
+This error is rarely significant [@peet1974], so the unbiased form is not implemented here (for now).
+
+#### Brillouin diversity index
+The Brillouin index [@brillouin1956] describes a known collection: it does not assume random sampling in an infinite population. @pielou1975 and @laxton1978 argues for the use of the Brillouin index in all circumstances, especially in preference to the Shannon index.
+
+Diversity:
+
+$$ H' = \frac{\ln (N!) - \sum_{i = 1}^{S} \ln (n_i!)}{N} $$
+
+Evenness:
+
+$$ E = \frac{H'}{H'_{max}} $$
+
+with:
+
+$$ H'_{max} = \frac{1}{N} \ln \frac{N!}{\left( \lfloor \frac{N}{S} \rfloor! \right)^{S - r} \left[ \left( \lfloor \frac{N}{S} \rfloor + 1 \right)! \right]^{r}} $$
+
+where: $r = N - S \lfloor \frac{N}{S} \rfloor$.
+
+### Dominance index
+The following methods return a *dominance* index, not the reciprocal or inverse form usually adopted, so that an increase in the value of the index accompanies a decrease in diversity.
+
+#### Simpson index
+The Simpson index [@simpson1949] expresses the probability that two individuals randomly picked from a finite sample belong to two different types. It can be interpreted as the weighted mean of the proportional abundances. This metric is a true probability value, it ranges from $0$ (perfectly uneven) to $1$ (perfectly even).
+
+Dominance for an infinite sample:
+
+$$ D = \sum_{i = 1}^{S} p_i^2 $$
+
+Dominance for a finite sample:
+
+$$ D = \sum_{i = 1}^{S} \frac{n_i \left( n_i - 1 \right)}{N \left( N - 1 \right)} $$
+
+#### McIntosh index
+The McIntosh index [@mcintosh1967] expresses the heterogeneity of a sample in geometric terms. It describes the sample as a point of a $S$-dimensional hypervolume and uses the Euclidean distance of this point from the origin.
+
+Dominance:
+
+$$ D = \frac{N - U}{N - \sqrt{N}} $$
+
+Evenness:
+
+$$ E = \frac{N - U}{N - \frac{N}{\sqrt{S}}} $$
+
+where $U$ is the distance of the sample from the origin in an $S$ dimensional hypervolume:
+
+$$U = \sqrt{\sum_{i = 1}^{S} n_i^2}$$
+
+#### Berger-Parker index
+The Berger-Parker index [@berger1970] expresses the proportional importance of the most abundant type. This metric is highly biased by sample size and richness, moreover it does not make use of all the information available from sample.
+
+Dominance:
+
+$$ D = \frac{n_{max}}{N} $$
+
 ## Richness and Rarefaction
 The number of different taxa, provides an instantly comprehensible expression of diversity. While the number of taxa within a sample is easy to ascertain, as a term, it makes little sense: some taxa may not have been seen, or there may not be a fixed number of taxa [e.g. in an open system; @peet1974]. As an alternative, *richness* ($R$) can be used for the concept of taxa number [@mcintosh1967]. Richness refers to the variety of taxa/species/types present in an assemblage or community [@bobrowsky1989] as "the number of species present in a collection containing a specified number of individuals" [@hurlbert1971].
 
+```{r richness}
+richness(mississippi, method = "margalef")
+```
+
+```{r asymptotic-richness}
+composition(mississippi, method = "chao1")
+```
+
 It is not always possible to ensure that all sample sizes are equal and the number of different taxa increases with sample size and sampling effort [@magurran1988]. Then, *rarefaction* ($\hat{S}$) is the number of taxa expected if all samples were of a standard size $n$ (i.e. taxa per fixed number of individuals). Rarefaction assumes that imbalances between taxa are due to sampling and not to differences in actual abundances.
 
-### Definitions
+```{r rarefaction, fig.width=7, fig.height=5, fig.align="center"}
+## Baxter rarefaction
+RA <- rarefaction(mississippi, sample = 100, method = "baxter")
+plot(RA)
+```
 
 | Measure                           | Reference        |
 |:----------------------------------|:-----------------|
@@ -83,6 +194,7 @@ Where:
 * $\hat{S}$ is the number of expected or predicted species/types,
 * $k$, $d$, $a$ and $b$ are empirically derived coefficients of regression.
 
+### Asymptotic Species Richness
 #### Chao1 estimator [@chao1984]
 
 $$ \hat{S}_{Chao1} = 
@@ -133,120 +245,9 @@ $$ \hat{\gamma}^2_{infreq} = \max\left[\frac{\hat{S}_{infreq}}{\hat{C}_{infreq}}
 
 Where $m_{infreq}$ is the number of sampling units that include at least one infrequent species.
 
-### Usage
-
-To demonstrate how to use these diversity functions we will use a dataset containing ceramic counts from the Mississippi region, originally published by @lipo2015.
-
-```{r richness}
-## Data from Lipo et al. 2015
-richness(mississippi, method = "margalef")
-```
-
-```{r asymptotic-richness}
-composition(mississippi, method = "chao1")
-```
-
-## Heterogeneity and Evenness
-### Definitions
-*Diversity* measurement assumes that all individuals in a specific taxa are equivalent and that all types are equally different from each other [@peet1974]. A measure of diversity can be achieved by using indices built on the relative abundance of taxa. These indices (sometimes referred to as non-parametric indices) benefit from not making assumptions about the underlying distribution of taxa abundance: they only take relative abundances of the species that are present and species richness into account. @peet1974 refers to them as indices of *heterogeneity* ($H$).
-
-Diversity indices focus on one aspect of the taxa abundance and emphasize either *richness* (weighting towards uncommon taxa) or dominance [weighting towards abundant taxa; @magurran1988].
-
-*Evenness* ($E$) is a measure of how evenly individuals are distributed across the sample.
-
-#### Information theory index
-##### Shannon-Wiener diversity index
-The Shannon-Wiener index [@shannon1948] assumes that individuals are randomly sampled from an infinite population and that all taxa are represented in the sample (it does not reflect the sample size). The main source of error arises from the failure to include all taxa in the sample: this error increases as the proportion of species discovered in the sample declines [@peet1974; @magurran1988]. The maximum likelihood estimator (MLE) is used for the relative abundance, this is known to be negatively biased by sample size.
-
-Heterogeneity for an infinite sample:
-
-$$ H' = - \sum_{i = 1}^{S} p_i \ln p_i $$
-
-Heterogeneity for a finite sample:
-
-$$ H' = - \sum_{i = 1}^{S} \frac{n_i}{N} \ln \frac{n_i}{N} $$
-
-Evenness:
-
-$$ E = \frac{H}{H_{max}} = \frac{H'}{\ln S} = - \sum_{i = 1}^{S} p_i \log_S p_i $$
-
-When $p_i$ is unknown in the population, an estimate is given by $\hat{p}_i =\frac{n_i}{N}$ (maximum likelihood estimator - MLE). As the use of $\hat{p}_i$ results in a biased estimate, @hutcheson1970 and @bowman1971 suggest the use of:
-
-$$ \hat{H}' = - \sum_{i = 1}^{S} \hat{p}_i \ln \hat{p}_i - \frac{S - 1}{N} + \frac{1 - \sum_{i = 1}^{S} \hat{p}_i^{-1}}{12N^2} + \frac{\sum_{i = 1}^{S} (\hat{p}_i^{-1} - \hat{p}_i^{-2})}{12N^3} + \cdots $$
-
-This error is rarely significant [@peet1974], so the unbiased form is not implemented here (for now).
-
-##### Brillouin diversity index
-The Brillouin index [@brillouin1956] describes a known collection: it does not assume random sampling in an infinite population. @pielou1975 and @laxton1978 argues for the use of the Brillouin index in all circumstances, especially in preference to the Shannon index.
-
-Diversity:
-
-$$ H' = \frac{\ln (N!) - \sum_{i = 1}^{S} \ln (n_i!)}{N} $$
-
-Evenness:
-
-$$ E = \frac{H'}{H'_{max}} $$
-
-with:
-
-$$ H'_{max} = \frac{1}{N} \ln \frac{N!}{\left( \lfloor \frac{N}{S} \rfloor! \right)^{S - r} \left[ \left( \lfloor \frac{N}{S} \rfloor + 1 \right)! \right]^{r}} $$
-
-where: $r = N - S \lfloor \frac{N}{S} \rfloor$.
-
-#### Dominance index
-The following methods return a *dominance* index, not the reciprocal or inverse form usually adopted, so that an increase in the value of the index accompanies a decrease in diversity.
-
-##### Simpson index
-The Simpson index [@simpson1949] expresses the probability that two individuals randomly picked from a finite sample belong to two different types. It can be interpreted as the weighted mean of the proportional abundances. This metric is a true probability value, it ranges from $0$ (perfectly uneven) to $1$ (perfectly even).
-
-Dominance for an infinite sample:
-
-$$ D = \sum_{i = 1}^{S} p_i^2 $$
-
-Dominance for a finite sample:
-
-$$ D = \sum_{i = 1}^{S} \frac{n_i \left( n_i - 1 \right)}{N \left( N - 1 \right)} $$
-
-##### McIntosh index
-The McIntosh index [@mcintosh1967] expresses the heterogeneity of a sample in geometric terms. It describes the sample as a point of a $S$-dimensional hypervolume and uses the Euclidean distance of this point from the origin.
-
-Dominance:
-
-$$ D = \frac{N - U}{N - \sqrt{N}} $$
-
-Evenness:
-
-$$ E = \frac{N - U}{N - \frac{N}{\sqrt{S}}} $$
-
-where $U$ is the distance of the sample from the origin in an $S$ dimensional hypervolume:
-
-$$U = \sqrt{\sum_{i = 1}^{S} n_i^2}$$
-
-##### Berger-Parker index
-The Berger-Parker index [@berger1970] expresses the proportional importance of the most abundant type. This metric is highly biased by sample size and richness, moreover it does not make use of all the information available from sample.
-
-Dominance:
-
-$$ D = \frac{n_{max}}{N} $$
-
-### Usage
-
-```{r diversity}
-heterogeneity(mississippi, method = "shannon")
-```
-
-Note that `berger`, `mcintosh` and `simpson` methods return a *dominance* index, not the reciprocal form usually adopted, so that an increase in the value of the index accompanies a decrease in diversity.
-
-Corresponding *evenness* can also be computed :
-
-```{r evenness}
-evenness(mississippi, method = "shannon")
-```
-
 # $\beta$-diversity
 
 ## Turnover
-### Definitions
 The following methods can be used to ascertain the degree of turnover in taxa composition along a gradient on qualitative (presence/absence) data. This assumes that the order of the matrix rows (from 1 to $m$) follows the progression along the gradient/transect.
 
 We denote the $m \times p$ incidence matrix by $X = \left[ x_{ij} \right] ~\forall i \in \left[ 1,m \right], j \in \left[ 1,p \right]$ and the $p \times p$ corresponding co-occurrence matrix by $Y = \left[ y_{ij} \right] ~\forall i,j \in \left[ 1,p \right]$, with row and column sums:
@@ -279,10 +280,7 @@ Where:
 * $g(H)$ is the number of taxa gained along the transect,
 * $l(H)$ is the number of taxa lost along the transect.
 
-### Usage
-
 ## Similarity
-### Definitions
 Similarity between two samples $a$ and $b$ or between two types $x$ and $y$ can be measured as follow.
 
 These indices provide a scale of similarity from $0$-$1$ where $1$ is perfect similarity and $0$ is no similarity, with the exception of the Brainerd-Robinson index which is scaled between $0$ and $200$.
@@ -314,8 +312,6 @@ Where:
 * $o_i$ denotes the number of sample/case common to both type/taxon: $o_i = \sum_{k = 1}^{m} x_k \cap y_k$,
 * $o_j$ denotes the number of type/taxon common to both sample/case: $o_j = \sum_{k = 1}^{S} a_k \cap b_k$.
 
-### Usage
-
 ```{r similarity, fig.width=7, fig.height=5, fig.align="center"}
 ## Brainerd-Robinson (similarity between assemblages)
 BR <- similarity(mississippi, method = "brainerd")
@@ -324,35 +320,6 @@ plot_spot(BR, col = khroma::colour("YlOrBr")(12))
 ## Binomial co-occurrence (similarity between types)
 BI <- similarity(mississippi, method = "binomial")
 plot_spot(BI, col = khroma::colour("PRGn")(12))
-```
-
-# Sample Size and Significance
-
-```{r rarefaction, fig.width=7, fig.height=5, fig.align="center"}
-# Baxter rarefaction
-RA <- rarefaction(mississippi, sample = 100, method = "baxter")
-plot(RA)
-```
-
-@kintigh1989
-
-```{r sample-size, fig.width=7, fig.height=7, fig.show='hold', out.width='50%'}
-## Data from Conkey 1980, Kintigh 1989, p. 28
-HE <- heterogeneity(chevelon, method = "shannon")
-HE_sim <- simulate(HE)
-plot(HE_sim)
-
-RI <- richness(chevelon, method = "count")
-RI_sim <- simulate(RI)
-plot(RI_sim) 
-```
-
-# Abundance models
-
-Ranks *vs* abundance plot can be used for abundance models (model fitting will be implemented in a future release):
-
-```{r plot-rank, fig.width=7, fig.height=5, fig.align="center"}
-plot_rank(mississippi, log = "x")
 ```
 
 # References

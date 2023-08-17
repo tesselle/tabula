@@ -50,6 +50,8 @@ thresholds: rank vs. abundance plots, heatmaps, Ford (1962) and Bertin
   `rarefaction()`, `turnover()`
 - Similarity measurement and co-occurrence: `similarity()`,
   `occurrence()`
+- Assessing sample size and significance: `bootstrap()`, `jackknife()`,
+  `simulate()`
 - Bertin (1977) or Ford (1962) (battleship curve) diagrams:
   `plot_bertin()`, `plot_ford()`
 - Seriograph (Desachy 2004): `seriograph()`
@@ -114,6 +116,35 @@ plot_ford(mississippi)
 ```
 
 <img src="man/figures/README-ford-1.png" width="100%" style="display: block; margin: auto;" />
+
+``` r
+## Co-occurrence of ceramic types
+mississippi |> 
+  occurrence() |> 
+  plot_spot()
+```
+
+<img src="man/figures/README-occurrence-1.png" style="display: block; margin: auto;" />
+
+``` r
+## Data from Conkey 1980, Kintigh 1989, p. 28
+data("chevelon", package = "folio")
+
+## Measure diversity by comparing to simulated assemblages
+set.seed(12345)
+
+chevelon |>
+  heterogeneity(method = "shannon") |>
+  simulate() |>
+  plot()
+
+chevelon |>
+  richness(method = "count") |>
+  simulate() |>
+  plot()
+```
+
+<img src="man/figures/README-sample-size-1.png" width="50%" /><img src="man/figures/README-sample-size-2.png" width="50%" />
 
 ## Contributing
 
