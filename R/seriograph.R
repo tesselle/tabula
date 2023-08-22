@@ -9,7 +9,7 @@ setMethod(
   f = "eppm",
   signature = signature(object = "matrix"),
   definition = function(object) {
-    eppm <- round((object - expected(object)) * 100 / rowSums(object))
+    eppm <- (object - expected(object)) * 100 / rowSums(object)
     eppm[eppm < 0] <- 0
     dimnames(eppm) <- dimnames(object)
     eppm

@@ -9,7 +9,7 @@ setMethod(
   f = "pvi",
   signature = signature(object = "matrix"),
   definition = function(object) {
-    pvi <- round(object * 100 / expected(object))
+    pvi <- object * 100 / expected(object)
     dimnames(pvi) <- dimnames(object)
     pvi
   }
