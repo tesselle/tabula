@@ -10,7 +10,7 @@
 |collate  |fr_FR.UTF-8                                                                  |
 |ctype    |fr_FR.UTF-8                                                                  |
 |tz       |Europe/Paris                                                                 |
-|date     |2023-08-17                                                                   |
+|date     |2023-08-22                                                                   |
 |rstudio  |2023.06.1+524 Mountain Hydrangea (desktop)                                   |
 |pandoc   |3.1.1 @ /usr/lib/rstudio/resources/app/bin/quarto/bin/tools/ (via rmarkdown) |
 
@@ -26,7 +26,7 @@
 |farver       |2.1.1 |NA    |*  |
 |ggplot2      |3.4.3 |NA    |*  |
 |glue         |1.6.2 |NA    |*  |
-|gtable       |0.3.3 |NA    |*  |
+|gtable       |0.3.4 |NA    |*  |
 |isoband      |0.2.7 |NA    |*  |
 |labeling     |0.4.2 |NA    |*  |
 |lifecycle    |1.0.3 |NA    |*  |
