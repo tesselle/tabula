@@ -1,3 +1,5 @@
+# tabula 3.0.0.9000
+
 # tabula 3.0.0
 ## Bugfixes & changes
 * Fix handling of missing values in heterogeneity index (#27).
