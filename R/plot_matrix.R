@@ -25,7 +25,8 @@
 #' @param drop_zero A [`logical`] scalar: should zeros be discarded?
 #' @param col A vector of colors.
 #' @param midpoint A [`numeric`] value specifying the data midpoint.
-#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
+#' @param axes A [`logical`] scalar: should axes be drawn on the plot? It will
+#'  omit labels where they would abut or overlap previously drawn labels.
 #' @param legend A [`logical`] scalar: should a legend be displayed?
 #' @param asp A length-one [`numeric`] vector, giving the aspect ratio
 #'  \eqn{y/x}.
@@ -101,10 +102,12 @@ plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
 
   ## Construct axis
   if (axes) {
-    graphics::mtext(lab_row, side = 2, at = seq_row, las = 2, padj = 0.5,
-                    cex = cex.axis, col.axis = col.axis, font = font.axis)
-    graphics::mtext(lab_col, side = 3, at = seq_col, las = 2, padj = 0.5,
-                    cex = cex.axis, col.axis = col.axis, font = font.axis)
+    graphics::axis(side = 2, at = seq_row, labels = lab_row, las = 2,
+                   lty = 0, cex.axis = cex.axis, col.axis = col.axis,
+                   font.axis = font.axis)
+    graphics::axis(side = 3, at = seq_col, labels = lab_col, las = 2,
+                   lty = 0, cex.axis = cex.axis, col.axis = col.axis,
+                   font.axis = font.axis)
   }
 
   ## Legend

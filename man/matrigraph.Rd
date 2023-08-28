@@ -34,7 +34,8 @@ individuals for each category, i.e. a contingency table).}
 \item{reverse}{A \code{\link{logical}} scalar: should negative deviations be centered
 (see details)?}
 
-\item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot?}
+\item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot? It will
+omit labels where they would abut or overlap previously drawn labels.}
 }
 \value{
 \itemize{

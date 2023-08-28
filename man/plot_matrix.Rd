@@ -56,7 +56,8 @@ to \eqn{[-1,1]}. Only used if \code{freq} if \code{FALSE}.}
 
 \item{midpoint}{A \code{\link{numeric}} value specifying the data midpoint.}
 
-\item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot?}
+\item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot? It will
+omit labels where they would abut or overlap previously drawn labels.}
 
 \item{legend}{A \code{\link{logical}} scalar: should a legend be displayed?}
 

@@ -1,4 +1,6 @@
 # tabula 3.0.0.9000
+## Enhancements
+* Omit axes labels where they would abut or overlap previously drawn labels.
 
 # tabula 3.0.0
 ## Bugfixes & changes

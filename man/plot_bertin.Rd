@@ -57,7 +57,8 @@ variables/columns. Only used if \code{freq} is \code{TRUE}.}
 \item{flip}{A \code{\link{logical}} scalar: should \code{x} and \code{y} axis be flipped?
 Defaults to \code{TRUE}.}
 
-\item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot?}
+\item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot? It will
+omit labels where they would abut or overlap previously drawn labels.}
 }
 \value{
 \code{plot_bertin()} is called it for its side-effects: it results in a graphic

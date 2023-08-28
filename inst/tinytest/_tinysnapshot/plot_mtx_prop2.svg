@@ -250,55 +250,31 @@
 <rect x='440.18' y='263.32' width='7.55' height='7.55' style='stroke-width: 0.75; stroke: none; fill: #F9D882;' />
 </g>
 <g clip-path='url(#cpMC4wMHw1MDQuMDB8MC4wMHw1MDQuMDA=)'>
-<text x='115.63' y='241.28' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='50.93px' lengthAdjust='spacingAndGlyphs'>Altamira</text>
-<text x='115.63' y='248.83' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='101.23px' lengthAdjust='spacingAndGlyphs'>Cueto de la Mina</text>
-<text x='115.63' y='256.37' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='40.33px' lengthAdjust='spacingAndGlyphs'>El Juyo</text>
-<text x='115.63' y='263.92' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='50.57px' lengthAdjust='spacingAndGlyphs'>El Cierro</text>
-<text x='115.63' y='271.47' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='61.65px' lengthAdjust='spacingAndGlyphs'>La Paloma</text>
-<text transform='translate(123.78,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='15.86px' lengthAdjust='spacingAndGlyphs'>X1</text>
-<text transform='translate(131.33,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='15.86px' lengthAdjust='spacingAndGlyphs'>X2</text>
-<text transform='translate(138.88,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='15.86px' lengthAdjust='spacingAndGlyphs'>X3</text>
-<text transform='translate(146.42,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='15.86px' lengthAdjust='spacingAndGlyphs'>X4</text>
-<text transform='translate(153.97,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='15.86px' lengthAdjust='spacingAndGlyphs'>X5</text>
-<text transform='translate(161.52,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='15.86px' lengthAdjust='spacingAndGlyphs'>X6</text>
-<text transform='translate(169.07,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='15.86px' lengthAdjust='spacingAndGlyphs'>X7</text>
-<text transform='translate(176.61,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='15.86px' lengthAdjust='spacingAndGlyphs'>X8</text>
-<text transform='translate(184.16,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='15.86px' lengthAdjust='spacingAndGlyphs'>X9</text>
-<text transform='translate(191.71,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X10</text>
-<text transform='translate(199.26,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X11</text>
-<text transform='translate(206.80,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X12</text>
-<text transform='translate(214.35,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X13</text>
-<text transform='translate(221.90,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X14</text>
-<text transform='translate(229.45,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X15</text>
-<text transform='translate(237.00,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X16</text>
-<text transform='translate(244.54,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X17</text>
-<text transform='translate(252.09,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X18</text>
-<text transform='translate(259.64,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X19</text>
-<text transform='translate(267.19,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X20</text>
-<text transform='translate(274.73,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X21</text>
-<text transform='translate(282.28,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X22</text>
-<text transform='translate(289.83,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X23</text>
-<text transform='translate(297.38,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X24</text>
-<text transform='translate(304.92,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X25</text>
-<text transform='translate(312.47,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X26</text>
-<text transform='translate(320.02,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X27</text>
-<text transform='translate(327.57,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X28</text>
-<text transform='translate(335.11,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X29</text>
-<text transform='translate(342.66,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X30</text>
-<text transform='translate(350.21,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X31</text>
-<text transform='translate(357.76,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X32</text>
-<text transform='translate(365.31,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X33</text>
-<text transform='translate(372.85,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X34</text>
-<text transform='translate(380.40,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X35</text>
-<text transform='translate(387.95,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X36</text>
-<text transform='translate(395.50,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X37</text>
-<text transform='translate(403.04,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X38</text>
-<text transform='translate(410.59,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X39</text>
-<text transform='translate(418.14,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X40</text>
-<text transform='translate(425.69,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X41</text>
-<text transform='translate(433.23,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X42</text>
-<text transform='translate(440.78,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X43</text>
-<text transform='translate(448.33,233.13) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X44</text>
+<text x='101.23' y='271.47' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='61.65px' lengthAdjust='spacingAndGlyphs'>La Paloma</text>
+<text x='101.23' y='256.37' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='40.33px' lengthAdjust='spacingAndGlyphs'>El Juyo</text>
+<text x='101.23' y='241.28' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='50.93px' lengthAdjust='spacingAndGlyphs'>Altamira</text>
+<text transform='translate(123.78,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='15.86px' lengthAdjust='spacingAndGlyphs'>X1</text>
+<text transform='translate(138.88,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='15.86px' lengthAdjust='spacingAndGlyphs'>X3</text>
+<text transform='translate(153.97,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='15.86px' lengthAdjust='spacingAndGlyphs'>X5</text>
+<text transform='translate(169.07,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='15.86px' lengthAdjust='spacingAndGlyphs'>X7</text>
+<text transform='translate(184.16,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='15.86px' lengthAdjust='spacingAndGlyphs'>X9</text>
+<text transform='translate(199.26,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X11</text>
+<text transform='translate(214.35,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X13</text>
+<text transform='translate(229.45,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X15</text>
+<text transform='translate(244.54,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X17</text>
+<text transform='translate(259.64,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X19</text>
+<text transform='translate(274.73,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X21</text>
+<text transform='translate(289.83,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X23</text>
+<text transform='translate(304.92,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X25</text>
+<text transform='translate(320.02,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X27</text>
+<text transform='translate(335.11,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X29</text>
+<text transform='translate(350.21,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X31</text>
+<text transform='translate(365.31,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X33</text>
+<text transform='translate(380.40,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X35</text>
+<text transform='translate(395.50,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X37</text>
+<text transform='translate(410.59,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X39</text>
+<text transform='translate(425.69,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X41</text>
+<text transform='translate(440.78,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X43</text>
 </g>
 <g clip-path='url(#cpMTE1LjYzfDQ1NS4yOHwyMzMuMTN8MjcwLjg3)'>
 <image width='3.77' height='37.74' x='451.50' y='195.39' preserveAspectRatio='none' xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAADCAYAAABS3WWCAAAAGElEQVQImWP49+/xf4ZPixn+M2Soi/wHAEdCCBVWcC8/AAAAAElFTkSuQmCC'/>

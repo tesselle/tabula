@@ -56,19 +56,19 @@
 <rect x='402.98' y='458.56' width='72.25' height='20.69' style='stroke-width: 0.75; fill: #757575;' />
 </g>
 <g clip-path='url(#cpMC4wMHw1MDQuMDB8MC4wMHw1MDQuMDA=)'>
-<text x='77.85' y='82.58' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='44.88px' lengthAdjust='spacingAndGlyphs'>Atsinna</text>
-<text x='77.85' y='129.76' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='49.08px' lengthAdjust='spacingAndGlyphs'>Cienega</text>
-<text x='77.85' y='176.95' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='44.29px' lengthAdjust='spacingAndGlyphs'>Mirabal</text>
-<text x='77.85' y='224.13' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='63.45px' lengthAdjust='spacingAndGlyphs'>PdMuertos</text>
-<text x='77.85' y='271.31' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='30.28px' lengthAdjust='spacingAndGlyphs'>Hesh</text>
-<text x='77.85' y='318.49' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='50.70px' lengthAdjust='spacingAndGlyphs'>LowPesc</text>
-<text x='77.85' y='365.67' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='29.94px' lengthAdjust='spacingAndGlyphs'>BoxS</text>
-<text x='77.85' y='412.85' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='47.13px' lengthAdjust='spacingAndGlyphs'>Ojo Bon</text>
-<text x='77.85' y='460.03' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='30.54px' lengthAdjust='spacingAndGlyphs'>S170</text>
-<text transform='translate(122.36,54.62) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='32.60px' lengthAdjust='spacingAndGlyphs'>DLH1</text>
-<text transform='translate(202.64,54.62) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='39.96px' lengthAdjust='spacingAndGlyphs'>DLH2a</text>
-<text transform='translate(282.92,54.62) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='40.22px' lengthAdjust='spacingAndGlyphs'>DLH2b</text>
-<text transform='translate(363.20,54.62) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='39.20px' lengthAdjust='spacingAndGlyphs'>DLH2c</text>
-<text transform='translate(443.48,54.62) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='32.60px' lengthAdjust='spacingAndGlyphs'>DLH4</text>
+<text x='63.45' y='460.03' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='30.54px' lengthAdjust='spacingAndGlyphs'>S170</text>
+<text x='63.45' y='412.85' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='47.13px' lengthAdjust='spacingAndGlyphs'>Ojo Bon</text>
+<text x='63.45' y='365.67' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='29.94px' lengthAdjust='spacingAndGlyphs'>BoxS</text>
+<text x='63.45' y='318.49' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='50.70px' lengthAdjust='spacingAndGlyphs'>LowPesc</text>
+<text x='63.45' y='271.31' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='30.28px' lengthAdjust='spacingAndGlyphs'>Hesh</text>
+<text x='63.45' y='224.13' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='63.45px' lengthAdjust='spacingAndGlyphs'>PdMuertos</text>
+<text x='63.45' y='176.95' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='44.29px' lengthAdjust='spacingAndGlyphs'>Mirabal</text>
+<text x='63.45' y='129.76' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='49.08px' lengthAdjust='spacingAndGlyphs'>Cienega</text>
+<text x='63.45' y='82.58' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='44.88px' lengthAdjust='spacingAndGlyphs'>Atsinna</text>
+<text transform='translate(122.36,40.22) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='32.60px' lengthAdjust='spacingAndGlyphs'>DLH1</text>
+<text transform='translate(202.64,40.22) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='39.96px' lengthAdjust='spacingAndGlyphs'>DLH2a</text>
+<text transform='translate(282.92,40.22) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='40.22px' lengthAdjust='spacingAndGlyphs'>DLH2b</text>
+<text transform='translate(363.20,40.22) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='39.20px' lengthAdjust='spacingAndGlyphs'>DLH2c</text>
+<text transform='translate(443.48,40.22) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='32.60px' lengthAdjust='spacingAndGlyphs'>DLH4</text>
 </g>
 </svg>

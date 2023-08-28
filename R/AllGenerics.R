@@ -1048,7 +1048,8 @@ setGeneric(
 #'  See `seriograph()`.
 #' @param fill The color for filling the bars.
 #' @param border The color to draw the borders.
-#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
+#' @param axes A [`logical`] scalar: should axes be drawn on the plot? It will
+#'  omit labels where they would abut or overlap previously drawn labels.
 #' @param ... Currently not used.
 #' @return
 #'  `plot_ford()` is called it for its side-effects: it results in a graphic

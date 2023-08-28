@@ -76,10 +76,12 @@ setMethod(
 
     ## Construct axis
     if (axes) {
-      graphics::mtext(lab_row, side = 2, at = seq_row, las = 2, padj = 0.5,
-                      cex = cex.axis, col.axis = col.axis, font = font.axis)
-      graphics::mtext(lab_col, side = 3, at = unique(data$x), las = 2, padj = 0.5,
-                      cex = cex.axis, col.axis = col.axis, font = font.axis)
+      graphics::axis(side = 2, at = seq_row, labels = lab_row, las = 2,
+                     lty = 0, cex.axis = cex.axis, col.axis = col.axis,
+                     font.axis = font.axis)
+      graphics::axis(side = 3, at = unique(data$x), labels = lab_col, las = 2,
+                     lty = 0, cex.axis = cex.axis, col.axis = col.axis,
+                     font.axis = font.axis)
 
       x_axis <- data$x[which.max(data$value)]
       graphics::axis(side = 1, at = c(x_axis - 0.2, x_axis + 0.2), labels = FALSE)

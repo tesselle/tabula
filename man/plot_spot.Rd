@@ -81,7 +81,8 @@ appropriate marginal sums).}
 \code{1} indicates individuals/rows (the default), \code{2} indicates
 variables/columns. Only used if \code{freq} is \code{TRUE}.}
 
-\item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot?}
+\item{axes}{A \code{\link{logical}} scalar: should axes be drawn on the plot? It will
+omit labels where they would abut or overlap previously drawn labels.}
 
 \item{legend}{A \code{\link{logical}} scalar: should a legend be displayed?}
 }
