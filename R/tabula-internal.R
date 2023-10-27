@@ -33,23 +33,6 @@ color_ramp <- function(x, palette, from = range(x, na.rm = TRUE),
   col
 }
 
-#' Scales
-#'
-#' @param x A [`numeric`] vector.
-#' @keywords internal
-#' @noRd
-scale_01 <- function(x) {
-  (x - min(x)) / (max(x) - min(x))
-}
-scale_pc <- function(x) {
-  i <- !is.na(x)
-  x[i] <- paste0(round(x = abs(x[i]) * 100, digits = 0), "%")
-  x
-}
-scale_range <- function(x, to = c(0, 1), from = range(x, na.rm = TRUE)) {
-  (x - from[1]) / diff(from) * diff(to) + to[1]
-}
-
 #' Rolling Sum
 #'
 #' @param x A [`numeric`] vector.
@@ -59,29 +42,4 @@ scale_range <- function(x, to = c(0, 1), from = range(x, na.rm = TRUE)) {
 #' @noRd
 roll_sum <- function(x, n = 2) {
   utils::tail(cumsum(x) - cumsum(c(rep(0, n), utils::head(x, -n))), -n + 1)
-}
-
-#' Reshape
-#'
-#' Transforms a `matrix` to a long `data.frame`.
-#' @param from An object to be coerced.
-#' @param factor A [`logical`] scalar: should character string be
-#'  coerced to [`factor`]? Default to `FALSE`, if `TRUE` the original ordering is
-#'  preserved.
-#' @param ... Currently not used.
-#' @return A coerced object.
-#' @keywords internal
-#' @noRd
-wide_to_long <- function(from, factor = FALSE) {
-  row <- row(from, as.factor = TRUE)
-  col <- col(from, as.factor = TRUE)
-  x <- data.frame(
-    row = as.vector(row),
-    column = as.vector(col),
-    x = as.numeric(col),
-    y = as.vector(nrow(from) - as.numeric(row) + 1), # Reverse y for plotting
-    z = as.vector(from),
-    stringsAsFactors = FALSE
-  )
-  x
 }

@@ -114,7 +114,7 @@ plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
   if (legend) {
     legend <- attr(data, "legend")
     legend_image <- grDevices::as.raster(legend$colors)
-    legend_y <- scale_range(legend$at) * n + 0.5
+    legend_y <- arkhe::scale_range(legend$at) * n + 0.5
 
     graphics::rasterImage(legend_image, xleft = m + 1, ybottom = max(legend_y),
                           xright = m + 1.5, ytop = min(legend_y))
@@ -307,7 +307,7 @@ prepare <- function(object, diag = TRUE, upper = TRUE, lower = TRUE,
 
   legend_lab[!is.element(legend_lab, legend_brk)] <- NA
   attr(data, "legend") <- list(
-    labels = if (freq) scale_pc(legend_lab) else legend_lab,
+    labels = if (freq) arkhe::label_percent(legend_lab) else legend_lab,
     at = legend_pos,
     colors = legend_col
   )

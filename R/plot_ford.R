@@ -85,7 +85,8 @@ setMethod(
 
       x_axis <- data$x[which.max(data$value)]
       graphics::axis(side = 1, at = c(x_axis - 0.2, x_axis + 0.2), labels = FALSE)
-      graphics::axis(side = 1, at = x_axis, labels = scale_pc(0.2), tick = FALSE)
+      graphics::axis(side = 1, at = x_axis, labels = arkhe::label_percent(0.2),
+                     tick = FALSE)
     }
 
     if (weights) {
