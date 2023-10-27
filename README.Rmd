@@ -5,13 +5,14 @@ bibliography: vignettes/bibliography.bib
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, echo=FALSE, message=FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
   out.width = NULL
 )
+Sys.setlocale("LC_MESSAGES", 'en_GB.UTF-8') # Force locale
 ```
 
 # tabula <img width=120px src="man/figures/logo.png" align="right" />
@@ -22,7 +23,7 @@ knitr::opts_chunk$set(
 [![CodeFactor](https://www.codefactor.io/repository/github/tesselle/tabula/badge)](https://www.codefactor.io/repository/github/tesselle/tabula)
 [![Dependencies](https://tinyverse.netlify.com/badge/tabula)](https://cran.r-project.org/package=tabula)
 
-[![r-universe](https://tesselle.r-universe.dev/badges/tabula)](https://tesselle.r-universe.dev){.pkgdown-devel}
+[![r-universe](https://tesselle.r-universe.dev/badges/tabula)](https://tesselle.r-universe.dev/tabula){.pkgdown-devel}
 [![CRAN Version](http://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula){.pkgdown-release}
 [![CRAN checks](https://badges.cranchecks.info/worst/tabula.svg)](https://cran.r-project.org/web/checks/check_results_tabula.html){.pkgdown-release}
 [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/tabula)](https://cran.r-project.org/package=tabula){.pkgdown-release}

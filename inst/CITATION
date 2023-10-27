@@ -1,6 +1,7 @@
 citHeader("To cite tabula in publications use:")
 bibentry(
   bibtype      = "Article",
+  key          = "frerebeau2019",
   author       = person("Nicolas", "Frerebeau", role = "aut"),
   title        = "{tabula: An R Package for Analysis, Seriation, and Visualization of Archaeological Count Data}",
   year         = "2019",
@@ -12,6 +13,7 @@ bibentry(
 )
 bibentry(
   bibtype      = "Manual",
+  key          = "R-tabula",
   author       = person("Nicolas", "Frerebeau", role = "aut"),
   title        = "{tabula: Analysis and Visualization of Archaeological Count Data}",
   year         = "2023",

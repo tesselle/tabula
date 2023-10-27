@@ -10,7 +10,8 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/tesselle/tabula/badge)](https://www.codefactor.io/repository/github/tesselle/tabula)
 [![Dependencies](https://tinyverse.netlify.com/badge/tabula)](https://cran.r-project.org/package=tabula)
 
-<a href="https://tesselle.r-universe.dev" class="pkgdown-devel"><img
+<a href="https://tesselle.r-universe.dev/tabula"
+class="pkgdown-devel"><img
 src="https://tesselle.r-universe.dev/badges/tabula"
 alt="r-universe" /></a>
 <a href="https://cran.r-project.org/package=tabula"
