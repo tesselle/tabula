@@ -58,13 +58,13 @@ plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
   font.axis <- graphics::par("font.axis")
 
   ## Save and restore
-  d <- inch2line("M", cex = cex.axis)
+  d <- arkhe::inch2line("M", cex = cex.axis)
   old_par <- graphics::par("mar", "plt")
   on.exit(graphics::par(old_par))
 
-  mar_left <- inch2line(lab_row, cex = cex.axis)
-  mar_top <- inch2line(lab_col, cex = cex.axis)
-  mar_right <- if (legend) inch2line("999%", cex = cex.axis) else d
+  mar_left <- arkhe::inch2line(lab_row, cex = cex.axis)
+  mar_top <- arkhe::inch2line(lab_col, cex = cex.axis)
+  mar_right <- if (legend) arkhe::inch2line("999%", cex = cex.axis) else d
   graphics::par(mar = c(d, mar_left, mar_top, mar_right))
 
   ## Open new window
@@ -190,10 +190,11 @@ panel_tiles <- function(x, y, color, ...) {
 panel_spot <- function(x, y, z, color, type, ...) {
   radius <- abs(z * 0.45)
   for (i in seq_along(x)) {
-    plot_circle(x = x[i], y = y[i], radius = radius[i], col = color[i],
-                border = color[i])
+    arkhe::circle(x = x[i], y = y[i], radius = radius[i],
+                  col = color[i], border = color[i])
     if (type == "ring") {
-      plot_circle(x = x[i], y = y[i], radius = 0.45, col = NA, border = "black")
+      arkhe::circle(x = x[i], y = y[i], radius = 0.45,
+                    col = NA, border = "black")
     }
   }
 }
