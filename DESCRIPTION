@@ -13,7 +13,9 @@ Authors@R: c(
     person("Anne", "Philippe", , "anne.philippe@univ-nantes.fr", role = "ctb",
            comment = c(ORCID = "0000-0002-5331-5087", affiliation = "Université de Nantes")),
     person("Jean-Baptiste", "Fourvel", , "jean-baptiste.fourvel@univ-amu.fr", role = "ctb",
-           comment = c(ORCID = "0000-0002-1061-4642", affiliation = "CNRS"))
+           comment = c(ORCID = "0000-0002-1061-4642", affiliation = "CNRS")),
+    person("Université Bordeaux Montaigne", role = "fnd"),
+    person("CNRS", role = "fnd")
   )
 Maintainer: Nicolas Frerebeau <nicolas.frerebeau@u-bordeaux-montaigne.fr>
 Description: An easy way to examine archaeological count data. This
