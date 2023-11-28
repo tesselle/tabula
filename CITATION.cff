@@ -71,7 +71,7 @@ references:
   year: '2023'
   location:
     name: Pessac, France
-  notes: R package version 3.0.0.9000
+  notes: R package version 3.0.1
   url: https://packages.tesselle.org/tabula/
   doi: 10.5281/zenodo.1489944
   institution:
@@ -122,6 +122,9 @@ identifiers:
 - description: The versioned DOI for version 3.0.0.
   type: doi
   value: 10.5281/zenodo.8274042
+- description: The versioned DOI for version 3.0.1.
+  type: doi
+  value: 10.5281/zenodo.10214364
 - description: The Software Heritage identifier for version 2.0.0.
   type: swh
   value: swh:1:dir:1ea4b50f6ac77dac3591b9156780b647528e1452
