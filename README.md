@@ -48,15 +48,15 @@ thresholds: rank vs. abundance plots, heatmaps, Ford (1962) and Bertin
 (1977) diagrams, etc. **tabula** provides methods for:
 
 - Diversity measurement: `heterogeneity()`, `evenness()`, `richness()`,
-  `rarefaction()`, `turnover()`
+  `rarefaction()`, `turnover()`.
 - Similarity measurement and co-occurrence: `similarity()`,
-  `occurrence()`
+  `occurrence()`.
 - Assessing sample size and significance: `bootstrap()`, `jackknife()`,
-  `simulate()`
+  `simulate()`.
 - Bertin (1977) or Ford (1962) (battleship curve) diagrams:
-  `plot_bertin()`, `plot_ford()`
-- Seriograph (Desachy 2004): `seriograph()`
-- Heatmaps: `plot_heatmap()`, `plot_spot()`
+  `plot_bertin()`, `plot_ford()`.
+- Seriograph (Desachy 2004): `seriograph()`, `matrigraph()`.
+- Heatmaps: `plot_heatmap()`, `plot_spot()`.
 
 [**kairos**](https://packages.tesselle.org/kairos/) is a companion
 package to **tabula** that provides functions for chronological modeling
@@ -72,7 +72,7 @@ and dating of archaeological assemblages from count data.
       Frerebeau N (2023). _tabula: Analysis and Visualization of
       Archaeological Count Data_. Université Bordeaux Montaigne, Pessac,
       France. doi:10.5281/zenodo.1489944
-      <https://doi.org/10.5281/zenodo.1489944>, R package version 3.0.0,
+      <https://doi.org/10.5281/zenodo.1489944>, R package version 3.0.1,
       <https://packages.tesselle.org/tabula/>.
 
     This package is a part of the tesselle project

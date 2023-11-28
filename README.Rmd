@@ -38,12 +38,12 @@ Sys.setlocale("LC_MESSAGES", 'en_GB.UTF-8') # Force locale
 
 An easy way to examine archaeological count data. This package provides several tests and measures of diversity: heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity (Brainerd-Robinson, etc.). It allows to easily visualize count data and statistical thresholds: rank vs. abundance plots, heatmaps, @ford1962 and @bertin1977 diagrams, etc. **tabula** provides methods for:
 
-* Diversity measurement: `heterogeneity()`, `evenness()`, `richness()`, `rarefaction()`, `turnover()`
-* Similarity measurement and co-occurrence: `similarity()`, `occurrence()`
-* Assessing sample size and significance: `bootstrap()`, `jackknife()`, `simulate()`
-* @bertin1977 or @ford1962 (battleship curve) diagrams: `plot_bertin()`, `plot_ford()`
-* Seriograph [@desachy2004]: `seriograph()`
-* Heatmaps: `plot_heatmap()`, `plot_spot()`
+* Diversity measurement: `heterogeneity()`, `evenness()`, `richness()`, `rarefaction()`, `turnover()`.
+* Similarity measurement and co-occurrence: `similarity()`, `occurrence()`.
+* Assessing sample size and significance: `bootstrap()`, `jackknife()`, `simulate()`.
+* @bertin1977 or @ford1962 (battleship curve) diagrams: `plot_bertin()`, `plot_ford()`.
+* Seriograph [@desachy2004]: `seriograph()`, `matrigraph()`.
+* Heatmaps: `plot_heatmap()`, `plot_spot()`.
 
 [**kairos**](https://packages.tesselle.org/kairos/) is a companion package to **tabula** that provides functions for chronological modeling and dating of archaeological assemblages from count data.
 
