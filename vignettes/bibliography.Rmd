@@ -1,13 +1,17 @@
 ---
 title: "Bibliography"
-subtitle: "Comprehensive list of references cited in the package"
+subtitle: "Comprehensive list of references cited in tabula"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  markdown::html_format:
+    options:
+      toc: true
+      number_sections: true
 bibliography: bibliography.bib
 nocite: '@*'
 vignette: >
   %\VignetteIndexEntry{Bibliography}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---
 

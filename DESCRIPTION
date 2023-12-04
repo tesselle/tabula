@@ -42,7 +42,7 @@ Suggests:
     folio,
     khroma,
     knitr,
-    rmarkdown,
+    markdown,
     rsvg,
     svglite,
     tinysnapshot,
