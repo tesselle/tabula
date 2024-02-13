@@ -3,7 +3,6 @@
 \docType{package}
 \name{tabula-package}
 \alias{tabula-package}
-\alias{_PACKAGE}
 \alias{tabula}
 \title{tabula: Analysis and Visualization of Archaeological Count Data}
 \description{

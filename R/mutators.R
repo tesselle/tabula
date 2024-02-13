@@ -3,21 +3,21 @@
 NULL
 
 # Getters ======================================================================
+#' @export
+#' @method labels DiversityIndex
+labels.DiversityIndex <- function(object, ...) object@labels
+
 #' @rdname mutators
 #' @aliases labels,DiversityIndex-method
-setMethod(
-  f = "labels",
-  signature = "DiversityIndex",
-  definition = function(object) object@labels
-)
+setMethod("labels", "DiversityIndex", labels.DiversityIndex)
+
+#' @export
+#' @method labels RarefactionIndex
+labels.RarefactionIndex <- function(object, ...) object@labels
 
 #' @rdname mutators
 #' @aliases labels,RarefactionIndex-method
-setMethod(
-  f = "labels",
-  signature = "RarefactionIndex",
-  definition = function(object) object@labels
-)
+setMethod("labels", "RarefactionIndex", labels.RarefactionIndex)
 
 #' @export
 #' @rdname mutators

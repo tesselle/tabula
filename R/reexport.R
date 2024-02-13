@@ -1,13 +1,5 @@
 # REEXPORT FROM ARKHE
 
-#' @importFrom arkhe bootstrap
-#' @export
-arkhe::bootstrap
-
-#' @importFrom arkhe jackknife
-#' @export
-arkhe::jackknife
-
 #' @importFrom arkhe replace_NA
 #' @export
 arkhe::replace_NA
@@ -23,3 +15,7 @@ arkhe::remove_NA
 #' @importFrom arkhe remove_zero
 #' @export
 arkhe::remove_zero
+
+#' @importFrom arkhe remove_constant
+#' @export
+arkhe::remove_constant

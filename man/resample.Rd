@@ -47,8 +47,8 @@ resample(x, n = 100, do = median, f = quant)
 \code{\link[stats:Multinom]{stats::rmultinom()}}
 
 Other resampling methods: 
-\code{\link{bootstrap_diversity}},
-\code{\link{jackknife_diversity}}
+\code{\link{bootstrap}()},
+\code{\link{jackknife}()}
 }
 \author{
 N. Frerebeau

@@ -14,14 +14,16 @@
 \usage{
 get_method(x)
 
-\S4method{labels}{DiversityIndex}(object)
+\S4method{labels}{DiversityIndex}(object, ...)
 
-\S4method{labels}{RarefactionIndex}(object)
+\S4method{labels}{RarefactionIndex}(object, ...)
 
 \S4method{get_method}{DiversityIndex}(x)
 }
 \arguments{
 \item{object, x}{An \R object from which to get or set element(s).}
+
+\item{...}{Currently not used.}
 }
 \value{
 \itemize{

@@ -2,8 +2,10 @@
 #' @include AllClasses.R
 NULL
 
-setGeneric("bootstrap", package = "arkhe")
-setGeneric("jackknife", package = "arkhe")
+# Import S4 generics ===========================================================
+#' @importMethodsFrom arkhe jackknife
+#' @importMethodsFrom arkhe bootstrap
+NULL
 
 # Extract ======================================================================
 ## Mutators --------------------------------------------------------------------
@@ -11,6 +13,7 @@ setGeneric("jackknife", package = "arkhe")
 #'
 #' Getters and setters to extract or replace parts of an object.
 #' @param object,x An \R object from which to get or set element(s).
+#' @param ... Currently not used.
 # @param value A possible value for the element(s) of `object` (see below).
 #' @return
 #'  * `labels()` returns a suitable set of labels from an object for use in
@@ -56,8 +59,8 @@ setGeneric(
 #' @author N. Frerebeau
 #' @docType methods
 #' @family resampling methods
+#' @name bootstrap
 #' @rdname bootstrap
-#' @name bootstrap_diversity
 NULL
 
 #' Jackknife Estimation
@@ -81,8 +84,8 @@ NULL
 #' @author N. Frerebeau
 #' @docType methods
 #' @family resampling methods
+#' @name jackknife
 #' @rdname jackknife
-#' @name jackknife_diversity
 NULL
 
 #' Resample
