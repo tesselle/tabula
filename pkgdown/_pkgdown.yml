@@ -20,13 +20,3 @@ reference:
 - title: Datasets
   contents:
   - has_concept("datasets")
-
-navbar:
-  components:
-    articles:
-      text: Articles
-      menu:
-      - text: Diversity Measures
-        href: articles/diversity.html
-      - text: Bibliography
-        href: articles/bibliography.html

@@ -1,0 +1,308 @@
+---
+title: "alpha Diversity"
+author: "N. Frerebeau"
+date: "`r Sys.Date()`"
+output:
+  markdown::html_format:
+    options:
+      toc: true
+      number_sections: true
+bibliography: bibliography.bib
+vignette: >
+  %\VignetteIndexEntry{alpha Diversity}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r packages}
+## Install extra packages (if needed)
+# install.packages("folio") # Datasets
+
+## Load packages
+library(tabula)
+```
+
+<!-- Vérifier Banning 2000 -->
+
+Diversity in ecology describes complex interspecific interactions between and within communities under a variety of environmental conditions (Bobrowsky & Ball 1989). This concept covers different components, allowing different aspects of interspecific interactions to be measured.
+
+$\alpha$-diversity refers to diversity at the local level, assessed within a delimited system. It is the diversity within a uniform habitat of fixed size.
+
+```{r data}
+## Data from Lipo et al. 2015
+data("mississippi", package = "folio")
+```
+
+Thereafter, we denote by:
+
+* $S$ the total number of taxa recorded,
+* $i$ the rank of the taxon
+* $N_i$ the number of individuals in the $i$-th taxon,
+* $N = \sum N_i$ the total number of individuals,
+* $p_i$ the relative proportion of the $i$-th taxon in the population,
+* $s_k$ the number of taxa with $k$ individuals,
+* $q_i$ the incidence of the $i$-th taxon.
+
+# Heterogeneity and Evenness
+
+*Diversity* measurement assumes that all individuals in a specific taxa are equivalent and that all types are equally different from each other (Peet 1974). A measure of diversity can be achieved by using indices built on the relative abundance of taxa. These indices (sometimes referred to as non-parametric indices) benefit from not making assumptions about the underlying distribution of taxa abundance: they only take relative abundances of the species that are present and species richness into account. Peet (1974) refers to them as indices of *heterogeneity* ($H$).
+
+Diversity indices focus on one aspect of the taxa abundance and emphasize either *richness* (weighting towards uncommon taxa) or dominance (weighting towards abundant taxa; Magurran 1988).
+
+*Evenness* ($E$) is a measure of how evenly individuals are distributed across the sample.
+
+## Information theory index
+### Shannon-Wiener diversity index
+The Shannon-Wiener index (Shannon 1948) assumes that individuals are randomly sampled from an infinite population and that all taxa are represented in the sample (it does not reflect the sample size). The main source of error arises from the failure to include all taxa in the sample: this error increases as the proportion of species discovered in the sample declines (Peet 1974; Magurran 1988). The maximum likelihood estimator (MLE) is used for the relative abundance, this is known to be negatively biased by sample size.
+
+Heterogeneity for an infinite sample:
+
+$$ H' = - \sum_{i = 1}^{S} p_i \ln p_i $$
+
+Heterogeneity for a finite sample:
+
+$$ H' = - \sum_{i = 1}^{S} \frac{n_i}{N} \ln \frac{n_i}{N} $$
+
+```{r diversity}
+heterogeneity(mississippi, method = "shannon")
+```
+
+Evenness:
+
+$$ E = \frac{H}{H_{max}} = \frac{H'}{\ln S} = - \sum_{i = 1}^{S} p_i \log_S p_i $$
+
+```{r evenness}
+evenness(mississippi, method = "shannon")
+```
+
+When $p_i$ is unknown in the population, an estimate is given by $\hat{p}_i =\frac{n_i}{N}$ (maximum likelihood estimator - MLE). As the use of $\hat{p}_i$ results in a biased estimate, Hutcheson (1970) and Bowman *et al.* (1971) suggest the use of:
+
+$$ \hat{H}' = - \sum_{i = 1}^{S} \hat{p}_i \ln \hat{p}_i - \frac{S - 1}{N} + \frac{1 - \sum_{i = 1}^{S} \hat{p}_i^{-1}}{12N^2} + \frac{\sum_{i = 1}^{S} (\hat{p}_i^{-1} - \hat{p}_i^{-2})}{12N^3} + \cdots $$
+
+This error is rarely significant (Peet 1974), so the unbiased form is not implemented here (for now).
+
+### Brillouin diversity index
+The Brillouin index (Brillouin 1956) describes a known collection: it does not assume random sampling in an infinite population. Pielou (1975) and Laxton (1978) argue for the use of the Brillouin index in all circumstances, especially in preference to the Shannon index.
+
+Diversity:
+
+$$ H' = \frac{\ln (N!) - \sum_{i = 1}^{S} \ln (n_i!)}{N} $$
+
+Evenness:
+
+$$ E = \frac{H'}{H'_{max}} $$
+
+with:
+
+$$ H'_{max} = \frac{1}{N} \ln \frac{N!}{\left( \lfloor \frac{N}{S} \rfloor! \right)^{S - r} \left[ \left( \lfloor \frac{N}{S} \rfloor + 1 \right)! \right]^{r}} $$
+
+where: $r = N - S \lfloor \frac{N}{S} \rfloor$.
+
+## Dominance index
+The following methods return a *dominance* index, not the reciprocal or inverse form usually adopted, so that an increase in the value of the index accompanies a decrease in diversity.
+
+### Simpson index
+The Simpson index (Simpson 1949) expresses the probability that two individuals randomly picked from a finite sample belong to two different types. It can be interpreted as the weighted mean of the proportional abundances. This metric is a true probability value, it ranges from $0$ (perfectly uneven) to $1$ (perfectly even).
+
+Dominance for an infinite sample:
+
+$$ D = \sum_{i = 1}^{S} p_i^2 $$
+
+Dominance for a finite sample:
+
+$$ D = \sum_{i = 1}^{S} \frac{n_i \left( n_i - 1 \right)}{N \left( N - 1 \right)} $$
+
+### McIntosh index
+The McIntosh index (McIntosh 1967) expresses the heterogeneity of a sample in geometric terms. It describes the sample as a point of a $S$-dimensional hypervolume and uses the Euclidean distance of this point from the origin.
+
+Dominance:
+
+$$ D = \frac{N - U}{N - \sqrt{N}} $$
+
+Evenness:
+
+$$ E = \frac{N - U}{N - \frac{N}{\sqrt{S}}} $$
+
+where $U$ is the distance of the sample from the origin in an $S$ dimensional hypervolume:
+
+$$U = \sqrt{\sum_{i = 1}^{S} n_i^2}$$
+
+### Berger-Parker index
+The Berger-Parker index (Berger & Parker 1970) expresses the proportional importance of the most abundant type. This metric is highly biased by sample size and richness, moreover it does not make use of all the information available from sample.
+
+Dominance:
+
+$$ D = \frac{n_{max}}{N} $$
+
+# Richness and Rarefaction
+The number of different taxa, provides an instantly comprehensible expression of diversity. While the number of taxa within a sample is easy to ascertain, as a term, it makes little sense: some taxa may not have been seen, or there may not be a fixed number of taxa (e.g. in an open system; Peet 1974). As an alternative, *richness* ($R$) can be used for the concept of taxa number (McIntosh 1967). Richness refers to the variety of taxa/species/types present in an assemblage or community (Bobrowsky *et al.* 1989) as "the number of species present in a collection containing a specified number of individuals" (Hurlbert 1971).
+
+```{r richness}
+richness(mississippi, method = "margalef")
+```
+
+```{r asymptotic-richness}
+composition(mississippi, method = "chao1")
+```
+
+It is not always possible to ensure that all sample sizes are equal and the number of different taxa increases with sample size and sampling effort (Magurran 1988). Then, *rarefaction* ($\hat{S}$) is the number of taxa expected if all samples were of a standard size $n$ (i.e. taxa per fixed number of individuals). Rarefaction assumes that imbalances between taxa are due to sampling and not to differences in actual abundances.
+
+```{r rarefaction, fig.width=7, fig.height=5, fig.align="center"}
+## Baxter rarefaction
+RA <- rarefaction(mississippi, sample = 100, method = "baxter")
+plot(RA)
+```
+
+| Measure                           | Reference            |
+|:----------------------------------|:---------------------|
+| $$ R_{1} = \frac{S - 1}{\ln N} $$ | Margalef (1958)*     |
+| $$ R_{2} = \frac{S}{\log N} $$    | Odum *et al.* (1960) |
+| $$ R_{3} = \frac{S}{\sqrt{N}} $$  | Menhinick (1964)*    |
+| $$ R_{4} = \frac{S}{\log A} $$    | Gleason (1922)       |
+Table: Richness measures (Bobrowsky & Ball 1989). *: implemented.
+
+| Measure                           | Reference            |
+|:----------------------------------|:---------------------|
+| $$ \hat{S}_{1} = \alpha - \left[ \ln \left( 1 - x \right) \right] $$ | Fisher *et al.* (1943) |
+| $$ \hat{S}_{2} = y_{0} \hat{\sigma} \sqrt{2 \pi} $$ | Preston (1948) |
+| $$ \hat{S}_{3} = 2.07 \left( \frac{N}{m} \right)^{0.262} $$ | Preston (1962a), Preston (1962b) |
+| $$ \hat{S}_{4} = 2.07 \left( \frac{N}{m} \right)^{0.262} A^{0.262} $$ | Macarthur (1965) |
+| $$ \hat{S}_{5} = k A^{d} $$ | Kilburn (1966) |
+| $$ \hat{S}_{6} = \frac{a N}{1 + b N} $$ | de Caprariis *et al.* (1976) |
+| $$ \hat{S}_{7} = \sum_{i = 1}^{S} 1 - \frac{{N - N_i} \choose n}{N \choose n} $$ | Hurlbert (1971), Sander (1968)* |
+Table: Rarefaction measures (Bobrowsky & Ball 1989). *: implemented.
+
+Where:
+
+* $S$ is the number of observed species/types,
+* $N_i$ is the number of individuals in the $i$-th species/type,
+* $N = \sum_{i = 1}^{S} N_i$ is the total number of individuals,
+* $A$ is the area of the isolate or collection.
+* $m$ is the number of individuals in the rarest species/type.
+* $\alpha$ is the Fisher's slope constant,
+* $y_{0}$ is the number of species/types in the modal class interval,
+* $\hat{\sigma}$ is the estimate of the standard deviation,
+* $n$ is the sub-sample size,
+* $R$ is the constant of rate increment,
+* $\hat{S}$ is the number of expected or predicted species/types,
+* $k$, $d$, $a$ and $b$ are empirically derived coefficients of regression.
+
+## Asymptotic Species Richness
+### Chao1 estimator (Chao 1984)
+
+$$ \hat{S}_{Chao1} = 
+\begin{cases}
+  S + \frac{N - 1}{N} \frac{s_1^2}{2 s_2} & s_2 > 0 \\
+  S + \frac{N - 1}{N} \frac{s_1 (s_1 - 1)}{2} & s_2 = 0
+\end{cases}
+$$
+
+In the special case of homogeneous case, a bias-corrected estimator is:
+
+$$ \hat{S}_{bcChao1} = S + \frac{N - 1}{N} \frac{s_1 (s_1 - 1)}{2 s_2 + 1}$$
+
+The improved Chao1 estimator makes use of the additional information of tripletons and quadrupletons (Chiu *et al.* 2014):
+
+$$ \hat{S}_{iChao1} = \hat{S}_{Chao1} + \frac{N - 3}{4 N} \frac{s_3}{s_4} \times \max\left(s_1 - \frac{N - 3}{N - 1} \frac{s_2 s_3}{2 s_4} , 0\right)$$
+
+### Abundance-based Coverage Estimator (Chao & Lee 1992)
+
+$$ \hat{S}_{ACE} = \hat{S}_{abun} + \frac{\hat{S}_{rare}}{\hat{C}_{rare}} + \frac{s_1}{\hat{C}_{rare}} \times \hat{\gamma}^2_{rare} $$
+
+Where $\hat{S}_{rare} = \sum_{i = 1}^{k} s_i$ is the number of rare taxa, $\hat{S}_{abun} = \sum_{i > k}^{N} s_i$ is the number of abundant taxa (for a given cut-off value $k$), $\hat{C}_{rare} = 1 - \frac{s_1}{N_{rare}}$ is the Turing's coverage estimate and:
+
+$$ \hat{\gamma}^2_{rare} = \max\left[\frac{\hat{S}_{rare}}{\hat{C}_{rare}} \frac{\sum_{i = 1}^{k} i(i - 1)s_i}{\left(\sum_{i = 1}^{k} is_i\right)\left(\sum_{i = 1}^{k} is_i - 1\right)} - 1, 0\right]  $$
+
+### Chao2 estimator (Chao 1987)
+
+For replicated incidence data (i.e. a $m \times p$ logical matrix), the Chao2 estimator is:
+
+$$ \hat{S}_{Chao2} = 
+\begin{cases}
+  S + \frac{m - 1}{m} \frac{q_1^2}{2 q_2} & q_2 > 0 \\
+  S + \frac{m - 1}{m} \frac{q_1 (q_1 - 1)}{2} & q_2 = 0
+\end{cases}
+$$
+
+Improved Chao2 estimator (Chiu *et al.* 2014):
+
+$$ \hat{S}_{iChao2} = \hat{S}_{Chao2} + \frac{m - 3}{4 m} \frac{q_3}{q_4} \times \max\left(q_1 - \frac{m - 3}{m - 1} \frac{q_2 q_3}{2 q_4} , 0\right)$$
+
+### Incidence-based Coverage Estimator (Chao & Chiu 2016)
+
+$$ \hat{S}_{ICE} = \hat{S}_{freq} + \frac{\hat{S}_{infreq}}{\hat{C}_{infreq}} + \frac{q_1}{\hat{C}_{infreq}} \times \hat{\gamma}^2_{infreq} $$
+
+Where $\hat{S}_{infreq} = \sum_{i = 1}^{k} q_i$ is the number of infrequent taxa, $\hat{S}_{freq} = \sum_{i > k}^{N} q_i$ is the number of frequent taxa (for a given cut-off value $k$), $\hat{C}_{infreq} = 1 - \frac{Q_1}{\sum_{i = 1}^{k} iq_i}$ is the Turing's coverage estimate and:
+
+$$ \hat{\gamma}^2_{infreq} = \max\left[\frac{\hat{S}_{infreq}}{\hat{C}_{infreq}} \frac{m_{infreq}}{m_{infreq} - 1} \frac{\sum_{i = 1}^{k} i(i - 1)q_i}{\left(\sum_{i = 1}^{k} iq_i\right)\left(\sum_{i = 1}^{k} iq_i - 1\right)} - 1, 0\right]  $$
+
+Where $m_{infreq}$ is the number of sampling units that include at least one infrequent species.
+
+# References
+
+Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera in Deep Sea Sediments. *Science*, 168(3937): 1345-1347. DOI: [10.1126/science.168.3937.1345](https://doi.org/10.1126/science.168.3937.1345).
+
+Bobrowsky, P. T. & Ball, B. F. (1989). The Theory and Mechanics of Ecological Diversity in Archaeology. In R. D. Leonard & G. T. Jones (Eds.), *Quantifying Diversity in Archaeology*, 4-12. New Directions in Archaeology. Cambridge: Cambridge University Press.
+
+Bowman, K. O., Hutcheson, K., Odum, E. P. & Shenton, L. R. (1971). Comments on the Distribution of Indices of Diversity. In E. C. Patil, E. C. Pielou & W. E. Waters (Eds.), *Statistical Ecology*, 3:315-366. University Park, PA: Pennsylvania State University Press.
+
+Brillouin, L. (1956). *Science and Information Theory*. New York: Academic Press.
+
+Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a Population. *Scandinavian Journal of Statistics*, 11(4): 265-270.
+
+Chao, A. (1987). Estimating the Population Size for Capture Recapture Data with Unequal Catchability. *Biometrics*, 43(4): 783-791. DOI: [10.2307/2531532](https://doi.org/10.2307/2531532).
+
+Chao, A. & Lee, S.-M. (1992). Estimating the Number of Classes Via Sample Coverage. *Journal of the American Statistical Association*, 87(417): 210-217. DOI: [10.1080/01621459.1992.10475194](https://doi.org/10.1080/01621459.1992.10475194).
+
+Chao, A. & Chiu, C.-H. (2016). Species Richness: Estimation and Comparison. In N. Balakrishnan, T. Colton, B. Everitt, W. Piegorsch, F. Ruggeri & J. L. Teugels (Eds.), *Wiley StatsRef: Statistics Reference Online*, 1-26. Chichester, UK: John Wiley & Sons, Ltd. DOI: [10.1002/9781118445112.stat03432.pub2](https://doi.org/10.1002/9781118445112.stat03432.pub2).
+
+Chiu, C.-H., Wang, Y.-T., Walther, B. A. & Chao, A. (2014). An Improved Nonparametric Lower Bound of Species Richness Via a Modified Good-Turing Frequency Formula. *Biometrics*, 70(3): 671-682. DOI: [10.1111/biom.12200](https://doi.org/10.1111/biom.12200).
+
+de Caprariis, P., Lindemann, R. H. & Collins, C. M. (1976). A Method for Determining Optimum Sample Size in Species Diversity Studies. *Journal of the International Association for Mathematical Geology*, 8(5): 575-581. DOI: [10.1007/BF01042995](https://doi.org/10.1007/BF01042995).
+
+Fisher, R. A., Corbet, A. S. & Williams, C. B. (1943). The Relation Between the Number of Species and the Number of Individuals in a Random Sample of an Animal Population. *The Journal of Animal Ecology*, 12(1): 42. DOI: [10.2307/1411](https://doi.org/10.2307/1411).
+
+Gleason, H. A. (1922). On the Relation Between Species and Area. *Ecology*, 3(2): 158-162. DOI: [10.2307/1929150](https://doi.org/10.2307/1929150).
+
+Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and Alternative Parameters. *Ecology*, 52(4): 577-586. DOI: [10.2307/1934145](https://doi.org/10.2307/1934145).
+
+Hutcheson, K. (1970). A Test for Comparing Diversity Based on the Shannon Formula. *Journal of Theoretical Biology*, 29(1): 151-154. DOI: [10.1016/0022-5193(70)90124-4](https://doi.org/10.1016/0022-5193(70)90124-4).
+
+Kilburn, P. D. (1966). Analysis of the Species-Area Relation. *Ecology*, 47(5): 831-843. DOI: [10.2307/1934269](https://doi.org/10.2307/1934269).
+
+Laxton, R. R. (1978). The Measure of Diversity. *Journal of Theoretical Biology*, 70(1): 51-67. DOI: [10.1016/0022-5193(78)90302-8](https://doi.org/10.1016/0022-5193(78)90302-8).
+
+Macarthur, R. H. (1965). Patterns of Species Diversity. *Biological Reviews*, 40(4): 510-533. DOI: [10.1111/j.1469-185X.1965.tb00815.x](https://doi.org/10.1111/j.1469-185X.1965.tb00815.x).
+
+Magurran, A. E. (1988). *Ecological Diversity and Its Measurement*. Princeton, NJ: Princeton University Press.
+
+Margalef, R. (1958). Information Theory in Ecology. *General Systems*, 3: 36-71.
+
+McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain Concepts to Diversity. *Ecology*, 48(3): 392-404. DOI: [10.2307/1932674](https://doi.org/10.2307/1932674).
+
+Menhinick, E. F. 1964. A Comparison of Some Species-Individuals Diversity Indices Applied to Samples of Field Insects. *Ecology*, 45(4): 859-861. [10.2307/1934933](https://doi.org/10.2307/1934933).
+
+Odum, H. T., Cantlon, J. E. and Kornicker, L. S. (1960). An Organizational Hierarchy Postulate for the Interpretation of Species-Individual Distributions, Species Entropy, Ecosystem Evolution, and the Meaning of a Species-Variety Index. *Ecology*, 41(2): 395-395. [10.2307/1930248](https://doi.org/10.2307/1930248).
+
+Peet, R. K. (1974). The Measurement of Species Diversity. *Annual Review of Ecology and Systematics*, 5(1), 285-307. DOI: [10.1146/annurev.es.05.110174.001441](https://doi.org/10.1146/annurev.es.05.110174.001441).
+
+Pielou, E. C. (1975). *Ecological Diversity*. New York: Wiley.
+
+Preston, F. W. (1948). The Commonness, and Rarity, of Species. *Ecology*, 29(3): 254-283. DOI: [10.2307/1930989](https://doi.org/10.2307/1930989).
+
+Preston, F. W. (1962a). The Canonical Distribution of Commonness and Rarity: Part I. *Ecology*, 43(2): 185. DOI: [10.2307/1931976](https://doi.org/10.2307/1931976).
+
+Preston, F. W. (1962b). The Canonical Distribution of Commonness and Rarity: Part II. *Ecology*, 43(3): 410-432. DOI: [10.2307/1933371](https://doi.org/10.2307/1933371).
+
+Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study. *The American Naturalist*, 102(925): 243-282.
+
+Shannon, C. E. (1948). A Mathematical Theory of Communication. *The Bell System Technical Journal*, 27, 379-423. DOI: [10.1002/j.1538-7305.1948.tb01338.x](https://doi.org/10.1002/j.1538-7305.1948.tb01338.x).
+
+Simpson, E. H. (1949). Measurement of Diversity. *Nature*, 163(4148): 688-688. DOI: [10.1038/163688a0](https://doi.org/10.1038/163688a0).

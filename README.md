@@ -166,7 +166,7 @@ l’information*. Nouvelle bibliothèque scientifique. Paris: Flammarion.
 
 <div id="ref-desachy2004" class="csl-entry">
 
-Desachy, Bruno. 2004. “Le sériographe EPPM: un outil informatisé de
+Desachy, B. 2004. “Le sériographe EPPM: un outil informatisé de
 sériation graphique pour tableaux de comptages.” *Revue archéologique de
 Picardie* 3 (1): 39–56. <https://doi.org/10.3406/pica.2004.2396>.
 
