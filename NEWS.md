@@ -1,4 +1,6 @@
 # tabula 3.0.1.9000
+## Enhancements
+* `plot_heatmap()` gained a new argument to use a fixed aspect ratio.
 
 # tabula 3.0.1
 ## Enhancements

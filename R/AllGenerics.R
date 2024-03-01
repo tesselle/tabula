@@ -921,6 +921,8 @@ setGeneric(
 #'
 #' Plots a heatmap.
 #' @inheritParams plot_matrix
+#' @param fixed_ratio A [`logical`] scalar: should a fixed aspect ratio (1) be
+#' used?
 #' @param ... Currently not used.
 #' @return
 #'  `plot_heatmap()` is called it for its side-effects: it results in a graphic

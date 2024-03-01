@@ -76,7 +76,8 @@ plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
   pin <- graphics::par("pin")
   plt <- graphics::par("plt")
 
-  if (!is.na(asp)) {
+  if (isTRUE(asp)) asp <- 1
+  if (!isFALSE(asp) && !is.na(asp)) {
     aspect_ratio <- n / (m + legend)
     pin_y <- pin[1] * aspect_ratio * asp
 

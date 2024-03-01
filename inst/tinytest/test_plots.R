@@ -45,6 +45,9 @@ if (at_home()) {
   plot_mtx_count <- function() plot_heatmap(cantabria)
   expect_snapshot_plot(plot_mtx_count, "plot_mtx_count")
 
+  plot_mtx_notfixed <- function() plot_heatmap(cantabria, fixed_ratio = FALSE)
+  expect_snapshot_plot(plot_mtx_notfixed, "plot_mtx_notfixed")
+
   ## Conditional proportions
   plot_mtx_prop1 <- function() plot_heatmap(cantabria, freq = TRUE, margin = 1)
   expect_snapshot_plot(plot_mtx_prop1, "plot_mtx_prop1")
