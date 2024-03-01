@@ -1,8 +1,9 @@
 # HELPERS
 
 is_incidence <- function(x) {
+  if (is.logical(x)) return(TRUE)
   x <- as.numeric(x)
-  all(x == 0 | x == 1)
+  all(x == 0 | x == 1, na.rm = TRUE)
 }
 
 #' Colour Ramp
