@@ -132,9 +132,12 @@ setMethod(
 setMethod(
   f = "plot_ford",
   signature = signature(object = "data.frame"),
-  definition = function(object, weights = FALSE, EPPM = FALSE) {
+  definition = function(object, weights = FALSE, EPPM = FALSE,
+                        fill = "darkgrey", border = NA,
+                        axes = TRUE, ...) {
     object <- data.matrix(object)
-    methods::callGeneric(object, weights = weights, EPPM = EPPM)
+    methods::callGeneric(object, weights = weights, EPPM = EPPM, fill = fill,
+                         border = border, axes = axes, ...)
   }
 )
 

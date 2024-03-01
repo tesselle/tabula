@@ -21,7 +21,15 @@ plot_ford(object, ...)
   ...
 )
 
-\S4method{plot_ford}{data.frame}(object, weights = FALSE, EPPM = FALSE)
+\S4method{plot_ford}{data.frame}(
+  object,
+  weights = FALSE,
+  EPPM = FALSE,
+  fill = "darkgrey",
+  border = NA,
+  axes = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
