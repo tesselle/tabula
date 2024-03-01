@@ -845,7 +845,7 @@ setGeneric(
 #' @param ... Further [graphical parameters][graphics::par] to be passed to
 #'  [graphics::points()], particularly, `cex`, `col` and `pch`.
 #' @return
-#'  `plot()` is called it for its side-effects: it results in a graphic being
+#'  `plot()` is called for its side-effects: it results in a graphic being
 #'  displayed (invisibly returns `x`).
 #' @example inst/examples/ex-plot_diversity.R
 #' @author N. Frerebeau
@@ -876,7 +876,7 @@ NULL
 #' @param ... Further [graphical parameters][graphics::par] to be passed to
 #'  [graphics::lines()].
 #' @return
-#'  `plot()` is called it for its side-effects: it results in a graphic being
+#'  `plot()` is called for its side-effects: it results in a graphic being
 #'  displayed (invisibly returns `x`).
 #' @example inst/examples/ex-rarefaction.R
 #' @author N. Frerebeau
@@ -901,7 +901,7 @@ NULL
 #'  [Bertin diagram][plot_bertin()] where the data are first transformed to
 #'  relative frequencies.
 #' @return
-#'  `plot_spot()` is called it for its side-effects: it results in a graphic
+#'  `plot_spot()` is called for its side-effects: it results in a graphic
 #'  being displayed (invisibly returns `object`).
 #' @note
 #'  Adapted from Dan Gopstein's original
@@ -925,7 +925,7 @@ setGeneric(
 #' used?
 #' @param ... Currently not used.
 #' @return
-#'  `plot_heatmap()` is called it for its side-effects: it results in a graphic
+#'  `plot_heatmap()` is called for its side-effects: it results in a graphic
 #'  being displayed (invisibly returns `object`).
 #' @example inst/examples/ex-plot_heatmap.R
 #' @author N. Frerebeau
@@ -980,7 +980,7 @@ setGeneric(
 #'  graphique pour tableaux de comptages. *Revue archéologique de Picardie*,
 #'  3(1), 39-56. \doi{10.3406/pica.2004.2396}.
 #' @return
-#'  * `matrigraph()` is called it for its side-effects: it results in a graphic
+#'  * `matrigraph()` is called for its side-effects: it results in a graphic
 #'    being displayed (invisibly returns `object`).
 #'  * `pvi()` returns a [`numeric`] [`matrix`].
 #' @example inst/examples/ex-matrigraph.R
@@ -1021,7 +1021,7 @@ setGeneric(
 #'  all bars representing a value above some sample threshold for that
 #'  variable."
 #' @return
-#'  `plot_bertin()` is called it for its side-effects: it results in a graphic
+#'  `plot_bertin()` is called for its side-effects: it results in a graphic
 #'  being displayed (invisibly returns `object`).
 #' @references
 #'  Bertin, J. (1977). *La graphique et le traitement graphique de
@@ -1057,7 +1057,7 @@ setGeneric(
 #'  omit labels where they would abut or overlap previously drawn labels.
 #' @param ... Currently not used.
 #' @return
-#'  `plot_ford()` is called it for its side-effects: it results in a graphic
+#'  `plot_ford()` is called for its side-effects: it results in a graphic
 #'  being displayed (invisibly returns `object`).
 #' @references
 #'  Ford, J. A. (1962). *A quantitative method for deriving cultural
@@ -1097,7 +1097,7 @@ setGeneric(
 #'  graphique pour tableaux de comptages. *Revue archéologique de Picardie*,
 #'  3(1), 39-56. \doi{10.3406/pica.2004.2396}.
 #' @return
-#'  * `seriograph()` is called it for its side-effects: it results in a graphic
+#'  * `seriograph()` is called for its side-effects: it results in a graphic
 #'    being displayed (invisibly returns `object`).
 #'  * `eppm()` returns a [`numeric`] [`matrix`].
 #' @example inst/examples/ex-seriograph.R
@@ -1156,7 +1156,7 @@ setGeneric(
 #'  Simpson, G. G., Roe, A., & Lewontin, R. C. *Quantitative Zoology*.
 #'  New York: Harcourt, Brace and Company, 1960.
 #' @return
-#'  `plot_diceleraas()` is called it for its side-effects: it results in a
+#'  `plot_diceleraas()` is called for its side-effects: it results in a
 #'  graphic being displayed (invisibly returns `object`).
 #' @example inst/examples/ex-diceleraas.R
 #' @author N. Frerebeau
@@ -1198,7 +1198,7 @@ setGeneric(
 #'  If `NULL`, no legend is displayed.
 #' @param ... Further [graphical parameters][graphics::par].
 #' @return
-#'  `plot_rank()` is called it for its side-effects: it results in a graphic
+#'  `plot_rank()` is called for its side-effects: it results in a graphic
 #'  being displayed (invisibly returns `object`).
 #' @references
 #'  Magurran, A. E. (1988). *Ecological Diversity and its Measurement*.

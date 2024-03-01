@@ -51,7 +51,7 @@ See \code{seriograph()}.}
 omit labels where they would abut or overlap previously drawn labels.}
 }
 \value{
-\code{plot_ford()} is called it for its side-effects: it results in a graphic
+\code{plot_ford()} is called for its side-effects: it results in a graphic
 being displayed (invisibly returns \code{object}).
 }
 \description{

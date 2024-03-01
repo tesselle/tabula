@@ -61,7 +61,7 @@ Defaults to \code{TRUE}.}
 omit labels where they would abut or overlap previously drawn labels.}
 }
 \value{
-\code{plot_bertin()} is called it for its side-effects: it results in a graphic
+\code{plot_bertin()} is called for its side-effects: it results in a graphic
 being displayed (invisibly returns \code{object}).
 }
 \description{

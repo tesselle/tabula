@@ -63,7 +63,7 @@ place but before the axes, title and box are added.}
 \code{\link[graphics:points]{graphics::points()}}, particularly, \code{cex}, \code{col} and \code{pch}.}
 }
 \value{
-\code{plot()} is called it for its side-effects: it results in a graphic being
+\code{plot()} is called for its side-effects: it results in a graphic being
 displayed (invisibly returns \code{x}).
 }
 \description{

@@ -85,7 +85,7 @@ omit labels where they would abut or overlap previously drawn labels.}
 \item{legend}{A \code{\link{logical}} scalar: should a legend be displayed?}
 }
 \value{
-\code{plot_heatmap()} is called it for its side-effects: it results in a graphic
+\code{plot_heatmap()} is called for its side-effects: it results in a graphic
 being displayed (invisibly returns \code{object}).
 }
 \description{
@@ -97,7 +97,6 @@ data("cantabria")
 
 ## Plot raw data
 plot_heatmap(cantabria)
-plot_heatmap(cantabria, fixed_ratio = FALSE)
 
 ## Plot conditional proportions
 plot_heatmap(cantabria, freq = TRUE, margin = 1)

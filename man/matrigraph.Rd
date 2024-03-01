@@ -39,7 +39,7 @@ omit labels where they would abut or overlap previously drawn labels.}
 }
 \value{
 \itemize{
-\item \code{matrigraph()} is called it for its side-effects: it results in a graphic
+\item \code{matrigraph()} is called for its side-effects: it results in a graphic
 being displayed (invisibly returns \code{object}).
 \item \code{pvi()} returns a \code{\link{numeric}} \code{\link{matrix}}.
 }

@@ -87,7 +87,7 @@ omit labels where they would abut or overlap previously drawn labels.}
 \item{legend}{A \code{\link{logical}} scalar: should a legend be displayed?}
 }
 \value{
-\code{plot_spot()} is called it for its side-effects: it results in a graphic
+\code{plot_spot()} is called for its side-effects: it results in a graphic
 being displayed (invisibly returns \code{object}).
 }
 \description{

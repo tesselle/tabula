@@ -56,7 +56,7 @@ omit labels where they would abut or overlap previously drawn labels.}
 }
 \value{
 \itemize{
-\item \code{seriograph()} is called it for its side-effects: it results in a graphic
+\item \code{seriograph()} is called for its side-effects: it results in a graphic
 being displayed (invisibly returns \code{object}).
 \item \code{eppm()} returns a \code{\link{numeric}} \code{\link{matrix}}.
 }

@@ -62,7 +62,7 @@ background grids.}
 place but before the axes, title and box are added.}
 }
 \value{
-\code{plot_diceleraas()} is called it for its side-effects: it results in a
+\code{plot_diceleraas()} is called for its side-effects: it results in a
 graphic being displayed (invisibly returns \code{object}).
 }
 \description{

@@ -74,7 +74,7 @@ place but before the axes, title and box are added.}
 If \code{NULL}, no legend is displayed.}
 }
 \value{
-\code{plot_rank()} is called it for its side-effects: it results in a graphic
+\code{plot_rank()} is called for its side-effects: it results in a graphic
 being displayed (invisibly returns \code{object}).
 }
 \description{

@@ -49,7 +49,7 @@ If \code{NULL}, no legend is displayed.}
 \code{\link[graphics:lines]{graphics::lines()}}.}
 }
 \value{
-\code{plot()} is called it for its side-effects: it results in a graphic being
+\code{plot()} is called for its side-effects: it results in a graphic being
 displayed (invisibly returns \code{x}).
 }
 \description{
