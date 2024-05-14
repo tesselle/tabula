@@ -277,19 +277,25 @@
 <text transform='translate(440.78,218.73) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='23.50px' lengthAdjust='spacingAndGlyphs'>X43</text>
 </g>
 <g clip-path='url(#cpMTE1LjYzfDQ1NS4yOHwyMzMuMTN8MjcwLjg3)'>
-<image width='3.77' height='37.74' x='451.50' y='195.39' preserveAspectRatio='none' xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAADCAYAAABS3WWCAAAAGElEQVQImWP49+/xf4ZPixn+M2Soi/wHAEdCCBVWcC8/AAAAAElFTkSuQmCC'/>
+<image width='3.77' height='37.74' x='451.50' y='195.39' preserveAspectRatio='none' xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAGCAYAAAACEPQxAAAAKUlEQVQImQEeAOH/AP7+4/8C/erGAAD2vjL/AvXGzgACyswAAAKz1xQAD7EPNqkpPJIAAAAASUVORK5CYII='/>
 <line x1='451.50' y1='270.87' x2='455.28' y2='270.87' style='stroke-width: 0.75; stroke: #FFFFFF;' />
-<line x1='451.50' y1='252.00' x2='455.28' y2='252.00' style='stroke-width: 0.75; stroke: #FFFFFF;' />
+<line x1='451.50' y1='263.32' x2='455.28' y2='263.32' style='stroke-width: 0.75; stroke: #FFFFFF;' />
+<line x1='451.50' y1='255.77' x2='455.28' y2='255.77' style='stroke-width: 0.75; stroke: #FFFFFF;' />
+<line x1='451.50' y1='248.23' x2='455.28' y2='248.23' style='stroke-width: 0.75; stroke: #FFFFFF;' />
+<line x1='451.50' y1='240.68' x2='455.28' y2='240.68' style='stroke-width: 0.75; stroke: #FFFFFF;' />
 <line x1='451.50' y1='233.13' x2='455.28' y2='233.13' style='stroke-width: 0.75; stroke: #FFFFFF;' />
 <polygon points='451.50,270.87 455.28,270.87 455.28,233.13 451.50,233.13 ' style='stroke-width: 0.75;' />
 </g>
 <g clip-path='url(#cpMC4wMHw1MDQuMDB8MC4wMHw1MDQuMDA=)'>
 <line x1='455.28' y1='270.87' x2='455.28' y2='233.13' style='stroke-width: 0.75;' />
 <line x1='455.28' y1='270.87' x2='462.48' y2='270.87' style='stroke-width: 0.75;' />
-<line x1='455.28' y1='252.00' x2='462.48' y2='252.00' style='stroke-width: 0.75;' />
+<line x1='455.28' y1='263.32' x2='462.48' y2='263.32' style='stroke-width: 0.75;' />
+<line x1='455.28' y1='255.77' x2='462.48' y2='255.77' style='stroke-width: 0.75;' />
+<line x1='455.28' y1='248.23' x2='462.48' y2='248.23' style='stroke-width: 0.75;' />
+<line x1='455.28' y1='240.68' x2='462.48' y2='240.68' style='stroke-width: 0.75;' />
 <line x1='455.28' y1='233.13' x2='462.48' y2='233.13' style='stroke-width: 0.75;' />
-<text x='469.68' y='275.24' style='font-size: 12.00px; font-family: "Arial";' textLength='19.04px' lengthAdjust='spacingAndGlyphs'>0%</text>
-<text x='469.68' y='256.37' style='font-size: 12.00px; font-family: "Arial";' textLength='26.68px' lengthAdjust='spacingAndGlyphs'>50%</text>
-<text x='469.68' y='237.50' style='font-size: 12.00px; font-family: "Arial";' textLength='34.32px' lengthAdjust='spacingAndGlyphs'>100%</text>
+<text x='469.68' y='275.24' style='font-size: 12.00px; font-family: "Arial";' textLength='26.68px' lengthAdjust='spacingAndGlyphs'>  0%</text>
+<text x='469.68' y='260.15' style='font-size: 12.00px; font-family: "Arial";' textLength='30.50px' lengthAdjust='spacingAndGlyphs'> 40%</text>
+<text x='469.68' y='245.05' style='font-size: 12.00px; font-family: "Arial";' textLength='30.50px' lengthAdjust='spacingAndGlyphs'> 80%</text>
 </g>
 </svg>

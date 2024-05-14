@@ -45,7 +45,7 @@ setMethod(
 
     ## Save and restore
     mar <- graphics::par("mar")
-    mar[2] <- arkhe::inch2line(lab, cex = cex.axis) + 0.5
+    mar[2] <- inch2line(lab, cex = cex.axis) + 0.5
     old_par <- graphics::par(mar = mar)
     on.exit(graphics::par(old_par))
 

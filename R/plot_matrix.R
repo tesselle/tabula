@@ -37,7 +37,10 @@ plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
                         col = graphics::par("fg"), midpoint = NULL,
                         axes = TRUE, legend = TRUE, asp = 1, ...) {
   ## Validation
-  if (is_incidence(object)) legend <- FALSE
+  if (is_incidence(object)) {
+    object[] <- as.numeric(object)
+    legend <- FALSE
+  }
 
   ## Prepare data
   n <- nrow(object)
@@ -58,13 +61,13 @@ plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
   font.axis <- graphics::par("font.axis")
 
   ## Save and restore
-  d <- arkhe::inch2line("M", cex = cex.axis)
+  d <- inch2line("M", cex = cex.axis)
   old_par <- graphics::par("mar", "plt")
   on.exit(graphics::par(old_par))
 
-  mar_left <- arkhe::inch2line(lab_row, cex = cex.axis)
-  mar_top <- arkhe::inch2line(lab_col, cex = cex.axis)
-  mar_right <- if (legend) arkhe::inch2line("999%", cex = cex.axis) else d
+  mar_left <- inch2line(lab_row, cex = cex.axis)
+  mar_top <- inch2line(lab_col, cex = cex.axis)
+  mar_right <- if (legend) inch2line("999%", cex = cex.axis) else d
   graphics::par(mar = c(d, mar_left, mar_top, mar_right))
 
   ## Open new window
@@ -113,19 +116,24 @@ plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
 
   ## Legend
   if (legend) {
-    legend <- attr(data, "legend")
-    legend_image <- grDevices::as.raster(legend$colors)
-    legend_y <- arkhe::scale_range(legend$at) * n + 0.5
-
-    graphics::rasterImage(legend_image, xleft = m + 1, ybottom = max(legend_y),
-                          xright = m + 1.5, ytop = min(legend_y))
-    graphics::segments(x0 = m + 1, y0 = legend_y, x1 = m + 1.5, y1 = legend_y,
-                       col = "white")
-    graphics::polygon(x = c(m, m + 0.5, m + 0.5, m) + 1,
-                      y = c(0.5, 0.5, max(legend_y), max(legend_y)),
-                      col = NA, border = "black")
-    graphics::axis(side = 4, at = legend_y, labels = legend$labels, las = 2)
+    lgd <- attr(data, "legend")
+    legend_gradient(x = m, y = n, labels = lgd$labels,
+                    at = lgd$at, col = lgd$colors)
   }
+}
+
+legend_gradient <- function(x, y, labels, at, col) {
+  legend_image <- grDevices::as.raster(col)
+  legend_y <- (at - min(at)) * y / diff(range(at)) + 0.5
+
+  graphics::rasterImage(legend_image, xleft = x + 1, ybottom = max(legend_y),
+                        xright = x + 1.5, ytop = min(legend_y))
+  graphics::segments(x0 = x + 1, y0 = legend_y, x1 = x + 1.5, y1 = legend_y,
+                     col = "white")
+  graphics::polygon(x = c(x, x + 0.5, x + 0.5, x) + 1,
+                    y = c(0.5, 0.5, max(legend_y), max(legend_y)),
+                    col = NA, border = "black")
+  graphics::axis(side = 4, at = legend_y, labels = labels, las = 2)
 }
 
 # Panels =======================================================================
@@ -191,11 +199,11 @@ panel_tiles <- function(x, y, color, ...) {
 panel_spot <- function(x, y, z, color, type, ...) {
   radius <- abs(z * 0.45)
   for (i in seq_along(x)) {
-    arkhe::circle(x = x[i], y = y[i], radius = radius[i],
-                  col = color[i], border = color[i])
+    graffiti::circle(x = x[i], y = y[i], radius = radius[i],
+                     col = color[i], border = color[i])
     if (type == "ring") {
-      arkhe::circle(x = x[i], y = y[i], radius = 0.45,
-                    col = NA, border = "black")
+      graffiti::circle(x = x[i], y = y[i], radius = 0.45,
+                       col = NA, border = "black")
     }
   }
 }
@@ -276,41 +284,24 @@ prepare <- function(object, diag = TRUE, upper = TRUE, lower = TRUE,
   )
 
   ## Map colors
-  if (length(palette) != length(val)) {
-    midpoint <- if (is.null(midpoint) & min_val < 0 & max_val > 0) 0 else midpoint
-    data$color <- color_ramp(val, palette = palette, from = c(min_val, max_val),
-                             midpoint = midpoint)
-  } else {
-    data$color <- palette
-  }
-
-  ## Legend
-  legend_brk <- pretty(val, n = 3)
-  legend_lab <- legend_brk[legend_brk > min_val & legend_brk < max_val]
-  legend_lab <- c(min_val, legend_lab, max_val)
-  legend_pos <- legend_lab / max(abs(val), na.rm = TRUE)
-  legend_col <- color_ramp(legend_lab, palette = palette,
-                           from = c(min_val, max_val), midpoint = midpoint)
+  breaks <- pretty(val, n = 5)
+  domain <- range(c(breaks, min_val, max_val))
+  midpoint <- if (is.null(midpoint) & min_val < 0 & max_val > 0) 0 else midpoint
+  pal <- graffiti::palette_color_continuous(colors = palette, domain = domain,
+                                            midpoint = midpoint)
+  data$color <- if (length(palette) != length(val)) pal(val) else palette
 
   ## Clean data
-  if (!upper) {
-    data <- data[!upper.tri(object), ]
-  }
-  if (!lower) {
-    data <- data[!lower.tri(object), ]
-  }
-  if (!diag) {
-    data <- data[data$row != data$column, ]
-  }
-  if (drop_zero) {
-    data <- data[data$value != 0, ]
-  }
+  if (!upper) data <- data[!upper.tri(object), ]
+  if (!lower) data <- data[!lower.tri(object), ]
+  if (!diag) data <- data[data$row != data$column, ]
+  if (drop_zero) data <- data[data$value != 0, ]
 
-  legend_lab[!is.element(legend_lab, legend_brk)] <- NA
+  ## Legend
   attr(data, "legend") <- list(
-    labels = if (freq) arkhe::label_percent(legend_lab) else legend_lab,
-    at = legend_pos,
-    colors = legend_col
+    labels = if (freq) graffiti::label_percent(breaks) else breaks,
+    at = breaks / max(abs(val), na.rm = TRUE),
+    colors = pal(breaks)
   )
   data
 }

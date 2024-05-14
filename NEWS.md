@@ -1,6 +1,10 @@
 # tabula 3.0.1.9000
 ## Enhancements
 * `plot_heatmap()` gained a new argument to use a fixed aspect ratio.
+* Improve gradient legend.
+
+## Internals
+* Use **graffiti**.
 
 # tabula 3.0.1
 ## Enhancements

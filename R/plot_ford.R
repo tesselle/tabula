@@ -29,12 +29,12 @@ setMethod(
     font.axis <- graphics::par("font.axis")
 
     ## Save and restore
-    d <- arkhe::inch2line("M", cex = cex.axis)
+    d <- inch2line("M", cex = cex.axis)
     mfrow <- graphics::par("mfrow")
     mar <- graphics::par("mar")
     mar[1] <- 3
-    mar[2] <- arkhe::inch2line(lab_row, cex = cex.axis)
-    mar[3] <- arkhe::inch2line(lab_col, cex = cex.axis)
+    mar[2] <- inch2line(lab_row, cex = cex.axis)
+    mar[3] <- inch2line(lab_col, cex = cex.axis)
     mar[4] <- 0
 
     old_par <- graphics::par(mfrow = mfrow, mar = mar)
@@ -85,7 +85,7 @@ setMethod(
 
       x_axis <- data$x[which.max(data$value)]
       graphics::axis(side = 1, at = c(x_axis - 0.2, x_axis + 0.2), labels = FALSE)
-      graphics::axis(side = 1, at = x_axis, labels = arkhe::label_percent(0.2),
+      graphics::axis(side = 1, at = x_axis, labels = graffiti::label_percent(0.2),
                      tick = FALSE)
     }
 
