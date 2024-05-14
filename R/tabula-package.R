@@ -37,7 +37,8 @@
 "_PACKAGE"
 
 #' @import arkhe
-#' @importFrom methods as callNextMethod new setClass setClassUnion setGeneric
-#' setMethod validObject .valueClassTest
-#' @importFrom stats sd
+#' @importFrom methods as callGeneric initialize is new setClass setOldClass
+#' setGeneric setMethod validObject .valueClassTest
+#' @importFrom stats as.dist na.omit pairwise.table pt quantile rmultinom sd
+#' @importFrom utils combn head modifyList setTxtProgressBar tail txtProgressBar
 NULL
