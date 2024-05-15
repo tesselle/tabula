@@ -40,7 +40,8 @@ birds <- matrix(
   byrow = TRUE,
   dimnames = list(c("oakwood", "spruce"), NULL)
 )
-expect_equal_to_reference(test_diversity(birds), file = "_snaps/shannon_test.rds")
+expect_equal_to_reference(test_shannon(birds, unbiased = FALSE),
+                          file = "_snaps/shannon_test.rds")
 
 # Plot =========================================================================
 if (at_home()) {

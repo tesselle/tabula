@@ -2,7 +2,18 @@
 % Please edit documentation in R/tabula-deprecated.R
 \name{tabula-deprecated}
 \alias{tabula-deprecated}
+\alias{test_diversity}
+\alias{test_diversity-method}
+\alias{test_diversity,matrix-method}
+\alias{test_diversity,data.frame-method}
 \title{Deprecated Functions in tabula}
+\usage{
+test_diversity(object, ...)
+
+\S4method{test_diversity}{matrix}(object, adjust = "holm", ...)
+
+\S4method{test_diversity}{data.frame}(object, adjust = "holm", ...)
+}
 \description{
 These functions still work but will be removed (defunct) in the next version.
 }

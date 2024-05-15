@@ -11,8 +11,3 @@ bootstrap(h, f = summary)
 
 quant <- function(x) quantile(x, probs = c(0.25, 0.50))
 bootstrap(h, f = quant)
-
-## Jackknife resampling
-jackknife(h)
-
-bootstrap(h, f = summary)

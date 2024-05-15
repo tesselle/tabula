@@ -1,5 +1,5 @@
 # SIMILARITY
-#' @include AllGenerics.R AllClasses.R
+#' @include AllGenerics.R
 NULL
 
 # Similarity ===================================================================
@@ -8,7 +8,7 @@ NULL
 #' @aliases similarity,matrix-method
 setMethod(
   f = "similarity",
-  signature = signature(object = "matrix"),
+  signature = c(object = "matrix"),
   definition = function(object, method = c("brainerd", "bray", "jaccard",
                                            "morisita", "sorenson",
                                            "binomial")) {
@@ -59,7 +59,7 @@ setMethod(
 #' @aliases similarity,data.frame-method
 setMethod(
   f = "similarity",
-  signature = signature(object = "data.frame"),
+  signature = c(object = "data.frame"),
   definition = function(object, method = c("brainerd", "bray", "jaccard",
                                            "morisita", "sorenson",
                                            "binomial")) {
@@ -68,58 +68,14 @@ setMethod(
   }
 )
 
-# Co-occurrence ================================================================
-#' @export
-#' @rdname occurrence
-#' @aliases occurrence,matrix-method
-setMethod(
-  f = "occurrence",
-  signature = signature(object = "matrix"),
-  definition = function(object) {
-    incid <- object > 0
-    m <- nrow(incid)
-    p <- ncol(incid)
-
-    ij <- utils::combn(p, m = 2, simplify = TRUE)
-    pair <- seq_len(ncol(ij))
-
-    mtx <- matrix(data = 0L, nrow = p, ncol = p)
-    labels <- colnames(incid)
-    dimnames(mtx) <- list(labels, labels)
-
-    for (k in pair) {
-      i <- ij[1, k]
-      j <- ij[2, k]
-      z <- as.integer(sum(incid[, i] + incid[, j] == 2))
-      mtx[i, j] <- mtx[j, i] <- z
-    }
-
-    occ <- stats::as.dist(mtx)
-    attr(occ, "total") <- m
-    occ
-  }
-)
-
-#' @export
-#' @rdname occurrence
-#' @aliases occurrence,data.frame-method
-setMethod(
-  f = "occurrence",
-  signature = signature(object = "data.frame"),
-  definition = function(object) {
-    object <- data.matrix(object)
-    methods::callGeneric(object)
-  }
-)
-
 # Index ========================================================================
 ## Qualitative index -----------------------------------------------------------
 #' @export
-#' @rdname similarity
+#' @rdname index_jaccard
 #' @aliases index_jaccard,character,character-method
 setMethod(
   f = "index_jaccard",
-  signature = signature(x = "character", y = "character"),
+  signature = c(x = "character", y = "character"),
   definition = function(x, y) {
     inter <- length(intersect(x, y))
     union <- length(x) + length(y) - inter
@@ -128,11 +84,11 @@ setMethod(
 )
 
 #' @export
-#' @rdname similarity
+#' @rdname index_jaccard
 #' @aliases index_jaccard,logical,logical-method
 setMethod(
   f = "index_jaccard",
-  signature = signature(x = "logical", y = "logical"),
+  signature = c(x = "logical", y = "logical"),
   definition = function(x, y) {
     ## Validation
     arkhe::assert_length(y, length(x))
@@ -141,16 +97,16 @@ setMethod(
     b <- sum(y)
     j <- sum((x + y) == 2)
     Cj <- j / (a + b - j)
-    return(Cj)
+    Cj
   }
 )
 
 #' @export
-#' @rdname similarity
+#' @rdname index_jaccard
 #' @aliases index_jaccard,numeric,numeric-method
 setMethod(
   f = "index_jaccard",
-  signature = signature(x = "numeric", y = "numeric"),
+  signature = c(x = "numeric", y = "numeric"),
   definition = function(x, y) {
     ## presence/absence
     x <- x > 0
@@ -160,11 +116,11 @@ setMethod(
 )
 
 #' @export
-#' @rdname similarity
+#' @rdname index_sorenson
 #' @aliases index_sorenson,logical,logical-method
 setMethod(
   f = "index_sorenson",
-  signature = signature(x = "logical", y = "logical"),
+  signature = c(x = "logical", y = "logical"),
   definition = function(x, y) {
     ## Validation
     arkhe::assert_length(y, length(x))
@@ -173,16 +129,16 @@ setMethod(
     b <- sum(y)
     j <- sum((x + y) == 2)
     Cs <- 2 * j / (a + b)
-    return(Cs)
+    Cs
   }
 )
 
 #' @export
-#' @rdname similarity
+#' @rdname index_sorenson
 #' @aliases index_sorenson,numeric,numeric-method
 setMethod(
   f = "index_sorenson",
-  signature = signature(x = "numeric", y = "numeric"),
+  signature = c(x = "numeric", y = "numeric"),
   definition = function(x, y) {
     ## presence/absence
     x <- x > 0
@@ -193,11 +149,11 @@ setMethod(
 
 ## Quantitative index ----------------------------------------------------------
 #' @export
-#' @rdname similarity
+#' @rdname index_bray
 #' @aliases index_bray,numeric,numeric-method
 setMethod(
   f = "index_bray",
-  signature = signature(x = "numeric", y = "numeric"),
+  signature = c(x = "numeric", y = "numeric"),
   definition = function(x, y) {
     ## Validation
     arkhe::assert_length(y, length(x))
@@ -207,16 +163,16 @@ setMethod(
 
     j <- sum(apply(X = rbind(x, y), MARGIN = 2, FUN = min))
     Cs <- 2 * j / (a + b)
-    return(Cs)
+    Cs
   }
 )
 
 #' @export
-#' @rdname similarity
+#' @rdname index_morisita
 #' @aliases index_morisita,numeric,numeric-method
 setMethod(
   f = "index_morisita",
-  signature = signature(x = "numeric", y = "numeric"),
+  signature = c(x = "numeric", y = "numeric"),
   definition = function(x, y) {
     ## Validation
     arkhe::assert_length(y, length(x))
@@ -227,40 +183,36 @@ setMethod(
     db <- sum(y^2) / b^2
 
     Cm <- (2 * sum(x * y)) / ((da + db) * a * b)
-    return(Cm)
+    Cm
   }
 )
 
 #' @export
-#' @rdname similarity
+#' @rdname index_brainerd
 #' @aliases index_brainerd,numeric,numeric-method
 setMethod(
   f = "index_brainerd",
-  signature = signature(x = "numeric", y = "numeric"),
+  signature = c(x = "numeric", y = "numeric"),
   definition = function(x, y) {
     ## Validation
-    arkhe::assert_count(x)
-    arkhe::assert_count(y)
     arkhe::assert_length(y, length(x))
 
     a <- x / sum(x)
     b <- y / sum(y)
     Cb <- 2 - sum(abs(a - b))
-    return(Cb * 100)
+    Cb * 100
   }
 )
 
 ## Binomial co-occurrence ------------------------------------------------------
 #' @export
-#' @rdname similarity
+#' @rdname index_binomial
 #' @aliases index_binomial,numeric,numeric-method
 setMethod(
   f = "index_binomial",
-  signature = signature(x = "numeric", y = "numeric"),
+  signature = c(x = "numeric", y = "numeric"),
   definition = function(x, y) {
     ## Validation
-    arkhe::assert_count(x)
-    arkhe::assert_count(y)
     arkhe::assert_length(y, length(x))
 
     ## Total number of assemblages
@@ -276,6 +228,6 @@ setMethod(
     } else {
       Cbi <- (o - N * p) / sqrt(N * p * (1 - p))
     }
-    return(Cbi)
+    Cbi
   }
 )

@@ -4,12 +4,18 @@ template:
   package: tekton
 
 reference:
-- title: Diversity Measures
-  contents:
-  - has_concept("diversity measures")
 - title: Visualization
   contents:
   - has_concept("plot methods")
+- title: Diversity Measures
+  contents:
+  - has_concept("diversity measures")
+- title: Alpha Diversity
+  contents:
+  - has_concept("alpha diversity measures")
+- title: Beta Diversity
+  contents:
+  - has_concept("beta diversity measures")
 - title: Statistics
   contents:
   - has_concept("resampling methods")

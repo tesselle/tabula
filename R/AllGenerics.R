@@ -80,7 +80,7 @@ NULL
 #'
 #'  If `f` is a `function`, `jackknife()` returns the result of `f` applied to
 #'  the leave-one-out values of `do`.
-#' @example inst/examples/ex-bootstrap.R
+#' @example inst/examples/ex-jackknife.R
 #' @author N. Frerebeau
 #' @docType methods
 #' @family resampling methods
@@ -119,25 +119,17 @@ setGeneric(
 #' Heterogeneity and Evenness
 #'
 #' @description
-#'  * `heterogeneity()` returns an heterogeneity or dominance index.
-#'  * `evenness()` returns an evenness measure.
+#'  * `heterogeneity()` computes an heterogeneity or dominance index.
+#'  * `evenness()` computes an evenness measure.
 #' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
 #'  [`data.frame`] of count data (absolute frequencies giving the number of
 #'  individuals for each category, i.e. a contingency table). A [`data.frame`]
 #'  will be coerced to a `numeric` `matrix` via [data.matrix()].
 #' @param method A [`character`] string specifying the index to be computed
 #'  (see details). Any unambiguous substring can be given.
-#' @param x A [`numeric`] vector of count data (absolute frequencies).
 #' @param evenness A [`logical`] scalar: should an evenness measure be computed
 #'  instead of an heterogeneity/dominance index?
-#' @param j An [`integer`] giving the index of the reference type/taxa.
-#'  If `NULL` (the default), the most frequent type/taxa in any assemblage will
-#'  be used.
-#' @param base A positive [`numeric`] value specifying the base with respect to
-#'  which logarithms are computed.
-#' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
-#'  removed?
-#' @param ... Currently not used.
+#' @param ... Further arguments to be passed to internal methods (see below).
 #' @details
 #'  *Diversity* measurement assumes that all individuals in a specific
 #'  taxa are equivalent and that all types are equally different from each
@@ -149,8 +141,8 @@ setGeneric(
 #'  account. Peet (1974) refers to them as indices of *heterogeneity*.
 #'
 #'  Diversity indices focus on one aspect of the taxa abundance and emphasize
-#'  either *richness* (weighting towards uncommon taxa) or dominance (weighting
-#'  towards abundant taxa; Magurran 1988).
+#'  either *[richness][richness()]* (weighting towards uncommon taxa) or
+#'  *dominance* (weighting towards abundant taxa; Magurran 1988).
 #'
 #'  *Evenness* is a measure of how evenly individuals are distributed across the
 #'  sample.
@@ -158,34 +150,12 @@ setGeneric(
 #'  The following heterogeneity index and corresponding evenness measures
 #'  are available (see Magurran 1988 for details):
 #'  \describe{
-#'   \item{`berger`}{Berger-Parker dominance index. The Berger-Parker index
-#'    expresses the proportional importance of the most abundant type. This
-#'    metric is highly biased by sample size and richness, moreover it does not
-#'    make use of all the information available from sample.}
-#'   \item{`boone`}{Boone heterogeneity measure.}
-#'   \item{`brillouin`}{Brillouin diversity index. The Brillouin index describes
-#'    a known collection: it does not assume random sampling in an infinite
-#'    population. Pielou (1975) and Laxton (1978) argues for the use of the
-#'    Brillouin index in all circumstances, especially in preference to the
-#'    Shannon index.}
-#'   \item{`mcintosh`}{McIntosh dominance index. The McIntosh index expresses
-#'    the heterogeneity of a sample in geometric terms. It describes the sample
-#'    as a point of a \eqn{S}-dimensional hypervolume and uses the Euclidean
-#'    distance of this point from the origin.}
-#'   \item{`shannon`}{Shannon-Wiener diversity index. The Shannon index assumes
-#'    that individuals are randomly sampled from an infinite population and that
-#'    all taxa are represented in the sample (it does not reflect the
-#'    sample size). The main source of error arises from the failure to include
-#'    all taxa in the sample: this error increases as the proportion of species
-#'    discovered in the sample declines (Peet 1974, Magurran 1988). The
-#'    maximum likelihood estimator (MLE) is used for the relative abundance,
-#'    this is known to be negatively biased by sample size.}
-#'   \item{`simpson`}{Simpson dominance index for finite sample. The Simpson
-#'    index expresses the probability that two individuals randomly picked from
-#'    a finite sample belong to two different types. It can be interpreted as
-#'    the weighted mean of the proportional abundances. This metric is a true
-#'    probability value, it ranges from \eqn{0} (perfectly uneven) to \eqn{1}
-#'    (perfectly even).}
+#'   \item{`berger`}{[Berger-Parker dominance index][index_berger()].}
+#'   \item{`boone`}{[Boone heterogeneity measure][index_boone()].}
+#'   \item{`brillouin`}{[Brillouin diversity index][index_brillouin()].}
+#'   \item{`mcintosh`}{[McIntosh dominance index][index_mcintosh()].}
+#'   \item{`shannon`}{[Shannon-Wiener diversity index][index_shannon()].}
+#'   \item{`simpson`}{[Simpson dominance index][index_simpson()].}
 #'  }
 #'
 #'  The `berger`, `mcintosh` and `simpson` methods return a *dominance* index,
@@ -194,50 +164,16 @@ setGeneric(
 #' @return
 #'  * `heterogeneity()` returns an [HeterogeneityIndex-class] object.
 #'  * `evenness()` returns an [EvennessIndex-class] object.
-#'  * `index_*()` return a [`numeric`] vector.
-#' @note
-#'  Ramanujan approximation is used for \eqn{x!} computation if \eqn{x > 170}.
+#' @seealso [index_berger()], [index_boone()], [index_brillouin()],
+#'  [index_mcintosh()], [index_shannon()], [index_simpson()]
 #' @references
-#'  Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
-#'  in Deep-Sea Sediments. *Science*, 168(3937), 1345-1347.
-#'  \doi{10.1126/science.168.3937.1345}.
-#'
-#'  Boone, J. L. (1987). Defining and Measuring Midden Catchment. *American
-#'  Antiquity*, 52(2), 336-45. \doi{10.2307/281785}.
-#'
-#'  Brillouin, L. (1956). *Science and information theory*. New York:
-#'  Academic Press.
-#'
-#'  Kintigh, K. W. (1989). Sample Size, Significance, and Measures of
-#'  Diversity. In Leonard, R. D. and Jones, G. T., *Quantifying Diversity
-#'  in Archaeology*. New Directions in Archaeology. Cambridge:
-#'  Cambridge University Press, p. 25-36.
-#'
-#'  Laxton, R. R. (1978). The measure of diversity. *Journal of Theoretical
-#'  Biology*, 70(1), 51-67.
-#'  \doi{10.1016/0022-5193(78)90302-8}.
-#'
 #'  Magurran, A. E. (1988). *Ecological Diversity and its Measurement*.
 #'  Princeton, NJ: Princeton University Press.
 #'  \doi{10.1007/978-94-015-7358-0}.
 #'
-#'  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
-#'  Concepts to Diversity. *Ecology*, 48(3), 392-404.
-#'  \doi{10.2307/1932674}.
-#'
 #'  Peet, R. K. (1974). The Measurement of Species Diversity. *Annual Review of
 #'  Ecology and Systematics*, 5(1), 285-307.
 #'  \doi{10.1146/annurev.es.05.110174.001441}.
-#'
-#'  Pielou, E. C. (1975). *Ecological Diversity*. New York: Wiley.
-#'  \doi{10.4319/lo.1977.22.1.0174b}
-#'
-#'  Shannon, C. E. (1948). A Mathematical Theory of Communication. *The
-#'  Bell System Technical Journal*, 27, 379-423.
-#'  \doi{10.1002/j.1538-7305.1948.tb01338.x}.
-#'
-#'  Simpson, E. H. (1949). Measurement of Diversity. *Nature*, 163(4148),
-#'  688-688. \doi{10.1038/163688a0}.
 #' @example inst/examples/ex-diversity.R
 #' @author N. Frerebeau
 #' @family diversity measures
@@ -257,42 +193,195 @@ setGeneric(
   valueClass = "EvennessIndex"
 )
 
-#' @rdname heterogeneity
+#' Berger-Parker Dominance Index
+#'
+#' @param x A [`numeric`] vector of count data (absolute frequencies).
+#' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
+#'  removed?
+#' @param ... Currently not used.
+#' @details
+#'  The Berger-Parker index expresses the proportional importance of the most
+#'  abundant type. This metric is highly biased by sample size and richness,
+#'  moreover it does not make use of all the information available from sample.
+#'
+#'  This is a *dominance* index, so that an increase in the value of the index
+#'  accompanies a decrease in diversity.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Berger, W. H. & Parker, F. L. (1970). Diversity of Planktonic Foraminifera
+#'  in Deep-Sea Sediments. *Science*, 168(3937), 1345-1347.
+#'  \doi{10.1126/science.168.3937.1345}.
+#' @author N. Frerebeau
+#' @family alpha diversity measures
+#' @docType methods
 #' @aliases index_berger-method
 setGeneric(
   name = "index_berger",
   def = function(x, ...) standardGeneric("index_berger")
 )
 
-#' @rdname heterogeneity
+#' Boone Heterogeneity Measure
+#'
+#' @param x A \eqn{m \times p}{m x p} `numeric` [`matrix`] of count data
+#'  (absolute frequencies, i.e. a contingency table).
+#' @param j An [`integer`] giving the index of the reference type/taxa.
+#'  If `NULL` (the default), the most frequent type/taxa in any assemblage will
+#'  be used.
+#' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
+#'  removed?
+#' @param ... Currently not used.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Boone, J. L. (1987). Defining and Measuring Midden Catchment. *American
+#'  Antiquity*, 52(2), 336-45. \doi{10.2307/281785}.
+#'
+#'  Kintigh, K. W. (1989). Sample Size, Significance, and Measures of
+#'  Diversity. In Leonard, R. D. and Jones, G. T., *Quantifying Diversity
+#'  in Archaeology*. New Directions in Archaeology. Cambridge:
+#'  Cambridge University Press, p. 25-36.
+#' @author N. Frerebeau
+#' @family alpha diversity measures
+#' @docType methods
 #' @aliases index_boone-method
 setGeneric(
   name = "index_boone",
   def = function(x, ...) standardGeneric("index_boone")
 )
 
-#' @rdname heterogeneity
+#' Brillouin Diversity Index.
+#'
+#' @param x A [`numeric`] vector of count data (absolute frequencies).
+#' @param evenness A [`numeric`] scalar: should evenness be computed?
+#' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
+#'  removed?
+#' @param ... Currently not used.
+#' @details
+#'  The Brillouin index describes a known collection: it does not assume random
+#'  sampling in an infinite population. Pielou (1975) and Laxton (1978) argues
+#'  for the use of the Brillouin index in all circumstances, especially in
+#'  preference to the Shannon index.
+#' @note
+#'  Ramanujan approximation is used for \eqn{x!} computation if \eqn{x > 170}.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Brillouin, L. (1956). *Science and information theory*. New York:
+#'  Academic Press.
+#'
+#'  Laxton, R. R. (1978). The measure of diversity. *Journal of Theoretical
+#'  Biology*, 70(1), 51-67.
+#'  \doi{10.1016/0022-5193(78)90302-8}.
+#'
+#'  Pielou, E. C. (1975). *Ecological Diversity*. New York: Wiley.
+#'  \doi{10.4319/lo.1977.22.1.0174b}
+#' @author N. Frerebeau
+#' @family alpha diversity measures
+#' @docType methods
 #' @aliases index_brillouin-method
 setGeneric(
   name = "index_brillouin",
   def = function(x, ...) standardGeneric("index_brillouin")
 )
 
-#' @rdname heterogeneity
+#' McIntosh Dominance Index.
+#'
+#' @param x A [`numeric`] vector of count data (absolute frequencies).
+#' @param evenness A [`numeric`] scalar: should evenness be computed?
+#' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
+#'  removed?
+#' @param ... Currently not used.
+#' @details
+#'  The McIntosh index expresses the heterogeneity of a sample in geometric
+#'  terms. It describes the sample as a point of a \eqn{S}-dimensional
+#'  hypervolume and uses the Euclidean distance of this point from the origin.
+#'
+#'  This is a *dominance* index, so that an increase in the value of the index
+#'  accompanies a decrease in diversity.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
+#'  Concepts to Diversity. *Ecology*, 48(3), 392-404.
+#'  \doi{10.2307/1932674}.
+#' @author N. Frerebeau
+#' @family alpha diversity measures
+#' @docType methods
 #' @aliases index_mcintosh-method
 setGeneric(
   name = "index_mcintosh",
   def = function(x, ...) standardGeneric("index_mcintosh")
 )
 
-#' @rdname heterogeneity
+#' Shannon-Wiener Diversity Index
+#'
+#' @param x A [`numeric`] vector of count data (absolute frequencies).
+#' @param evenness A [`numeric`] scalar: should evenness be computed?
+#' @param unbiased A [`logical`] scalar: should the bias-corrected estimator be
+#'  used?
+#' @param base A positive [`numeric`] value specifying the base with respect to
+#'  which logarithms are computed.
+#' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
+#'  removed?
+#' @param ... Currently not used.
+#' @details
+#'  The Shannon index assumes that individuals are randomly sampled from an
+#'  infinite population and that all taxa are represented in the sample (it
+#'  does not reflect the sample size). The main source of error arises from the
+#'  failure to include all taxa in the sample: this error increases as the
+#'  proportion of species discovered in the sample declines (Peet 1974,
+#'  Magurran 1988). The maximum likelihood estimator (MLE) is used for the
+#'  relative abundance, this is known to be negatively biased by sample size.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Peet, R. K. (1974). The Measurement of Species Diversity. *Annual Review of
+#'  Ecology and Systematics*, 5(1), 285-307.
+#'  \doi{10.1146/annurev.es.05.110174.001441}.
+#'
+#'  Magurran, A. E. (1988). *Ecological Diversity and its Measurement*.
+#'  Princeton, NJ: Princeton University Press.
+#'  \doi{10.1007/978-94-015-7358-0}.
+#'
+#'  Shannon, C. E. (1948). A Mathematical Theory of Communication. *The
+#'  Bell System Technical Journal*, 27, 379-423.
+#'  \doi{10.1002/j.1538-7305.1948.tb01338.x}.
+#' @author N. Frerebeau
+#' @family alpha diversity measures
+#' @docType methods
 #' @aliases index_shannon-method
 setGeneric(
   name = "index_shannon",
   def = function(x, ...) standardGeneric("index_shannon")
 )
 
-#' @rdname heterogeneity
+#' Simpson Dominance Index
+#'
+#' @param x A [`numeric`] vector of count data (absolute frequencies).
+#' @param evenness A [`numeric`] scalar: should evenness be computed?
+#' @param unbiased A [`logical`] scalar: should the bias-corrected estimator be
+#'  used?
+#' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
+#'  removed?
+#' @param ... Currently not used.
+#' @details
+#'  The Simpson index expresses the probability that two individuals randomly
+#'  picked from a finite sample belong to two different types. It can be
+#'  interpreted as the weighted mean of the proportional abundances. This
+#'  metric is a true probability value, it ranges from \eqn{0} (all taxa are
+#'  equally present) to \eqn{1} (one taxon dominates the community completely).
+#'
+#'  This is a *dominance* index, so that an increase in the value of the index
+#'  accompanies a decrease in diversity.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Simpson, E. H. (1949). Measurement of Diversity. *Nature*, 163(4148),
+#'  688-688. \doi{10.1038/163688a0}.
+#' @author N. Frerebeau
+#' @family alpha diversity measures
+#' @docType methods
 #' @aliases index_simpson-method
 setGeneric(
   name = "index_simpson",
@@ -303,25 +392,15 @@ setGeneric(
 #' Richness
 #'
 #' @description
-#'  * `richness()` returns sample richness.
-#'  * `composition()` returns asymptotic species richness.
+#'  * `richness()` computes sample richness.
+#'  * `composition()` computes asymptotic species richness.
 #' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
 #'  [`data.frame`] of count data (absolute frequencies giving the number of
 #'  individuals for each category, i.e. a contingency table). A [`data.frame`]
 #'  will be coerced to a `numeric` `matrix` via [data.matrix()].
 #' @param method A [`character`] string or vector of strings specifying the
 #' index to be computed (see details). Any unambiguous substring can be given.
-#' @param x A [`numeric`] vector or matrix of count data (absolute frequencies).
-#' @param unbiased A [`logical`] scalar. Should the bias-corrected estimator be
-#'  used? Only used with "`chao1`" or "`chao2`" (improved) estimator.
-#' @param improved A [`logical`] scalar. Should the improved estimator be used?
-#'  Only used with "`chao1`" or "`chao2`".
-#' @param k A length-one [`numeric`] vector giving the threshold between
-#'  rare/infrequent and abundant/frequent species. Only used if `method` is
-#'  "`ace`" or "`ice`".
-#' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
-#'  removed?
-#' @param ... Further arguments to be passed to internal methods.
+#' @param ... Further arguments to be passed to internal methods (see below).
 #' @section Details:
 #'  The number of different taxa, provides an instantly comprehensible
 #'  expression of diversity. While the number of taxa within a sample
@@ -337,75 +416,50 @@ setGeneric(
 #'  standard size (i.e. taxa per fixed number of individuals).
 #'  Rarefaction assumes that imbalances between taxa are due to sampling and
 #'  not to differences in actual abundances.
-#'
 #' @section Richness Measures:
 #'  The following richness measures are available for count data:
 #'  \describe{
-#'   \item{`count`}{Returns the number of observed taxa/types.}
-#'   \item{`margalef`}{Margalef richness index.}
-#'   \item{`menhinick`}{Menhinick richness index.}
+#'   \item{`count`}{Number of observed taxa/types.}
+#'   \item{`margalef`}{[Margalef richness index][index_margalef()].}
+#'   \item{`menhinick`}{[Menhinick richness index][index_menhinick()].}
 #'  }
 #'
 #' @section Asymptotic Species Richness:
 #'  The following measures are available for count data:
 #'  \describe{
-#'   \item{`ace`}{Abundance-based Coverage Estimator.}
-#'   \item{`chao1`}{(improved/unbiased) Chao1 estimator.}
+#'   \item{`ace`}{[Abundance-based Coverage Estimator][index_ace()].}
+#'   \item{`chao1`}{(improved/unbiased) [Chao1 estimator][index_chao1()].}
+#'   \item{`squares`}{[Squares estimator][index_squares()].}
 #'  }
 #'
 #'  The following measures are available for replicated incidence data:
 #'  \describe{
-#'   \item{`ice`}{Incidence-based Coverage Estimator.}
-#'   \item{`chao2`}{(improved/unbiased) Chao2 estimator.}
+#'   \item{`ice`}{[Incidence-based Coverage Estimator][index_ice()].}
+#'   \item{`chao2`}{(improved/unbiased) [Chao2 estimator][index_chao2()].}
 #'  }
 #' @return
 #'  * `richness()` returns a [RichnessIndex-class] object.
 #'  * `composition()` returns a [CompositionIndex-class] object.
-#'  * `index_*()` return a [`numeric`] vector.
+#' @seealso [index_margalef()], [index_menhinick()], [index_ace()],
+#'  [index_chao1()], [index_squares()], [index_ice()], [index_chao2()]
 #' @references
-#'  Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
-#'  Population. *Scandinavian Journal of Statistics*, 11(4), 265-270.
-#'
-#'  Chao, A. (1987). Estimating the Population Size for Capture-Recapture Data
-#'  with Unequal Catchability. *Biometrics* 43(4), 783-791.
-#'  \doi{10.2307/2531532}.
-#'
-#'  Chao, A. & Chiu, C.-H. (2016). Species Richness: Estimation and Comparison.
-#'  *In* Balakrishnan, N., Colton, T., Everitt, B., Piegorsch, B., Ruggeri,
-#'  F. & Teugels, J. L. (Eds.), *Wiley StatsRef: Statistics Reference Online*.
-#'  Chichester, UK: John Wiley & Sons, Ltd., 1-26.
-#'  \doi{10.1002/9781118445112.stat03432.pub2}
-#'
-#'  Chao, A. & Lee, S.-M. (1992). Estimating the Number of Classes via Sample
-#'  Coverage. *Journal of the American Statistical Association*, 87(417),
-#'  210-217. \doi{10.1080/01621459.1992.10475194}.
-#'
-#'  Chiu, C.-H., Wang, Y.-T., Walther, B. A. & Chao, A. (2014). An improved
-#'  nonparametric lower bound of species richness via a modified good-turing
-#'  frequency formula. *Biometrics*, 70(3), 671-682.
-#'  \doi{10.1111/biom.12200}.
-#'
-#'  Magurran, A. E. (1988). *Ecological Diversity and its Measurement*.
-#'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
-#'
 #'  Kintigh, K. W. (1989). Sample Size, Significance, and Measures of
 #'  Diversity. In Leonard, R. D. and Jones, G. T., *Quantifying Diversity
 #'  in Archaeology*. New Directions in Archaeology. Cambridge:
 #'  Cambridge University Press, p. 25-36.
 #'
+#'  Magurran, A. E. (1988). *Ecological Diversity and its Measurement*.
+#'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
+#'
 #'  Magurran, A E. & Brian J. McGill (2011). *Biological Diversity:
 #'  Frontiers in Measurement and Assessment*. Oxford: Oxford University Press.
 #'
-#'  Margalef, R. (1958). Information Theory in Ecology. *General Systems*,
-#'  3, 36-71.
-#'
-#'  Menhinick, E. F. (1964). A Comparison of Some Species-Individuals Diversity
-#'  Indices Applied to Samples of Field Insects. *Ecology*, 45(4), 859-861.
-#'  \doi{10.2307/1934933}.
-#'
 #'  McIntosh, R. P. (1967). An Index of Diversity and the Relation of Certain
-#'  Concepts to Diversity. *Ecology*, 48(3), 392-404.
-#'  \doi{10.2307/1932674}.
+#'  Concepts to Diversity. *Ecology*, 48(3), 392-404. \doi{10.2307/1932674}.
+#'
+#'  Peet, R. K. (1974). The Measurement of Species Diversity. *Annual Review of
+#'  Ecology and Systematics*, 5(1), 285-307.
+#'  \doi{10.1146/annurev.es.05.110174.001441}.
 #' @seealso [`plot()`][plot_diversity]
 #' @example inst/examples/ex-richness.R
 #' @author N. Frerebeau
@@ -426,46 +480,167 @@ setGeneric(
   valueClass = "CompositionIndex"
 )
 
-#' @rdname richness
+#' Abundance-based Coverage Estimator
+#'
+#' @param x A [`numeric`] vector of count data (absolute frequencies).
+#' @param k A length-one [`numeric`] vector giving the threshold between
+#'  rare/infrequent and abundant/frequent species.
+#' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
+#'  removed?
+#' @param ... Currently not used.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Chao, A. & Lee, S.-M. (1992). Estimating the Number of Classes via Sample
+#'  Coverage. *Journal of the American Statistical Association*, 87(417),
+#'  210-217. \doi{10.1080/01621459.1992.10475194}.
+#' @author N. Frerebeau
+#' @family alpha diversity measures
+#' @docType methods
 #' @aliases index_ace-method
 setGeneric(
   name = "index_ace",
   def = function(x, ...) standardGeneric("index_ace")
 )
 
-#' @rdname richness
-#' @aliases index_ice-method
-setGeneric(
-  name = "index_ice",
-  def = function(x, ...) standardGeneric("index_ice")
-)
-
-#' @rdname richness
+#' Chao1 Estimator
+#'
+#' @param x A [`numeric`] vector of count data (absolute frequencies).
+#' @param unbiased A [`logical`] scalar: should the bias-corrected estimator be
+#'  used?
+#' @param improved A [`logical`] scalar: should the improved estimator be used?
+#' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
+#'  removed?
+#' @param ... Currently not used.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Chao, A. (1984). Nonparametric Estimation of the Number of Classes in a
+#'  Population. *Scandinavian Journal of Statistics*, 11(4), 265-270.
+#'
+#'  Chiu, C.-H., Wang, Y.-T., Walther, B. A. & Chao, A. (2014). An improved
+#'  nonparametric lower bound of species richness via a modified good-turing
+#'  frequency formula. *Biometrics*, 70(3), 671-682.
+#'  \doi{10.1111/biom.12200}.
+#' @author N. Frerebeau
+#' @family alpha diversity measures
+#' @docType methods
 #' @aliases index_chao1-method
 setGeneric(
   name = "index_chao1",
   def = function(x, ...) standardGeneric("index_chao1")
 )
 
-#' @rdname richness
+#' Chao2 Estimator
+#'
+#' @param x A \eqn{m \times p}{m x p} [`matrix`] of presence/absence data
+#'  (incidence).
+#' @param unbiased A [`logical`] scalar: should the bias-corrected estimator be
+#'  used?
+#' @param improved A [`logical`] scalar: should the improved estimator be used?
+#' @param ... Currently not used.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Chao, A. (1987). Estimating the Population Size for Capture-Recapture Data
+#'  with Unequal Catchability. *Biometrics* 43(4), 783-791.
+#'
+#'  Chiu, C.-H., Wang, Y.-T., Walther, B. A. & Chao, A. (2014). An improved
+#'  nonparametric lower bound of species richness via a modified good-turing
+#'  frequency formula. *Biometrics*, 70(3), 671-682.
+#'  \doi{10.2307/2531532}.
+#' @author N. Frerebeau
+#' @family alpha diversity measures
+#' @docType methods
 #' @aliases index_chao2-method
 setGeneric(
   name = "index_chao2",
   def = function(x, ...) standardGeneric("index_chao2")
 )
 
-#' @rdname richness
+#' Incidence-based Coverage Estimator
+#'
+#' @param x A \eqn{m \times p}{m x p} [`matrix`] of presence/absence data
+#'  (incidence).
+#' @param k A length-one [`numeric`] vector giving the threshold between
+#'  rare/infrequent and abundant/frequent species.
+#' @param ... Currently not used.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Chao, A. & Chiu, C.-H. (2016). Species Richness: Estimation and Comparison.
+#'  *In* Balakrishnan, N., Colton, T., Everitt, B., Piegorsch, B., Ruggeri,
+#'  F. & Teugels, J. L. (Eds.), *Wiley StatsRef: Statistics Reference Online*.
+#'  Chichester, UK: John Wiley & Sons, Ltd., 1-26.
+#'  \doi{10.1002/9781118445112.stat03432.pub2}
+#' @author N. Frerebeau
+#' @family alpha diversity measures
+#' @docType methods
+#' @aliases index_ice-method
+setGeneric(
+  name = "index_ice",
+  def = function(x, ...) standardGeneric("index_ice")
+)
+
+#' Margalef Richness Index
+#'
+#' @param x A [`numeric`] vector of count data (absolute frequencies).
+#' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
+#'  removed?
+#' @param ... Currently not used.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Margalef, R. (1958). Information Theory in Ecology. *General Systems*,
+#'  3, 36-71.
+#' @author N. Frerebeau
+#' @family alpha diversity measures
+#' @docType methods
 #' @aliases index_margalef-method
 setGeneric(
   name = "index_margalef",
   def = function(x, ...) standardGeneric("index_margalef")
 )
 
-#' @rdname richness
+#' Menhinick Richness Index
+#'
+#' @param x A [`numeric`] vector of count data (absolute frequencies).
+#' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
+#'  removed?
+#' @param ... Currently not used.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Menhinick, E. F. (1964). A Comparison of Some Species-Individuals Diversity
+#'  Indices Applied to Samples of Field Insects. *Ecology*, 45(4), 859-861.
+#'  \doi{10.2307/1934933}.
+#' @author N. Frerebeau
+#' @family alpha diversity measures
+#' @docType methods
 #' @aliases index_menhinick-method
 setGeneric(
   name = "index_menhinick",
   def = function(x, ...) standardGeneric("index_menhinick")
+)
+
+#' Squares Estimator
+#'
+#' @param x A [`numeric`] vector of count data (absolute frequencies).
+#' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
+#'  removed?
+#' @param ... Currently not used.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Alroy, J. (2018). Limits to Species Richness in Terrestrial Communities.
+#'  *Ecology Letters*, 21(12), 1781-1789. \doi{10.1111/ele.13152}.
+#' @author N. Frerebeau
+#' @family alpha diversity measures
+#' @docType methods
+#' @aliases index_squares-method
+setGeneric(
+  name = "index_squares",
+  def = function(x, ...) standardGeneric("index_squares")
 )
 
 ## Rarefaction -----------------------------------------------------------------
@@ -475,7 +650,6 @@ setGeneric(
 #'  [`data.frame`] of count data (absolute frequencies giving the number of
 #'  individuals for each category, i.e. a contingency table). A [`data.frame`]
 #'  will be coerced to a `numeric` `matrix` via [data.matrix()].
-#' @param x A [`numeric`] vector of count data (absolute frequencies).
 #' @param sample A length-one [`numeric`] vector giving the sub-sample size.
 #'  The size of sample should be smaller than total community size.
 #' @param method A [`character`] string or vector of strings specifying the
@@ -486,24 +660,14 @@ setGeneric(
 #' @section Rarefaction Measures:
 #'  The following rarefaction measures are available for count data:
 #'  \describe{
-#'   \item{`baxter`}{Baxter's rarefaction.}
-#'   \item{`hurlbert`}{Hurlbert's unbiased estimate of Sander's rarefaction.}
+#'   \item{`baxter`}{[Baxter's rarefaction][index_baxter()].}
+#'   \item{`hurlbert`}{[Hurlbert's unbiased estimate][index_hurlbert()] of
+#'   Sander's rarefaction.}
 #'  }
 #' @return
-#'  * `rarefaction()` returns a [RarefactionIndex-class] object.
-#'  * `index_*()` return a [`numeric`] vector.
-#' @references
-#'  Baxter, M. J. (2001). Methodological Issues in the Study of Assemblage
-#'  Diversity. *American Antiquity*, 66(4), 715-725. \doi{10.2307/2694184}.
-#'
-#'  Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
-#'  Alternative Parameters. *Ecology*, 52(4), 577-586.
-#'  \doi{10.2307/1934145}.
-#'
-#'  Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
-#'  *The American Naturalist*, 102(925), 243-282.
+#'  A [RarefactionIndex-class] object.
 #' @example inst/examples/ex-rarefaction.R
-#' @seealso [`plot()`][plot_rarefaction]
+#' @seealso [index_baxter()], [index_hurlbert()], [`plot()`][plot_rarefaction]
 #' @author N. Frerebeau
 #' @family diversity measures
 #' @docType methods
@@ -513,14 +677,45 @@ setGeneric(
   def = function(object, ...) standardGeneric("rarefaction")
 )
 
-#' @rdname rarefaction
+#' Baxter's Rarefaction
+#'
+#' @param x A [`numeric`] vector of count data (absolute frequencies).
+#' @param sample A length-one [`numeric`] vector giving the sub-sample size.
+#'  The size of sample should be smaller than total community size.
+#' @param ... Currently not used.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Baxter, M. J. (2001). Methodological Issues in the Study of Assemblage
+#'  Diversity. *American Antiquity*, 66(4), 715-725. \doi{10.2307/2694184}.
+#' @author N. Frerebeau
+#' @family alpha diversity measures
+#' @docType methods
 #' @aliases index_baxter-method
 setGeneric(
   name = "index_baxter",
   def = function(x, ...) standardGeneric("index_baxter")
 )
 
-#' @rdname rarefaction
+#' Hurlbert's Rarefaction
+#'
+#' Hurlbert's unbiased estimate of Sander's rarefaction.
+#' @param x A [`numeric`] vector of count data (absolute frequencies).
+#' @param sample A length-one [`numeric`] vector giving the sub-sample size.
+#'  The size of sample should be smaller than total community size.
+#' @param ... Currently not used.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Hurlbert, S. H. (1971). The Nonconcept of Species Diversity: A Critique and
+#'  Alternative Parameters. *Ecology*, 52(4), 577-586.
+#'  \doi{10.2307/1934145}.
+#'
+#'  Sander, H. L. (1968). Marine Benthic Diversity: A Comparative Study.
+#'  *The American Naturalist*, 102(925), 243-282.
+#' @author N. Frerebeau
+#' @family alpha diversity measures
+#' @docType methods
 #' @aliases index_hurlbert-method
 setGeneric(
   name = "index_hurlbert",
@@ -534,7 +729,6 @@ setGeneric(
 #'  [`data.frame`] of count data (absolute frequencies giving the number of
 #'  individuals for each category, i.e. a contingency table). A [`data.frame`]
 #'  will be coerced to a `numeric` `matrix` via [data.matrix()].
-#' @param x,y A length-\eqn{p} [`numeric`] vector of count data.
 #' @param method A [`character`] string specifying the method to be
 #'  used (see details). Any unambiguous substring can be given.
 #' @param ... Currently not used.
@@ -550,40 +744,20 @@ setGeneric(
 #'  \eqn{200}. The Binomial co-occurrence assessment approximates a Z-score.
 #'
 #'  \describe{
-#'   \item{`binomial`}{Binomial co-occurrence assessment. This assesses the
-#'   degree of co-occurrence between taxa/types within a dataset. The strongest
-#'   associations are shown by large positive numbers, the strongest
-#'   segregations by large negative numbers.}
-#'   \item{`brainerd`}{Brainerd-Robinson quantitative index. This is a
-#'   city-block metric of similarity between pairs of samples/cases.}
-#'   \item{`bray`}{Sorenson quantitative index (Bray and Curtis modified version
-#'   of the Sorenson index).}
-#'   \item{`jaccard`}{Jaccard qualitative index.}
-#'   \item{`morisita`}{Morisita-Horn quantitative index.}
-#'   \item{`sorenson`}{Sorenson qualitative index.}
+#'   \item{`binomial`}{[Binomial co-occurrence assessment][index_binomial()].}
+#'   \item{`brainerd`}{[Brainerd-Robinson quantitative index][index_brainerd()].}
+#'   \item{`bray`}{[Sorenson quantitative index][index_bray()].}
+#'   \item{`jaccard`}{[Jaccard qualitative index][index_jaccard()].}
+#'   \item{`morisita`}{[Morisita-Horn quantitative index][index_morisita()].}
+#'   \item{`sorenson`}{[Sorenson qualitative index][index_sorenson()].}
 #'  }
 #' @return
-#'  * `similarity()` returns a [stats::dist] object.
-#'  * `index_*()` return a [`numeric`] vector.
+#'  A [stats::dist] object.
+#' @seealso [index_binomial()], [index_brainerd()], [index_bray()],
+#'  [index_jaccard()], [index_morisita()], [index_sorenson()]
 #' @references
-#'  Brainerd, G. W. (1951). The Place of Chronological Ordering in
-#'  Archaeological Analysis. *American Antiquity*, 16(04), 301-313.
-#'  \doi{10.2307/276979}.
-#'
-#'  Bray, J. R. & Curtis, J. T. (1957). An Ordination of the Upland Forest
-#'  Communities of Southern Wisconsin. *Ecological Monographs*, 27(4),
-#'  325-349. \doi{10.2307/1942268}.
-#'
-#'  Kintigh, K. (2006). Ceramic Dating and Type Associations. In J. Hantman and
-#'  R. Most (eds.), *Managing Archaeological Data: Essays in Honor of
-#'  Sylvia W. Gaines*. Anthropological Research Paper, 57. Tempe, AZ: Arizona
-#'  State University, p. 17-26.
-#'
 #'  Magurran, A. E. (1988). *Ecological Diversity and its Measurement*.
 #'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
-#'
-#'  Robinson, W. S. (1951). A Method for Chronologically Ordering Archaeological
-#'  Deposits. *American Antiquity*, 16(04), 293-301. \doi{10.2307/276978}.
 #' @example inst/examples/ex-similarity.R
 #' @author N. Frerebeau
 #' @family diversity measures
@@ -594,46 +768,279 @@ setGeneric(
   def = function(object, ...) standardGeneric("similarity")
 )
 
-#' @rdname similarity
+#' Jaccard Index
+#'
+#' @param x,y A [`numeric`] vector.
+#' @param ... Currently not used.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Magurran, A. E. (1988). *Ecological Diversity and its Measurement*.
+#'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
+#' @author N. Frerebeau
+#' @family beta diversity measures
+#' @docType methods
 #' @aliases index_jaccard-method
 setGeneric(
   name = "index_jaccard",
   def = function(x, y, ...) standardGeneric("index_jaccard")
 )
 
-#' @rdname similarity
+#' Sorenson Qualitative Index
+#'
+#' @param x,y A [`numeric`] vector.
+#' @param ... Currently not used.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Magurran, A. E. (1988). *Ecological Diversity and its Measurement*.
+#'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
+#' @author N. Frerebeau
+#' @family beta diversity measures
+#' @docType methods
 #' @aliases index_sorenson-method
 setGeneric(
   name = "index_sorenson",
   def = function(x, y, ...) standardGeneric("index_sorenson")
 )
 
-#' @rdname similarity
+#' Sorenson Quantitative Index
+#'
+#' Bray and Curtis modified version of the Sorenson index.
+#' @param x,y A [`numeric`] vector.
+#' @param ... Currently not used.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Bray, J. R. & Curtis, J. T. (1957). An Ordination of the Upland Forest
+#'  Communities of Southern Wisconsin. *Ecological Monographs*, 27(4),
+#'  325-349. \doi{10.2307/1942268}.
+#' @author N. Frerebeau
+#' @family beta diversity measures
+#' @docType methods
 #' @aliases index_bray-method
 setGeneric(
   name = "index_bray",
   def = function(x, y, ...) standardGeneric("index_bray")
 )
 
-#' @rdname similarity
+#' Morisita-Horn Quantitative Index
+#'
+#' @param x,y A [`numeric`] vector.
+#' @param ... Currently not used.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Magurran, A. E. (1988). *Ecological Diversity and its Measurement*.
+#'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
+#' @author N. Frerebeau
+#' @family beta diversity measures
+#' @docType methods
 #' @aliases index_morisita-method
 setGeneric(
   name = "index_morisita",
   def = function(x, y, ...) standardGeneric("index_morisita")
 )
 
-#' @rdname similarity
+#' Brainerd-Robinson Quantitative Index
+#'
+#' @param x,y A [`numeric`] vector.
+#' @param ... Currently not used.
+#' @details
+#'  A city-block metric of similarity between pairs of samples/cases.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Brainerd, G. W. (1951). The Place of Chronological Ordering in
+#'  Archaeological Analysis. *American Antiquity*, 16(04), 301-313.
+#'  \doi{10.2307/276979}.
+#'
+#'  Robinson, W. S. (1951). A Method for Chronologically Ordering Archaeological
+#'  Deposits. *American Antiquity*, 16(04), 293-301. \doi{10.2307/276978}.
+#' @author N. Frerebeau
+#' @family beta diversity measures
+#' @docType methods
 #' @aliases index_brainerd-method
 setGeneric(
   name = "index_brainerd",
   def = function(x, y, ...) standardGeneric("index_brainerd")
 )
 
-#' @rdname similarity
+#' Binomial Co-Occurrence Assessment
+#'
+#' @param x,y A [`numeric`] vector.
+#' @param ... Currently not used.
+#' @details
+#'  This assesses the degree of co-occurrence between taxa/types within a
+#'  dataset. The strongest associations are shown by large positive numbers,
+#'  the strongest segregations by large negative numbers.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Kintigh, K. (2006). Ceramic Dating and Type Associations. In J. Hantman and
+#'  R. Most (eds.), *Managing Archaeological Data: Essays in Honor of
+#'  Sylvia W. Gaines*. Anthropological Research Paper, 57. Tempe, AZ: Arizona
+#'  State University, p. 17-26.
+#' @author N. Frerebeau
+#' @family beta diversity measures
+#' @docType methods
 #' @aliases index_binomial-method
 setGeneric(
   name = "index_binomial",
   def = function(x, y, ...) standardGeneric("index_binomial")
+)
+
+## Turnover --------------------------------------------------------------------
+#' Turnover
+#'
+#' Returns the degree of turnover in taxa composition along a gradient or
+#' transect.
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data or incidence data. A [`data.frame`]
+#'  will be coerced to a `numeric` `matrix` via [data.matrix()].
+#' @param method A [`character`] string specifying the method to be
+#'  used (see details). Any unambiguous substring can be given.
+#' @param ... Further arguments to be passed to internal methods.
+#' @details
+#'  The following methods can be used to ascertain the degree of *turnover*
+#'  in taxa composition along a gradient (\eqn{\beta}-diversity) on qualitative
+#'  (presence/absence) data:
+#'
+#'  \describe{
+#'   \item{`cody`}{[Cody measure][index_cody()].}
+#'   \item{`routledge1`}{[Routledge first measure][index_routledge].}
+#'   \item{`routledge2`}{[Routledge second measure][index_routledge].}
+#'   \item{`routledge3`}{[Routledge third measure][index_routledge] (exponential
+#'   form of the second measure).}
+#'   \item{`whittaker`}{[Whittaker measure][index_whittaker()].}
+#'   \item{`wilson`}{[Wilson measure][index_wilson()].}
+#'  }
+#'
+#'  This assumes that the order of the matrix rows (from \eqn{1} to \eqn{n})
+#'  follows the progression along the gradient/transect.
+#' @return
+#'  A [`numeric`] vector.
+#' @seealso [index_cody()], [index_routledge1()], [index_routledge2()],
+#'  [index_routledge3()], [index_whittaker()], [index_wilson()]
+#' @example inst/examples/ex-turnover.R
+#' @author N. Frerebeau
+#' @family diversity measures
+#' @docType methods
+#' @aliases turnover-method
+setGeneric(
+  name = "turnover",
+  def = function(object, ...) standardGeneric("turnover")
+)
+
+#' Cody Measure
+#'
+#' @param x A \eqn{m \times p}{m x p} `numeric` [`matrix`] of count data
+#'  (absolute frequencies, i.e. a contingency table).
+#' @param ... Currently not used.
+#' @details
+#'  This assumes that the order of the matrix rows (from \eqn{1} to \eqn{n})
+#'  follows the progression along the gradient/transect.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Cody, M. L. (1975). Towards a theory of continental species diversity: Bird
+#'  distributions over Mediterranean habitat gradients. *In* M. L. Cody &
+#'  J. M. Diamond (Eds.), *Ecology and Evolution of Communities*.
+#'  Cambridge, MA: Harvard University Press, p. 214-257.
+#' @author N. Frerebeau
+#' @family beta diversity measures
+#' @docType methods
+#' @aliases index_cody-method
+setGeneric(
+  name = "index_cody",
+  def = function(x, ...) standardGeneric("index_cody")
+)
+
+#' Routledge Measures
+#'
+#' @param x A \eqn{m \times p}{m x p} `numeric` [`matrix`] of count data
+#'  (absolute frequencies, i.e. a contingency table).
+#' @param ... Currently not used.
+#' @details
+#'  This assumes that the order of the matrix rows (from \eqn{1} to \eqn{n})
+#'  follows the progression along the gradient/transect.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Routledge, R. D. (1977). On Whittaker's Components of Diversity.
+#'  *Ecology*, 58(5), 1120-1127. \doi{10.2307/1936932}.
+#' @author N. Frerebeau
+#' @family beta diversity measures
+#' @docType methods
+#' @name index_routledge
+#' @rdname index_routledge
+NULL
+
+#' @rdname index_routledge
+#' @aliases index_routledge1-method
+setGeneric(
+  name = "index_routledge1",
+  def = function(x, ...) standardGeneric("index_routledge1")
+)
+
+#' @rdname index_routledge
+#' @aliases index_routledge2-method
+setGeneric(
+  name = "index_routledge2",
+  def = function(x, ...) standardGeneric("index_routledge2")
+)
+
+#' @rdname index_routledge
+#' @aliases index_routledge3-method
+setGeneric(
+  name = "index_routledge3",
+  def = function(x, ...) standardGeneric("index_routledge3")
+)
+
+#' Whittaker Measure
+#'
+#' @param x A \eqn{m \times p}{m x p} `numeric` [`matrix`] of count data
+#'  (absolute frequencies, i.e. a contingency table).
+#' @param ... Currently not used.
+#' @details
+#'  This assumes that the order of the matrix rows (from \eqn{1} to \eqn{n})
+#'  follows the progression along the gradient/transect.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Whittaker, R. H. (1960). Vegetation of the Siskiyou Mountains, Oregon and
+#'  California. *Ecological Monographs*, 30(3), 279-338.
+#'  \doi{10.2307/1943563}.
+#' @author N. Frerebeau
+#' @family beta diversity measures
+#' @docType methods
+#' @aliases index_whittaker-method
+setGeneric(
+  name = "index_whittaker",
+  def = function(x, ...) standardGeneric("index_whittaker")
+)
+
+#' Wilson Measure
+#'
+#' @param x A \eqn{m \times p}{m x p} `numeric` [`matrix`] of count data
+#'  (absolute frequencies, i.e. a contingency table).
+#' @param ... Currently not used.
+#' @details
+#'  This assumes that the order of the matrix rows (from \eqn{1} to \eqn{n})
+#'  follows the progression along the gradient/transect.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Wilson, M. V., & Shmida, A. (1984). Measuring Beta Diversity with
+#'  Presence-Absence Data. *The Journal of Ecology*, 72(3), 1055-1064.
+#'  \doi{10.2307/2259551}.
+#' @author N. Frerebeau
+#' @family beta diversity measures
+#' @docType methods
+#' @aliases index_wilson-method
+setGeneric(
+  name = "index_wilson",
+  def = function(x, ...) standardGeneric("index_wilson")
 )
 
 ## Co-Occurrence ---------------------------------------------------------------
@@ -658,103 +1065,6 @@ setGeneric(
 setGeneric(
   name = "occurrence",
   def = function(object, ...) standardGeneric("occurrence")
-)
-
-## Turnover --------------------------------------------------------------------
-#' Turnover
-#'
-#' Returns the degree of turnover in taxa composition along a gradient or
-#' transect.
-#' @param object,x A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
-#'  [`data.frame`] of count data or incidence data. A [`data.frame`]
-#'  will be coerced to a `numeric` `matrix` via [data.matrix()].
-#' @param method A [`character`] string specifying the method to be
-#'  used (see details). Any unambiguous substring can be given.
-#' @param ... Further arguments to be passed to internal methods.
-#' @details
-#'  The following methods can be used to ascertain the degree of *turnover*
-#'  in taxa composition along a gradient (\eqn{\beta}-diversity) on qualitative
-#'  (presence/absence) data. This assumes that the order of the matrix rows
-#'  (from \eqn{1} to \eqn{n}) follows the progression along the
-#'  gradient/transect.
-#'
-#'  \describe{
-#'   \item{`whittaker`}{Whittaker measure.}
-#'   \item{`cody`}{Cody measure.}
-#'   \item{`routledge1`}{Routledge first measure.}
-#'   \item{`routledge2`}{Routledge second measure.}
-#'   \item{`routledge3`}{Routledge third measure. This is the exponential form
-#'   of the second measure.}
-#'   \item{`wilson`}{Wilson measure.}
-#'  }
-#' @return
-#'  A [`numeric`] vector.
-#' @references
-#'  Cody, M. L. (1975). Towards a theory of continental species diversity: Bird
-#'  distributions over Mediterranean habitat gradients. *In* M. L. Cody &
-#'  J. M. Diamond (Eds.), *Ecology and Evolution of Communities*.
-#'  Cambridge, MA: Harvard University Press, p. 214-257.
-#'
-#'  Routledge, R. D. (1977). On Whittaker's Components of Diversity.
-#'  *Ecology*, 58(5), 1120-1127. \doi{10.2307/1936932}.
-#'
-#'  Whittaker, R. H. (1960). Vegetation of the Siskiyou Mountains, Oregon and
-#'  California. *Ecological Monographs*, 30(3), 279-338.
-#'  \doi{10.2307/1943563}.
-#'
-#'  Wilson, M. V., & Shmida, A. (1984). Measuring Beta Diversity with
-#'  Presence-Absence Data. *The Journal of Ecology*, 72(3), 1055-1064.
-#'  \doi{10.2307/2259551}.
-#' @example inst/examples/ex-turnover.R
-#' @author N. Frerebeau
-#' @family diversity measures
-#' @docType methods
-#' @aliases turnover-method
-setGeneric(
-  name = "turnover",
-  def = function(object, ...) standardGeneric("turnover")
-)
-
-#' @rdname turnover
-#' @aliases index_whittaker-method
-setGeneric(
-  name = "index_whittaker",
-  def = function(x, ...) standardGeneric("index_whittaker")
-)
-
-#' @rdname turnover
-#' @aliases index_cody-method
-setGeneric(
-  name = "index_cody",
-  def = function(x, ...) standardGeneric("index_cody")
-)
-
-#' @rdname turnover
-#' @aliases index_routledge1-method
-setGeneric(
-  name = "index_routledge1",
-  def = function(x, ...) standardGeneric("index_routledge1")
-)
-
-#' @rdname turnover
-#' @aliases index_routledge2-method
-setGeneric(
-  name = "index_routledge2",
-  def = function(x, ...) standardGeneric("index_routledge2")
-)
-
-#' @rdname turnover
-#' @aliases index_routledge3-method
-setGeneric(
-  name = "index_routledge3",
-  def = function(x, ...) standardGeneric("index_routledge3")
-)
-
-#' @rdname turnover
-#' @aliases index_wilson-method
-setGeneric(
-  name = "index_wilson",
-  def = function(x, ...) standardGeneric("index_wilson")
 )
 
 ## Simulate --------------------------------------------------------------------
@@ -791,19 +1101,27 @@ NULL
 ## Diversity Test --------------------------------------------------------------
 #' Diversity Test
 #'
-#' Compares Shannon diversity between samples.
-#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#' Compares Shannon/Simpson diversity between samples.
+#' @param x,y A [`numeric`] vector, a \eqn{m \times p}{m x p} [`matrix`] or
 #'  [`data.frame`] of count data (absolute frequencies giving the number of
 #'  individuals for each category, i.e. a contingency table). A [`data.frame`]
 #'  will be coerced to a `numeric` `matrix` via [data.matrix()].
+#' @param unbiased A [`logical`] scalar: should the bias-corrected estimator be
+#'  used?
 #' @param adjust A [`character`] string specifying the method for
 #'  adjusting \eqn{p} values (see [stats::p.adjust()]).
 #' @param ... Further arguments to be passed to internal methods.
-#' @details
-#'  This test produces two sided pairwise comparisons: it returns a matrix of
-#'  adjusted \eqn{p} values.
 #' @return
-#'  A [`numeric`] [`matrix`].
+#'  If `x` and `y` are `numeric` vectors, returns a [`list`] containing the
+#'  following components:
+#'  \describe{
+#'   \item{`statistic`}{The value of the t-statistic.}
+#'   \item{`parameter`}{The degrees of freedom for the t-statistic.}
+#'   \item{`p.value`}{The p-value for the test.}
+#'  }
+#'
+#'  If `x` is a `matrix` or a `data.frame`, returns a table of adjusted p-values
+#'  in lower triangular form.
 #' @example inst/examples/ex-test.R
 #' @author N. Frerebeau
 #' @references
@@ -811,10 +1129,22 @@ NULL
 #'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 #' @family statistics
 #' @docType methods
-#' @aliases test_diversity-method
+#' @name test
+#' @rdname test
+NULL
+
+#' @rdname test
+#' @aliases test_shannon-method
 setGeneric(
-  name = "test_diversity",
-  def = function(object, ...) standardGeneric("test_diversity")
+  name = "test_shannon",
+  def = function(x, y, ...) standardGeneric("test_shannon")
+)
+
+#' @rdname test
+#' @aliases test_simpson-method
+setGeneric(
+  name = "test_simpson",
+  def = function(x, y, ...) standardGeneric("test_simpson")
 )
 
 # Plot =========================================================================

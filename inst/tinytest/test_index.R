@@ -51,7 +51,7 @@ expect_equal(
 n <- c(1, 3, 2, 1, 4, 5, 1, 1, 18, 1, 2, 63, 2, 1, 1, 1, 16, 15, 60, 1, 1, 8,
        16, 127, 9, 18, 3, 4, 3, 11, 6, 7, 8, 63, 17)
 expect_equal(
-  round(index_simpson(n), 3),
+  round(index_simpson(n, unbiased = TRUE), 3),
   0.118
 ) # 1 / 8.50
 
