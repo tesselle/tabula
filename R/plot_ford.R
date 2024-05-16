@@ -85,7 +85,7 @@ setMethod(
 
       x_axis <- data$x[which.max(data$value)]
       graphics::axis(side = 1, at = c(x_axis - 0.2, x_axis + 0.2), labels = FALSE)
-      graphics::axis(side = 1, at = x_axis, labels = graffiti::label_percent(0.2),
+      graphics::axis(side = 1, at = x_axis, labels = label_percent(0.2),
                      tick = FALSE)
     }
 

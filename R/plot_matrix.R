@@ -199,10 +199,10 @@ panel_tiles <- function(x, y, color, ...) {
 panel_spot <- function(x, y, z, color, type, ...) {
   radius <- abs(z * 0.45)
   for (i in seq_along(x)) {
-    graffiti::circle(x = x[i], y = y[i], radius = radius[i],
+    circle(x = x[i], y = y[i], radius = radius[i],
                      col = color[i], border = color[i])
     if (type == "ring") {
-      graffiti::circle(x = x[i], y = y[i], radius = 0.45,
+      circle(x = x[i], y = y[i], radius = 0.45,
                        col = NA, border = "black")
     }
   }
@@ -287,7 +287,7 @@ prepare <- function(object, diag = TRUE, upper = TRUE, lower = TRUE,
   breaks <- pretty(val, n = 5)
   domain <- range(c(breaks, min_val, max_val))
   midpoint <- if (is.null(midpoint) & min_val < 0 & max_val > 0) 0 else midpoint
-  pal <- graffiti::palette_color_continuous(colors = palette, domain = domain,
+  pal <- palette_color_continuous(colors = palette, domain = domain,
                                             midpoint = midpoint)
   data$color <- if (length(palette) != length(val)) pal(val) else palette
 
@@ -299,7 +299,7 @@ prepare <- function(object, diag = TRUE, upper = TRUE, lower = TRUE,
 
   ## Legend
   attr(data, "legend") <- list(
-    labels = if (freq) graffiti::label_percent(breaks) else breaks,
+    labels = if (freq) label_percent(breaks) else breaks,
     at = breaks / max(abs(val), na.rm = TRUE),
     colors = pal(breaks)
   )

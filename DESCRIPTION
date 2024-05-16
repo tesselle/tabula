@@ -33,7 +33,6 @@ Depends:
     R (>= 3.5)
 Imports: 
     arkhe (>= 1.6.0),
-    graffiti (>= 0.0.0),
     graphics,
     grDevices,
     methods,
