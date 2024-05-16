@@ -1,5 +1,5 @@
 # -----------------------------------------------------------
-# CITATION file created with {cffr} R package, v0.5.0
+# CITATION file created with {cffr} R package, v1.0.0
 # See also: https://docs.ropensci.org/cffr/
 # -----------------------------------------------------------
  
@@ -8,7 +8,7 @@ message: 'To cite package "tabula" in publications use:'
 type: software
 license: GPL-3.0-or-later
 title: 'tabula: Analysis and Visualization of Archaeological Count Data'
-version: 3.0.1
+version: 3.1.0
 doi: 10.21105/joss.01821
 abstract: 'An easy way to examine archaeological count data. This package provides
   several tests and measures of diversity: heterogeneity and evenness (Brillouin,
@@ -68,14 +68,13 @@ references:
   authors:
   - family-names: Frerebeau
     given-names: Nicolas
-  year: '2023'
-  location:
-    name: Pessac, France
-  notes: R package version 3.0.1
-  url: https://packages.tesselle.org/tabula/
-  doi: 10.5281/zenodo.1489944
+  year: '2024'
   institution:
     name: Université Bordeaux Montaigne
+    address: Pessac, France
+  notes: R package version 3.1.0
+  url: https://packages.tesselle.org/tabula/
+  doi: 10.5281/zenodo.1489944
 identifiers:
 - description: The concept DOI.
   type: doi
@@ -127,4 +126,4 @@ identifiers:
   value: 10.5281/zenodo.10214364
 - description: The Software Heritage identifier for version 2.0.0.
   type: swh
-  value: swh:1:dir:1ea4b50f6ac77dac3591b9156780b647528e1452
+  value: swh:1:rel:7a252fd4e6b5c8650fcf135c8c4627366cd04d37

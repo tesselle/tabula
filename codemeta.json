@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/tesselle/tabula",
   "issueTracker": "https://github.com/tesselle/tabula/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "3.0.1.9000",
+  "version": "3.1.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.3.2 (2023-10-31)",
+  "runtimePlatform": "R version 4.3.3 (2024-02-29)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -91,6 +91,7 @@
       "@type": "SoftwareApplication",
       "identifier": "folio",
       "name": "folio",
+      "version": ">= 1.4.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -103,6 +104,7 @@
       "@type": "SoftwareApplication",
       "identifier": "khroma",
       "name": "khroma",
+      "version": ">= 1.12.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -231,7 +233,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "1420.897KB",
+  "fileSize": "1567.107KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -260,7 +262,7 @@
     },
     {
       "@type": "SoftwareSourceCode",
-      "datePublished": "2023",
+      "datePublished": "2024",
       "author": [
         {
           "@type": "Person",
@@ -271,7 +273,7 @@
       "name": "{tabula: Analysis and Visualization of Archaeological Count Data}",
       "identifier": "10.5281/zenodo.1489944",
       "url": "https://packages.tesselle.org/tabula/",
-      "description": "R package version 3.0.1.9000",
+      "description": "R package version 3.1.0",
       "@id": "https://doi.org/10.5281/zenodo.1489944",
       "sameAs": "https://doi.org/10.5281/zenodo.1489944"
     }

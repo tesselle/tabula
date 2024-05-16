@@ -8,7 +8,7 @@
 [![R-CMD-check](https://github.com/tesselle/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/tesselle/tabula/actions)
 [![codecov](https://codecov.io/gh/tesselle/tabula/branch/master/graph/badge.svg)](https://app.codecov.io/gh/tesselle/tabula)
 [![CodeFactor](https://www.codefactor.io/repository/github/tesselle/tabula/badge)](https://www.codefactor.io/repository/github/tesselle/tabula)
-[![Dependencies](https://tinyverse.netlify.com/badge/tabula)](https://cran.r-project.org/package=tabula)
+[![Dependencies](https://tinyverse.netlify.app/badge/tabula)](https://cran.r-project.org/package=tabula)
 
 <a href="https://tesselle.r-universe.dev/tabula"
 class="pkgdown-devel"><img
@@ -62,21 +62,23 @@ thresholds: rank vs. abundance plots, heatmaps, Ford (1962) and Bertin
 package to **tabula** that provides functions for chronological modeling
 and dating of archaeological assemblages from count data.
 
-    To cite tabula in publications use:
+------------------------------------------------------------------------
 
-      Frerebeau N (2019). "tabula: An R Package for Analysis, Seriation,
-      and Visualization of Archaeological Count Data." _Journal of Open
-      Source Software_, *4*(44). doi:10.21105/joss.01821
-      <https://doi.org/10.21105/joss.01821>.
+To cite tabula in publications use:
 
-      Frerebeau N (2023). _tabula: Analysis and Visualization of
-      Archaeological Count Data_. Université Bordeaux Montaigne, Pessac,
-      France. doi:10.5281/zenodo.1489944
-      <https://doi.org/10.5281/zenodo.1489944>, R package version 3.0.1,
-      <https://packages.tesselle.org/tabula/>.
+Frerebeau N (2019). “tabula: An R Package for Analysis, Seriation, and
+Visualization of Archaeological Count Data.” *Journal of Open Source
+Software*, *4*(44). <doi:10.21105/joss.01821>
+<https://doi.org/10.21105/joss.01821>.
 
-    This package is a part of the tesselle project
-    <https://www.tesselle.org>.
+Frerebeau N (2024). *tabula: Analysis and Visualization of
+Archaeological Count Data*. Université Bordeaux Montaigne, Pessac,
+France. <doi:10.5281/zenodo.1489944>
+<https://doi.org/10.5281/zenodo.1489944>, R package version 3.1.0,
+<https://packages.tesselle.org/tabula/>.
+
+This package is a part of the tesselle project
+<https://www.tesselle.org>.
 
 ## Installation
 
@@ -155,7 +157,8 @@ to this project, you agree to abide by its terms.
 
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent"
+entry-spacing="0">
 
 <div id="ref-bertin1977" class="csl-entry">
 
