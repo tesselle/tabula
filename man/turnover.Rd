@@ -82,6 +82,7 @@ turnover(woodland, "wilson") # 1
 Other diversity measures: 
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
+\code{\link{profiles}()},
 \code{\link{rarefaction}()},
 \code{\link{richness}()},
 \code{\link{she}()},

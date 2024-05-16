@@ -1267,6 +1267,49 @@ setGeneric(
   def = function(object, ...) standardGeneric("she")
 )
 
+#' Diversity Profiles
+#'
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each category, i.e. a contingency table). A [`data.frame`]
+#'  will be coerced to a `numeric` `matrix` via [data.matrix()].
+#' @param alpha A [`numeric`] vector giving the values of the alpha parameter.
+#' @param main A [`character`] string giving a main title for the plot.
+#' @param sub A [`character`] string giving a subtitle for the plot.
+#' @param ann A [`logical`] scalar: should the default annotation (title and x,
+#'  y and z axis labels) appear on the plot?
+#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
+#' @param frame.plot A [`logical`] scalar: should a box be drawn around the
+#'  plot?
+#' @param panel.first An an `expression` to be evaluated after the plot axes are
+#'  set up but before any plotting takes place. This can be useful for drawing
+#'  background grids.
+#' @param panel.last An `expression` to be evaluated after plotting has taken
+#'  place but before the axes, title and box are added.
+#' @param legend A [`list`] of additional arguments to be passed to
+#'  [graphics::legend()]; names of the list are used as argument names.
+#'  If `NULL`, no legend is displayed.
+#' @param ... Further [graphical parameters][graphics::par] to be passed to
+#'  [graphics::lines()]
+#' @details
+#'  If the profiles cross, the diversities are non-comparable across samples.
+#' @return
+#'  `profiles()` is called for its side-effects: it results in a graphic being
+#'  displayed (invisibly returns `object`).
+#' @references
+#'  Tóthmérész, B. (1995). Comparison of Different Methods for Diversity
+#'  Ordering. *Journal of Vegetation Science*, 6(2), 283-290.
+#'  \doi{10.2307/3236223}.
+#' @example inst/examples/ex-profiles.R
+#' @author N. Frerebeau
+#' @family diversity measures
+#' @docType methods
+#' @aliases profiles-method
+setGeneric(
+  name = "profiles",
+  def = function(object, ...) standardGeneric("profiles")
+)
+
 ## Matrix plot -----------------------------------------------------------------
 ### Spot Plot ------------------------------------------------------------------
 #' Spot Plot

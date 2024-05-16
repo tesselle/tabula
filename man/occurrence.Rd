@@ -44,6 +44,7 @@ plot_spot(occ)
 \seealso{
 Other diversity measures: 
 \code{\link{heterogeneity}()},
+\code{\link{profiles}()},
 \code{\link{rarefaction}()},
 \code{\link{richness}()},
 \code{\link{she}()},

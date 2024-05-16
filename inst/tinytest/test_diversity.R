@@ -87,4 +87,8 @@ if (at_home()) {
   ## SHE analysis
   plot_she <- function() she(cantabria)
   expect_snapshot_plot(plot_she, "plot_she")
+
+  ## Diversity profiles
+  plot_profiles <- function() profiles(cantabria)
+  expect_snapshot_plot(plot_profiles, "plot_profiles")
 }

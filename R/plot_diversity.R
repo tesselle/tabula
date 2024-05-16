@@ -172,9 +172,10 @@ setMethod(
   }
 )
 
+#' @param object A matrix.
+#' @noRd
 .she <- function(object, unbiased = FALSE, ...) {
 
-  object <- data.matrix(object)
   n <- nrow(object)
   m <- ncol(object)
 
@@ -199,4 +200,130 @@ setMethod(
   }
 
   SHE
+}
+
+# Profile ======================================================================
+#' @export
+#' @rdname profiles
+#' @aliases profiles,matrix-method
+setMethod(
+  f = "profiles",
+  signature = c(object = "matrix"),
+  definition = function(object, alpha = seq(from = 0, to = 4, by = 0.04),
+                        main = NULL, sub = NULL,
+                        ann = graphics::par("ann"),
+                        axes = TRUE, frame.plot = axes,
+                        panel.first = NULL, panel.last = NULL,
+                        legend = list(x = "topright"), ...) {
+    ## Prepare data
+    alpha <- alpha[alpha != 1]
+    data <- .profiles(object, alpha = alpha)
+    n <- nrow(object)
+
+    ## Graphical parameters
+    lwd <- list(...)$lwd %||% graphics::par("lwd")
+    lty <- list(...)$lty %||% graphics::par("lty")
+    col <- list(...)$col %||% grDevices::hcl.colors(n, "viridis")
+    if (length(lwd) < n) lwd <- rep(lwd, length.out = n)
+    if (length(lty) < n) lty <- rep(lty, length.out = n)
+    if (length(col) < n) col <- rep(col, length.out = n)
+
+    ## Open new window
+    grDevices::dev.hold()
+    on.exit(grDevices::dev.flush(), add = TRUE)
+    graphics::plot.new()
+
+    ## Set plotting coordinates
+    xlim <- range(alpha)
+    ylim <- range(data, finite = TRUE)
+    graphics::plot.window(xlim = xlim, ylim = ylim)
+
+    ## Evaluate pre-plot expressions
+    panel.first
+
+    ## Plot
+    for (i in seq_len(n)) {
+      graphics::lines(x = alpha, y = data[, i], col = col[i],
+                      lty = lty[i], lwd = lwd[i])
+    }
+
+    ## Evaluate post-plot and pre-axis expressions
+    panel.last
+
+    ## Construct axis
+    if (axes) {
+      graphics::axis(side = 1, las = 1)
+      graphics::axis(side = 2, las = 1)
+    }
+
+    ## Plot frame
+    if (frame.plot) {
+      graphics::box()
+    }
+
+    ## Add annotation
+    if (ann) {
+      graphics::title(main = main, sub = sub, xlab = "alpha",
+                      ylab = "Diversity", ...)
+    }
+
+    ## Legend
+    if (is.list(legend) && length(legend) > 0) {
+      args <- list(legend = rownames(object),
+                   col = col, lty = lty, lwd = lwd, bty = "n")
+      args <- utils::modifyList(args, legend)
+      do.call(graphics::legend, args = args)
+    }
+
+    invisible(object)
+  }
+)
+
+#' @export
+#' @rdname profiles
+#' @aliases profiles,data.frame-method
+setMethod(
+  f = "profiles",
+  signature = c(object = "data.frame"),
+  definition = function(object, alpha = seq(from = 0, to = 4, by = 0.04),
+                        main = NULL, sub = NULL,
+                        ann = graphics::par("ann"),
+                        axes = TRUE, frame.plot = axes,
+                        panel.first = NULL, panel.last = NULL,
+                        legend = list(x = "topright"), ...) {
+    object <- data.matrix(object)
+    methods::callGeneric(object, alpha = seq(from = 0, to = 4, by = 0.04),
+                         main = main, sub = sub, ann = ann,
+                         axes = axes, frame.plot = frame.plot,
+                         panel.first = panel.first, panel.last = panel.last,
+                         legend = legend, ...)
+  }
+)
+
+#' @param object A matrix.
+#' @noRd
+.profiles <- function(object, alpha = seq(from = 0, to = 4, by = 0.04), ...) {
+
+  n <- nrow(object)
+  m <- length(alpha)
+
+  prof <- matrix(data = 0, nrow = m, ncol = n)
+
+  index_renyi <- function(z, na.rm = FALSE) {
+    z <- z[z > 0] # Remove unobserved species
+    if (na.rm) z <- stats::na.omit(z) # Remove NAs
+
+    function(x) {
+      p <- z / sum(z)
+      exp(log(sum(p^x)) / (1 - x))
+    }
+  }
+
+  for (i in seq_len(n)) {
+    x <- object[i, ]
+    f <- index_renyi(x)
+    prof[, i] <- vapply(X = alpha, FUN = f, FUN.VALUE = numeric(1), ...)
+  }
+
+  prof
 }

@@ -16,6 +16,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{arkhe}{\code{\link[arkhe]{remove_NA}}, \code{\link[arkhe]{remove_constant}}, \code{\link[arkhe]{remove_zero}}, \code{\link[arkhe]{replace_NA}}, \code{\link[arkhe]{replace_zero}}, \code{\link[arkhe]{sparsity}}}
+  \item{arkhe}{\code{\link[arkhe]{remove_constant}}, \code{\link[arkhe]{remove_NA}}, \code{\link[arkhe]{remove_zero}}, \code{\link[arkhe]{replace_NA}}, \code{\link[arkhe]{replace_zero}}, \code{\link[arkhe]{sparsity}}}
 }}
 

@@ -82,6 +82,7 @@ plot(rare, col = col, lty = 1:5)
 Other diversity measures: 
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
+\code{\link{profiles}()},
 \code{\link{richness}()},
 \code{\link{she}()},
 \code{\link{similarity}()},

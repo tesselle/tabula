@@ -143,6 +143,7 @@ Ecology and Systematics}, 5(1), 285-307.
 Other diversity measures: 
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
+\code{\link{profiles}()},
 \code{\link{rarefaction}()},
 \code{\link{she}()},
 \code{\link{similarity}()},

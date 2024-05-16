@@ -126,6 +126,7 @@ Ecology and Systematics}, 5(1), 285-307.
 
 Other diversity measures: 
 \code{\link{occurrence}()},
+\code{\link{profiles}()},
 \code{\link{rarefaction}()},
 \code{\link{richness}()},
 \code{\link{she}()},
