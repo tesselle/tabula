@@ -18,18 +18,19 @@ setMethod(
     if (na.rm) x <- stats::na.omit(x) # Remove NAs
     if (anyNA(x)) return(NA)
 
-    S <- length(x) # Number of observed species
     S_rare <- sum(x <= k) # Number of rare species
-    S_abun <- sum(x > k) # Number of abundant species
-
+    S_abund <- sum(x > k) # Number of abundant species
     N_rare <- sum(x[x <= k]) # Number of individuals in the rare species
-    f1 <- sum(x == 1) # Number of singleton species
-    if (f1 == N_rare)
+
+    F1 <- sum(x == 1) # Number of singleton species
+    if (F1 == N_rare)
       stop("ACE is undefined when all rare species are singletons, ",
            "consider using the bias-corrected Chao1 index instead.",
            call. = FALSE)
-    C_rare <- 1 - (f1 / N_rare) # Sample coverage estimate for rare species
-    # ie. proportion of all individuals in rare species that are not singletons
+
+    ## Sample coverage estimate for rare species
+    ## ie. proportion of all individuals in rare species that are not singletons
+    C_rare <- 1 - (F1 / N_rare)
 
     # Coefficient of variation
     a <- sum(vapply(
@@ -37,19 +38,9 @@ setMethod(
       FUN = function(i, x) { i * (i - 1) * sum(x == i) },
       FUN.VALUE = double(1), x = x)
     )
-    b <- sum(vapply(
-      X = seq_len(k),
-      FUN = function(i, x) { i * sum(x == i) },
-      FUN.VALUE = double(1), x = x)
-    )
-    c <- sum(vapply(
-      X = seq_len(k),
-      FUN = function(i, x) { i * sum(x == i) - 1 },
-      FUN.VALUE = double(1), x = x)
-    )
-    g2 <- max((S_rare / C_rare) * (a / (b * c)) - 1, 0)
+    g2 <- max((S_rare / C_rare) * (a / (N_rare * (N_rare - 1))) - 1, 0)
 
-    D <- S_abun + S_rare / C_rare + f1 * g2 / C_rare
+    D <- S_abund + (S_rare / C_rare) + (F1 / C_rare) * g2
     D
   }
 )
@@ -239,10 +230,12 @@ setMethod(
       stop("ICE is undefined when all infrequent species are unique, ",
            "consider using the bias-corrected Chao2 estimator instead.",
            call. = FALSE)
-    C_infr <- 1 - (q1 / N_infr) # Sample coverage estimate
-    # ie. proportion of all incidences of infrequent species that are not uniques
 
-    # Coefficient of variation
+    ## Sample coverage estimate
+    ## ie. proportion of all incidences of infrequent species that are not uniques
+    C_infr <- 1 - (q1 / N_infr)
+
+    ## Coefficient of variation
     a <- sum(vapply(
       X = seq_len(k),
       FUN = function(x, q) { x * (x - 1) * sum(q == x) },
@@ -338,15 +331,12 @@ setMethod(
 setMethod(
   f = "index_shannon",
   signature = signature(x = "numeric"),
-  definition = function(x, evenness = FALSE, unbiased = FALSE, base = exp(1),
-                        na.rm = FALSE, ...) {
+  definition = function(x, evenness = FALSE, unbiased = FALSE, ACE = FALSE,
+                        base = exp(1), na.rm = FALSE, ...) {
     ## Validation
     x <- x[x > 0] # Remove unobserved species
     if (na.rm) x <- stats::na.omit(x) # Remove NAs
     if (anyNA(x)) return(NA)
-
-    ## Validation
-    arkhe::assert_count(x)
 
     N <- sum(x)
     S <- length(x) # richness = number of different species
@@ -355,7 +345,10 @@ setMethod(
     Hmax[is.infinite(Hmax)] <- 0
 
     H <- -sum(p * Hmax)
-    if (unbiased) H <- H + (S + 1) / (2 * N)
+    if (unbiased) {
+      if (ACE) S <- index_ace(x, ...)
+      H <- H + (S - 1) / (2 * N)
+    }
     if (evenness) H <- H / log(S)
     H
   }

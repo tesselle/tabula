@@ -320,6 +320,8 @@ setGeneric(
 #' @param evenness A [`numeric`] scalar: should evenness be computed?
 #' @param unbiased A [`logical`] scalar: should the bias-corrected estimator be
 #'  used?
+#' @param ACE A [`logical`] scalar: should the ACE species richness estimator be
+#'  used in the bias correction?
 #' @param base A positive [`numeric`] value specifying the base with respect to
 #'  which logarithms are computed.
 #' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
@@ -1106,8 +1108,6 @@ NULL
 #'  [`data.frame`] of count data (absolute frequencies giving the number of
 #'  individuals for each category, i.e. a contingency table). A [`data.frame`]
 #'  will be coerced to a `numeric` `matrix` via [data.matrix()].
-#' @param unbiased A [`logical`] scalar: should the bias-corrected estimator be
-#'  used?
 #' @param adjust A [`character`] string specifying the method for
 #'  adjusting \eqn{p} values (see [stats::p.adjust()]).
 #' @param ... Further arguments to be passed to internal methods.

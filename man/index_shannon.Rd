@@ -13,6 +13,7 @@ index_shannon(x, ...)
   x,
   evenness = FALSE,
   unbiased = FALSE,
+  ACE = FALSE,
   base = exp(1),
   na.rm = FALSE,
   ...
@@ -27,6 +28,9 @@ index_shannon(x, ...)
 
 \item{unbiased}{A \code{\link{logical}} scalar: should the bias-corrected estimator be
 used?}
+
+\item{ACE}{A \code{\link{logical}} scalar: should the ACE species richness estimator be
+used in the bias correction?}
 
 \item{base}{A positive \code{\link{numeric}} value specifying the base with respect to
 which logarithms are computed.}
