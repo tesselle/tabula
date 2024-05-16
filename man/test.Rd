@@ -19,17 +19,17 @@ test_shannon(x, y, ...)
 
 test_simpson(x, y, ...)
 
-\S4method{test_shannon}{numeric,numeric}(x, y, unbiased = TRUE, ...)
+\S4method{test_shannon}{numeric,numeric}(x, y, ...)
 
-\S4method{test_shannon}{matrix,missing}(x, unbiased = TRUE, adjust = "holm", ...)
+\S4method{test_shannon}{matrix,missing}(x, adjust = "holm", ...)
 
-\S4method{test_shannon}{data.frame,missing}(x, unbiased = TRUE, adjust = "holm", ...)
+\S4method{test_shannon}{data.frame,missing}(x, adjust = "holm", ...)
 
-\S4method{test_simpson}{numeric,numeric}(x, y, unbiased = TRUE, adjust = "holm", ...)
+\S4method{test_simpson}{numeric,numeric}(x, y, adjust = "holm", ...)
 
-\S4method{test_simpson}{matrix,missing}(x, unbiased = TRUE, adjust = "holm", ...)
+\S4method{test_simpson}{matrix,missing}(x, adjust = "holm", ...)
 
-\S4method{test_simpson}{data.frame,missing}(x, unbiased = TRUE, adjust = "holm", ...)
+\S4method{test_simpson}{data.frame,missing}(x, adjust = "holm", ...)
 }
 \arguments{
 \item{x, y}{A \code{\link{numeric}} vector, a \eqn{m \times p}{m x p} \code{\link{matrix}} or
@@ -38,9 +38,6 @@ individuals for each category, i.e. a contingency table). A \code{\link{data.fra
 will be coerced to a \code{numeric} \code{matrix} via \code{\link[=data.matrix]{data.matrix()}}.}
 
 \item{...}{Further arguments to be passed to internal methods.}
-
-\item{unbiased}{A \code{\link{logical}} scalar: should the bias-corrected estimator be
-used?}
 
 \item{adjust}{A \code{\link{character}} string specifying the method for
 adjusting \eqn{p} values (see \code{\link[stats:p.adjust]{stats::p.adjust()}}).}

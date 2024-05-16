@@ -40,8 +40,32 @@ birds <- matrix(
   byrow = TRUE,
   dimnames = list(c("oakwood", "spruce"), NULL)
 )
-expect_equal_to_reference(test_shannon(birds, unbiased = FALSE),
+
+# Same results as PAST v4.16c
+# index_shannon(birds[1, ]) # 2.408
+# tabula:::variance_shannon(birds[1, ]) # 0.0054004
+# index_shannon(birds[2, ]) # 2.054
+# tabula:::variance_shannon(birds[2, ]) # 0.0045188
+
+t_shannon <- test_shannon(birds[1, ], birds[2, ])
+expect_equal(round(t_shannon$statistic, 4), 3.5342)
+expect_equal(round(t_shannon$parameter, 2), 358.19)
+expect_equal(round(t_shannon$p.value, 5), 0.00046)
+
+# index_simpson(birds[1, ]) # 0.11993
+# tabula:::variance_simpson(birds[1, ]) # 0.00010543
+# index_simpson(birds[2, ]) # 0.1757
+# tabula:::variance_simpson(birds[2, ]) # 0.0002717
+
+t_simpson <- test_simpson(birds[1, ], birds[2, ])
+expect_equal(round(t_simpson$statistic, 4), -2.8716)
+expect_equal(round(t_simpson$parameter, 2), 324.56)
+expect_equal(round(t_simpson$p.value, 5), 0.00435)
+
+expect_equal_to_reference(test_shannon(birds),
                           file = "_snaps/shannon_test.rds")
+expect_equal_to_reference(test_simpson(birds),
+                          file = "_snaps/simpson_test.rds")
 
 # Plot =========================================================================
 if (at_home()) {
@@ -59,4 +83,8 @@ if (at_home()) {
   })
   plot_heterogeneity <- function() plot(sim_heterogeneity)
   expect_snapshot_plot(plot_heterogeneity, "plot_heterogeneity")
+
+  ## SHE analysis
+  plot_she <- function() she(cantabria)
+  expect_snapshot_plot(plot_she, "plot_she")
 }

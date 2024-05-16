@@ -25,7 +25,7 @@ variance_shannon <- function(x, base = exp(1), na.rm = FALSE, ...) {
 setMethod(
   f = "test_shannon",
   signature = c(x = "numeric", y = "numeric"),
-  definition = function(x, y, unbiased = TRUE, ...) {
+  definition = function(x, y, ...) {
     ## Validation
     arkhe::assert_length(y, length(x))
 
@@ -34,8 +34,10 @@ setMethod(
     Ny <- sum(y, na.rm = TRUE)
 
     ## Calculate Shannon diversity
-    Hx <- index_shannon(x, unbiased = unbiased, ...)
-    Hy <- index_shannon(y, unbiased = unbiased, ...)
+    ## See PAST documentation, p. 208
+    d <- (sum(x > 0) - 1) / (2 * sum(x))
+    Hx <- index_shannon(x, ...)
+    Hy <- index_shannon(y, ...)
 
     ## Calculate Shannon variance
     Vx <- variance_shannon(x, ...)
@@ -64,10 +66,7 @@ setMethod(
 setMethod(
   f = "test_shannon",
   signature = c(x = "matrix", y = "missing"),
-  definition = function(x, unbiased = TRUE, adjust = "holm", ...) {
-
-    force(unbiased)
-
+  definition = function(x, adjust = "holm", ...) {
     ## Get the names of the assemblages
     row_names <- rownames(x)
     if (length(row_names) != 0) {
@@ -78,7 +77,7 @@ setMethod(
 
     ## Compute t test
     compare <- function(i, j) {
-      test_shannon(x[i, ], x[j, ], unbiased = unbiased)$p.value
+      test_shannon(x[i, ], x[j, ], ...)$p.value
     }
 
     result <- stats::pairwise.table(
@@ -96,9 +95,9 @@ setMethod(
 setMethod(
   f = "test_shannon",
   signature = c(x = "data.frame", y = "missing"),
-  definition = function(x, unbiased = TRUE, adjust = "holm", ...) {
+  definition = function(x, adjust = "holm", ...) {
     x <- data.matrix(x)
-    methods::callGeneric(x, unbiased = unbiased, adjust = adjust)
+    methods::callGeneric(x, adjust = adjust, ...)
   }
 )
 
@@ -127,7 +126,7 @@ variance_simpson <- function(x, na.rm = FALSE, ...) {
 setMethod(
   f = "test_simpson",
   signature = c(x = "numeric", y = "numeric"),
-  definition = function(x, y, unbiased = TRUE, adjust = "holm", ...) {
+  definition = function(x, y, adjust = "holm", ...) {
     ## Validation
     arkhe::assert_length(y, length(x))
 
@@ -136,8 +135,8 @@ setMethod(
     Ny <- sum(y, na.rm = TRUE)
 
     ## Calculate Shannon diversity
-    Hx <- index_simpson(x, unbiased = unbiased, ...)
-    Hy <- index_simpson(y, unbiased = unbiased, ...)
+    Hx <- index_simpson(x, ...)
+    Hy <- index_simpson(y, ...)
 
     ## Calculate Shannon variance
     Vx <- variance_simpson(x, ...)
@@ -166,10 +165,7 @@ setMethod(
 setMethod(
   f = "test_simpson",
   signature = c(x = "matrix", y = "missing"),
-  definition = function(x, unbiased = TRUE, adjust = "holm", ...) {
-
-    force(unbiased)
-
+  definition = function(x, adjust = "holm", ...) {
     ## Get the names of the assemblages
     row_names <- rownames(x)
     if (length(row_names) != 0) {
@@ -180,7 +176,7 @@ setMethod(
 
     ## Compute t test
     compare <- function(i, j) {
-      test_simpson(x[i, ], x[j, ], unbiased = unbiased)$p.value
+      test_simpson(x[i, ], x[j, ])$p.value
     }
 
     result <- stats::pairwise.table(
@@ -198,8 +194,8 @@ setMethod(
 setMethod(
   f = "test_simpson",
   signature = c(x = "data.frame", y = "missing"),
-  definition = function(x, unbiased = TRUE, adjust = "holm", ...) {
+  definition = function(x, adjust = "holm", ...) {
     x <- data.matrix(x)
-    methods::callGeneric(x, unbiased = unbiased, adjust = adjust)
+    methods::callGeneric(x, adjust = adjust)
   }
 )
