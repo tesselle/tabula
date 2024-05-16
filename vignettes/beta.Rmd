@@ -23,16 +23,14 @@ knitr::opts_chunk$set(
 
 $\beta$-diversity measures how different local systems are from one another (Moreno and Rodríguez 2010).
 
-```{r packages}
+```{r intro}
 ## Install extra packages (if needed)
 # install.packages("folio") # Datasets
 
 ## Load packages
 library(tabula)
-```
 
-```{r data}
-## Data from Lipo et al. 2015
+## Ceramic data from Lipo et al. 2015
 data("mississippi", package = "folio")
 ```
 
@@ -53,15 +51,15 @@ We denote the $m \times p$ incidence matrix by $X = \left[ x_{ij} \right] ~\fora
  \forall y_{ij} \in \lbrace 0,1 \rbrace
 \end{align}
 
-| Measure                           | Reference        |
-|:----------------------------------|:-----------------|
-| $$ \beta_W = \frac{S}{\alpha} - 1 $$ | Whittaker (1960)* |
-| $$ \beta_C = \frac{g(H) + l(H)}{2} - 1 $$ | Cody (1975)* |
-| $$ \beta_R = \frac{S^2}{2 y_{\cdot \cdot} + S} - 1 $$ | Routledge (1977)* |
-| $$ \beta_I = \log x_{\cdot \cdot} - \frac{\sum_{j = 1}^{p} x_{\cdot j} \log x_{\cdot j}}{x_{\cdot \cdot}} - \frac{\sum_{i = 1}^{m} x_{i \cdot} \log x_{i \cdot}}{x_{\cdot \cdot}} $$ | Routledge (1977)* |
-| $$ \beta_E = \exp(\beta_I) - 1 $$ | Routledge (1977)* |
-| $$ \beta_T = \frac{g(H) + l(H)}{2\alpha} $$ | Wilson & Shmida (1984)* |
-Table: Turnover measures. *: implemented.
+| Measure                                     | Reference              |
+|:--------------------------------------------|:-----------------------|
+| $$ \beta_W = \frac{S}{\alpha} - 1 $$        | Whittaker (1960)       |
+| $$ \beta_C = \frac{g(H) + l(H)}{2} - 1 $$   | Cody (1975)            |
+| $$ \beta_R = \frac{S^2}{2 y_{\cdot \cdot} + S} - 1 $$ | Routledge (1977) |
+| $$ \beta_I = \log x_{\cdot \cdot} - \frac{\sum_{j = 1}^{p} x_{\cdot j} \log x_{\cdot j}}{x_{\cdot \cdot}} - \frac{\sum_{i = 1}^{m} x_{i \cdot} \log x_{i \cdot}}{x_{\cdot \cdot}} $$              | Routledge (1977)       |
+| $$ \beta_E = \exp(\beta_I) - 1 $$           | Routledge (1977)       |
+| $$ \beta_T = \frac{g(H) + l(H)}{2\alpha} $$ | Wilson & Shmida (1984) |
+Table: Turnover measures.
 
 Where:
 
@@ -74,23 +72,23 @@ Similarity between two samples $a$ and $b$ or between two types $x$ and $y$ can 
 
 These indices provide a scale of similarity from $0$-$1$ where $1$ is perfect similarity and $0$ is no similarity, with the exception of the Brainerd-Robinson index which is scaled between $0$ and $200$.
 
-| Measure                           | Reference       |
-|:----------------------------------|:----------------|
-| $$ C_J = \frac{o_j}{S_a + S_b - o_j} $$ | Jaccard*  |
-| $$ C_S = \frac{2 \times o_j}{S_a + S_b} $$ | Sorenson* |
-Table: Qualitative similarity measures (between samples). *: implemented.
+| Measure                                     | Reference              |
+|:--------------------------------------------|:-----------------------|
+| $$ C_J = \frac{o_j}{S_a + S_b - o_j} $$     | Jaccard                |
+| $$ C_S = \frac{2 \times o_j}{S_a + S_b} $$  | Sorenson               |
+Table: Qualitative similarity measures (between samples).
 
-| Measure                           | Reference      |
-|:----------------------------------|:---------------|
-| $$ C_{BR} = 200 - \sum_{j = 1}^{S} \left| \frac{a_j \times 100}{\sum_{j = 1}^{S} a_j} - \frac{b_j \times 100}{\sum_{j = 1}^{S} b_j} \right|$$ | Brainerd (1951), Robinson (1951)* |
-| $$ C_N = \frac{2 \sum_{j = 1}^{S} \min(a_j, b_j)}{N_a + N_b} $$ | Bray & Curtis (1957), Sorenson* |
-| $$ C_{MH} = \frac{2 \sum_{j = 1}^{S} a_j \times b_j}{(\frac{\sum_{j = 1}^{S} a_j^2}{N_a^2} + \frac{\sum_{j = 1}^{S} b_j^2}{N_b^2}) \times N_a \times N_b} $$ | Morisita-Horn* |
-Table: Quantitative similarity measures (between samples). *: implemented.
+| Measure                                     | Reference              |
+|:--------------------------------------------|:-----------------------|
+| $$ C_{BR} = 200 - \sum_{j = 1}^{S} \left| \frac{a_j \times 100}{\sum_{j = 1}^{S} a_j} - \frac{b_j \times 100}{\sum_{j = 1}^{S} b_j} \right|$$ | Brainerd (1951), Robinson (1951) |
+| $$ C_N = \frac{2 \sum_{j = 1}^{S} \min(a_j, b_j)}{N_a + N_b} $$ | Bray & Curtis (1957), Sorenson |
+| $$ C_{MH} = \frac{2 \sum_{j = 1}^{S} a_j \times b_j}{(\frac{\sum_{j = 1}^{S} a_j^2}{N_a^2} + \frac{\sum_{j = 1}^{S} b_j^2}{N_b^2}) \times N_a \times N_b} $$ | Morisita-Horn |
+Table: Quantitative similarity measures (between samples).
 
-| Measure                           | Reference      |
-|:----------------------------------|:---------------|
-| $$ C_{Bi} = \frac{o_i - N \times p}{\sqrt{N \times p \times (1 - p)}} $$ | Kintigh (2006)* |
-Table: Quantitative similarity measures (between types). *: implemented.
+| Measure                                     | Reference              |
+|:--------------------------------------------|:-----------------------|
+| $$ C_{Bi} = \frac{o_i - N \times p}{\sqrt{N \times p \times (1 - p)}} $$ | Kintigh (2006) |
+Table: Quantitative similarity measures (between types).
 
 Where:
 
