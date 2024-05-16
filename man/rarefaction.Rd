@@ -83,6 +83,7 @@ Other diversity measures:
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
 \code{\link{richness}()},
+\code{\link{she}()},
 \code{\link{similarity}()},
 \code{\link{simulate}()},
 \code{\link{turnover}()}

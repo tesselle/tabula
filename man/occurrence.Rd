@@ -46,6 +46,7 @@ Other diversity measures:
 \code{\link{heterogeneity}()},
 \code{\link{rarefaction}()},
 \code{\link{richness}()},
+\code{\link{she}()},
 \code{\link{similarity}()},
 \code{\link{simulate}()},
 \code{\link{turnover}()}

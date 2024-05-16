@@ -70,6 +70,7 @@ Other diversity measures:
 \code{\link{occurrence}()},
 \code{\link{rarefaction}()},
 \code{\link{richness}()},
+\code{\link{she}()},
 \code{\link{similarity}()},
 \code{\link{turnover}()}
 }

@@ -93,6 +93,7 @@ Other diversity measures:
 \code{\link{occurrence}()},
 \code{\link{rarefaction}()},
 \code{\link{richness}()},
+\code{\link{she}()},
 \code{\link{simulate}()},
 \code{\link{turnover}()}
 }

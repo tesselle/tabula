@@ -1216,6 +1216,57 @@ NULL
 #' @rdname plot_rarefaction
 NULL
 
+#' SHE Analysis
+#'
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each category, i.e. a contingency table). A [`data.frame`]
+#'  will be coerced to a `numeric` `matrix` via [data.matrix()].
+#' @param unbiased A [`logical`] scalar: should the bias-corrected estimator be
+#'  used (see [index_shannon()])?
+#' @param main A [`character`] string giving a main title for the plot.
+#' @param sub A [`character`] string giving a subtitle for the plot.
+#' @param ann A [`logical`] scalar: should the default annotation (title and x,
+#'  y and z axis labels) appear on the plot?
+#' @param axes A [`logical`] scalar: should axes be drawn on the plot?
+#' @param frame.plot A [`logical`] scalar: should a box be drawn around the
+#'  plot?
+#' @param panel.first An an `expression` to be evaluated after the plot axes are
+#'  set up but before any plotting takes place. This can be useful for drawing
+#'  background grids.
+#' @param panel.last An `expression` to be evaluated after plotting has taken
+#'  place but before the axes, title and box are added.
+#' @param legend A [`list`] of additional arguments to be passed to
+#'  [graphics::legend()]; names of the list are used as argument names.
+#'  If `NULL`, no legend is displayed.
+#' @param ... Further [graphical parameters][graphics::par] to be passed to
+#'  [graphics::lines()] and [graphics::points()].
+#' @return
+#'  `she()` is called for its side-effects: it results in a graphic being
+#'  displayed (invisibly returns `object`).
+#' @details
+#'  If samples are taken along a gradient or stratigraphic section, breaks in
+#'  the curve may be used to infer discontinuities.
+#'
+#'  This assumes that the order of the matrix rows (from \eqn{1} to \eqn{n})
+#'  follows the progression along the gradient/transect.
+#' @references
+#'  Buzas, M. A. & Hayek, L.-A. C. (1998). SHE analysis for biofacies
+#'  identification. *Journal of Foraminiferal Research*, 1998, 28(3), 233-239.
+#'
+#'  Hayek, L.-A. C. & Buzas, M. A. (2010). *Surveying Natural Populations:
+#'  Quantitative Tools for Assessing Biodiversity*. Second edition.
+#'  New York: Columbia University Press.
+#' @example inst/examples/ex-she.R
+#' @author N. Frerebeau
+#' @family diversity measures
+#' @docType methods
+#' @aliases she-method
+setGeneric(
+  name = "she",
+  def = function(object, ...) standardGeneric("she")
+)
+
 ## Matrix plot -----------------------------------------------------------------
 ### Spot Plot ------------------------------------------------------------------
 #' Spot Plot
