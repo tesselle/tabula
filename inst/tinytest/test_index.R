@@ -1,3 +1,16 @@
+# Compare with PAST v4.16c
+n <- c(35, 26, 25, 21, 16, 11, 6, 5, 3, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 1)
+expect_equal(round(index_simpson(n, unbiased = TRUE), 3), 0.115) # 0.1147
+expect_equal(round(index_shannon(n, unbiased = TRUE, ACE = FALSE), 3), 2.464) # 2.464
+expect_equal(round(index_brillouin(n), 3), 2.231) # 2.231
+expect_equal(round(index_menhinick(n), 3), 1.534) # 1.534
+expect_equal(round(index_margalef(n), 3), 3.7) # 3.7
+expect_equal(round(index_berger(n), 3), 0.206) # 0.2059
+expect_equal(round(index_chao1(n, unbiased = TRUE), 3), 21.491) # 21.49
+expect_error(index_chao1(n, unbiased = TRUE, improved = TRUE)) # 22.65 (?)
+expect_equal(round(index_ace(n), 3), 22.087) # 22.09
+expect_equal(round(index_squares(n), 3), 21.924) # 21.92
+
 # Heterogeneity ================================================================
 ## Berger-Parker dominance
 # Magurran 1988, p. 63
@@ -34,7 +47,7 @@ expect_equal(
 # Magurran 1988, p. 145
 n <- c(35, 26, 25, 21, 16, 11, 6, 5, 3, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 1)
 expect_equal(
-  round(index_shannon(n, evenness = FALSE), 3),
+  round(index_shannon(n, unbiased = FALSE), 3),
   2.408
 ) # 2.404
 expect_equal(
@@ -42,8 +55,8 @@ expect_equal(
   0.804
 ) # 0.8025
 expect_equal(
-  round(tabula:::variance_shannon(n), 3),
-  0.005
+  round(tabula:::variance_shannon(n), 4),
+  0.0054
 ) # 0.00502
 
 ## Simpson dominance
@@ -173,8 +186,8 @@ expect_equal(round(index_chao1(interior, unbiased = TRUE), 3), 536.044) # 536.04
 expect_equal(round(index_chao1(interior, unbiased = FALSE, improved = TRUE), 3), 572.471) # 572.505
 
 ## ACE-type estimators
-expect_equal(round(index_ace(edge, k = 10), 3), 445.822) # 443.684
-expect_equal(round(index_ace(interior, k = 10), 3), 501.045) # 498.834
+expect_equal(round(index_ace(edge, k = 10), 3), 443.684) # 443.684
+expect_equal(round(index_ace(interior, k = 10), 3), 498.834) # 498.834
 
 ## Chao2-type estimators
 a <- matrix(
