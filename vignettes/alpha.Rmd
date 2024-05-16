@@ -25,9 +25,9 @@ Diversity in ecology describes complex interspecific interactions between and wi
 
 *Diversity* measurement assumes that all individuals in a specific taxa are equivalent and that all types are equally different from each other (Peet 1974). A measure of diversity can be achieved by using indices built on the relative abundance of taxa. These indices (sometimes referred to as non-parametric indices) benefit from not making assumptions about the underlying distribution of taxa abundance: they only take relative abundances of the species that are present and species richness into account. Peet (1974) refers to them as indices of *heterogeneity* ($H$). Diversity indices focus on one aspect of the taxa abundance and emphasize either *richness* ($R$; weighting towards uncommon taxa) or *dominance* ($D$; weighting towards abundant taxa; Magurran 1988). *Evenness* ($E$) is a measure of how evenly individuals are distributed across the sample.
 
-$\alpha$-diversity refers to diversity at the local level, assessed within a delimited system. It is the diversity within a uniform habitat of fixed size.
+alpha diversity refers to diversity at the local level, assessed within a delimited system. It is the diversity within a uniform habitat of fixed size.
 
-**tabula** allows to calculate several $\alpha$-diversity measures from a count table (absolute frequencies giving the number of individuals for each category, i.e. a contingency table), and also provides comparison methods. *It assumes that you keep your data tidy*: each variable (type/taxa) must be saved in its own column and each observation (sample/case) must be saved in its own row.
+**tabula** allows to calculate several alpha diversity measures from a count table (absolute frequencies giving the number of individuals for each category, i.e. a contingency table), and also provides comparison methods. *It assumes that you keep your data tidy*: each variable (type/taxa) must be saved in its own column and each observation (sample/case) must be saved in its own row.
     
 ```{r intro}
 ## Install extra packages (if needed)
@@ -188,7 +188,7 @@ The number of different taxa, provides an instantly comprehensible expression of
 | Measure                           | Reference            |
 |:----------------------------------|:---------------------|
 | $$ R_{1} = \frac{S - 1}{\ln N} $$ | Margalef (1958)      |
-| $$ R_{3} = \frac{S}{\sqrt{N}} $$  | Menhinick (1964)     |
+| $$ R_{2} = \frac{S}{\sqrt{N}} $$  | Menhinick (1964)     |
 Table: Richness measures (Bobrowsky & Ball 1989).
 
 ```{r margalef-index}
