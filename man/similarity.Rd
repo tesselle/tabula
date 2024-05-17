@@ -91,6 +91,8 @@ Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 Other diversity measures: 
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
+\code{\link{plot_diversity}},
+\code{\link{plot_rarefaction}},
 \code{\link{profiles}()},
 \code{\link{rarefaction}()},
 \code{\link{richness}()},

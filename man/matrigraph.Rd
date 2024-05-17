@@ -103,11 +103,9 @@ graphique pour tableaux de comptages. \emph{Revue archéologique de Picardie},
 Other plot methods: 
 \code{\link{plot_bertin}()},
 \code{\link{plot_diceleraas}()},
-\code{\link{plot_diversity}},
 \code{\link{plot_ford}()},
 \code{\link{plot_heatmap}()},
 \code{\link{plot_rank}()},
-\code{\link{plot_rarefaction}},
 \code{\link{plot_spot}()},
 \code{\link{seriograph}()}
 }

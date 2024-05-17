@@ -1179,7 +1179,7 @@ setGeneric(
 #'  displayed (invisibly returns `x`).
 #' @example inst/examples/ex-plot_diversity.R
 #' @author N. Frerebeau
-#' @family plot methods
+#' @family diversity measures
 #' @docType methods
 #' @name plot_diversity
 #' @rdname plot_diversity
@@ -1210,7 +1210,7 @@ NULL
 #'  displayed (invisibly returns `x`).
 #' @example inst/examples/ex-rarefaction.R
 #' @author N. Frerebeau
-#' @family plot methods
+#' @family diversity measures
 #' @docType methods
 #' @name plot_rarefaction
 #' @rdname plot_rarefaction

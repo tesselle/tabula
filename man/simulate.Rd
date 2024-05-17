@@ -68,6 +68,8 @@ with Simulated Assemblages. \emph{American Antiquity}, 49(1), 44-54.
 Other diversity measures: 
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
+\code{\link{plot_diversity}},
+\code{\link{plot_rarefaction}},
 \code{\link{profiles}()},
 \code{\link{rarefaction}()},
 \code{\link{richness}()},

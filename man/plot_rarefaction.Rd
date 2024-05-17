@@ -68,18 +68,19 @@ col <- khroma::color("bright")(5)
 plot(rare, col = col, lty = 1:5)
 }
 \seealso{
-Other plot methods: 
-\code{\link{matrigraph}()},
-\code{\link{plot_bertin}()},
-\code{\link{plot_diceleraas}()},
+Other diversity measures: 
+\code{\link{heterogeneity}()},
+\code{\link{occurrence}()},
 \code{\link{plot_diversity}},
-\code{\link{plot_ford}()},
-\code{\link{plot_heatmap}()},
-\code{\link{plot_rank}()},
-\code{\link{plot_spot}()},
-\code{\link{seriograph}()}
+\code{\link{profiles}()},
+\code{\link{rarefaction}()},
+\code{\link{richness}()},
+\code{\link{she}()},
+\code{\link{similarity}()},
+\code{\link{simulate}()},
+\code{\link{turnover}()}
 }
 \author{
 N. Frerebeau
 }
-\concept{plot methods}
+\concept{diversity measures}
