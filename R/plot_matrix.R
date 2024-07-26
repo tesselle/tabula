@@ -287,8 +287,7 @@ prepare <- function(object, diag = TRUE, upper = TRUE, lower = TRUE,
   breaks <- pretty(val, n = 5)
   domain <- range(c(breaks, min_val, max_val))
   midpoint <- if (is.null(midpoint) & min_val < 0 & max_val > 0) 0 else midpoint
-  pal <- palette_color_continuous(colors = palette, domain = domain,
-                                            midpoint = midpoint)
+  pal <- palette_color_continuous(colors = palette, domain = domain, midpoint = midpoint)
   data$color <- if (length(palette) != length(val)) pal(val) else palette
 
   ## Clean data

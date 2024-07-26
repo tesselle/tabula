@@ -14,7 +14,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.4.0 (2024-04-24)",
+  "runtimePlatform": "R version 4.4.1 (2024-06-14)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -99,19 +99,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=folio"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "khroma",
-      "name": "khroma",
-      "version": ">= 1.12.0",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=khroma"
     },
     {
       "@type": "SoftwareApplication",
@@ -218,22 +205,35 @@
     },
     "5": {
       "@type": "SoftwareApplication",
+      "identifier": "khroma",
+      "name": "khroma",
+      "version": ">= 1.13.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=khroma"
+    },
+    "6": {
+      "@type": "SoftwareApplication",
       "identifier": "methods",
       "name": "methods"
     },
-    "6": {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
-    "7": {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
     "SystemRequirements": null
   },
-  "fileSize": "1567.133KB",
+  "fileSize": "1569.019KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",

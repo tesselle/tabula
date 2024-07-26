@@ -223,7 +223,7 @@ setMethod(
     ## Graphical parameters
     lwd <- list(...)$lwd %||% graphics::par("lwd")
     lty <- list(...)$lty %||% graphics::par("lty")
-    col <- list(...)$col %||% grDevices::hcl.colors(n, "viridis")
+    col <- list(...)$col %||% color("discreterainbow")(n)
     if (length(lwd) < n) lwd <- rep(lwd, length.out = n)
     if (length(lty) < n) lty <- rep(lty, length.out = n)
     if (length(col) < n) col <- rep(col, length.out = n)

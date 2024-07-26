@@ -24,7 +24,7 @@ setMethod(
     lwd <- list(...)$lwd %||% graphics::par("lwd")
     lty <- list(...)$lty %||% graphics::par("lty")
     cex <- list(...)$cex %||% graphics::par("cex")
-    col <- list(...)$col %||% grDevices::hcl.colors(n, "viridis")
+    col <- list(...)$col %||% color("discreterainbow")(n)
     if (length(pch) < n) pch <- rep(pch, length.out = n)
     if (length(lwd) < n) lwd <- rep(lwd, length.out = n)
     if (length(lty) < n) lty <- rep(lty, length.out = n)

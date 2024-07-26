@@ -9,6 +9,10 @@
 \alias{remove_zero}
 \alias{remove_constant}
 \alias{sparsity}
+\alias{color}
+\alias{palette_color_continuous}
+\alias{palette_color_discrete}
+\alias{palette_color_picker}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -17,5 +21,7 @@ below to see their documentation.
 
 \describe{
   \item{arkhe}{\code{\link[arkhe]{remove_NA}}, \code{\link[arkhe]{remove_constant}}, \code{\link[arkhe]{remove_zero}}, \code{\link[arkhe]{replace_NA}}, \code{\link[arkhe]{replace_zero}}, \code{\link[arkhe]{sparsity}}}
+
+  \item{khroma}{\code{\link[khroma:colour]{color}}, \code{\link[khroma]{palette_color_continuous}}, \code{\link[khroma]{palette_color_discrete}}, \code{\link[khroma]{palette_color_picker}}}
 }}
 

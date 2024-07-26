@@ -9,7 +9,7 @@ setMethod(
   f = "plot_spot",
   signature = signature(object = "matrix"),
   definition = function(object, type = c("ring", "plain"),
-                        col = grDevices::hcl.colors(12, "YlOrBr", rev = TRUE),
+                        col = color("YlOrBr")(12),
                         diag = TRUE, upper = TRUE, lower = TRUE,
                         freq = FALSE, margin = 1,
                         axes = TRUE, legend = TRUE, ...) {
@@ -32,7 +32,7 @@ setMethod(
   f = "plot_spot",
   signature = signature(object = "data.frame"),
   definition = function(object, type = c("ring", "plain"),
-                        col = grDevices::hcl.colors(12, "YlOrBr", rev = TRUE),
+                        col = color("YlOrBr")(12),
                         diag = TRUE, upper = TRUE, lower = TRUE,
                         freq = FALSE, margin = 1,
                         axes = TRUE, legend = TRUE, ...) {
@@ -51,7 +51,7 @@ setMethod(
   f = "plot_spot",
   signature = signature(object = "dist"),
   definition = function(object, type = c("ring", "plain"),
-                        col = grDevices::hcl.colors(12, "YlOrBr", rev = TRUE),
+                        col = color("YlOrBr")(12),
                         diag = FALSE, upper = FALSE, lower = !upper,
                         axes = TRUE, legend = TRUE, ...) {
     # index_name <- attr(object, "method")
