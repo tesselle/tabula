@@ -2,8 +2,43 @@
 #' @include AllGenerics.R
 NULL
 
-# Number of different species
-index_count <- function(x, ...) { sum(x > 0) }
+# Observed =====================================================================
+#' @export
+#' @rdname observed
+#' @aliases observed,numeric-method
+setMethod(
+  f = "observed",
+  signature = signature(x = "numeric"),
+  definition = function(x, na.rm = FALSE, ...) {
+    sum(x > 0, na.rm = na.rm)
+  }
+)
+
+nobserved <- function(x, n, na.rm = FALSE) {
+  sum(x == n, na.rm = na.rm)
+}
+
+#' @export
+#' @rdname observed
+#' @aliases singleton,numeric-method
+setMethod(
+  f = "singleton",
+  signature = signature(x = "numeric"),
+  definition = function(x, na.rm = FALSE, ...) {
+    nobserved(x, n = 1, na.rm = na.rm)
+  }
+)
+
+#' @export
+#' @rdname observed
+#' @aliases doubleton,numeric-method
+setMethod(
+  f = "doubleton",
+  signature = signature(x = "numeric"),
+  definition = function(x, na.rm = FALSE, ...) {
+    nobserved(x, n = 2, na.rm = na.rm)
+  }
+)
 
 # ACE ==========================================================================
 #' @export

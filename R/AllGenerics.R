@@ -34,6 +34,21 @@ setGeneric(
   def = function(x) standardGeneric("get_method")
 )
 
+## Coerce ----------------------------------------------------------------------
+#' Coerce to a Data Frame
+#'
+#' @param x An object.
+#' @param row.names,optional Currently not used.
+#' @param ... Currently not used.
+#' @return
+#'  A [`data.frame`].
+#' @author N. Frerebeau
+#' @docType methods
+#' @family mutators
+#' @name data.frame
+#' @rdname data.frame
+NULL
+
 # Statistic ====================================================================
 #' Bootstrap Estimation
 #'
@@ -404,7 +419,7 @@ setGeneric(
 #' index to be computed (see details). Any unambiguous substring can be given.
 #' @param ... Further arguments to be passed to internal methods (see below).
 #' @section Details:
-#'  The number of different taxa, provides an instantly comprehensible
+#'  The number of observed taxa, provides an instantly comprehensible
 #'  expression of diversity. While the number of taxa within a sample
 #'  is easy to ascertain, as a term, it makes little sense: some taxa
 #'  may not have been seen, or there may not be a fixed number of taxa
@@ -421,7 +436,7 @@ setGeneric(
 #' @section Richness Measures:
 #'  The following richness measures are available for count data:
 #'  \describe{
-#'   \item{`count`}{Number of observed taxa/types.}
+#'   \item{`observed`}{Number of observed taxa/types.}
 #'   \item{`margalef`}{[Margalef richness index][index_margalef()].}
 #'   \item{`menhinick`}{[Menhinick richness index][index_menhinick()].}
 #'  }
@@ -480,6 +495,36 @@ setGeneric(
   name = "composition",
   def = function(object, ...) standardGeneric("composition"),
   valueClass = "CompositionIndex"
+)
+
+#' Number of Observed Species
+#'
+#' @param x A [`numeric`] vector of count data (absolute frequencies).
+#' @param na.rm A [`numeric`] scalar: should missing values (including `NaN`) be
+#'  removed?
+#' @param ... Currently not used.
+#' @return
+#'  A [`numeric`] vector.
+#' @family alpha diversity measures
+#' @docType methods
+#' @aliases observed-method
+setGeneric(
+  name = "observed",
+  def = function(x, ...) standardGeneric("observed")
+)
+
+#' @rdname observed
+#' @aliases singleton-method
+setGeneric(
+  name = "singleton",
+  def = function(x, ...) standardGeneric("singleton")
+)
+
+#' @rdname observed
+#' @aliases doubleton-method
+setGeneric(
+  name = "doubleton",
+  def = function(x, ...) standardGeneric("doubleton")
 )
 
 #' Abundance-based Coverage Estimator

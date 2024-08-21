@@ -110,6 +110,7 @@ data("cantabria")
 (e <- evenness(cantabria, method = "shannon"))
 
 plot(h)
+as.data.frame(h)
 }
 \references{
 Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.

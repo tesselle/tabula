@@ -72,6 +72,6 @@
 <text x='44.64' y='96.29' text-anchor='end' style='font-size: 12.00px; font-family: "Arial";' textLength='15.28px' lengthAdjust='spacingAndGlyphs'>35</text>
 <polygon points='59.04,430.56 473.76,430.56 473.76,59.04 59.04,59.04 ' style='stroke-width: 0.75;' />
 <text x='266.40' y='485.28' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='72.10px' lengthAdjust='spacingAndGlyphs'>Sample size</text>
-<text transform='translate(12.96,244.80) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='100.45px' lengthAdjust='spacingAndGlyphs'>Richness (count)</text>
+<text transform='translate(12.96,244.80) rotate(-90)' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='122.22px' lengthAdjust='spacingAndGlyphs'>Richness (observed)</text>
 </g>
 </svg>

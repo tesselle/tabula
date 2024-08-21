@@ -2,7 +2,7 @@ source("helpers.R")
 data("cantabria")
 
 # Richness =====================================================================
-method <- c("margalef", "menhinick", "count")
+method <- c("margalef", "menhinick", "observed")
 for (i in method) {
   index <- richness(cantabria, method = i)
   expect_length(index, nrow(cantabria))
@@ -39,7 +39,7 @@ if (at_home()) {
   options(tinysnapshot_os = "Linux")
 
   idx_richness <- with_seed(12345, {
-    idx_richness <- richness(cantabria, method = "count")
+    idx_richness <- richness(cantabria, method = "observed")
     sim_richness <- simulate(idx_richness, n = 10)
   })
   plot_richness <- function() plot(sim_richness)

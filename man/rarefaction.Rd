@@ -48,7 +48,7 @@ Sander's rarefaction.}
 
 \section{Details}{
 
-The number of different taxa, provides an instantly comprehensible
+The number of observed taxa, provides an instantly comprehensible
 expression of diversity. While the number of taxa within a sample
 is easy to ascertain, as a term, it makes little sense: some taxa
 may not have been seen, or there may not be a fixed number of taxa

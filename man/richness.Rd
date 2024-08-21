@@ -16,9 +16,9 @@ richness(object, ...)
 
 composition(object, ...)
 
-\S4method{richness}{matrix}(object, ..., method = c("count", "margalef", "menhinick"))
+\S4method{richness}{matrix}(object, ..., method = c("observed", "margalef", "menhinick"))
 
-\S4method{richness}{data.frame}(object, ..., method = c("count", "margalef", "menhinick"))
+\S4method{richness}{data.frame}(object, ..., method = c("observed", "margalef", "menhinick"))
 
 \S4method{composition}{matrix}(object, ..., method = c("chao1", "ace", "squares", "chao2", "ice"))
 
@@ -49,7 +49,7 @@ index to be computed (see details). Any unambiguous substring can be given.}
 }
 \section{Details}{
 
-The number of different taxa, provides an instantly comprehensible
+The number of observed taxa, provides an instantly comprehensible
 expression of diversity. While the number of taxa within a sample
 is easy to ascertain, as a term, it makes little sense: some taxa
 may not have been seen, or there may not be a fixed number of taxa
@@ -69,7 +69,7 @@ not to differences in actual abundances.
 
 The following richness measures are available for count data:
 \describe{
-\item{\code{count}}{Number of observed taxa/types.}
+\item{\code{observed}}{Number of observed taxa/types.}
 \item{\code{margalef}}{\link[=index_margalef]{Margalef richness index}.}
 \item{\code{menhinick}}{\link[=index_menhinick]{Menhinick richness index}.}
 }

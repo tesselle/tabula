@@ -3,6 +3,9 @@
 NULL
 
 # Index ========================================================================
+index_observed <- function(x, ...) {
+  sum(x > 0, ...)  # Number of observed species
+}
 get_index <- function(x) {
   match.fun(sprintf("index_%s", x))
 }
@@ -52,7 +55,7 @@ setMethod(
                         method = c("berger", "boone", "brillouin",
                                    "mcintosh", "shannon", "simpson")) {
     method <- match.arg(method, several.ok = FALSE)
-    by_row <- any(method != "boone")
+    by_row <- method != "boone"
     index <- index_diversity(object, method, ..., evenness = FALSE,
                              by_row = by_row)
     .HeterogeneityIndex(index)
@@ -110,7 +113,10 @@ setMethod(
 setMethod(
   f = "richness",
   signature = c(object = "matrix"),
-  definition = function(object, ..., method = c("count", "margalef", "menhinick")) {
+  definition = function(object, ..., method = c("observed", "margalef", "menhinick")) {
+    ## Backward compatibility
+    if (method == "count") method <- "observed"
+
     method <- match.arg(method, several.ok = FALSE)
     index <- index_diversity(object, method, ...)
     .RichnessIndex(index)
@@ -123,7 +129,7 @@ setMethod(
 setMethod(
   f = "richness",
   signature = c(object = "data.frame"),
-  definition = function(object, ..., method = c("count", "margalef", "menhinick")) {
+  definition = function(object, ..., method = c("observed", "margalef", "menhinick")) {
     object <- data.matrix(object)
     methods::callGeneric(object, ..., method = method)
   }

@@ -44,7 +44,8 @@ Other alpha diversity measures:
 \code{\link{index_mcintosh}()},
 \code{\link{index_menhinick}()},
 \code{\link{index_shannon}()},
-\code{\link{index_simpson}()}
+\code{\link{index_simpson}()},
+\code{\link{observed}()}
 }
 \author{
 N. Frerebeau

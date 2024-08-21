@@ -1,10 +1,3 @@
-## Shannon diversity index
-## Data from Magurran 1988, p. 145-149
-data("birds", package = "folio")
-
-heterogeneity(birds, "shannon") # 2.40 2.06
-evenness(birds, "shannon") # 0.80 0.78
-
 ## Brillouin diversity index
 ## Data from Magurran 1988, p. 150-151
 moths <- matrix(

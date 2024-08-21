@@ -7,9 +7,17 @@ NULL
 #' @export
 as.data.frame.DiversityIndex <- function(x, ...) {
   data.frame(
+    observed = apply(X = x@data, MARGIN = 1, FUN = observed),
+    singleton = apply(X = x@data, MARGIN = 1, FUN = singleton),
+    doubleton = apply(X = x@data, MARGIN = 1, FUN = doubleton),
     size = x@size,
     index = x@.Data,
     row.names = labels(x),
     stringsAsFactors = FALSE
   )
 }
+
+#' @export
+#' @rdname data.frame
+#' @aliases as.data.frame,DiversityIndex-method
+setMethod("as.data.frame", "DiversityIndex", as.data.frame.DiversityIndex)

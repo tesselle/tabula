@@ -8,7 +8,7 @@ h <- heterogeneity(cantabria, method = "shannon")
 h_sim <- simulate(h)
 plot(h_sim)
 
-r <- richness(cantabria, method = "count")
+r <- richness(cantabria, method = "observed")
 r_sim <- simulate(r)
 plot(r_sim)
 }

@@ -6,3 +6,4 @@ data("cantabria")
 (e <- evenness(cantabria, method = "shannon"))
 
 plot(h)
+as.data.frame(h)
