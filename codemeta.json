@@ -8,7 +8,7 @@
   "codeRepository": "https://github.com/tesselle/tabula",
   "issueTracker": "https://github.com/tesselle/tabula/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "3.1.0.9000",
+  "version": "3.1.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -91,7 +91,7 @@
       "@type": "SoftwareApplication",
       "identifier": "folio",
       "name": "folio",
-      "version": ">= 1.4.0",
+      "version": ">= 1.5.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -233,7 +233,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "1585.627KB",
+  "fileSize": "1589.265KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -273,7 +273,7 @@
       "name": "{tabula: Analysis and Visualization of Archaeological Count Data}",
       "identifier": "10.5281/zenodo.1489944",
       "url": "https://packages.tesselle.org/tabula/",
-      "description": "R package version 3.1.0.9000",
+      "description": "R package version 3.1.1",
       "@id": "https://doi.org/10.5281/zenodo.1489944",
       "sameAs": "https://doi.org/10.5281/zenodo.1489944"
     }

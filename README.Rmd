@@ -76,7 +76,7 @@ remotes::install_github("tesselle/tabula")
 ## Install extra packages (if needed)
 # install.packages("folio")
 
-## Load packages
+## Load the package
 library(tabula)
 ```
 

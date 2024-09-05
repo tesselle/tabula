@@ -8,8 +8,63 @@ message: 'To cite package "tabula" in publications use:'
 type: software
 license: GPL-3.0-or-later
 title: 'tabula: Analysis and Visualization of Archaeological Count Data'
-version: 3.1.0
+version: 3.1.1
 doi: 10.21105/joss.01821
+identifiers:
+- description: The concept DOI.
+  type: doi
+  value: 10.5281/zenodo.1489944
+- description: The versioned DOI for version 0.9.0.
+  type: doi
+  value: 10.5281/zenodo.1489945
+- description: The versioned DOI for version 1.0.0.
+  type: doi
+  value: 10.5281/zenodo.1881131
+- description: The versioned DOI for version 1.1.0.
+  type: doi
+  value: 10.5281/zenodo.2529084
+- description: The versioned DOI for version 1.2.0.
+  type: doi
+  value: 10.5281/zenodo.2600844
+- description: The versioned DOI for version 1.3.0.
+  type: doi
+  value: 10.5281/zenodo.3455385
+- description: The versioned DOI for version 1.4.0.
+  type: doi
+  value: 10.5281/zenodo.3552904
+- description: The versioned DOI for version 1.5.0.
+  type: doi
+  value: 10.5281/zenodo.3612110
+- description: The versioned DOI for version 1.5.1.
+  type: doi
+  value: 10.5281/zenodo.3716163
+- description: The versioned DOI for version 1.6.0.
+  type: doi
+  value: 10.5281/zenodo.4748807
+- description: The versioned DOI for version 1.6.1.
+  type: doi
+  value: 10.5281/zenodo.4793496
+- description: The versioned DOI for version 1.7.0.
+  type: doi
+  value: 10.5281/zenodo.6703727
+- description: The versioned DOI for version 1.8.0.
+  type: doi
+  value: 10.5281/zenodo.7060361
+- description: The versioned DOI for version 2.0.0.
+  type: doi
+  value: 10.5281/zenodo.7296619
+- description: The versioned DOI for version 3.0.0.
+  type: doi
+  value: 10.5281/zenodo.8274042
+- description: The versioned DOI for version 3.0.1.
+  type: doi
+  value: 10.5281/zenodo.10214364
+- description: The versioned DOI for version 3.1.0.
+  type: doi
+  value: 10.5281/zenodo.11205411
+- description: The Software Heritage identifier for version 2.0.0.
+  type: swh
+  value: swh:1:rel:7a252fd4e6b5c8650fcf135c8c4627366cd04d37
 abstract: 'An easy way to examine archaeological count data. This package provides
   several tests and measures of diversity: heterogeneity and evenness (Brillouin,
   Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.),
@@ -68,66 +123,11 @@ references:
   authors:
   - family-names: Frerebeau
     given-names: Nicolas
-  year: '2023'
+  year: '2024'
   institution:
     name: Université Bordeaux Montaigne
     address: Pessac, France
-  notes: R package version 3.0.1
+  notes: R package version 3.1.1
   url: https://packages.tesselle.org/tabula/
   doi: 10.5281/zenodo.1489944
-identifiers:
-- description: The concept DOI.
-  type: doi
-  value: 10.5281/zenodo.1489944
-- description: The versioned DOI for version 0.9.0.
-  type: doi
-  value: 10.5281/zenodo.1489945
-- description: The versioned DOI for version 1.0.0.
-  type: doi
-  value: 10.5281/zenodo.1881131
-- description: The versioned DOI for version 1.1.0.
-  type: doi
-  value: 10.5281/zenodo.2529084
-- description: The versioned DOI for version 1.2.0.
-  type: doi
-  value: 10.5281/zenodo.2600844
-- description: The versioned DOI for version 1.3.0.
-  type: doi
-  value: 10.5281/zenodo.3455385
-- description: The versioned DOI for version 1.4.0.
-  type: doi
-  value: 10.5281/zenodo.3552904
-- description: The versioned DOI for version 1.5.0.
-  type: doi
-  value: 10.5281/zenodo.3612110
-- description: The versioned DOI for version 1.5.1.
-  type: doi
-  value: 10.5281/zenodo.3716163
-- description: The versioned DOI for version 1.6.0.
-  type: doi
-  value: 10.5281/zenodo.4748807
-- description: The versioned DOI for version 1.6.1.
-  type: doi
-  value: 10.5281/zenodo.4793496
-- description: The versioned DOI for version 1.7.0.
-  type: doi
-  value: 10.5281/zenodo.6703727
-- description: The versioned DOI for version 1.8.0.
-  type: doi
-  value: 10.5281/zenodo.7060361
-- description: The versioned DOI for version 2.0.0.
-  type: doi
-  value: 10.5281/zenodo.7296619
-- description: The versioned DOI for version 3.0.0.
-  type: doi
-  value: 10.5281/zenodo.8274042
-- description: The versioned DOI for version 3.0.1.
-  type: doi
-  value: 10.5281/zenodo.10214364
-- description: The versioned DOI for version 3.1.0.
-  type: doi
-  value: 10.5281/zenodo.11205411
-- description: The Software Heritage identifier for version 2.0.0.
-  type: swh
-  value: swh:1:rel:7a252fd4e6b5c8650fcf135c8c4627366cd04d37
 

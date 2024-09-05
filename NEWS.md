@@ -1,4 +1,4 @@
-# tabula 3.1.0.9000
+# tabula 3.1.1
 ## Internals
 * Use palette functions from **khroma**.
 
