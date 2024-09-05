@@ -9,6 +9,7 @@ setMethod(
   f = "plot_rank",
   signature = c(object = "matrix"),
   definition = function(object, log = NULL,
+                        color = NULL, symbol = FALSE,
                         main = NULL, sub = NULL,
                         ann = graphics::par("ann"),
                         axes = TRUE, frame.plot = axes,
@@ -16,21 +17,26 @@ setMethod(
                         legend = list(x = "topright"), ...) {
     ## Prepare data
     n <- nrow(object)
+    lab <- rownames(object)
     object <- object / rowSums(object)
     rk <- t(apply(X = object, MARGIN = 1, FUN = function(x) rank(-x)))
 
     ## Graphical parameters
-    pch <- list(...)$pch %||% 16
     lwd <- list(...)$lwd %||% graphics::par("lwd")
     lty <- list(...)$lty %||% graphics::par("lty")
     cex <- list(...)$cex %||% graphics::par("cex")
-    col <- list(...)$col %||% color("discreterainbow")(n)
-    if (length(pch) < n) pch <- rep(pch, length.out = n)
-    if (length(lwd) < n) lwd <- rep(lwd, length.out = n)
-    if (length(lty) < n) lty <- rep(lty, length.out = n)
-    if (length(cex) < n) cex <- rep(cex, length.out = n)
-    if (length(col) < n) col <- rep(col, length.out = n)
+    if (length(lwd) == 1) lwd <- rep(lwd, length.out = n)
+    if (length(lty) == 1) lty <- rep(lty, length.out = n)
+    if (length(cex) == 1) cex <- rep(cex, length.out = n)
     if (is.null(log)) log <- ""
+
+    pch <- list(...)$pch %||% 16
+    if (length(pch) == 1) pch <- rep(pch, length.out = n)
+    if (!isFALSE(symbol)) pch <- khroma::palette_shape(symbol)(lab)
+
+    col <- list(...)$col %||% graphics::par("col")
+    if (length(col) == 1) col <- rep(col, length.out = n)
+    if (!isFALSE(color)) col <- khroma::palette_color_discrete(color)(lab)
 
     ## Open new window
     grDevices::dev.hold()
@@ -76,7 +82,7 @@ setMethod(
 
     ## Legend
     if (is.list(legend) && length(legend) > 0) {
-      args <- list(legend = rownames(object), col = col, pch = pch,
+      args <- list(legend = lab, col = col, pch = pch,
                    lty = lty, lwd = lwd, bty = "n")
       args <- utils::modifyList(args, legend)
       do.call(graphics::legend, args = args)

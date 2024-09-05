@@ -14,7 +14,7 @@ plot_matrix(
   margin = 1,
   scale = TRUE,
   drop_zero = TRUE,
-  col = graphics::par("fg"),
+  color = graphics::par("fg"),
   midpoint = NULL,
   axes = TRUE,
   legend = TRUE,
@@ -52,7 +52,9 @@ to \eqn{[-1,1]}. Only used if \code{freq} if \code{FALSE}.}
 
 \item{drop_zero}{A \code{\link{logical}} scalar: should zeros be discarded?}
 
-\item{col}{A vector of colors.}
+\item{color}{A vector of colors or a \code{\link{function}} that when called with a
+single argument (an integer specifying the number of colors) returns a
+vector of colors.}
 
 \item{midpoint}{A \code{\link{numeric}} value specifying the data midpoint.}
 

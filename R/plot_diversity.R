@@ -210,6 +210,7 @@ setMethod(
   f = "profiles",
   signature = c(object = "matrix"),
   definition = function(object, alpha = seq(from = 0, to = 4, by = 0.04),
+                        color = NULL, symbol = FALSE,
                         main = NULL, sub = NULL,
                         ann = graphics::par("ann"),
                         axes = TRUE, frame.plot = axes,
@@ -218,15 +219,20 @@ setMethod(
     ## Prepare data
     alpha <- alpha[alpha != 1]
     data <- .profiles(object, alpha = alpha)
+    lab <- rownames(object)
     n <- nrow(object)
 
     ## Graphical parameters
     lwd <- list(...)$lwd %||% graphics::par("lwd")
+    if (length(lwd) == 1) lwd <- rep(lwd, length.out = n)
+
     lty <- list(...)$lty %||% graphics::par("lty")
-    col <- list(...)$col %||% color("discreterainbow")(n)
-    if (length(lwd) < n) lwd <- rep(lwd, length.out = n)
-    if (length(lty) < n) lty <- rep(lty, length.out = n)
-    if (length(col) < n) col <- rep(col, length.out = n)
+    if (length(lty) == 1) lty <- rep(lty, length.out = n)
+    if (!isFALSE(symbol)) lty <- khroma::palette_line(symbol)(lab)
+
+    col <- list(...)$col %||% graphics::par("col")
+    if (length(col) == 1) col <- rep(col, length.out = n)
+    if (!isFALSE(color)) col <- khroma::palette_color_discrete(color)(lab)
 
     ## Open new window
     grDevices::dev.hold()
@@ -269,8 +275,7 @@ setMethod(
 
     ## Legend
     if (is.list(legend) && length(legend) > 0) {
-      args <- list(legend = rownames(object),
-                   col = col, lty = lty, lwd = lwd, bty = "n")
+      args <- list(legend = lab, col = col, lty = lty, lwd = lwd, bty = "n")
       args <- utils::modifyList(args, legend)
       do.call(graphics::legend, args = args)
     }
@@ -286,6 +291,7 @@ setMethod(
   f = "profiles",
   signature = c(object = "data.frame"),
   definition = function(object, alpha = seq(from = 0, to = 4, by = 0.04),
+                        color = NULL, symbol = FALSE,
                         main = NULL, sub = NULL,
                         ann = graphics::par("ann"),
                         axes = TRUE, frame.plot = axes,
@@ -293,6 +299,7 @@ setMethod(
                         legend = list(x = "topright"), ...) {
     object <- data.matrix(object)
     methods::callGeneric(object, alpha = seq(from = 0, to = 4, by = 0.04),
+                         color = color, symbol = symbol,
                          main = main, sub = sub, ann = ann,
                          axes = axes, frame.plot = frame.plot,
                          panel.first = panel.first, panel.last = panel.last,

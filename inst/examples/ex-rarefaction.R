@@ -6,5 +6,4 @@ rare <- rarefaction(cantabria, sample = 23, method = "baxter")
 plot(rare, panel.first = graphics::grid())
 
 ## Change graphical parameters
-col <- khroma::color("bright")(5)
-plot(rare, col = col, lty = 1:5)
+plot(rare, color = color("bright")(5), symbol = 1:5)

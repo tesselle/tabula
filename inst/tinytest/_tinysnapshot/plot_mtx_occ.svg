@@ -28,15 +28,15 @@
   </clipPath>
 </defs>
 <g clip-path='url(#cpNTQuNjJ8NDU1LjI4fDg1LjA2fDQxOC45NA==)'>
-<rect x='121.40' y='85.06' width='66.78' height='66.78' style='stroke-width: 0.75; stroke: none; fill: #D45506;' />
-<rect x='188.17' y='85.06' width='66.78' height='66.78' style='stroke-width: 0.75; stroke: none; fill: #D45506;' />
+<rect x='121.40' y='85.06' width='66.78' height='66.78' style='stroke-width: 0.75; stroke: none; fill: #D55607;' />
+<rect x='188.17' y='85.06' width='66.78' height='66.78' style='stroke-width: 0.75; stroke: none; fill: #D55607;' />
 <rect x='188.17' y='151.84' width='66.78' height='66.78' style='stroke-width: 0.75; stroke: none; fill: #662506;' />
-<rect x='254.95' y='85.06' width='66.78' height='66.78' style='stroke-width: 0.75; stroke: none; fill: #FEF2B5;' />
-<rect x='254.95' y='151.84' width='66.78' height='66.78' style='stroke-width: 0.75; stroke: none; fill: #FED97E;' />
-<rect x='254.95' y='218.61' width='66.78' height='66.78' style='stroke-width: 0.75; stroke: none; fill: #FED97E;' />
-<rect x='321.72' y='85.06' width='66.78' height='66.78' style='stroke-width: 0.75; stroke: none; fill: #FEF2B5;' />
-<rect x='321.72' y='151.84' width='66.78' height='66.78' style='stroke-width: 0.75; stroke: none; fill: #FEF2B5;' />
-<rect x='321.72' y='218.61' width='66.78' height='66.78' style='stroke-width: 0.75; stroke: none; fill: #FCB13E;' />
+<rect x='254.95' y='85.06' width='66.78' height='66.78' style='stroke-width: 0.75; stroke: none; fill: #FEF4B5;' />
+<rect x='254.95' y='151.84' width='66.78' height='66.78' style='stroke-width: 0.75; stroke: none; fill: #FEDA7E;' />
+<rect x='254.95' y='218.61' width='66.78' height='66.78' style='stroke-width: 0.75; stroke: none; fill: #FEDA7E;' />
+<rect x='321.72' y='85.06' width='66.78' height='66.78' style='stroke-width: 0.75; stroke: none; fill: #FEF4B5;' />
+<rect x='321.72' y='151.84' width='66.78' height='66.78' style='stroke-width: 0.75; stroke: none; fill: #FEF4B5;' />
+<rect x='321.72' y='218.61' width='66.78' height='66.78' style='stroke-width: 0.75; stroke: none; fill: #FCB23E;' />
 <rect x='321.72' y='285.39' width='66.78' height='66.78' style='stroke-width: 0.75; stroke: none; fill: #FFFFE5;' />
 </g>
 <g clip-path='url(#cpMC4wMHw1MDQuMDB8MC4wMHw1MDQuMDA=)'>
@@ -52,7 +52,7 @@
 <text transform='translate(359.49,70.66) rotate(-90)' style='font-size: 12.00px; font-family: "Arial";' textLength='32.60px' lengthAdjust='spacingAndGlyphs'>DLH4</text>
 </g>
 <g clip-path='url(#cpNTQuNjJ8NDU1LjI4fDg1LjA2fDQxOC45NA==)'>
-<image width='33.39' height='333.88' x='421.89' y='-248.82' preserveAspectRatio='none' xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAICAYAAAA4GpVBAAAAM0lEQVQImQEoANf/AP//5f8C//PQAAIA58kAAv7YwAAC9dDeAALj1OoAAszi/QACxu4DAMUZFJ9I8tLZAAAAAElFTkSuQmCC'/>
+<image width='33.39' height='333.88' x='421.89' y='-248.82' preserveAspectRatio='none' xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAICAYAAAA4GpVBAAAAM0lEQVQImQEoANf/AP//5f8C//XQAAIA5skAAv7YwAAC9tDfAALj1OoAAsvh/AACxu4DAMVLFJ9AjuKmAAAAAElFTkSuQmCC'/>
 <line x1='421.89' y1='418.94' x2='455.28' y2='418.94' style='stroke-width: 0.75; stroke: #FFFFFF;' />
 <line x1='421.89' y1='371.24' x2='455.28' y2='371.24' style='stroke-width: 0.75; stroke: #FFFFFF;' />
 <line x1='421.89' y1='323.55' x2='455.28' y2='323.55' style='stroke-width: 0.75; stroke: #FFFFFF;' />

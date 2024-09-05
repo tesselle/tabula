@@ -9,14 +9,18 @@ setMethod(
   f = "plot_spot",
   signature = signature(object = "matrix"),
   definition = function(object, type = c("ring", "plain"),
-                        col = color("YlOrBr")(12),
+                        color = NULL,
                         diag = TRUE, upper = TRUE, lower = TRUE,
                         freq = FALSE, margin = 1,
                         axes = TRUE, legend = TRUE, ...) {
     ## Validation
     type <- match.arg(type, several.ok = FALSE)
 
-    plot_matrix(object, panel = panel_spot, col = col,
+    ## Backward compatibility
+    col <- list(...)$col
+    if (!is.null(col) && is.null(color)) color <- col
+
+    plot_matrix(object, panel = panel_spot, color = color,
                  diag = diag, upper = upper, lower = lower,
                  freq = freq, margin = margin, drop_zero = TRUE,
                  axes = axes, legend = legend, type = type)
@@ -32,12 +36,12 @@ setMethod(
   f = "plot_spot",
   signature = signature(object = "data.frame"),
   definition = function(object, type = c("ring", "plain"),
-                        col = color("YlOrBr")(12),
+                        color = NULL,
                         diag = TRUE, upper = TRUE, lower = TRUE,
                         freq = FALSE, margin = 1,
                         axes = TRUE, legend = TRUE, ...) {
     object <- data.matrix(object)
-    methods::callGeneric(object, type = type, col = col,
+    methods::callGeneric(object, type = type, color = color,
                          diag = diag, upper = upper, lower = lower,
                          freq = freq, margin = margin,
                          axes = axes, legend = legend, ...)
@@ -51,12 +55,12 @@ setMethod(
   f = "plot_spot",
   signature = signature(object = "dist"),
   definition = function(object, type = c("ring", "plain"),
-                        col = color("YlOrBr")(12),
+                        color = NULL,
                         diag = FALSE, upper = FALSE, lower = !upper,
                         axes = TRUE, legend = TRUE, ...) {
     # index_name <- attr(object, "method")
     object <- as.matrix(object)
-    methods::callGeneric(object, type = type, col = col,
+    methods::callGeneric(object, type = type, color = color,
                          diag = diag, upper = upper, lower = lower,
                          axes = axes, legend = legend)
   }

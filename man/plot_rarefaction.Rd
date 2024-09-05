@@ -8,6 +8,8 @@
 \usage{
 \S4method{plot}{RarefactionIndex,missing}(
   x,
+  color = NULL,
+  symbol = FALSE,
   main = NULL,
   sub = NULL,
   ann = graphics::par("ann"),
@@ -21,6 +23,15 @@
 }
 \arguments{
 \item{x}{A \linkS4class{RarefactionIndex} object to be plotted.}
+
+\item{color}{A vector of colors (will be mapped to the rownames of \code{object}).
+If \code{color} is a named a named vector, then the colors will be associated
+with the rownames of \code{object}. Ignored if set to \code{FALSE}.}
+
+\item{symbol}{A specification for the line type (will be mapped to
+the names of \code{x}). If \code{symbol} is a named a named vector, then the
+line types will be associated with the names of \code{x}.
+Ignored if set to \code{FALSE}.}
 
 \item{main}{A \code{\link{character}} string giving a main title for the plot.}
 
@@ -64,8 +75,7 @@ rare <- rarefaction(cantabria, sample = 23, method = "baxter")
 plot(rare, panel.first = graphics::grid())
 
 ## Change graphical parameters
-col <- khroma::color("bright")(5)
-plot(rare, col = col, lty = 1:5)
+plot(rare, color = color("bright")(5), symbol = 1:5)
 }
 \seealso{
 Other diversity measures: 

@@ -73,8 +73,7 @@ rare <- rarefaction(cantabria, sample = 23, method = "baxter")
 plot(rare, panel.first = graphics::grid())
 
 ## Change graphical parameters
-col <- khroma::color("bright")(5)
-plot(rare, col = col, lty = 1:5)
+plot(rare, color = color("bright")(5), symbol = 1:5)
 }
 \seealso{
 \code{\link[=index_baxter]{index_baxter()}}, \code{\link[=index_hurlbert]{index_hurlbert()}}, \code{\link[=plot_rarefaction]{plot()}}

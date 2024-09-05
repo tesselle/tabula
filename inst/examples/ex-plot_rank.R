@@ -5,5 +5,4 @@ data("cantabria")
 plot_rank(cantabria)
 
 ## Change graphical parameters
-col <- khroma::color("bright")(5)
-plot_rank(cantabria, col = col, pch = 15:19, lty = 2)
+plot_rank(cantabria, color = color("bright"), symbol = 15:19)

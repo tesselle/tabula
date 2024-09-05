@@ -14,7 +14,7 @@ plot_spot(object, ...)
 \S4method{plot_spot}{matrix}(
   object,
   type = c("ring", "plain"),
-  col = color("YlOrBr")(12),
+  color = NULL,
   diag = TRUE,
   upper = TRUE,
   lower = TRUE,
@@ -28,7 +28,7 @@ plot_spot(object, ...)
 \S4method{plot_spot}{data.frame}(
   object,
   type = c("ring", "plain"),
-  col = color("YlOrBr")(12),
+  color = NULL,
   diag = TRUE,
   upper = TRUE,
   lower = TRUE,
@@ -42,7 +42,7 @@ plot_spot(object, ...)
 \S4method{plot_spot}{dist}(
   object,
   type = c("ring", "plain"),
-  col = color("YlOrBr")(12),
+  color = NULL,
   diag = FALSE,
   upper = FALSE,
   lower = !upper,
@@ -62,7 +62,9 @@ individuals for each category, i.e. a contingency table).}
 It must be one of "\code{ring}" (the default) or "\code{plain}". Any unambiguous
 substring can be given.}
 
-\item{col}{A vector of colors.}
+\item{color}{A vector of colors or a \code{\link{function}} that when called with a
+single argument (an integer specifying the number of colors) returns a
+vector of colors.}
 
 \item{diag}{A \code{\link{logical}} scalar indicating whether the diagonal of the
 matrix should be plotted. Only used if \code{object} is a symmetric matrix.}

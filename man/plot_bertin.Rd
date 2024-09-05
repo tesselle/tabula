@@ -16,7 +16,7 @@ plot_bertin(object, ...)
   threshold = NULL,
   freq = FALSE,
   margin = 1,
-  col = c("white", "black"),
+  color = c("white", "black"),
   flip = TRUE,
   axes = TRUE,
   ...
@@ -27,7 +27,7 @@ plot_bertin(object, ...)
   threshold = NULL,
   freq = FALSE,
   margin = 1,
-  col = c("white", "black"),
+  color = c("white", "black"),
   flip = TRUE,
   axes = TRUE,
   ...
@@ -52,7 +52,9 @@ appropriate marginal sums).}
 \code{1} indicates individuals/rows (the default), \code{2} indicates
 variables/columns. Only used if \code{freq} is \code{TRUE}.}
 
-\item{col}{A vector of colors.}
+\item{color}{A vector of colors or a \code{\link{function}} that when called with a
+single argument (an integer specifying the number of colors) returns a
+vector of colors.}
 
 \item{flip}{A \code{\link{logical}} scalar: should \code{x} and \code{y} axis be flipped?
 Defaults to \code{TRUE}.}

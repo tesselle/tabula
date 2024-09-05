@@ -1,9 +1,12 @@
-## Data from Conkey 1980, Kintigh 1989
-data("cantabria")
+## Data from Lipo et al. 2015
+data("mississippi", package = "folio")
 
 ## Plot raw data
-plot_heatmap(cantabria)
+plot_heatmap(mississippi)
+
+## Change colors
+plot_heatmap(mississippi, color = color("iridescent"))
 
 ## Plot conditional proportions
-plot_heatmap(cantabria, freq = TRUE, margin = 1)
-plot_heatmap(cantabria, freq = TRUE, margin = 2)
+plot_heatmap(mississippi, freq = TRUE, margin = 1)
+plot_heatmap(mississippi, freq = TRUE, margin = 2)

@@ -33,8 +33,8 @@ setMethod(
     mfrow <- graphics::par("mfrow")
     mar <- graphics::par("mar")
     mar[1] <- 3
-    mar[2] <- inch2line(lab_row, cex = cex.axis)
-    mar[3] <- inch2line(lab_col, cex = cex.axis)
+    mar[2] <- inch2line(lab_row, cex = cex.axis) + 0.1
+    mar[3] <- inch2line(lab_col, cex = cex.axis) + 0.1
     mar[4] <- 0
 
     old_par <- graphics::par(mfrow = mfrow, mar = mar)
@@ -157,7 +157,7 @@ prepare_ford <- function(x, padding = 0.05) {
   roll_max <- roll_sum(col_max, n = 2) + padding * max(freq)
   cum_max <- c(0, cumsum(roll_max))
 
-  ## Build a long table for ggplot2 (preserve original ordering)
+  ## Build a long table
   row <- row(x, as.factor = TRUE)
   col <- col(x, as.factor = TRUE)
   data <- data.frame(

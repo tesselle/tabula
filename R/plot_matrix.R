@@ -23,7 +23,9 @@
 #' @param scale A [`logical`] scalar indicating whether data should be rescaled
 #'  to \eqn{[-1,1]}. Only used if `freq` if `FALSE`.
 #' @param drop_zero A [`logical`] scalar: should zeros be discarded?
-#' @param col A vector of colors.
+#' @param color A vector of colors or a [`function`] that when called with a
+#'  single argument (an integer specifying the number of colors) returns a
+#'  vector of colors.
 #' @param midpoint A [`numeric`] value specifying the data midpoint.
 #' @param axes A [`logical`] scalar: should axes be drawn on the plot? It will
 #'  omit labels where they would abut or overlap previously drawn labels.
@@ -34,7 +36,7 @@
 #' @keywords internal
 plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
                         freq = FALSE, margin = 1, scale = TRUE, drop_zero = TRUE,
-                        col = graphics::par("fg"), midpoint = NULL,
+                        color = graphics::par("fg"), midpoint = NULL,
                         axes = TRUE, legend = TRUE, asp = 1, ...) {
   ## Validation
   if (is_incidence(object)) {
@@ -53,7 +55,7 @@ plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
   data <- prepare(object, diag = diag, upper = upper, lower = lower,
                   freq = freq, margin = margin, scale = scale,
                   drop_zero = drop_zero,
-                  palette = col, midpoint = midpoint)
+                  palette = color, midpoint = midpoint)
 
   ## Graphical parameters
   cex.axis <- graphics::par("cex.axis")
@@ -287,8 +289,8 @@ prepare <- function(object, diag = TRUE, upper = TRUE, lower = TRUE,
   breaks <- pretty(val, n = 5)
   domain <- range(c(breaks, min_val, max_val))
   midpoint <- if (is.null(midpoint) & min_val < 0 & max_val > 0) 0 else midpoint
-  pal <- palette_color_continuous(colors = palette, domain = domain, midpoint = midpoint)
-  data$color <- if (length(palette) != length(val)) pal(val) else palette
+  pal <- khroma::palette_color_continuous(colors = palette, domain = domain, midpoint = midpoint)
+  data$color <- if (length(palette) == length(val)) palette else pal(val)
 
   ## Clean data
   if (!upper) data <- data[!upper.tri(object), ]

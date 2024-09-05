@@ -184,7 +184,7 @@
       "@type": "SoftwareApplication",
       "identifier": "arkhe",
       "name": "arkhe",
-      "version": ">= 1.6.0",
+      "version": ">= 1.7.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -207,7 +207,7 @@
       "@type": "SoftwareApplication",
       "identifier": "khroma",
       "name": "khroma",
-      "version": ">= 1.13.0",
+      "version": ">= 1.14.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -233,7 +233,7 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "1569.019KB",
+  "fileSize": "1585.627KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",

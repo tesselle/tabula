@@ -1233,6 +1233,13 @@ NULL
 #' Rarefaction Plot
 #'
 #' @param x A [RarefactionIndex-class] object to be plotted.
+#' @param color A vector of colors (will be mapped to the rownames of `object`).
+#'  If `color` is a named a named vector, then the colors will be associated
+#'  with the rownames of `object`. Ignored if set to `FALSE`.
+#' @param symbol A specification for the line type (will be mapped to
+#'  the names of `x`). If `symbol` is a named a named vector, then the
+#'  line types will be associated with the names of `x`.
+#'  Ignored if set to `FALSE`.
 #' @param main A [`character`] string giving a main title for the plot.
 #' @param sub A [`character`] string giving a subtitle for the plot.
 #' @param ann A [`logical`] scalar: should the default annotation (title and x,
@@ -1319,6 +1326,13 @@ setGeneric(
 #'  individuals for each category, i.e. a contingency table). A [`data.frame`]
 #'  will be coerced to a `numeric` `matrix` via [data.matrix()].
 #' @param alpha A [`numeric`] vector giving the values of the alpha parameter.
+#' @param color A vector of colors (will be mapped to the rownames of `object`).
+#'  If `color` is a named a named vector, then the colors will be associated
+#'  with the rownames of `object`. Ignored if set to `FALSE`.
+#' @param symbol A specification for the line type (will be mapped to
+#'  the rownames of `object`). If `symbol` is a named a named vector, then the
+#'  line types will be associated with the rownames of `object`.
+#'  Ignored if set to `FALSE`.
 #' @param main A [`character`] string giving a main title for the plot.
 #' @param sub A [`character`] string giving a subtitle for the plot.
 #' @param ann A [`logical`] scalar: should the default annotation (title and x,
@@ -1645,6 +1659,13 @@ setGeneric(
 #'  [`data.frame`] of count data (absolute frequencies giving the number of
 #'  individuals for each category, i.e. a contingency table). A [`data.frame`]
 #'  will be coerced to a `numeric` `matrix` via [data.matrix()].
+#' @param color A vector of colors (will be mapped to the rownames of `object`).
+#'  If `color` is a named a named vector, then the colors will be associated
+#'  with the rownames of `object`. Ignored if set to `FALSE`.
+#' @param symbol A specification for the line type (will be mapped to
+#'  the rownames of `object`). If `symbol` is a named a named vector, then the
+#'  line types will be associated with the rownames of `object`.
+#'  Ignored if set to `FALSE`.
 #' @param log A [`character`] string which contains "`x`" if the x axis is to be
 #'  logarithmic, "`y`" if the y axis is to be logarithmic and "`xy`" or "`yx`"
 #'  if both axes are to be logarithmic (base 10).

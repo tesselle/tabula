@@ -13,6 +13,8 @@ profiles(object, ...)
 \S4method{profiles}{matrix}(
   object,
   alpha = seq(from = 0, to = 4, by = 0.04),
+  color = NULL,
+  symbol = FALSE,
   main = NULL,
   sub = NULL,
   ann = graphics::par("ann"),
@@ -27,6 +29,8 @@ profiles(object, ...)
 \S4method{profiles}{data.frame}(
   object,
   alpha = seq(from = 0, to = 4, by = 0.04),
+  color = NULL,
+  symbol = FALSE,
   main = NULL,
   sub = NULL,
   ann = graphics::par("ann"),
@@ -48,6 +52,15 @@ will be coerced to a \code{numeric} \code{matrix} via \code{\link[=data.matrix]{
 \code{\link[graphics:lines]{graphics::lines()}}}
 
 \item{alpha}{A \code{\link{numeric}} vector giving the values of the alpha parameter.}
+
+\item{color}{A vector of colors (will be mapped to the rownames of \code{object}).
+If \code{color} is a named a named vector, then the colors will be associated
+with the rownames of \code{object}. Ignored if set to \code{FALSE}.}
+
+\item{symbol}{A specification for the line type (will be mapped to
+the rownames of \code{object}). If \code{symbol} is a named a named vector, then the
+line types will be associated with the rownames of \code{object}.
+Ignored if set to \code{FALSE}.}
 
 \item{main}{A \code{\link{character}} string giving a main title for the plot.}
 
@@ -87,10 +100,10 @@ If the profiles cross, the diversities are non-comparable across samples.
 spc <- matrix(
   data = c(33, 29, 28, 5, 5, 0, 0, 42, 30, 10,
            8, 5, 5, 0, 32, 21, 16, 12, 9, 6, 4),
-  nrow = 3, byrow = TRUE, dimnames = list(c("A", "B", "C"), NULL)
+  nrow = 3, byrow = TRUE, dimnames = list(c("Z", "B", "C"), NULL)
 )
 
-profiles(spc)
+profiles(spc, color = color("bright"))
 }
 \references{
 Tóthmérész, B. (1995). Comparison of Different Methods for Diversity

@@ -32,10 +32,10 @@ BugReports: https://github.com/tesselle/tabula/issues
 Depends: 
     R (>= 3.5)
 Imports: 
-    arkhe (>= 1.6.0),
+    arkhe (>= 1.7.0),
     graphics,
     grDevices,
-    khroma (>= 1.13.0),
+    khroma (>= 1.14.0),
     methods,
     stats,
     utils

@@ -64,7 +64,7 @@ setMethod(
 # Plot =========================================================================
 #' @export
 #' @method plot RarefactionIndex
-plot.RarefactionIndex <- function(x,
+plot.RarefactionIndex <- function(x, color = NULL, symbol = FALSE,
                                   main = NULL, sub = NULL,
                                   ann = graphics::par("ann"),
                                   axes = TRUE, frame.plot = axes,
@@ -72,14 +72,19 @@ plot.RarefactionIndex <- function(x,
                                   legend = list(x = "topleft"), ...) {
   ## Prepare data
   n <- nrow(x)
+  lab <- labels(x)
 
   ## Graphical parameters
-  col <- list(...)$col %||% grDevices::hcl.colors(n, "viridis")
   lwd <- list(...)$lwd %||% graphics::par("lwd")
+  if (length(lwd) == 1) lwd <- rep(lwd, length.out = n)
+
   lty <- list(...)$lty %||% graphics::par("lty")
-  if (length(lwd) < n) lwd <- rep(lwd, length.out = n)
-  if (length(lty) < n) lty <- rep(lty, length.out = n)
-  if (length(col) < n) col <- rep(col, length.out = n)
+  if (length(lty) == 1) lty <- rep(lty, length.out = n)
+  if (!isFALSE(symbol)) lty <- khroma::palette_line(symbol)(lab)
+
+  col <- list(...)$col %||% graphics::par("col")
+  if (length(col) == 1) col <- rep(col, length.out = n)
+  if (!isFALSE(color)) col <- khroma::palette_color_discrete(color)(lab)
 
   ## Open new window
   grDevices::dev.hold()
@@ -122,7 +127,7 @@ plot.RarefactionIndex <- function(x,
 
   ## Legend
   if (is.list(legend) && length(legend) > 0) {
-    args <- list(legend = labels(x), col = col, lty = lty, lwd = lwd, bty = "n")
+    args <- list(legend = lab, col = col, lty = lty, lwd = lwd, bty = "n")
     args <- utils::modifyList(args, legend)
     do.call(graphics::legend, args = args)
   }

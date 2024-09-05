@@ -13,7 +13,7 @@ plot_heatmap(object, ...)
 
 \S4method{plot_heatmap}{matrix}(
   object,
-  col = color("YlOrBr")(12),
+  color = NULL,
   diag = TRUE,
   upper = TRUE,
   lower = TRUE,
@@ -27,7 +27,7 @@ plot_heatmap(object, ...)
 
 \S4method{plot_heatmap}{data.frame}(
   object,
-  col = color("YlOrBr")(12),
+  color = NULL,
   diag = TRUE,
   upper = TRUE,
   lower = TRUE,
@@ -41,7 +41,7 @@ plot_heatmap(object, ...)
 
 \S4method{plot_heatmap}{dist}(
   object,
-  col = color("YlOrBr")(12),
+  color = NULL,
   diag = FALSE,
   upper = FALSE,
   lower = !upper,
@@ -57,7 +57,9 @@ individuals for each category, i.e. a contingency table).}
 
 \item{...}{Currently not used.}
 
-\item{col}{A vector of colors.}
+\item{color}{A vector of colors or a \code{\link{function}} that when called with a
+single argument (an integer specifying the number of colors) returns a
+vector of colors.}
 
 \item{diag}{A \code{\link{logical}} scalar indicating whether the diagonal of the
 matrix should be plotted. Only used if \code{object} is a symmetric matrix.}
@@ -92,15 +94,18 @@ being displayed (invisibly returns \code{object}).
 Plots a heatmap.
 }
 \examples{
-## Data from Conkey 1980, Kintigh 1989
-data("cantabria")
+## Data from Lipo et al. 2015
+data("mississippi", package = "folio")
 
 ## Plot raw data
-plot_heatmap(cantabria)
+plot_heatmap(mississippi)
+
+## Change colors
+plot_heatmap(mississippi, color = color("iridescent"))
 
 ## Plot conditional proportions
-plot_heatmap(cantabria, freq = TRUE, margin = 1)
-plot_heatmap(cantabria, freq = TRUE, margin = 2)
+plot_heatmap(mississippi, freq = TRUE, margin = 1)
+plot_heatmap(mississippi, freq = TRUE, margin = 2)
 }
 \seealso{
 Other plot methods: 

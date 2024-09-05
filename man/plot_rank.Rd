@@ -13,6 +13,8 @@ plot_rank(object, ...)
 \S4method{plot_rank}{matrix}(
   object,
   log = NULL,
+  color = NULL,
+  symbol = FALSE,
   main = NULL,
   sub = NULL,
   ann = graphics::par("ann"),
@@ -49,6 +51,15 @@ will be coerced to a \code{numeric} \code{matrix} via \code{\link[=data.matrix]{
 \item{log}{A \code{\link{character}} string which contains "\code{x}" if the x axis is to be
 logarithmic, "\code{y}" if the y axis is to be logarithmic and "\code{xy}" or "\code{yx}"
 if both axes are to be logarithmic (base 10).}
+
+\item{color}{A vector of colors (will be mapped to the rownames of \code{object}).
+If \code{color} is a named a named vector, then the colors will be associated
+with the rownames of \code{object}. Ignored if set to \code{FALSE}.}
+
+\item{symbol}{A specification for the line type (will be mapped to
+the rownames of \code{object}). If \code{symbol} is a named a named vector, then the
+line types will be associated with the rownames of \code{object}.
+Ignored if set to \code{FALSE}.}
 
 \item{main}{A \code{\link{character}} string giving a main title for the plot.}
 
@@ -88,8 +99,7 @@ data("cantabria")
 plot_rank(cantabria)
 
 ## Change graphical parameters
-col <- khroma::color("bright")(5)
-plot_rank(cantabria, col = col, pch = 15:19, lty = 2)
+plot_rank(cantabria, color = color("bright"), symbol = 15:19)
 }
 \references{
 Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
