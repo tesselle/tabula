@@ -10,9 +10,9 @@
 \usage{
 occurrence(object, ...)
 
-\S4method{occurrence}{matrix}(object)
+\S4method{occurrence}{matrix}(object, method = c("count", "binomial"))
 
-\S4method{occurrence}{data.frame}(object)
+\S4method{occurrence}{data.frame}(object, method = c("count", "binomial"))
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
@@ -21,6 +21,9 @@ individuals for each category, i.e. a contingency table). A \code{\link{data.fra
 will be coerced to a \code{numeric} \code{matrix} via \code{\link[=data.matrix]{data.matrix()}}.}
 
 \item{...}{Currently not used.}
+
+\item{method}{A \code{\link{character}} string specifying the method to be
+used (see details). Any unambiguous substring can be given.}
 }
 \value{
 A \link[stats:dist]{stats::dist} object.
@@ -29,9 +32,11 @@ A \link[stats:dist]{stats::dist} object.
 Co-Occurrence
 }
 \details{
-A co-occurrence matrix is a symmetric matrix with zeros on its main
-diagonal, which works out how many times each pairs of taxa/types occur
-together in at least one sample.
+\describe{
+\item{\code{count}}{Count how many times each pairs of types occur together in
+at least one sample.}
+\item{\code{binomial}}{\link[=index_binomial]{Binomial co-occurrence assessment}.}
+}
 }
 \examples{
 ## Data from Conkey 1980, Kintigh 1989

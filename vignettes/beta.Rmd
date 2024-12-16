@@ -85,11 +85,6 @@ Table: Qualitative similarity measures (between samples).
 | $$ C_{MH} = \frac{2 \sum_{j = 1}^{S} a_j \times b_j}{(\frac{\sum_{j = 1}^{S} a_j^2}{N_a^2} + \frac{\sum_{j = 1}^{S} b_j^2}{N_b^2}) \times N_a \times N_b} $$ | Morisita-Horn |
 Table: Quantitative similarity measures (between samples).
 
-| Measure                                     | Reference              |
-|:--------------------------------------------|:-----------------------|
-| $$ C_{Bi} = \frac{o_i - N \times p}{\sqrt{N \times p \times (1 - p)}} $$ | Kintigh (2006) |
-Table: Quantitative similarity measures (between types).
-
 Where:
 
 * $S_a$ and $S_b$ denote the total number of taxa observed in samples $a$ and $b$, respectively,
@@ -103,10 +98,6 @@ Where:
 ## Brainerd-Robinson (similarity between assemblages)
 BR <- similarity(mississippi, method = "brainerd")
 plot_spot(BR, col = khroma::colour("YlOrBr")(12))
-
-## Binomial co-occurrence (similarity between types)
-BI <- similarity(mississippi, method = "binomial")
-plot_spot(BI, col = khroma::colour("PRGn")(12))
 ```
 
 # References
@@ -116,8 +107,6 @@ Brainerd, G. W. 1951. The Place of Chronological Ordering in Archaeological Anal
 Bray, J. R. & Curtis, J. T. (1957). An Ordination of the Upland Forest Communities of Southern Wisconsin. *Ecological Monographs*, 27(4), 325-349. DOI: [10.2307/1942268](https://doi.org/10.2307/1942268).
 
 Cody, M. L. (1975). Towards a Theory of Continental Species Diversity: Bird Distributions Over Mediterranean Habitat Gradients. In M. L. Cody & J. M. Diamond (Eds.), *Ecology and Evolution of Communities*, 214-257. Cambridge, MA: Harvard University Press.
-
-Kintigh, K. (2006). Ceramic Dating and Type Associations. In J. Hantman & R. Most (Eds.), *Managing Archaeological Data: Essays in Honor of Sylvia W. Gaines*, 17–26. Anthropological Research Paper 57. Tempe, AZ: Arizona State University. DOI: [10.6067/XCV8J38QSS](https://doi.org/10.6067/XCV8J38QSS).
 
 Moreno, C. E. & Rodríguez, P. (2010). A Consistent Terminology for Quantifying Species Diversity? *Oecologia*, 163(2), 279-782. DOI: [10.1007/s00442-010-1591-7](https://doi.org/10.1007/s00442-010-1591-7).
 

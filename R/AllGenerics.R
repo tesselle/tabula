@@ -782,8 +782,7 @@ setGeneric(
 #' @details
 #'  \eqn{\beta}-diversity can be measured by addressing *similarity*
 #'  between pairs of samples/cases (Brainerd-Robinson, Jaccard, Morisita-Horn
-#'  and Sorenson indices). Similarity between pairs of taxa/types can be
-#'  measured by assessing the degree of co-occurrence (binomial co-occurrence).
+#'  and Sorenson indices).
 #'
 #'  Jaccard, Morisita-Horn and Sorenson indices provide a scale of similarity
 #'  from \eqn{0}-\eqn{1} where \eqn{1} is perfect similarity and \eqn{0} is
@@ -791,7 +790,6 @@ setGeneric(
 #'  \eqn{200}. The Binomial co-occurrence assessment approximates a Z-score.
 #'
 #'  \describe{
-#'   \item{`binomial`}{[Binomial co-occurrence assessment][index_binomial()].}
 #'   \item{`brainerd`}{[Brainerd-Robinson quantitative index][index_brainerd()].}
 #'   \item{`bray`}{[Sorenson quantitative index][index_bray()].}
 #'   \item{`jaccard`}{[Jaccard qualitative index][index_jaccard()].}
@@ -911,30 +909,6 @@ setGeneric(
 setGeneric(
   name = "index_brainerd",
   def = function(x, y, ...) standardGeneric("index_brainerd")
-)
-
-#' Binomial Co-Occurrence Assessment
-#'
-#' @param x,y A [`numeric`] vector.
-#' @param ... Currently not used.
-#' @details
-#'  This assesses the degree of co-occurrence between taxa/types within a
-#'  dataset. The strongest associations are shown by large positive numbers,
-#'  the strongest segregations by large negative numbers.
-#' @return
-#'  A [`numeric`] vector.
-#' @references
-#'  Kintigh, K. (2006). Ceramic Dating and Type Associations. In J. Hantman and
-#'  R. Most (eds.), *Managing Archaeological Data: Essays in Honor of
-#'  Sylvia W. Gaines*. Anthropological Research Paper, 57. Tempe, AZ: Arizona
-#'  State University, p. 17-26.
-#' @author N. Frerebeau
-#' @family beta diversity measures
-#' @docType methods
-#' @aliases index_binomial-method
-setGeneric(
-  name = "index_binomial",
-  def = function(x, y, ...) standardGeneric("index_binomial")
 )
 
 ## Turnover --------------------------------------------------------------------
@@ -1097,11 +1071,15 @@ setGeneric(
 #'  [`data.frame`] of count data (absolute frequencies giving the number of
 #'  individuals for each category, i.e. a contingency table). A [`data.frame`]
 #'  will be coerced to a `numeric` `matrix` via [data.matrix()].
+#' @param method A [`character`] string specifying the method to be
+#'  used (see details). Any unambiguous substring can be given.
 #' @param ... Currently not used.
 #' @details
-#'  A co-occurrence matrix is a symmetric matrix with zeros on its main
-#'  diagonal, which works out how many times each pairs of taxa/types occur
-#'  together in at least one sample.
+#'  \describe{
+#'   \item{`count`}{Count how many times each pairs of types occur together in
+#'    at least one sample.}
+#'   \item{`binomial`}{[Binomial co-occurrence assessment][index_binomial()].}
+#'  }
 #' @return
 #'  A [stats::dist] object.
 #' @example inst/examples/ex-occurrence.R
@@ -1112,6 +1090,30 @@ setGeneric(
 setGeneric(
   name = "occurrence",
   def = function(object, ...) standardGeneric("occurrence")
+)
+
+#' Binomial Co-Occurrence Assessment
+#'
+#' @param x,y A [`numeric`] vector.
+#' @param ... Currently not used.
+#' @details
+#'  This assesses the degree of co-occurrence between taxa/types within a
+#'  dataset. The strongest associations are shown by large positive numbers,
+#'  the strongest segregations by large negative numbers.
+#' @return
+#'  A [`numeric`] vector.
+#' @references
+#'  Kintigh, K. (2006). Ceramic Dating and Type Associations. In J. Hantman and
+#'  R. Most (eds.), *Managing Archaeological Data: Essays in Honor of
+#'  Sylvia W. Gaines*. Anthropological Research Paper, 57. Tempe, AZ: Arizona
+#'  State University, p. 17-26.
+#' @author N. Frerebeau
+#' @family beta diversity measures
+#' @docType methods
+#' @aliases index_binomial-method
+setGeneric(
+  name = "index_binomial",
+  def = function(x, y, ...) standardGeneric("index_binomial")
 )
 
 ## Simulate --------------------------------------------------------------------

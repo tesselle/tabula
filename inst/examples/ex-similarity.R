@@ -11,11 +11,8 @@ data("aves")
 ## Jaccard measure (presence/absence data)
 similarity(aves, "jaccard") # 0.46
 
-## Sorenson measure (presence/absence data)
-similarity(aves, "sorenson") # 0.63
+# Bray and Curtis modified version of the Sorenson index (count data)
+(sim <- similarity(aves, "bray")) # 0.44
 
-# Jaccard measure (Bray's formula ; count data)
-similarity(aves, "bray") # 0.44
-
-# Morisita-Horn measure (count data)
-similarity(aves, "morisita") # 0.81
+# Bray and Curtis dissimilarity
+1 - sim

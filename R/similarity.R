@@ -10,38 +10,26 @@ setMethod(
   f = "similarity",
   signature = c(object = "matrix"),
   definition = function(object, method = c("brainerd", "bray", "jaccard",
-                                           "morisita", "sorenson",
-                                           "binomial")) {
+                                           "morisita", "sorenson")) {
     ## Validation
+    if (any(method == "binomial")) {
+      stop("Use occurrence(x, method = \"bionomial\") instead.", call. = FALSE)
+    }
     method <- match.arg(method, several.ok = FALSE)
     ## Select method
     fun <- get_index(method)
 
     ## Pairwise comparison
-    by_row <- method != "binomial"
-    if (by_row) {
-      ## Sample/case comparisons
-      m <- nrow(object)
-      labels <- rownames(object)
-      beta <- function(x, f) f(object[x[1], ], object[x[2], ])
-    } else {
-      ## Taxa/type comparisons
-      m <- ncol(object)
-      labels <- colnames(object)
-      beta <- function(x, f) f(object[, x[1]], object[, x[2]])
-    }
+    ## Sample/case comparisons
+    m <- nrow(object)
+    labels <- rownames(object)
+    beta <- function(x, f) f(object[x[1], ], object[x[2], ])
 
-    diag_value <- switch (
-      method,
-      brainerd = 200,
-      binomial = 0,
-      1
-    )
-
-    cbn <- utils::combn(seq_len(m), 2)
+    cbn <- utils::combn(seq_len(m), m = 2, simplify = TRUE)
     index <- apply(X = cbn, MARGIN = 2, FUN = beta, f = fun)
 
     ## Matrix of results
+    diag_value <- ifelse(method == "brainerd", 200, 1)
     mtx <- matrix(data = diag_value, nrow = m, ncol = m,
                   dimnames = list(labels, labels))
     mtx[lower.tri(mtx, diag = FALSE)] <- index
@@ -61,8 +49,7 @@ setMethod(
   f = "similarity",
   signature = c(object = "data.frame"),
   definition = function(object, method = c("brainerd", "bray", "jaccard",
-                                           "morisita", "sorenson",
-                                           "binomial")) {
+                                           "morisita", "sorenson")) {
     object <- data.matrix(object)
     methods::callGeneric(object, method = method)
   }
@@ -149,6 +136,23 @@ setMethod(
 
 ## Quantitative index ----------------------------------------------------------
 #' @export
+#' @rdname index_brainerd
+#' @aliases index_brainerd,numeric,numeric-method
+setMethod(
+  f = "index_brainerd",
+  signature = c(x = "numeric", y = "numeric"),
+  definition = function(x, y) {
+    ## Validation
+    arkhe::assert_length(y, length(x))
+
+    a <- x / sum(x)
+    b <- y / sum(y)
+    Cb <- 2 - sum(abs(a - b))
+    Cb * 100
+  }
+)
+
+#' @export
 #' @rdname index_bray
 #' @aliases index_bray,numeric,numeric-method
 setMethod(
@@ -158,11 +162,10 @@ setMethod(
     ## Validation
     arkhe::assert_length(y, length(x))
 
-    a <- sum(x)
-    b <- sum(y)
+    a <- sum(x) # Number of individuals in site A
+    b <- sum(y) # Number of individuals in site B
 
-    j <- sum(apply(X = rbind(x, y), MARGIN = 2, FUN = min))
-    Cs <- 2 * j / (a + b)
+    Cs <- 1 - sum(abs(y - x)) / sum(x + y)
     Cs
   }
 )
@@ -184,50 +187,5 @@ setMethod(
 
     Cm <- (2 * sum(x * y)) / ((da + db) * a * b)
     Cm
-  }
-)
-
-#' @export
-#' @rdname index_brainerd
-#' @aliases index_brainerd,numeric,numeric-method
-setMethod(
-  f = "index_brainerd",
-  signature = c(x = "numeric", y = "numeric"),
-  definition = function(x, y) {
-    ## Validation
-    arkhe::assert_length(y, length(x))
-
-    a <- x / sum(x)
-    b <- y / sum(y)
-    Cb <- 2 - sum(abs(a - b))
-    Cb * 100
-  }
-)
-
-## Binomial co-occurrence ------------------------------------------------------
-#' @export
-#' @rdname index_binomial
-#' @aliases index_binomial,numeric,numeric-method
-setMethod(
-  f = "index_binomial",
-  signature = c(x = "numeric", y = "numeric"),
-  definition = function(x, y) {
-    ## Validation
-    arkhe::assert_length(y, length(x))
-
-    ## Total number of assemblages
-    N <- length(x)
-    ## Expected proportion of co-occurrences for artifact classes
-    p <- sum(x > 0) * sum(y > 0) / N^2
-    ## Number of observed co-occurence for artifact classes
-    o <- sum((x > 0) + (y > 0) == 2)
-    if (p == 1) {
-      ## Avoid NaN generation
-      ## TODO: warning ?
-      Cbi <- 0
-    } else {
-      Cbi <- (o - N * p) / sqrt(N * p * (1 - p))
-    }
-    Cbi
   }
 )

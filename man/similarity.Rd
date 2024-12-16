@@ -12,12 +12,12 @@ similarity(object, ...)
 
 \S4method{similarity}{matrix}(
   object,
-  method = c("brainerd", "bray", "jaccard", "morisita", "sorenson", "binomial")
+  method = c("brainerd", "bray", "jaccard", "morisita", "sorenson")
 )
 
 \S4method{similarity}{data.frame}(
   object,
-  method = c("brainerd", "bray", "jaccard", "morisita", "sorenson", "binomial")
+  method = c("brainerd", "bray", "jaccard", "morisita", "sorenson")
 )
 }
 \arguments{
@@ -40,8 +40,7 @@ Similarity
 \details{
 \eqn{\beta}-diversity can be measured by addressing \emph{similarity}
 between pairs of samples/cases (Brainerd-Robinson, Jaccard, Morisita-Horn
-and Sorenson indices). Similarity between pairs of taxa/types can be
-measured by assessing the degree of co-occurrence (binomial co-occurrence).
+and Sorenson indices).
 
 Jaccard, Morisita-Horn and Sorenson indices provide a scale of similarity
 from \eqn{0}-\eqn{1} where \eqn{1} is perfect similarity and \eqn{0} is
@@ -49,7 +48,6 @@ no similarity. The Brainerd-Robinson index is scaled between \eqn{0} and
 \eqn{200}. The Binomial co-occurrence assessment approximates a Z-score.
 
 \describe{
-\item{\code{binomial}}{\link[=index_binomial]{Binomial co-occurrence assessment}.}
 \item{\code{brainerd}}{\link[=index_brainerd]{Brainerd-Robinson quantitative index}.}
 \item{\code{bray}}{\link[=index_bray]{Sorenson quantitative index}.}
 \item{\code{jaccard}}{\link[=index_jaccard]{Jaccard qualitative index}.}
@@ -71,14 +69,11 @@ data("aves")
 ## Jaccard measure (presence/absence data)
 similarity(aves, "jaccard") # 0.46
 
-## Sorenson measure (presence/absence data)
-similarity(aves, "sorenson") # 0.63
+# Bray and Curtis modified version of the Sorenson index (count data)
+(sim <- similarity(aves, "bray")) # 0.44
 
-# Jaccard measure (Bray's formula ; count data)
-similarity(aves, "bray") # 0.44
-
-# Morisita-Horn measure (count data)
-similarity(aves, "morisita") # 0.81
+# Bray and Curtis dissimilarity
+1 - sim
 }
 \references{
 Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.

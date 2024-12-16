@@ -7,28 +7,35 @@ NULL
 #' @aliases occurrence,matrix-method
 setMethod(
   f = "occurrence",
-  signature = signature(object = "matrix"),
-  definition = function(object) {
-    incid <- object > 0
-    m <- nrow(incid)
-    p <- ncol(incid)
+  signature = c(object = "matrix"),
+  definition = function(object, method = c("count", "binomial")) {
+    ## Validation
+    method <- match.arg(method, several.ok = FALSE)
 
-    ij <- utils::combn(p, m = 2, simplify = TRUE)
-    pair <- seq_len(ncol(ij))
+    ## Pairwise comparison
+    p <- ncol(object)
+    labels <- colnames(object)
 
-    mtx <- matrix(data = 0L, nrow = p, ncol = p)
-    labels <- colnames(incid)
-    dimnames(mtx) <- list(labels, labels)
-
-    for (k in pair) {
-      i <- ij[1, k]
-      j <- ij[2, k]
-      z <- as.integer(sum(incid[, i] + incid[, j] == 2))
-      mtx[i, j] <- mtx[j, i] <- z
+    if (method == "count") {
+      incid <- object > 0
+      fun <- function(x) sum(incid[, x[1]] + incid[, x[2]] == 2)
+    }
+    if (method == "binomial") {
+      fun <- function(x) index_binomial(object[, x[1]], object[, x[2]])
     }
 
+    cbn <- utils::combn(p, m = 2, simplify = TRUE)
+    index <- apply(X = cbn, MARGIN = 2, FUN = fun)
+
+    ## Matrix of results
+    mtx <- matrix(data = 0, nrow = p, ncol = p,
+                  dimnames = list(labels, labels))
+    mtx[lower.tri(mtx, diag = FALSE)] <- index
+    mtx <- t(mtx)
+    mtx[lower.tri(mtx, diag = FALSE)] <- index
+
     occ <- stats::as.dist(mtx)
-    attr(occ, "total") <- m
+    attr(occ, "total") <- nrow(incid)
     occ
   }
 )
@@ -38,9 +45,37 @@ setMethod(
 #' @aliases occurrence,data.frame-method
 setMethod(
   f = "occurrence",
-  signature = signature(object = "data.frame"),
-  definition = function(object) {
+  signature = c(object = "data.frame"),
+  definition = function(object, method = c("count", "binomial")) {
     object <- data.matrix(object)
-    methods::callGeneric(object)
+    methods::callGeneric(object, method = method)
+  }
+)
+
+## Binomial co-occurrence ------------------------------------------------------
+#' @export
+#' @rdname index_binomial
+#' @aliases index_binomial,numeric,numeric-method
+setMethod(
+  f = "index_binomial",
+  signature = c(x = "numeric", y = "numeric"),
+  definition = function(x, y) {
+    ## Validation
+    arkhe::assert_length(y, length(x))
+
+    ## Total number of assemblages
+    N <- length(x)
+    ## Expected proportion of co-occurrences for artifact classes
+    p <- sum(x > 0) * sum(y > 0) / N^2
+    ## Number of observed co-occurence for artifact classes
+    o <- sum((x > 0) + (y > 0) == 2)
+    if (p == 1) {
+      ## Avoid NaN generation
+      ## TODO: warning ?
+      Cbi <- 0
+    } else {
+      Cbi <- (o - N * p) / sqrt(N * p * (1 - p))
+    }
+    Cbi
   }
 )
