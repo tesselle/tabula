@@ -110,7 +110,8 @@ setMethod(
 
     ## Add annotation
     if (ann) {
-      graphics::title(main = main, sub = sub, xlab = "Count", ylab = NULL, ...)
+      graphics::title(main = main, sub = sub,
+                      xlab = tr_("Absolute frequency"), ylab = NULL, ...)
     }
 
     invisible(object)

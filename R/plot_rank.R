@@ -76,8 +76,8 @@ setMethod(
 
     ## Add annotation
     if (ann) {
-      graphics::title(main = main, sub = sub, xlab = "Rank",
-                      ylab = "Frequency", ...)
+      graphics::title(main = main, sub = sub, xlab = tr_("Rank"),
+                      ylab = tr_("Frequency"), ...)
     }
 
     ## Legend

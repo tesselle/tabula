@@ -65,12 +65,12 @@ plot.DiversityIndex <- function(x, log = "x",
   if (ann) {
     y_lab <- switch (
       class(x),
-      HeterogeneityIndex = "Heterogeneity",
-      EvennessIndex = "Evenness",
-      RichnessIndex = "Richness",
-      "Diversity"
+      HeterogeneityIndex = tr_("Heterogeneity"),
+      EvennessIndex = tr_("Evenness"),
+      RichnessIndex = tr_("Richness"),
+      tr_("Diversity")
     )
-    graphics::title(main = main, sub = sub, xlab = "Sample size",
+    graphics::title(main = main, sub = sub, xlab = tr_("Sample size"),
                     ylab = sprintf("%s (%s)", y_lab, x@method))
   }
 
@@ -134,8 +134,8 @@ setMethod(
 
     ## Add annotation
     if (ann) {
-      graphics::title(main = main, sub = sub, xlab = "Sample size",
-                      ylab = "Diversity", ...)
+      graphics::title(main = main, sub = sub, xlab = tr_("Sample size"),
+                      ylab = tr_("Diversity"), ...)
     }
 
     ## Legend
@@ -270,7 +270,7 @@ setMethod(
     ## Add annotation
     if (ann) {
       graphics::title(main = main, sub = sub, xlab = "alpha",
-                      ylab = "Diversity", ...)
+                      ylab = tr_("Diversity"), ...)
     }
 
     ## Legend

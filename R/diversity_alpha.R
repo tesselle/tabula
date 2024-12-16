@@ -59,8 +59,8 @@ setMethod(
 
     F1 <- sum(x == 1) # Number of singleton species
     if (F1 == N_rare)
-      stop("ACE is undefined when all rare species are singletons, ",
-           "consider using the bias-corrected Chao1 index instead.",
+      stop(tr_("ACE is undefined when all rare species are singletons."),
+           tr_("Consider using the bias-corrected Chao1 estimator instead."),
            call. = FALSE)
 
     ## Sample coverage estimate for rare species
@@ -186,11 +186,13 @@ setMethod(
       }
     }
     if (improved) {
-      f3 <- sum(x == 3) # Number of tripleton species
-      f4 <- sum(x == 4) # Number of quadrupleton species
+      f3 <- sum(x == 3) # Number of triple species
+      f4 <- sum(x == 4) # Number of quadruple species
       if (f4 == 0)
-        stop("Improved Chao1 estimator is undefined ",
-             "when there is no quadrupleton species.", call. = FALSE)
+        stop(
+          tr_("Improved Chao1 estimator is undefined when there is no quadruple species."),
+          call. = FALSE
+        )
 
       k <- f1 - ((N - 3) / (N - 1)) * ((f2 * f3) / (2 * f4))
       D <- D + ((N - 3) / N) * (f3 / (4 * f4)) * max(k, 0)
@@ -230,8 +232,10 @@ setMethod(
       q3 <- sum(q == 3) # Number of triple species
       q4 <- sum(q == 4) # Number of quadruple species
       if (q4 == 0)
-        stop("Improved Chao2 estimator is undefined ",
-             "when there is no quadruple species.", call. = FALSE)
+        stop(
+          tr_("Improved Chao2 estimator is undefined when there is no quadruple species."),
+          call. = FALSE
+        )
 
       k <- q1 - ((t - 3) / (t - 1)) * ((q2 * q3) / (2 * q4))
       D <- D + ((t - 3) / (4 * t)) * (q3 / q4) * max(k, 0)
@@ -262,8 +266,8 @@ setMethod(
 
     q1 <- sum(q == 1) # Number of unique species in the assemblage
     if (q1 == N_infr)
-      stop("ICE is undefined when all infrequent species are unique, ",
-           "consider using the bias-corrected Chao2 estimator instead.",
+      stop(tr_("ICE is undefined when all rare species are singletons."),
+           tr_("Consider using the bias-corrected Chao2 estimator instead."),
            call. = FALSE)
 
     ## Sample coverage estimate

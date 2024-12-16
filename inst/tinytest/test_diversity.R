@@ -1,3 +1,5 @@
+Sys.setlocale("LC_MESSAGES", 'en_GB.UTF-8') # Force locale
+
 source("helpers.R")
 data("cantabria")
 

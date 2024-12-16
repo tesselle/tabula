@@ -1,4 +1,6 @@
 if (at_home()) {
+  Sys.setlocale("LC_MESSAGES", 'en_GB.UTF-8') # Force locale
+
   source("helpers.R")
   using("tinysnapshot")
   options(tinysnapshot_device = "svglite")
