@@ -45,13 +45,11 @@ setMethod(
 #' @noRd
 combination <- function(n, k) {
   # Validation
-  if (!is.numeric(n))
-    stop("`n` must be a numeric vector.")
-  if (!is.numeric(k))
-    stop("`k` must be a numeric vector.")
+  arkhe::assert_scalar(n, "numeric")
+  arkhe::assert_scalar(k, "numeric")
 
   if (n > 170 | k > 170) {
-    if (getOption("tabula.verbose")) message("Ramanujan approximation of x!")
+    if (getOption("tabula.verbose")) message(tr_("Ramanujan approximation of x!"))
     c <- exp(ramanujan(n) - ramanujan(k) - ramanujan(n - k))
   } else {
     c <- factorial(n) / (factorial(k) * factorial(n - k))

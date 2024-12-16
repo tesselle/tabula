@@ -1,0 +1,80 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: tabula 3.1.1.9000\n"
+"POT-Creation-Date: 2024-12-16 19:01+0100\n"
+"PO-Revision-Date: 2024-12-16 19:01+0100\n"
+"Last-Translator: Nicolas Frerebeau <nicolas.frerebeau@u-bordeaux-montaigne.fr>\n"
+"Language-Team: fr\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: diversity_alpha.R:62
+msgid "ACE is undefined when all rare species are singletons."
+msgstr "L'estimateur ACE est indéfini lorsque toutes les espèces rares sont des singletons."
+
+#: diversity_alpha.R:63
+msgid "Consider using the bias-corrected Chao1 estimator instead."
+msgstr "Envisagez plutôt d'utiliser l'estimateur Chao1 non biaisé."
+
+#: diversity_alpha.R:193
+msgid ""
+"Improved Chao1 estimator is undefined when there is no quadruple species."
+msgstr ""
+"L'estimateur Chao1 amélioré est indéfini lorsqu'il n'y a pas d'espèce quadruple."
+
+#: diversity_alpha.R:236
+msgid ""
+"Improved Chao2 estimator is undefined when there is no quadruple species."
+msgstr ""
+"L'estimateur Chao2 amélioré est indéfini lorsqu'il n'y a pas d'espèce quadruple."
+
+#: diversity_alpha.R:269
+msgid "ICE is undefined when all rare species are singletons."
+msgstr "L'estimateur ICE est indéfini lorsque toutes les espèces rares sont des singletons."
+
+#: diversity_alpha.R:270
+msgid "Consider using the bias-corrected Chao2 estimator instead."
+msgstr "Envisagez plutôt d'utiliser l'estimateur Chao2 non biaisé."
+
+#: plot_diceleraas.R:114
+msgid "Absolute frequency"
+msgstr "Fréquence absolue"
+
+#: plot_diversity.R:68
+msgid "Heterogeneity"
+msgstr "Hétérogénéité"
+
+#: plot_diversity.R:69
+msgid "Evenness"
+msgstr "Équitabilité"
+
+#: plot_diversity.R:70
+msgid "Richness"
+msgstr "Richesse"
+
+#: plot_diversity.R:71 plot_diversity.R:138 plot_diversity.R:273
+msgid "Diversity"
+msgstr "Diversité"
+
+#: plot_diversity.R:73 plot_diversity.R:137 rarefaction.R:124
+msgid "Sample size"
+msgstr "Effectif"
+
+#: plot_rank.R:79
+msgid "Rank"
+msgstr "Rang"
+
+#: plot_rank.R:80
+msgid "Frequency"
+msgstr "Fréquence"
+
+#: rarefaction.R:125
+msgid "Expected species index"
+msgstr "Indice de diversité attendu"
+
+#: statistics.R:52
+msgid "Ramanujan approximation of x!"
+msgstr ""

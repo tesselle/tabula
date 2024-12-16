@@ -121,8 +121,8 @@ plot.RarefactionIndex <- function(x, color = NULL, symbol = FALSE,
 
   ## Add annotation
   if (ann) {
-    graphics::title(main = main, sub = sub, xlab = "Sample size",
-                    ylab = "Expected species index")
+    graphics::title(main = main, sub = sub, xlab = tr_("Sample size"),
+                    ylab = tr_("Expected species index"))
   }
 
   ## Legend
