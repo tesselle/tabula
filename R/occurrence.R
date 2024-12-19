@@ -35,7 +35,7 @@ setMethod(
     mtx[lower.tri(mtx, diag = FALSE)] <- index
 
     occ <- stats::as.dist(mtx)
-    attr(occ, "total") <- nrow(incid)
+    attr(occ, "total") <- nrow(object)
     occ
   }
 )
