@@ -58,10 +58,12 @@ setMethod(
     N_rare <- sum(x[x <= k]) # Number of individuals in the rare species
 
     F1 <- sum(x == 1) # Number of singleton species
-    if (F1 == N_rare)
-      stop(tr_("ACE is undefined when all rare species are singletons."),
-           tr_("Consider using the bias-corrected Chao1 estimator instead."),
-           call. = FALSE)
+    if (F1 == N_rare) {
+      warning(tr_("ACE is undefined when all rare species are singletons."),
+              tr_("Consider using the bias-corrected Chao1 estimator instead."),
+              call. = FALSE)
+      return(NA_real_)
+    }
 
     ## Sample coverage estimate for rare species
     ## ie. proportion of all individuals in rare species that are not singletons
@@ -188,11 +190,13 @@ setMethod(
     if (improved) {
       f3 <- sum(x == 3) # Number of triple species
       f4 <- sum(x == 4) # Number of quadruple species
-      if (f4 == 0)
-        stop(
+      if (f4 == 0) {
+        warning(
           tr_("Improved Chao1 estimator is undefined when there is no quadruple species."),
           call. = FALSE
         )
+        return(NA_real_)
+      }
 
       k <- f1 - ((N - 3) / (N - 1)) * ((f2 * f3) / (2 * f4))
       D <- D + ((N - 3) / N) * (f3 / (4 * f4)) * max(k, 0)
@@ -231,11 +235,13 @@ setMethod(
     if (improved) {
       q3 <- sum(q == 3) # Number of triple species
       q4 <- sum(q == 4) # Number of quadruple species
-      if (q4 == 0)
-        stop(
+      if (q4 == 0) {
+        warning(
           tr_("Improved Chao2 estimator is undefined when there is no quadruple species."),
           call. = FALSE
         )
+        return(NA_real_)
+      }
 
       k <- q1 - ((t - 3) / (t - 1)) * ((q2 * q3) / (2 * q4))
       D <- D + ((t - 3) / (4 * t)) * (q3 / q4) * max(k, 0)
@@ -265,10 +271,12 @@ setMethod(
     t <- sum(rowSums(x[, q <= k]) != 0)
 
     q1 <- sum(q == 1) # Number of unique species in the assemblage
-    if (q1 == N_infr)
-      stop(tr_("ICE is undefined when all rare species are singletons."),
-           tr_("Consider using the bias-corrected Chao2 estimator instead."),
-           call. = FALSE)
+    if (q1 == N_infr) {
+      warning(tr_("ICE is undefined when all rare species are singletons."),
+              tr_("Consider using the bias-corrected Chao2 estimator instead."),
+              call. = FALSE)
+      return(NA_real_)
+    }
 
     ## Sample coverage estimate
     ## ie. proportion of all incidences of infrequent species that are not uniques
