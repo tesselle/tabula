@@ -9,6 +9,3 @@ expect_equal(tabula:::combination(4, 3), 4)
 # Ramanujan factorial approx.
 expect_equal(tabula:::combination(171, 3), 818816.247275706)
 expect_error(tabula:::combination(3, "a"))
-
-options("tabula.verbose" = TRUE)
-expect_message(tabula:::combination(171, 3), "Ramanujan approximation of x!")

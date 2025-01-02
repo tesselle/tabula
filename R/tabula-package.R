@@ -8,6 +8,13 @@
 #'  **JOSS:** \tab \doi{10.21105/joss.01821} \cr
 #' }
 #'
+#' @section Package options:
+#'  \pkg{tabula} uses the following [options()] to configure behavior:
+#'  * `tabula.progress`: a [`logical`] scalar. Should progress bars be
+#'    displayed? Defaults to [interactive()].
+#'  * `tabula.verbose`: a [`logical`] scalar. Should \R report extra information
+#'    on progress? Defaults to [interactive()].
+#'
 #' @author
 #' **Full list of authors and contributors** (alphabetic order)
 #'

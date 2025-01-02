@@ -59,9 +59,12 @@ setMethod(
 
     F1 <- sum(x == 1) # Number of singleton species
     if (F1 == N_rare) {
-      warning(tr_("ACE is undefined when all rare species are singletons."), "\n",
-              tr_("Consider using the bias-corrected Chao1 estimator instead."),
-              call. = FALSE)
+      if (getOption("tabula.verbose")) {
+        message(
+          tr_("ACE is undefined when all rare species are singletons."), "\n",
+          tr_("Consider using the bias-corrected Chao1 estimator instead.")
+        )
+      }
       return(NA_real_)
     }
 
@@ -191,10 +194,11 @@ setMethod(
       f3 <- sum(x == 3) # Number of triple species
       f4 <- sum(x == 4) # Number of quadruple species
       if (f4 == 0) {
-        warning(
-          tr_("Improved Chao1 estimator is undefined when there is no quadruple species."),
-          call. = FALSE
-        )
+        if (getOption("tabula.verbose")) {
+          message(
+            tr_("Improved Chao1 estimator is undefined when there is no quadruple species.")
+          )
+        }
         return(NA_real_)
       }
 
@@ -236,10 +240,11 @@ setMethod(
       q3 <- sum(q == 3) # Number of triple species
       q4 <- sum(q == 4) # Number of quadruple species
       if (q4 == 0) {
-        warning(
-          tr_("Improved Chao2 estimator is undefined when there is no quadruple species."),
-          call. = FALSE
-        )
+        if (getOption("tabula.verbose")) {
+          message(
+            tr_("Improved Chao2 estimator is undefined when there is no quadruple species.")
+          )
+        }
         return(NA_real_)
       }
 
@@ -272,9 +277,12 @@ setMethod(
 
     q1 <- sum(q == 1) # Number of unique species in the assemblage
     if (q1 == N_infr) {
-      warning(tr_("ICE is undefined when all rare species are singletons."), "\n",
-              tr_("Consider using the bias-corrected Chao2 estimator instead."),
-              call. = FALSE)
+      if (getOption("tabula.verbose")) {
+        message(
+          tr_("ICE is undefined when all rare species are singletons."), "\n",
+          tr_("Consider using the bias-corrected Chao2 estimator instead.")
+        )
+      }
       return(NA_real_)
     }
 

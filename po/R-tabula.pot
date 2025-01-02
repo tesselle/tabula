@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tabula 3.1.1.9000\n"
-"POT-Creation-Date: 2025-01-02 17:05+0100\n"
+"POT-Creation-Date: 2025-01-02 18:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -10,29 +10,29 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: diversity_alpha.R:62
+#: diversity_alpha.R:64
 msgid "ACE is undefined when all rare species are singletons."
 msgstr ""
 
-#: diversity_alpha.R:63
+#: diversity_alpha.R:65
 msgid "Consider using the bias-corrected Chao1 estimator instead."
 msgstr ""
 
-#: diversity_alpha.R:195
+#: diversity_alpha.R:199
 msgid ""
 "Improved Chao1 estimator is undefined when there is no quadruple species."
 msgstr ""
 
-#: diversity_alpha.R:240
+#: diversity_alpha.R:245
 msgid ""
 "Improved Chao2 estimator is undefined when there is no quadruple species."
 msgstr ""
 
-#: diversity_alpha.R:275
+#: diversity_alpha.R:282
 msgid "ICE is undefined when all rare species are singletons."
 msgstr ""
 
-#: diversity_alpha.R:276
+#: diversity_alpha.R:283
 msgid "Consider using the bias-corrected Chao2 estimator instead."
 msgstr ""
 
@@ -70,8 +70,4 @@ msgstr ""
 
 #: rarefaction.R:126
 msgid "Expected species index"
-msgstr ""
-
-#: statistics.R:52
-msgid "Ramanujan approximation of x!"
 msgstr ""

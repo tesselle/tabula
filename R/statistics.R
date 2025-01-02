@@ -49,7 +49,7 @@ combination <- function(n, k) {
   arkhe::assert_scalar(k, "numeric")
 
   if (n > 170 | k > 170) {
-    if (getOption("tabula.verbose")) message(tr_("Ramanujan approximation of x!"))
+    ## Ramanujan approximation of x!
     c <- exp(ramanujan(n) - ramanujan(k) - ramanujan(n - k))
   } else {
     c <- factorial(n) / (factorial(k) * factorial(n - k))

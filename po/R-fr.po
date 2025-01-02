@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tabula 3.1.1.9000\n"
-"POT-Creation-Date: 2025-01-02 17:05+0100\n"
+"POT-Creation-Date: 2025-01-02 18:37+0100\n"
 "PO-Revision-Date: 2024-12-16 19:01+0100\n"
 "Last-Translator: Nicolas Frerebeau <nicolas.frerebeau@u-bordeaux-montaigne."
 "fr>\n"
@@ -12,37 +12,37 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: diversity_alpha.R:62
+#: diversity_alpha.R:64
 msgid "ACE is undefined when all rare species are singletons."
 msgstr ""
 "L'estimateur ACE est indéfini lorsque toutes les espèces rares sont des "
 "singletons."
 
-#: diversity_alpha.R:63
+#: diversity_alpha.R:65
 msgid "Consider using the bias-corrected Chao1 estimator instead."
 msgstr "Envisagez plutôt d'utiliser l'estimateur Chao1 non biaisé."
 
-#: diversity_alpha.R:195
+#: diversity_alpha.R:199
 msgid ""
 "Improved Chao1 estimator is undefined when there is no quadruple species."
 msgstr ""
 "L'estimateur Chao1 amélioré est indéfini lorsqu'il n'y a pas d'espèce "
 "quadruple."
 
-#: diversity_alpha.R:240
+#: diversity_alpha.R:245
 msgid ""
 "Improved Chao2 estimator is undefined when there is no quadruple species."
 msgstr ""
 "L'estimateur Chao2 amélioré est indéfini lorsqu'il n'y a pas d'espèce "
 "quadruple."
 
-#: diversity_alpha.R:275
+#: diversity_alpha.R:282
 msgid "ICE is undefined when all rare species are singletons."
 msgstr ""
 "L'estimateur ICE est indéfini lorsque toutes les espèces rares sont des "
 "singletons."
 
-#: diversity_alpha.R:276
+#: diversity_alpha.R:283
 msgid "Consider using the bias-corrected Chao2 estimator instead."
 msgstr "Envisagez plutôt d'utiliser l'estimateur Chao2 non biaisé."
 
@@ -81,7 +81,3 @@ msgstr "Fréquence"
 #: rarefaction.R:126
 msgid "Expected species index"
 msgstr "Indice de diversité attendu"
-
-#: statistics.R:52
-msgid "Ramanujan approximation of x!"
-msgstr ""
