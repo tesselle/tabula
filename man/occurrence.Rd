@@ -10,9 +10,9 @@
 \usage{
 occurrence(object, ...)
 
-\S4method{occurrence}{matrix}(object, method = c("count", "binomial"))
+\S4method{occurrence}{matrix}(object, method = c("absolute", "relative", "binomial"))
 
-\S4method{occurrence}{data.frame}(object, method = c("count", "binomial"))
+\S4method{occurrence}{data.frame}(object, method = c("absolute", "relative", "binomial"))
 }
 \arguments{
 \item{object}{A \eqn{m \times p}{m x p} \code{numeric} \code{\link{matrix}} or
@@ -23,7 +23,8 @@ will be coerced to a \code{numeric} \code{matrix} via \code{\link[=data.matrix]{
 \item{...}{Currently not used.}
 
 \item{method}{A \code{\link{character}} string specifying the method to be
-used (see details). Any unambiguous substring can be given.}
+used. It must be one of "\code{absolute}", "\code{relative}" or "\code{binomial}"
+(see details). Any unambiguous substring can be given.}
 }
 \value{
 A \link[stats:dist]{stats::dist} object.
@@ -33,8 +34,10 @@ Co-Occurrence
 }
 \details{
 \describe{
-\item{\code{count}}{Count how many times each pairs of types occur together in
-at least one sample.}
+\item{\code{absolute}}{Count how many times each pairs of types occur together
+in at least one sample (absolute frequencies).}
+\item{\code{relative}}{Count how many times each pairs of types occur together
+in at least one sample (relative frequencies).}
 \item{\code{binomial}}{\link[=index_binomial]{Binomial co-occurrence assessment}.}
 }
 }
@@ -43,8 +46,11 @@ at least one sample.}
 data("cantabria")
 
 ## Plot spot diagram of a co-occurrence matrix
-occ <- occurrence(cantabria)
-plot_spot(occ)
+occ_abs <- occurrence(cantabria, method = "absolute") # Absolute frequencies
+plot_spot(occ_abs)
+
+occ_rel <- occurrence(cantabria, method = "relative") # Relative frequencies
+plot_spot(occ_rel)
 }
 \seealso{
 Other diversity measures: 

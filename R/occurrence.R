@@ -8,7 +8,7 @@ NULL
 setMethod(
   f = "occurrence",
   signature = c(object = "matrix"),
-  definition = function(object, method = c("count", "binomial")) {
+  definition = function(object, method = c("absolute", "relative", "binomial")) {
     ## Validation
     method <- match.arg(method, several.ok = FALSE)
 
@@ -16,7 +16,7 @@ setMethod(
     p <- ncol(object)
     labels <- colnames(object)
 
-    if (method == "count") {
+    if (method == "absolute" || method == "relative") {
       incid <- object > 0
       fun <- function(x) sum(incid[, x[1]] + incid[, x[2]] == 2)
     }
@@ -34,6 +34,10 @@ setMethod(
     mtx <- t(mtx)
     mtx[lower.tri(mtx, diag = FALSE)] <- index
 
+    if (method == "relative") {
+      mtx <- mtx / nrow(object)
+    }
+
     occ <- stats::as.dist(mtx)
     attr(occ, "total") <- nrow(object)
     occ
@@ -46,7 +50,7 @@ setMethod(
 setMethod(
   f = "occurrence",
   signature = c(object = "data.frame"),
-  definition = function(object, method = c("count", "binomial")) {
+  definition = function(object, method = c("absolute", "relative", "binomial")) {
     object <- data.matrix(object)
     methods::callGeneric(object, method = method)
   }

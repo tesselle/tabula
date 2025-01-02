@@ -787,7 +787,7 @@ setGeneric(
 #'  Jaccard, Morisita-Horn and Sorenson indices provide a scale of similarity
 #'  from \eqn{0}-\eqn{1} where \eqn{1} is perfect similarity and \eqn{0} is
 #'  no similarity. The Brainerd-Robinson index is scaled between \eqn{0} and
-#'  \eqn{200}. The Binomial co-occurrence assessment approximates a Z-score.
+#'  \eqn{200}.
 #'
 #'  \describe{
 #'   \item{`brainerd`}{[Brainerd-Robinson quantitative index][index_brainerd()].}
@@ -1072,12 +1072,15 @@ setGeneric(
 #'  individuals for each category, i.e. a contingency table). A [`data.frame`]
 #'  will be coerced to a `numeric` `matrix` via [data.matrix()].
 #' @param method A [`character`] string specifying the method to be
-#'  used (see details). Any unambiguous substring can be given.
+#'  used. It must be one of "`absolute`", "`relative`" or "`binomial`"
+#'  (see details). Any unambiguous substring can be given.
 #' @param ... Currently not used.
 #' @details
 #'  \describe{
-#'   \item{`count`}{Count how many times each pairs of types occur together in
-#'    at least one sample.}
+#'   \item{`absolute`}{Count how many times each pairs of types occur together
+#'   in at least one sample (absolute frequencies).}
+#'   \item{`relative`}{Count how many times each pairs of types occur together
+#'   in at least one sample (relative frequencies).}
 #'   \item{`binomial`}{[Binomial co-occurrence assessment][index_binomial()].}
 #'  }
 #' @return
@@ -1100,6 +1103,8 @@ setGeneric(
 #'  This assesses the degree of co-occurrence between taxa/types within a
 #'  dataset. The strongest associations are shown by large positive numbers,
 #'  the strongest segregations by large negative numbers.
+#'
+#'  The Binomial co-occurrence assessment approximates a Z-score.
 #' @return
 #'  A [`numeric`] vector.
 #' @references

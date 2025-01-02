@@ -2,5 +2,8 @@
 data("cantabria")
 
 ## Plot spot diagram of a co-occurrence matrix
-occ <- occurrence(cantabria)
-plot_spot(occ)
+occ_abs <- occurrence(cantabria, method = "absolute") # Absolute frequencies
+plot_spot(occ_abs)
+
+occ_rel <- occurrence(cantabria, method = "relative") # Relative frequencies
+plot_spot(occ_rel)

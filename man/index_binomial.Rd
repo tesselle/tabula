@@ -26,6 +26,8 @@ Binomial Co-Occurrence Assessment
 This assesses the degree of co-occurrence between taxa/types within a
 dataset. The strongest associations are shown by large positive numbers,
 the strongest segregations by large negative numbers.
+
+The Binomial co-occurrence assessment approximates a Z-score.
 }
 \references{
 Kintigh, K. (2006). Ceramic Dating and Type Associations. In J. Hantman and

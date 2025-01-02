@@ -7,8 +7,13 @@ exp_occ <- matrix(
            1L, 1L, 3L, 0L, 0L),
   nrow = 5, ncol = 5
 )
-test_occ <- occurrence(pueblo)
+test_occ <- occurrence(pueblo, method = "absolute")
 expect_equivalent(test_occ, as.dist(exp_occ))
+
+## Binomial co-occurrence
+x <- c(16, 9, 3, 0, 1)
+y <- c(13, 3, 2, 0, 0)
+expect_equal(round(index_binomial(x, y), 3), 0.537) # 0.54
 
 if (at_home()) {
   source("helpers.R")

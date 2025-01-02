@@ -111,11 +111,6 @@ x <- c(16, 9, 3, 0, 1)
 y <- c(13, 3, 2, 0, 0)
 expect_equal(round(index_brainerd(x, y)), 164) # 164
 
-## Binomial co-occurrence
-x <- c(16, 9, 3, 0, 1)
-y <- c(13, 3, 2, 0, 0)
-expect_equal(round(index_binomial(x, y), 3), 0.537) # 0.54
-
 # Turnover =====================================================================
 data("woodland")
 

@@ -45,7 +45,7 @@ and Sorenson indices).
 Jaccard, Morisita-Horn and Sorenson indices provide a scale of similarity
 from \eqn{0}-\eqn{1} where \eqn{1} is perfect similarity and \eqn{0} is
 no similarity. The Brainerd-Robinson index is scaled between \eqn{0} and
-\eqn{200}. The Binomial co-occurrence assessment approximates a Z-score.
+\eqn{200}.
 
 \describe{
 \item{\code{brainerd}}{\link[=index_brainerd]{Brainerd-Robinson quantitative index}.}
