@@ -81,9 +81,12 @@ plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
   pin <- graphics::par("pin")
   plt <- graphics::par("plt")
 
+  ## Add horizontal space for the legend (5%)
+  legend_width <- if (legend) max(1, m / 20) else 0
+
   if (isTRUE(asp)) asp <- 1
   if (!isFALSE(asp) && !is.na(asp)) {
-    aspect_ratio <- n / (m + legend)
+    aspect_ratio <- n / (m + legend_width)
     pin_y <- pin[1] * aspect_ratio * asp
 
     if (pin_y < pin[2]) {
@@ -99,7 +102,7 @@ plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
   }
 
   ## Set plotting coordinates
-  xlim <- c(0, m + legend) + 0.5
+  xlim <- c(0, m + legend_width) + 0.5
   ylim <- c(0, n) + 0.5
   graphics::plot.window(xlim = xlim, ylim = ylim, xaxs = "i", yaxs = "i", asp = asp)
 
@@ -120,19 +123,20 @@ plot_matrix <- function(object, panel, diag = TRUE, upper = TRUE, lower = TRUE,
   if (legend) {
     lgd <- attr(data, "legend")
     legend_gradient(x = m, y = n, labels = lgd$labels,
-                    at = lgd$at, col = lgd$colors)
+                    at = lgd$at, width = legend_width, col = lgd$colors)
   }
 }
 
-legend_gradient <- function(x, y, labels, at, col) {
+legend_gradient <- function(x, y, labels, at, width, col) {
   legend_image <- grDevices::as.raster(col)
   legend_y <- (at - min(at)) * y / diff(range(at)) + 0.5
 
   graphics::rasterImage(legend_image, xleft = x + 1, ybottom = max(legend_y),
-                        xright = x + 1.5, ytop = min(legend_y))
-  graphics::segments(x0 = x + 1, y0 = legend_y, x1 = x + 1.5, y1 = legend_y,
+                        xright = x + 1 + width, ytop = min(legend_y))
+  graphics::segments(x0 = x + 1, y0 = legend_y,
+                     x1 = x + 1 + width, y1 = legend_y,
                      col = "white")
-  graphics::polygon(x = c(x, x + 0.5, x + 0.5, x) + 1,
+  graphics::polygon(x = c(x, x + width, x + width, x) + 1,
                     y = c(0.5, 0.5, max(legend_y), max(legend_y)),
                     col = NA, border = "black")
   graphics::axis(side = 4, at = legend_y, labels = labels, las = 2)
