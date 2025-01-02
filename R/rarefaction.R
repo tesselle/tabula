@@ -65,6 +65,7 @@ setMethod(
 #' @export
 #' @method plot RarefactionIndex
 plot.RarefactionIndex <- function(x, color = NULL, symbol = FALSE,
+                                  xlab = NULL, ylab = NULL,
                                   main = NULL, sub = NULL,
                                   ann = graphics::par("ann"),
                                   axes = TRUE, frame.plot = axes,
@@ -121,8 +122,9 @@ plot.RarefactionIndex <- function(x, color = NULL, symbol = FALSE,
 
   ## Add annotation
   if (ann) {
-    graphics::title(main = main, sub = sub, xlab = tr_("Sample size"),
-                    ylab = tr_("Expected species index"))
+    xlab <- xlab %||% tr_("Sample size")
+    ylab <- ylab %||% tr_("Expected species index")
+    graphics::title(main = main, sub = sub, xlab = xlab, ylab = ylab)
   }
 
   ## Legend

@@ -10,6 +10,7 @@ setMethod(
   signature = c(object = "matrix"),
   definition = function(object, log = NULL,
                         color = NULL, symbol = FALSE,
+                        xlab = NULL, ylab = NULL,
                         main = NULL, sub = NULL,
                         ann = graphics::par("ann"),
                         axes = TRUE, frame.plot = axes,
@@ -76,8 +77,9 @@ setMethod(
 
     ## Add annotation
     if (ann) {
-      graphics::title(main = main, sub = sub, xlab = tr_("Rank"),
-                      ylab = tr_("Frequency"), ...)
+      xlab <- xlab %||% tr_("Rank")
+      ylab <- ylab %||% tr_("Frequency")
+      graphics::title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...)
     }
 
     ## Legend
@@ -99,6 +101,7 @@ setMethod(
   f = "plot_rank",
   signature = signature(object = "data.frame"),
   definition = function(object, log = NULL,
+                        xlab = NULL, ylab = NULL,
                         main = NULL, sub = NULL,
                         ann = graphics::par("ann"),
                         axes = TRUE, frame.plot = axes,
@@ -106,6 +109,7 @@ setMethod(
                         legend = list(x = "topright"), ...) {
     object <- data.matrix(object)
     methods::callGeneric(object, log = log,
+                         xlab = xlab, ylab = ylab,
                          main = main, sub = sub, ann = ann, axes = axes,
                          frame.plot = frame.plot, panel.first = panel.first,
                          panel.last = panel.last, legend = legend, ...)

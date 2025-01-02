@@ -1212,6 +1212,7 @@ setGeneric(
 #'  value specifying the line types.
 #' @param lwd.mean,lwd.interval A non-negative [`numeric`] value specifying
 #'  the line widths.
+#' @param xlab,ylab A [`character`] vector giving the x and y axis labels.
 #' @param main A [`character`] string giving a main title for the plot.
 #' @param sub A [`character`] string giving a subtitle for the plot.
 #' @param ann A [`logical`] scalar: should the default annotation (title and x,
@@ -1247,6 +1248,7 @@ NULL
 #'  the names of `x`). If `symbol` is a named a named vector, then the
 #'  line types will be associated with the names of `x`.
 #'  Ignored if set to `FALSE`.
+#' @param xlab,ylab A [`character`] vector giving the x and y axis labels.
 #' @param main A [`character`] string giving a main title for the plot.
 #' @param sub A [`character`] string giving a subtitle for the plot.
 #' @param ann A [`logical`] scalar: should the default annotation (title and x,
@@ -1283,6 +1285,7 @@ NULL
 #'  will be coerced to a `numeric` `matrix` via [data.matrix()].
 #' @param unbiased A [`logical`] scalar: should the bias-corrected estimator be
 #'  used (see [index_shannon()])?
+#' @param xlab,ylab A [`character`] vector giving the x and y axis labels.
 #' @param main A [`character`] string giving a main title for the plot.
 #' @param sub A [`character`] string giving a subtitle for the plot.
 #' @param ann A [`logical`] scalar: should the default annotation (title and x,
@@ -1340,6 +1343,7 @@ setGeneric(
 #'  the rownames of `object`). If `symbol` is a named a named vector, then the
 #'  line types will be associated with the rownames of `object`.
 #'  Ignored if set to `FALSE`.
+#' @param xlab,ylab A [`character`] vector giving the x and y axis labels.
 #' @param main A [`character`] string giving a main title for the plot.
 #' @param sub A [`character`] string giving a subtitle for the plot.
 #' @param ann A [`logical`] scalar: should the default annotation (title and x,
@@ -1678,6 +1682,7 @@ setGeneric(
 #'  if both axes are to be logarithmic (base 10).
 # @param facet A [`logical`] scalar: should a matrix of panels defined by
 #  case/sample be drawn?
+#' @param xlab,ylab A [`character`] vector giving the x and y axis labels.
 #' @param main A [`character`] string giving a main title for the plot.
 #' @param sub A [`character`] string giving a subtitle for the plot.
 #' @param ann A [`logical`] scalar: should the default annotation (title and x,

@@ -10,6 +10,8 @@
   x,
   color = NULL,
   symbol = FALSE,
+  xlab = NULL,
+  ylab = NULL,
   main = NULL,
   sub = NULL,
   ann = graphics::par("ann"),
@@ -32,6 +34,8 @@ with the rownames of \code{object}. Ignored if set to \code{FALSE}.}
 the names of \code{x}). If \code{symbol} is a named a named vector, then the
 line types will be associated with the names of \code{x}.
 Ignored if set to \code{FALSE}.}
+
+\item{xlab, ylab}{A \code{\link{character}} vector giving the x and y axis labels.}
 
 \item{main}{A \code{\link{character}} string giving a main title for the plot.}
 

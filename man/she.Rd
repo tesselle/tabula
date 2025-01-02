@@ -13,6 +13,8 @@ she(object, ...)
 \S4method{she}{matrix}(
   object,
   unbiased = FALSE,
+  xlab = NULL,
+  ylab = NULL,
   main = NULL,
   sub = NULL,
   ann = graphics::par("ann"),
@@ -27,6 +29,8 @@ she(object, ...)
 \S4method{she}{data.frame}(
   object,
   unbiased = FALSE,
+  xlab = NULL,
+  ylab = NULL,
   main = NULL,
   sub = NULL,
   ann = graphics::par("ann"),
@@ -49,6 +53,8 @@ will be coerced to a \code{numeric} \code{matrix} via \code{\link[=data.matrix]{
 
 \item{unbiased}{A \code{\link{logical}} scalar: should the bias-corrected estimator be
 used (see \code{\link[=index_shannon]{index_shannon()}})?}
+
+\item{xlab, ylab}{A \code{\link{character}} vector giving the x and y axis labels.}
 
 \item{main}{A \code{\link{character}} string giving a main title for the plot.}
 

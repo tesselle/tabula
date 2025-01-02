@@ -15,6 +15,8 @@
   lty.interval = "dashed",
   lwd.mean = 1,
   lwd.interval = 1,
+  xlab = NULL,
+  ylab = NULL,
   main = NULL,
   sub = NULL,
   ann = graphics::par("ann"),
@@ -39,6 +41,8 @@ value specifying the line types.}
 
 \item{lwd.mean, lwd.interval}{A non-negative \code{\link{numeric}} value specifying
 the line widths.}
+
+\item{xlab, ylab}{A \code{\link{character}} vector giving the x and y axis labels.}
 
 \item{main}{A \code{\link{character}} string giving a main title for the plot.}
 

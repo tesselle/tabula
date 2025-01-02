@@ -9,6 +9,7 @@ plot.DiversityIndex <- function(x, log = "x",
                                 col.mean = "#DDAA33", col.interval = "#004488",
                                 lty.mean = "solid", lty.interval = "dashed",
                                 lwd.mean = 1, lwd.interval = 1,
+                                xlab = NULL, ylab = NULL,
                                 main = NULL, sub = NULL,
                                 ann = graphics::par("ann"),
                                 axes = TRUE, frame.plot = axes,
@@ -70,8 +71,9 @@ plot.DiversityIndex <- function(x, log = "x",
       RichnessIndex = tr_("Richness"),
       tr_("Diversity")
     )
-    graphics::title(main = main, sub = sub, xlab = tr_("Sample size"),
-                    ylab = sprintf("%s (%s)", y_lab, x@method))
+    xlab <- xlab %||% tr_("Sample size")
+    ylab <- ylab %||% sprintf("%s (%s)", y_lab, x@method)
+    graphics::title(main = main, sub = sub, xlab = xlab, ylab = ylab)
   }
 
   invisible(x)
@@ -90,6 +92,7 @@ setMethod(
   f = "she",
   signature = c(object = "matrix"),
   definition = function(object, unbiased = FALSE,
+                        xlab = NULL, ylab = NULL,
                         main = NULL, sub = NULL,
                         ann = graphics::par("ann"),
                         axes = TRUE, frame.plot = axes,
@@ -134,8 +137,9 @@ setMethod(
 
     ## Add annotation
     if (ann) {
-      graphics::title(main = main, sub = sub, xlab = tr_("Sample size"),
-                      ylab = tr_("Diversity"), ...)
+      xlab <- xlab %||% tr_("Sample size")
+      ylab <- ylab %||% tr_("Diversity")
+      graphics::title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...)
     }
 
     ## Legend
@@ -158,6 +162,7 @@ setMethod(
   f = "she",
   signature = c(object = "data.frame"),
   definition = function(object, unbiased = FALSE,
+                        xlab = NULL, ylab = NULL,
                         main = NULL, sub = NULL,
                         ann = graphics::par("ann"),
                         axes = TRUE, frame.plot = axes,
@@ -165,6 +170,7 @@ setMethod(
                         legend = list(x = "right"), ...) {
     object <- data.matrix(object)
     methods::callGeneric(object, unbiased = unbiased,
+                         xlab = xlab, ylab = ylab,
                          main = main, sub = sub, ann = ann,
                          axes = axes, frame.plot = frame.plot,
                          panel.first = panel.first, panel.last = panel.last,
@@ -211,6 +217,7 @@ setMethod(
   signature = c(object = "matrix"),
   definition = function(object, alpha = seq(from = 0, to = 4, by = 0.04),
                         color = NULL, symbol = FALSE,
+                        xlab = NULL, ylab = NULL,
                         main = NULL, sub = NULL,
                         ann = graphics::par("ann"),
                         axes = TRUE, frame.plot = axes,
@@ -269,8 +276,9 @@ setMethod(
 
     ## Add annotation
     if (ann) {
-      graphics::title(main = main, sub = sub, xlab = "alpha",
-                      ylab = tr_("Diversity"), ...)
+      xlab <- xlab %||% "alpha"
+      ylab <- ylab %||% tr_("Diversity")
+      graphics::title(main = main, sub = sub, xlab = xlab, ylab = ylab, ...)
     }
 
     ## Legend
@@ -292,6 +300,7 @@ setMethod(
   signature = c(object = "data.frame"),
   definition = function(object, alpha = seq(from = 0, to = 4, by = 0.04),
                         color = NULL, symbol = FALSE,
+                        xlab = NULL, ylab = NULL,
                         main = NULL, sub = NULL,
                         ann = graphics::par("ann"),
                         axes = TRUE, frame.plot = axes,
@@ -300,6 +309,7 @@ setMethod(
     object <- data.matrix(object)
     methods::callGeneric(object, alpha = seq(from = 0, to = 4, by = 0.04),
                          color = color, symbol = symbol,
+                         xlab = xlab, ylab = ylab,
                          main = main, sub = sub, ann = ann,
                          axes = axes, frame.plot = frame.plot,
                          panel.first = panel.first, panel.last = panel.last,
