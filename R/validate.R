@@ -20,7 +20,7 @@ setValidity(
       # arkhe::validate(arkhe::assert_length(.Data, n)),
       # arkhe::validate(arkhe::assert_length(labels, n)),
       arkhe::validate(arkhe::assert_length(size, n)),
-      arkhe::validate(arkhe::assert_scalar(method, "character"))
+      arkhe::validate(arkhe::assert_length(method, 1))
     )
 
     ## Return conditions, if any
@@ -45,7 +45,7 @@ setValidity(
     cnd <- list(
       arkhe::validate(arkhe::assert_length(labels, m)),
       arkhe::validate(arkhe::assert_length(size, n)),
-      arkhe::validate(arkhe::assert_scalar(method, "character"))
+      arkhe::validate(arkhe::assert_length(method, 1))
     )
 
     ## Return conditions, if any
