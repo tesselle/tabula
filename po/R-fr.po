@@ -1,9 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tabula 3.1.1.9000\n"
-"POT-Creation-Date: 2024-12-16 19:01+0100\n"
+"POT-Creation-Date: 2025-01-02 17:05+0100\n"
 "PO-Revision-Date: 2024-12-16 19:01+0100\n"
-"Last-Translator: Nicolas Frerebeau <nicolas.frerebeau@u-bordeaux-montaigne.fr>\n"
+"Last-Translator: Nicolas Frerebeau <nicolas.frerebeau@u-bordeaux-montaigne."
+"fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -13,29 +14,35 @@ msgstr ""
 
 #: diversity_alpha.R:62
 msgid "ACE is undefined when all rare species are singletons."
-msgstr "L'estimateur ACE est indéfini lorsque toutes les espèces rares sont des singletons."
+msgstr ""
+"L'estimateur ACE est indéfini lorsque toutes les espèces rares sont des "
+"singletons."
 
 #: diversity_alpha.R:63
 msgid "Consider using the bias-corrected Chao1 estimator instead."
 msgstr "Envisagez plutôt d'utiliser l'estimateur Chao1 non biaisé."
 
-#: diversity_alpha.R:193
+#: diversity_alpha.R:195
 msgid ""
 "Improved Chao1 estimator is undefined when there is no quadruple species."
 msgstr ""
-"L'estimateur Chao1 amélioré est indéfini lorsqu'il n'y a pas d'espèce quadruple."
+"L'estimateur Chao1 amélioré est indéfini lorsqu'il n'y a pas d'espèce "
+"quadruple."
 
-#: diversity_alpha.R:236
+#: diversity_alpha.R:240
 msgid ""
 "Improved Chao2 estimator is undefined when there is no quadruple species."
 msgstr ""
-"L'estimateur Chao2 amélioré est indéfini lorsqu'il n'y a pas d'espèce quadruple."
+"L'estimateur Chao2 amélioré est indéfini lorsqu'il n'y a pas d'espèce "
+"quadruple."
 
-#: diversity_alpha.R:269
+#: diversity_alpha.R:275
 msgid "ICE is undefined when all rare species are singletons."
-msgstr "L'estimateur ICE est indéfini lorsque toutes les espèces rares sont des singletons."
+msgstr ""
+"L'estimateur ICE est indéfini lorsque toutes les espèces rares sont des "
+"singletons."
 
-#: diversity_alpha.R:270
+#: diversity_alpha.R:276
 msgid "Consider using the bias-corrected Chao2 estimator instead."
 msgstr "Envisagez plutôt d'utiliser l'estimateur Chao2 non biaisé."
 
@@ -43,35 +50,35 @@ msgstr "Envisagez plutôt d'utiliser l'estimateur Chao2 non biaisé."
 msgid "Absolute frequency"
 msgstr "Fréquence absolue"
 
-#: plot_diversity.R:68
+#: plot_diversity.R:69
 msgid "Heterogeneity"
 msgstr "Hétérogénéité"
 
-#: plot_diversity.R:69
+#: plot_diversity.R:70
 msgid "Evenness"
 msgstr "Équitabilité"
 
-#: plot_diversity.R:70
+#: plot_diversity.R:71
 msgid "Richness"
 msgstr "Richesse"
 
-#: plot_diversity.R:71 plot_diversity.R:138 plot_diversity.R:273
+#: plot_diversity.R:72 plot_diversity.R:141 plot_diversity.R:280
 msgid "Diversity"
 msgstr "Diversité"
 
-#: plot_diversity.R:73 plot_diversity.R:137 rarefaction.R:124
+#: plot_diversity.R:74 plot_diversity.R:140 rarefaction.R:125
 msgid "Sample size"
 msgstr "Effectif"
 
-#: plot_rank.R:79
+#: plot_rank.R:80
 msgid "Rank"
 msgstr "Rang"
 
-#: plot_rank.R:80
+#: plot_rank.R:81
 msgid "Frequency"
 msgstr "Fréquence"
 
-#: rarefaction.R:125
+#: rarefaction.R:126
 msgid "Expected species index"
 msgstr "Indice de diversité attendu"
 

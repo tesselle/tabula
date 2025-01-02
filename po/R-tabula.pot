@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: tabula 3.1.1.9000\n"
-"POT-Creation-Date: 2024-12-16 19:01+0100\n"
+"POT-Creation-Date: 2025-01-02 17:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,21 +18,21 @@ msgstr ""
 msgid "Consider using the bias-corrected Chao1 estimator instead."
 msgstr ""
 
-#: diversity_alpha.R:193
+#: diversity_alpha.R:195
 msgid ""
 "Improved Chao1 estimator is undefined when there is no quadruple species."
 msgstr ""
 
-#: diversity_alpha.R:236
+#: diversity_alpha.R:240
 msgid ""
 "Improved Chao2 estimator is undefined when there is no quadruple species."
 msgstr ""
 
-#: diversity_alpha.R:269
+#: diversity_alpha.R:275
 msgid "ICE is undefined when all rare species are singletons."
 msgstr ""
 
-#: diversity_alpha.R:270
+#: diversity_alpha.R:276
 msgid "Consider using the bias-corrected Chao2 estimator instead."
 msgstr ""
 
@@ -40,35 +40,35 @@ msgstr ""
 msgid "Absolute frequency"
 msgstr ""
 
-#: plot_diversity.R:68
+#: plot_diversity.R:69
 msgid "Heterogeneity"
 msgstr ""
 
-#: plot_diversity.R:69
+#: plot_diversity.R:70
 msgid "Evenness"
 msgstr ""
 
-#: plot_diversity.R:70
+#: plot_diversity.R:71
 msgid "Richness"
 msgstr ""
 
-#: plot_diversity.R:71 plot_diversity.R:138 plot_diversity.R:273
+#: plot_diversity.R:72 plot_diversity.R:141 plot_diversity.R:280
 msgid "Diversity"
 msgstr ""
 
-#: plot_diversity.R:73 plot_diversity.R:137 rarefaction.R:124
+#: plot_diversity.R:74 plot_diversity.R:140 rarefaction.R:125
 msgid "Sample size"
 msgstr ""
 
-#: plot_rank.R:79
+#: plot_rank.R:80
 msgid "Rank"
 msgstr ""
 
-#: plot_rank.R:80
+#: plot_rank.R:81
 msgid "Frequency"
 msgstr ""
 
-#: rarefaction.R:125
+#: rarefaction.R:126
 msgid "Expected species index"
 msgstr ""
 
