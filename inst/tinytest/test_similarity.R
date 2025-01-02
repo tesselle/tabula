@@ -1,7 +1,3 @@
-# Similiraty measure (count data) ==============================================
-# data("aves")
-# expect_equal(round(similarity(aves, method = "bray"), 3), 0.444)
-
 # Plot Similarity ==============================================================
 if (at_home()) {
   source("helpers.R")

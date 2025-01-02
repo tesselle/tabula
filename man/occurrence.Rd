@@ -51,6 +51,10 @@ plot_spot(occ_abs)
 
 occ_rel <- occurrence(cantabria, method = "relative") # Relative frequencies
 plot_spot(occ_rel)
+
+## Binomial co-occurrence (similarity between types)
+occ_bin <- occurrence(cantabria, method = "binomial")
+plot_spot(occ_bin)
 }
 \seealso{
 Other diversity measures: 
