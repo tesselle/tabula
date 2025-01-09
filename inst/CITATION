@@ -16,7 +16,7 @@ bibentry(
   key          = "R-tabula",
   author       = person("Nicolas", "Frerebeau", role = "aut"),
   title        = "{tabula: Analysis and Visualization of Archaeological Count Data}",
-  year         = "2024",
+  year         = "2025",
   organization = "Université Bordeaux Montaigne",
   address      = "Pessac, France",
   note         = sprintf("R package version %s", meta$Version),

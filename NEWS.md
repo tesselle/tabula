@@ -1,6 +1,19 @@
-# tabula 3.1.1.9000
+# tabula 3.2.0
+## Enhancements
+* Translate into French.
+* `occurrence()` gained a new `method` argument.
+* `plot()`, `plot_rank()`, `she()` and `profiles()` gained new `xlab` and `ylab` arguments.
+
+## Bugfixes & changes
+* Fix gradient legend width in `plot_spot()` and `plot_heatmap()`.
+* Replace `similarity(x, method = "binomial")` with `occurrence(x, method = "binomial")` for consistency.
+* Remove all previously deprecated methods.
 
 # tabula 3.1.1
+## New classes and methods
+* Add `observed()` to get the number of observed types.
+* Add `singleton()` and `doubleton()` to get the number of singleton and doubleton.
+
 ## Internals
 * Use palette functions from **khroma**.
 
@@ -28,7 +41,7 @@
 * Fix handling of missing values in heterogeneity index (#27).
 
 ## Breaking changes
-* *Use graphics instead of ggplot2 for plotting.** The internal use of **ggplot2** was badly interoperable or composable. This also reduces hard dependencies.
+* Use **graphics** instead of **ggplot2** for plotting. The internal use of **ggplot2** was badly interoperable or composable. This also reduces hard dependencies.
 
 ## Internals
 * Use **tinytest** and **tinysnapshot** instead of **testthat** and **vdiffr**.

@@ -8,7 +8,7 @@ message: 'To cite package "tabula" in publications use:'
 type: software
 license: GPL-3.0-or-later
 title: 'tabula: Analysis and Visualization of Archaeological Count Data'
-version: 3.1.1
+version: 3.2.0
 doi: 10.21105/joss.01821
 identifiers:
 - description: The concept DOI.
@@ -65,6 +65,9 @@ identifiers:
 - description: The versioned DOI for version 3.1.1.
   type: doi
   value: 10.5281/zenodo.13711170
+- description: The CRAN DOI
+  type: doi
+  value: 10.32614/cran.package.tabula
 - description: The Software Heritage identifier for version 2.0.0.
   type: swh
   value: swh:1:rel:7a252fd4e6b5c8650fcf135c8c4627366cd04d37
@@ -79,7 +82,6 @@ authors:
   given-names: Nicolas
   email: nicolas.frerebeau@u-bordeaux-montaigne.fr
   orcid: https://orcid.org/0000-0001-5759-4944
-  affiliation: Université Bordeaux Montaigne
 preferred-citation:
   type: article
   title: 'tabula: An R Package for Analysis, Seriation, and Visualization of Archaeological
@@ -89,7 +91,6 @@ preferred-citation:
     given-names: Nicolas
     email: nicolas.frerebeau@u-bordeaux-montaigne.fr
     orcid: https://orcid.org/0000-0001-5759-4944
-    affiliation: Université Bordeaux Montaigne
   year: '2019'
   journal: Journal of Open Source Software
   volume: '4'
@@ -103,7 +104,6 @@ contact:
   given-names: Nicolas
   email: nicolas.frerebeau@u-bordeaux-montaigne.fr
   orcid: https://orcid.org/0000-0001-5759-4944
-  affiliation: Université Bordeaux Montaigne
 keywords:
 - data visualization
 - archaeology
@@ -126,11 +126,11 @@ references:
   authors:
   - family-names: Frerebeau
     given-names: Nicolas
-  year: '2024'
+  year: '2025'
   institution:
     name: Université Bordeaux Montaigne
     address: Pessac, France
-  notes: R package version 3.1.1
+  notes: R package version 3.2.0
   url: https://packages.tesselle.org/tabula/
   doi: 10.5281/zenodo.1489944
 

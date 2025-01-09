@@ -1,26 +1,25 @@
 # Platform
 
-|field    |value                                    |
-|:--------|:----------------------------------------|
-|version  |R version 4.4.1 (2024-06-14)             |
-|os       |Ubuntu 22.04.4 LTS                       |
-|system   |x86_64, linux-gnu                        |
-|ui       |RStudio                                  |
-|language |(EN)                                     |
-|collate  |fr_FR.UTF-8                              |
-|ctype    |fr_FR.UTF-8                              |
-|tz       |Europe/Paris                             |
-|date     |2024-09-05                               |
-|rstudio  |2024.04.2+764 Chocolate Cosmos (desktop) |
-|pandoc   |NA                                       |
+|field    |value                        |
+|:--------|:----------------------------|
+|version  |R version 4.4.2 (2024-10-31) |
+|os       |Ubuntu 22.04.5 LTS           |
+|system   |x86_64, linux-gnu            |
+|ui       |X11                          |
+|language |(EN)                         |
+|collate  |fr_FR.UTF-8                  |
+|ctype    |fr_FR.UTF-8                  |
+|tz       |Europe/Paris                 |
+|date     |2025-01-09                   |
+|pandoc   |NA                           |
 
 # Dependencies
 
-|package |old   |new    |Δ  |
-|:-------|:-----|:------|:--|
-|tabula  |3.1.0 |3.1.1  |*  |
-|arkhe   |1.7.0 |1.7.0  |   |
-|khroma  |NA    |1.14.0 |*  |
+|package |old    |new    |Δ  |
+|:-------|:------|:------|:--|
+|tabula  |3.1.1  |3.2.0  |*  |
+|arkhe   |1.9.0  |1.9.0  |   |
+|khroma  |1.14.0 |1.14.0 |   |
 
 # Revdeps
 

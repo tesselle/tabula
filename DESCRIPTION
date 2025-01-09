@@ -1,19 +1,19 @@
 Package: tabula
 Title: Analysis and Visualization of Archaeological Count Data
-Version: 3.1.1.9000
+Version: 3.2.0
 Authors@R: c(
     person("Nicolas", "Frerebeau", , "nicolas.frerebeau@u-bordeaux-montaigne.fr", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0001-5759-4944", affiliation = "Université Bordeaux Montaigne")),
+           comment = c(ORCID = "0000-0001-5759-4944")),
     person("Brice", "Lebrun", , "brice.lebrun@u-bordeaux-montaigne.fr", role = "ctb",
            comment = c(ORCID = "0000-0001-7503-8685", "Logo designer")),
     person("Matthew", "Peeples", , "matthew.peeples@asu.edu", role = "ctb",
-           comment = c(ORCID = "0000-0003-4496-623X", affiliation = "Arizona State University")),
+           comment = c(ORCID = "0000-0003-4496-623X")),
     person("Ben", "Marwick", , "bmarwick@uw.edu", role = "ctb",
-           comment = c(ORCID = "0000-0001-7879-4531", affiliation = "University of Washington")),
+           comment = c(ORCID = "0000-0001-7879-4531")),
     person("Anne", "Philippe", , "anne.philippe@univ-nantes.fr", role = "ctb",
-           comment = c(ORCID = "0000-0002-5331-5087", affiliation = "Université de Nantes")),
+           comment = c(ORCID = "0000-0002-5331-5087")),
     person("Jean-Baptiste", "Fourvel", , "jean-baptiste.fourvel@univ-amu.fr", role = "ctb",
-           comment = c(ORCID = "0000-0002-1061-4642", affiliation = "CNRS")),
+           comment = c(ORCID = "0000-0002-1061-4642")),
     person("Université Bordeaux Montaigne", role = "fnd"),
     person("CNRS", role = "fnd")
   )
@@ -35,7 +35,7 @@ Imports:
     arkhe (>= 1.9.0),
     graphics,
     grDevices,
-    khroma (>= 1.14.0),
+    khroma (>= 1.15.0),
     methods,
     stats,
     utils
