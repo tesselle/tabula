@@ -1399,7 +1399,7 @@ setGeneric(
 #'  being displayed (invisibly returns `object`).
 #' @note
 #'  Adapted from Dan Gopstein's original
-#'  [idea](https://dgopstein.github.io/articles/spot-matrix/).
+#'  [idea](https://dan.gop/articles/spot-matrix/).
 #' @example inst/examples/ex-plot_spot.R
 #' @author N. Frerebeau
 #' @family plot methods

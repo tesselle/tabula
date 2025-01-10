@@ -102,7 +102,7 @@ relative frequencies.
 }
 \note{
 Adapted from Dan Gopstein's original
-\href{https://dgopstein.github.io/articles/spot-matrix/}{idea}.
+\href{https://dan.gop/articles/spot-matrix/}{idea}.
 }
 \examples{
 ## Data from Huntley 2004, 2008
