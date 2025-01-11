@@ -65,6 +65,9 @@ identifiers:
 - description: The versioned DOI for version 3.1.1.
   type: doi
   value: 10.5281/zenodo.13711170
+- description: The versioned DOI for version 3.2.0.
+  type: doi
+  value: 10.5281/zenodo.14632153
 - description: The CRAN DOI
   type: doi
   value: 10.32614/cran.package.tabula
