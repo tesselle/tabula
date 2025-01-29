@@ -33,13 +33,6 @@
   "contributor": [
     {
       "@type": "Person",
-      "givenName": "Brice",
-      "familyName": "Lebrun",
-      "email": "brice.lebrun@u-bordeaux-montaigne.fr",
-      "@id": "https://orcid.org/0000-0001-7503-8685"
-    },
-    {
-      "@type": "Person",
       "givenName": "Matthew",
       "familyName": "Peeples",
       "email": "matthew.peeples@asu.edu",
@@ -51,13 +44,6 @@
       "familyName": "Marwick",
       "email": "bmarwick@uw.edu",
       "@id": "https://orcid.org/0000-0001-7879-4531"
-    },
-    {
-      "@type": "Person",
-      "givenName": "Anne",
-      "familyName": "Philippe",
-      "email": "anne.philippe@univ-nantes.fr",
-      "@id": "https://orcid.org/0000-0002-5331-5087"
     },
     {
       "@type": "Person",
