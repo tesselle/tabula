@@ -101,7 +101,7 @@ preferred-citation:
   doi: 10.21105/joss.01821
   start: '1821'
 repository: https://CRAN.R-project.org/package=tabula
-repository-code: https://github.com/tesselle/tabula
+repository-code: https://codeberg.org/tesselle/tabula
 url: https://packages.tesselle.org/tabula/
 contact:
 - family-names: Frerebeau

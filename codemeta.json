@@ -5,8 +5,8 @@
   "description": "An easy way to examine archaeological count data. This package provides several tests and measures of diversity: heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity (Brainerd-Robinson, etc.). It allows to easily visualize count data and statistical thresholds: rank vs abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams, etc.",
   "name": "tabula: Analysis and Visualization of Archaeological Count Data",
   "relatedLink": ["https://packages.tesselle.org/tabula/", "https://CRAN.R-project.org/package=tabula"],
-  "codeRepository": "https://github.com/tesselle/tabula",
-  "issueTracker": "https://github.com/tesselle/tabula/issues",
+  "codeRepository": "https://codeberg.org/tesselle/tabula",
+  "issueTracker": "https://codeberg.org/tesselle/tabula/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
   "version": "3.2.0.9000",
   "programmingLanguage": {
@@ -279,9 +279,5 @@
       "sameAs": "https://doi.org/10.5281/zenodo.1489944"
     }
   ],
-  "releaseNotes": "https://github.com/tesselle/tabula/blob/master/NEWS.md",
-  "readme": "https://github.com/tesselle/tabula/blob/main/README.md",
-  "contIntegration": ["https://github.com/tesselle/tabula/actions", "https://app.codecov.io/gh/tesselle/tabula"],
-  "developmentStatus": "https://www.repostatus.org/#active",
-  "keywords": ["archaeology", "archaeological-science", "data-visualization", "r-package"]
+  "developmentStatus": "https://www.repostatus.org/#active"
 }

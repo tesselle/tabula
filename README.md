@@ -5,9 +5,6 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/tesselle/tabula/workflows/R-CMD-check/badge.svg)](https://github.com/tesselle/tabula/actions)
-[![codecov](https://codecov.io/gh/tesselle/tabula/graph/badge.svg?token=mTkmZJdm6h)](https://app.codecov.io/gh/tesselle/tabula)
-[![CodeFactor](https://www.codefactor.io/repository/github/tesselle/tabula/badge)](https://www.codefactor.io/repository/github/tesselle/tabula)
 [![Dependencies](https://tinyverse.netlify.app/badge/tabula)](https://cran.r-project.org/package=tabula)
 
 <a href="https://tesselle.r-universe.dev/tabula"
@@ -89,11 +86,11 @@ You can install the released version of **tabula** from
 install.packages("tabula")
 ```
 
-And the development version from [GitHub](https://github.com/) with:
+And the development version from [Codeberg](https://codeberg.org/) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("tesselle/tabula")
+remotes::install_git("https://codeberg.org/tesselle/tabula")
 ```
 
 ## Usage

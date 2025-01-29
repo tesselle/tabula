@@ -34,9 +34,9 @@ on progress? Defaults to \code{\link[=interactive]{interactive()}}.
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://codeberg.org/tesselle/tabula}
   \item \url{https://packages.tesselle.org/tabula/}
-  \item \url{https://github.com/tesselle/tabula}
-  \item Report bugs at \url{https://github.com/tesselle/tabula/issues}
+  \item Report bugs at \url{https://codeberg.org/tesselle/tabula/issues}
 }
 
 }
