@@ -99,6 +99,7 @@ preferred-citation:
   volume: '4'
   issue: '44'
   doi: 10.21105/joss.01821
+  start: '1821'
 repository: https://CRAN.R-project.org/package=tabula
 repository-code: https://github.com/tesselle/tabula
 url: https://packages.tesselle.org/tabula/
@@ -124,6 +125,7 @@ references:
   volume: '4'
   issue: '44'
   doi: 10.21105/joss.01821
+  start: '1821'
 - type: manual
   title: 'tabula: Analysis and Visualization of Archaeological Count Data'
   authors:

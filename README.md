@@ -68,7 +68,7 @@ To cite tabula in publications use:
 
 Frerebeau N (2019). “tabula: An R Package for Analysis, Seriation, and
 Visualization of Archaeological Count Data.” *Journal of Open Source
-Software*, *4*(44). <doi:10.21105/joss.01821>
+Software*, *4*(44), 1821. <doi:10.21105/joss.01821>
 <https://doi.org/10.21105/joss.01821>.
 
 Frerebeau N (2025). *tabula: Analysis and Visualization of

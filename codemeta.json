@@ -247,6 +247,7 @@
       ],
       "name": "{tabula: An R Package for Analysis, Seriation, and Visualization of Archaeological Count Data}",
       "identifier": "10.21105/joss.01821",
+      "pagination": "1821",
       "@id": "https://doi.org/10.21105/joss.01821",
       "sameAs": "https://doi.org/10.21105/joss.01821",
       "isPartOf": {
