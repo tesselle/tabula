@@ -71,9 +71,6 @@ identifiers:
 - description: The CRAN DOI
   type: doi
   value: 10.32614/cran.package.tabula
-- description: The Software Heritage identifier for version 2.0.0.
-  type: swh
-  value: swh:1:rel:7a252fd4e6b5c8650fcf135c8c4627366cd04d37
 abstract: 'An easy way to examine archaeological count data. This package provides
   several tests and measures of diversity: heterogeneity and evenness (Brillouin,
   Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.),
@@ -109,10 +106,10 @@ contact:
   email: nicolas.frerebeau@u-bordeaux-montaigne.fr
   orcid: https://orcid.org/0000-0001-5759-4944
 keywords:
-- data visualization
+- data-visualization
 - archaeology
-- archaeological science
-- r package
+- archaeological-science
+- r-package
 references:
 - type: article
   title: 'tabula: An R Package for Analysis, Seriation, and Visualization of Archaeological

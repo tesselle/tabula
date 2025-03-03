@@ -219,7 +219,10 @@
     },
     "SystemRequirements": null
   },
-  "fileSize": "1596.724KB",
+  "applicationCategory": "ArchaeologicalScience",
+  "isPartOf": "https://www.tesselle.org",
+  "keywords": ["data-visualization", "archaeology", "archaeological-science", "r-package"],
+  "fileSize": "1597.933KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
