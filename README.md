@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![Code
+coverage](https://packages.tesselle.org/tabula/coverage/badge.svg)](https://packages.tesselle.org/tabula/coverage/)
 [![Dependencies](https://tinyverse.netlify.app/badge/tabula)](https://cran.r-project.org/package=tabula)
 
 <a href="https://tesselle.r-universe.dev/tabula"

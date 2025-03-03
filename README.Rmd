@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 # tabula <img width=120px src="man/figures/logo.png" align="right" />
 
 <!-- badges: start -->
+[![Code coverage](https://packages.tesselle.org/tabula/coverage/badge.svg)](https://packages.tesselle.org/tabula/coverage/)
 [![Dependencies](https://tinyverse.netlify.app/badge/tabula)](https://cran.r-project.org/package=tabula)
 
 [![r-universe](https://tesselle.r-universe.dev/badges/tabula)](https://tesselle.r-universe.dev/tabula){.pkgdown-devel}
