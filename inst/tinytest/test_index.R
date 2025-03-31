@@ -79,19 +79,17 @@ expect_equal(round(index_jaccard(x, y), 3), 0.143) # 0.14
 
 ## Jaccard index - numeric
 # Magurran 1988, p. 165
-expect_equal(
-  round(index_jaccard(as.numeric(aves[1, ]), as.numeric(aves[2, ])), 3),
-  0.462
-) # 0.46
+J <- index_jaccard(as.numeric(aves[1, ]), as.numeric(aves[2, ]))
+expect_equal(round(J, 3), 0.462) # 0.46
 
-## Soreson index
+## Dice-Soreson index
 # Magurran 1988, p. 165
 expect_equal(
-  round(index_sorenson(as.numeric(aves[1, ]), as.numeric(aves[2, ])), 3),
-  0.632
+  index_sorenson(as.numeric(aves[1, ]), as.numeric(aves[2, ])),
+  2 * J / (1 + J)
 ) # 0.63
 
-## Bray index
+## Bray-Curtis similarity
 # Magurran 1988, p. 165
 expect_equal(
   round(index_bray(as.numeric(aves[1, ]), as.numeric(aves[2, ])), 3),

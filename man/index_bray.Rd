@@ -5,7 +5,7 @@
 \alias{index_bray}
 \alias{index_bray-method}
 \alias{index_bray,numeric,numeric-method}
-\title{Sorenson Quantitative Index}
+\title{Bray-Curtis Similarity}
 \usage{
 index_bray(x, y, ...)
 

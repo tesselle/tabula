@@ -781,21 +781,23 @@ setGeneric(
 #' @param ... Currently not used.
 #' @details
 #'  \eqn{\beta}-diversity can be measured by addressing *similarity*
-#'  between pairs of samples/cases (Brainerd-Robinson, Jaccard, Morisita-Horn
-#'  and Sorenson indices).
+#'  between pairs of samples/cases.
 #'
-#'  Jaccard, Morisita-Horn and Sorenson indices provide a scale of similarity
-#'  from \eqn{0}-\eqn{1} where \eqn{1} is perfect similarity and \eqn{0} is
-#'  no similarity. The Brainerd-Robinson index is scaled between \eqn{0} and
-#'  \eqn{200}.
+#'  `bray`, `jaccard`, `morisita` and `sorenson` indices provide a scale of
+#'  similarity from \eqn{0}-\eqn{1} where \eqn{1} is perfect similarity and
+#'  \eqn{0} is no similarity.
+#'  `brainerd` is scaled between \eqn{0} and \eqn{200}.
 #'
 #'  \describe{
 #'   \item{`brainerd`}{[Brainerd-Robinson quantitative index][index_brainerd()].}
-#'   \item{`bray`}{[Sorenson quantitative index][index_bray()].}
+#'   \item{`bray`}{[Bray-Curtis similarity (Sorenson quantitative index)][index_bray()].}
 #'   \item{`jaccard`}{[Jaccard qualitative index][index_jaccard()].}
 #'   \item{`morisita`}{[Morisita-Horn quantitative index][index_morisita()].}
-#'   \item{`sorenson`}{[Sorenson qualitative index][index_sorenson()].}
+#'   \item{`sorenson`}{[Dice-Sorenson index (Sorenson qualitative index)][index_sorenson()].}
 #'  }
+#'
+#'  For `jaccard` and `sorenson`, data are standardized on a presence/absence
+#'  scale (\eqn{0}/\eqn{1}) beforehand.
 #' @return
 #'  A [stats::dist] object.
 #' @seealso [index_binomial()], [index_brainerd()], [index_bray()],
@@ -817,6 +819,9 @@ setGeneric(
 #'
 #' @param x,y A [`numeric`] vector.
 #' @param ... Currently not used.
+#' @details
+#'  Data are standardized on a presence/absence scale (\eqn{0}/\eqn{1})
+#'  beforehand.
 #' @return
 #'  A [`numeric`] vector.
 #' @references
@@ -831,10 +836,13 @@ setGeneric(
   def = function(x, y, ...) standardGeneric("index_jaccard")
 )
 
-#' Sorenson Qualitative Index
+#' Dice-Sorenson Index
 #'
 #' @param x,y A [`numeric`] vector.
 #' @param ... Currently not used.
+#' @details
+#'  Data are standardized on a presence/absence scale (\eqn{0}/\eqn{1})
+#'  beforehand.
 #' @return
 #'  A [`numeric`] vector.
 #' @references
@@ -849,7 +857,7 @@ setGeneric(
   def = function(x, y, ...) standardGeneric("index_sorenson")
 )
 
-#' Sorenson Quantitative Index
+#' Bray-Curtis Similarity
 #'
 #' Bray and Curtis modified version of the Sorenson index.
 #' @param x,y A [`numeric`] vector.

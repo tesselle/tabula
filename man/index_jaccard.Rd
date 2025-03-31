@@ -28,6 +28,10 @@ A \code{\link{numeric}} vector.
 \description{
 Jaccard Index
 }
+\details{
+Data are standardized on a presence/absence scale (\eqn{0}/\eqn{1})
+beforehand.
+}
 \references{
 Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
 Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.

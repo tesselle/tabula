@@ -39,21 +39,23 @@ Similarity
 }
 \details{
 \eqn{\beta}-diversity can be measured by addressing \emph{similarity}
-between pairs of samples/cases (Brainerd-Robinson, Jaccard, Morisita-Horn
-and Sorenson indices).
+between pairs of samples/cases.
 
-Jaccard, Morisita-Horn and Sorenson indices provide a scale of similarity
-from \eqn{0}-\eqn{1} where \eqn{1} is perfect similarity and \eqn{0} is
-no similarity. The Brainerd-Robinson index is scaled between \eqn{0} and
-\eqn{200}.
+\code{bray}, \code{jaccard}, \code{morisita} and \code{sorenson} indices provide a scale of
+similarity from \eqn{0}-\eqn{1} where \eqn{1} is perfect similarity and
+\eqn{0} is no similarity.
+\code{brainerd} is scaled between \eqn{0} and \eqn{200}.
 
 \describe{
 \item{\code{brainerd}}{\link[=index_brainerd]{Brainerd-Robinson quantitative index}.}
-\item{\code{bray}}{\link[=index_bray]{Sorenson quantitative index}.}
+\item{\code{bray}}{\link[=index_bray]{Bray-Curtis similarity (Sorenson quantitative index)}.}
 \item{\code{jaccard}}{\link[=index_jaccard]{Jaccard qualitative index}.}
 \item{\code{morisita}}{\link[=index_morisita]{Morisita-Horn quantitative index}.}
-\item{\code{sorenson}}{\link[=index_sorenson]{Sorenson qualitative index}.}
+\item{\code{sorenson}}{\link[=index_sorenson]{Dice-Sorenson index (Sorenson qualitative index)}.}
 }
+
+For \code{jaccard} and \code{sorenson}, data are standardized on a presence/absence
+scale (\eqn{0}/\eqn{1}) beforehand.
 }
 \examples{
 ## Data from Huntley 2004, 2008

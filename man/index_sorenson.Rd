@@ -6,7 +6,7 @@
 \alias{index_sorenson-method}
 \alias{index_sorenson,logical,logical-method}
 \alias{index_sorenson,numeric,numeric-method}
-\title{Sorenson Qualitative Index}
+\title{Dice-Sorenson Index}
 \usage{
 index_sorenson(x, y, ...)
 
@@ -23,7 +23,11 @@ index_sorenson(x, y, ...)
 A \code{\link{numeric}} vector.
 }
 \description{
-Sorenson Qualitative Index
+Dice-Sorenson Index
+}
+\details{
+Data are standardized on a presence/absence scale (\eqn{0}/\eqn{1})
+beforehand.
 }
 \references{
 Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
