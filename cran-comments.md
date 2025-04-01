@@ -1,8 +1,6 @@
 ## Test environments
-* Local R installation: R 4.4.1
-* Ubuntu (on GitHub Actions): R devel, release, oldrel
-* Windows (on GitHub Actions and win-builder): R devel, release, oldrel
-* MacOS (on GitHub Actions): R release
+* Ubuntu (local): R devel, release, oldrel
+* Windows (on win-builder): R devel, release, oldrel
 
 ## R CMD check results
 

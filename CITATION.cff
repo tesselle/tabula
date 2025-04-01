@@ -8,7 +8,7 @@ message: 'To cite package "tabula" in publications use:'
 type: software
 license: GPL-3.0-or-later
 title: 'tabula: Analysis and Visualization of Archaeological Count Data'
-version: 3.2.0
+version: 3.2.1
 doi: 10.21105/joss.01821
 identifiers:
 - description: The concept DOI.
@@ -106,23 +106,12 @@ contact:
   email: nicolas.frerebeau@u-bordeaux-montaigne.fr
   orcid: https://orcid.org/0000-0001-5759-4944
 keywords:
-- data-visualization
-- archaeology
 - archaeological-science
+- archaeology
+- data-visualization
+- diversity-index
 - r-package
 references:
-- type: article
-  title: 'tabula: An R Package for Analysis, Seriation, and Visualization of Archaeological
-    Count Data'
-  authors:
-  - family-names: Frerebeau
-    given-names: Nicolas
-  year: '2019'
-  journal: Journal of Open Source Software
-  volume: '4'
-  issue: '44'
-  doi: 10.21105/joss.01821
-  start: '1821'
 - type: manual
   title: 'tabula: Analysis and Visualization of Archaeological Count Data'
   authors:
@@ -132,7 +121,210 @@ references:
   institution:
     name: Université Bordeaux Montaigne
     address: Pessac, France
-  notes: R package version 3.2.0
+  notes: R package version 3.2.1
   url: https://packages.tesselle.org/tabula/
   doi: 10.5281/zenodo.1489944
+- type: software
+  title: 'R: A Language and Environment for Statistical Computing'
+  notes: Depends
+  url: https://www.R-project.org/
+  authors:
+  - name: R Core Team
+  institution:
+    name: R Foundation for Statistical Computing
+    address: Vienna, Austria
+  year: '2025'
+  version: '>= 3.5'
+- type: software
+  title: arkhe
+  abstract: 'arkhe: Tools for Cleaning Rectangular Data'
+  notes: Imports
+  url: https://packages.tesselle.org/arkhe/
+  repository: https://CRAN.R-project.org/package=arkhe
+  authors:
+  - family-names: Frerebeau
+    given-names: Nicolas
+    email: nicolas.frerebeau@u-bordeaux-montaigne.fr
+    orcid: https://orcid.org/0000-0001-5759-4944
+  year: '2025'
+  doi: 10.32614/CRAN.package.arkhe
+  version: '>= 1.10.0'
+- type: software
+  title: graphics
+  abstract: 'R: A Language and Environment for Statistical Computing'
+  notes: Imports
+  authors:
+  - name: R Core Team
+  institution:
+    name: R Foundation for Statistical Computing
+    address: Vienna, Austria
+  year: '2025'
+- type: software
+  title: grDevices
+  abstract: 'R: A Language and Environment for Statistical Computing'
+  notes: Imports
+  authors:
+  - name: R Core Team
+  institution:
+    name: R Foundation for Statistical Computing
+    address: Vienna, Austria
+  year: '2025'
+- type: software
+  title: khroma
+  abstract: 'khroma: Colour Schemes for Scientific Data Visualization'
+  notes: Imports
+  url: https://packages.tesselle.org/khroma/
+  repository: https://CRAN.R-project.org/package=khroma
+  authors:
+  - family-names: Frerebeau
+    given-names: Nicolas
+    email: nicolas.frerebeau@u-bordeaux-montaigne.fr
+    orcid: https://orcid.org/0000-0001-5759-4944
+  year: '2025'
+  doi: 10.32614/CRAN.package.khroma
+  version: '>= 1.16.0'
+- type: software
+  title: methods
+  abstract: 'R: A Language and Environment for Statistical Computing'
+  notes: Imports
+  authors:
+  - name: R Core Team
+  institution:
+    name: R Foundation for Statistical Computing
+    address: Vienna, Austria
+  year: '2025'
+- type: software
+  title: stats
+  abstract: 'R: A Language and Environment for Statistical Computing'
+  notes: Imports
+  authors:
+  - name: R Core Team
+  institution:
+    name: R Foundation for Statistical Computing
+    address: Vienna, Austria
+  year: '2025'
+- type: software
+  title: utils
+  abstract: 'R: A Language and Environment for Statistical Computing'
+  notes: Imports
+  authors:
+  - name: R Core Team
+  institution:
+    name: R Foundation for Statistical Computing
+    address: Vienna, Austria
+  year: '2025'
+- type: software
+  title: folio
+  abstract: 'folio: Datasets for Teaching Archaeology and Paleontology'
+  notes: Suggests
+  url: https://packages.tesselle.org/folio/
+  repository: https://CRAN.R-project.org/package=folio
+  authors:
+  - family-names: Frerebeau
+    given-names: Nicolas
+    email: nicolas.frerebeau@u-bordeaux-montaigne.fr
+    orcid: https://orcid.org/0000-0001-5759-4944
+    affiliation: Université Bordeaux Montaigne
+  year: '2025'
+  doi: 10.32614/CRAN.package.folio
+  version: '>= 1.5.0'
+- type: software
+  title: knitr
+  abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
+  notes: Suggests
+  url: https://yihui.org/knitr/
+  repository: https://CRAN.R-project.org/package=knitr
+  authors:
+  - family-names: Xie
+    given-names: Yihui
+    email: xie@yihui.name
+    orcid: https://orcid.org/0000-0003-0645-5666
+  year: '2025'
+  doi: 10.32614/CRAN.package.knitr
+- type: software
+  title: markdown
+  abstract: 'markdown: Render Markdown with ''commonmark'''
+  notes: Suggests
+  url: https://github.com/rstudio/markdown
+  repository: https://CRAN.R-project.org/package=markdown
+  authors:
+  - family-names: Xie
+    given-names: Yihui
+    email: xie@yihui.name
+    orcid: https://orcid.org/0000-0003-0645-5666
+  - family-names: Allaire
+    given-names: JJ
+  - family-names: Horner
+    given-names: Jeffrey
+  year: '2025'
+  doi: 10.32614/CRAN.package.markdown
+- type: software
+  title: rsvg
+  abstract: 'rsvg: Render SVG Images into PDF, PNG, (Encapsulated) PostScript, or
+    Bitmap Arrays'
+  notes: Suggests
+  url: https://docs.ropensci.org/rsvg/
+  repository: https://CRAN.R-project.org/package=rsvg
+  authors:
+  - family-names: Ooms
+    given-names: Jeroen
+    email: jeroenooms@gmail.com
+    orcid: https://orcid.org/0000-0002-4035-0289
+  year: '2025'
+  doi: 10.32614/CRAN.package.rsvg
+- type: software
+  title: svglite
+  abstract: 'svglite: An ''SVG'' Graphics Device'
+  notes: Suggests
+  url: https://svglite.r-lib.org
+  repository: https://CRAN.R-project.org/package=svglite
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@posit.co
+  - family-names: Henry
+    given-names: Lionel
+    email: lionel@posit.co
+  - family-names: Pedersen
+    given-names: Thomas Lin
+    email: thomas.pedersen@posit.co
+    orcid: https://orcid.org/0000-0002-5147-4711
+  - family-names: Luciani
+    given-names: T Jake
+    email: jake@apache.org
+  - family-names: Decorde
+    given-names: Matthieu
+    email: matthieu.decorde@ens-lyon.fr
+  - family-names: Lise
+    given-names: Vaudor
+    email: lise.vaudor@ens-lyon.fr
+  year: '2025'
+  doi: 10.32614/CRAN.package.svglite
+- type: software
+  title: tinysnapshot
+  abstract: 'tinysnapshot: Snapshots for Unit Tests using the ''tinytest'' Framework'
+  notes: Suggests
+  url: https://github.com/vincentarelbundock/tinysnapshot
+  repository: https://CRAN.R-project.org/package=tinysnapshot
+  authors:
+  - family-names: Arel-Bundock
+    given-names: Vincent
+    email: vincent.arel-bundock@umontreal.ca
+    orcid: https://orcid.org/0000-0003-2042-7063
+  year: '2025'
+  doi: 10.32614/CRAN.package.tinysnapshot
+- type: software
+  title: tinytest
+  abstract: 'tinytest: Lightweight and Feature Complete Unit Testing Framework'
+  notes: Suggests
+  url: https://github.com/markvanderloo/tinytest
+  repository: https://CRAN.R-project.org/package=tinytest
+  authors:
+  - family-names: Loo
+    given-names: Mark
+    name-particle: van der
+    email: mark.vanderloo@gmail.com
+    orcid: https://orcid.org/0000-0002-9807-4686
+  year: '2025'
+  doi: 10.32614/CRAN.package.tinytest
 
