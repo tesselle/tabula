@@ -10,12 +10,16 @@ setMethod(
   f = "similarity",
   signature = c(object = "matrix"),
   definition = function(object, method = c("brainerd", "bray", "jaccard",
-                                           "morisita", "sorenson")) {
-    ## Validation
+                                           "morisita", "sorensen")) {
+    ## Deprecated/defunct
     if (any(method == "binomial")) {
       stop("Use occurrence(x, method = \"bionomial\") instead.", call. = FALSE)
     }
+    method[method == "sorenson"] <- "sorensen"
+
+    ## Validation
     method <- match.arg(method, several.ok = FALSE)
+
     ## Select method
     fun <- get_index(method)
 
@@ -49,7 +53,7 @@ setMethod(
   f = "similarity",
   signature = c(object = "data.frame"),
   definition = function(object, method = c("brainerd", "bray", "jaccard",
-                                           "morisita", "sorenson")) {
+                                           "morisita", "sorensen")) {
     object <- data.matrix(object)
     methods::callGeneric(object, method = method)
   }
@@ -103,10 +107,10 @@ setMethod(
 )
 
 #' @export
-#' @rdname index_sorenson
-#' @aliases index_sorenson,logical,logical-method
+#' @rdname index_sorensen
+#' @aliases index_sorensen,logical,logical-method
 setMethod(
-  f = "index_sorenson",
+  f = "index_sorensen",
   signature = c(x = "logical", y = "logical"),
   definition = function(x, y) {
     ## Validation
@@ -121,10 +125,10 @@ setMethod(
 )
 
 #' @export
-#' @rdname index_sorenson
-#' @aliases index_sorenson,numeric,numeric-method
+#' @rdname index_sorensen
+#' @aliases index_sorensen,numeric,numeric-method
 setMethod(
-  f = "index_sorenson",
+  f = "index_sorensen",
   signature = c(x = "numeric", y = "numeric"),
   definition = function(x, y) {
     ## presence/absence

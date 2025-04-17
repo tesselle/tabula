@@ -1,5 +1,8 @@
 # tabula 3.2.1.9000
 
+## Bugfixes & changes
+* Silently deprecate `index_sorenson()` (typo).
+
 # tabula 3.2.1
 ## Internals
 * Update package metadata.

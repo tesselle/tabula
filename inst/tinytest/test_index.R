@@ -82,10 +82,10 @@ expect_equal(round(index_jaccard(x, y), 3), 0.143) # 0.14
 J <- index_jaccard(as.numeric(aves[1, ]), as.numeric(aves[2, ]))
 expect_equal(round(J, 3), 0.462) # 0.46
 
-## Dice-Soreson index
+## Dice-Sorensen index
 # Magurran 1988, p. 165
 expect_equal(
-  index_sorenson(as.numeric(aves[1, ]), as.numeric(aves[2, ])),
+  index_sorensen(as.numeric(aves[1, ]), as.numeric(aves[2, ])),
   2 * J / (1 + J)
 ) # 0.63
 

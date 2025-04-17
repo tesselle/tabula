@@ -783,7 +783,7 @@ setGeneric(
 #'  \eqn{\beta}-diversity can be measured by addressing *similarity*
 #'  between pairs of samples/cases.
 #'
-#'  `bray`, `jaccard`, `morisita` and `sorenson` indices provide a scale of
+#'  `bray`, `jaccard`, `morisita` and `sorensen` indices provide a scale of
 #'  similarity from \eqn{0}-\eqn{1} where \eqn{1} is perfect similarity and
 #'  \eqn{0} is no similarity.
 #'  `brainerd` is scaled between \eqn{0} and \eqn{200}.
@@ -793,15 +793,15 @@ setGeneric(
 #'   \item{`bray`}{[Bray-Curtis similarity (a.k.a. Dice-Sorensen quantitative index)][index_bray()].}
 #'   \item{`jaccard`}{[Jaccard qualitative index][index_jaccard()].}
 #'   \item{`morisita`}{[Morisita-Horn quantitative index][index_morisita()].}
-#'   \item{`sorenson`}{[Dice-Sorensen qualitative index][index_sorenson()].}
+#'   \item{`sorensen`}{[Dice-Sorensen qualitative index][index_sorensen()].}
 #'  }
 #'
-#'  For `jaccard` and `sorenson`, data are standardized on a presence/absence
+#'  For `jaccard` and `sorensen`, data are standardized on a presence/absence
 #'  scale (\eqn{0}/\eqn{1}) beforehand.
 #' @return
 #'  A [stats::dist] object.
 #' @seealso [index_binomial()], [index_brainerd()], [index_bray()],
-#'  [index_jaccard()], [index_morisita()], [index_sorenson()]
+#'  [index_jaccard()], [index_morisita()], [index_sorensen()]
 #' @references
 #'  Magurran, A. E. (1988). *Ecological Diversity and its Measurement*.
 #'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
@@ -856,10 +856,10 @@ setGeneric(
 #' @author N. Frerebeau
 #' @family beta diversity measures
 #' @docType methods
-#' @aliases index_sorenson-method
+#' @aliases index_sorensen-method
 setGeneric(
-  name = "index_sorenson",
-  def = function(x, y, ...) standardGeneric("index_sorenson")
+  name = "index_sorensen",
+  def = function(x, y, ...) standardGeneric("index_sorensen")
 )
 
 #' Bray-Curtis Similarity

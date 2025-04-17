@@ -43,7 +43,7 @@ Other beta diversity measures:
 \code{\link{index_jaccard}()},
 \code{\link{index_morisita}()},
 \code{\link{index_routledge}},
-\code{\link{index_sorenson}()},
+\code{\link{index_sorensen}()},
 \code{\link{index_whittaker}()},
 \code{\link{index_wilson}()}
 }

@@ -12,12 +12,12 @@ similarity(object, ...)
 
 \S4method{similarity}{matrix}(
   object,
-  method = c("brainerd", "bray", "jaccard", "morisita", "sorenson")
+  method = c("brainerd", "bray", "jaccard", "morisita", "sorensen")
 )
 
 \S4method{similarity}{data.frame}(
   object,
-  method = c("brainerd", "bray", "jaccard", "morisita", "sorenson")
+  method = c("brainerd", "bray", "jaccard", "morisita", "sorensen")
 )
 }
 \arguments{
@@ -41,7 +41,7 @@ Similarity
 \eqn{\beta}-diversity can be measured by addressing \emph{similarity}
 between pairs of samples/cases.
 
-\code{bray}, \code{jaccard}, \code{morisita} and \code{sorenson} indices provide a scale of
+\code{bray}, \code{jaccard}, \code{morisita} and \code{sorensen} indices provide a scale of
 similarity from \eqn{0}-\eqn{1} where \eqn{1} is perfect similarity and
 \eqn{0} is no similarity.
 \code{brainerd} is scaled between \eqn{0} and \eqn{200}.
@@ -51,10 +51,10 @@ similarity from \eqn{0}-\eqn{1} where \eqn{1} is perfect similarity and
 \item{\code{bray}}{\link[=index_bray]{Bray-Curtis similarity (a.k.a. Dice-Sorensen quantitative index)}.}
 \item{\code{jaccard}}{\link[=index_jaccard]{Jaccard qualitative index}.}
 \item{\code{morisita}}{\link[=index_morisita]{Morisita-Horn quantitative index}.}
-\item{\code{sorenson}}{\link[=index_sorenson]{Dice-Sorensen qualitative index}.}
+\item{\code{sorensen}}{\link[=index_sorensen]{Dice-Sorensen qualitative index}.}
 }
 
-For \code{jaccard} and \code{sorenson}, data are standardized on a presence/absence
+For \code{jaccard} and \code{sorensen}, data are standardized on a presence/absence
 scale (\eqn{0}/\eqn{1}) beforehand.
 }
 \examples{
@@ -71,7 +71,7 @@ data("aves")
 ## Jaccard measure (presence/absence data)
 similarity(aves, "jaccard") # 0.46
 
-# Bray and Curtis modified version of the Sorenson index (count data)
+# Bray and Curtis modified version of the Sorensen index (count data)
 (sim <- similarity(aves, "bray")) # 0.44
 
 # Bray and Curtis dissimilarity
@@ -83,7 +83,7 @@ Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 }
 \seealso{
 \code{\link[=index_binomial]{index_binomial()}}, \code{\link[=index_brainerd]{index_brainerd()}}, \code{\link[=index_bray]{index_bray()}},
-\code{\link[=index_jaccard]{index_jaccard()}}, \code{\link[=index_morisita]{index_morisita()}}, \code{\link[=index_sorenson]{index_sorenson()}}
+\code{\link[=index_jaccard]{index_jaccard()}}, \code{\link[=index_morisita]{index_morisita()}}, \code{\link[=index_sorensen]{index_sorensen()}}
 
 Other diversity measures: 
 \code{\link{heterogeneity}()},
