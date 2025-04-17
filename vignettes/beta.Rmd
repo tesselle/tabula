@@ -74,14 +74,14 @@ These indices provide a scale of similarity from $0$-$1$ where $1$ is perfect si
 | Measure                                     | Reference              |
 |:--------------------------------------------|:-----------------------|
 | $$ C_J = \frac{o_j}{S_a + S_b - o_j} $$     | Jaccard                |
-| $$ C_S = \frac{2 \times o_j}{S_a + S_b} $$  | Sorenson               |
+| $$ C_S = \frac{2 \times o_j}{S_a + S_b} $$  | Dice (1945), Sorensen (1948) |
 Table: Qualitative similarity measures (between samples).
 
 | Measure                                     | Reference              |
 |:--------------------------------------------|:-----------------------|
 | $$ C_{BR} = 200 - \sum_{j = 1}^{S} \left| \frac{a_j \times 100}{\sum_{j = 1}^{S} a_j} - \frac{b_j \times 100}{\sum_{j = 1}^{S} b_j} \right|$$ | Brainerd (1951), Robinson (1951) |
-| $$ C_N = \frac{2 \sum_{j = 1}^{S} \min(a_j, b_j)}{N_a + N_b} $$ | Bray & Curtis (1957), Sorenson |
-| $$ C_{MH} = \frac{2 \sum_{j = 1}^{S} a_j \times b_j}{(\frac{\sum_{j = 1}^{S} a_j^2}{N_a^2} + \frac{\sum_{j = 1}^{S} b_j^2}{N_b^2}) \times N_a \times N_b} $$ | Morisita-Horn |
+| $$ C_N = \frac{2 \sum_{j = 1}^{S} \min(a_j, b_j)}{N_a + N_b} $$ | Bray & Curtis (1957) |
+| $$ C_{MH} = \frac{2 \sum_{j = 1}^{S} a_j \times b_j}{(\frac{\sum_{j = 1}^{S} a_j^2}{N_a^2} + \frac{\sum_{j = 1}^{S} b_j^2}{N_b^2}) \times N_a \times N_b} $$ | Morisita (1959), Horn (1966) |
 Table: Quantitative similarity measures (between samples).
 
 Where:
@@ -107,11 +107,19 @@ Bray, J. R. & Curtis, J. T. (1957). An Ordination of the Upland Forest Communiti
 
 Cody, M. L. (1975). Towards a Theory of Continental Species Diversity: Bird Distributions Over Mediterranean Habitat Gradients. In M. L. Cody & J. M. Diamond (Eds.), *Ecology and Evolution of Communities*, 214-257. Cambridge, MA: Harvard University Press.
 
+Dice, L. R. (1945). Measures of the Amount of Ecologic Association Between Species. *Ecology*, 26(3): 297-302. DOI: [10.2307/1932409](https://doi.org/10.2307/1932409).
+
+Horn, H. S. (1966). Measurement of "Overlap" in Comparative Ecological Studies. *The American Naturalist*, 100(914): 419-424. DOI: [10.1086/282436](https://doi.org/10.1086/282436).
+
 Moreno, C. E. & Rodríguez, P. (2010). A Consistent Terminology for Quantifying Species Diversity? *Oecologia*, 163(2), 279-782. DOI: [10.1007/s00442-010-1591-7](https://doi.org/10.1007/s00442-010-1591-7).
+
+Mosrisita, M. (1959). Measuring of interspecific association and similarity between communities. *Memoirs of the Faculty of Science, Kyushu University*, Series E, 3:65-80.
 
 Robinson, W. S. (1951). A Method for Chronologically Ordering Archaeological Deposits. *American Antiquity*, 16(4), 293-301. DOI: [10.2307/276978](https://doi.org/10.2307/276978).
 
 Routledge, R. D. (1977). On Whittaker's Components of Diversity. *Ecology*, 58(5), 1120-1127. DOI: [10.2307/1936932](https://doi.org/10.2307/1936932).
+
+Sorensen, T. (1948). A Method of Establishing Groups of Equal Amplitude in Plant Sociology Based on Similarity of Species Content and Its Application to Analyses of the Vegetation on Danish Commons. *Kongelige Danske Videnskabernes Selskab*, 5(4): 1-34.
 
 Whittaker, R. H. (1960). Vegetation of the Siskiyou Mountains, Oregon and California. *Ecological Monographs*, 30(3), 279-338. DOI: [10.2307/1943563.](https://doi.org/10.2307/1943563).
 

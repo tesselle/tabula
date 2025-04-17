@@ -48,10 +48,10 @@ similarity from \eqn{0}-\eqn{1} where \eqn{1} is perfect similarity and
 
 \describe{
 \item{\code{brainerd}}{\link[=index_brainerd]{Brainerd-Robinson quantitative index}.}
-\item{\code{bray}}{\link[=index_bray]{Bray-Curtis similarity (Sorenson quantitative index)}.}
+\item{\code{bray}}{\link[=index_bray]{Bray-Curtis similarity (a.k.a. Dice-Sorensen quantitative index)}.}
 \item{\code{jaccard}}{\link[=index_jaccard]{Jaccard qualitative index}.}
 \item{\code{morisita}}{\link[=index_morisita]{Morisita-Horn quantitative index}.}
-\item{\code{sorenson}}{\link[=index_sorenson]{Dice-Sorenson index (Sorenson qualitative index)}.}
+\item{\code{sorenson}}{\link[=index_sorenson]{Dice-Sorensen qualitative index}.}
 }
 
 For \code{jaccard} and \code{sorenson}, data are standardized on a presence/absence

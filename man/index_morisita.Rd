@@ -20,11 +20,15 @@ index_morisita(x, y, ...)
 A \code{\link{numeric}} vector.
 }
 \description{
-Morisita-Horn Quantitative Index
+Horn modified version of the Morisita overlap index.
 }
 \references{
-Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
-Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
+Horn, H. S. (1966). Measurement of "Overlap" in Comparative Ecological
+Studies. \emph{The American Naturalist}, 100(914): 419-424. \doi{10.1086/282436}.
+
+Mosrisita, M. (1959). Measuring of interspecific association and similarity
+between communities. \emph{Memoirs of the Faculty of Science, Kyushu University},
+Series E, 3:65-80.
 }
 \seealso{
 Other beta diversity measures: 

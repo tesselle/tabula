@@ -790,10 +790,10 @@ setGeneric(
 #'
 #'  \describe{
 #'   \item{`brainerd`}{[Brainerd-Robinson quantitative index][index_brainerd()].}
-#'   \item{`bray`}{[Bray-Curtis similarity (Sorenson quantitative index)][index_bray()].}
+#'   \item{`bray`}{[Bray-Curtis similarity (a.k.a. Dice-Sorensen quantitative index)][index_bray()].}
 #'   \item{`jaccard`}{[Jaccard qualitative index][index_jaccard()].}
 #'   \item{`morisita`}{[Morisita-Horn quantitative index][index_morisita()].}
-#'   \item{`sorenson`}{[Dice-Sorenson index (Sorenson qualitative index)][index_sorenson()].}
+#'   \item{`sorenson`}{[Dice-Sorensen qualitative index][index_sorenson()].}
 #'  }
 #'
 #'  For `jaccard` and `sorenson`, data are standardized on a presence/absence
@@ -836,7 +836,7 @@ setGeneric(
   def = function(x, y, ...) standardGeneric("index_jaccard")
 )
 
-#' Dice-Sorenson Index
+#' Dice-Sorensen Qualitative Index
 #'
 #' @param x,y A [`numeric`] vector.
 #' @param ... Currently not used.
@@ -846,8 +846,13 @@ setGeneric(
 #' @return
 #'  A [`numeric`] vector.
 #' @references
-#'  Magurran, A. E. (1988). *Ecological Diversity and its Measurement*.
-#'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
+#'  Dice, L. R. (1945). Measures of the Amount of Ecologic Association Between
+#'  Species. *Ecology*, 26(3): 297-302. \doi{10.2307/1932409}
+#'
+#'  Sorensen, T. (1948). A Method of Establishing Groups of Equal Amplitude in
+#'  Plant Sociology Based on Similarity of Species Content and Its Application
+#'  to Analyses of the Vegetation on Danish Commons. *Kongelige Danske
+#'  Videnskabernes Selskab*, 5(4): 1-34.
 #' @author N. Frerebeau
 #' @family beta diversity measures
 #' @docType methods
@@ -859,7 +864,7 @@ setGeneric(
 
 #' Bray-Curtis Similarity
 #'
-#' Bray and Curtis modified version of the Sorenson index.
+#' Bray and Curtis modified version of the Dice-Sorensen index.
 #' @param x,y A [`numeric`] vector.
 #' @param ... Currently not used.
 #' @return
@@ -879,13 +884,18 @@ setGeneric(
 
 #' Morisita-Horn Quantitative Index
 #'
+#' Horn modified version of the Morisita overlap index.
 #' @param x,y A [`numeric`] vector.
 #' @param ... Currently not used.
 #' @return
 #'  A [`numeric`] vector.
 #' @references
-#'  Magurran, A. E. (1988). *Ecological Diversity and its Measurement*.
-#'  Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
+#'  Horn, H. S. (1966). Measurement of "Overlap" in Comparative Ecological
+#'  Studies. *The American Naturalist*, 100(914): 419-424. \doi{10.1086/282436}.
+#'
+#'  Mosrisita, M. (1959). Measuring of interspecific association and similarity
+#'  between communities. *Memoirs of the Faculty of Science, Kyushu University*,
+#'  Series E, 3:65-80.
 #' @author N. Frerebeau
 #' @family beta diversity measures
 #' @docType methods

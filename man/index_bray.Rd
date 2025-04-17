@@ -20,7 +20,7 @@ index_bray(x, y, ...)
 A \code{\link{numeric}} vector.
 }
 \description{
-Bray and Curtis modified version of the Sorenson index.
+Bray and Curtis modified version of the Dice-Sorensen index.
 }
 \references{
 Bray, J. R. & Curtis, J. T. (1957). An Ordination of the Upland Forest

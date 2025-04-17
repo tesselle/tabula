@@ -6,7 +6,7 @@
 \alias{index_sorenson-method}
 \alias{index_sorenson,logical,logical-method}
 \alias{index_sorenson,numeric,numeric-method}
-\title{Dice-Sorenson Index}
+\title{Dice-Sorensen Qualitative Index}
 \usage{
 index_sorenson(x, y, ...)
 
@@ -23,15 +23,20 @@ index_sorenson(x, y, ...)
 A \code{\link{numeric}} vector.
 }
 \description{
-Dice-Sorenson Index
+Dice-Sorensen Qualitative Index
 }
 \details{
 Data are standardized on a presence/absence scale (\eqn{0}/\eqn{1})
 beforehand.
 }
 \references{
-Magurran, A. E. (1988). \emph{Ecological Diversity and its Measurement}.
-Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
+Dice, L. R. (1945). Measures of the Amount of Ecologic Association Between
+Species. \emph{Ecology}, 26(3): 297-302. \doi{10.2307/1932409}
+
+Sorensen, T. (1948). A Method of Establishing Groups of Equal Amplitude in
+Plant Sociology Based on Similarity of Species Content and Its Application
+to Analyses of the Vegetation on Danish Commons. \emph{Kongelige Danske
+Videnskabernes Selskab}, 5(4): 1-34.
 }
 \seealso{
 Other beta diversity measures: 
