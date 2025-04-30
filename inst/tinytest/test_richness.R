@@ -40,10 +40,8 @@ if (at_home()) {
   options(tinysnapshot_tol = 200) # pixels
   options(tinysnapshot_os = "Linux")
 
-  idx_richness <- with_seed(12345, {
-    idx_richness <- richness(cantabria, method = "observed")
-    sim_richness <- simulate(idx_richness, n = 10)
-  })
+  idx_richness <- richness(cantabria, method = "observed")
+  sim_richness <- simulate(idx_richness, n = 10, seed = 12345)
   plot_richness <- function() plot(sim_richness)
   expect_snapshot_plot(plot_richness, "plot_richness")
 }
