@@ -261,10 +261,21 @@ setMethod(
 setMethod(
   f = "simulate",
   signature = c(object = "DiversityIndex"),
-  definition = function(object, n = 1000, step = 1,
-                        interval = c("percentiles", "student", "normal"),
-                        level = 0.80, progress = getOption("tabula.progress")) {
+  definition = function(object, nsim = 1000, seed = NULL, step = 1,
+                        interval = c("percentiles", "student", "normal"), level = 0.80,
+                        progress = getOption("tabula.progress"), ...) {
     ## Simulate
+    if (!exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE))
+      stats::runif(1)
+    if (is.null(seed))
+      RNGstate <- get(".Random.seed", envir = .GlobalEnv)
+    else {
+      R.seed <- get(".Random.seed", envir = .GlobalEnv)
+      set.seed(seed)
+      RNGstate <- structure(seed, kind = as.list(RNGkind()))
+      on.exit(assign(".Random.seed", R.seed, envir = .GlobalEnv))
+    }
+
     ## Specify the probability for the classes
     data <- object@data
     method <- object@method # Select method
@@ -288,7 +299,7 @@ setMethod(
         do = do_index,
         method = method,
         evenness = methods::is(object, "EvennessIndex"),
-        n = n,
+        n = nsim,
         size = sample_sizes[[i]],
         f = fun
       )

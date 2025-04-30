@@ -1,4 +1,6 @@
 # tabula 3.2.1.9000
+## Enhancements
+* `simulate()` gained a new `seed` argument.
 
 ## Bugfixes & changes
 * Silently deprecate `index_sorenson()` (typo).

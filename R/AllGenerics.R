@@ -49,7 +49,7 @@ setGeneric(
 #' @rdname data.frame
 NULL
 
-# Statistic ====================================================================
+# Resample =====================================================================
 #' Bootstrap Estimation
 #'
 #' Samples randomly from the elements of `object` with replacement.
@@ -1143,15 +1143,17 @@ setGeneric(
 #' Measure Diversity by Comparing to Simulated Assemblages
 #'
 #' @param object A [DiversityIndex-class] object.
+#' @param nsim A non-negative [`integer`] specifying the number of simulations.
+#' @param seed An object specifying if and how the random number generator
+#'  should be initialized (see [stats::simulate()]).
 #' @param interval A [`character`] string giving the type of confidence
 #'  interval to be returned. It must be one "`percentiles`" (sample quantiles,
 #'  as described in Kintigh 1984; the default), "`student`" or "`normal`".
 #'  Any unambiguous substring can be given.
 #' @param level A length-one [`numeric`] vector giving the confidence level.
 #' @param step An [`integer`] giving the increment of the sample size.
-#' @param n A non-negative [`integer`] giving the number of bootstrap
-#'  replications.
 #' @param progress A [`logical`] scalar: should a progress bar be displayed?
+#' @param ... Currently not used.
 #' @return
 #'  Returns a [DiversityIndex-class] object.
 #' @references

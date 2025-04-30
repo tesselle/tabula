@@ -8,18 +8,22 @@
 \usage{
 \S4method{simulate}{DiversityIndex}(
   object,
-  n = 1000,
+  nsim = 1000,
+  seed = NULL,
   step = 1,
   interval = c("percentiles", "student", "normal"),
   level = 0.8,
-  progress = getOption("tabula.progress")
+  progress = getOption("tabula.progress"),
+  ...
 )
 }
 \arguments{
 \item{object}{A \linkS4class{DiversityIndex} object.}
 
-\item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
-replications.}
+\item{nsim}{A non-negative \code{\link{integer}} specifying the number of simulations.}
+
+\item{seed}{An object specifying if and how the random number generator
+should be initialized (see \code{\link[stats:simulate]{stats::simulate()}}).}
 
 \item{step}{An \code{\link{integer}} giving the increment of the sample size.}
 
@@ -31,6 +35,8 @@ Any unambiguous substring can be given.}
 \item{level}{A length-one \code{\link{numeric}} vector giving the confidence level.}
 
 \item{progress}{A \code{\link{logical}} scalar: should a progress bar be displayed?}
+
+\item{...}{Currently not used.}
 }
 \value{
 Returns a \linkS4class{DiversityIndex} object.

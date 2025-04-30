@@ -16,6 +16,9 @@ setOldClass("dist")
 #' @slot simulation A four columns [`numeric`] matrix giving the diversity
 #'  measures for the simulated assemblage (sample `size`, `mean` estimate,
 #'  `lower` and `upper` boundaries of the confidence interval).
+#' @slot seed A [`numeric`] vector giving the value of [.Random.seed] before the
+#'  simulation was started; otherwise it is the user specified value with a
+#'  `kind` attribute  with value `as.list(`[RNGkind()]`)`.
 #' @section Coerce:
 #'  In the code snippets below, `x` is an `DiversityIndex` object.
 #'  \describe{
@@ -35,7 +38,8 @@ setOldClass("dist")
     size = "integer",
     data = "matrix",
     method = "character",
-    simulation = "matrix"
+    simulation = "matrix",
+    seed = "numeric"
   ),
   contains = "numeric"
 )

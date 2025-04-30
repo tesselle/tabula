@@ -24,6 +24,10 @@ An S4 class to represent a diversity measure.
 \item{\code{simulation}}{A four columns \code{\link{numeric}} matrix giving the diversity
 measures for the simulated assemblage (sample \code{size}, \code{mean} estimate,
 \code{lower} and \code{upper} boundaries of the confidence interval).}
+
+\item{\code{seed}}{A \code{\link{numeric}} vector giving the value of \link{.Random.seed} before the
+simulation was started; otherwise it is the user specified value with a
+\code{kind} attribute  with value \verb{as.list(}\code{\link[=RNGkind]{RNGkind()}}\verb{)}.}
 }}
 
 \note{
