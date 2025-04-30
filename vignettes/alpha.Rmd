@@ -1,5 +1,5 @@
 ---
-title: "alpha Diversity"
+title: "Alpha Diversity"
 author: "N. Frerebeau"
 date: "`r Sys.Date()`"
 output:
@@ -8,7 +8,7 @@ output:
       toc: true
       number_sections: true
 vignette: >
-  %\VignetteIndexEntry{alpha Diversity}
+  %\VignetteIndexEntry{Alpha Diversity}
   %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---

@@ -59,8 +59,8 @@ plot_spot(occ_bin)
 \seealso{
 Other diversity measures: 
 \code{\link{heterogeneity}()},
-\code{\link{plot_diversity}},
-\code{\link{plot_rarefaction}},
+\code{\link{plot.DiversityIndex}()},
+\code{\link{plot.RarefactionIndex}()},
 \code{\link{profiles}()},
 \code{\link{rarefaction}()},
 \code{\link{richness}()},

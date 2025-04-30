@@ -117,7 +117,7 @@ data("mississippi", package = "folio")
 plot_ford(mississippi)
 ```
 
-<img src="man/figures/README-ford-1.png" width="100%" style="display: block; margin: auto;" />
+<img src="man/figures/README-ford-1.png" style="display: block; margin: auto;" />
 
 ``` r
 ## Co-occurrence of ceramic types
@@ -133,16 +133,14 @@ mississippi |>
 data("chevelon", package = "folio")
 
 ## Measure diversity by comparing to simulated assemblages
-set.seed(12345)
-
 chevelon |>
   heterogeneity(method = "shannon") |>
-  simulate() |>
+  simulate(seed = 12345) |>
   plot()
 
 chevelon |>
   richness(method = "count") |>
-  simulate() |>
+  simulate(seed = 12345) |>
   plot()
 ```
 
@@ -344,6 +342,14 @@ Vertebrate Genetics* 3: 1–3.
 
 </div>
 
+<div id="ref-dice1945" class="csl-entry">
+
+Dice, Lee R. 1945. “Measures of the Amount of Ecologic Association
+Between Species.” *Ecology* 26 (3): 297–302.
+<https://doi.org/10.2307/1932409>.
+
+</div>
+
 <div id="ref-eren2012" class="csl-entry">
 
 Eren, Metin I., Anne Chao, Wen-Han Hwang, and Robert K. Colwell. 2012.
@@ -399,6 +405,14 @@ Oxford: Oxford University Press.
 Hayek, L.-A. C., and M. A. Buzas. 2010. *Surveying Natural Populations:
 Quantitative Tools for Assessing Biodiversity*. Second edition. New
 York: Columbia University Press.
+
+</div>
+
+<div id="ref-horn1966" class="csl-entry">
+
+Horn, Henry S. 1966. “Measurement of "Overlap" in Comparative Ecological
+Studies.” *The American Naturalist* 100 (914): 419–24.
+<https://doi.org/10.1086/282436>.
 
 </div>
 
@@ -545,6 +559,14 @@ Quantifying Species Diversity?” *Oecologia* 163 (2): 279–82.
 
 </div>
 
+<div id="ref-mosrisita1959" class="csl-entry">
+
+Mosrisita, Masaaki. 1959. “Measuring of Interspecific Association and
+Similarity Between Communities.” *Memoirs of the Faculty of Science,
+Kyushu University*, Series E, 3: 65–80.
+
+</div>
+
 <div id="ref-odum1960" class="csl-entry">
 
 Odum, H. T., J. E. Cantlon, and L. S. Kornicker. 1960. “An
@@ -633,6 +655,15 @@ Simpson, E. H. 1949. “Measurement of Diversity.” *Nature* 163 (4148):
 Simpson, Georges Gaylord, Anne Roe, and Richard C. Lewontin. 1960.
 *Quantitative Zoology*. Édition revue. New York: Harcourt, Brace and
 Company.
+
+</div>
+
+<div id="ref-sorensen1948" class="csl-entry">
+
+Sorensen, Thorvald. 1948. “A Method of Establishing Groups of Equal
+Amplitude in Plant Sociology Based on Similarity of Species Content and
+Its Application to Analyses of the Vegetation on Danish Commons.”
+*Kongelige Danske Videnskabernes Selskab* 5 (4): 1–34.
 
 </div>
 

@@ -477,7 +477,7 @@ setGeneric(
 #'  Peet, R. K. (1974). The Measurement of Species Diversity. *Annual Review of
 #'  Ecology and Systematics*, 5(1), 285-307.
 #'  \doi{10.1146/annurev.es.05.110174.001441}.
-#' @seealso [`plot()`][plot_diversity]
+#' @seealso [`plot()`][plot.DiversityIndex]
 #' @example inst/examples/ex-richness.R
 #' @author N. Frerebeau
 #' @family diversity measures
@@ -714,7 +714,7 @@ setGeneric(
 #' @return
 #'  A [RarefactionIndex-class] object.
 #' @example inst/examples/ex-rarefaction.R
-#' @seealso [index_baxter()], [index_hurlbert()], [`plot()`][plot_rarefaction]
+#' @seealso [index_baxter()], [index_hurlbert()], [`plot()`][plot.RarefactionIndex]
 #' @author N. Frerebeau
 #' @family diversity measures
 #' @docType methods
@@ -957,6 +957,9 @@ setGeneric(
 #'
 #'  This assumes that the order of the matrix rows (from \eqn{1} to \eqn{n})
 #'  follows the progression along the gradient/transect.
+#'
+#'  Data are standardized on a presence/absence scale (\eqn{0}/\eqn{1})
+#'  beforehand.
 #' @return
 #'  A [`numeric`] vector.
 #' @seealso [index_cody()], [index_routledge1()], [index_routledge2()],
@@ -979,6 +982,9 @@ setGeneric(
 #' @details
 #'  This assumes that the order of the matrix rows (from \eqn{1} to \eqn{n})
 #'  follows the progression along the gradient/transect.
+#'
+#'  Data are standardized on a presence/absence scale (\eqn{0}/\eqn{1})
+#'  beforehand.
 #' @return
 #'  A [`numeric`] vector.
 #' @references
@@ -1003,6 +1009,9 @@ setGeneric(
 #' @details
 #'  This assumes that the order of the matrix rows (from \eqn{1} to \eqn{n})
 #'  follows the progression along the gradient/transect.
+#'
+#'  Data are standardized on a presence/absence scale (\eqn{0}/\eqn{1})
+#'  beforehand.
 #' @return
 #'  A [`numeric`] vector.
 #' @references
@@ -1044,6 +1053,9 @@ setGeneric(
 #' @details
 #'  This assumes that the order of the matrix rows (from \eqn{1} to \eqn{n})
 #'  follows the progression along the gradient/transect.
+#'
+#'  Data are standardized on a presence/absence scale (\eqn{0}/\eqn{1})
+#'  beforehand.
 #' @return
 #'  A [`numeric`] vector.
 #' @references
@@ -1067,6 +1079,9 @@ setGeneric(
 #' @details
 #'  This assumes that the order of the matrix rows (from \eqn{1} to \eqn{n})
 #'  follows the progression along the gradient/transect.
+#'
+#'  Data are standardized on a presence/absence scale (\eqn{0}/\eqn{1})
+#'  beforehand.
 #' @return
 #'  A [`numeric`] vector.
 #' @references
@@ -1163,7 +1178,7 @@ setGeneric(
 #'  Kintigh, K. W. (1984). Measuring Archaeological Diversity by Comparison
 #'  with Simulated Assemblages. *American Antiquity*, 49(1), 44-54.
 #'  \doi{10.2307/280511}.
-#' @seealso [`plot()`][plot_diversity], [resample()]
+#' @seealso [resample()]
 #' @example inst/examples/ex-plot_diversity.R
 #' @author N. Frerebeau
 #' @family diversity measures
@@ -1254,8 +1269,8 @@ setGeneric(
 #' @author N. Frerebeau
 #' @family diversity measures
 #' @docType methods
-#' @name plot_diversity
-#' @rdname plot_diversity
+#' @name plot.DiversityIndex
+#' @rdname plot.DiversityIndex
 NULL
 
 #' Rarefaction Plot
@@ -1293,8 +1308,8 @@ NULL
 #' @author N. Frerebeau
 #' @family diversity measures
 #' @docType methods
-#' @name plot_rarefaction
-#' @rdname plot_rarefaction
+#' @name plot.RarefactionIndex
+#' @rdname plot.RarefactionIndex
 NULL
 
 #' SHE Analysis

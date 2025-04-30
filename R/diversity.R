@@ -256,64 +256,65 @@ setMethod(
 
 ## Simulate --------------------------------------------------------------------
 #' @export
+#' @method simulate DiversityIndex
+simulate.DiversityIndex <- function(object, nsim = 1000, seed = NULL, step = 1,
+                                    interval = c("percentiles", "student", "normal"),
+                                    level = 0.80,
+                                    progress = getOption("tabula.progress"), ...) {
+  ## Simulate
+  if (!exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE))
+    stats::runif(1)
+  if (is.null(seed))
+    RNGstate <- get(".Random.seed", envir = .GlobalEnv)
+  else {
+    R.seed <- get(".Random.seed", envir = .GlobalEnv)
+    set.seed(seed)
+    RNGstate <- structure(seed, kind = as.list(RNGkind()))
+    on.exit(assign(".Random.seed", R.seed, envir = .GlobalEnv))
+  }
+
+  ## Specify the probability for the classes
+  data <- object@data
+  method <- object@method # Select method
+
+  ## Sample size
+  size <- max(rowSums(data))
+  sample_sizes <- seq(from = 1, to = size * 1.05, by = step)
+
+  m <- length(sample_sizes)
+  k <- seq_len(m)
+
+  simulated <- vector(mode = "list", length = m)
+  fun <- function(x) conf(x, level = level, type = interval)
+
+  progress_bar <- interactive() && progress
+  if (progress_bar) pbar <- utils::txtProgressBar(max = m, style = 3)
+
+  for (i in k) {
+    simulated[[i]] <- resample(
+      object = colSums(data),
+      do = do_index,
+      method = method,
+      evenness = methods::is(object, "EvennessIndex"),
+      n = nsim,
+      size = sample_sizes[[i]],
+      f = fun
+    )
+    if (progress_bar) utils::setTxtProgressBar(pbar, i)
+  }
+
+  if (progress_bar) close(pbar)
+
+  simulated <- do.call(rbind, simulated)
+  simulated <- cbind(size = sample_sizes, simulated)
+
+  methods::initialize(object, simulation = simulated)
+}
+
+#' @export
 #' @rdname simulate
 #' @aliases simulate,DiversityIndex-method
-setMethod(
-  f = "simulate",
-  signature = c(object = "DiversityIndex"),
-  definition = function(object, nsim = 1000, seed = NULL, step = 1,
-                        interval = c("percentiles", "student", "normal"), level = 0.80,
-                        progress = getOption("tabula.progress"), ...) {
-    ## Simulate
-    if (!exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE))
-      stats::runif(1)
-    if (is.null(seed))
-      RNGstate <- get(".Random.seed", envir = .GlobalEnv)
-    else {
-      R.seed <- get(".Random.seed", envir = .GlobalEnv)
-      set.seed(seed)
-      RNGstate <- structure(seed, kind = as.list(RNGkind()))
-      on.exit(assign(".Random.seed", R.seed, envir = .GlobalEnv))
-    }
-
-    ## Specify the probability for the classes
-    data <- object@data
-    method <- object@method # Select method
-
-    ## Sample size
-    size <- max(rowSums(data))
-    sample_sizes <- seq(from = 1, to = size * 1.05, by = step)
-
-    m <- length(sample_sizes)
-    k <- seq_len(m)
-
-    simulated <- vector(mode = "list", length = m)
-    fun <- function(x) conf(x, level = level, type = interval)
-
-    progress_bar <- interactive() && progress
-    if (progress_bar) pbar <- utils::txtProgressBar(max = m, style = 3)
-
-    for (i in k) {
-      simulated[[i]] <- resample(
-        object = colSums(data),
-        do = do_index,
-        method = method,
-        evenness = methods::is(object, "EvennessIndex"),
-        n = nsim,
-        size = sample_sizes[[i]],
-        f = fun
-      )
-      if (progress_bar) utils::setTxtProgressBar(pbar, i)
-    }
-
-    if (progress_bar) close(pbar)
-
-    simulated <- do.call(rbind, simulated)
-    simulated <- cbind(size = sample_sizes, simulated)
-
-    methods::initialize(object, simulation = simulated)
-  }
-)
+setMethod("simulate", c(object = "DiversityIndex"), simulate.DiversityIndex)
 
 conf <- function(x, type = c("percentiles", "student", "normal"),
                  level = 0.80) {

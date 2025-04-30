@@ -138,13 +138,13 @@ Ecology and Systematics}, 5(1), 285-307.
 \code{\link[=index_margalef]{index_margalef()}}, \code{\link[=index_menhinick]{index_menhinick()}}, \code{\link[=index_ace]{index_ace()}},
 \code{\link[=index_chao1]{index_chao1()}}, \code{\link[=index_squares]{index_squares()}}, \code{\link[=index_ice]{index_ice()}}, \code{\link[=index_chao2]{index_chao2()}}
 
-\code{\link[=plot_diversity]{plot()}}
+\code{\link[=plot.DiversityIndex]{plot()}}
 
 Other diversity measures: 
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
-\code{\link{plot_diversity}},
-\code{\link{plot_rarefaction}},
+\code{\link{plot.DiversityIndex}()},
+\code{\link{plot.RarefactionIndex}()},
 \code{\link{profiles}()},
 \code{\link{rarefaction}()},
 \code{\link{she}()},

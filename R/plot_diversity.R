@@ -80,7 +80,7 @@ plot.DiversityIndex <- function(x, log = "x",
 }
 
 #' @export
-#' @rdname plot_diversity
+#' @rdname plot.DiversityIndex
 #' @aliases plot,DiversityIndex,missing-method
 setMethod("plot", c(x = "DiversityIndex", y = "missing"), plot.DiversityIndex)
 

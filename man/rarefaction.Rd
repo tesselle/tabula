@@ -76,13 +76,13 @@ plot(rare, panel.first = graphics::grid())
 plot(rare, color = color("bright")(5), symbol = 1:5)
 }
 \seealso{
-\code{\link[=index_baxter]{index_baxter()}}, \code{\link[=index_hurlbert]{index_hurlbert()}}, \code{\link[=plot_rarefaction]{plot()}}
+\code{\link[=index_baxter]{index_baxter()}}, \code{\link[=index_hurlbert]{index_hurlbert()}}, \code{\link[=plot.RarefactionIndex]{plot()}}
 
 Other diversity measures: 
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
-\code{\link{plot_diversity}},
-\code{\link{plot_rarefaction}},
+\code{\link{plot.DiversityIndex}()},
+\code{\link{plot.RarefactionIndex}()},
 \code{\link{profiles}()},
 \code{\link{richness}()},
 \code{\link{she}()},

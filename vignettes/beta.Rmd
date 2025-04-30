@@ -1,5 +1,5 @@
 ---
-title: "beta Diversity"
+title: "Beta Diversity"
 author: "N. Frerebeau"
 date: "`r Sys.Date()`"
 output:
@@ -8,7 +8,7 @@ output:
       toc: true
       number_sections: true
 vignette: >
-  %\VignetteIndexEntry{beta Diversity}
+  %\VignetteIndexEntry{Beta Diversity}
   %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---
@@ -22,7 +22,9 @@ knitr::opts_chunk$set(
 
 $\beta$-diversity measures how different local systems are from one another (Moreno and Rodríguez 2010).
 
-```{r intro}
+**tabula** allows to calculate several turnover and similarity measures from a count table (absolute frequencies giving the number of individuals for each category, i.e. a contingency table). *It assumes that you keep your data tidy*: each variable (type/taxa) must be saved in its own column and each observation (sample/case) must be saved in its own row.
+
+```{r intro, fig.width=7, fig.height=5, fig.align="center"}
 ## Install extra packages (if needed)
 # install.packages("folio") # Datasets
 
@@ -31,10 +33,18 @@ library(tabula)
 
 ## Ceramic data from Lipo et al. 2015
 data("mississippi", package = "folio")
+
+## Turnover
+turnover(mississippi, method = "whittaker")
+
+## Similarity
+BR <- similarity(mississippi, method = "brainerd")
+
+## Plot
+plot_spot(BR, col = color("YlOrBr")(12))
 ```
 
-# Turnover
-The following methods can be used to ascertain the degree of turnover in taxa composition along a gradient on qualitative (presence/absence) data. This assumes that the order of the matrix rows (from 1 to $m$) follows the progression along the gradient/transect.
+Under the hood, the `index_*()` functions are called (see details below).
 
 We denote the $m \times p$ incidence matrix by $X = \left[ x_{ij} \right] ~\forall i \in \left[ 1,m \right], j \in \left[ 1,p \right]$ and the $p \times p$ corresponding co-occurrence matrix by $Y = \left[ y_{ij} \right] ~\forall i,j \in \left[ 1,p \right]$, with row and column sums:
 
@@ -50,54 +60,119 @@ We denote the $m \times p$ incidence matrix by $X = \left[ x_{ij} \right] ~\fora
  \forall y_{ij} \in \lbrace 0,1 \rbrace
 \end{align}
 
-| Measure                                     | Reference              |
-|:--------------------------------------------|:-----------------------|
-| $$ \beta_W = \frac{S}{\alpha} - 1 $$        | Whittaker (1960)       |
-| $$ \beta_C = \frac{g(H) + l(H)}{2} - 1 $$   | Cody (1975)            |
-| $$ \beta_R = \frac{S^2}{2 y_{\cdot \cdot} + S} - 1 $$ | Routledge (1977) |
-| $$ \beta_I = \log x_{\cdot \cdot} - \frac{\sum_{j = 1}^{p} x_{\cdot j} \log x_{\cdot j}}{x_{\cdot \cdot}} - \frac{\sum_{i = 1}^{m} x_{i \cdot} \log x_{i \cdot}}{x_{\cdot \cdot}} $$              | Routledge (1977)       |
-| $$ \beta_E = \exp(\beta_I) - 1 $$           | Routledge (1977)       |
-| $$ \beta_T = \frac{g(H) + l(H)}{2\alpha} $$ | Wilson & Shmida (1984) |
-Table: Turnover measures.
+```{r woodland}
+## Data from Magurran 1988, p. 162
+woodland <- matrix(
+  data = c(TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, 
+           TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, 
+           FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, 
+           FALSE, FALSE, FALSE, TRUE, TRUE, TRUE, 
+           FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, 
+           FALSE, FALSE, FALSE, TRUE, FALSE, TRUE),
+  nrow = 6, ncol = 6
+)
+colnames(woodland) <- c("Birch", "Oak", "Rowan", "Beech", "Hazel", "Holly")
+```
+
+# Turnover
+
+The following methods can be used to ascertain the degree of turnover in taxa composition along a gradient on qualitative (presence/absence) data. This assumes that the order of the matrix rows (from 1 to $m$) follows the progression along the gradient/transect.
+
+Data are standardized on a presence/absence scale ($0$/$1$) beforehand.
+
+## Whittaker (1960)
+
+$$ \beta_W = \frac{S}{\alpha} - 1 $$
+
+```{r whittaker}
+index_whittaker(woodland)
+```
+
+Where $\alpha$ is the mean sample diversity: $\alpha = \frac{x_{\cdot \cdot}}{m}$
+
+## Cody (1975)
+
+$$ \beta_C = \frac{g(H) + l(H)}{2} - 1 $$
 
 Where:
 
-* $\alpha$ is the mean sample diversity: $\alpha = \frac{x_{\cdot \cdot}}{m}$,
 * $g(H)$ is the number of taxa gained along the transect,
 * $l(H)$ is the number of taxa lost along the transect.
 
+```{r cody}
+index_cody(woodland)
+```
+
+## Routledge (1977)
+## Routledge 1
+
+$$ \beta_R = \frac{S^2}{2 y_{\cdot \cdot} + S} - 1 $$
+
+```{r routledge1}
+index_routledge1(woodland)
+```
+
+## Routledge 2
+
+$$ \beta_I = \log x_{\cdot \cdot} - \frac{\sum_{j = 1}^{p} x_{\cdot j} \log x_{\cdot j}}{x_{\cdot \cdot}} - \frac{\sum_{i = 1}^{m} x_{i \cdot} \log x_{i \cdot}}{x_{\cdot \cdot}} $$
+
+```{r routledge2}
+index_routledge2(woodland)
+```
+
+## Routledge 3
+
+$$ \beta_E = \exp(\beta_I) - 1 $$
+
+```{r routledge3}
+index_routledge3(woodland)
+```
+
+## Wilson & Shmida (1984)
+
+$$ \beta_T = \frac{g(H) + l(H)}{2\alpha} $$
+
+```{r wilson}
+index_wilson(woodland)
+```
+
 # Similarity
-Similarity between two samples $a$ and $b$ or between two types $x$ and $y$ can be measured as follow.
+Similarity between two samples $a$ and $b$ can be measured as follow.
 
 These indices provide a scale of similarity from $0$-$1$ where $1$ is perfect similarity and $0$ is no similarity, with the exception of the Brainerd-Robinson index which is scaled between $0$ and $200$.
 
-| Measure                                     | Reference              |
-|:--------------------------------------------|:-----------------------|
-| $$ C_J = \frac{o_j}{S_a + S_b - o_j} $$     | Jaccard                |
-| $$ C_S = \frac{2 \times o_j}{S_a + S_b} $$  | Dice (1945), Sorensen (1948) |
-Table: Qualitative similarity measures (between samples).
+Thereafter, we denote by:
 
-| Measure                                     | Reference              |
-|:--------------------------------------------|:-----------------------|
-| $$ C_{BR} = 200 - \sum_{j = 1}^{S} \left| \frac{a_j \times 100}{\sum_{j = 1}^{S} a_j} - \frac{b_j \times 100}{\sum_{j = 1}^{S} b_j} \right|$$ | Brainerd (1951), Robinson (1951) |
-| $$ C_N = \frac{2 \sum_{j = 1}^{S} \min(a_j, b_j)}{N_a + N_b} $$ | Bray & Curtis (1957) |
-| $$ C_{MH} = \frac{2 \sum_{j = 1}^{S} a_j \times b_j}{(\frac{\sum_{j = 1}^{S} a_j^2}{N_a^2} + \frac{\sum_{j = 1}^{S} b_j^2}{N_b^2}) \times N_a \times N_b} $$ | Morisita (1959), Horn (1966) |
-Table: Quantitative similarity measures (between samples).
+* $S_a$ and $S_b$ the total number of taxa observed in samples $a$ and $b$, respectively,
+* $N_a$ and $N_b$ the total number of individuals in samples $a$ and $b$, respectively,
+* $a_j$ and $b_j$ the number of individuals in the $j$-th type/taxon, $j \in \left[ 1,S \right]$,
+* $o_j$ the number of type/taxon common to both sample/case: $o_j = \sum_{k = 1}^{S} a_k \cap b_k$.
 
-Where:
+## Qualitative similarity measures
+Data are standardized on a presence/absence scale ($0$/$1$) beforehand.
 
-* $S_a$ and $S_b$ denote the total number of taxa observed in samples $a$ and $b$, respectively,
-* $N_a$ and $N_b$ denote the total number of individuals in samples $a$ and $b$, respectively,
-* $a_j$ and $b_j$ denote the number of individuals in the $j$-th type/taxon, $j \in \left[ 1,S \right]$,
-* $x_i$ and $y_i$ denote the number of individuals in the $i$-th sample/case, $i \in \left[ 1,m \right]$,
-* $o_i$ denotes the number of sample/case common to both type/taxon: $o_i = \sum_{k = 1}^{m} x_k \cap y_k$,
-* $o_j$ denotes the number of type/taxon common to both sample/case: $o_j = \sum_{k = 1}^{S} a_k \cap b_k$.
+### Jaccard
 
-```{r similarity, fig.width=7, fig.height=5, fig.align="center"}
-## Brainerd-Robinson (similarity between assemblages)
-BR <- similarity(mississippi, method = "brainerd")
-plot_spot(BR, col = khroma::colour("YlOrBr")(12))
-```
+$$ C_J = \frac{o_j}{S_a + S_b - o_j} $$
+
+### Dice (1945) - Sorensen (1948)
+
+$$ C_S = \frac{2 \times o_j}{S_a + S_b} $$
+
+## Quantitative similarity measures
+### Brainerd (1951) - Robinson (1951)
+
+$$ C_{BR} = 200 - \sum_{j = 1}^{S} \left| \frac{a_j \times 100}{\sum_{j = 1}^{S} a_j} - \frac{b_j \times 100}{\sum_{j = 1}^{S} b_j} \right|$$
+
+### Bray-Curtis 
+Bray and Curtis (1957) modified version of the Dice-Sorensen index.
+
+$$ C_N = \frac{2 \sum_{j = 1}^{S} \min(a_j, b_j)}{N_a + N_b} $$
+
+### Morisita-Horn 
+Horn (1966) modified version of the Morisita (1959) overlap index.
+
+$$ C_{MH} = \frac{2 \sum_{j = 1}^{S} a_j \times b_j}{(\frac{\sum_{j = 1}^{S} a_j^2}{N_a^2} + \frac{\sum_{j = 1}^{S} b_j^2}{N_b^2}) \times N_a \times N_b} $$
 
 # References
 

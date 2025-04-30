@@ -26,6 +26,9 @@ Cody Measure
 \details{
 This assumes that the order of the matrix rows (from \eqn{1} to \eqn{n})
 follows the progression along the gradient/transect.
+
+Data are standardized on a presence/absence scale (\eqn{0}/\eqn{1})
+beforehand.
 }
 \references{
 Cody, M. L. (1975). Towards a theory of continental species diversity: Bird

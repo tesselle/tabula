@@ -80,7 +80,7 @@ library(tabula)
 
 *It assumes that you keep your data tidy*: each variable (type/taxa) must be saved in its own column and each observation (sample/case) must be saved in its own row.
 
-```{r ford, fig.width=8, fig.height=7, fig.align="center", out.width='100%'}
+```{r ford, fig.width=8, fig.height=7, fig.align="center"}
 ## Data from Lipo et al. 2015
 data("mississippi", package = "folio")
 
@@ -100,16 +100,14 @@ mississippi |>
 data("chevelon", package = "folio")
 
 ## Measure diversity by comparing to simulated assemblages
-set.seed(12345)
-
 chevelon |>
   heterogeneity(method = "shannon") |>
-  simulate() |>
+  simulate(seed = 12345) |>
   plot()
 
 chevelon |>
   richness(method = "count") |>
-  simulate() |>
+  simulate(seed = 12345) |>
   plot()
 ```
 

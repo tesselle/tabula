@@ -26,6 +26,9 @@ Wilson Measure
 \details{
 This assumes that the order of the matrix rows (from \eqn{1} to \eqn{n})
 follows the progression along the gradient/transect.
+
+Data are standardized on a presence/absence scale (\eqn{0}/\eqn{1})
+beforehand.
 }
 \references{
 Wilson, M. V., & Shmida, A. (1984). Measuring Beta Diversity with

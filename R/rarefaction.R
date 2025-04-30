@@ -138,7 +138,7 @@ plot.RarefactionIndex <- function(x, color = NULL, symbol = FALSE,
 }
 
 #' @export
-#' @rdname plot_rarefaction
+#' @rdname plot.RarefactionIndex
 #' @aliases plot,RarefactionIndex,missing-method
 setMethod("plot", c(x = "RarefactionIndex", y = "missing"), plot.RarefactionIndex)
 

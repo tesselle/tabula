@@ -26,6 +26,9 @@ Whittaker Measure
 \details{
 This assumes that the order of the matrix rows (from \eqn{1} to \eqn{n})
 follows the progression along the gradient/transect.
+
+Data are standardized on a presence/absence scale (\eqn{0}/\eqn{1})
+beforehand.
 }
 \references{
 Whittaker, R. H. (1960). Vegetation of the Siskiyou Mountains, Oregon and

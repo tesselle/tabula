@@ -127,8 +127,8 @@ Ecology and Systematics}, 5(1), 285-307.
 
 Other diversity measures: 
 \code{\link{occurrence}()},
-\code{\link{plot_diversity}},
-\code{\link{plot_rarefaction}},
+\code{\link{plot.DiversityIndex}()},
+\code{\link{plot.RarefactionIndex}()},
 \code{\link{profiles}()},
 \code{\link{rarefaction}()},
 \code{\link{richness}()},
