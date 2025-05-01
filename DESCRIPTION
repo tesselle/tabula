@@ -41,6 +41,7 @@ Imports:
     utils
 Suggests: 
     folio (>= 1.5.0),
+    fontquiver,
     knitr,
     markdown,
     rsvg,

@@ -32,13 +32,8 @@ for (i in method) {
 
 # Plot =========================================================================
 if (at_home()) {
-  source("helpers.R")
   using("tinysnapshot")
-  options(tinysnapshot_device = "svglite")
-  options(tinysnapshot_height = 7) # inches
-  options(tinysnapshot_width = 7)
-  options(tinysnapshot_tol = 200) # pixels
-  options(tinysnapshot_os = "Linux")
+  source("helpers.R")
 
   idx_richness <- richness(cantabria, method = "observed")
   sim_richness <- simulate(idx_richness, n = 10, seed = 12345)
