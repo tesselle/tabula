@@ -5,9 +5,9 @@ data("cantabria")
 (h <- heterogeneity(cantabria, method = "shannon"))
 
 ## Bootstrap resampling
-bootstrap(h, f = NULL)
+bootstrap(h)
 
 bootstrap(h, f = summary)
 
-quant <- function(x) quantile(x, probs = c(0.25, 0.50))
+quant <- function(x) quantile(x, probs = c(0.05, 0.95))
 bootstrap(h, f = quant)

@@ -6,7 +6,14 @@
 \alias{bootstrap,DiversityIndex-method}
 \title{Bootstrap Estimation}
 \usage{
-\S4method{bootstrap}{DiversityIndex}(object, n = 1000, f = NULL)
+\S4method{bootstrap}{DiversityIndex}(
+  object,
+  n = 1000,
+  f = NULL,
+  level = 0.95,
+  interval = c("basic", "normal", "percentiles"),
+  rare = FALSE
+)
 }
 \arguments{
 \item{object}{An \R object (typically a \linkS4class{DiversityIndex} object).}
@@ -14,24 +21,47 @@
 \item{n}{A non-negative \code{\link{integer}} giving the number of bootstrap
 replications.}
 
-\item{f}{A \code{\link{function}} that takes a single numeric vector (the result of
-\code{do}) as argument.}
+\item{f}{A \code{\link{function}} that takes a single numeric vector (the bootstrap
+estimates) as argument.}
+
+\item{level}{A length-one \code{\link{numeric}} vector giving the confidence level.
+Must be a single number between \eqn{0} and \eqn{1}. Only used if \code{f} is
+\code{NULL}.}
+
+\item{interval}{A \code{\link{character}} string giving the type of confidence
+interval to be returned. It must be one "\code{basic}" (the default), "\code{normal}"
+or "\code{percentiles}" (see \code{\link[arkhe:confidence_bootstrap]{arkhe::confidence_bootstrap()}}). Any unambiguous
+substring can be given. Only used if \code{f} is \code{NULL}.}
+
+\item{rare}{A \code{\link{logical}} scalar: should the sample be drawn from an
+uniform distribution with replacement instead of a multinomial distribution?}
 }
 \value{
-If \code{f} is \code{NULL} (the default), \code{bootstrap()} returns a named \code{numeric}
-vector with the following elements:
+If \code{f} is \code{NULL} (the default), \code{bootstrap()} returns a \code{numeric} \code{matrix}
+with the following columns:
 \describe{
-\item{\code{original}}{The observed value of \code{do} applied to \code{object}.}
-\item{\code{mean}}{The bootstrap estimate of mean of \code{do}.}
-\item{\code{bias}}{The bootstrap estimate of bias of \code{do}.}
-\item{\code{error}}{he bootstrap estimate of standard error of \code{do}.}
+\item{\code{original}}{The observed value.}
+\item{\code{mean}}{The bootstrap estimate of mean.}
+\item{\code{bias}}{The bootstrap estimate of bias.}
+\item{\code{error}}{The bootstrap estimate of standard error.}
+\item{\code{lower}}{The lower limit of the bootstrap confidence interval at \code{level}.}
+\item{\code{upper}}{The upper limit of the bootstrap confidence interval at \code{level}}
 }
 
 If \code{f} is a \code{function}, \code{bootstrap()} returns the result of \code{f} applied to
-the \code{n} values of \code{do}.
+the values computed from the \code{n} replications.
 }
 \description{
-Samples randomly from the elements of \code{object} with replacement.
+Bootstrap Estimation
+}
+\details{
+\code{n} random samples are drawn, each with the same sample size as in the
+original sample and with class probabilities proportional to the original
+abundances.
+
+Note that the mean of the bootstrapped samples will often be much lower than
+the observed value. Bootstrapping results must be interpreted with great
+care.
 }
 \examples{
 ## Data from Conkey 1980, Kintigh 1989
@@ -41,17 +71,16 @@ data("cantabria")
 (h <- heterogeneity(cantabria, method = "shannon"))
 
 ## Bootstrap resampling
-bootstrap(h, f = NULL)
+bootstrap(h)
 
 bootstrap(h, f = summary)
 
-quant <- function(x) quantile(x, probs = c(0.25, 0.50))
+quant <- function(x) quantile(x, probs = c(0.05, 0.95))
 bootstrap(h, f = quant)
 }
 \seealso{
 Other resampling methods: 
-\code{\link{jackknife}()},
-\code{\link{resample}()}
+\code{\link{jackknife}()}
 }
 \author{
 N. Frerebeau

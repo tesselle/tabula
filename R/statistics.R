@@ -13,24 +13,6 @@ expected <- function(x) {
   column_total * row_total / grand_total
 }
 
-#' @export
-#' @rdname resample
-#' @aliases resample,numeric-method
-setMethod(
-  f = "resample",
-  signature = c(object = "numeric"),
-  definition = function(object, do, n, size = sum(object), ..., f = NULL) {
-    ## Validation
-    arkhe::assert_count(object)
-
-    prob <- object / sum(object)
-    replicates <- stats::rmultinom(n, size = size, prob = prob)
-    values <- apply(X = replicates, MARGIN = 2, FUN = do, ...)
-    if (is.function(f)) values <- f(values)
-    values
-  }
-)
-
 #' Binomial Coefficient
 #'
 #' Computes the number of `k`-combinations from a given set of `n` elements

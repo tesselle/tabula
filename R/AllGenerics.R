@@ -52,24 +52,42 @@ NULL
 # Resample =====================================================================
 #' Bootstrap Estimation
 #'
-#' Samples randomly from the elements of `object` with replacement.
 #' @param object An \R object (typically a [DiversityIndex-class] object).
 #' @param n A non-negative [`integer`] giving the number of bootstrap
 #'  replications.
-#' @param f A [`function`] that takes a single numeric vector (the result of
-#'  `do`) as argument.
+#' @param f A [`function`] that takes a single numeric vector (the bootstrap
+#'  estimates) as argument.
+#' @param level A length-one [`numeric`] vector giving the confidence level.
+#'  Must be a single number between \eqn{0} and \eqn{1}. Only used if `f` is
+#'  `NULL`.
+#' @param interval A [`character`] string giving the type of confidence
+#'  interval to be returned. It must be one "`basic`" (the default), "`normal`"
+#'  or "`percentiles`" (see [arkhe::confidence_bootstrap()]). Any unambiguous
+#'  substring can be given. Only used if `f` is `NULL`.
+#' @param rare A [`logical`] scalar: should the sample be drawn from an
+#'  uniform distribution with replacement instead of a multinomial distribution?
+#' @details
+#'  `n` random samples are drawn, each with the same sample size as in the
+#'  original sample and with class probabilities proportional to the original
+#'  abundances.
+#'
+#'  Note that the mean of the bootstrapped samples will often be much lower than
+#'  the observed value. Bootstrapping results must be interpreted with great
+#'  care.
 #' @return
-#'  If `f` is `NULL` (the default), `bootstrap()` returns a named `numeric`
-#'  vector with the following elements:
+#'  If `f` is `NULL` (the default), `bootstrap()` returns a `numeric` `matrix`
+#'  with the following columns:
 #'  \describe{
-#'   \item{`original`}{The observed value of `do` applied to `object`.}
-#'   \item{`mean`}{The bootstrap estimate of mean of `do`.}
-#'   \item{`bias`}{The bootstrap estimate of bias of `do`.}
-#'   \item{`error`}{he bootstrap estimate of standard error of `do`.}
+#'   \item{`original`}{The observed value.}
+#'   \item{`mean`}{The bootstrap estimate of mean.}
+#'   \item{`bias`}{The bootstrap estimate of bias.}
+#'   \item{`error`}{The bootstrap estimate of standard error.}
+#'   \item{`lower`}{The lower limit of the bootstrap confidence interval at `level`.}
+#'   \item{`upper`}{The upper limit of the bootstrap confidence interval at `level`}
 #'  }
 #'
 #'  If `f` is a `function`, `bootstrap()` returns the result of `f` applied to
-#'  the `n` values of `do`.
+#'  the values computed from the `n` replications.
 #' @example inst/examples/ex-bootstrap.R
 #' @author N. Frerebeau
 #' @docType methods
@@ -82,19 +100,19 @@ NULL
 #'
 #' @param object An \R object (typically a [DiversityIndex-class] object).
 #' @param f A [`function`] that takes a single numeric vector (the leave-one-out
-#'  values of `do`) as argument.
+#'  values) as argument.
 #' @return
-#'  If `f` is `NULL` (the default), `jackknife()` returns a named `numeric`
-#'  vector with the following elements:
+#'  If `f` is `NULL` (the default), `jackknife()` returns a `numeric` `matrix`
+#'  with the following columns:
 #'  \describe{
-#'   \item{`original`}{The observed value of `do` applied to `object`.}
-#'   \item{`mean`}{The jackknife estimate of mean of `do`.}
-#'   \item{`bias`}{The jackknife estimate of bias of `do`.}
-#'   \item{`error`}{he jackknife estimate of standard error of `do`.}
+#'   \item{`original`}{The observed value.}
+#'   \item{`mean`}{The jackknife estimate of mean.}
+#'   \item{`bias`}{The jackknife estimate of bias.}
+#'   \item{`error`}{The jackknife estimate of standard error.}
 #'  }
 #'
 #'  If `f` is a `function`, `jackknife()` returns the result of `f` applied to
-#'  the leave-one-out values of `do`.
+#'  the leave-one-out values.
 #' @example inst/examples/ex-jackknife.R
 #' @author N. Frerebeau
 #' @docType methods
@@ -102,32 +120,6 @@ NULL
 #' @name jackknife
 #' @rdname jackknife
 NULL
-
-#' Resample
-#'
-#' Simulates observations from a multinomial distribution.
-#' @param object A [`numeric`] vector of count data (absolute frequencies).
-#' @param do A [`function`] that takes `object` as an argument
-#'  and returns a single numeric value.
-#' @param n A non-negative [`integer`] specifying the number of bootstrap
-#'  replications.
-#' @param size A non-negative [`integer`] specifying the sample size.
-#' @param f A [`function`] that takes a single numeric vector (the result of
-#'  `do`) as argument.
-#' @param ... Extra arguments passed to `do`.
-#' @return
-#'  If `f` is `NULL`, `resample()` returns the `n` values of `do`. Else,
-#'  returns the result of `f` applied to the `n` values of `do`.
-#' @seealso [stats::rmultinom()]
-#' @example inst/examples/ex-resample.R
-#' @author N. Frerebeau
-#' @docType methods
-#' @family resampling methods
-#' @aliases resample-method
-setGeneric(
-  name = "resample",
-  def = function(object, ...) standardGeneric("resample")
-)
 
 # Diversity ====================================================================
 ## Heterogeneity ---------------------------------------------------------------
@@ -1162,9 +1154,8 @@ setGeneric(
 #' @param seed An object specifying if and how the random number generator
 #'  should be initialized (see [stats::simulate()]).
 #' @param interval A [`character`] string giving the type of confidence
-#'  interval to be returned. It must be one "`percentiles`" (sample quantiles,
-#'  as described in Kintigh 1984; the default), "`student`" or "`normal`".
-#'  Any unambiguous substring can be given.
+#'  interval to be returned. Currently, only "`percentiles`" is supported
+#'  (sample quantiles, as described in Kintigh 1984)..
 #' @param level A length-one [`numeric`] vector giving the confidence level.
 #' @param step An [`integer`] giving the increment of the sample size.
 #' @param progress A [`logical`] scalar: should a progress bar be displayed?
@@ -1178,8 +1169,8 @@ setGeneric(
 #'  Kintigh, K. W. (1984). Measuring Archaeological Diversity by Comparison
 #'  with Simulated Assemblages. *American Antiquity*, 49(1), 44-54.
 #'  \doi{10.2307/280511}.
-#' @seealso [resample()]
-#' @example inst/examples/ex-plot_diversity.R
+#' @seealso [bootstrap()], [jackknife()]
+#' @example inst/examples/ex-simulate.R
 #' @author N. Frerebeau
 #' @family diversity measures
 #' @docType methods
@@ -1265,7 +1256,7 @@ setGeneric(
 #' @return
 #'  `plot()` is called for its side-effects: it results in a graphic being
 #'  displayed (invisibly returns `x`).
-#' @example inst/examples/ex-plot_diversity.R
+#' @example inst/examples/ex-simulate.R
 #' @author N. Frerebeau
 #' @family diversity measures
 #' @docType methods
@@ -1542,9 +1533,9 @@ setGeneric(
 #' @param flip A [`logical`] scalar: should `x` and `y` axis be flipped?
 #'  Defaults to `TRUE`.
 #' @param ... Currently not used.
-#' @section Bertin Matrix:
+#' @details
 #'  As de Falguerolles *et al.* (1997) points out:
-#'  "In abstract terms, a Bertin matrix is a matrix of  displays. [...] To fix
+#'  "In abstract terms, a Bertin matrix is a matrix of  displays. \[...\] To fix
 #'  ideas, think of a data matrix, variable by case, with real valued variables.
 #'  For each variable, draw a bar chart of variable value by case. High-light
 #'  all bars representing a value above some sample threshold for that

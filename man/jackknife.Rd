@@ -12,20 +12,20 @@
 \item{object}{An \R object (typically a \linkS4class{DiversityIndex} object).}
 
 \item{f}{A \code{\link{function}} that takes a single numeric vector (the leave-one-out
-values of \code{do}) as argument.}
+values) as argument.}
 }
 \value{
-If \code{f} is \code{NULL} (the default), \code{jackknife()} returns a named \code{numeric}
-vector with the following elements:
+If \code{f} is \code{NULL} (the default), \code{jackknife()} returns a \code{numeric} \code{matrix}
+with the following columns:
 \describe{
-\item{\code{original}}{The observed value of \code{do} applied to \code{object}.}
-\item{\code{mean}}{The jackknife estimate of mean of \code{do}.}
-\item{\code{bias}}{The jackknife estimate of bias of \code{do}.}
-\item{\code{error}}{he jackknife estimate of standard error of \code{do}.}
+\item{\code{original}}{The observed value.}
+\item{\code{mean}}{The jackknife estimate of mean.}
+\item{\code{bias}}{The jackknife estimate of bias.}
+\item{\code{error}}{The jackknife estimate of standard error.}
 }
 
 If \code{f} is a \code{function}, \code{jackknife()} returns the result of \code{f} applied to
-the leave-one-out values of \code{do}.
+the leave-one-out values.
 }
 \description{
 Jackknife Estimation
@@ -44,8 +44,7 @@ jackknife(h, f = summary)
 }
 \seealso{
 Other resampling methods: 
-\code{\link{bootstrap}()},
-\code{\link{resample}()}
+\code{\link{bootstrap}()}
 }
 \author{
 N. Frerebeau

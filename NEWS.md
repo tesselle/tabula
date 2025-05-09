@@ -1,9 +1,14 @@
 # tabula 3.2.1.9000
 ## Enhancements
 * `simulate()` gained a new `seed` argument.
+* `bootstrap()` gained a new `rare` argument.
 
 ## Bugfixes & changes
-* Silently deprecate `index_sorenson()` (typo).
+* Deprecate `index_sorenson()` (typo).
+* Deprecate `resample()`.
+
+## Breaking changes
+* Fix `bootstrap()` for `DiversityIndex` objects: revert the change introduced in v1.7.0. By default, bootstrap replicates are drawn from from a multinomial distribution. This can be changed by setting the `uniform` argument to `TRUE`.
 
 # tabula 3.2.1
 ## Internals

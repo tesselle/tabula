@@ -11,8 +11,8 @@
   nsim = 1000,
   seed = NULL,
   step = 1,
-  interval = c("percentiles", "student", "normal"),
   level = 0.8,
+  interval = "percentiles",
   progress = getOption("tabula.progress"),
   ...
 )
@@ -27,12 +27,11 @@ should be initialized (see \code{\link[stats:simulate]{stats::simulate()}}).}
 
 \item{step}{An \code{\link{integer}} giving the increment of the sample size.}
 
-\item{interval}{A \code{\link{character}} string giving the type of confidence
-interval to be returned. It must be one "\code{percentiles}" (sample quantiles,
-as described in Kintigh 1984; the default), "\code{student}" or "\code{normal}".
-Any unambiguous substring can be given.}
-
 \item{level}{A length-one \code{\link{numeric}} vector giving the confidence level.}
+
+\item{interval}{A \code{\link{character}} string giving the type of confidence
+interval to be returned. Currently, only "\code{percentiles}" is supported
+(sample quantiles, as described in Kintigh 1984)..}
 
 \item{progress}{A \code{\link{logical}} scalar: should a progress bar be displayed?}
 
@@ -69,7 +68,7 @@ with Simulated Assemblages. \emph{American Antiquity}, 49(1), 44-54.
 \doi{10.2307/280511}.
 }
 \seealso{
-\code{\link[=resample]{resample()}}
+\code{\link[=bootstrap]{bootstrap()}}, \code{\link[=jackknife]{jackknife()}}
 
 Other diversity measures: 
 \code{\link{heterogeneity}()},

@@ -13,6 +13,9 @@ do_index <- function(x, method, ...) {
   f <- get_index(method)
   f(x, ...)
 }
+is_evenness <- function(x) {
+  methods::is(x, "EvennessIndex")
+}
 
 #' Compute a Diversity Index
 #'
@@ -202,22 +205,34 @@ setMethod(
 setMethod(
   f = "bootstrap",
   signature = c(object = "DiversityIndex"),
-  definition = function(object, n = 1000, f = NULL) {
+  definition = function(object, n = 1000, f = NULL, level = 0.95,
+                        interval = c("basic", "normal", "percentiles"),
+                        rare = FALSE) {
+    ## Validation
+    interval <- match.arg(interval, several.ok = FALSE)
 
     w <- object@data
     m <- nrow(w)
     method <- object@method
+    fun_index <- function(x) {
+      do_index(x, method = method, evenness = is_evenness(object))
+    }
+    if (isTRUE(rare)) {
+      fun_resample <- function(x, n) arkhe::resample_uniform(x, n, replace = TRUE)
+    } else {
+      fun_resample <- function(x, n) arkhe::resample_multinomial(x, n)
+    }
 
     results <- vector(mode = "list", length = m)
     for (i in seq_len(m)) {
-      results[[i]] <- arkhe::bootstrap(
-        object = w[i, ],
-        do = do_index,
-        n = n,
-        method = method,
-        evenness = methods::is(object, "EvennessIndex"),
-        f = f
-      )
+      hat <- fun_index(w[i, ])
+      spl <- t(fun_resample(w[i, ], n = n))
+      res <- apply(X = spl, MARGIN = 2, FUN = fun_index)
+      if (is.function(f)) {
+        results[[i]] <- f(res)
+      } else {
+        results[[i]] <- summary_bootstrap(res, hat, level = level, interval = interval)
+      }
     }
     results <- do.call(rbind, results)
     rownames(results) <- rownames(w)
@@ -258,8 +273,7 @@ setMethod(
 #' @export
 #' @method simulate DiversityIndex
 simulate.DiversityIndex <- function(object, nsim = 1000, seed = NULL, step = 1,
-                                    interval = c("percentiles", "student", "normal"),
-                                    level = 0.80,
+                                    level = 0.80, interval = "percentiles",
                                     progress = getOption("tabula.progress"), ...) {
   ## Simulate
   if (!exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE))
@@ -284,31 +298,28 @@ simulate.DiversityIndex <- function(object, nsim = 1000, seed = NULL, step = 1,
   m <- length(sample_sizes)
   k <- seq_len(m)
 
-  simulated <- vector(mode = "list", length = m)
-  fun <- function(x) conf(x, level = level, type = interval)
+  results <- vector(mode = "list", length = m)
+  fun_index <- function(x) {
+    do_index(x, method = method, evenness = is_evenness(object))
+  }
 
   progress_bar <- interactive() && progress
   if (progress_bar) pbar <- utils::txtProgressBar(max = m, style = 3)
 
   for (i in k) {
-    simulated[[i]] <- resample(
-      object = colSums(data),
-      do = do_index,
-      method = method,
-      evenness = methods::is(object, "EvennessIndex"),
-      n = nsim,
-      size = sample_sizes[[i]],
-      f = fun
-    )
+    spl <- arkhe::resample_multinomial(colSums(data), n = nsim, size = sample_sizes[[i]])
+    res <- apply(X = t(spl), MARGIN = 2, FUN = fun_index)
+    int <- conf(res, level = level, type = interval)
+    results[[i]] <- c(mean = mean(res), int)
     if (progress_bar) utils::setTxtProgressBar(pbar, i)
   }
 
   if (progress_bar) close(pbar)
 
-  simulated <- do.call(rbind, simulated)
-  simulated <- cbind(size = sample_sizes, simulated)
+  results <- do.call(rbind, results)
+  results <- cbind(size = sample_sizes, results)
 
-  methods::initialize(object, simulation = simulated)
+  methods::initialize(object, simulation = results)
 }
 
 #' @export
@@ -316,21 +327,29 @@ simulate.DiversityIndex <- function(object, nsim = 1000, seed = NULL, step = 1,
 #' @aliases simulate,DiversityIndex-method
 setMethod("simulate", c(object = "DiversityIndex"), simulate.DiversityIndex)
 
-conf <- function(x, type = c("percentiles", "student", "normal"),
-                 level = 0.80) {
+## Helpers ---------------------------------------------------------------------
+summary_bootstrap <- function(x, hat, level = 0.95, interval = "basic") {
+  n <- length(x)
+  boot_mean <- mean(x)
+  boot_bias <- boot_mean - hat
+  boot_error <- stats::sd(x)
 
+  ci <- arkhe::confidence_bootstrap(x, level = level, t0 = hat, type = interval)
+  results <- c(hat, boot_mean, boot_bias, boot_error, ci)
+  names(results) <- c("original", "mean", "bias", "error", "lower", "upper")
+  results
+}
+
+conf <- function(x, level = 0.80, type = c("percentiles")) {
+  ## Validation
   type <- match.arg(type, several.ok = FALSE)
 
   if (type == "percentiles") {
     ## Confidence interval as described in Kintigh 1989
     k <- (1 - level) / 2
     conf <- stats::quantile(x, probs = c(k, 1 - k), names = FALSE)
-  } else {
-    ## Confidence interval
-    conf <- arkhe::confidence_mean(x, level = level, type = type)
   }
 
-  result <- c(mean(x), conf)
-  names(result) <- c("mean", "lower", "upper")
-  result
+  names(conf) <- c("lower", "upper")
+  conf
 }

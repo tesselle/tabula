@@ -11,7 +11,8 @@ for (i in method) {
   expect_equal(get_method(index), i)
 }
 
-boot <- with_seed(12345, bootstrap(index, n = 30))
+boot <- with_seed(12345, suppressWarnings(bootstrap(index, n = 30)))
+expect_true(all(boot$bias < 0)) # Downward bias
 expect_equal_to_reference(boot, file = "_snaps/heterogeneity_bootstrap.rds")
 
 jack <- jackknife(index)
@@ -25,7 +26,7 @@ for (i in method) {
   expect_equal(get_method(index), i)
 }
 
-boot <- with_seed(12345, bootstrap(index, n = 30))
+boot <- with_seed(12345, suppressWarnings(bootstrap(index, n = 30)))
 expect_equal_to_reference(boot, file = "_snaps/evenness_bootstrap.rds")
 
 jack <- jackknife(index)
