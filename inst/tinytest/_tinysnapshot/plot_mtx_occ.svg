@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='svglite' width='504.00pt' height='504.00pt' viewBox='0 0 504.00 504.00'>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='504.00pt' height='504.00pt' viewBox='0 0 504.00 504.00'>
+<g class='svglite'>
 <defs>
   <style type='text/css'><![CDATA[
     .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
@@ -12,6 +13,10 @@
     .svglite text {
       white-space: pre;
     }
+    .svglite g.glyphgroup path {
+      fill: inherit;
+      stroke: none;
+    }
   ]]></style>
 </defs>
 <rect width='100%' height='100%' style='stroke: none; fill: #FFFFFF;'/>
@@ -23,63 +28,64 @@
 <g clip-path='url(#cpMC4wMHw1MDQuMDB8MC4wMHw1MDQuMDA=)'>
 </g>
 <defs>
-  <clipPath id='cpNTEuNzZ8NDU4LjkxfDgyLjM2fDQyMS42NA=='>
-    <rect x='51.76' y='82.36' width='407.15' height='339.29' />
+  <clipPath id='cpNTEuNzZ8NDU4LjkxfDgyLjM1fDQyMS42NQ=='>
+    <rect x='51.76' y='82.35' width='407.15' height='339.29' />
   </clipPath>
 </defs>
-<g clip-path='url(#cpNTEuNzZ8NDU4LjkxfDgyLjM2fDQyMS42NA==)'>
-<rect x='119.62' y='82.36' width='67.86' height='67.86' style='stroke-width: 0.75; stroke: none; fill: #D55607;' />
-<rect x='187.48' y='82.36' width='67.86' height='67.86' style='stroke-width: 0.75; stroke: none; fill: #D55607;' />
+<g clip-path='url(#cpNTEuNzZ8NDU4LjkxfDgyLjM1fDQyMS42NQ==)'>
+<rect x='119.62' y='82.35' width='67.86' height='67.86' style='stroke-width: 0.75; stroke: none; fill: #D55607;' />
+<rect x='187.48' y='82.35' width='67.86' height='67.86' style='stroke-width: 0.75; stroke: none; fill: #D55607;' />
 <rect x='187.48' y='150.21' width='67.86' height='67.86' style='stroke-width: 0.75; stroke: none; fill: #662506;' />
-<rect x='255.33' y='82.36' width='67.86' height='67.86' style='stroke-width: 0.75; stroke: none; fill: #FEF4B5;' />
-<rect x='255.33' y='150.21' width='67.86' height='67.86' style='stroke-width: 0.75; stroke: none; fill: #FEDA7E;' />
-<rect x='255.33' y='218.07' width='67.86' height='67.86' style='stroke-width: 0.75; stroke: none; fill: #FEDA7E;' />
-<rect x='323.19' y='82.36' width='67.86' height='67.86' style='stroke-width: 0.75; stroke: none; fill: #FEF4B5;' />
+<rect x='255.34' y='82.35' width='67.86' height='67.86' style='stroke-width: 0.75; stroke: none; fill: #FEF4B5;' />
+<rect x='255.34' y='150.21' width='67.86' height='67.86' style='stroke-width: 0.75; stroke: none; fill: #FEDA7E;' />
+<rect x='255.34' y='218.07' width='67.86' height='67.86' style='stroke-width: 0.75; stroke: none; fill: #FEDA7E;' />
+<rect x='323.19' y='82.35' width='67.86' height='67.86' style='stroke-width: 0.75; stroke: none; fill: #FEF4B5;' />
 <rect x='323.19' y='150.21' width='67.86' height='67.86' style='stroke-width: 0.75; stroke: none; fill: #FEF4B5;' />
 <rect x='323.19' y='218.07' width='67.86' height='67.86' style='stroke-width: 0.75; stroke: none; fill: #FCB23E;' />
 <rect x='323.19' y='285.93' width='67.86' height='67.86' style='stroke-width: 0.75; stroke: none; fill: #FFFFE5;' />
 </g>
 <g clip-path='url(#cpMC4wMHw1MDQuMDB8MC4wMHw1MDQuMDA=)'>
-<text x='37.36' y='391.84' text-anchor='end' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='30.69px' lengthAdjust='spacingAndGlyphs'>DLH4</text>
+<text x='37.36' y='391.85' text-anchor='end' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='30.69px' lengthAdjust='spacingAndGlyphs'>DLH4</text>
 <text x='37.36' y='323.99' text-anchor='end' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='36.69px' lengthAdjust='spacingAndGlyphs'>DLH2c</text>
 <text x='37.36' y='256.13' text-anchor='end' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='37.36px' lengthAdjust='spacingAndGlyphs'>DLH2b</text>
 <text x='37.36' y='188.27' text-anchor='end' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='37.36px' lengthAdjust='spacingAndGlyphs'>DLH2a</text>
 <text x='37.36' y='120.41' text-anchor='end' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='30.69px' lengthAdjust='spacingAndGlyphs'>DLH1</text>
-<text transform='translate(89.82,67.96) rotate(-90)' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='30.69px' lengthAdjust='spacingAndGlyphs'>DLH1</text>
-<text transform='translate(157.68,67.96) rotate(-90)' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='37.36px' lengthAdjust='spacingAndGlyphs'>DLH2a</text>
-<text transform='translate(225.53,67.96) rotate(-90)' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='37.36px' lengthAdjust='spacingAndGlyphs'>DLH2b</text>
-<text transform='translate(293.39,67.96) rotate(-90)' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='36.69px' lengthAdjust='spacingAndGlyphs'>DLH2c</text>
-<text transform='translate(361.25,67.96) rotate(-90)' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='30.69px' lengthAdjust='spacingAndGlyphs'>DLH4</text>
+<text transform='translate(89.82,67.95) rotate(-90)' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='30.69px' lengthAdjust='spacingAndGlyphs'>DLH1</text>
+<text transform='translate(157.68,67.95) rotate(-90)' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='37.36px' lengthAdjust='spacingAndGlyphs'>DLH2a</text>
+<text transform='translate(225.54,67.95) rotate(-90)' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='37.36px' lengthAdjust='spacingAndGlyphs'>DLH2b</text>
+<text transform='translate(293.39,67.95) rotate(-90)' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='36.69px' lengthAdjust='spacingAndGlyphs'>DLH2c</text>
+<text transform='translate(361.25,67.95) rotate(-90)' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='30.69px' lengthAdjust='spacingAndGlyphs'>DLH4</text>
 </g>
-<g clip-path='url(#cpNTEuNzZ8NDU4LjkxfDgyLjM2fDQyMS42NA==)'>
-<image width='67.86' height='339.29' x='424.98' y='-256.93' preserveAspectRatio='none' xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAICAYAAAA4GpVBAAAAM0lEQVQImQEoANf/AP//5f8C//XQAAIA5skAAv7YwAAC9tDfAALj1OoAAsvh/AACxu4DAMVLFJ9AjuKmAAAAAElFTkSuQmCC'/>
-<line x1='424.98' y1='421.64' x2='492.84' y2='421.64' style='stroke-width: 0.75; stroke: #FFFFFF;' />
-<line x1='424.98' y1='373.17' x2='492.84' y2='373.17' style='stroke-width: 0.75; stroke: #FFFFFF;' />
-<line x1='424.98' y1='324.70' x2='492.84' y2='324.70' style='stroke-width: 0.75; stroke: #FFFFFF;' />
-<line x1='424.98' y1='276.23' x2='492.84' y2='276.23' style='stroke-width: 0.75; stroke: #FFFFFF;' />
-<line x1='424.98' y1='227.77' x2='492.84' y2='227.77' style='stroke-width: 0.75; stroke: #FFFFFF;' />
-<line x1='424.98' y1='179.30' x2='492.84' y2='179.30' style='stroke-width: 0.75; stroke: #FFFFFF;' />
-<line x1='424.98' y1='130.83' x2='492.84' y2='130.83' style='stroke-width: 0.75; stroke: #FFFFFF;' />
-<line x1='424.98' y1='82.36' x2='492.84' y2='82.36' style='stroke-width: 0.75; stroke: #FFFFFF;' />
-<polygon points='424.98,421.64 492.84,421.64 492.84,82.36 424.98,82.36 ' style='stroke-width: 0.75;' />
+<g clip-path='url(#cpNTEuNzZ8NDU4LjkxfDgyLjM1fDQyMS42NQ==)'>
+<image width='67.86' height='339.29' x='424.98' y='-256.94' preserveAspectRatio='none' xlink:href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAICAYAAAA4GpVBAAAAM0lEQVQImQEoANf/AP//5f8C//XQAAIA5skAAv7YwAAC9tDfAALj1OoAAsvh/AACxu4DAMVLFJ9AjuKmAAAAAElFTkSuQmCC'/>
+<line x1='424.98' y1='421.65' x2='492.84' y2='421.65' style='stroke-width: 0.75; stroke: #FFFFFF;' />
+<line x1='424.98' y1='373.18' x2='492.84' y2='373.18' style='stroke-width: 0.75; stroke: #FFFFFF;' />
+<line x1='424.98' y1='324.71' x2='492.84' y2='324.71' style='stroke-width: 0.75; stroke: #FFFFFF;' />
+<line x1='424.98' y1='276.24' x2='492.84' y2='276.24' style='stroke-width: 0.75; stroke: #FFFFFF;' />
+<line x1='424.98' y1='227.76' x2='492.84' y2='227.76' style='stroke-width: 0.75; stroke: #FFFFFF;' />
+<line x1='424.98' y1='179.29' x2='492.84' y2='179.29' style='stroke-width: 0.75; stroke: #FFFFFF;' />
+<line x1='424.98' y1='130.82' x2='492.84' y2='130.82' style='stroke-width: 0.75; stroke: #FFFFFF;' />
+<line x1='424.98' y1='82.35' x2='492.84' y2='82.35' style='stroke-width: 0.75; stroke: #FFFFFF;' />
+<polygon points='424.98,421.65 492.84,421.65 492.84,82.35 424.98,82.35 ' style='stroke-width: 0.75;' />
 </g>
 <g clip-path='url(#cpMC4wMHw1MDQuMDB8MC4wMHw1MDQuMDA=)'>
-<line x1='458.91' y1='421.64' x2='458.91' y2='82.36' style='stroke-width: 0.75;' />
-<line x1='458.91' y1='421.64' x2='466.11' y2='421.64' style='stroke-width: 0.75;' />
-<line x1='458.91' y1='373.17' x2='466.11' y2='373.17' style='stroke-width: 0.75;' />
-<line x1='458.91' y1='324.70' x2='466.11' y2='324.70' style='stroke-width: 0.75;' />
-<line x1='458.91' y1='276.23' x2='466.11' y2='276.23' style='stroke-width: 0.75;' />
-<line x1='458.91' y1='227.77' x2='466.11' y2='227.77' style='stroke-width: 0.75;' />
-<line x1='458.91' y1='179.30' x2='466.11' y2='179.30' style='stroke-width: 0.75;' />
-<line x1='458.91' y1='130.83' x2='466.11' y2='130.83' style='stroke-width: 0.75;' />
-<line x1='458.91' y1='82.36' x2='466.11' y2='82.36' style='stroke-width: 0.75;' />
-<text x='473.31' y='425.77' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>0</text>
-<text x='473.31' y='377.30' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>1</text>
-<text x='473.31' y='328.83' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>2</text>
+<line x1='458.91' y1='421.65' x2='458.91' y2='82.35' style='stroke-width: 0.75;' />
+<line x1='458.91' y1='421.65' x2='466.11' y2='421.65' style='stroke-width: 0.75;' />
+<line x1='458.91' y1='373.18' x2='466.11' y2='373.18' style='stroke-width: 0.75;' />
+<line x1='458.91' y1='324.71' x2='466.11' y2='324.71' style='stroke-width: 0.75;' />
+<line x1='458.91' y1='276.24' x2='466.11' y2='276.24' style='stroke-width: 0.75;' />
+<line x1='458.91' y1='227.76' x2='466.11' y2='227.76' style='stroke-width: 0.75;' />
+<line x1='458.91' y1='179.29' x2='466.11' y2='179.29' style='stroke-width: 0.75;' />
+<line x1='458.91' y1='130.82' x2='466.11' y2='130.82' style='stroke-width: 0.75;' />
+<line x1='458.91' y1='82.35' x2='466.11' y2='82.35' style='stroke-width: 0.75;' />
+<text x='473.31' y='425.78' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>0</text>
+<text x='473.31' y='377.31' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>1</text>
+<text x='473.31' y='328.84' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>2</text>
 <text x='473.31' y='280.36' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>3</text>
 <text x='473.31' y='231.89' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>4</text>
 <text x='473.31' y='183.42' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>5</text>
 <text x='473.31' y='134.95' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>6</text>
-<text x='473.31' y='86.49' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>7</text>
+<text x='473.31' y='86.48' style='font-size: 12.00px; font-family: "Liberation Sans";' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>7</text>
+</g>
 </g>
 </svg>
