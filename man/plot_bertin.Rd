@@ -69,16 +69,14 @@ being displayed (invisibly returns \code{object}).
 \description{
 Plots a Bertin diagram.
 }
-\section{Bertin Matrix}{
-
+\details{
 As de Falguerolles \emph{et al.} (1997) points out:
-"In abstract terms, a Bertin matrix is a matrix of  displays. \link{...} To fix
+"In abstract terms, a Bertin matrix is a matrix of  displays. [...] To fix
 ideas, think of a data matrix, variable by case, with real valued variables.
 For each variable, draw a bar chart of variable value by case. High-light
 all bars representing a value above some sample threshold for that
 variable."
 }
-
 \examples{
 ## Data from Lipo et al. 2015
 data("mississippi", package = "folio")
