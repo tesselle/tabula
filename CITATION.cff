@@ -8,7 +8,7 @@ message: 'To cite package "tabula" in publications use:'
 type: software
 license: GPL-3.0-or-later
 title: 'tabula: Analysis and Visualization of Archaeological Count Data'
-version: 3.2.1
+version: 3.3.0
 doi: 10.21105/joss.01821
 identifiers:
 - description: The concept DOI.
@@ -124,7 +124,7 @@ references:
   institution:
     name: Université Bordeaux Montaigne
     address: Pessac, France
-  notes: R package version 3.2.1
+  notes: R package version 3.3.0
   url: https://packages.tesselle.org/tabula/
   doi: 10.5281/zenodo.1489944
 - type: software
@@ -151,7 +151,7 @@ references:
     orcid: https://orcid.org/0000-0001-5759-4944
   year: '2025'
   doi: 10.32614/CRAN.package.arkhe
-  version: '>= 1.10.0'
+  version: '>= 1.11.0'
 - type: software
   title: graphics
   abstract: 'R: A Language and Environment for Statistical Computing'
@@ -231,6 +231,17 @@ references:
   year: '2025'
   doi: 10.32614/CRAN.package.folio
   version: '>= 1.5.0'
+- type: software
+  title: fontquiver
+  abstract: 'fontquiver: Set of Installed Fonts'
+  notes: Suggests
+  repository: https://CRAN.R-project.org/package=fontquiver
+  authors:
+  - family-names: Henry
+    given-names: Lionel
+    email: lionel@rstudio.com
+  year: '2025'
+  doi: 10.32614/CRAN.package.fontquiver
 - type: software
   title: knitr
   abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'

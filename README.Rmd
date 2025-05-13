@@ -37,7 +37,7 @@ Sys.setenv(LANGUAGE = "en") # Force locale
 
 An easy way to examine archaeological count data. This package provides several tests and measures of diversity: heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity (Brainerd-Robinson, etc.). It allows to easily visualize count data and statistical thresholds: rank vs. abundance plots, heatmaps, @ford1962 and @bertin1977 diagrams, etc. **tabula** provides methods for:
 
-* Diversity measurement: `heterogeneity()`, `evenness()`, `richness()`, `rarefaction()`, `turnover()`.
+* Diversity measurement: `diversity()`, `heterogeneity()`, `evenness()`, `richness()`, `rarefaction()`, `turnover()`.
 * Similarity measurement and co-occurrence: `similarity()`, `occurrence()`.
 * Assessing sample size and significance: `bootstrap()`, `jackknife()`, `simulate()`.
 * @bertin1977 or @ford1962 (battleship curve) diagrams: `plot_bertin()`, `plot_ford()`.

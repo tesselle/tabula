@@ -1,14 +1,17 @@
-# tabula 3.2.1.9000
+# tabula 3.3.0
+## New classes and methods
+* Add `diversity()` to compute multiple alpha diversity indices.
+
 ## Enhancements
 * `simulate()` gained a new `seed` argument.
-* `bootstrap()` gained a new `rare` argument.
+* `bootstrap()` gained new `interval`, `seed` and `rare` arguments.
 
 ## Bugfixes & changes
 * Deprecate `index_sorenson()` (typo).
 * Deprecate `resample()`.
 
 ## Breaking changes
-* Fix `bootstrap()` for `DiversityIndex` objects: revert the change introduced in v1.7.0. By default, bootstrap replicates are drawn from from a multinomial distribution. This can be changed by setting the `uniform` argument to `TRUE`.
+* Fix `bootstrap()` for `DiversityIndex` objects: revert the change introduced in v1.7.0. By default, bootstrap replicates are drawn from a multinomial distribution. This can be changed by setting the `rare` argument to `TRUE`.
 
 # tabula 3.2.1
 ## Internals
