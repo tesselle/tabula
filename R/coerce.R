@@ -7,10 +7,10 @@ NULL
 #' @export
 as.data.frame.DiversityIndex <- function(x, ...) {
   data.frame(
+    size = x@size,
     observed = apply(X = x@data, MARGIN = 1, FUN = observed),
     singleton = apply(X = x@data, MARGIN = 1, FUN = singleton),
     doubleton = apply(X = x@data, MARGIN = 1, FUN = doubleton),
-    size = x@size,
     index = x@.Data,
     row.names = labels(x),
     stringsAsFactors = FALSE

@@ -83,6 +83,8 @@ turnover(woodland, "wilson") # 1
 \code{\link[=index_routledge3]{index_routledge3()}}, \code{\link[=index_whittaker]{index_whittaker()}}, \code{\link[=index_wilson]{index_wilson()}}
 
 Other diversity measures: 
+\code{\link{diversity}()},
+\code{\link{evenness}()},
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
 \code{\link{plot.DiversityIndex}()},

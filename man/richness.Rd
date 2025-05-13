@@ -141,6 +141,8 @@ Ecology and Systematics}, 5(1), 285-307.
 \code{\link[=plot.DiversityIndex]{plot()}}
 
 Other diversity measures: 
+\code{\link{diversity}()},
+\code{\link{evenness}()},
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
 \code{\link{plot.DiversityIndex}()},

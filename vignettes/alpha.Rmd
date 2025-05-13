@@ -29,11 +29,21 @@ alpha diversity refers to diversity at the local level, assessed within a delimi
 **tabula** allows to calculate several alpha diversity measures from a count table (absolute frequencies giving the number of individuals for each category, i.e. a contingency table), and also provides comparison methods. *It assumes that you keep your data tidy*: each variable (type/taxa) must be saved in its own column and each observation (sample/case) must be saved in its own row.
     
 ```{r intro}
-## Install extra packages (if needed)
-# install.packages("folio") # Datasets
-
 ## Load package
 library(tabula)
+
+## Data from Conkey 1980, Kintigh 1989
+data("cantabria")
+
+## Compute alpha diversity indices
+diversity(cantabria)
+```
+
+You can also calculate specific indices:
+
+```{r indices}
+## Install extra packages (if needed)
+# install.packages("folio") # Datasets
 
 ## Ceramic data from Lipo et al. 2015
 data("mississippi", package = "folio")
@@ -203,7 +213,8 @@ Estimators of asymptotic richness are based on the frequencies of rare species i
 
 ### Chao1 estimator (Chao 1984)
 
-$$ \hat{S}_{Chao1} = 
+$$
+\hat{S}_{Chao1} = 
 \begin{cases}
   S + \frac{n - 1}{n} \frac{F_1^2}{2 F_2} & F_2 > 0 \\
   S + \frac{n - 1}{n} \frac{F_1 (F_1 - 1)}{2} & F_2 = 0
@@ -218,7 +229,9 @@ index_chao1(woodland)
 
 In the special case of homogeneous case, a bias-corrected estimator is:
 
-$$ \hat{S}_{Chao1} = S + \frac{n - 1}{n} \frac{F_1 (F_1 - 1)}{2 F_2 + 1}$$
+$$
+\hat{S}_{Chao1} = S + \frac{n - 1}{n} \frac{F_1 (F_1 - 1)}{2 F_2 + 1}
+$$
 
 ```{r chao1-unbiased}
 index_chao1(woodland, unbiased = TRUE)
@@ -226,7 +239,9 @@ index_chao1(woodland, unbiased = TRUE)
 
 The improved Chao1 estimator (Chiu *et al.* 2014) makes use of the additional information of tripletons ($F_3$) and quadrupletons ($F_4$):
 
-$$ \hat{S}_{iChao1} = \hat{S}_{Chao1} + \frac{n - 3}{4 n} \frac{F_3}{F_4} \times \max\left(F_1 - \frac{n - 3}{n - 1} \frac{F_2 F_3}{2 F_4} , 0\right)$$
+$$
+\hat{S}_{iChao1} = \hat{S}_{Chao1} + \frac{n - 3}{4 n} \frac{F_3}{F_4} \times \max\left(F_1 - \frac{n - 3}{n - 1} \frac{F_2 F_3}{2 F_4} , 0\right)
+$$
 
 ```{r chao1-improved, eval=FALSE}
 index_chao1(woodland, improved = TRUE)
@@ -234,11 +249,15 @@ index_chao1(woodland, improved = TRUE)
 
 ### Abundance-based Coverage Estimator (Chao & Lee 1992)
 
-$$ \hat{S}_{ACE} = \hat{S}_{abun} + \frac{\hat{S}_{rare}}{\hat{C}_{ACE}} + \frac{F_1}{\hat{C}_{ACE}} \times \hat{\gamma}^2_{ACE} $$
+$$
+\hat{S}_{ACE} = \hat{S}_{abun} + \frac{\hat{S}_{rare}}{\hat{C}_{ACE}} + \frac{F_1}{\hat{C}_{ACE}} \times \hat{\gamma}^2_{ACE}
+$$
 
 Where $\hat{S}_{rare} = \sum_{i = 1}^{k} F_i$ is the number of rare taxa, $\hat{S}_{abun} = \sum_{i > k}^{N} F_i$ is the number of abundant taxa (for a given cut-off value $k$), $\hat{C}_{ACE} = 1 - \frac{F_1}{n_{rare}}$ is the Turing's coverage estimate and:
 
-$$ \hat{\gamma}^2_{ACE} = \max\left[\frac{\hat{S}_{rare}}{\hat{C}_{ACE}} \frac{\sum_{i = 1}^{k} i(i - 1)F_i}{n_{rare}\left(n_{rare} - 1\right)} - 1, 0\right]  $$
+$$
+\hat{\gamma}^2_{ACE} = \max\left[\frac{\hat{S}_{rare}}{\hat{C}_{ACE}} \frac{\sum_{i = 1}^{k} i(i - 1)F_i}{n_{rare}\left(n_{rare} - 1\right)} - 1, 0\right]
+$$
 
 ```{r ace-index}
 index_ace(woodland)
@@ -248,7 +267,9 @@ index_ace(woodland)
 
 The squares richness estimator is designed to be more accurate than Chao1 when abundance distributions are even:
 
-$$ \hat{S} = S + \frac{F_1^2}{n^2 - F_1 \times S} \sum_{i = 1}^{S} n_i^2 $$
+$$
+\hat{S} = S + \frac{F_1^2}{n^2 - F_1 \times S} \sum_{i = 1}^{S} n_i^2
+$$
 
 ```{r squares-index}
 index_squares(woodland)
@@ -259,7 +280,8 @@ For replicated incidence data (i.e. presence/absence data in two or more sampled
 
 ### Chao2 estimator (Chao 1987)
 
-$$ \hat{S}_{Chao2} = 
+$$
+\hat{S}_{Chao2} = 
 \begin{cases}
   S + \frac{m - 1}{m} \frac{q_1^2}{2 q_2} & q_2 > 0 \\
   S + \frac{m - 1}{m} \frac{q_1 (q_1 - 1)}{2} & q_2 = 0
@@ -268,15 +290,21 @@ $$
 
 Improved Chao2 estimator (Chiu *et al.* 2014):
 
-$$ \hat{S}_{iChao2} = \hat{S}_{Chao2} + \frac{m - 3}{4 m} \frac{q_3}{q_4} \times \max\left(q_1 - \frac{m - 3}{m - 1} \frac{q_2 q_3}{2 q_4} , 0\right)$$
+$$
+\hat{S}_{iChao2} = \hat{S}_{Chao2} + \frac{m - 3}{4 m} \frac{q_3}{q_4} \times \max\left(q_1 - \frac{m - 3}{m - 1} \frac{q_2 q_3}{2 q_4} , 0\right)
+$$
 
 ### Incidence-based Coverage Estimator (Chao & Chiu 2016)
 
-$$ \hat{S}_{ICE} = \hat{S}_{freq} + \frac{\hat{S}_{infreq}}{\hat{C}_{infreq}} + \frac{q_1}{\hat{C}_{infreq}} \times \hat{\gamma}^2_{infreq} $$
+$$
+\hat{S}_{ICE} = \hat{S}_{freq} + \frac{\hat{S}_{infreq}}{\hat{C}_{infreq}} + \frac{q_1}{\hat{C}_{infreq}} \times \hat{\gamma}^2_{infreq}
+$$
 
 Where $\hat{S}_{infreq} = \sum_{i = 1}^{k} q_i$ is the number of infrequent taxa, $\hat{S}_{freq} = \sum_{i > k}^{N} q_i$ is the number of frequent taxa (for a given cut-off value $k$), $\hat{C}_{infreq} = 1 - \frac{Q_1}{\sum_{i = 1}^{k} iq_i}$ is the Turing's coverage estimate and:
 
-$$ \hat{\gamma}^2_{infreq} = \max\left[\frac{\hat{S}_{infreq}}{\hat{C}_{infreq}} \frac{m_{infreq}}{m_{infreq} - 1} \frac{\sum_{i = 1}^{k} i(i - 1)q_i}{\left(\sum_{i = 1}^{k} iq_i\right)\left(\sum_{i = 1}^{k} iq_i - 1\right)} - 1, 0\right]  $$
+$$
+\hat{\gamma}^2_{infreq} = \max\left[\frac{\hat{S}_{infreq}}{\hat{C}_{infreq}} \frac{m_{infreq}}{m_{infreq} - 1} \frac{\sum_{i = 1}^{k} i(i - 1)q_i}{\left(\sum_{i = 1}^{k} iq_i\right)\left(\sum_{i = 1}^{k} iq_i - 1\right)} - 1, 0\right]
+$$
 
 Where $m_{infreq}$ is the number of sampling units that include at least one infrequent species.
 
@@ -292,11 +320,15 @@ plot(RA)
 
 ## Hurlbert (1971) unbiased estimate of Sander (1968) rarefaction
 
-$$ E(S) = \sum_{i = 1}^{S} \left[ 1 - \frac{{n - n_i} \choose m}{n \choose m} \right] $$
+$$
+E(S) = \sum_{i = 1}^{S} \left[ 1 - \frac{{n - n_i} \choose m}{n \choose m} \right]
+$$
 
 ## Baxter (2001) rarefaction
 
-$$ E(S) = \sum_{i = 1}^{S} \left[ 1 - \frac{(n - n_i)!(n - m)!}{(n - n_i - m)!n!} \right] $$ 
+$$
+E(S) = \sum_{i = 1}^{S} \left[ 1 - \frac{(n - n_i)!(n - m)!}{(n - n_i - m)!n!} \right]
+$$ 
 
 Where:
 

@@ -47,6 +47,56 @@ index_diversity <- function(x, method, ..., by_row = TRUE) {
   )
 }
 
+# Diversity ====================================================================
+#' @export
+#' @rdname diversity
+#' @aliases diversity,matrix-method
+setMethod(
+  f = "diversity",
+  signature = c(object = "matrix"),
+  definition = function(object, ..., evenness = FALSE, unbiased = FALSE) {
+
+    index <- t(apply(
+      X = object,
+      MARGIN = 1,
+      FUN = function(x, evenness, unbiased) {
+        c(
+          size = sum(x),
+          observed = observed(x),
+          ## Heterogeneity
+          shannon = index_shannon(x, evenness = evenness, unbiased = unbiased),
+          brillouin = index_brillouin(x, evenness = evenness),
+          ## Dominance
+          simpson = index_simpson(x, evenness = evenness, unbiased = unbiased),
+          berger = index_berger(x),
+          ## Richness
+          menhinick = index_menhinick(x),
+          margalef = index_margalef(x),
+          chao1 = index_chao1(x, unbiased = unbiased),
+          ace = index_ace(x),
+          squares = index_squares(x)
+        )
+      },
+      evenness = evenness,
+      unbiased = unbiased
+    ))
+    rownames(index) <- rownames(object)
+    as.data.frame(index)
+  }
+)
+
+#' @export
+#' @rdname diversity
+#' @aliases diversity,data.frame-method
+setMethod(
+  f = "diversity",
+  signature = c(object = "data.frame"),
+  definition = function(object, ..., evenness = FALSE, unbiased = FALSE) {
+    object <- data.matrix(object)
+    methods::callGeneric(object, ..., evenness = evenness, unbiased = unbiased)
+  }
+)
+
 # Heterogeneity ================================================================
 #' @export
 #' @rdname heterogeneity
@@ -55,8 +105,8 @@ setMethod(
   f = "heterogeneity",
   signature = c(object = "matrix"),
   definition = function(object, ...,
-                        method = c("berger", "boone", "brillouin",
-                                   "mcintosh", "shannon", "simpson")) {
+                        method = c("shannon", "simpson", "berger",
+                                   "boone", "brillouin", "mcintosh")) {
     method <- match.arg(method, several.ok = FALSE)
     by_row <- method != "boone"
     index <- index_diversity(object, method, ..., evenness = FALSE,
@@ -72,8 +122,8 @@ setMethod(
   f = "heterogeneity",
   signature = c(object = "data.frame"),
   definition = function(object, ...,
-                        method = c("berger", "boone", "brillouin",
-                                   "mcintosh", "shannon", "simpson")) {
+                        method = c("shannon", "simpson", "berger",
+                                   "boone", "brillouin", "mcintosh")) {
     object <- data.matrix(object)
     methods::callGeneric(object, ..., method = method)
   }
@@ -81,14 +131,14 @@ setMethod(
 
 # Evenness =====================================================================
 #' @export
-#' @rdname heterogeneity
+#' @rdname evenness
 #' @aliases evenness,matrix-method
 setMethod(
   f = "evenness",
   signature = c(object = "matrix"),
   definition = function(object, ...,
-                        method = c("shannon", "brillouin",
-                                   "mcintosh", "simpson")) {
+                        method = c("shannon", "simpson", "brillouin",
+                                   "mcintosh")) {
     method <- match.arg(method, several.ok = FALSE)
     index <- index_diversity(object, method, ..., evenness = TRUE)
     .EvennessIndex(index)
@@ -96,14 +146,14 @@ setMethod(
 )
 
 #' @export
-#' @rdname heterogeneity
+#' @rdname evenness
 #' @aliases evenness,data.frame-method
 setMethod(
   f = "evenness",
   signature = c(object = "data.frame"),
   definition = function(object, ...,
-                        method = c("shannon", "brillouin",
-                                   "mcintosh", "simpson")) {
+                        method = c("shannon", "simpson", "brillouin",
+                                   "mcintosh")) {
     object <- data.matrix(object)
     methods::callGeneric(object, ..., method = method)
   }

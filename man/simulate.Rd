@@ -71,6 +71,8 @@ with Simulated Assemblages. \emph{American Antiquity}, 49(1), 44-54.
 \code{\link[=bootstrap]{bootstrap()}}, \code{\link[=jackknife]{jackknife()}}
 
 Other diversity measures: 
+\code{\link{diversity}()},
+\code{\link{evenness}()},
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
 \code{\link{plot.DiversityIndex}()},

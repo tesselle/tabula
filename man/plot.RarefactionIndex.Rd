@@ -83,6 +83,8 @@ plot(rare, color = color("bright")(5), symbol = 1:5)
 }
 \seealso{
 Other diversity measures: 
+\code{\link{diversity}()},
+\code{\link{evenness}()},
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
 \code{\link{plot.DiversityIndex}()},

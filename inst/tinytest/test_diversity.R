@@ -3,6 +3,10 @@ Sys.setenv(LANGUAGE = "en") # Force locale
 source("helpers.R")
 data("cantabria")
 
+# Diversity ====================================================================
+d <- diversity(cantabria)
+expect_identical(dim(d), c(5L, 11L))
+
 # Heterogeneity ================================================================
 method <- c("berger", "brillouin", "mcintosh", "simpson", "shannon")
 for (i in method) {

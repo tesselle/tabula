@@ -86,6 +86,8 @@ Princeton, NJ: Princeton University Press. \doi{10.1007/978-94-015-7358-0}.
 \code{\link[=index_jaccard]{index_jaccard()}}, \code{\link[=index_morisita]{index_morisita()}}, \code{\link[=index_sorensen]{index_sorensen()}}
 
 Other diversity measures: 
+\code{\link{diversity}()},
+\code{\link{evenness}()},
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
 \code{\link{plot.DiversityIndex}()},

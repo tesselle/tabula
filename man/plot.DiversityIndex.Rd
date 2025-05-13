@@ -91,6 +91,8 @@ plot(r_sim)
 }
 \seealso{
 Other diversity measures: 
+\code{\link{diversity}()},
+\code{\link{evenness}()},
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
 \code{\link{plot.RarefactionIndex}()},

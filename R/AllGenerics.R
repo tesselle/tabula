@@ -122,22 +122,23 @@ NULL
 NULL
 
 # Diversity ====================================================================
-## Heterogeneity ---------------------------------------------------------------
-#' Heterogeneity and Evenness
+#' Alpha Diversity
 #'
-#' @description
-#'  * `heterogeneity()` computes an heterogeneity or dominance index.
-#'  * `evenness()` computes an evenness measure.
+#' Computes multiple alpha diversity indices.
 #' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
 #'  [`data.frame`] of count data (absolute frequencies giving the number of
 #'  individuals for each category, i.e. a contingency table). A [`data.frame`]
 #'  will be coerced to a `numeric` `matrix` via [data.matrix()].
-#' @param method A [`character`] string specifying the index to be computed
-#'  (see details). Any unambiguous substring can be given.
 #' @param evenness A [`logical`] scalar: should an evenness measure be computed
-#'  instead of an heterogeneity/dominance index?
-#' @param ... Further arguments to be passed to internal methods (see below).
+#'  instead of an heterogeneity/dominance index? Only available for `shannon`,
+#'  `simpson` and `brillouin` indices.
+#' @param unbiased A [`logical`] scalar: should the bias-corrected estimator be
+#'  used? Only available for `shannon`, `simpson` and `chao1` indices.
+#' @param ... Currently not used.
 #' @details
+#'  Alpha diversity refers to diversity at the local level, assessed within a
+#'  delimited system. It is the diversity within a uniform habitat of fixed size.
+#'
 #'  *Diversity* measurement assumes that all individuals in a specific
 #'  taxa are equivalent and that all types are equally different from each
 #'  other (Peet 1974). A measure of diversity can be achieved by using indices
@@ -145,17 +146,67 @@ NULL
 #'  to as non-parametric indices) benefit from not making assumptions about the
 #'  underlying distribution of taxa abundance: they only take relative
 #'  abundances of the species that are present and species richness into
-#'  account. Peet (1974) refers to them as indices of *heterogeneity*.
+#'  account. Peet (1974) refers to them as indices of
+#'  *[heterogeneity][heterogeneity()]*.
 #'
 #'  Diversity indices focus on one aspect of the taxa abundance and emphasize
 #'  either *[richness][richness()]* (weighting towards uncommon taxa) or
 #'  *dominance* (weighting towards abundant taxa; Magurran 1988).
 #'
-#'  *Evenness* is a measure of how evenly individuals are distributed across the
-#'  sample.
-#' @section Heterogeneity and Evenness Measures:
-#'  The following heterogeneity index and corresponding evenness measures
-#'  are available (see Magurran 1988 for details):
+#'  *[Evenness][evenness()]* is a measure of how evenly individuals are
+#'  distributed across the sample.
+#' @return
+#'  A [`data.frame`] with the following columns:
+#'  \describe{
+#'   \item{`size`}{Sample size.}
+#'   \item{`observed`}{Number of observed taxa/types.}
+#'   \item{`shannon`}{[Shannon-Wiener diversity index][index_shannon()].}
+#'   \item{`brillouin`}{[Brillouin diversity index][index_brillouin()].}
+#'   \item{`simpson`}{[Simpson dominance index][index_simpson()].}
+#'   \item{`berger`}{[Berger-Parker dominance index][index_berger()].}
+#'   \item{`menhinick`}{[Menhinick richness index][index_menhinick()].}
+#'   \item{`margalef`}{[Margalef richness index][index_margalef()].}
+#'   \item{`chao1`}{[Chao1 estimator][index_chao1()].}
+#'   \item{`ace`}{[Abundance-based Coverage Estimator][index_ace()].}
+#'   \item{`squares`}{[Squares estimator][index_squares()].}
+#'  }
+#' @note
+#'  The `berger` and `simpson` methods return a *dominance* index, not the
+#'  reciprocal or inverse form usually adopted, so that an increase in the value
+#'  of the index accompanies a decrease in diversity.
+#' @references
+#'  Magurran, A. E. (1988). *Ecological Diversity and its Measurement*.
+#'  Princeton, NJ: Princeton University Press.
+#'  \doi{10.1007/978-94-015-7358-0}.
+#'
+#'  Peet, R. K. (1974). The Measurement of Species Diversity. *Annual Review of
+#'  Ecology and Systematics*, 5(1), 285-307.
+#'  \doi{10.1146/annurev.es.05.110174.001441}.
+#' @example inst/examples/ex-diversity.R
+#' @author N. Frerebeau
+#' @family diversity measures
+#' @docType methods
+#' @aliases diversity-method
+setGeneric(
+  name = "diversity",
+  def = function(object, ...) standardGeneric("diversity"),
+  valueClass = "data.frame"
+)
+
+## Heterogeneity ---------------------------------------------------------------
+#' Heterogeneity
+#'
+#' Computes an heterogeneity or a dominance index.
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each category, i.e. a contingency table). A [`data.frame`]
+#'  will be coerced to a `numeric` `matrix` via [data.matrix()].
+#' @param method A [`character`] string specifying the index to be computed
+#'  (see details). Any unambiguous substring can be given.
+#' @param ... Further arguments to be passed to internal methods (see below).
+#' @details
+#'  The following heterogeneity index are available (see Magurran 1988 for
+#'  details):
 #'  \describe{
 #'   \item{`berger`}{[Berger-Parker dominance index][index_berger()].}
 #'   \item{`boone`}{[Boone heterogeneity measure][index_boone()].}
@@ -169,18 +220,13 @@ NULL
 #'  not the reciprocal or inverse form usually adopted, so that an increase in
 #'  the value of the index accompanies a decrease in diversity.
 #' @return
-#'  * `heterogeneity()` returns an [HeterogeneityIndex-class] object.
-#'  * `evenness()` returns an [EvennessIndex-class] object.
+#'  An [HeterogeneityIndex-class] object.
 #' @seealso [index_berger()], [index_boone()], [index_brillouin()],
 #'  [index_mcintosh()], [index_shannon()], [index_simpson()]
 #' @references
 #'  Magurran, A. E. (1988). *Ecological Diversity and its Measurement*.
 #'  Princeton, NJ: Princeton University Press.
 #'  \doi{10.1007/978-94-015-7358-0}.
-#'
-#'  Peet, R. K. (1974). The Measurement of Species Diversity. *Annual Review of
-#'  Ecology and Systematics*, 5(1), 285-307.
-#'  \doi{10.1146/annurev.es.05.110174.001441}.
 #' @example inst/examples/ex-diversity.R
 #' @author N. Frerebeau
 #' @family diversity measures
@@ -192,7 +238,40 @@ setGeneric(
   valueClass = "HeterogeneityIndex"
 )
 
-#' @rdname heterogeneity
+#' Evenness
+#'
+#' Computes an evenness measure.
+#' @param object A \eqn{m \times p}{m x p} `numeric` [`matrix`] or
+#'  [`data.frame`] of count data (absolute frequencies giving the number of
+#'  individuals for each category, i.e. a contingency table). A [`data.frame`]
+#'  will be coerced to a `numeric` `matrix` via [data.matrix()].
+#' @param method A [`character`] string specifying the index to be computed
+#'  (see details). Any unambiguous substring can be given.
+#' @param ... Further arguments to be passed to internal methods (see below).
+#' @details
+#'  *Evenness* is a measure of how evenly individuals are distributed across the
+#'  sample.
+#'
+#'  The following evenness measures are available (see Magurran 1988 for
+#'  details):
+#'  \describe{
+#'   \item{`brillouin`}{[Brillouin diversity index][index_brillouin()].}
+#'   \item{`mcintosh`}{[McIntosh dominance index][index_mcintosh()].}
+#'   \item{`shannon`}{[Shannon-Wiener diversity index][index_shannon()].}
+#'   \item{`simpson`}{[Simpson dominance index][index_simpson()].}
+#'  }
+#' @return
+#'  An [EvennessIndex-class] object.
+#' @seealso [index_brillouin()], [index_mcintosh()], [index_shannon()],
+#'  [index_simpson()]
+#' @references
+#'  Magurran, A. E. (1988). *Ecological Diversity and its Measurement*.
+#'  Princeton, NJ: Princeton University Press.
+#'  \doi{10.1007/978-94-015-7358-0}.
+#' @example inst/examples/ex-diversity.R
+#' @author N. Frerebeau
+#' @family diversity measures
+#' @docType methods
 #' @aliases evenness-method
 setGeneric(
   name = "evenness",

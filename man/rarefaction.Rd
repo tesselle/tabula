@@ -79,6 +79,8 @@ plot(rare, color = color("bright")(5), symbol = 1:5)
 \code{\link[=index_baxter]{index_baxter()}}, \code{\link[=index_hurlbert]{index_hurlbert()}}, \code{\link[=plot.RarefactionIndex]{plot()}}
 
 Other diversity measures: 
+\code{\link{diversity}()},
+\code{\link{evenness}()},
 \code{\link{heterogeneity}()},
 \code{\link{occurrence}()},
 \code{\link{plot.DiversityIndex}()},
