@@ -45,7 +45,7 @@ with the following columns:
 \item{\code{bias}}{The bootstrap estimate of bias.}
 \item{\code{error}}{The bootstrap estimate of standard error.}
 \item{\code{lower}}{The lower limit of the bootstrap confidence interval at \code{level}.}
-\item{\code{upper}}{The upper limit of the bootstrap confidence interval at \code{level}}
+\item{\code{upper}}{The upper limit of the bootstrap confidence interval at \code{level}.}
 }
 
 If \code{f} is a \code{function}, \code{bootstrap()} returns the result of \code{f} applied to

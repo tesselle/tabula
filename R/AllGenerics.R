@@ -83,7 +83,7 @@ NULL
 #'   \item{`bias`}{The bootstrap estimate of bias.}
 #'   \item{`error`}{The bootstrap estimate of standard error.}
 #'   \item{`lower`}{The lower limit of the bootstrap confidence interval at `level`.}
-#'   \item{`upper`}{The upper limit of the bootstrap confidence interval at `level`}
+#'   \item{`upper`}{The upper limit of the bootstrap confidence interval at `level`.}
 #'  }
 #'
 #'  If `f` is a `function`, `bootstrap()` returns the result of `f` applied to
