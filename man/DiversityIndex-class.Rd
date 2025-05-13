@@ -27,7 +27,7 @@ measures for the simulated assemblage (sample \code{size}, \code{mean} estimate,
 
 \item{\code{seed}}{A \code{\link{numeric}} vector giving the value of \link{.Random.seed} before the
 simulation was started; otherwise it is the user specified value with a
-\code{kind} attribute  with value \verb{as.list(}\code{\link[=RNGkind]{RNGkind()}}\verb{)}.}
+\code{kind} attribute with value \verb{as.list(}\code{\link[=RNGkind]{RNGkind()}}\verb{)}.}
 }}
 
 \note{

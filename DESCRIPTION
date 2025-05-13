@@ -80,6 +80,7 @@ Collate:
     'plot_spot.R'
     'rarefaction.R'
     'reexport.R'
+    'resample.R'
     'seriograph.R'
     'show.R'
     'similarity.R'

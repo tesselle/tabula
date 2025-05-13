@@ -64,6 +64,8 @@ NULL
 #'  interval to be returned. It must be one "`basic`" (the default), "`normal`"
 #'  or "`percentiles`" (see [arkhe::confidence_bootstrap()]). Any unambiguous
 #'  substring can be given. Only used if `f` is `NULL`.
+#' @param seed An object specifying if and how the random number generator
+#'  should be initialized (see [stats::simulate()]).
 #' @param rare A [`logical`] scalar: should the sample be drawn from an
 #'  uniform distribution with replacement instead of a multinomial distribution?
 #' @details

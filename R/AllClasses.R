@@ -18,7 +18,7 @@ setOldClass("dist")
 #'  `lower` and `upper` boundaries of the confidence interval).
 #' @slot seed A [`numeric`] vector giving the value of [.Random.seed] before the
 #'  simulation was started; otherwise it is the user specified value with a
-#'  `kind` attribute  with value `as.list(`[RNGkind()]`)`.
+#'  `kind` attribute with value `as.list(`[RNGkind()]`)`.
 #' @section Coerce:
 #'  In the code snippets below, `x` is an `DiversityIndex` object.
 #'  \describe{
