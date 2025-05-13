@@ -1,3 +1,5 @@
+# tabula 3.3.0.9000
+
 # tabula 3.3.0
 ## New classes and methods
 * Add `diversity()` to compute multiple alpha diversity indices.
