@@ -1,4 +1,6 @@
 # tabula 3.3.0.9000
+## Internals
+* Fix tests.
 
 # tabula 3.3.0
 ## New classes and methods

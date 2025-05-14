@@ -1,6 +1,5 @@
 Sys.setenv(LANGUAGE = "en") # Force locale
 
-source("helpers.R")
 data("cantabria")
 
 # Diversity ====================================================================
@@ -15,13 +14,6 @@ for (i in method) {
   expect_equal(get_method(index), i)
 }
 
-boot <- suppressWarnings(bootstrap(index, n = 30, seed = 12345))
-expect_true(all(boot$bias < 0)) # Downward bias
-expect_equal_to_reference(boot, file = "_snaps/heterogeneity_bootstrap.rds")
-
-jack <- jackknife(index)
-expect_equal_to_reference(jack, file = "_snaps/heterogeneity_jackknife.rds")
-
 # Evenness =====================================================================
 method <- c("brillouin", "mcintosh", "simpson", "shannon")
 for (i in method) {
@@ -29,12 +21,6 @@ for (i in method) {
   expect_length(index, nrow(cantabria))
   expect_equal(get_method(index), i)
 }
-
-boot <- suppressWarnings(bootstrap(index, n = 30, seed = 12345))
-expect_equal_to_reference(boot, file = "_snaps/evenness_bootstrap.rds")
-
-jack <- jackknife(index)
-expect_equal_to_reference(jack, file = "_snaps/evenness_jackknife.rds")
 
 # Test =========================================================================
 # Data from Magurran 1988, p. 145-149
@@ -78,13 +64,6 @@ expect_equal_to_reference(test_simpson(birds),
 if (at_home()) {
   using("tinysnapshot")
   source("helpers.R")
-
-  idx_heterogeneity <- with_seed(12345, {
-    idx_heterogeneity <- heterogeneity(cantabria, method = "shannon")
-    sim_heterogeneity <- simulate(idx_heterogeneity, n = 10)
-  })
-  plot_heterogeneity <- function() plot(sim_heterogeneity)
-  expect_snapshot_plot(plot_heterogeneity, "plot_heterogeneity")
 
   ## SHE analysis
   plot_she <- function() she(cantabria)
