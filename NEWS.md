@@ -1,4 +1,4 @@
-# tabula 3.3.0.9000
+# tabula 3.3.1
 ## Internals
 * Fix tests.
 

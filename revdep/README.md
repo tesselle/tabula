@@ -10,7 +10,7 @@
 |collate  |fr_FR.UTF-8                                                   |
 |ctype    |fr_FR.UTF-8                                                   |
 |tz       |Europe/Paris                                                  |
-|date     |2025-05-13                                                    |
+|date     |2025-05-15                                                    |
 |pandoc   |NA                                                            |
 |quarto   |1.6.42 @ /usr/lib/rstudio/resources/app/bin/quarto/bin/quarto |
 
@@ -18,7 +18,7 @@
 
 |package |old    |new    |Δ  |
 |:-------|:------|:------|:--|
-|tabula  |3.2.1  |3.3.0  |*  |
+|tabula  |3.3.0  |3.3.1  |*  |
 |arkhe   |1.11.0 |1.11.0 |   |
 |khroma  |1.16.0 |1.16.0 |   |
 

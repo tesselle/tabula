@@ -73,7 +73,7 @@ Software*, *4*(44), 1821. <doi:10.21105/joss.01821>
 Frerebeau N (2025). *tabula: Analysis and Visualization of
 Archaeological Count Data*. Université Bordeaux Montaigne, Pessac,
 France. <doi:10.5281/zenodo.1489944>
-<https://doi.org/10.5281/zenodo.1489944>, R package version 3.3.0,
+<https://doi.org/10.5281/zenodo.1489944>, R package version 3.3.1,
 <https://packages.tesselle.org/tabula/>.
 
 This package is a part of the tesselle project

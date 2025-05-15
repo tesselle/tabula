@@ -8,7 +8,7 @@
   "codeRepository": "https://codeberg.org/tesselle/tabula",
   "issueTracker": "https://codeberg.org/tesselle/tabula/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -234,7 +234,7 @@
   "applicationCategory": "ArchaeologicalScience",
   "isPartOf": "https://www.tesselle.org",
   "keywords": ["archaeological-science", "archaeology", "data-visualization", "diversity-index", "r-package"],
-  "fileSize": "1663.123KB",
+  "fileSize": "1663.366KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -275,7 +275,7 @@
       "name": "{tabula: Analysis and Visualization of Archaeological Count Data}",
       "identifier": "10.5281/zenodo.1489944",
       "url": "https://packages.tesselle.org/tabula/",
-      "description": "R package version 3.3.0",
+      "description": "R package version 3.3.1",
       "@id": "https://doi.org/10.5281/zenodo.1489944",
       "sameAs": "https://doi.org/10.5281/zenodo.1489944"
     }

@@ -1,6 +1,6 @@
 Package: tabula
 Title: Analysis and Visualization of Archaeological Count Data
-Version: 3.3.0.9000
+Version: 3.3.1
 Authors@R: c(
     person("Nicolas", "Frerebeau", , "nicolas.frerebeau@u-bordeaux-montaigne.fr", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-5759-4944")),

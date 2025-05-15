@@ -8,7 +8,7 @@ message: 'To cite package "tabula" in publications use:'
 type: software
 license: GPL-3.0-or-later
 title: 'tabula: Analysis and Visualization of Archaeological Count Data'
-version: 3.3.0
+version: 3.3.1
 doi: 10.21105/joss.01821
 identifiers:
 - description: The concept DOI.
@@ -127,7 +127,7 @@ references:
   institution:
     name: Université Bordeaux Montaigne
     address: Pessac, France
-  notes: R package version 3.3.0
+  notes: R package version 3.3.1
   url: https://packages.tesselle.org/tabula/
   doi: 10.5281/zenodo.1489944
 - type: software
