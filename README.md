@@ -5,9 +5,17 @@
 
 <!-- badges: start -->
 
-[![Code
-coverage](https://packages.tesselle.org/tabula/coverage/badge.svg)](https://packages.tesselle.org/tabula/coverage/)
-[![Dependencies](https://tinyverse.netlify.app/badge/tabula)](https://cran.r-project.org/package=tabula)
+<a href="https://ci.codeberg.org/repos/14696" class="pkgdown-devel"><img
+src="https://ci.codeberg.org/api/badges/14696/status.svg"
+alt="status-badge" /></a>
+<a href="https://packages.tesselle.org/tabula/coverage/"
+class="pkgdown-devel"><img
+src="https://packages.tesselle.org/tabula/coverage/badge.svg"
+alt="Code coverage" /></a>
+<a href="https://cran.r-project.org/package=tabula"
+class="pkgdown-devel"><img
+src="https://tinyverse.netlify.app/badge/tabula"
+alt="Dependencies" /></a>
 
 <a href="https://tesselle.r-universe.dev/tabula"
 class="pkgdown-devel"><img

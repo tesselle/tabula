@@ -19,8 +19,9 @@ Sys.setenv(LANGUAGE = "en") # Force locale
 # tabula <img width=120px src="man/figures/logo.png" align="right" />
 
 <!-- badges: start -->
-[![Code coverage](https://packages.tesselle.org/tabula/coverage/badge.svg)](https://packages.tesselle.org/tabula/coverage/)
-[![Dependencies](https://tinyverse.netlify.app/badge/tabula)](https://cran.r-project.org/package=tabula)
+[![status-badge](https://ci.codeberg.org/api/badges/14696/status.svg)](https://ci.codeberg.org/repos/14696){.pkgdown-devel}
+[![Code coverage](https://packages.tesselle.org/tabula/coverage/badge.svg)](https://packages.tesselle.org/tabula/coverage/){.pkgdown-devel}
+[![Dependencies](https://tinyverse.netlify.app/badge/tabula)](https://cran.r-project.org/package=tabula){.pkgdown-devel}
 
 [![r-universe](https://tesselle.r-universe.dev/badges/tabula)](https://tesselle.r-universe.dev/tabula){.pkgdown-devel}
 [![CRAN Version](https://www.r-pkg.org/badges/version/tabula)](https://cran.r-project.org/package=tabula){.pkgdown-release}
