@@ -27,6 +27,7 @@ Description: An easy way to examine archaeological count data. This
     heatmaps, Ford (1962) and Bertin (1977) diagrams, etc.
 License: GPL (>= 3)
 URL: https://codeberg.org/tesselle/tabula,
+    https://tesselle.r-universe.dev/tabula,
     https://packages.tesselle.org/tabula/
 BugReports: https://codeberg.org/tesselle/tabula/issues
 Depends: 
