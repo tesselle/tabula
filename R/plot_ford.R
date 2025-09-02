@@ -50,7 +50,7 @@ setMethod(
     graphics::plot.new()
 
     ## Set plotting coordinates
-    xlim <- range(data$x - data$value, data$x + data$value)
+    xlim <- range(data$x - data$value, data$x + data$value, na.rm = TRUE)
     ylim <- range(data$y) + c(-1, 1) * padding_y
     graphics::plot.window(xlim = xlim, ylim = ylim)
 
@@ -151,6 +151,9 @@ prepare_ford <- function(x, padding = 0.05) {
 
   ## Relative frequencies
   freq <- x / rowSums(x)
+
+  ## Prevent division by zero
+  freq[is.nan(freq)] <- 0
 
   ## Adaptive spacing between columns
   col_max <- apply(X = freq, MARGIN = 2, FUN = max, na.rm = TRUE)
