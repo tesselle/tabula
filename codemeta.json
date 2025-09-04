@@ -4,17 +4,17 @@
   "identifier": "tabula",
   "description": "An easy way to examine archaeological count data. This package provides several tests and measures of diversity: heterogeneity and evenness (Brillouin, Shannon, Simpson, etc.), richness and rarefaction (Chao1, Chao2, ACE, ICE, etc.), turnover and similarity (Brainerd-Robinson, etc.). It allows to easily visualize count data and statistical thresholds: rank vs abundance plots, heatmaps, Ford (1962) and Bertin (1977) diagrams, etc.",
   "name": "tabula: Analysis and Visualization of Archaeological Count Data",
-  "relatedLink": ["https://packages.tesselle.org/tabula/", "https://CRAN.R-project.org/package=tabula"],
+  "relatedLink": ["https://packages.tesselle.org/tabula/", "https://tesselle.r-universe.dev/tabula", "https://CRAN.R-project.org/package=tabula"],
   "codeRepository": "https://codeberg.org/tesselle/tabula",
   "issueTracker": "https://codeberg.org/tesselle/tabula/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "3.3.1",
+  "version": "3.3.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.5.0 (2025-04-11)",
+  "runtimePlatform": "R version 4.5.1 (2025-06-13)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -234,7 +234,7 @@
   "applicationCategory": "ArchaeologicalScience",
   "isPartOf": "https://www.tesselle.org",
   "keywords": ["archaeological-science", "archaeology", "data-visualization", "diversity-index", "r-package"],
-  "fileSize": "1663.366KB",
+  "fileSize": "1663.855KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -275,7 +275,7 @@
       "name": "{tabula: Analysis and Visualization of Archaeological Count Data}",
       "identifier": "10.5281/zenodo.1489944",
       "url": "https://packages.tesselle.org/tabula/",
-      "description": "R package version 3.3.1",
+      "description": "R package version 3.3.2",
       "@id": "https://doi.org/10.5281/zenodo.1489944",
       "sameAs": "https://doi.org/10.5281/zenodo.1489944"
     }

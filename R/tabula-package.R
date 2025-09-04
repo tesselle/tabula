@@ -1,6 +1,6 @@
 #' @details
 #' \tabular{ll}{
-#'  **Version** \tab 3.3.1 \cr
+#'  **Version** \tab 3.3.2 \cr
 #'  **License** \tab GPL-3 \cr
 #'  **CRAN DOI** \tab \doi{10.32614/CRAN.package.tabula} \cr
 #'  **Zenodo DOI** \tab \doi{10.5281/zenodo.1489944} \cr

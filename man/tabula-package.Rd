@@ -12,7 +12,7 @@ An easy way to examine archaeological count data. This package provides several 
 }
 \details{
 \tabular{ll}{
-\strong{Version} \tab 3.3.1 \cr
+\strong{Version} \tab 3.3.2 \cr
 \strong{License} \tab GPL-3 \cr
 \strong{CRAN DOI} \tab \doi{10.32614/CRAN.package.tabula} \cr
 \strong{Zenodo DOI} \tab \doi{10.5281/zenodo.1489944} \cr
@@ -40,8 +40,8 @@ on progress? Defaults to \code{\link[=interactive]{interactive()}}.
 Useful links:
 \itemize{
   \item \url{https://codeberg.org/tesselle/tabula}
-  \item \url{https://tesselle.r-universe.dev/tabula}
   \item \url{https://packages.tesselle.org/tabula/}
+  \item \url{https://tesselle.r-universe.dev/tabula}
   \item Report bugs at \url{https://codeberg.org/tesselle/tabula/issues}
 }
 
