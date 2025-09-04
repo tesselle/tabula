@@ -47,7 +47,7 @@ Suggests:
     markdown,
     rsvg,
     svglite,
-    tinysnapshot,
+    tinysnapshot (>= 0.2.0),
     tinytest
 VignetteBuilder: 
     knitr

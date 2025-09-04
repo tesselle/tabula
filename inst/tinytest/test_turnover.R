@@ -1,3 +1,5 @@
+Sys.setenv(LANGUAGE = "en") # Force locale
+
 # Turnover measure =============================================================
 incid <- matrix(c(2, 2, 3, 0, 0, 0,
                   4, 3, 5, 6, 1, 2,

@@ -1,6 +1,5 @@
 Sys.setenv(LANGUAGE = "en") # Force locale
 
-source("helpers.R")
 data("cantabria")
 
 # Richness =====================================================================

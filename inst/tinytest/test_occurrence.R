@@ -15,13 +15,12 @@ x <- c(16, 9, 3, 0, 1)
 y <- c(13, 3, 2, 0, 0)
 expect_equal(round(index_binomial(x, y), 3), 0.537) # 0.54
 
-if (at_home()) {
-  using("tinysnapshot")
-  source("helpers.R")
+# Plot =========================================================================
+using("tinysnapshot")
+source("helpers.R")
 
-  plot_mtx_occ <- function() plot_heatmap(test_occ, upper = TRUE)
-  expect_snapshot_plot(plot_mtx_occ, "plot_mtx_occ")
+plot_mtx_occ <- function() plot_heatmap(test_occ, upper = TRUE)
+expect_snapshot_plot(plot_mtx_occ, "plot_mtx_occ")
 
-  plot_spot_occ <- function() plot_spot(test_occ, upper = FALSE)
-  expect_snapshot_plot(plot_spot_occ, "plot_spot_occ")
-}
+plot_spot_occ <- function() plot_spot(test_occ, upper = FALSE)
+expect_snapshot_plot(plot_spot_occ, "plot_spot_occ")

@@ -9,6 +9,8 @@ steps:
       - apt update -y && apt install git -y
       - |
         R -q -s --no-save << "END"
+        Sys.setenv(NOT_CRAN = "true")
+        Sys.setenv(TT_AT_HOME = "TRUE")
         # Install R dependencies
         install.packages(c("remotes", "DT", "htmltools"))
         remotes::install_git("https://codeberg.org/tesselle/tekton")

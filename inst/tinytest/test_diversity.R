@@ -61,15 +61,13 @@ expect_equal_to_reference(test_simpson(birds),
                           file = "_snaps/simpson_test.rds")
 
 # Plot =========================================================================
-if (at_home()) {
-  using("tinysnapshot")
-  source("helpers.R")
+using("tinysnapshot")
+source("helpers.R")
 
-  ## SHE analysis
-  plot_she <- function() she(cantabria)
-  expect_snapshot_plot(plot_she, "plot_she")
+## SHE analysis
+plot_she <- function() she(cantabria)
+expect_snapshot_plot(plot_she, "plot_she")
 
-  ## Diversity profiles
-  plot_profiles <- function() profiles(cantabria)
-  expect_snapshot_plot(plot_profiles, "plot_profiles")
-}
+## Diversity profiles
+plot_profiles <- function() profiles(cantabria)
+expect_snapshot_plot(plot_profiles, "plot_profiles")

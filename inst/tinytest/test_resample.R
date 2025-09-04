@@ -15,7 +15,7 @@ rich <- richness(cantabria, method = "observed")
 jack <- jackknife(rich)
 expect_equal_to_reference(jack, file = "_snaps/richness_jackknife.rds")
 
-if (at_home() && Sys.info()["sysname"] != "Darwin") {
+if (at_home()) {
   using("tinysnapshot")
   source("helpers.R")
 

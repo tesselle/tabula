@@ -1,3 +1,5 @@
+Sys.setenv(LANGUAGE = "en") # Force locale
+
 # Compute thresholds ===========================================================
 data("cantabria")
 
