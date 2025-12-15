@@ -1,17 +1,17 @@
 #' @details
-#' \tabular{ll}{
-#'  **Version** \tab 3.3.2 \cr
-#'  **License** \tab GPL-3 \cr
-#'  **CRAN DOI** \tab \doi{10.32614/CRAN.package.tabula} \cr
-#'  **Zenodo DOI** \tab \doi{10.5281/zenodo.1489944} \cr
-#'  **JOSS DOI** \tab \doi{10.21105/joss.01821} \cr
-#' }
+#'  \tabular{ll}{
+#'   **Version** \tab 3.3.2 \cr
+#'   **License** \tab GPL-3 \cr
+#'   **CRAN DOI** \tab \doi{10.32614/CRAN.package.tabula} \cr
+#'   **Zenodo DOI** \tab \doi{10.5281/zenodo.1489944} \cr
+#'   **JOSS DOI** \tab \doi{10.21105/joss.01821} \cr
+#'  }
 #'
-#' Archéosciences Bordeaux (UMR 6034)\cr
-#' Maison de l'Archéologie\cr
-#' Université Bordeaux Montaigne\cr
-#' 33607 Pessac cedex\cr
-#' France
+#'  Archéosciences Bordeaux (UMR 6034)\cr
+#'  Maison de l'Archéologie\cr
+#'  Université Bordeaux Montaigne\cr
+#'  33607 Pessac cedex\cr
+#'  France
 #'
 #' @section Package options:
 #'  \pkg{tabula} uses the following [options()] to configure behavior:

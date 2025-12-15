@@ -42,6 +42,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.1489944.svg)](https://doi.org/10.5281/zenodo.1489944)
 [![DOI
 JOSS](https://joss.theoj.org/papers/10.21105/joss.01821/status.svg)](https://doi.org/10.21105/joss.01821)
+[![SWH](https://archive.softwareheritage.org/badge/origin/https://codeberg.org/tesselle/tabula/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://codeberg.org/tesselle/tabula)
 <!-- badges: end -->
 
 ## Overview
@@ -81,7 +82,7 @@ Software*, *4*(44), 1821. <doi:10.21105/joss.01821>
 Frerebeau N (2025). *tabula: Analysis and Visualization of
 Archaeological Count Data*. Université Bordeaux Montaigne, Pessac,
 France. <doi:10.5281/zenodo.1489944>
-<https://doi.org/10.5281/zenodo.1489944>, R package version 3.3.2,
+<https://doi.org/10.5281/zenodo.1489944>, R package version 3.3.2.9000,
 <https://packages.tesselle.org/tabula/>.
 
 This package is a part of the tesselle project
@@ -330,6 +331,7 @@ and Evolution of Communities*, edited by M. L. Cody and J. M. Diamond,
 Conkey, Margaret W. 1980. “The Identification of Prehistoric
 Hunter-Gatherer Aggregation Sites: The Case of Altamira.” *Current
 Anthropology* 21 (5): 609–30.
+<https://escholarship.org/uc/item/0q29504g>.
 
 </div>
 
